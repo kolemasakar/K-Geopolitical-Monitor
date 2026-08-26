@@ -2,12 +2,6 @@ name: Live End-to-End Smoke
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "scripts/live_end_to_end_smoke.py"
-      - "src/kgeopolitical_monitor/live_end_to_end.py"
-      - "src/kgeopolitical_monitor/live_sources.py"
-      - ".github/workflows/live-end-to-end-smoke.yml"
 
 permissions:
   contents: read
