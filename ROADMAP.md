@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 1.4
+Version: 1.5
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -10,7 +10,7 @@ Minimal Functional Core First.
 
 The project is developed through validation stages. Implementation does not equal validation.
 
-Implementation milestone labels M0-M6 are engineering work packages and are not identical to ROADMAP phase numbers.
+Implementation milestone labels M0-M8 are engineering work packages and are not identical to ROADMAP phase numbers.
 
 ## Phases
 
@@ -77,11 +77,15 @@ Expand carefully:
 Validated engineering foundation:
 - M5 project-local operational baseline: PASS;
 - M6 deterministic controlled pilot baseline: PASS;
-- project-local source adapter and provenance: PASS;
-- coverage reporting and explicit gaps: PASS.
+- M7 live public-source acquisition pilot: PASS;
+- Consilium RSS live smoke: PASS;
+- GDELT DOC 2.0 live smoke: PASS;
+- source provenance and collection audit: PASS.
 
-Next Phase 5 activity:
-- live public-source controlled pilot through explicit integration records and source-specific validation.
+Current Phase 5 activity:
+- M8 live end-to-end controlled pilot processing from approved live-source collection through verification/analysis and operational output.
+
+Phase 5 is not complete until the live end-to-end processing gate passes.
 
 ## Phase 6 - Strategic Alerts and Continuous Monitoring
 
@@ -125,16 +129,17 @@ Implement measurable coverage contracts and coverage confidence.
 
 - Product Concept: APPROVED
 - Roadmap: APPROVED
-- Engineering implementation: BASELINE_VALIDATED through M6
-- M4 validation: PASS
-- M5 engineering work package: BASELINE_VALIDATED
+- Engineering implementation: BASELINE_VALIDATED through M7
 - M5 full test cycle: PASS - 57 tests, GitHub Actions run 32953343877
-- M6 Controlled Pilot Monitoring baseline: PASS - 62 tests, GitHub Actions run 32961649091
+- M6 controlled pilot baseline: PASS - 62 tests, GitHub Actions run 32961649091
+- M7 deterministic regression: PASS - 68 tests, GitHub Actions run 32962379499
+- M7 live source smoke: PASS - GitHub Actions run 32962576874
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED pending new explicit architecture approval
-- Production external integrations: NONE_APPROVED
+- Controlled-pilot external integrations: 2
+- Production/global external integrations: NONE_APPROVED
 - Current roadmap activity: Phase 5 Controlled Pilot Monitoring
-- Next gate: live public-source controlled pilot integration validation
+- Next engineering gate: M8 Live End-to-End Controlled Pilot Processing
 - Production/live operational status: NOT_OPERATIONAL
