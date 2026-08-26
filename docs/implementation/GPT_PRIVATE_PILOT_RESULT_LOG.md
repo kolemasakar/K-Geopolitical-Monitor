@@ -2,8 +2,10 @@
 
 Status: OPEN
 Date opened: 2026-08-26
+Execution phase opened: 2026-08-27
 Project: K-Geopolitical Monitor
 Pilot mode: OWNER_ONLY
+Pilot execution state: CONFIGURED_READY_FOR_TEST
 
 ## Baseline
 
@@ -11,10 +13,12 @@ GPT object:
 - name: K-Geopolitical Monitor
 - sharing: OWNER_ONLY
 - public sharing: PLATFORM_LIMITED / DEFERRED
+- canonical pilot instructions: OWNER_CONFIRMED_APPLIED
+- owner configuration confirmation date: 2026-08-27
 
 Engineering baseline before GPT pilot:
 - ROADMAP Phase 11: BASELINE_VALIDATED
-- unattended supervisor harness regression: 230 passed
+- unattended supervisor and cadence-safe live-cycle regression: 236 passed
 - runtime storage: PROJECT_LOCAL_ONLY
 - production/live: NOT_OPERATIONAL
 
