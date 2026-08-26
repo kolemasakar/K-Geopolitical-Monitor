@@ -41,6 +41,8 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "monitoring_runs",
         "operational_findings",
         "pilot_coverage_reports",
+        "source_collection_runs",
+        "live_source_provenance",
     }.issubset(tables)
     assert {"retry_count", "recovered"}.issubset(monitoring_run_columns)
     assert applied == {
@@ -49,4 +51,5 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "003_operational_monitoring.sql",
         "004_operational_cycle_and_findings.sql",
         "005_controlled_pilot_coverage.sql",
+        "006_live_source_collection.sql",
     }
