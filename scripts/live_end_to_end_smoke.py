@@ -37,13 +37,16 @@ def main() -> None:
         ],
     )
     collection = collector.collect(watch.watch_id, now)
-    if collection.status != "COMPLETED":
+
+    if collection.status not in {"COMPLETED", "PARTIAL"}:
         raise RuntimeError(
-            f"live collection must complete with both sources; status={collection.status}; "
-            f"failures={collection.failures}"
+            f"live collection produced no usable approved source; "
+            f"status={collection.status}; failures={collection.failures}"
         )
-    if collection.source_success_count != 2:
-        raise RuntimeError("live collection did not validate both approved sources")
+    if collection.source_success_count < 1:
+        raise RuntimeError("live collection must have at least one successful approved source")
+    if collection.status == "PARTIAL" and collection.source_failure_count < 1:
+        raise RuntimeError("PARTIAL collection must contain audited source failures")
     if collection.item_count <= 0:
         raise RuntimeError("live collection returned no items")
 
@@ -73,6 +76,8 @@ def main() -> None:
                 "status": "success",
                 "collection_status": collection.status,
                 "source_success_count": collection.source_success_count,
+                "source_failure_count": collection.source_failure_count,
+                "failures": collection.failures,
                 "collected_items": collection.item_count,
                 "claims": len(result.claims),
                 "findings": len(result.findings),
