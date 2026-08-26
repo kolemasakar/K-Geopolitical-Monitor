@@ -2,7 +2,7 @@
 
 Chronological record of major approved project milestones.
 
-Version: 1.1
+Version: 1.2
 Status: ACTIVE
 
 ## 2026-08-24
@@ -19,17 +19,28 @@ Status: ACTIVE
 ## 2026-08-26
 
 - Repository state audit performed before M5.
-- Documentation drift identified: canonical status files still reported implementation as not started despite existing source code, migrations, tests and M0-M4 implementation records.
-- M4 implementation status reconciled as BASELINE_IMPLEMENTED.
-- M4 validation status reconciled as PARTIAL because the dedicated M4 phase-gate tests do not provide sufficient acceptance evidence.
-- M5 implementation blocked pending M4 validation hardening and an M5 readiness gate.
+- Documentation drift identified and reconciled across canonical state files.
+- M4 dedicated validation gate replaced with functional acceptance tests.
+- Intelligence Query baseline hardened with deterministic graph search, causal-chain traversal and evidence-based explanation.
+- Targeted M4 acceptance gate passed: 4 tests.
+- Reproducible Python project contract added through pyproject.toml.
+- Canonical migration runner and repeatability test added.
+- GitHub Actions CI baseline added.
+- Historical M0/M1 contract defects and floating-point test defects found by CI were corrected.
+- Full regression CI passed: 45 tests on Python 3.11.16, workflow run 32950015789.
+- M5 security, data and cross-project integration boundaries documented.
+- Shared Infrastructure Architecture Review completed across K-Geopolitical Monitor, K_Research_Critic, K-Trader, VoiceBridge and AI_general.
+- HYBRID shared-infrastructure architecture recommended; ADR remains PROPOSED.
+- M5 readiness gate passed.
 
 ## Current State
 
-- Documentation: RECONCILIATION_IN_PROGRESS
+- Documentation: RECONCILED
 - Implementation: BASELINE_IMPLEMENTED through M4
-- Validation: PARTIAL
-- M4 acceptance: HARDENING_REQUIRED
-- M5: NOT_STARTED
-- M5 readiness: BLOCKED_PENDING_READINESS_GATE
+- M4 acceptance: PASS
+- Full regression CI: PASS
+- M5 readiness: PASS
+- M5: READY_TO_START; NOT_STARTED
+- Shared Infrastructure ADR: PROPOSED
+- Cross-project extraction/shared runtime storage: BLOCKED_PENDING_ADR_APPROVAL
 - Operational status: NOT_OPERATIONAL
