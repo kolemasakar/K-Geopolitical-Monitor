@@ -2,7 +2,7 @@
 
 Chronological record of major approved project milestones.
 
-Version: 1.6
+Version: 1.7
 Status: ACTIVE
 
 ## 2026-08-24
@@ -74,22 +74,43 @@ Status: ACTIVE
 - M8 recorded as BASELINE_VALIDATED.
 - ROADMAP Phase 5 Controlled Pilot Monitoring engineering baseline recorded as BASELINE_VALIDATED.
 
+## 2026-08-26 - M9 Strategic Alerts and Continuous Monitoring
+
+- Migration 008 added project-local watch alert policies, strategic alerts and immutable alert events.
+- Strategic alerts are derived from persisted operational findings rather than direct external-source input.
+- Importance, confidence and verification-rank thresholds implemented.
+- Stable normalized-title deduplication prevents repeated-cycle duplicate alerts.
+- Later same-title qualifying findings update the existing alert.
+- OPEN, UPDATED, INVALIDATED and RESOLVED alert states implemented.
+- Explicit invalidation reasons and persistent event history implemented.
+- Alert and policy state survive runtime restart.
+- NORMAL, HIGH and CRITICAL priority ordering implemented for watches that are already due.
+- CRITICAL priority does not bypass cadence and does not modify evidence confidence.
+- Initial M9 regression passed: GitHub Actions run 32965231876, 80 passed in 1.58s.
+- Hardened M9 acceptance passed: GitHub Actions run 32965387054, 82 passed in 1.71s.
+- Runtime storage remained PROJECT_LOCAL_ONLY.
+- M9 recorded as BASELINE_VALIDATED.
+- ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring engineering baseline recorded as BASELINE_VALIDATED.
+
 ## Current State
 
-- Documentation: RECONCILED through M8
-- Engineering implementation: BASELINE_VALIDATED through M8
+- Documentation: RECONCILED through M9
+- Engineering implementation: BASELINE_VALIDATED through M9
 - M5 full test cycle: PASS
 - M6 controlled pilot baseline: PASS
 - M7 deterministic regression: PASS
 - M7 live-source smoke: PASS
 - M8 deterministic regression: PASS
 - M8 live end-to-end controlled pilot: PASS
+- M9 strategic alerts hardened regression: PASS
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
+- ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED_PENDING_NEW_ARCHITECTURE_APPROVAL
 - Controlled-pilot external integrations: 2
+- External notification providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 6 Strategic Alerts and Continuous Monitoring preparation
-- Next development activity: M9 Strategic Alerts and Continuous Monitoring baseline
+- Current roadmap activity: Phase 7 Multi-Region Expansion preparation
+- Next development activity: M10 Multi-Region and Language Coverage baseline
 - Production/live operational status: NOT_OPERATIONAL
