@@ -113,6 +113,37 @@ def _matches_query(title: str, summary: str, query: str) -> bool:
     return bool(terms) and all(term in searchable for term in terms)
 
 
+def _validate_adapter_identity(adapter: LiveSourceAdapter) -> None:
+    for value, field_name in (
+        (adapter.source_id, "source_id"),
+        (adapter.source_name, "source_name"),
+        (adapter.source_class, "source_class"),
+    ):
+        if not str(value).strip():
+            raise ValueError(f"live source adapter {field_name} must not be empty")
+    if adapter.source_class not in APPROVED_SOURCE_CLASSES:
+        raise ValueError(f"unsupported live source adapter source_class: {adapter.source_class}")
+
+
+def _validate_item_source_identity(
+    adapter: LiveSourceAdapter,
+    items: list[LiveSourceItem],
+) -> None:
+    for item in items:
+        mismatches = []
+        for field_name in ("source_id", "source_name", "source_class"):
+            expected = getattr(adapter, field_name)
+            observed = getattr(item, field_name)
+            if observed != expected:
+                mismatches.append(
+                    f"{field_name} expected={expected!r} observed={observed!r}"
+                )
+        if mismatches:
+            raise RuntimeError(
+                "live source item identity mismatch: " + "; ".join(mismatches)
+            )
+
+
 class GdeltDoc2Adapter:
     source_id = "gdelt-doc-2"
     source_name = "GDELT DOC 2.0"
@@ -267,6 +298,18 @@ class SourceCollectionReport:
     completed_at: datetime
 
 
+@dataclass(frozen=True)
+class SourceCollectionAttempt:
+    collection_id: str
+    source_id: str
+    source_name: str
+    source_class: str
+    status: str
+    item_count: int
+    error: str | None
+    attempted_at: datetime
+
+
 class LiveSourceIngestionStore:
     def __init__(self, database_path):
         self.database_path = database_path
@@ -334,6 +377,85 @@ class SourceCollectionAuditStore:
                 (collection_id, watch_id, timestamp, timestamp),
             )
 
+    def record_source_attempt(
+        self,
+        collection_id: str,
+        adapter: LiveSourceAdapter,
+        *,
+        status: str,
+        item_count: int,
+        attempted_at: datetime,
+        error: str | None = None,
+    ) -> SourceCollectionAttempt:
+        normalized_status = str(status).strip().upper()
+        if normalized_status not in {"SUCCESS", "FAILED"}:
+            raise ValueError("source collection attempt status must be SUCCESS or FAILED")
+        if item_count < 0:
+            raise ValueError("source collection attempt item_count must not be negative")
+        if normalized_status == "SUCCESS" and error is not None:
+            raise ValueError("successful source collection attempt cannot have an error")
+        if normalized_status == "FAILED" and not str(error or "").strip():
+            raise ValueError("failed source collection attempt requires an error")
+        timestamp = _normalize_time(attempted_at)
+        normalized_error = str(error).strip() if error is not None else None
+
+        with sqlite3.connect(self.database_path) as connection:
+            connection.execute("PRAGMA foreign_keys = ON")
+            connection.execute(
+                """
+                INSERT INTO source_collection_attempts(
+                    collection_id, source_id, source_name, source_class,
+                    status, item_count, error, attempted_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    collection_id,
+                    adapter.source_id,
+                    adapter.source_name,
+                    adapter.source_class,
+                    normalized_status,
+                    item_count,
+                    normalized_error,
+                    timestamp.isoformat(),
+                ),
+            )
+        return SourceCollectionAttempt(
+            collection_id=collection_id,
+            source_id=adapter.source_id,
+            source_name=adapter.source_name,
+            source_class=adapter.source_class,
+            status=normalized_status,
+            item_count=item_count,
+            error=normalized_error,
+            attempted_at=timestamp,
+        )
+
+    def attempts(self, collection_id: str) -> tuple[SourceCollectionAttempt, ...]:
+        with sqlite3.connect(self.database_path) as connection:
+            rows = connection.execute(
+                """
+                SELECT collection_id, source_id, source_name, source_class,
+                       status, item_count, error, attempted_at
+                FROM source_collection_attempts
+                WHERE collection_id = ?
+                ORDER BY source_id
+                """,
+                (collection_id,),
+            ).fetchall()
+        return tuple(
+            SourceCollectionAttempt(
+                collection_id=row[0],
+                source_id=row[1],
+                source_name=row[2],
+                source_class=row[3],
+                status=row[4],
+                item_count=int(row[5]),
+                error=row[6],
+                attempted_at=datetime.fromisoformat(row[7]),
+            )
+            for row in rows
+        )
+
     def finish(self, report: SourceCollectionReport) -> None:
         with sqlite3.connect(self.database_path) as connection:
             connection.execute(
@@ -389,6 +511,8 @@ class LiveSourceCollector:
     ):
         if not adapters:
             raise ValueError("live source collector requires at least one adapter")
+        for adapter in adapters:
+            _validate_adapter_identity(adapter)
         source_ids = [adapter.source_id for adapter in adapters]
         if len(source_ids) != len(set(source_ids)):
             raise ValueError("live source adapter source_id values must be unique")
@@ -414,14 +538,31 @@ class LiveSourceCollector:
         for adapter in self.adapters:
             try:
                 items = list(adapter.fetch(watch, current))
+                _validate_item_source_identity(adapter, items)
                 self.ingestion.persist(collection_id, items)
+                self.audit.record_source_attempt(
+                    collection_id,
+                    adapter,
+                    status="SUCCESS",
+                    item_count=len(items),
+                    attempted_at=current,
+                )
                 item_count += len(items)
                 success_count += 1
             except Exception as exc:
+                error = str(exc).strip() or exc.__class__.__name__
+                self.audit.record_source_attempt(
+                    collection_id,
+                    adapter,
+                    status="FAILED",
+                    item_count=0,
+                    attempted_at=current,
+                    error=error,
+                )
                 failures.append(
                     {
                         "source_id": adapter.source_id,
-                        "error": str(exc).strip() or exc.__class__.__name__,
+                        "error": error,
                     }
                 )
 

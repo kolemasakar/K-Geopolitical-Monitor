@@ -42,6 +42,7 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "operational_findings",
         "pilot_coverage_reports",
         "source_collection_runs",
+        "source_collection_attempts",
         "live_source_provenance",
         "live_analysis_runs",
         "live_analysis_claims",
@@ -92,4 +93,5 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "014_forecast_calibration_history.sql",
         "015_full_reporting_environment.sql",
         "016_global_operational_coverage.sql",
+        "017_source_collection_attempts.sql",
     }
