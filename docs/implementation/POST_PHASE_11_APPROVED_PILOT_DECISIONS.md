@@ -108,7 +108,7 @@ No email, Telegram, Slack, SMS or other outbound delivery channel is approved fo
 
 ## Automatic Translation
 
-Automatic translation is not part of the initial GPT Store test launch.
+Automatic translation is not part of the initial private GPT test launch.
 
 It is approved as the first planned expansion after successful testing, subject to provider/architecture selection and validation.
 
@@ -123,7 +123,7 @@ Translation must preserve:
 ## Shared Production Runtime
 
 Shared production runtime is deferred until:
-- public/test operation is successful;
+- private/test operation is successful;
 - launch requirements are reviewed;
 - runtime/storage/security/cost conditions are explicitly approved.
 
@@ -159,14 +159,31 @@ Initial candidate classes for later design:
 
 These class names are candidate design inputs, not yet a new canonical schema.
 
+## GPT Pilot Access Decision
+
+The initial GPT pilot is intentionally free and owner-only.
+
+Approved sequence:
+- create and retain the K-Geopolitical Monitor GPT under the currently available personal-account capability;
+- keep sharing mode private/owner-only during the initial development and test period;
+- conduct functional, truth-boundary, source, usability and backend tests only by the project owner at first;
+- treat current public-sharing/GPT Store restrictions as a platform limitation, not as a project engineering failure;
+- do not spend project effort on paid workspace migration during the private pilot unless required for a test that cannot otherwise be performed;
+- after successful private testing, decide whether to move the GPT to an eligible paid workspace/account and enable controlled or public sharing;
+- public sharing/GPT Store publication remains deferred, not cancelled.
+
+The existence and editability of the private GPT is sufficient for the current pilot stage.
+
 ## Immediate Development Focus
 
 The analytical core was the primary goal of the completed engineering stages and is now the validated baseline.
 
 The immediate focus is:
-- prepare the system/GPT for permitted GPT Store publication;
-- conduct structured external testing;
-- collect defects, usability findings and architecture gaps;
-- only after successful pilot testing, prepare the next roadmap extension covering planned expansions and newly discovered requirements.
+- retain and configure the private K-Geopolitical Monitor GPT;
+- connect and test the K-Geopolitical Monitor backend/runtime when the required Action/API surface is ready;
+- conduct structured owner-only testing;
+- collect defects, usability findings, source gaps and architecture gaps;
+- evaluate free unattended-hosting options for the test backend;
+- only after successful private pilot testing, decide on paid workspace/public sharing and prepare the next roadmap extension covering planned expansions and newly discovered requirements.
 
 No new ROADMAP phase number or M14 milestone is assigned by this decision record.
