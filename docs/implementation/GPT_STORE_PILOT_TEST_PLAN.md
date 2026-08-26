@@ -1,22 +1,38 @@
 # GPT Store Pilot Test Plan
 
-Status: ACTIVE_PREPARATION
+Status: ACTIVE_PRIVATE_PILOT_PREPARATION
 Date: 2026-08-26
 Project: K-Geopolitical Monitor
 
 ## Goal
 
-Publish the user-facing GPT when current OpenAI account/workspace rules permit it, then run structured external tests against the validated K-Geopolitical Monitor analytical baseline before planning the next roadmap extension.
+Use the existing private K-Geopolitical Monitor GPT as the initial free owner-only test surface for the validated K-Geopolitical Monitor analytical baseline.
+
+Public sharing and GPT Store publication are deferred until private testing is successful and an eligible paid workspace/account is justified and approved.
 
 This is an unnumbered post-Phase-11 pilot activity. It is not ROADMAP Phase 12 and does not create M14.
 
-## External Platform Eligibility Gate
+## Current Access Model
 
-Before publication, verify current OpenAI GPT publication eligibility for the account/workspace in use.
+Initial mode:
+- K-Geopolitical Monitor GPT exists under the project owner's account;
+- sharing remains private/owner-only;
+- testing is performed only by the project owner;
+- no paid workspace migration is required for the initial pilot;
+- current public-sharing restrictions are classified as PLATFORM_LIMITATION, not as a K-Geopolitical Monitor engineering defect.
 
-Current product documentation must be checked at execution time because GPT creation/publishing availability may change.
+The existing private GPT is sufficient for configuration, instruction tuning, Action/API integration and owner-only functional testing.
 
-If GPT Store publication is not available for the current account/workspace, do not reinterpret that as a K-Geopolitical Monitor engineering failure. Use the strongest permitted test-sharing mode and record the platform blocker separately.
+## Future Publication Gate
+
+After successful private testing:
+- review current OpenAI account/workspace publication rules;
+- decide whether a paid eligible workspace/account is justified;
+- if approved, move or recreate the required GPT configuration in the eligible environment;
+- run a controlled sharing test before any GPT Store publication;
+- only then consider public GPT Store exposure.
+
+Public sharing is deferred, not cancelled.
 
 ## GPT and Backend Boundary
 
@@ -29,8 +45,8 @@ Unattended monitoring, durable state, scheduled collection, source reputation hi
 If GPT Actions are used:
 - the backend requires a reachable HTTPS API;
 - the Action contract must use an explicit OpenAPI schema;
-- public actions must meet current OpenAI privacy-policy requirements;
-- action calls must remain bounded by project truth/isolation rules.
+- action calls must remain bounded by project truth/isolation rules;
+- privacy/publication requirements become mandatory before any public sharing stage.
 
 ## Pilot Functional Test Areas
 
@@ -120,7 +136,7 @@ Required metrics should include:
 - verification_boundary_failures;
 - coverage_boundary_failures;
 - backend/action failures;
-- median response usefulness score from testers;
+- median response usefulness score from the project owner;
 - defect severity distribution.
 
 Critical acceptance target:
@@ -128,23 +144,21 @@ Critical acceptance target:
 
 ## Test Cohorts
 
-Recommended progression:
+Current approved progression:
 
-1. Internal deterministic/preview cohort
-- project owner/developer;
-- known benchmark prompts;
-- expected evidence and boundary outcomes.
+1. Owner-only private cohort
+- project owner only;
+- deterministic benchmark prompts;
+- real-world prompts;
+- expected evidence and truth-boundary outcomes;
+- source/local-language checks;
+- Action/backend failure checks.
 
 2. Controlled external cohort
-- small set of testers;
-- different geopolitical knowledge levels;
-- real-world prompts not used during development;
-- collect structured feedback and failure examples.
+- deferred until owner-only testing is successful and a sharing-capable account/workspace is approved.
 
-3. Public GPT Store pilot, if publication is permitted
-- observe real usage patterns;
-- capture reproducible defects only through privacy-safe telemetry/feedback mechanisms;
-- do not add external publishing/notification behavior during this stage.
+3. Public GPT Store pilot
+- deferred until a paid eligible environment is approved and controlled sharing succeeds.
 
 ## Test Result Classification
 
@@ -170,22 +184,23 @@ Severity:
 - MEDIUM;
 - LOW.
 
-## Exit Gate
+## Exit Gate For Owner-Only Pilot
 
-The pilot may be declared successful only when:
+The owner-only pilot may be declared successful only when:
 - no unresolved CRITICAL verification/truth-boundary defect exists;
 - core research/fact-check/report workflows are reproducibly usable;
 - local-source/local-language behavior is measurable and failures remain visible;
-- GPT instruction behavior is stable enough for public use;
+- GPT instruction behavior is stable enough to justify broader sharing;
 - action/backend failures fail closed;
 - source provenance remains traceable;
 - the project has an evidence-backed list of defects, requested improvements and new requirements.
 
 ## Post-Pilot Rule
 
-Only after successful pilot testing:
+Only after successful owner-only testing:
 - perform a structured pilot retrospective;
 - approve/reject discovered new requirements;
+- decide whether a paid eligible GPT workspace/account is justified;
 - design automatic translation as the first planned expansion;
 - review source reputation/catalog schema extension;
 - review unattended monitoring deployment resources;
