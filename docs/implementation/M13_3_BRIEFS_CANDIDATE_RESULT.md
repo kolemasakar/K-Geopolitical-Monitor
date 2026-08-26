@@ -1,13 +1,23 @@
-# M13.3 Strategic, Global and Regional Briefs Candidate Result
+# M13.3 Strategic, Global and Regional Briefs Result
 
-Status: IMPLEMENTED_VALIDATION_PENDING
+Status: VALIDATION_PENDING
 Date: 2026-08-26
 Project: K-Geopolitical Monitor
 Milestone: M13.3 Strategic, Global and Regional Briefs
-Branch: `candidate/m13-3-briefs`
-Candidate commit: `3e2bd9c8dadc084d2f3393027a60997a1ad03d33`
 
-## Candidate Contracts
+## Implementation
+
+Original candidate implementation:
+- `3e2bd9c8dadc084d2f3393027a60997a1ad03d33`
+
+Candidate result update:
+- `5d0d3fb1d0d43c311885ca7280a43e44fb3aa0fe`
+
+Main promotion:
+- PR: `#2`
+- merge commit: `2ccc00acd4728cc1e4f61720cb5d604b125b991c`
+
+## Implemented Contracts
 
 - `BriefReportService` is a type-specific facade over the common M13.2 `ReportAssembler`;
 - no new reporting schema or report-type-specific truth table;
@@ -24,13 +34,13 @@ Candidate commit: `3e2bd9c8dadc084d2f3393027a60997a1ad03d33`
 
 ## Validation State
 
-This candidate is intentionally not merged to `main` while `M13_2_REPORT_ASSEMBLY_VALIDATED` remains pending executable regression evidence.
+The M13.3 implementation and acceptance tests are now on `main`.
 
-Candidate tests are included on the branch but are not claimed as PASS until an executable test runner or GitHub Actions transport is available.
+Full repository CI on this main checkpoint is required before the gate can be changed to PASS.
 
 Gate:
 `M13_3_BRIEFS_VALIDATED = PENDING`
 
 ## Boundary
 
-This candidate does not approve shared runtime storage, automatic global completeness, external publishing/delivery, production dashboards or production/live OPERATIONAL status.
+This implementation does not approve shared runtime storage, automatic global completeness, external publishing/delivery, production dashboards or production/live OPERATIONAL status.
