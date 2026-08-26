@@ -1,7 +1,7 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring system.
 
-Version: 1.0
+Version: 1.1
 Status: ACTIVE
 
 ## Purpose
@@ -13,8 +13,14 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis and for
 - PROJECT_CONCEPT_FOUNDATION.md - approved product intent
 - ROADMAP.md - approved development phases
 - PROJECT_DOCUMENTATION_GOVERNANCE.md - documentation governance
+- docs/implementation/ - implementation milestone records and validation artifacts
 
 ## Current State
 
-Product concept approved.
-Implementation not started.
+- Product concept: APPROVED
+- Implementation: BASELINE_IMPLEMENTED through M4
+- M4 status: implementation baseline completed; validation hardening required
+- M5 status: NOT_STARTED; blocked pending M4-to-M5 remediation and readiness gate
+- Operational status: NOT_OPERATIONAL
+
+Implementation milestone labels M0-M5 are engineering work packages and are not identical to ROADMAP phase numbers.
