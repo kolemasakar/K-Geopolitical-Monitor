@@ -1,6 +1,6 @@
 # M13.2 Common Report Assembly Result
 
-Status: VALIDATION_PENDING
+Status: VALIDATING
 Date: 2026-08-26
 Project: K-Geopolitical Monitor
 Milestone: M13.2 Common Report Assembly and Provenance
@@ -24,7 +24,7 @@ Implemented candidate contracts:
 
 ## Validation State
 
-Full repository CI is required before this artifact can be changed to PASS.
+Push-triggered Actions did not create a workflow run for connector-authored main commits in this session. Validation therefore uses a temporary pull-request transport over the same full project tree. The gate remains pending until the pull-request CI job completes successfully.
 
 Gate:
 `M13_2_REPORT_ASSEMBLY_VALIDATED = PENDING`
