@@ -2,7 +2,7 @@
 
 Chronological record of major approved project milestones.
 
-Version: 1.7
+Version: 1.8
 Status: ACTIVE
 
 ## 2026-08-24
@@ -92,10 +92,23 @@ Status: ACTIVE
 - M9 recorded as BASELINE_VALIDATED.
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring engineering baseline recorded as BASELINE_VALIDATED.
 
+## 2026-08-26 - M10 Multi-Region and Language Coverage
+
+- Migration 009 added canonical region/language registries, watch-scoped scope requirements, observation attribution and coverage reports.
+- Region and language codes are normalized deterministically.
+- Raw-item attribution is scoped to a watch and fails closed for wrong-watch or unknown-scope input.
+- Required, observed and missing region/language scope pairs are persisted with a deterministic coverage ratio.
+- Region/language and translation attribution do not alter M8 claim identity, independent origins, confidence or verification status.
+- Region/language state survives runtime restart.
+- GitHub Actions run 32966128001: 88 passed in 2.07s.
+- Runtime storage remained PROJECT_LOCAL_ONLY.
+- M10 recorded as BASELINE_VALIDATED.
+- ROADMAP Phase 7 Multi-Region Expansion engineering baseline recorded as BASELINE_VALIDATED.
+
 ## Current State
 
-- Documentation: RECONCILED through M9
-- Engineering implementation: BASELINE_VALIDATED through M9
+- Documentation: RECONCILED through M10
+- Engineering implementation: BASELINE_VALIDATED through M10
 - M5 full test cycle: PASS
 - M6 controlled pilot baseline: PASS
 - M7 deterministic regression: PASS
@@ -103,14 +116,17 @@ Status: ACTIVE
 - M8 deterministic regression: PASS
 - M8 live end-to-end controlled pilot: PASS
 - M9 strategic alerts hardened regression: PASS
+- M10 multi-region/language regression: PASS
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
+- ROADMAP Phase 7 Multi-Region Expansion: BASELINE_VALIDATED
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED_PENDING_NEW_ARCHITECTURE_APPROVAL
 - Controlled-pilot external integrations: 2
 - External notification providers: NONE_APPROVED
+- Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 7 Multi-Region Expansion preparation
-- Next development activity: M10 Multi-Region and Language Coverage baseline
+- Current roadmap activity: Phase 8 Advanced Geopolitical Graph preparation
+- Next development activity: M11 Advanced Geopolitical Graph baseline
 - Production/live operational status: NOT_OPERATIONAL
