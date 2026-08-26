@@ -1,7 +1,7 @@
 # ARCHITECTURE
 Technical architecture definition for K-Geopolitical Monitor.
 
-Version: 1.6
+Version: 1.7
 Status: APPROVED
 
 ## Purpose
@@ -14,7 +14,7 @@ Minimal Functional Core before global expansion.
 
 ## Logical Layers
 
-Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Processing -> Verification -> Analysis -> Forecasting -> Reporting -> Operational Monitoring -> Coverage -> Strategic Alerts
+Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Processing -> Verification -> Analysis -> Forecasting -> Reporting -> Operational Monitoring -> Coverage -> Strategic Alerts -> Region/Language Scope
 
 ## Core Components
 
@@ -32,7 +32,8 @@ Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Pr
 - Operational Intelligence Output
 - Pilot Coverage Reporting
 - Live End-to-End Analysis
-- Strategic Alert Layer - next baseline
+- Strategic Alert Layer
+- Region/Language Coverage Layer - next baseline
 
 ## Implemented and Validated Baseline
 
@@ -61,7 +62,14 @@ The repository contains validated baselines for:
 - original-origin evidence independence;
 - DETECTED/PARTLY_VERIFIED M8 baseline status handling;
 - project-local live operational finding projection with claim/raw-item/origin traceability;
-- real-network PARTIAL collection continuation under external-source failure.
+- real-network PARTIAL collection continuation under external-source failure;
+- persisted strategic-alert policies;
+- evidence-aware strategic-alert triggers;
+- stable alert deduplication and cross-cycle updates;
+- OPEN/UPDATED/INVALIDATED/RESOLVED strategic-alert state;
+- persistent strategic-alert event history;
+- alert restart persistence;
+- priority ordering for due watches without cadence bypass.
 
 These components represent a controlled project-local validated baseline and must not be interpreted as global production maturity.
 
@@ -103,18 +111,30 @@ M8 establishes the following baseline rules:
 - same-origin duplicate observations must not increase verification status;
 - VERIFIED is never assigned automatically by the M8 baseline.
 
-## Phase 6 Boundary
+M9 preserves those rules. Alert priority and watch priority are operational handling metadata only and must not change evidence confidence or verification status.
 
-Strategic Alerts and Continuous Monitoring may build on the M8 operational findings, but must introduce explicit contracts for:
+## Strategic Alert Boundary
 
-- trigger detection;
-- invalidation/retraction detection;
-- priority watches and escalation;
-- continuous monitoring cadence and recovery;
-- alert deduplication and state transitions;
-- notification/operational approval boundaries.
+M9 establishes:
 
-Phase 6 must preserve PROJECT_LOCAL_ONLY runtime storage unless a new explicit architecture decision approves otherwise.
+- alerts derive only from persisted operational findings;
+- alert thresholds may use finding importance, confidence and verification rank;
+- stable normalized-title deduplication prevents repeated-cycle duplicates;
+- later same-title findings update an existing alert;
+- invalidation and resolution preserve history;
+- invalidated/resolved alerts do not silently reopen;
+- CRITICAL priority does not bypass cadence;
+- no external notification provider is enabled by the engineering baseline.
+
+## Phase 7 Boundary
+
+Multi-Region Expansion may add region and language scope to watches, coverage reports and source observations, but:
+
+- region/language metadata must not change evidence truth;
+- translations or indexes must not create artificial source independence;
+- original publisher/origin provenance must remain authoritative for independence counting;
+- region/language expansion must remain measurable through explicit coverage/gap records;
+- PROJECT_LOCAL_ONLY runtime storage remains mandatory unless a new architecture decision approves otherwise.
 
 ## Validation State
 
@@ -124,15 +144,19 @@ M7 deterministic regression: PASS - 68 tests, run 32962379499.
 M7 live-source smoke: PASS - run 32962576874.
 M8 deterministic regression: PASS - 73 tests, run 32963096313.
 M8 live end-to-end controlled pilot: PASS - run 32963354135.
+M9 hardened regression: PASS - 82 tests, run 32965387054.
 
 ## Current State
 
-- Implementation: BASELINE_VALIDATED through M8
+- Implementation: BASELINE_VALIDATED through M9
 - ROADMAP Phase 5: BASELINE_VALIDATED
+- ROADMAP Phase 6: BASELINE_VALIDATED
 - Runtime storage: PROJECT_LOCAL_ONLY
 - Shared Infrastructure ADR: APPROVED
 - Controlled-pilot live integrations: VALIDATED
+- Strategic alert baseline: VALIDATED
+- External notification providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 6 Strategic Alerts and Continuous Monitoring preparation
-- Next engineering milestone: M9 Strategic Alerts and Continuous Monitoring baseline
+- Current roadmap activity: Phase 7 Multi-Region Expansion preparation
+- Next engineering milestone: M10 Multi-Region and Language Coverage baseline
 - Production/live operational maturity: NOT_OPERATIONAL
