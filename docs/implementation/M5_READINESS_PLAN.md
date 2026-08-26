@@ -26,10 +26,20 @@ Define the gate that must be satisfied before M5 Operational Intelligence Platfo
 - R3: DONE - targeted M4 gate 4 passed
 - R4: DONE - pyproject.toml and local setup baseline added
 - R5: DONE - migration runner and migration test added
-- R6: IN_PROGRESS - GitHub Actions CI added and executing
-- R7: IN_PROGRESS
-- R8: PENDING
-- R9: PENDING
+- R6: DONE - GitHub Actions CI executes the full repository test suite
+- R7: DONE - M5 security, data and cross-project integration boundaries documented; policy approval remains REVIEW_REQUIRED
+- R8: DONE - CI run 32950015789 passed with 45 tests
+- R9: IN_PROGRESS - Shared Infrastructure Architecture Review
+
+## CI Evidence
+
+Date: 2026-08-26
+Commit: 48db035fd00f8be445f388e17503feb1f30a2c55
+Workflow: CI
+Run: 32950015789
+Python: 3.11.16
+Result: 45 passed in 0.15s
+Conclusion: success
 
 ## Gate Rule
 
