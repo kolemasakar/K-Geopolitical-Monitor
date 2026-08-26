@@ -1,7 +1,7 @@
 # ARCHITECTURE
 Technical architecture definition for K-Geopolitical Monitor.
 
-Version: 2.1
+Version: 2.2
 Status: APPROVED
 
 ## Purpose
@@ -37,12 +37,11 @@ Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Pr
 - Advanced Geopolitical Graph
 - Advanced Forecasting
 - Full Reporting Environment
-- Global Operational Coverage - next baseline preparation
+- Global Operational Coverage
 
 ## Implemented and Validated Baseline
 
 Validated foundations include:
-
 - persistence, evidence, verification and event intelligence;
 - project-local operational monitoring, retry/recovery and ranked findings;
 - controlled/live read-only acquisition with provenance and source-failure isolation;
@@ -55,15 +54,17 @@ Validated foundations include:
 - durable immutable report snapshots, sections and typed references;
 - one common report assembler for strategic/global/regional/event/storyline/forecast/outlook reports;
 - deterministic structured and Markdown report rendering;
-- report rendering reproducibility after restart;
-- cross-layer M8/M10/M11/M12 truth-state isolation through reporting.
+- durable operational coverage contracts, requirements, immutable snapshots and per-requirement results;
+- per-source collection attempts and adapter/item identity integrity;
+- source-class, source-availability, region/language and freshness convergence;
+- historical coverage queries and coverage-aware reporting through the existing M13 report store;
+- cross-layer M8/M10/M11/M12/M13 truth-state isolation through Phase 11.
 
-These components represent a controlled project-local validated engineering baseline and must not be interpreted as global production maturity.
+These components represent a controlled project-local validated engineering baseline and must not be interpreted as complete global production maturity.
 
 ## Runtime and Shared Infrastructure Boundary
 
 The approved Shared Infrastructure ADR requires:
-
 - HYBRID architecture;
 - project-specific domain logic and canonical stores remain local;
 - runtime storage remains PROJECT_LOCAL_ONLY;
@@ -75,7 +76,6 @@ The approved Shared Infrastructure ADR requires:
 ## External Integration Boundary
 
 Controlled-pilot integrations:
-
 - Consilium press-release RSS: Official sources;
 - GDELT DOC 2.0 API: Structured data discovery metadata.
 
@@ -85,7 +85,7 @@ GDELT metadata is discovery/index evidence only. Original publishers or primary 
 
 Live network checks remain isolated from deterministic CI in manual smoke workflows.
 
-External-source availability is not assumed. A collection may be COMPLETED, PARTIAL or FAILED, and every source failure must remain visible in the collection audit.
+External-source availability is not assumed. A collection may be COMPLETED, PARTIAL or FAILED, and every source failure must remain visible in collection audit/attempt state.
 
 ## Verification Boundary
 
@@ -95,12 +95,11 @@ External-source availability is not assumed. A collection may be COMPLETED, PART
 - at least two distinct original origins are required for PARTLY_VERIFIED;
 - same-origin duplicate observations must not increase verification status;
 - VERIFIED is never assigned automatically by the current baseline;
-- alert priority, region/language attribution, graph intelligence, forecast outputs and report presentation must not increase evidence confidence or independent-origin count.
+- alert priority, region/language attribution, graph intelligence, forecast outputs, coverage metrics and report presentation must not increase evidence confidence or independent-origin count.
 
 ## Advanced Geopolitical Graph Boundary
 
 M11 converges M4 graph fragments into one durable project-local graph contract.
-
 - canonical project objects remain Source of Truth;
 - graph inference is not source evidence;
 - graph confidence does not modify M8 confidence or independent-origin count;
@@ -110,7 +109,6 @@ M11 converges M4 graph fragments into one durable project-local graph contract.
 ## Advanced Forecasting Boundary
 
 M12 extends existing forecasting/calibration/history components rather than creating a parallel stack.
-
 - forecast versions and scenario versions are immutable;
 - raw probability, calibrated probability and scenario confidence are distinct;
 - source evidence, canonical events, graph relationships, findings and analyst assumptions remain typed separately;
@@ -120,40 +118,54 @@ M12 extends existing forecasting/calibration/history components rather than crea
 
 ## Full Reporting Environment Boundary
 
-M13 adds one canonical presentation subsystem over existing validated state.
-
-Durable reporting model:
-
+M13 provides one canonical presentation subsystem over existing validated state.
 - `report_snapshots` stores immutable report identity/metadata;
 - `report_sections` stores ordered typed presentation sections;
 - `report_references` stores typed upstream traceability;
 - all approved report types use this same model;
-- Storyline Report is report-scoped composition and does not create a canonical storyline table.
-
-Reporting semantics:
-
-- observed facts, verification state, analytical context, graph inference, forecast scenarios, analyst assumptions and coverage metadata remain explicitly distinguishable;
-- source evidence remains distinct from graph inference;
-- forecast probabilities/confidence remain forecast analytics;
-- incomplete regional coverage remains visible;
-- report assembly/ranking/rendering cannot modify upstream truth;
+- Storyline Report is report-scoped composition and does not create a canonical storyline table;
+- observed facts, verification state, analytical context, graph inference, forecast scenarios, assumptions and coverage metadata remain distinguishable;
+- reporting cannot modify upstream truth;
 - deterministic structured and Markdown representations are rendered from the same persisted snapshot;
-- restart rendering must be identical;
-- runtime report database resolution uses the existing project-local storage policy;
+- runtime report DB uses the existing project-local storage policy;
 - no external publishing/delivery provider is required or approved.
 
-## Phase 11 Boundary
+## Global Operational Coverage Boundary
 
-Global Operational Coverage is the next preparation baseline.
+Phase 11 adds one coverage-measurement layer over existing M6/M7/M10 state and M13 presentation.
 
-Phase 11 must:
+Durable coverage model:
+- `operational_coverage_contracts` declares explicit scope/window/freshness identity;
+- `operational_coverage_requirements` stores typed required units;
+- `operational_coverage_snapshots` stores immutable aggregate assessments;
+- `operational_coverage_requirement_results` explains every required unit;
+- `source_collection_attempts` preserves per-source acquisition availability state.
 
-- extend measurable coverage semantics rather than claim coverage from report volume;
-- preserve M8 original-origin evidence independence;
-- keep coverage confidence separate from factual verification confidence;
-- make missing/failed/unknown coverage explicit;
-- preserve PROJECT_LOCAL_ONLY runtime storage unless a new architecture decision explicitly changes it;
-- not declare global operational maturity before dedicated acceptance gates pass.
+Baseline measurable dimensions:
+- SOURCE_CLASS;
+- SOURCE_ID / SOURCE_AVAILABILITY;
+- REGION_LANGUAGE;
+- FRESHNESS.
+
+Baseline statuses:
+- SATISFIED;
+- GAP;
+- UNAVAILABLE;
+- STALE;
+- UNKNOWN;
+- UNMEASURED.
+
+Coverage semantics:
+- coverage_ratio is satisfied required units / required units;
+- coverage_confidence is known assessment states / required units;
+- UNKNOWN and UNMEASURED reduce coverage confidence;
+- coverage confidence is not factual verification confidence;
+- source count, graph degree, forecast count and report count cannot inflate coverage;
+- translation attribution does not create source independence;
+- GLOBAL is an explicit scope key, not a universal-completeness claim;
+- historical coverage state remains immutable and queryable;
+- Phase 11 coverage reports use the existing M13 report store;
+- no external coverage provider is required or approved.
 
 ## Validation State
 
@@ -168,16 +180,18 @@ M10 multi-region/language regression: PASS - 88 tests, run 32966128001.
 M11 advanced geopolitical graph final regression: PASS - 118 tests, run 32973378757.
 M12 advanced forecasting final regression: PASS - 154 tests, run 32980859938.
 M13 full reporting environment final implementation regression: PASS - 199 tests, run 32993269910.
+Phase 11 global operational coverage final implementation regression: PASS - 226 tests, run 33000478908.
 
 ## Current State
 
-- Implementation: BASELINE_VALIDATED through M13
+- Engineering implementation: BASELINE_VALIDATED through ROADMAP Phase 11
 - ROADMAP Phase 5: BASELINE_VALIDATED
 - ROADMAP Phase 6: BASELINE_VALIDATED
 - ROADMAP Phase 7: BASELINE_VALIDATED
 - ROADMAP Phase 8: BASELINE_VALIDATED
 - ROADMAP Phase 9: BASELINE_VALIDATED
 - ROADMAP Phase 10: BASELINE_VALIDATED
+- ROADMAP Phase 11: BASELINE_VALIDATED
 - Runtime storage: PROJECT_LOCAL_ONLY
 - Shared Infrastructure ADR: APPROVED
 - Controlled-pilot live integrations: VALIDATED
@@ -186,12 +200,14 @@ M13 full reporting environment final implementation regression: PASS - 199 tests
 - Advanced geopolitical graph baseline: VALIDATED
 - Advanced forecasting baseline: VALIDATED
 - Full reporting environment baseline: VALIDATED
+- Global operational coverage measurement baseline: VALIDATED
 - External graph providers: NONE_APPROVED
 - External forecasting providers: NONE_APPROVED
 - External reporting/publishing providers: NONE_APPROVED
+- External coverage providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
 - Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 11 Global Operational Coverage preparation
-- Next engineering activity: Phase 11 delta audit and implementation planning
+- Current roadmap activity: Phase 11 completed and BASELINE_VALIDATED
+- Next roadmap phase: NONE_APPROVED; roadmap extension required
 - Production/live operational maturity: NOT_OPERATIONAL
