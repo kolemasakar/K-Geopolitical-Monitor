@@ -49,6 +49,11 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "monitoring_watch_alert_policies",
         "strategic_alerts",
         "strategic_alert_events",
+        "region_catalog",
+        "language_catalog",
+        "watch_region_language_scopes",
+        "observation_region_language",
+        "region_language_coverage_reports",
     }.issubset(tables)
     assert {"retry_count", "recovered"}.issubset(monitoring_run_columns)
     assert applied == {
@@ -60,4 +65,5 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "006_live_source_collection.sql",
         "007_live_end_to_end_analysis.sql",
         "008_strategic_alerts.sql",
+        "009_region_language_coverage.sql",
     }
