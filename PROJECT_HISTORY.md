@@ -2,7 +2,7 @@
 
 Chronological record of major approved project milestones.
 
-Version: 2.1
+Version: 2.2
 Status: ACTIVE
 
 ## 2026-08-24
@@ -89,7 +89,6 @@ Status: ACTIVE
 - Migrations 011-014 added immutable forecast/scenario versions, typed provenance, outcomes/evaluations and calibration history.
 - Graph inputs remain analytical and never become independent source evidence.
 - PARTIAL/AMBIGUOUS outcomes remain unscored.
-- Minimum calibration cohort set to five scorable evaluations.
 - AdvancedForecastQuery added current/history/scenario/provenance/outcome/evaluation/calibration queries.
 - M12.5 fixed regression run 32977809109: 148 passed in 11.05s.
 - M12 final regression run 32980859938: 154 passed in 8.19s.
@@ -100,12 +99,7 @@ Status: ACTIVE
 - Existing findings, alerts, coverage, graph and forecast output surfaces were audited and converged into one canonical reporting subsystem.
 - Migration 015 added immutable report snapshots, ordered sections and typed report references.
 - One common ReportAssembler preserves source evidence, graph inference, forecast scenarios, assumptions and coverage as distinct presentation classes/references.
-- Strategic Alert, Global Geopolitical Brief and Regional/Country Brief assembly implemented.
-- Regional reports fail closed on invalid region/language scope and keep incomplete coverage visible.
-- Event Dossier assembly is anchored to canonical events.
-- Storyline Report remains report-scoped composition; no canonical storyline table was created.
-- Forecast Report is anchored to durable forecast versions and preserves probability/confidence/uncertainty/invalidation semantics.
-- Strategic Outlook is scope-only explicit composition of selected persisted forecasts/context.
+- Strategic Alert, Global Geopolitical Brief, Regional/Country Brief, Event Dossier, report-scoped Storyline Report, Forecast Report and Strategic Outlook implemented.
 - Deterministic structured and Markdown rendering implemented from the same immutable persisted ReportBundle.
 - Rendering is reproducible after restart and uses existing RuntimeStoragePolicy for project-local runtime database enforcement.
 - Reporting isolation regressions prove rendering/assembly do not mutate M8 verification confidence/origin count, M10 coverage metadata, M11 graph state or M12 forecast state.
@@ -113,19 +107,41 @@ Status: ACTIVE
 - M13.2 run 32989895962: 170 passed in 12.00s.
 - M13.3-M13.5 combined run 32992328055: 193 passed in 10.98s.
 - M13.6 run 32993269910: 199 passed in 12.10s.
-- Runtime storage remained PROJECT_LOCAL_ONLY; no external reporting/publishing provider is required.
 - M13 and ROADMAP Phase 10 recorded as BASELINE_VALIDATED.
+
+## 2026-08-26 - ROADMAP Phase 11 Global Operational Coverage
+
+- Phase 11 delta audit converged existing M6/M7/M10 coverage state and M13 presentation without creating a new verification engine.
+- Migration 016 added deterministic operational coverage contracts, typed requirements, immutable snapshots and per-requirement results.
+- Migration 017 added per-source collection attempts so successful zero-item acquisition, failure, staleness and unknown state remain distinguishable.
+- LiveSourceCollector was hardened so adapter/item source identity mismatch fails closed before ingestion.
+- SOURCE_CLASS, SOURCE_ID/SOURCE_AVAILABILITY, REGION_LANGUAGE and FRESHNESS dimensions were converged into one deterministic evaluator.
+- Unsupported declared dimensions remain explicit UNMEASURED limitations.
+- Coverage statuses are SATISFIED, GAP, UNAVAILABLE, STALE, UNKNOWN and UNMEASURED.
+- coverage_ratio measures satisfied required units; coverage_confidence measures assessment observability rather than geopolitical factual confidence.
+- Historical/latest coverage query and coverage-aware Global/Regional reporting were integrated through the existing M13 report store.
+- GLOBAL remains an explicit scope key; it does not imply complete world coverage and does not hide gaps or limitations.
+- Cross-layer regression proved Phase 11 does not mutate M8 verification/origin truth, M11 graph state, M12 forecast probabilities or M13 persisted report snapshots.
+- P11.1 run 32996565227: 203 passed in 15.48s.
+- P11.2 run 32997440380: 210 passed in 16.63s.
+- P11.3 run 32997961490: 217 passed in 27.46s.
+- P11.4 run 32999092257: 219 passed in 20.55s.
+- P11.5 run 32999835225: 223 passed in 83.96s.
+- P11.6 run 33000478908: 226 passed in 17.67s.
+- Runtime storage remained PROJECT_LOCAL_ONLY and production/live status remained NOT_OPERATIONAL.
+- ROADMAP Phase 11 recorded as BASELINE_VALIDATED without inventing an M14 milestone label.
 
 ## Current State
 
-- Documentation: RECONCILED through M13
-- Engineering implementation: BASELINE_VALIDATED through M13
+- Documentation: RECONCILED through ROADMAP Phase 11
+- Engineering implementation: BASELINE_VALIDATED through ROADMAP Phase 11
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 7 Multi-Region Expansion: BASELINE_VALIDATED
 - ROADMAP Phase 8 Advanced Geopolitical Graph: BASELINE_VALIDATED
 - ROADMAP Phase 9 Advanced Forecasting: BASELINE_VALIDATED
 - ROADMAP Phase 10 Full Reporting Environment: BASELINE_VALIDATED
+- ROADMAP Phase 11 Global Operational Coverage: BASELINE_VALIDATED
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED_PENDING_NEW_ARCHITECTURE_APPROVAL
@@ -133,9 +149,11 @@ Status: ACTIVE
 - External graph providers: NONE_APPROVED
 - External forecasting providers: NONE_APPROVED
 - External reporting/publishing providers: NONE_APPROVED
+- External coverage providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
 - Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 11 Global Operational Coverage preparation
-- Next development activity: Phase 11 delta audit and implementation planning
+- Current roadmap activity: Phase 11 completed and BASELINE_VALIDATED
+- Next roadmap phase: NONE_APPROVED
+- Next development activity: ROADMAP extension decision before assigning any new phase or milestone
 - Production/live operational status: NOT_OPERATIONAL
