@@ -1,6 +1,6 @@
 # M9 Strategic Alerts and Continuous Monitoring Plan
 
-Status: ACTIVE
+Status: COMPLETED
 Date: 2026-08-26
 Project: K-Geopolitical Monitor
 Roadmap phase: Phase 6 - Strategic Alerts and Continuous Monitoring
@@ -14,10 +14,10 @@ M9 is an engineering baseline. It does not activate production notifications or 
 ## Mandatory Boundaries
 
 - Runtime storage remains PROJECT_LOCAL_ONLY.
-- Alerts must be derived from persisted project findings; no direct external-source bypass is allowed.
-- Alert generation must be deterministic for the same inputs and configuration.
-- Alert identity must support idempotent repeated monitoring cycles.
-- External-source failures must remain visible and must not be converted into positive alerts.
+- Alerts are derived from persisted project findings; no direct external-source bypass is allowed.
+- Alert generation is deterministic for the same inputs and configuration.
+- Alert identity supports idempotent repeated monitoring cycles.
+- External-source failures remain visible and are not converted into positive alerts.
 - GDELT discovery metadata remains non-verifying evidence.
 - No automatic VERIFIED status is introduced.
 - No external notification provider is approved in M9 baseline.
@@ -25,12 +25,13 @@ M9 is an engineering baseline. It does not activate production notifications or 
 
 ## Alert Model Baseline
 
-Strategic alerts require explicit persisted state:
+Persisted strategic alert state includes:
 
 - alert_id;
 - watch_id;
 - finding_id;
 - trigger_type;
+- dedup_key;
 - priority;
 - status;
 - first_triggered_at;
@@ -54,43 +55,42 @@ Baseline priorities:
 
 ## M9.1 Trigger Detection
 
-Implement deterministic trigger evaluation over M8 operational findings.
+Implemented and validated:
 
-Initial trigger contract:
-
-- evidence/verification support must satisfy the configured watch threshold;
-- finding importance must satisfy the configured alert threshold;
-- the trigger must retain finding and evidence traceability;
-- repeated evaluation of the same qualifying finding must not create duplicate alerts.
+- watch-scoped alert policies;
+- minimum importance threshold;
+- minimum confidence threshold;
+- minimum verification-rank threshold;
+- M8 claim verification lookup through persisted evidence refs;
+- stable normalized-title deduplication across monitoring cycles;
+- traceable alert explanation and evidence refs.
 
 Gate:
 M9_1_TRIGGER_DETECTION_VALIDATED
 
 ## M9.2 Invalidation and Retraction
 
-Implement explicit alert invalidation when the supporting finding is no longer eligible or when a persisted contradiction/invalidation condition is supplied by the monitoring layer.
+Implemented and validated:
 
-Requirements:
-
-- invalidation never deletes alert history;
-- invalidation reason is mandatory;
+- explicit invalidation with mandatory reason;
+- retained alert and event history;
+- idempotent repeated invalidation;
 - invalidated alerts remain queryable;
-- repeated invalidation is idempotent;
-- invalidation cannot silently become a new positive alert.
+- qualifying re-evaluation does not silently reopen INVALIDATED or RESOLVED alerts;
+- explicit resolution state and history support.
 
 Gate:
 M9_2_INVALIDATION_VALIDATED
 
 ## M9.3 Priority Watches and Cadence
 
-Extend project-local watch configuration with deterministic alert priority and cadence semantics.
+Implemented and validated:
 
-Requirements:
-
-- watch priority influences scheduling eligibility, not evidence truth;
-- priority must not increase verification confidence;
-- cadence decisions must be deterministic from persisted watch state and current time;
-- interrupted cycles remain recoverable through existing project-local run recovery;
+- NORMAL/HIGH/CRITICAL project-local priority policy;
+- priority ordering for watches already due under the existing cadence engine;
+- priority does not modify evidence confidence or verification status;
+- CRITICAL priority cannot bypass watch cadence;
+- persisted policy survives runtime restart;
 - no background daemon is required for baseline validation.
 
 Gate:
@@ -98,22 +98,38 @@ M9_3_PRIORITY_CADENCE_VALIDATED
 
 ## M9.4 End-to-End Alert Gate
 
-Validate:
+Validated:
 
-- finding -> trigger -> strategic alert persistence;
-- duplicate suppression;
+- M8 finding -> trigger -> strategic alert persistence;
+- duplicate suppression for repeated evaluation;
+- same-title new-cycle finding updates an existing alert instead of duplicating it;
 - priority assignment;
-- alert update behavior;
 - invalidation history;
 - restart persistence;
-- project-local isolation;
+- project-local database reuse after restart;
 - deterministic full regression CI.
 
 Gate:
 M9_STRATEGIC_ALERT_BASELINE_PASS
 
+## Validation Evidence
+
+Initial M9 implementation regression:
+
+- GitHub Actions run 32965231876;
+- 80 passed in 1.58s.
+
+Hardened M9 acceptance regression:
+
+- GitHub Actions run 32965387054;
+- 82 passed in 1.71s;
+- restart persistence: PASS;
+- priority/cadence separation: PASS.
+
 ## Completion Boundary
 
-M9 is complete only when all gates pass and the full deterministic regression suite succeeds.
+All M9 engineering gates passed.
 
-M9 completion may validate the Phase 6 engineering baseline but must not by itself set production/live operational status to OPERATIONAL. External notification delivery, unattended production scheduling and global coverage require separate explicit approval.
+ROADMAP Phase 6 - Strategic Alerts and Continuous Monitoring engineering baseline is BASELINE_VALIDATED.
+
+This completion does not approve external notification delivery, unattended production scheduling, global coverage, mixed/shared runtime storage or production/live OPERATIONAL status.
