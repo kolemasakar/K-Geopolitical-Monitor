@@ -2,7 +2,7 @@
 
 Chronological record of major approved project milestones.
 
-Version: 1.8
+Version: 1.9
 Status: ACTIVE
 
 ## 2026-08-24
@@ -53,7 +53,6 @@ Status: ACTIVE
 - Live smoke parsed 7 Consilium items and 5 GDELT items for query Ukraine.
 - Live Source Smoke workflow returned to manual workflow_dispatch-only mode after validation.
 - M7 recorded as BASELINE_VALIDATED.
-- M7 does not approve production/global operation or shared runtime storage.
 
 ## 2026-08-26 - M8 Live End-to-End Controlled Pilot
 
@@ -66,31 +65,21 @@ Status: ACTIVE
 - Operational findings retain claim, raw-item and original-origin traceability.
 - Deterministic M0-M8 regression passed: GitHub Actions run 32963096313, 73 passed in 1.07s.
 - Initial live E2E smoke exposed a GDELT HTTP 429 response and validated the need for per-source failure isolation.
-- Live E2E gate was aligned with the approved PARTIAL collection contract.
 - Passing live E2E smoke: GitHub Actions run 32963354135.
-- Passing live output: PARTIAL collection, 1 successful source, 1 failed source, 6 items, 6 claims, 6 findings, 6 DETECTED.
-- The passing run recorded the GDELT TLS handshake timeout explicitly while Consilium completed end-to-end processing.
 - Runtime storage remained PROJECT_LOCAL_ONLY.
-- M8 recorded as BASELINE_VALIDATED.
-- ROADMAP Phase 5 Controlled Pilot Monitoring engineering baseline recorded as BASELINE_VALIDATED.
+- M8 and ROADMAP Phase 5 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M9 Strategic Alerts and Continuous Monitoring
 
 - Migration 008 added project-local watch alert policies, strategic alerts and immutable alert events.
-- Strategic alerts are derived from persisted operational findings rather than direct external-source input.
+- Strategic alerts derive from persisted operational findings.
 - Importance, confidence and verification-rank thresholds implemented.
-- Stable normalized-title deduplication prevents repeated-cycle duplicate alerts.
-- Later same-title qualifying findings update the existing alert.
-- OPEN, UPDATED, INVALIDATED and RESOLVED alert states implemented.
-- Explicit invalidation reasons and persistent event history implemented.
-- Alert and policy state survive runtime restart.
-- NORMAL, HIGH and CRITICAL priority ordering implemented for watches that are already due.
-- CRITICAL priority does not bypass cadence and does not modify evidence confidence.
-- Initial M9 regression passed: GitHub Actions run 32965231876, 80 passed in 1.58s.
+- Stable normalized-title deduplication and cross-cycle alert updates implemented.
+- OPEN, UPDATED, INVALIDATED and RESOLVED alert states implemented with persistent history.
+- Alert state survives runtime restart.
+- NORMAL, HIGH and CRITICAL priority orders already-due watches and never bypasses cadence.
 - Hardened M9 acceptance passed: GitHub Actions run 32965387054, 82 passed in 1.71s.
-- Runtime storage remained PROJECT_LOCAL_ONLY.
-- M9 recorded as BASELINE_VALIDATED.
-- ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring engineering baseline recorded as BASELINE_VALIDATED.
+- M9 and ROADMAP Phase 6 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M10 Multi-Region and Language Coverage
 
@@ -101,32 +90,42 @@ Status: ACTIVE
 - Region/language and translation attribution do not alter M8 claim identity, independent origins, confidence or verification status.
 - Region/language state survives runtime restart.
 - GitHub Actions run 32966128001: 88 passed in 2.07s.
-- Runtime storage remained PROJECT_LOCAL_ONLY.
-- M10 recorded as BASELINE_VALIDATED.
-- ROADMAP Phase 7 Multi-Region Expansion engineering baseline recorded as BASELINE_VALIDATED.
+- M10 and ROADMAP Phase 7 recorded as BASELINE_VALIDATED.
+
+## 2026-08-26 - M11 Advanced Geopolitical Graph
+
+- M4 graph fragments were audited and converged into one durable advanced graph contract rather than a parallel graph subsystem.
+- Migration 010 added project-local graph nodes, logical edges, edge evidence and edge history.
+- Deterministic canonical node and edge identities implemented with M4 compatibility projection.
+- Explicit actor-reference, canonical event, M8 claim and operational finding projection implemented without creating a second canonical truth store.
+- Evidence-backed relationship lifecycle implemented with SUPPORTS, CONTRADICTS and CONTEXT evidence roles.
+- ACTIVE, UPDATED, INVALIDATED and RESOLVED states preserve material relationship history without destructive deletion.
+- Temporal validity intervals, historical snapshots and current-state filtering implemented.
+- Bounded cycle-safe causal/influence traversal implemented.
+- An initial M11.4 CI failure exposed hash-based traversal ordering; the engine was corrected to canonical semantic ordering without weakening the acceptance test.
+- Existing IntelligenceQuery was extended with durable neighborhood, multi-hop, actor relationship, actor-event, historical relation and causal queries.
+- Advanced query explanations expose graph IDs, canonical references and evidence references.
+- Dedicated M11.6 cross-layer regression proved graph projection/inference/query does not mutate M8 confidence, independent-origin count or verification status and that M10 translation metadata does not create source independence.
+- M11 final regression passed: GitHub Actions run 32973378757, 118 passed in 4.24s.
+- Runtime storage remained PROJECT_LOCAL_ONLY; no external graph provider is required.
+- M11 and ROADMAP Phase 8 recorded as BASELINE_VALIDATED.
 
 ## Current State
 
-- Documentation: RECONCILED through M10
-- Engineering implementation: BASELINE_VALIDATED through M10
-- M5 full test cycle: PASS
-- M6 controlled pilot baseline: PASS
-- M7 deterministic regression: PASS
-- M7 live-source smoke: PASS
-- M8 deterministic regression: PASS
-- M8 live end-to-end controlled pilot: PASS
-- M9 strategic alerts hardened regression: PASS
-- M10 multi-region/language regression: PASS
+- Documentation: RECONCILED through M11
+- Engineering implementation: BASELINE_VALIDATED through M11
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 7 Multi-Region Expansion: BASELINE_VALIDATED
+- ROADMAP Phase 8 Advanced Geopolitical Graph: BASELINE_VALIDATED
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED_PENDING_NEW_ARCHITECTURE_APPROVAL
 - Controlled-pilot external integrations: 2
+- External graph providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
 - Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 8 Advanced Geopolitical Graph preparation
-- Next development activity: M11 Advanced Geopolitical Graph baseline
+- Current roadmap activity: Phase 9 Advanced Forecasting preparation
+- Next development activity: M12 Advanced Forecasting preparation and delta audit
 - Production/live operational status: NOT_OPERATIONAL
