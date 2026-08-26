@@ -1,13 +1,19 @@
-# M13.4 Event Dossier and Storyline Candidate Result
+# M13.4 Event Dossier and Storyline Result
 
-Status: IMPLEMENTED_VALIDATION_PENDING
+Status: VALIDATION_PENDING
 Date: 2026-08-26
 Project: K-Geopolitical Monitor
 Milestone: M13.4 Event Dossier and Storyline Report
-Branch: `candidate/m13-4-dossier-storyline`
-Candidate commit: `7651ac787762e7b3b446c94beff0a3b16eeb1a9c`
 
-## Candidate Contracts
+## Implementation
+
+Original candidate implementation:
+- `7651ac787762e7b3b446c94beff0a3b16eeb1a9c`
+
+Main promotion:
+- `891c2c251382676ed11ac1c173f6572f27aac7db`
+
+## Implemented Contracts
 
 - Event Dossier is anchored to a valid canonical event ID;
 - explicit persisted event, claim, raw-item, finding and graph references only;
@@ -26,13 +32,13 @@ Candidate commit: `7651ac787762e7b3b446c94beff0a3b16eeb1a9c`
 
 ## Validation State
 
-This stacked candidate is intentionally not merged to `main` while M13.2 executable regression evidence remains unavailable.
+The M13.4 implementation and acceptance tests are now on `main`.
 
-Candidate tests are included on the branch but are not claimed as PASS until an executable test runner or GitHub Actions transport is available.
+Full repository CI on the combined M13.3-M13.5 main checkpoint is required before this gate can be changed to PASS.
 
 Gate:
 `M13_4_DOSSIER_STORYLINE_VALIDATED = PENDING`
 
 ## Boundary
 
-This candidate does not approve canonical storyline persistence, inferred event timestamps, shared runtime storage, external publishing/delivery, production dashboards or production/live OPERATIONAL status.
+This implementation does not approve canonical storyline persistence, inferred event timestamps, shared runtime storage, external publishing/delivery, production dashboards or production/live OPERATIONAL status.
