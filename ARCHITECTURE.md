@@ -1,12 +1,12 @@
 # ARCHITECTURE
 Technical architecture definition for K-Geopolitical Monitor.
 
-Version: 1.2
+Version: 1.3
 Status: APPROVED
 
 ## Purpose
 
-Define the initial system architecture boundaries.
+Define the current system architecture boundaries.
 
 ## Architecture Principle
 
@@ -14,7 +14,7 @@ Minimal Functional Core before global expansion.
 
 ## Logical Layers
 
-Sources -> Ingestion -> Normalization -> Event Processing -> Verification -> Analysis -> Forecasting -> Reporting
+Sources -> Ingestion -> Normalization -> Event Processing -> Verification -> Analysis -> Forecasting -> Reporting -> Operational Monitoring
 
 ## Core Components
 
@@ -25,10 +25,12 @@ Sources -> Ingestion -> Normalization -> Event Processing -> Verification -> Ana
 - Relationship Analysis Layer
 - Forecasting Layer
 - Reporting Layer
+- Operational Monitoring Runtime
+- Operational Intelligence Output
 
-## Implemented Baseline
+## Implemented and Validated Baseline
 
-The repository contains implementation baselines for:
+The repository contains validated baselines for:
 
 - persistence and domain foundations;
 - evidence and verification;
@@ -37,26 +39,43 @@ The repository contains implementation baselines for:
 - knowledge graph and relationship analysis;
 - graph persistence baseline;
 - causal and temporal graph analysis;
-- intelligence query baseline.
+- intelligence query baseline;
+- project-local monitoring watch and run persistence;
+- controlled monitoring cycle orchestration;
+- failure isolation, retry metadata and interrupted-run recovery;
+- ranked operational findings with evidence references and explanation requirements.
 
-These components are baseline implementations and must not be interpreted as production or operational maturity.
+These components represent a project-local validated baseline and must not be interpreted as live production or global operational maturity.
 
 ## M5 Infrastructure Boundary
 
-The Shared Infrastructure Architecture Review is complete and recommends HYBRID architecture:
+The Shared Infrastructure Architecture Review selected HYBRID architecture.
+
+The approved ADR requires:
 
 - project-specific domain logic and canonical stores remain local;
-- narrow common contracts may be standardized first;
-- shared component extraction requires proven multi-project use and compatibility tests;
-- implicit mixed storage and direct cross-project canonical-store mutation are prohibited.
+- M5 runtime storage remains PROJECT_LOCAL_ONLY;
+- no implicit mixed storage;
+- no shared runtime database;
+- no direct cross-project canonical-store mutation;
+- any future shared runtime storage requires a new explicit architecture approval even after the successful M5 test cycle.
 
-The corresponding ADR remains PROPOSED. Cross-project extraction and shared runtime storage remain blocked until explicit architecture approval.
+## Validation State
+
+M5 full test cycle: PASS.
+
+Evidence:
+- implementation commit: 1bd258e17cd99b94aa2c751f2fb9f10459f4457c
+- GitHub Actions run: 32953343877
+- result: 57 passed in 1.05s
 
 ## Current State
 
-- Implementation: BASELINE_IMPLEMENTED through M4
+- Implementation: BASELINE_VALIDATED through M5
 - M4 acceptance: PASS
-- Full regression CI: PASS
 - M5 readiness: PASS
-- M5 implementation: READY_TO_START; NOT_STARTED
-- Operational maturity: NOT_OPERATIONAL
+- M5 full test cycle: PASS
+- Runtime storage: PROJECT_LOCAL_ONLY
+- Shared Infrastructure ADR: APPROVED
+- Controlled pilot readiness: READY
+- Production/live operational maturity: NOT_OPERATIONAL
