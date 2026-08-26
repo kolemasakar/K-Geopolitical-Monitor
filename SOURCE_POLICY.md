@@ -1,7 +1,7 @@
 # SOURCE_POLICY
 Source management and provenance rules.
 
-Version: 1.1
+Version: 1.2
 Status: APPROVED
 
 ## Source Classes
@@ -26,17 +26,29 @@ Every operational source item must remain traceable to:
 - source class;
 - collection context;
 - raw item identity;
+- original source URL where applicable;
 - derived operational finding where applicable.
 
 Derived conclusions must remain distinguishable from source evidence.
 
-## Controlled Pilot Rule
+## Controlled Pilot State
 
-The validated M6 controlled pilot baseline uses deterministic project-local JSONL source fixtures under the project-local data boundary.
+M6 validated deterministic project-local source fixtures.
 
-The controlled pilot validates source-class enforcement, source/raw-item persistence, evidence references and coverage reporting without approving any production external integration.
+M7 validated two live read-only public-source integrations under explicit controlled-pilot records:
 
-Live public sources require an explicit integration record and approval under EXTERNAL_INTEGRATIONS.md before activation.
+- Consilium press-release RSS as Official sources;
+- GDELT DOC 2.0 as Structured data discovery metadata.
+
+GDELT discovery metadata is not independent verification of publisher claims. The original publisher or primary source remains the factual Source of Truth for linked content.
+
+The M7 live smoke gate succeeded against both approved public endpoints.
+
+## Live Source Rule
+
+Only integrations with explicit records under docs/integrations may be activated for controlled live pilots.
+
+A controlled-pilot approval does not equal production/global operational approval.
 
 ## User Data
 
@@ -44,7 +56,8 @@ User-provided information requires reliability assessment and remains identifiab
 
 ## Current State
 
-Source/provenance implementation: BASELINE_VALIDATED through M6
-Controlled project-local pilot: PASS
-Live external-source validation: NOT_STARTED
-Production external sources: NOT_APPROVED
+Source/provenance implementation: BASELINE_VALIDATED through M7
+Deterministic controlled pilot: PASS
+Live read-only source acquisition pilot: PASS
+Production external-source operation: NOT_APPROVED
+Runtime storage: PROJECT_LOCAL_ONLY
