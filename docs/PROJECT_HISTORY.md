@@ -80,20 +80,34 @@ This file records implementation-specific milestones and must not override the c
 - Hardened GitHub Actions run 32965387054: 82 passed in 1.71s.
 - M9 and ROADMAP Phase 6 engineering baseline recorded as BASELINE_VALIDATED.
 
+## 2026-08-26 - M10 multi-region and language coverage
+
+- Migration 009 added region/language scope and coverage persistence.
+- Canonical normalized region/language registries implemented.
+- Watch-scoped scope requirements and raw-item attribution implemented.
+- Required, observed and missing scope reporting implemented.
+- Translation and region/language attribution remain isolated from M8 verification confidence and independent-origin counting.
+- Cross-watch attribution isolation and restart persistence validated.
+- GitHub Actions run 32966128001: 88 passed in 2.07s.
+- M10 and ROADMAP Phase 7 engineering baseline recorded as BASELINE_VALIDATED.
+
 ## Current Implementation Checkpoint
 
-- Engineering implementation: BASELINE_VALIDATED through M9
+- Engineering implementation: BASELINE_VALIDATED through M10
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
+- ROADMAP Phase 7 Multi-Region Expansion: BASELINE_VALIDATED
 - M5 full test cycle: PASS
 - M6 controlled pilot baseline: PASS
 - M7 live public-source pilot: PASS
 - M8 live end-to-end controlled pilot: PASS
 - M9 strategic alert baseline: PASS
+- M10 region/language coverage baseline: PASS
 - Runtime storage: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: NOT_ENABLED
 - External notification providers: NONE_APPROVED
+- Automatic translation providers: NONE_APPROVED
 - Production external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 7 Multi-Region Expansion preparation
-- Next engineering milestone: M10 Multi-Region and Language Coverage baseline
+- Current roadmap activity: Phase 8 Advanced Geopolitical Graph preparation
+- Next engineering milestone: M11 Advanced Geopolitical Graph baseline
 - Production/live operational status: NOT_OPERATIONAL
