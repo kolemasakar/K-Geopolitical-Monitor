@@ -242,6 +242,17 @@ class SQLiteForecastInputRepository:
                 f"unknown canonical reference for {item.input_kind}: {item.reference_id}"
             )
 
+    def validate(
+        self,
+        inputs: Iterable[ForecastInputRef],
+    ) -> tuple[ForecastInputRef, ...]:
+        items = _sort_inputs(inputs)
+        with sqlite3.connect(self.database_path) as connection:
+            connection.execute("PRAGMA foreign_keys = ON")
+            for item in items:
+                self._validate_reference(connection, item)
+        return items
+
     def bind(
         self,
         version: ForecastVersion,
@@ -249,7 +260,7 @@ class SQLiteForecastInputRepository:
         *,
         constraints: Iterable[str] = (),
     ) -> tuple[ForecastInputRef, ...]:
-        items = _sort_inputs(inputs)
+        items = self.validate(inputs)
         if any(item.forecast_version_id != version.forecast_version_id for item in items):
             raise ValueError("forecast input does not belong to supplied forecast version")
 
@@ -283,9 +294,6 @@ class SQLiteForecastInputRepository:
                 raise ValueError("typed forecast inputs do not match immutable provenance_refs")
             if persisted_assumptions != assumptions:
                 raise ValueError("typed forecast assumptions do not match immutable assumptions")
-
-            for item in items:
-                self._validate_reference(connection, item)
 
             payloads = tuple(
                 (
