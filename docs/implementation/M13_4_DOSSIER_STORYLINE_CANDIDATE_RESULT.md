@@ -5,6 +5,7 @@ Date: 2026-08-26
 Project: K-Geopolitical Monitor
 Milestone: M13.4 Event Dossier and Storyline Report
 Branch: `candidate/m13-4-dossier-storyline`
+Candidate commit: `7651ac787762e7b3b446c94beff0a3b16eeb1a9c`
 
 ## Candidate Contracts
 
