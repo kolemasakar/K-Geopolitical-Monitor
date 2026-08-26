@@ -1,7 +1,7 @@
 # ARCHITECTURE
 Technical architecture definition for K-Geopolitical Monitor.
 
-Version: 2.0
+Version: 2.1
 Status: APPROVED
 
 ## Purpose
@@ -14,7 +14,7 @@ Minimal Functional Core before global expansion.
 
 ## Logical Layers
 
-Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Processing -> Verification -> Analysis -> Forecasting -> Reporting -> Operational Monitoring -> Coverage -> Strategic Alerts -> Region/Language Scope -> Advanced Geopolitical Graph -> Advanced Forecasting -> Full Reporting Environment
+Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Processing -> Verification -> Analysis -> Forecasting -> Reporting -> Operational Monitoring -> Coverage -> Strategic Alerts -> Region/Language Scope -> Advanced Geopolitical Graph -> Advanced Forecasting -> Full Reporting Environment -> Global Operational Coverage
 
 ## Core Components
 
@@ -36,42 +36,29 @@ Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Pr
 - Region/Language Coverage Layer
 - Advanced Geopolitical Graph
 - Advanced Forecasting
-- Full Reporting Environment - next baseline
+- Full Reporting Environment
+- Global Operational Coverage - next baseline preparation
 
 ## Implemented and Validated Baseline
 
-The repository contains validated baselines for:
+Validated foundations include:
 
-- persistence and domain foundations;
-- evidence and verification;
-- event intelligence and correlation;
-- forecasting and adaptive-learning components;
-- project-local operational monitoring, failure isolation, retry and recovery;
-- ranked operational findings with evidence references and explanations;
-- controlled and live read-only source acquisition;
-- provenance, collection audit and source failure isolation;
-- origin-based M8 verification independence;
-- strategic alert policies, lifecycle and priority/cadence separation;
-- watch-scoped region/language requirements and coverage reports;
-- translation-attribution isolation from evidence confidence and source independence;
-- durable advanced geopolitical graph persistence;
-- deterministic graph node and logical edge identity;
-- explicit canonical actor/event/claim/finding graph projections;
-- evidence-backed relationship lifecycle and preserved material history;
-- temporal validity intervals and historical snapshots;
-- bounded cycle-safe causal/influence traversal;
-- advanced explainable graph query facade;
-- durable forecast, forecast-version and scenario-version persistence;
-- typed immutable forecast provenance inputs;
-- immutable scenario update lifecycle with raw/calibrated probability separation;
-- durable outcome resolution and exact-version forecast evaluation;
-- Brier/calibration metrics with PARTIAL/AMBIGUOUS non-scoring;
-- reproducible calibration history with explicit minimum sample contract;
-- horizon/scenario performance summaries;
-- advanced read-only forecast query/explanation facade;
-- cross-layer M8/M10/M11/M12 confidence and source-independence isolation.
+- persistence, evidence, verification and event intelligence;
+- project-local operational monitoring, retry/recovery and ranked findings;
+- controlled/live read-only acquisition with provenance and source-failure isolation;
+- original-origin M8 evidence independence;
+- strategic alert policies/lifecycle and priority/cadence separation;
+- watch-scoped region/language attribution and coverage reporting;
+- translation-attribution isolation from evidence confidence/source independence;
+- durable advanced graph identity, projection, lifecycle, history, temporal/causal traversal and explainable queries;
+- durable advanced forecasting identity, immutable scenario versions, typed provenance, outcome evaluation, calibration history and explainable queries;
+- durable immutable report snapshots, sections and typed references;
+- one common report assembler for strategic/global/regional/event/storyline/forecast/outlook reports;
+- deterministic structured and Markdown report rendering;
+- report rendering reproducibility after restart;
+- cross-layer M8/M10/M11/M12 truth-state isolation through reporting.
 
-These components represent a controlled project-local validated baseline and must not be interpreted as global production maturity.
+These components represent a controlled project-local validated engineering baseline and must not be interpreted as global production maturity.
 
 ## Runtime and Shared Infrastructure Boundary
 
@@ -108,72 +95,65 @@ External-source availability is not assumed. A collection may be COMPLETED, PART
 - at least two distinct original origins are required for PARTLY_VERIFIED;
 - same-origin duplicate observations must not increase verification status;
 - VERIFIED is never assigned automatically by the current baseline;
-- alert priority, region/language attribution, graph intelligence and forecast outputs are downstream metadata/analysis and must not increase evidence confidence or independent-origin count.
+- alert priority, region/language attribution, graph intelligence, forecast outputs and report presentation must not increase evidence confidence or independent-origin count.
 
 ## Advanced Geopolitical Graph Boundary
 
-M11 extends and converges the M4 graph baseline rather than creating a second graph subsystem.
+M11 converges M4 graph fragments into one durable project-local graph contract.
 
-Graph model:
-
-- graph nodes carry deterministic canonical references;
-- graph edges carry deterministic logical identities, relation class, graph-local confidence, lifecycle status, validity and observation timestamps;
-- edge evidence is stored separately from logical relation identity;
-- material relationship changes preserve immutable history;
-- current-state queries exclude invalidated/resolved relationships while historical queries retain them;
-- causal/influence traversal is bounded, cycle-safe and deterministic;
-- advanced queries expose graph IDs, canonical references and evidence references.
-
-Canonical truth boundary:
-
-- canonical project objects remain the Source of Truth;
-- actor references are explicit inputs rather than a new actor truth store;
-- canonical events remain owned by the events table;
-- M8 claims and findings are traceability projections;
+- canonical project objects remain Source of Truth;
 - graph inference is not source evidence;
 - graph confidence does not modify M8 confidence or independent-origin count;
-- graph operations do not automatically assign VERIFIED status;
-- no external graph service is required or approved by the baseline.
+- graph operations do not automatically assign VERIFIED;
+- no external graph service is required or approved.
 
 ## Advanced Forecasting Boundary
 
-M12 extends existing forecasting, calibration, historical-validation and adaptive-learning components rather than creating a parallel forecasting stack.
+M12 extends existing forecasting/calibration/history components rather than creating a parallel stack.
 
-Forecast model:
-
-- forecast identity is deterministic by target, horizon and evaluation deadline;
-- forecast versions and scenario versions are immutable historical records;
-- raw probability, calibrated probability and scenario confidence are distinct values;
-- typed input kinds distinguish source evidence, canonical events, graph relationships, operational findings and analyst assumptions;
-- durable input references fail closed when the referenced project object does not exist;
-- graph relationships are analytical inputs and never become independent source evidence;
-- outcome resolution is evidence-backed and separate from forecast creation;
-- PARTIAL and AMBIGUOUS outcomes remain unscored rather than receiving fabricated binary values;
-- calibration history is reproducible from exact evaluation-ID cohorts and method/version metadata;
-- baseline calibration history measures performance and does not rewrite persisted scenario probabilities;
-- advanced forecast queries are read-only and expose version, provenance, outcome, evaluation and calibration history.
-
-Canonical truth boundary:
-
+- forecast versions and scenario versions are immutable;
+- raw probability, calibrated probability and scenario confidence are distinct;
+- source evidence, canonical events, graph relationships, findings and analyst assumptions remain typed separately;
 - forecasts are analytical outputs, not facts;
-- forecast probability and scenario confidence are not evidence confidence;
-- forecasting cannot increase M8 independent-origin count or verification status;
-- forecasting cannot mutate M11 graph state;
-- no forecast automatically becomes a canonical event or verified claim;
-- no external forecasting provider is required or approved by the baseline.
+- forecasting cannot increase M8 independent-origin count/verification status or mutate M11 graph state;
+- no external forecasting provider is required or approved.
 
-## Phase 10 Boundary
+## Full Reporting Environment Boundary
 
-Full Reporting Environment must assemble existing validated outputs rather than create new truth stores.
+M13 adds one canonical presentation subsystem over existing validated state.
 
-Phase 10 must preserve:
+Durable reporting model:
 
-- evidence and source provenance in strategic, global, regional, event and forecast reports;
-- explicit distinction between observed facts, verification state, graph inference and forecast scenarios;
-- report reproducibility from persisted project-local inputs;
-- deterministic/project-local baseline execution;
-- no verification or confidence inflation caused by report presentation;
-- PROJECT_LOCAL_ONLY runtime storage.
+- `report_snapshots` stores immutable report identity/metadata;
+- `report_sections` stores ordered typed presentation sections;
+- `report_references` stores typed upstream traceability;
+- all approved report types use this same model;
+- Storyline Report is report-scoped composition and does not create a canonical storyline table.
+
+Reporting semantics:
+
+- observed facts, verification state, analytical context, graph inference, forecast scenarios, analyst assumptions and coverage metadata remain explicitly distinguishable;
+- source evidence remains distinct from graph inference;
+- forecast probabilities/confidence remain forecast analytics;
+- incomplete regional coverage remains visible;
+- report assembly/ranking/rendering cannot modify upstream truth;
+- deterministic structured and Markdown representations are rendered from the same persisted snapshot;
+- restart rendering must be identical;
+- runtime report database resolution uses the existing project-local storage policy;
+- no external publishing/delivery provider is required or approved.
+
+## Phase 11 Boundary
+
+Global Operational Coverage is the next preparation baseline.
+
+Phase 11 must:
+
+- extend measurable coverage semantics rather than claim coverage from report volume;
+- preserve M8 original-origin evidence independence;
+- keep coverage confidence separate from factual verification confidence;
+- make missing/failed/unknown coverage explicit;
+- preserve PROJECT_LOCAL_ONLY runtime storage unless a new architecture decision explicitly changes it;
+- not declare global operational maturity before dedicated acceptance gates pass.
 
 ## Validation State
 
@@ -187,15 +167,17 @@ M9 hardened regression: PASS - 82 tests, run 32965387054.
 M10 multi-region/language regression: PASS - 88 tests, run 32966128001.
 M11 advanced geopolitical graph final regression: PASS - 118 tests, run 32973378757.
 M12 advanced forecasting final regression: PASS - 154 tests, run 32980859938.
+M13 full reporting environment final implementation regression: PASS - 199 tests, run 32993269910.
 
 ## Current State
 
-- Implementation: BASELINE_VALIDATED through M12
+- Implementation: BASELINE_VALIDATED through M13
 - ROADMAP Phase 5: BASELINE_VALIDATED
 - ROADMAP Phase 6: BASELINE_VALIDATED
 - ROADMAP Phase 7: BASELINE_VALIDATED
 - ROADMAP Phase 8: BASELINE_VALIDATED
 - ROADMAP Phase 9: BASELINE_VALIDATED
+- ROADMAP Phase 10: BASELINE_VALIDATED
 - Runtime storage: PROJECT_LOCAL_ONLY
 - Shared Infrastructure ADR: APPROVED
 - Controlled-pilot live integrations: VALIDATED
@@ -203,11 +185,13 @@ M12 advanced forecasting final regression: PASS - 154 tests, run 32980859938.
 - Region/language coverage baseline: VALIDATED
 - Advanced geopolitical graph baseline: VALIDATED
 - Advanced forecasting baseline: VALIDATED
+- Full reporting environment baseline: VALIDATED
 - External graph providers: NONE_APPROVED
 - External forecasting providers: NONE_APPROVED
+- External reporting/publishing providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
 - Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 10 Full Reporting Environment preparation
-- Next engineering work package: M13 Full Reporting Environment delta audit and implementation plan
+- Current roadmap activity: Phase 11 Global Operational Coverage preparation
+- Next engineering activity: Phase 11 delta audit and implementation planning
 - Production/live operational maturity: NOT_OPERATIONAL
