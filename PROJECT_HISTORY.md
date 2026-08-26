@@ -2,7 +2,7 @@
 
 Chronological record of major approved project milestones.
 
-Version: 1.3
+Version: 1.4
 Status: ACTIVE
 
 ## 2026-08-24
@@ -53,17 +53,38 @@ Status: ACTIVE
 - M5 completion recorded as BASELINE_VALIDATED.
 - Successful test completion did not enable shared runtime storage; a new explicit architecture approval remains required for any future mixed/shared runtime storage.
 
+## 2026-08-26 - M6 Controlled Pilot Monitoring
+
+- M6 controlled pilot plan established project-local source, coverage and regression gates.
+- Deterministic JSONL pilot-source adapter implemented under data/pilot_sources.
+- Pilot source paths outside the project-local controlled-source boundary are rejected.
+- Approved source-class validation implemented from SOURCE_POLICY.md.
+- Source identity and raw source items are persisted in canonical project-local tables.
+- Operational findings retain raw-item and source evidence references.
+- Persistent pilot coverage reporting implemented with observed source classes, required source classes, explicit gaps and coverage confidence.
+- Controlled-pilot execution validated across cadence windows and runtime restart.
+- Repeated pilot ingestion is idempotent for canonical raw-item identities.
+- Invalid source classes fail the affected run without generating operational findings.
+- Canonical migration 005_controlled_pilot_coverage.sql added and included in repeatability validation.
+- Full repository CI passed at validation checkpoint c1ef35841e85fdc1d3b1c2c02cd88ef8ae379af2.
+- GitHub Actions run 32961649091 completed successfully: 62 passed in 0.91s on Python 3.11.16.
+- M6 controlled pilot baseline recorded as BASELINE_VALIDATED.
+- SOURCE_POLICY.md reconciled to the implemented source/provenance state.
+- EXTERNAL_INTEGRATIONS.md reconciled to the approved PROJECT_LOCAL_ONLY boundary.
+- M6 validation does not approve a production external source or live operational deployment.
+
 ## Current State
 
-- Documentation: RECONCILED
-- Engineering implementation: BASELINE_VALIDATED through M5
+- Documentation: RECONCILED through M6
+- Engineering implementation: BASELINE_VALIDATED through M6
 - M4 acceptance: PASS
-- M5 readiness: PASS
 - M5 full test cycle: PASS
-- M5 status: BASELINE_VALIDATED
+- M6 controlled pilot baseline: PASS
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED_PENDING_NEW_ARCHITECTURE_APPROVAL
-- Controlled pilot readiness: READY
+- Production external integrations: NONE_APPROVED
+- Current roadmap activity: Phase 5 Controlled Pilot Monitoring
+- Live public-source pilot: READY_FOR_INTEGRATION_REVIEW
 - Production/live operational status: NOT_OPERATIONAL
-- Next development activity: controlled pilot monitoring with explicit source and integration contracts
+- Next development activity: define and validate explicit live public-source integration records
