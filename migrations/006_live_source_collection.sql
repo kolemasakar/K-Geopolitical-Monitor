@@ -12,10 +12,11 @@ CREATE TABLE IF NOT EXISTS source_collection_runs (
 );
 
 CREATE TABLE IF NOT EXISTS live_source_provenance (
-    raw_item_id TEXT PRIMARY KEY,
+    raw_item_id TEXT NOT NULL,
     collection_id TEXT NOT NULL,
     original_url TEXT NOT NULL,
     metadata_json TEXT NOT NULL,
+    PRIMARY KEY(raw_item_id, collection_id),
     FOREIGN KEY(raw_item_id) REFERENCES raw_items(id),
     FOREIGN KEY(collection_id) REFERENCES source_collection_runs(collection_id)
 );
