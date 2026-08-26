@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 1.3
+Version: 1.4
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -10,7 +10,7 @@ Minimal Functional Core First.
 
 The project is developed through validation stages. Implementation does not equal validation.
 
-Implementation milestone labels M0-M5 are engineering work packages and are not identical to ROADMAP phase numbers.
+Implementation milestone labels M0-M6 are engineering work packages and are not identical to ROADMAP phase numbers.
 
 ## Phases
 
@@ -74,7 +74,14 @@ Expand carefully:
 - source classes;
 - scheduled monitoring.
 
-Project-local M5 operational baseline provides the validated foundation for this phase.
+Validated engineering foundation:
+- M5 project-local operational baseline: PASS;
+- M6 deterministic controlled pilot baseline: PASS;
+- project-local source adapter and provenance: PASS;
+- coverage reporting and explicit gaps: PASS.
+
+Next Phase 5 activity:
+- live public-source controlled pilot through explicit integration records and source-specific validation.
 
 ## Phase 6 - Strategic Alerts and Continuous Monitoring
 
@@ -118,14 +125,16 @@ Implement measurable coverage contracts and coverage confidence.
 
 - Product Concept: APPROVED
 - Roadmap: APPROVED
-- Engineering implementation: BASELINE_VALIDATED through M5
-- M4 validation: targeted acceptance PASS; full regression CI PASS
-- M5 readiness gate: PASS
+- Engineering implementation: BASELINE_VALIDATED through M6
+- M4 validation: PASS
 - M5 engineering work package: BASELINE_VALIDATED
 - M5 full test cycle: PASS - 57 tests, GitHub Actions run 32953343877
+- M6 Controlled Pilot Monitoring baseline: PASS - 62 tests, GitHub Actions run 32961649091
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED pending new explicit architecture approval
-- Next roadmap activity: Phase 5 Controlled Pilot Monitoring
+- Production external integrations: NONE_APPROVED
+- Current roadmap activity: Phase 5 Controlled Pilot Monitoring
+- Next gate: live public-source controlled pilot integration validation
 - Production/live operational status: NOT_OPERATIONAL
