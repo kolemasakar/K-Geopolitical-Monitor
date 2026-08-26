@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 1.1
+Version: 1.2
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -117,7 +117,9 @@ Implement measurable coverage contracts and coverage confidence.
 - Product Concept: APPROVED
 - Roadmap: APPROVED
 - Engineering implementation: BASELINE_IMPLEMENTED through M4
-- Validation: PARTIAL; M4 validation hardening required
-- M5 engineering work package: NOT_STARTED
-- M5 readiness: BLOCKED pending M4-to-M5 remediation and readiness gate
+- M4 validation: targeted acceptance PASS; full regression CI PASS
+- M5 readiness gate: PASS
+- M5 engineering work package: READY_TO_START; NOT_STARTED
+- Shared Infrastructure Architecture Review: COMPLETE; HYBRID recommended
+- Shared Infrastructure ADR: PROPOSED
 - Operational status: NOT_OPERATIONAL
