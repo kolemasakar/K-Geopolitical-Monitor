@@ -1,6 +1,6 @@
 # EXTERNAL_INTEGRATIONS
 
-Version: 0.3
+Version: 0.4
 Status: REVIEW_REQUIRED
 
 ## Purpose
@@ -51,18 +51,38 @@ Current cross-project rules:
 
 Any future shared runtime or cross-project write capability requires a new explicit architecture approval.
 
-## Controlled Pilot Boundary
+## Approved Controlled-Pilot External Integrations
 
-M6 controlled pilot monitoring is validated using deterministic project-local source fixtures.
+### Consilium Press Releases RSS
 
-This validates the integration boundary without approving a production external provider.
+Status: APPROVED_FOR_CONTROLLED_PILOT
+Class: Official sources
+Mode: public read-only RSS; no authentication
+Record: docs/integrations/CONSILIUM_RSS_CONTROLLED_PILOT.md
+Live smoke: PASS
 
-A live public-source pilot must create an integration record before activation and must define provider, data contract, provenance fields, failure behavior and Source of Truth.
+### GDELT DOC 2.0 API
+
+Status: APPROVED_FOR_CONTROLLED_PILOT
+Class: Structured data
+Mode: public read-only HTTPS API; no authentication
+Record: docs/integrations/GDELT_DOC2_CONTROLLED_PILOT.md
+Live smoke: PASS
+
+GDELT is used for discovery/index metadata only and is not treated as independent verification of linked publisher claims.
+
+## Failure Boundary
+
+- external-source failures fail closed at the affected adapter;
+- source failures are recorded in collection audit state;
+- one source failure must not block another source adapter;
+- deterministic CI does not depend on live network availability;
+- live network verification is isolated in a manual smoke workflow.
 
 ## Current State
 
-Production external integrations: NONE_APPROVED
-Controlled project-local pilot: VALIDATED
+Controlled-pilot external integrations approved: 2
+Controlled live-source acquisition: VALIDATED
+Production/global external integrations: NONE_APPROVED
 Cross-project runtime sharing: BLOCKED_BY_APPROVED_PROJECT_LOCAL_ONLY_BOUNDARY
-Baseline integration boundaries: DOCUMENTED
 Approval status: REVIEW_REQUIRED_FOR_PRODUCTION_INTEGRATIONS
