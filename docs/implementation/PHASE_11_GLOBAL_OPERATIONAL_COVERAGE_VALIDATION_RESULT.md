@@ -21,6 +21,16 @@ Final implementation regression before canonical reconciliation:
 - `226 passed in 17.67s`;
 - conclusion `success`.
 
+Post-reconciliation canonical regression:
+- commit `3f563174aabaf7d08353dbec4eb16e4f0611cbe5`;
+- GitHub Actions run `33001083797`;
+- job `98282814335`;
+- Python `3.11.16`;
+- `226 passed in 18.65s`;
+- conclusion `success`.
+
+The post-reconciliation run validates the cumulative Phase 11 state after README, ROADMAP, ARCHITECTURE, canonical history, implementation supplement and implementation-plan reconciliation.
+
 ## Validated Semantics
 
 - coverage_ratio measures satisfied required units;
@@ -36,4 +46,4 @@ Final implementation regression before canonical reconciliation:
 
 `PHASE_11_GLOBAL_OPERATIONAL_COVERAGE_BASELINE_PASS = PASS`
 
-ROADMAP Phase 11 is eligible for BASELINE_VALIDATED canonical reconciliation.
+ROADMAP Phase 11 is canonically recorded as BASELINE_VALIDATED.
