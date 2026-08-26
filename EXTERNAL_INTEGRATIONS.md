@@ -1,6 +1,6 @@
 # EXTERNAL_INTEGRATIONS
 
-Version: 0.2
+Version: 0.3
 Status: REVIEW_REQUIRED
 
 ## Purpose
@@ -38,21 +38,31 @@ Each integration requires:
 
 Repositories, databases, graphs, caches, indexes, datasets and services owned by another project are external integrations by default.
 
-They may become shared infrastructure only after an approved architecture decision defines:
+ADR_M5_SHARED_INFRASTRUCTURE.md is APPROVED and establishes HYBRID architecture with PROJECT_LOCAL_ONLY runtime storage for the current implementation line.
 
-- shared ownership;
-- canonical contracts;
-- read/write boundaries;
-- versioning;
-- compatibility policy;
-- failure isolation;
-- migration and rollback rules.
+Current cross-project rules:
 
-No implicit mixed storage or silent cross-project mutation is permitted.
+- no shared runtime database;
+- no implicit mixed storage;
+- no direct write access to another project's canonical store;
+- cross-project exchange requires a versioned contract, export or API;
+- cross-project reads are external integrations unless explicitly promoted by a later architecture decision;
+- failures in one project must not corrupt another project's canonical state.
+
+Any future shared runtime or cross-project write capability requires a new explicit architecture approval.
+
+## Controlled Pilot Boundary
+
+M6 controlled pilot monitoring is validated using deterministic project-local source fixtures.
+
+This validates the integration boundary without approving a production external provider.
+
+A live public-source pilot must create an integration record before activation and must define provider, data contract, provenance fields, failure behavior and Source of Truth.
 
 ## Current State
 
-No production external integration is approved yet.
-Cross-project resource sharing: NOT_APPROVED_PENDING_SHARED_INFRASTRUCTURE_REVIEW
+Production external integrations: NONE_APPROVED
+Controlled project-local pilot: VALIDATED
+Cross-project runtime sharing: BLOCKED_BY_APPROVED_PROJECT_LOCAL_ONLY_BOUNDARY
 Baseline integration boundaries: DOCUMENTED
-Approval status: REVIEW_REQUIRED
+Approval status: REVIEW_REQUIRED_FOR_PRODUCTION_INTEGRATIONS
