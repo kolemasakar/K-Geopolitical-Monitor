@@ -1,6 +1,6 @@
 # Phase 11 Global Operational Coverage Implementation Plan
 
-Status: ACTIVE
+Status: COMPLETED
 Date: 2026-08-26
 Project: K-Geopolitical Monitor
 Roadmap phase: Phase 11 - Global Operational Coverage
@@ -16,7 +16,6 @@ No new engineering milestone number is assigned by this plan.
 Phase 11 is a coverage measurement layer, not a verification engine, discovery engine or report truth store.
 
 Canonical upstream ownership remains:
-
 - M6 historical pilot source-class coverage;
 - M7 live source collection/audit state;
 - M8 evidence and verification truth;
@@ -38,92 +37,40 @@ Phase 11 may reference and summarize these stores but must not rewrite their tru
 - graph degree is not coverage;
 - forecast count/probability is not coverage;
 - a GLOBAL scope key is not a claim of universal coverage;
-- unsupported dimensions must remain explicit UNMEASURED limitations;
+- unsupported dimensions remain explicit UNMEASURED limitations;
 - production/live operational status remains NOT_OPERATIONAL unless separately approved.
 
-## Proposed Durable Schema
+## Durable Schema
 
-Use migration `016_global_operational_coverage.sql` if implementation confirms no existing table can safely hold these contracts.
+Implemented migrations:
+- `016_global_operational_coverage.sql`;
+- `017_source_collection_attempts.sql`.
 
 ### `operational_coverage_contracts`
 
-Purpose:
-- durable identity for an explicitly declared coverage scope.
-
-Minimum fields:
-- coverage_contract_id;
-- scope_key;
-- name;
-- watch_id or explicit project scope;
-- assessment_window_seconds;
-- freshness_requirement_seconds;
-- active;
-- created_at;
-- updated_at.
-
-Identity must be deterministic for the normalized contract definition or otherwise versioned explicitly. Updating material requirements must never silently rewrite historical assessment meaning.
+Durable identity for an explicitly declared coverage scope, including scope key, optional watch scope, assessment window and freshness requirement.
 
 ### `operational_coverage_requirements`
 
-Purpose:
-- normalized required coverage units.
+Normalized required coverage units with deterministic requirement identity and typed dimensions.
 
-Minimum fields:
-- requirement_id;
-- coverage_contract_id;
-- dimension;
-- requirement_key;
-- required;
-- parameters_json;
-- created_at.
-
-Initial measurable requirement dimensions should converge existing canonical state rather than invent new domains:
-
+Initial measurable dimensions:
 - SOURCE_CLASS;
-- SOURCE_ID / SOURCE_AVAILABILITY where an approved source identity exists;
+- SOURCE_ID / SOURCE_AVAILABILITY;
 - REGION_LANGUAGE;
 - FRESHNESS.
 
-Approved Coverage Contract dimensions that lack canonical measurement state may be declared but must evaluate as UNMEASURED until separately implemented.
+Declared dimensions without canonical measurement state evaluate as UNMEASURED.
 
 ### `operational_coverage_snapshots`
 
-Purpose:
-- immutable reproducible coverage assessment at a specific time/window.
-
-Minimum fields:
-- coverage_snapshot_id;
-- coverage_contract_id;
-- assessed_at;
-- window_start;
-- window_end;
-- required_count;
-- satisfied_count;
-- gap_count;
-- unavailable_count;
-- stale_count;
-- unknown_count;
-- unmeasured_count;
-- coverage_ratio;
-- coverage_confidence;
-- limitations_json;
-- created_at.
+Immutable reproducible coverage assessment at a specific time/window, preserving aggregate status counts, coverage_ratio, coverage_confidence and limitations.
 
 ### `operational_coverage_requirement_results`
 
-Purpose:
-- explain every aggregate number with per-requirement state.
-
-Minimum fields:
-- coverage_snapshot_id;
-- requirement_id;
-- status;
-- evidence_refs_json;
-- explanation;
-- measured_at.
+Per-requirement explanation, evidence references, measured time and explicit status.
 
 Allowed baseline statuses:
-
 - SATISFIED;
 - GAP;
 - UNAVAILABLE;
@@ -131,25 +78,21 @@ Allowed baseline statuses:
 - UNKNOWN;
 - UNMEASURED.
 
+### `source_collection_attempts`
+
+Per-source collection-attempt identity/state used to distinguish successful zero-item acquisition, failed/unavailable acquisition, stale acquisition and absence of assessment.
+
 ## Metric Definitions
 
 ### Coverage ratio
 
-For an assessment with N required units:
+`coverage_ratio = satisfied_count / required_count`
 
-`coverage_ratio = satisfied_count / N`
-
-If N is zero, the contract is invalid rather than automatically 100 percent covered.
-
-UNAVAILABLE, STALE, UNKNOWN and UNMEASURED requirements are not satisfied.
+A zero-required-unit contract is invalid. UNAVAILABLE, STALE, UNKNOWN and UNMEASURED are not satisfied.
 
 ### Coverage confidence
 
-Coverage confidence is confidence in the coverage assessment, not in geopolitical truth.
-
-Baseline deterministic definition:
-
-`coverage_confidence = known_assessment_count / N`
+`coverage_confidence = known_assessment_count / required_count`
 
 Known assessment statuses:
 - SATISFIED;
@@ -159,153 +102,101 @@ Known assessment statuses:
 
 UNKNOWN and UNMEASURED reduce coverage confidence.
 
-This allows high confidence in a poor coverage result and prevents false equivalence between completeness and confidence.
+Coverage confidence is confidence in the coverage assessment, not geopolitical factual confidence.
 
 ## Measurement Adapters
 
-### M6 source-class adapter
+### M6/M7 source-class adapter
 
-Read existing source/source-class and pilot coverage state to evaluate explicit SOURCE_CLASS requirements.
-
-Do not reuse the old M6 source-class coverage_confidence as cross-dimensional Phase 11 confidence.
+SOURCE_CLASS requirements converge historical source-class coverage and live per-source attempt state without reusing M6 source-class completeness as cross-dimensional confidence.
 
 ### M7 source availability adapter
 
-Use source collection audit state within the assessment window to distinguish:
-
-- successful acquisition;
-- unavailable/failed source;
-- unknown/no assessment;
-- stale prior acquisition.
-
-A zero-item successful source fetch is not automatically equivalent to source failure.
+Per-source collection attempts distinguish successful acquisition, unavailable/failed source, unknown/no assessment and stale acquisition. A successful zero-item fetch remains a successful availability attempt.
 
 ### M10 region/language adapter
 
-Use configured watch requirements and persisted attribution/coverage reports to evaluate REGION_LANGUAGE units.
-
-A region/language unit that is historically observed but outside the freshness window must be STALE rather than SATISFIED.
-
-Translation attribution remains coverage metadata and never creates source independence.
+REGION_LANGUAGE requirements use watch-scoped configured requirements and persisted attribution/coverage state. Stale observations remain STALE. Translation attribution remains metadata and never creates source independence.
 
 ### Freshness evaluator
 
-Evaluate relevant persisted collection/attribution timestamps against the explicit contract freshness requirement.
+Freshness is evaluated from persisted measurement timestamps against the explicit freshness requirement.
 
-Freshness status must be reproducible from persisted timestamps only.
+## Source Identity Integrity
 
-## Source Identity Hardening Prerequisite
-
-Before M7 source availability can be accepted as Phase 11 coverage evidence, LiveSourceCollector must fail closed if a returned LiveSourceItem source identity does not match the declaring adapter:
-
-- source_id;
-- source_name;
-- source_class.
-
-Add regression coverage for adapter/item identity mismatch.
-
-This hardening must not modify the meaning of existing successful M7 collections.
+LiveSourceCollector fails closed when a returned LiveSourceItem source_id, source_name or source_class does not match the declaring adapter. Identity mismatch is rejected before ingestion.
 
 ## Phase 11 Engineering Gates
 
 ### P11.1 Coverage Contract and Durable Snapshot Foundation
 
-Deliver:
-- migration 016;
-- deterministic/version-safe contract identity;
-- typed requirements;
-- immutable assessment snapshots;
-- per-requirement result persistence;
-- restart/idempotence tests.
-
 Gate:
-`P11_1_COVERAGE_CONTRACT_FOUNDATION_VALIDATED`
+`P11_1_COVERAGE_CONTRACT_FOUNDATION_VALIDATED = PASS`
+
+Evidence:
+- run `32996565227`;
+- `203 passed in 15.48s`.
 
 ### P11.2 Source Availability and Identity Integrity
 
-Deliver:
-- M7 adapter/item source-identity fail-closed hardening;
-- source availability measurement from collection audits;
-- COMPLETED/PARTIAL/FAILED history interpreted without hiding individual failures;
-- UNKNOWN/UNAVAILABLE/STALE distinction.
-
 Gate:
-`P11_2_SOURCE_AVAILABILITY_VALIDATED`
+`P11_2_SOURCE_AVAILABILITY_VALIDATED = PASS`
+
+Evidence:
+- run `32997440380`;
+- `210 passed in 16.63s`.
 
 ### P11.3 Region, Language, Source-Class and Freshness Convergence
 
-Deliver:
-- M6 SOURCE_CLASS adapter;
-- M10 REGION_LANGUAGE adapter;
-- explicit freshness evaluation;
-- no cross-watch leakage;
-- explicit UNMEASURED state for unsupported declared dimensions.
-
 Gate:
-`P11_3_DIMENSION_CONVERGENCE_VALIDATED`
+`P11_3_DIMENSION_CONVERGENCE_VALIDATED = PASS`
+
+Evidence:
+- run `32997961490`;
+- `217 passed in 27.46s`.
 
 ### P11.4 Coverage Ratio and Coverage Confidence
 
-Deliver:
-- deterministic aggregate counts;
-- coverage_ratio;
-- coverage_confidence as assessment observability;
-- gap/unavailable/stale/unknown/unmeasured breakdown;
-- no source-count based inflation;
-- exact explanation/evidence refs for every requirement result.
-
 Gate:
-`P11_4_COVERAGE_METRICS_VALIDATED`
+`P11_4_COVERAGE_METRICS_VALIDATED = PASS`
+
+Evidence:
+- run `32999092257`;
+- `219 passed in 20.55s`.
 
 ### P11.5 Historical Query and Reporting Integration
 
-Deliver:
-- latest snapshot query;
-- snapshot history;
-- persistent gap/limitation visibility over time;
-- M13 COVERAGE_METADATA integration using explicit coverage snapshot references;
-- Global/Regional report output that never hides UNKNOWN/UNMEASURED limitations.
-
 Gate:
-`P11_5_COVERAGE_REPORTING_VALIDATED`
+`P11_5_COVERAGE_REPORTING_VALIDATED = PASS`
+
+Evidence:
+- run `32999835225`;
+- `223 passed in 83.96s`.
 
 ### P11.6 Isolation and Global-Claim Boundary
 
-Cross-layer regression must prove:
-
-- Phase 11 coverage evaluation does not change M8 verification status/confidence/origin count;
-- region/language metadata still cannot create source independence;
-- M11 graph state is unchanged;
-- M12 forecast state is unchanged;
+Validated:
+- Phase 11 does not change M8 verification status/confidence/origin count;
+- region/language metadata does not create source independence;
+- M11 graph state remains unchanged;
+- M12 forecast state remains unchanged;
 - M13 report snapshots remain immutable;
 - runtime DB remains project-local;
-- GLOBAL scope does not suppress explicit gaps or limitations;
-- completion of this engineering phase does not automatically set production/live status to OPERATIONAL.
+- GLOBAL scope retains explicit gaps and limitations;
+- Phase 11 does not set production/live status to OPERATIONAL.
 
 Gate:
-`PHASE_11_GLOBAL_OPERATIONAL_COVERAGE_BASELINE_PASS`
+`PHASE_11_GLOBAL_OPERATIONAL_COVERAGE_BASELINE_PASS = PASS`
 
-## Acceptance Scenarios
-
-At minimum test:
-
-1. all measurable required units satisfied and fresh;
-2. one source unavailable while other requirements are measurable;
-3. stale region/language observation;
-4. unknown source because no collection exists in the assessment window;
-5. unsupported actor/storyline dimension remains UNMEASURED;
-6. identical contract/snapshot evaluation is deterministic and restart-safe;
-7. materially changed contract requirements preserve old snapshot meaning;
-8. cross-watch observations cannot satisfy another watch contract;
-9. graph/forecast/report quantity cannot increase coverage;
-10. coverage evaluation leaves M8 truth unchanged;
-11. returned live item with mismatched adapter source identity fails closed;
-12. GLOBAL scope with explicit gaps renders those gaps rather than claiming completeness.
+Evidence:
+- commit `40dfaa40869a547a3889ab18750676e8b84b4885`;
+- run `33000478908`;
+- job `98280686810`;
+- `226 passed in 17.67s`.
 
 ## Reporting Semantics
 
-Phase 11 coverage output should expose at least:
-
+Phase 11 reporting exposes:
 - scope key;
 - assessment window;
 - freshness requirement;
@@ -318,28 +209,28 @@ Phase 11 coverage output should expose at least:
 - unknown requirements;
 - unmeasured limitations;
 - typed evidence references;
-- explanation of the metric definitions.
+- metric definitions.
 
-M13 remains the renderer/presentation layer.
+M13 remains the renderer/presentation layer and existing M13 report tables remain the canonical report store.
 
 ## Non-Goals
 
-This baseline does not itself add:
-
+This baseline does not add:
+- universal/global source coverage;
 - new global source providers;
 - paid data providers;
 - automatic translation;
 - canonical actor coverage domain;
 - canonical storyline truth domain;
-- a country taxonomy separate from the existing region registry;
+- separate country taxonomy;
 - shared runtime infrastructure;
 - production dashboards;
 - production/global OPERATIONAL approval.
 
-These require separate explicit decisions where needed.
+## Completion Result
 
-## Completion Rule
+All P11.1-P11.6 gates are green.
 
-Phase 11 may be recorded as an engineering `BASELINE_VALIDATED` only after P11.1-P11.6 are green in the full deterministic regression suite.
+`PHASE_11_GLOBAL_OPERATIONAL_COVERAGE_BASELINE_PASS = PASS`
 
-Even then, the phrase `Global Operational Coverage` refers to the validated coverage measurement capability, not proof that the system already monitors the entire world with complete real-time source coverage.
+ROADMAP Phase 11 is an engineering BASELINE_VALIDATED capability. The phrase Global Operational Coverage means the system can explicitly define, measure, persist, query and report coverage state; it is not a claim that the entire world is already monitored completely or in real time.
