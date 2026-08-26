@@ -1,6 +1,6 @@
 # M11 Advanced Geopolitical Graph Plan
 
-Status: ACTIVE
+Status: COMPLETED
 Date: 2026-08-26
 Project: K-Geopolitical Monitor
 Roadmap phase: Phase 8 - Advanced Geopolitical Graph
@@ -24,225 +24,120 @@ Runtime storage remains PROJECT_LOCAL_ONLY.
 - Graph inference is not source evidence.
 - Graph confidence must not increase M8 claim confidence or independent-origin count.
 - Graph operations must not automatically assign VERIFIED status.
-- Existing M4 public behavior must remain compatible unless a migration is explicitly documented and tested.
-- Every persisted edge that represents an observed or inferred geopolitical relationship must retain provenance/evidence references and an explanation.
-- Invalidation must preserve history; destructive deletion is not the baseline lifecycle mechanism.
+- Existing M4 public behavior remains compatible.
+- Persisted analytical relationships retain evidence/provenance references and explanations.
+- Invalidation preserves history rather than destructively deleting the relationship.
 
-## Canonical Graph Model
+## Completed Gates
 
-### Graph Node
+### M11.1 Graph Convergence and Durable Schema
 
-Required fields:
+Result: PASS
 
-- node_id;
-- node_kind;
-- canonical_ref_type;
-- canonical_ref_id;
-- label;
-- attributes_json;
-- created_at;
-- updated_at.
-
-Baseline node kinds:
-
-- ACTOR;
-- EVENT;
-- CLAIM;
-- FINDING;
-- SOURCE;
-- REGION.
-
-Actor specialization should use explicit actor metadata rather than a second actor graph store.
-
-### Graph Edge
-
-Required fields:
-
-- edge_id;
-- source_node_id;
-- target_node_id;
-- relation_type;
-- relation_class;
-- confidence;
-- status;
-- valid_from;
-- valid_to;
-- first_observed_at;
-- last_observed_at;
-- explanation;
-- created_at;
-- updated_at.
-
-Baseline relation classes:
-
-- STRUCTURAL;
-- PARTICIPATION;
-- POLITICAL;
-- SECURITY;
-- ECONOMIC;
-- CAUSAL;
-- INFLUENCE;
-- TEMPORAL;
-- CONTEXTUAL.
-
-Baseline edge statuses:
-
-- ACTIVE;
-- UPDATED;
-- INVALIDATED;
-- RESOLVED.
-
-### Edge Evidence
-
-Graph evidence references must be persisted separately from relation identity so that the same relation can accumulate multiple traceable support records without creating duplicate edges.
-
-Required fields:
-
-- edge_id;
-- evidence_ref;
-- evidence_role;
-- added_at.
-
-Baseline evidence roles:
-
-- SUPPORTS;
-- CONTRADICTS;
-- CONTEXT;
-
-## Deterministic Identity
-
-Graph projection must be idempotent.
-
-- Node identity is deterministic from canonical reference type and canonical reference ID.
-- Edge identity is deterministic from source node, target node, relation type and the relation identity contract.
-- Reprocessing the same canonical object must not create duplicate nodes or duplicate logical edges.
-- New supporting evidence may update the existing edge and its evidence set.
-
-## M11.1 Graph Convergence and Durable Schema
-
-Implement:
-
-- canonical graph dataclasses/contracts;
+Delivered:
 - migration `010_advanced_geopolitical_graph.sql`;
 - durable graph node, edge, edge-evidence and edge-history tables;
-- compatibility adapters for validated M4 KnowledgeGraph behavior;
-- explicit deprecation path for duplicate M2/M4 in-memory repository fragments without breaking current acceptance tests.
+- deterministic graph identities;
+- M4 compatibility projection;
+- project-local SQLite graph repository.
 
 Gate:
-M11_1_GRAPH_CONVERGENCE_VALIDATED
+M11_1_GRAPH_CONVERGENCE_VALIDATED = PASS
 
-## M11.2 Actor and Event Projection
+### M11.2 Actor and Event Projection
 
-Implement deterministic projection from canonical project objects into graph nodes.
+Result: PASS
 
-Actor baseline:
-
-- countries;
-- governments/organizations;
-- persons when explicitly represented;
-- other actor types through typed metadata.
-
-Event baseline:
-
-- canonical events;
-- M8 live-analysis claims/findings only through explicit reference nodes when required for traceability;
-- no graph-generated event may silently become a canonical verified event.
-
-Requirements:
-
-- restart persistence;
-- idempotent repeated projection;
-- canonical references retained;
-- no cross-watch or cross-project leakage.
+Delivered:
+- explicit canonical actor-reference projection;
+- canonical event projection;
+- explicit M8 claim and operational finding reference nodes;
+- restart persistence and repeated-projection idempotence;
+- same-project database enforcement.
 
 Gate:
-M11_2_ACTOR_EVENT_PROJECTION_VALIDATED
+M11_2_ACTOR_EVENT_PROJECTION_VALIDATED = PASS
 
-## M11.3 Evidence-Backed Relationship Lifecycle
+### M11.3 Evidence-Backed Relationship Lifecycle
 
-Extend relationship intelligence with:
+Result: PASS
 
-- typed geopolitical relation classes;
-- provenance/evidence references;
-- confidence bounded to 0..1;
-- ACTIVE/UPDATED/INVALIDATED/RESOLVED lifecycle;
-- evidence accumulation without duplicate edge creation;
-- contradiction/context evidence roles;
-- preserved history for every material state transition.
-
-Relationship confidence is graph-layer confidence only and must not modify upstream evidence confidence.
+Delivered:
+- typed relationship classes;
+- SUPPORTS / CONTRADICTS / CONTEXT evidence roles;
+- ACTIVE / UPDATED / INVALIDATED / RESOLVED lifecycle;
+- material change history;
+- evidence accumulation without duplicate logical edges;
+- graph-local confidence semantics.
 
 Gate:
-M11_3_RELATIONSHIP_LIFECYCLE_VALIDATED
+M11_3_RELATIONSHIP_LIFECYCLE_VALIDATED = PASS
 
-## M11.4 Temporal and Causal Graph
+### M11.4 Temporal and Causal Graph
 
-Implement:
+Result: PASS
 
-- valid_from / valid_to intervals;
-- first_observed_at / last_observed_at;
-- deterministic time-ordered relationship history;
-- graph snapshot queries for a requested time;
-- causal/influence edge classes;
-- bounded causal traversal;
-- cycle-safe traversal;
-- invalidated relations excluded from current-state queries but retained historically.
+Delivered:
+- historical state reconstruction;
+- valid_from / valid_to filtering;
+- current and historical snapshots;
+- bounded cycle-safe CAUSAL / INFLUENCE traversal;
+- deterministic semantic ordering;
+- current-state exclusion of invalidated/resolved relationships.
 
 Gate:
-M11_4_TEMPORAL_CAUSAL_GRAPH_VALIDATED
+M11_4_TEMPORAL_CAUSAL_GRAPH_VALIDATED = PASS
 
-## M11.5 Advanced Intelligence Query
+### M11.5 Advanced Intelligence Query
 
-Extend `IntelligenceQuery` rather than replacing it.
+Result: PASS
 
-Add deterministic queries for:
-
+Delivered by extending `IntelligenceQuery` rather than replacing it:
 - direct neighborhood;
 - bounded multi-hop paths;
 - actor-to-actor relationships;
 - actor-to-event participation;
-- current vs historical relation state;
-- causal/influence chains;
-- evidence-backed explanations.
-
-Every advanced query result must be explainable through graph IDs, canonical references and evidence references.
+- current vs historical relationship state;
+- causal/influence paths;
+- graph-ID, canonical-reference and evidence-reference explanations.
 
 Gate:
-M11_5_ADVANCED_QUERY_VALIDATED
+M11_5_ADVANCED_QUERY_VALIDATED = PASS
 
-## M11.6 Isolation and Regression Gate
+### M11.6 Isolation and Regression Gate
 
-Validate:
+Result: PASS
 
-- all existing M4 acceptance tests remain green;
-- migration execution is idempotent;
-- graph state survives runtime restart;
-- repeated projection is idempotent;
-- graph history survives invalidation/update cycles;
-- graph inference does not change M8 claim confidence;
-- graph inference does not change independent-origin count;
-- M10 region/language metadata does not create source independence;
-- runtime database remains project-local;
-- no external graph service is required;
-- full deterministic repository regression CI passes.
+Validated:
+- M4 acceptance compatibility;
+- migration idempotence;
+- graph restart persistence;
+- repeated projection idempotence;
+- lifecycle history persistence;
+- graph operations do not change M8 claim confidence;
+- graph operations do not change independent-origin count;
+- M10 region/language and translation metadata does not create source independence;
+- runtime storage remains project-local;
+- no external graph provider is required;
+- full deterministic repository regression passes.
+
+Final gate evidence:
+- GitHub Actions run 32973378757;
+- 118 passed in 4.24s.
 
 Gate:
-M11_ADVANCED_GEOPOLITICAL_GRAPH_BASELINE_PASS
-
-## Initial Implementation Order
-
-1. Add migration 010 and graph persistence contracts.
-2. Add durable graph repository while preserving M4 interfaces.
-3. Add deterministic node/edge projection helpers.
-4. Add actor/event projection acceptance tests.
-5. Add relationship evidence and lifecycle semantics.
-6. Add temporal/causal history semantics.
-7. Extend IntelligenceQuery.
-8. Add isolation and confidence-non-inflation regressions.
-9. Run full CI and record completion/validation artifacts.
+M11_ADVANCED_GEOPOLITICAL_GRAPH_BASELINE_PASS = PASS
 
 ## Completion Boundary
 
-M11 is complete only when all M11 gates pass and the full deterministic regression suite succeeds.
+M11 is complete.
 
-M11 completion may validate the ROADMAP Phase 8 engineering baseline. It does not approve production/global operational status, shared runtime storage, external graph providers or automatic verification promotion.
+ROADMAP Phase 8 Advanced Geopolitical Graph engineering baseline: BASELINE_VALIDATED.
+
+M11 completion does not approve production/global operational status, shared runtime storage, external graph providers, automatic verification promotion, external notification providers or automatic translation providers.
+
+## Next
+
+ROADMAP Phase 9 - Advanced Forecasting.
+
+Next engineering work package: M12 Advanced Forecasting preparation and delta audit.
