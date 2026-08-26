@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 1.0
+Version: 1.1
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -9,6 +9,8 @@ Project: K-Geopolitical Monitor
 Minimal Functional Core First.
 
 The project is developed through validation stages. Implementation does not equal validation.
+
+Implementation milestone labels M0-M5 are engineering work packages and are not identical to ROADMAP phase numbers.
 
 ## Phases
 
@@ -110,8 +112,12 @@ Support:
 
 Implement measurable coverage contracts and coverage confidence.
 
-## Current state
+## Current implementation checkpoint
 
-Product Concept: APPROVED
-Roadmap: APPROVED
-Implementation: NOT STARTED
+- Product Concept: APPROVED
+- Roadmap: APPROVED
+- Engineering implementation: BASELINE_IMPLEMENTED through M4
+- Validation: PARTIAL; M4 validation hardening required
+- M5 engineering work package: NOT_STARTED
+- M5 readiness: BLOCKED pending M4-to-M5 remediation and readiness gate
+- Operational status: NOT_OPERATIONAL
