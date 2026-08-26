@@ -68,17 +68,32 @@ This file records implementation-specific milestones and must not override the c
 - Runtime storage remained PROJECT_LOCAL_ONLY.
 - M8 and ROADMAP Phase 5 engineering baseline recorded as BASELINE_VALIDATED.
 
+## 2026-08-26 - M9 strategic alerts
+
+- Migration 008 added alert policy, alert state and alert event persistence.
+- Alert triggers use persisted M8 findings and verification status.
+- Stable normalized-title deduplication and cross-cycle alert update implemented.
+- Invalidation and resolution preserve history and do not silently reopen.
+- Priority orders due watches but does not change confidence or cadence eligibility.
+- Restart persistence validated.
+- GitHub Actions run 32965231876: 80 passed in 1.58s.
+- Hardened GitHub Actions run 32965387054: 82 passed in 1.71s.
+- M9 and ROADMAP Phase 6 engineering baseline recorded as BASELINE_VALIDATED.
+
 ## Current Implementation Checkpoint
 
-- Engineering implementation: BASELINE_VALIDATED through M8
+- Engineering implementation: BASELINE_VALIDATED through M9
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
+- ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
 - M5 full test cycle: PASS
 - M6 controlled pilot baseline: PASS
 - M7 live public-source pilot: PASS
 - M8 live end-to-end controlled pilot: PASS
+- M9 strategic alert baseline: PASS
 - Runtime storage: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: NOT_ENABLED
+- External notification providers: NONE_APPROVED
 - Production external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 6 Strategic Alerts and Continuous Monitoring preparation
-- Next engineering milestone: M9 Strategic Alerts and Continuous Monitoring baseline
+- Current roadmap activity: Phase 7 Multi-Region Expansion preparation
+- Next engineering milestone: M10 Multi-Region and Language Coverage baseline
 - Production/live operational status: NOT_OPERATIONAL
