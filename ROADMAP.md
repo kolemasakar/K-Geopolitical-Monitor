@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 1.6
+Version: 1.7
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -10,7 +10,7 @@ Minimal Functional Core First.
 
 The project is developed through validation stages. Implementation does not equal validation.
 
-Implementation milestone labels M0-M9 are engineering work packages and are not identical to ROADMAP phase numbers.
+Implementation milestone labels M0-M10 are engineering work packages and are not identical to ROADMAP phase numbers.
 
 ## Phases
 
@@ -98,20 +98,44 @@ Add:
 - invalidation detection;
 - priority watches.
 
-Current preparation scope:
-- define alert trigger contracts;
-- define invalidation and retraction behavior;
-- define watch priority and escalation semantics;
-- define continuous-monitoring cadence and recovery rules;
-- define operational approval and notification boundaries;
-- preserve PROJECT_LOCAL_ONLY runtime storage unless a new architecture approval explicitly changes it.
+Validated engineering foundation:
+- persisted watch alert policies: PASS;
+- importance/confidence/verification-rank trigger thresholds: PASS;
+- traceable finding-to-alert projection: PASS;
+- stable normalized-title alert deduplication: PASS;
+- repeated-evaluation idempotence: PASS;
+- cross-cycle alert update: PASS;
+- OPEN/UPDATED/INVALIDATED/RESOLVED state support: PASS;
+- explicit invalidation history: PASS;
+- restart persistence: PASS;
+- NORMAL/HIGH/CRITICAL priority ordering: PASS;
+- priority/cadence separation: PASS;
+- project-local runtime storage: PASS.
 
-Current engineering activity:
-- M9 Strategic Alerts and Continuous Monitoring baseline preparation.
+M9 hardened regression:
+- GitHub Actions run 32965387054;
+- 82 passed in 1.71s.
+
+Phase 6 engineering baseline status:
+BASELINE_VALIDATED
+
+Phase 6 completion does not approve external notification providers, unattended production scheduling, global coverage, shared runtime storage or production/live OPERATIONAL status.
 
 ## Phase 7 - Multi-Region Expansion
 
 Expand regional and language coverage.
+
+Current preparation scope:
+- define canonical region identifiers and region groups;
+- define language coverage metadata independent from evidence truth;
+- bind monitoring watches to explicit region/language scope;
+- measure region/language coverage and gaps;
+- ensure region or language priority does not inflate verification confidence;
+- preserve original-source provenance across translated or indexed observations;
+- preserve PROJECT_LOCAL_ONLY runtime storage.
+
+Current engineering activity:
+- M10 Multi-Region and Language Coverage baseline preparation.
 
 ## Phase 8 - Advanced Geopolitical Graph
 
@@ -144,20 +168,23 @@ Implement measurable coverage contracts and coverage confidence.
 
 - Product Concept: APPROVED
 - Roadmap: APPROVED
-- Engineering implementation: BASELINE_VALIDATED through M8
+- Engineering implementation: BASELINE_VALIDATED through M9
 - M5 full test cycle: PASS - 57 tests, GitHub Actions run 32953343877
 - M6 controlled pilot baseline: PASS - 62 tests, GitHub Actions run 32961649091
 - M7 deterministic regression: PASS - 68 tests, GitHub Actions run 32962379499
 - M7 live source smoke: PASS - GitHub Actions run 32962576874
 - M8 deterministic regression: PASS - 73 tests, GitHub Actions run 32963096313
 - M8 live end-to-end controlled pilot: PASS - GitHub Actions run 32963354135
+- M9 hardened regression: PASS - 82 tests, GitHub Actions run 32965387054
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
+- ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED pending new explicit architecture approval
 - Controlled-pilot external integrations: 2
+- External notification providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 6 Strategic Alerts and Continuous Monitoring preparation
-- Next engineering gate: M9 Strategic Alerts and Continuous Monitoring baseline
+- Current roadmap activity: Phase 7 Multi-Region Expansion preparation
+- Next engineering gate: M10 Multi-Region and Language Coverage baseline
 - Production/live operational status: NOT_OPERATIONAL
