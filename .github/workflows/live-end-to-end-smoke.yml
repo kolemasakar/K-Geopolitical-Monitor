@@ -1,0 +1,29 @@
+name: Live End-to-End Smoke
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "scripts/live_end_to_end_smoke.py"
+      - "src/kgeopolitical_monitor/live_end_to_end.py"
+      - "src/kgeopolitical_monitor/live_sources.py"
+      - ".github/workflows/live-end-to-end-smoke.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install project
+        run: python -m pip install -e .
+      - name: Run live end-to-end controlled pilot smoke
+        run: python scripts/live_end_to_end_smoke.py
