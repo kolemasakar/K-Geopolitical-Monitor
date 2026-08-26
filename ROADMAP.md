@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 1.2
+Version: 1.3
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -74,6 +74,8 @@ Expand carefully:
 - source classes;
 - scheduled monitoring.
 
+Project-local M5 operational baseline provides the validated foundation for this phase.
+
 ## Phase 6 - Strategic Alerts and Continuous Monitoring
 
 Add:
@@ -116,10 +118,14 @@ Implement measurable coverage contracts and coverage confidence.
 
 - Product Concept: APPROVED
 - Roadmap: APPROVED
-- Engineering implementation: BASELINE_IMPLEMENTED through M4
+- Engineering implementation: BASELINE_VALIDATED through M5
 - M4 validation: targeted acceptance PASS; full regression CI PASS
 - M5 readiness gate: PASS
-- M5 engineering work package: READY_TO_START; NOT_STARTED
-- Shared Infrastructure Architecture Review: COMPLETE; HYBRID recommended
-- Shared Infrastructure ADR: PROPOSED
-- Operational status: NOT_OPERATIONAL
+- M5 engineering work package: BASELINE_VALIDATED
+- M5 full test cycle: PASS - 57 tests, GitHub Actions run 32953343877
+- Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
+- Shared Infrastructure ADR: APPROVED
+- Runtime storage mode: PROJECT_LOCAL_ONLY
+- Mixed/shared runtime storage: BLOCKED pending new explicit architecture approval
+- Next roadmap activity: Phase 5 Controlled Pilot Monitoring
+- Production/live operational status: NOT_OPERATIONAL
