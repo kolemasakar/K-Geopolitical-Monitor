@@ -1,7 +1,7 @@
 # ARCHITECTURE
 Technical architecture definition for K-Geopolitical Monitor.
 
-Version: 1.8
+Version: 1.9
 Status: APPROVED
 
 ## Purpose
@@ -14,7 +14,7 @@ Minimal Functional Core before global expansion.
 
 ## Logical Layers
 
-Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Processing -> Verification -> Analysis -> Forecasting -> Reporting -> Operational Monitoring -> Coverage -> Strategic Alerts -> Region/Language Scope -> Advanced Geopolitical Graph
+Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Processing -> Verification -> Analysis -> Forecasting -> Reporting -> Operational Monitoring -> Coverage -> Strategic Alerts -> Region/Language Scope -> Advanced Geopolitical Graph -> Advanced Forecasting
 
 ## Core Components
 
@@ -34,7 +34,8 @@ Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Pr
 - Live End-to-End Analysis
 - Strategic Alert Layer
 - Region/Language Coverage Layer
-- Advanced Geopolitical Graph - next baseline
+- Advanced Geopolitical Graph
+- Advanced Forecasting - next baseline
 
 ## Implemented and Validated Baseline
 
@@ -44,38 +45,23 @@ The repository contains validated baselines for:
 - evidence and verification;
 - event intelligence and correlation;
 - forecasting and adaptive-learning components;
-- M4 knowledge graph and relationship analysis;
-- causal and temporal graph analysis;
-- intelligence query baseline;
-- project-local monitoring watch and run persistence;
-- controlled monitoring cycle orchestration;
-- failure isolation, retry metadata and interrupted-run recovery;
-- ranked operational findings with evidence references and explanation requirements;
-- deterministic project-local controlled-source ingestion;
-- source-class enforcement and source/raw-item provenance persistence;
-- persistent pilot coverage reports;
-- live read-only Consilium RSS acquisition;
-- live read-only GDELT DOC 2.0 discovery acquisition;
-- per-source live collection failure isolation and collection audit;
-- deterministic source identities and repeated-collection provenance;
-- collection-scoped live analysis;
-- deterministic claim grouping;
-- original-origin evidence independence;
-- DETECTED/PARTLY_VERIFIED M8 baseline status handling;
-- project-local live operational finding projection with claim/raw-item/origin traceability;
-- real-network PARTIAL collection continuation under external-source failure;
-- persisted strategic-alert policies;
-- evidence-aware strategic-alert triggers;
-- stable alert deduplication and cross-cycle updates;
-- OPEN/UPDATED/INVALIDATED/RESOLVED strategic-alert state;
-- persistent strategic-alert event history;
-- alert restart persistence;
-- priority ordering for due watches without cadence bypass;
-- canonical project-local region and language registries;
-- watch-scoped region/language requirements;
-- raw-item region/language attribution;
-- region/language coverage and gap reports;
-- translation-attribution isolation from evidence confidence and source independence.
+- project-local operational monitoring, failure isolation, retry and recovery;
+- ranked operational findings with evidence references and explanations;
+- controlled and live read-only source acquisition;
+- provenance, collection audit and source failure isolation;
+- origin-based M8 verification independence;
+- strategic alert policies, lifecycle and priority/cadence separation;
+- watch-scoped region/language requirements and coverage reports;
+- translation-attribution isolation from evidence confidence and source independence;
+- durable advanced geopolitical graph persistence;
+- deterministic graph node and logical edge identity;
+- M4 compatibility projection;
+- explicit canonical actor/event/claim/finding graph projections;
+- evidence-backed relationship lifecycle and preserved material history;
+- temporal validity intervals and historical snapshots;
+- bounded cycle-safe causal/influence traversal;
+- advanced explainable graph query facade;
+- cross-layer M8/M10/M11 confidence and source-independence isolation.
 
 These components represent a controlled project-local validated baseline and must not be interpreted as global production maturity.
 
@@ -108,61 +94,51 @@ External-source availability is not assumed. A collection may be COMPLETED, PART
 
 ## Verification Boundary
 
-M8 establishes the following baseline rules:
-
 - adapter identity does not establish evidence independence;
 - original publisher/origin host is the baseline independence unit;
 - a single independent origin remains DETECTED;
 - at least two distinct original origins are required for PARTLY_VERIFIED;
 - same-origin duplicate observations must not increase verification status;
-- VERIFIED is never assigned automatically by the M8 baseline.
+- VERIFIED is never assigned automatically by the current baseline;
+- alert priority, region/language attribution and graph intelligence are downstream metadata/analysis and must not increase evidence confidence or independent-origin count.
 
-M9 and M10 preserve those rules. Alert priority and region/language attribution are operational/coverage metadata only and must not change evidence confidence or verification status.
+## Advanced Geopolitical Graph Boundary
 
-## Strategic Alert Boundary
+M11 extends and converges the M4 graph baseline rather than creating a second graph subsystem.
 
-M9 establishes:
+Graph model:
 
-- alerts derive only from persisted operational findings;
-- alert thresholds may use finding importance, confidence and verification rank;
-- stable normalized-title deduplication prevents repeated-cycle duplicates;
-- later same-title findings update an existing alert;
-- invalidation and resolution preserve history;
-- invalidated/resolved alerts do not silently reopen;
-- CRITICAL priority does not bypass cadence;
-- no external notification provider is enabled by the engineering baseline.
+- graph nodes carry deterministic canonical references;
+- graph edges carry deterministic logical identities, relation class, graph-local confidence, lifecycle status, validity and observation timestamps;
+- edge evidence is stored separately from logical relation identity;
+- material relationship changes preserve immutable history;
+- current-state queries exclude invalidated/resolved relationships while historical queries retain them;
+- causal/influence traversal is bounded, cycle-safe and deterministic;
+- advanced queries expose graph IDs, canonical references and evidence references.
 
-## Region and Language Boundary
+Canonical truth boundary:
 
-M10 establishes:
+- canonical project objects remain the Source of Truth;
+- actor references are explicit inputs rather than a new actor truth store;
+- canonical events remain owned by the events table;
+- M8 claims and findings are traceability projections;
+- graph inference is not source evidence;
+- graph confidence does not modify M8 confidence or independent-origin count;
+- graph operations do not automatically assign VERIFIED status;
+- no external graph service is required or approved by the baseline.
 
-- explicit normalized region and language registries;
-- watch-scoped required region/language pairs;
-- watch-scoped raw-item attribution;
-- explicit missing-scope coverage reports;
-- translations and region/language tags do not create additional independent origins;
-- translations and region/language tags do not modify M8 confidence or verification status;
-- cross-watch attribution leakage is blocked.
+## Phase 9 Boundary
 
-## Phase 8 Boundary
+Advanced Forecasting must extend existing forecasting, calibration, historical-validation and adaptive-learning components rather than create a parallel forecasting stack.
 
-Advanced Geopolitical Graph must extend the existing M4 graph baseline rather than create a second graph implementation.
+Phase 9 must preserve:
 
-Phase 8 may integrate:
-
-- actor/entity graph views;
-- event graph views;
-- operational findings and strategic alerts as graph-linked intelligence artifacts;
-- region/language scope as graph metadata where appropriate;
-- temporal and causal relationship queries over validated graph facts.
-
-Phase 8 must preserve:
-
-- provenance for graph facts and derived links;
-- M8 source-independence semantics;
-- temporal semantics;
-- project-local canonical storage;
-- no confidence inflation from graph degree, region count or language count alone.
+- explicit evidence and graph provenance for forecast inputs;
+- distinction between observed facts, graph relationships, assumptions and forecast outputs;
+- historical calibration and measurable forecast performance;
+- deterministic/project-local baseline execution;
+- no source-independence or verification inflation from forecast confidence;
+- PROJECT_LOCAL_ONLY runtime storage.
 
 ## Validation State
 
@@ -174,21 +150,25 @@ M8 deterministic regression: PASS - 73 tests, run 32963096313.
 M8 live end-to-end controlled pilot: PASS - run 32963354135.
 M9 hardened regression: PASS - 82 tests, run 32965387054.
 M10 multi-region/language regression: PASS - 88 tests, run 32966128001.
+M11 advanced geopolitical graph final regression: PASS - 118 tests, run 32973378757.
 
 ## Current State
 
-- Implementation: BASELINE_VALIDATED through M10
+- Implementation: BASELINE_VALIDATED through M11
 - ROADMAP Phase 5: BASELINE_VALIDATED
 - ROADMAP Phase 6: BASELINE_VALIDATED
 - ROADMAP Phase 7: BASELINE_VALIDATED
+- ROADMAP Phase 8: BASELINE_VALIDATED
 - Runtime storage: PROJECT_LOCAL_ONLY
 - Shared Infrastructure ADR: APPROVED
 - Controlled-pilot live integrations: VALIDATED
 - Strategic alert baseline: VALIDATED
 - Region/language coverage baseline: VALIDATED
+- Advanced geopolitical graph baseline: VALIDATED
+- External graph providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
 - Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 8 Advanced Geopolitical Graph preparation
-- Next engineering milestone: M11 Advanced Geopolitical Graph baseline
+- Current roadmap activity: Phase 9 Advanced Forecasting preparation
+- Next engineering work package: M12 Advanced Forecasting preparation and delta audit
 - Production/live operational maturity: NOT_OPERATIONAL
