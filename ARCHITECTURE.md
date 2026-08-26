@@ -1,7 +1,7 @@
 # ARCHITECTURE
 Technical architecture definition for K-Geopolitical Monitor.
 
-Version: 1.1
+Version: 1.2
 Status: APPROVED
 
 ## Purpose
@@ -41,10 +41,22 @@ The repository contains implementation baselines for:
 
 These components are baseline implementations and must not be interpreted as production or operational maturity.
 
+## M5 Infrastructure Boundary
+
+The Shared Infrastructure Architecture Review is complete and recommends HYBRID architecture:
+
+- project-specific domain logic and canonical stores remain local;
+- narrow common contracts may be standardized first;
+- shared component extraction requires proven multi-project use and compatibility tests;
+- implicit mixed storage and direct cross-project canonical-store mutation are prohibited.
+
+The corresponding ADR remains PROPOSED. Cross-project extraction and shared runtime storage remain blocked until explicit architecture approval.
+
 ## Current State
 
 - Implementation: BASELINE_IMPLEMENTED through M4
-- Validation: PARTIAL
-- M4 acceptance: HARDENING_REQUIRED
-- M5 readiness: BLOCKED_PENDING_READINESS_GATE
+- M4 acceptance: PASS
+- Full regression CI: PASS
+- M5 readiness: PASS
+- M5 implementation: READY_TO_START; NOT_STARTED
 - Operational maturity: NOT_OPERATIONAL
