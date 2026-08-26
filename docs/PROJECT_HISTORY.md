@@ -30,9 +30,8 @@ This file records implementation-specific milestones and must not override the c
 - M5.2 Monitoring Cycle Orchestration implemented and validated.
 - M5.3 Operational Intelligence Output implemented and validated.
 - M5 storage-isolation, failure-isolation, retry, recovery and deterministic execution tests added.
-- M5 full test cycle passed on implementation commit 1bd258e17cd99b94aa2c751f2fb9f10459f4457c.
-- GitHub Actions run 32953343877: 57 passed in 1.05s on Python 3.11.16.
-- M5 project-local operational intelligence baseline recorded as BASELINE_VALIDATED.
+- GitHub Actions run 32953343877: 57 passed in 1.05s.
+- M5 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M6 controlled pilot
 
@@ -41,9 +40,8 @@ This file records implementation-specific milestones and must not override the c
 - Persistent coverage reporting with explicit gaps implemented.
 - Controlled pilot source path isolation validated under data/pilot_sources.
 - Cadence determinism, restart persistence and idempotent raw-item ingestion validated.
-- Invalid source classes fail without creating operational findings.
-- GitHub Actions run 32961649091: 62 passed in 0.91s on Python 3.11.16.
-- M6 controlled pilot baseline recorded as BASELINE_VALIDATED.
+- GitHub Actions run 32961649091: 62 passed in 0.91s.
+- M6 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M7 live public-source pilot
 
@@ -63,10 +61,9 @@ This file records implementation-specific milestones and must not override the c
 - Same-origin duplicate observations do not inflate verification status.
 - Operational findings retain claim/raw-item/origin traceability.
 - GitHub Actions run 32963096313: 73 passed in 1.07s.
-- Initial live E2E run exposed GDELT HTTP 429 and confirmed the external-source failure path.
-- Passing live E2E run 32963354135 completed with PARTIAL collection, 6 items, 6 claims and 6 findings while explicitly recording a GDELT TLS handshake timeout.
+- Passing live E2E run 32963354135 completed with PARTIAL collection while explicitly preserving external-source failure accounting.
 - Runtime storage remained PROJECT_LOCAL_ONLY.
-- M8 and ROADMAP Phase 5 engineering baseline recorded as BASELINE_VALIDATED.
+- M8 and ROADMAP Phase 5 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M9 strategic alerts
 
@@ -76,9 +73,8 @@ This file records implementation-specific milestones and must not override the c
 - Invalidation and resolution preserve history and do not silently reopen.
 - Priority orders due watches but does not change confidence or cadence eligibility.
 - Restart persistence validated.
-- GitHub Actions run 32965231876: 80 passed in 1.58s.
 - Hardened GitHub Actions run 32965387054: 82 passed in 1.71s.
-- M9 and ROADMAP Phase 6 engineering baseline recorded as BASELINE_VALIDATED.
+- M9 and ROADMAP Phase 6 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M10 multi-region and language coverage
 
@@ -89,25 +85,36 @@ This file records implementation-specific milestones and must not override the c
 - Translation and region/language attribution remain isolated from M8 verification confidence and independent-origin counting.
 - Cross-watch attribution isolation and restart persistence validated.
 - GitHub Actions run 32966128001: 88 passed in 2.07s.
-- M10 and ROADMAP Phase 7 engineering baseline recorded as BASELINE_VALIDATED.
+- M10 and ROADMAP Phase 7 recorded as BASELINE_VALIDATED.
+
+## 2026-08-26 - M11 advanced geopolitical graph
+
+- M11 delta audit confirmed M4 graph code was a baseline and identified duplicate in-memory graph fragments.
+- Migration 010 and the durable project-local advanced graph repository implemented.
+- Deterministic graph identity, edge evidence and relationship history implemented.
+- M4 compatibility projection preserved the validated legacy interface.
+- Explicit actor/event/M8 claim/finding projection implemented with canonical truth boundaries.
+- Relationship lifecycle added graph-local confidence, evidence roles and non-destructive material history.
+- Temporal snapshots and bounded cycle-safe causal/influence traversal implemented.
+- M11.4 initial ordering defect fixed in the engine using canonical semantic ordering.
+- Existing IntelligenceQuery extended with explainable durable graph queries.
+- M11.6 integrated M8/M10/M11 isolation regression validated upstream confidence/source-independence non-mutation and project-local storage.
+- Final GitHub Actions run 32973378757: 118 passed in 4.24s.
+- M11 and ROADMAP Phase 8 recorded as BASELINE_VALIDATED.
 
 ## Current Implementation Checkpoint
 
-- Engineering implementation: BASELINE_VALIDATED through M10
+- Engineering implementation: BASELINE_VALIDATED through M11
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 7 Multi-Region Expansion: BASELINE_VALIDATED
-- M5 full test cycle: PASS
-- M6 controlled pilot baseline: PASS
-- M7 live public-source pilot: PASS
-- M8 live end-to-end controlled pilot: PASS
-- M9 strategic alert baseline: PASS
-- M10 region/language coverage baseline: PASS
+- ROADMAP Phase 8 Advanced Geopolitical Graph: BASELINE_VALIDATED
 - Runtime storage: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: NOT_ENABLED
+- External graph providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
 - Automatic translation providers: NONE_APPROVED
 - Production external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 8 Advanced Geopolitical Graph preparation
-- Next engineering milestone: M11 Advanced Geopolitical Graph baseline
+- Current roadmap activity: Phase 9 Advanced Forecasting preparation
+- Next engineering work package: M12 Advanced Forecasting preparation and delta audit
 - Production/live operational status: NOT_OPERATIONAL
