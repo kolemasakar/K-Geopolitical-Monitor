@@ -58,6 +58,33 @@ class ReportAssembler:
     def _unique(values: Iterable[str]) -> tuple[str, ...]:
         return tuple(sorted({str(value).strip() for value in values if str(value).strip()}))
 
+    def _source_refs_from_tokens(self, tokens: Iterable[str]) -> tuple[tuple[str, str], ...]:
+        refs: set[tuple[str, str]] = set()
+        raw_ids: set[str] = set()
+        for token in tokens:
+            normalized = str(token).strip()
+            if normalized.startswith("claim:"):
+                value = normalized.split(":", 1)[1].strip()
+                if value:
+                    refs.add((CLAIM, value))
+            elif normalized.startswith("raw_item:"):
+                value = normalized.split(":", 1)[1].strip()
+                if value:
+                    refs.add((RAW_ITEM, value))
+                    raw_ids.add(value)
+
+        if raw_ids:
+            placeholders = ",".join("?" for _ in raw_ids)
+            with sqlite3.connect(self.database_path) as connection:
+                rows = connection.execute(
+                    f"SELECT id, source_id FROM raw_items WHERE id IN ({placeholders})",
+                    tuple(sorted(raw_ids)),
+                ).fetchall()
+            for _, source_id in rows:
+                if source_id:
+                    refs.add((SOURCE, str(source_id)))
+        return tuple(sorted(refs))
+
     def _finding_payloads(self, ids: tuple[str, ...]):
         if not ids:
             return (), (), ()
@@ -80,7 +107,7 @@ class ReportAssembler:
 
         payloads = []
         references = []
-        source_refs: set[tuple[str, str]] = set()
+        evidence_tokens: list[str] = []
         for row in rows:
             evidence_refs = tuple(json.loads(row[5]))
             payloads.append(
@@ -96,24 +123,16 @@ class ReportAssembler:
                 }
             )
             references.append((FINDING, row[0], "ANALYTICAL_INPUT"))
-            for token in evidence_refs:
-                if token.startswith("claim:"):
-                    source_refs.add((CLAIM, token.split(":", 1)[1]))
-                elif token.startswith("raw_item:"):
-                    raw_id = token.split(":", 1)[1]
-                    source_refs.add((RAW_ITEM, raw_id))
-                    with sqlite3.connect(self.database_path) as connection:
-                        source_row = connection.execute(
-                            "SELECT source_id FROM raw_items WHERE id = ?",
-                            (raw_id,),
-                        ).fetchone()
-                    if source_row is not None and source_row[0]:
-                        source_refs.add((SOURCE, str(source_row[0])))
-        return tuple(payloads), tuple(references), tuple(sorted(source_refs))
+            evidence_tokens.extend(evidence_refs)
+        return (
+            tuple(payloads),
+            tuple(references),
+            self._source_refs_from_tokens(evidence_tokens),
+        )
 
     def _alert_payloads(self, ids: tuple[str, ...]):
         if not ids:
-            return (), ()
+            return (), (), ()
         placeholders = ",".join("?" for _ in ids)
         with sqlite3.connect(self.database_path) as connection:
             rows = connection.execute(
@@ -132,27 +151,34 @@ class ReportAssembler:
         missing = sorted(set(ids) - found)
         if missing:
             raise ValueError(f"unknown alert reference(s): {', '.join(missing)}")
-        payloads = tuple(
-            {
-                "alert_id": row[0],
-                "finding_id": row[1],
-                "trigger_type": row[2],
-                "priority": row[3],
-                "status": row[4],
-                "first_triggered_at": row[5],
-                "last_updated_at": row[6],
-                "evidence_refs": list(json.loads(row[7])),
-                "explanation": row[8],
-                "invalidation_reason": row[9],
-            }
-            for row in rows
-        )
-        refs = tuple(
-            item
-            for row in rows
-            for item in ((ALERT, row[0], "ALERT_INPUT"), (FINDING, row[1], "ALERT_FINDING"))
-        )
-        return payloads, refs
+
+        payloads = []
+        refs = []
+        evidence_tokens: list[str] = []
+        for row in rows:
+            evidence_refs = tuple(json.loads(row[7]))
+            payloads.append(
+                {
+                    "alert_id": row[0],
+                    "finding_id": row[1],
+                    "trigger_type": row[2],
+                    "priority": row[3],
+                    "status": row[4],
+                    "first_triggered_at": row[5],
+                    "last_updated_at": row[6],
+                    "evidence_refs": list(evidence_refs),
+                    "explanation": row[8],
+                    "invalidation_reason": row[9],
+                }
+            )
+            refs.extend(
+                (
+                    (ALERT, row[0], "ALERT_INPUT"),
+                    (FINDING, row[1], "ALERT_FINDING"),
+                )
+            )
+            evidence_tokens.extend(evidence_refs)
+        return tuple(payloads), tuple(refs), self._source_refs_from_tokens(evidence_tokens)
 
     def _coverage_payloads(self, ids: tuple[str, ...]):
         payloads = []
@@ -236,6 +262,7 @@ class ReportAssembler:
                     }
                 )
                 refs.append((GRAPH_NODE, node_id, "GRAPH_CONTEXT"))
+
             for edge_id in edge_ids:
                 row = connection.execute(
                     """
@@ -279,6 +306,7 @@ class ReportAssembler:
     def _forecast_payloads(self, version_ids: tuple[str, ...]):
         payloads = []
         refs = []
+        source_tokens: list[str] = []
         for version_id in version_ids:
             explanation = self.forecast_query.explain_version(version_id)
             with sqlite3.connect(self.database_path) as connection:
@@ -318,10 +346,26 @@ class ReportAssembler:
             )
             refs.append((FORECAST, row[0], "FORECAST_INPUT"))
             refs.append((FORECAST_VERSION, version_id, "FORECAST_VERSION"))
-            refs.extend((SCENARIO_VERSION, item.scenario_version_id, "SCENARIO") for item in scenarios)
-            refs.extend((RAW_ITEM, raw_id, "FORECAST_SOURCE_EVIDENCE") for raw_id in explanation.source_evidence_refs)
-            refs.extend((GRAPH_EDGE, edge_id, "FORECAST_GRAPH_CONTEXT") for edge_id in explanation.graph_relationship_refs)
-        return tuple(sorted(payloads, key=lambda item: (item["forecast_id"], item["version_number"]))), tuple(refs)
+            refs.extend(
+                (SCENARIO_VERSION, item.scenario_version_id, "SCENARIO")
+                for item in scenarios
+            )
+            refs.extend(
+                (RAW_ITEM, raw_id, "FORECAST_SOURCE_EVIDENCE")
+                for raw_id in explanation.source_evidence_refs
+            )
+            refs.extend(
+                (GRAPH_EDGE, edge_id, "FORECAST_GRAPH_CONTEXT")
+                for edge_id in explanation.graph_relationship_refs
+            )
+            source_tokens.extend(
+                f"raw_item:{raw_id}" for raw_id in explanation.source_evidence_refs
+            )
+        return (
+            tuple(sorted(payloads, key=lambda item: (item["forecast_id"], item["version_number"]))),
+            tuple(refs),
+            self._source_refs_from_tokens(source_tokens),
+        )
 
     def assemble(self, request: ReportAssemblyRequest, *, persist: bool = True) -> ReportBundle:
         finding_ids = self._unique(request.finding_ids)
@@ -332,17 +376,25 @@ class ReportAssembler:
         forecast_ids = self._unique(request.forecast_version_ids)
         assumptions = self._unique(request.assumptions)
 
-        finding_payloads, finding_refs, source_refs = self._finding_payloads(finding_ids)
-        alert_payloads, alert_refs = self._alert_payloads(alert_ids)
+        finding_payloads, finding_refs, finding_sources = self._finding_payloads(finding_ids)
+        alert_payloads, alert_refs, alert_sources = self._alert_payloads(alert_ids)
         coverage_payloads, coverage_refs = self._coverage_payloads(coverage_ids)
         graph_payload, graph_refs = self._graph_payload(node_ids, edge_ids)
-        forecast_payloads, forecast_refs = self._forecast_payloads(forecast_ids)
+        forecast_payloads, forecast_refs, forecast_sources = self._forecast_payloads(forecast_ids)
+        source_refs = tuple(sorted(set(finding_sources) | set(alert_sources) | set(forecast_sources)))
 
-        sections = []
-        reference_specs = []
+        sections: list[ReportSection] = []
+        reference_specs: list[tuple[str, str, str, str]] = []
         order = 0
 
-        def add_section(section_type, heading, presentation_class, content, explanation, specs):
+        def add_section(
+            section_type: str,
+            heading: str,
+            presentation_class: str,
+            content,
+            explanation: str,
+            specs,
+        ) -> None:
             nonlocal order
             section = ReportSection.create(
                 request.snapshot.report_id,
@@ -405,7 +457,9 @@ class ReportAssembler:
                 forecast_refs,
             )
         if assumptions:
-            specs = tuple((ANALYST_ASSUMPTION, value, "ASSUMPTION") for value in assumptions)
+            specs = tuple(
+                (ANALYST_ASSUMPTION, value, "ASSUMPTION") for value in assumptions
+            )
             add_section(
                 "ASSUMPTIONS",
                 "Assumptions",
@@ -425,7 +479,7 @@ class ReportAssembler:
                         for kind, value in source_refs
                     ]
                 },
-                "Source and raw-item references preserve report provenance without altering verification state.",
+                "Source, raw-item and claim references preserve report provenance without altering verification state. Graph relationships are excluded from source provenance.",
                 tuple((kind, value, "PROVENANCE") for kind, value in source_refs),
             )
 

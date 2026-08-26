@@ -48,6 +48,11 @@ def _request(version):
     return ReportAssemblyRequest(snapshot=snapshot,finding_ids=('finding-1',),alert_ids=('alert-1',),coverage_report_ids=('coverage-1',),graph_edge_ids=('edge-1',),forecast_version_ids=(version.forecast_version_id,),assumptions=('Target conditions remain observable',))
 
 
+def _source_kinds(bundle):
+    section = next(s for s in bundle.sections if s.section_type == 'SOURCES')
+    return {r.reference_kind for r in bundle.references if r.section_id == section.section_id}
+
+
 def test_full_report_uses_one_common_typed_contract(tmp_path):
     assembler, forecast, version, scenarios = _seed(tmp_path / 'project.db')
     bundle = assembler.assemble(_request(version))
@@ -63,8 +68,7 @@ def test_full_report_uses_one_common_typed_contract(tmp_path):
     assert (FORECAST_VERSION,version.forecast_version_id,'FORECAST_VERSION') in refs
     assert all((SCENARIO_VERSION,s.scenario_version_id,'SCENARIO') in refs for s in scenarios)
     assert (ANALYST_ASSUMPTION,'Target conditions remain observable','ASSUMPTION') in refs
-    source_section = next(s for s in bundle.sections if s.section_type == 'SOURCES')
-    assert {r.reference_kind for r in bundle.references if r.section_id == source_section.section_id} == {SOURCE,RAW_ITEM,CLAIM}
+    assert _source_kinds(bundle) == {SOURCE,RAW_ITEM,CLAIM}
 
 
 def test_forecast_source_evidence_and_graph_context_are_separate(tmp_path):
@@ -73,6 +77,21 @@ def test_forecast_source_evidence_and_graph_context_are_separate(tmp_path):
     assert (RAW_ITEM,'raw-1','FORECAST_SOURCE_EVIDENCE') in refs
     assert (GRAPH_EDGE,'edge-1','FORECAST_GRAPH_CONTEXT') in refs
     assert (GRAPH_EDGE,'edge-1','FORECAST_SOURCE_EVIDENCE') not in refs
+
+
+def test_alert_only_and_forecast_only_reports_have_source_provenance_without_graph_promotion(tmp_path):
+    db = tmp_path / 'project.db'
+    assembler, _, version, _ = _seed(db)
+    alert_snapshot = ReportSnapshot.create(GLOBAL_GEOPOLITICAL_BRIEF,'global:alert-only','Alert-only brief','Alert evidence provenance',NOW,created_at=NOW,generator_version='m13.2')
+    alert_bundle = assembler.assemble(ReportAssemblyRequest(snapshot=alert_snapshot,alert_ids=('alert-1',)),persist=False)
+    assert _source_kinds(alert_bundle) == {SOURCE,RAW_ITEM,CLAIM}
+
+    forecast_snapshot = ReportSnapshot.create(GLOBAL_GEOPOLITICAL_BRIEF,'global:forecast-only','Forecast-only brief','Forecast evidence provenance',NOW,created_at=NOW,generator_version='m13.2')
+    forecast_bundle = assembler.assemble(ReportAssemblyRequest(snapshot=forecast_snapshot,forecast_version_ids=(version.forecast_version_id,)),persist=False)
+    assert _source_kinds(forecast_bundle) == {SOURCE,RAW_ITEM}
+    source_section = next(s for s in forecast_bundle.sections if s.section_type == 'SOURCES')
+    assert all(not (r.section_id == source_section.section_id and r.reference_kind == GRAPH_EDGE) for r in forecast_bundle.references)
+    assert any(r.reference_kind == GRAPH_EDGE and r.reference_role == 'FORECAST_GRAPH_CONTEXT' for r in forecast_bundle.references)
 
 
 def test_assembly_is_idempotent_restart_safe_and_read_only_upstream(tmp_path):
