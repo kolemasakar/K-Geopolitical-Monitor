@@ -59,38 +59,58 @@ This file records implementation-specific milestones and must not override the c
 
 ## 2026-08-26 - M13 full reporting environment
 
-- Reporting delta audit found no prior parallel durable report runtime and selected one common canonical subsystem.
+- Reporting delta audit selected one common canonical subsystem.
 - Migration 015 added immutable `report_snapshots`, `report_sections` and `report_references`.
 - Common ReportAssembler implemented deterministic typed provenance across findings, alerts, coverage, graph and forecast inputs.
-- M13.2 provenance hardening ensures source references enter SOURCES while graph edges remain graph/forecast analytical context.
-- Strategic Alert, Global and Regional/Country Brief services implemented with explicit selection and coverage visibility.
-- Event Dossier and report-scoped Storyline Report implemented without a storyline truth table.
-- Forecast Report and Strategic Outlook implemented with version anchoring, uncertainty/invalidation signals and optional persisted evaluation/calibration history.
+- Strategic Alert, Global/Regional Brief, Event Dossier, report-scoped Storyline Report, Forecast Report and Strategic Outlook implemented.
 - Deterministic structured/Markdown rendering added with restart reproducibility and existing project-local RuntimeStoragePolicy enforcement.
-- Cross-layer rendering regression validates no mutation of M8 verification/origin state, M10 coverage, M11 graph or M12 forecast state.
+- Cross-layer rendering regression validated no mutation of M8 verification/origin state, M10 coverage, M11 graph or M12 forecast state.
 - M13.1 run 32982639826: 160 passed in 11.40s.
 - M13.2 run 32989895962: 170 passed in 12.00s.
 - M13.3-M13.5 run 32992328055: 193 passed in 10.98s.
 - M13.6 run 32993269910: 199 passed in 12.10s.
 - M13 and ROADMAP Phase 10 recorded as BASELINE_VALIDATED.
 
+## 2026-08-26 - ROADMAP Phase 11 global operational coverage
+
+- Phase 11 audit/plan established a coverage-measurement layer rather than a verification engine.
+- Migration 016 added coverage contracts, typed requirements, immutable snapshots and per-requirement results.
+- Migration 017 added per-source collection attempts.
+- Live adapter/item identity mismatch now fails closed before ingestion.
+- SOURCE_CLASS, SOURCE_ID/SOURCE_AVAILABILITY, REGION_LANGUAGE and FRESHNESS evaluation converged existing M6/M7/M10 state.
+- Unsupported declared dimensions remain UNMEASURED.
+- Coverage ratio and coverage confidence have separate deterministic meanings.
+- Historical/latest coverage query and coverage-aware M13 reporting implemented without a parallel report store.
+- Global/Regional reports preserve GAP, UNKNOWN and UNMEASURED limitations.
+- Final isolation regression validates M8/M10/M11/M12/M13 truth-state boundaries and PROJECT_LOCAL_ONLY storage.
+- P11.1 run 32996565227: 203 passed in 15.48s.
+- P11.2 run 32997440380: 210 passed in 16.63s.
+- P11.3 run 32997961490: 217 passed in 27.46s.
+- P11.4 run 32999092257: 219 passed in 20.55s.
+- P11.5 run 32999835225: 223 passed in 83.96s.
+- P11.6 run 33000478908: 226 passed in 17.67s.
+- ROADMAP Phase 11 recorded as BASELINE_VALIDATED; no M14 label was created.
+
 ## Current Implementation Checkpoint
 
-- Engineering implementation: BASELINE_VALIDATED through M13
+- Engineering implementation: BASELINE_VALIDATED through ROADMAP Phase 11
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 7 Multi-Region Expansion: BASELINE_VALIDATED
 - ROADMAP Phase 8 Advanced Geopolitical Graph: BASELINE_VALIDATED
 - ROADMAP Phase 9 Advanced Forecasting: BASELINE_VALIDATED
 - ROADMAP Phase 10 Full Reporting Environment: BASELINE_VALIDATED
+- ROADMAP Phase 11 Global Operational Coverage: BASELINE_VALIDATED
 - Runtime storage: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: NOT_ENABLED
 - External graph providers: NONE_APPROVED
 - External forecasting providers: NONE_APPROVED
 - External reporting/publishing providers: NONE_APPROVED
+- External coverage providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
 - Automatic translation providers: NONE_APPROVED
 - Production external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 11 Global Operational Coverage preparation
-- Next engineering activity: Phase 11 delta audit and implementation planning
+- Current roadmap activity: Phase 11 completed and BASELINE_VALIDATED
+- Next roadmap phase: NONE_APPROVED
+- Next engineering activity: roadmap extension decision before assigning a new phase or milestone
 - Production/live operational status: NOT_OPERATIONAL
