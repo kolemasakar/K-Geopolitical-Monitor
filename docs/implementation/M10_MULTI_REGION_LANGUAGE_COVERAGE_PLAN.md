@@ -1,6 +1,6 @@
 # M10 Multi-Region and Language Coverage Plan
 
-Status: ACTIVE
+Status: COMPLETED
 Date: 2026-08-26
 Project: K-Geopolitical Monitor
 Roadmap phase: Phase 7 - Multi-Region Expansion
@@ -15,60 +15,62 @@ Add explicit region and language scope, observation attribution and measurable c
 - Region and language are coverage/attribution metadata, not evidence confidence multipliers.
 - A translated, indexed or region-tagged observation does not create a new independent origin.
 - Original publisher/origin provenance remains authoritative for M8 verification independence.
-- M10 must not modify M8 claim confidence or verification status merely because more region/language tags exist.
-- Watch scope must be explicit and persisted.
-- Coverage gaps must be measurable and queryable.
-- No new external source provider is approved by M10 itself.
+- Region/language attribution does not modify M8 claim confidence or verification status.
+- Watch scope is explicit and persisted.
+- Coverage gaps are measurable and queryable.
+- No new external source or translation provider is approved by M10 itself.
 
 ## M10.1 Region and Language Registry
 
-Implement project-local canonical registries for:
+Implemented and validated:
 
-- region code;
-- region name;
-- optional region group;
-- language code;
-- language name.
-
-Codes must be normalized and deterministic.
+- canonical project-local region registry;
+- canonical project-local language registry;
+- deterministic region/language code normalization;
+- optional region grouping.
 
 Gate:
 M10_1_SCOPE_REGISTRY_VALIDATED
 
 ## M10.2 Watch Scope and Observation Attribution
 
-Implement:
+Implemented and validated:
 
 - required region/language pairs per monitoring watch;
 - watch-scoped raw-item attribution;
-- attribution type and confidence;
+- SOURCE_METADATA / ANALYST / DECLARED / TRANSLATION attribution types;
+- attribution confidence;
 - original-language marker;
-- validation that referenced watches, raw items, regions and languages exist.
+- fail-closed validation for missing watches, raw items, regions and languages;
+- cross-watch attribution isolation.
 
 Gate:
 M10_2_ATTRIBUTION_VALIDATED
 
 ## M10.3 Region/Language Coverage Reporting
 
-Implement deterministic coverage reports containing:
+Implemented and validated:
 
 - required scope pairs;
 - observed scope pairs;
 - missing scope pairs;
 - observed region set;
 - observed language set;
-- coverage ratio;
-- persistent report timestamp.
+- deterministic coverage ratio;
+- persistent report identity and timestamp;
+- restart persistence.
 
 Gate:
 M10_3_COVERAGE_VALIDATED
 
 ## M10.4 Verification-Isolation Gate
 
-Validate that:
+Validated:
 
 - adding region/language attribution does not increase independent-origin count;
-- adding translation/language metadata does not increase confidence;
+- translation metadata does not increase confidence;
+- translation metadata does not change verification status;
+- claim identity remains unchanged after region/language attribution;
 - watch-scoped attribution does not leak across watches;
 - state survives runtime restart;
 - full deterministic regression CI remains green.
@@ -76,8 +78,19 @@ Validate that:
 Gate:
 M10_MULTI_REGION_LANGUAGE_BASELINE_PASS
 
+## Validation Evidence
+
+- GitHub Actions run 32966128001: PASS.
+- Full regression: 88 passed in 2.07s.
+- Migration 009 is included in the canonical migration contract.
+- M8 verification-isolation regression: PASS.
+- Cross-watch attribution isolation: PASS.
+- Restart persistence: PASS.
+
 ## Completion Boundary
 
-M10 is complete only when all gates pass and the full deterministic regression suite succeeds.
+All M10 engineering gates passed.
 
-M10 completion may validate the ROADMAP Phase 7 engineering baseline, but does not approve global production coverage or automatic translation providers.
+ROADMAP Phase 7 - Multi-Region Expansion engineering baseline is BASELINE_VALIDATED.
+
+M10 completion does not approve global production coverage, automatic translation providers, shared runtime storage or production/live OPERATIONAL status.
