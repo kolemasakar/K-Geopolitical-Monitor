@@ -69,6 +69,10 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "report_snapshots",
         "report_sections",
         "report_references",
+        "operational_coverage_contracts",
+        "operational_coverage_requirements",
+        "operational_coverage_snapshots",
+        "operational_coverage_requirement_results",
     }.issubset(tables)
     assert {"retry_count", "recovered"}.issubset(monitoring_run_columns)
     assert applied == {
@@ -87,4 +91,5 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "013_forecast_outcomes_evaluations.sql",
         "014_forecast_calibration_history.sql",
         "015_full_reporting_environment.sql",
+        "016_global_operational_coverage.sql",
     }
