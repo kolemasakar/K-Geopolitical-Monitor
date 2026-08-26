@@ -271,3 +271,43 @@ def test_policy_requires_existing_watch_and_valid_thresholds(tmp_path):
         assert "minimum_confidence" in str(exc)
     else:
         raise AssertionError("invalid confidence threshold must fail")
+
+
+def test_alert_state_survives_runtime_restart(tmp_path):
+    runtime = _runtime(tmp_path)
+    _, finding = _m8_finding(runtime, suffix="restart", origins=2)
+    service = StrategicAlertService(runtime)
+    service.configure_watch("watch-alert", priority=HIGH, configured_at=NOW)
+    opened = service.evaluate_finding(finding.finding_id, evaluated_at=NOW)
+    assert opened is not None
+
+    restarted_runtime = OperationalMonitoringRuntime(tmp_path / "project")
+    restarted = StrategicAlertService(restarted_runtime)
+    loaded = restarted.get_alert(opened.alert_id)
+
+    assert loaded == opened
+    assert restarted.get_policy("watch-alert") == service.get_policy("watch-alert")
+    assert [event.status for event in restarted.event_history(opened.alert_id)] == [OPEN]
+    assert restarted.database_path == runtime.database_path
+
+
+def test_critical_priority_never_bypasses_watch_cadence(tmp_path):
+    runtime = OperationalMonitoringRuntime(tmp_path / "project")
+    runtime.create_watch(
+        "Critical cadence",
+        "Ukraine",
+        60,
+        watch_id="watch-critical",
+        created_at=NOW,
+    )
+    service = StrategicAlertService(runtime)
+    service.configure_watch("watch-critical", priority=CRITICAL, configured_at=NOW)
+
+    run = runtime.start_run("watch-critical", run_id="cadence-run", started_at=NOW)
+    runtime.complete_run(run.run_id, result_count=0, completed_at=NOW)
+
+    assert service.prioritized_due_watches(NOW + timedelta(minutes=59)) == []
+    due = service.prioritized_due_watches(NOW + timedelta(minutes=60))
+    assert len(due) == 1
+    assert due[0].watch.watch_id == "watch-critical"
+    assert due[0].priority == CRITICAL
