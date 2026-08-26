@@ -5,6 +5,7 @@ Date: 2026-08-26
 Project: K-Geopolitical Monitor
 Milestone: M13.3 Strategic, Global and Regional Briefs
 Branch: `candidate/m13-3-briefs`
+Candidate commit: `3e2bd9c8dadc084d2f3393027a60997a1ad03d33`
 
 ## Candidate Contracts
 
