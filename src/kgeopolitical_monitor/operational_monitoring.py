@@ -57,6 +57,8 @@ class MonitoringRun:
     completed_at: datetime | None = None
     result_count: int = 0
     error: str | None = None
+    retry_count: int = 0
+    recovered: bool = False
 
 
 class SQLiteOperationalMonitoringRepository:
@@ -109,13 +111,12 @@ class SQLiteOperationalMonitoringRepository:
             "SELECT watch_id, name, query, cadence_minutes, enabled, created_at "
             "FROM monitoring_watches"
         )
-        params: tuple[object, ...] = ()
         if enabled_only:
             query += " WHERE enabled = 1"
         query += " ORDER BY watch_id"
 
         with sqlite3.connect(self.database_path) as connection:
-            rows = connection.execute(query, params).fetchall()
+            rows = connection.execute(query).fetchall()
 
         return [
             MonitoringWatch(
@@ -134,8 +135,9 @@ class SQLiteOperationalMonitoringRepository:
             connection.execute(
                 """
                 INSERT INTO monitoring_runs(
-                    run_id, watch_id, status, started_at, completed_at, result_count, error
-                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                    run_id, watch_id, status, started_at, completed_at,
+                    result_count, error, retry_count, recovered
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     run.run_id,
@@ -147,6 +149,8 @@ class SQLiteOperationalMonitoringRepository:
                     else None,
                     run.result_count,
                     run.error,
+                    run.retry_count,
+                    int(run.recovered),
                 ),
             )
 
@@ -154,7 +158,8 @@ class SQLiteOperationalMonitoringRepository:
         with sqlite3.connect(self.database_path) as connection:
             row = connection.execute(
                 """
-                SELECT run_id, watch_id, status, started_at, completed_at, result_count, error
+                SELECT run_id, watch_id, status, started_at, completed_at,
+                       result_count, error, retry_count, recovered
                 FROM monitoring_runs
                 WHERE watch_id = ?
                 ORDER BY started_at DESC, run_id DESC
@@ -173,6 +178,8 @@ class SQLiteOperationalMonitoringRepository:
             completed_at=datetime.fromisoformat(row[4]) if row[4] else None,
             result_count=int(row[5]),
             error=row[6],
+            retry_count=int(row[7]),
+            recovered=bool(row[8]),
         )
 
     def update_run(
@@ -200,6 +207,20 @@ class SQLiteOperationalMonitoringRepository:
             )
             if cursor.rowcount != 1:
                 raise ValueError("run does not exist or is not RUNNING")
+
+    def recover_running_runs(self, recovered_at: datetime) -> int:
+        recovered_at = _normalize_time(recovered_at)
+        with sqlite3.connect(self.database_path) as connection:
+            cursor = connection.execute(
+                """
+                UPDATE monitoring_runs
+                SET status = 'FAILED', completed_at = ?,
+                    error = 'interrupted runtime recovered', recovered = 1
+                WHERE status = 'RUNNING'
+                """,
+                (recovered_at.isoformat(),),
+            )
+            return cursor.rowcount
 
 
 class OperationalMonitoringRuntime:
@@ -270,11 +291,16 @@ class OperationalMonitoringRuntime:
         if existing is not None and existing.status == RUNNING:
             raise ValueError("watch already has a RUNNING run")
 
+        retry_count = 0
+        if existing is not None and existing.status == FAILED:
+            retry_count = existing.retry_count + 1
+
         run = MonitoringRun(
             run_id=run_id or f"run-{uuid4().hex}",
             watch_id=watch_id,
             status=RUNNING,
             started_at=_normalize_time(started_at or utc_now()),
+            retry_count=retry_count,
         )
         self.repository.save_run(run)
         return run
@@ -308,3 +334,6 @@ class OperationalMonitoringRuntime:
             completed_at or utc_now(),
             error=error,
         )
+
+    def recover_interrupted_runs(self, recovered_at: datetime | None = None) -> int:
+        return self.repository.recover_running_runs(recovered_at or utc_now())
