@@ -24,6 +24,10 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
                 "SELECT version FROM schema_migrations ORDER BY version"
             ).fetchall()
         }
+        monitoring_run_columns = {
+            row[1]
+            for row in connection.execute("PRAGMA table_info(monitoring_runs)").fetchall()
+        }
 
     assert {
         "metadata",
@@ -35,9 +39,12 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "evidence",
         "monitoring_watches",
         "monitoring_runs",
+        "operational_findings",
     }.issubset(tables)
+    assert {"retry_count", "recovered"}.issubset(monitoring_run_columns)
     assert applied == {
         "001_initial_schema.sql",
         "002_evidence_verification_schema.sql",
         "003_operational_monitoring.sql",
+        "004_operational_cycle_and_findings.sql",
     }
