@@ -174,6 +174,17 @@ class TemporalCausalGraph:
             relation_classes=relation_classes,
         )
 
+    def _causal_edge_order_key(self, edge: TemporalEdgeState) -> tuple[str, str, str, str]:
+        target = self.repository.get_node(edge.target_node_id)
+        if target is None:
+            return ("", edge.target_node_id, edge.relation_type, edge.edge_id)
+        return (
+            target.canonical_ref_type,
+            target.canonical_ref_id,
+            edge.relation_type,
+            edge.edge_id,
+        )
+
     def causal_paths(
         self,
         start_node_id: str,
@@ -199,7 +210,7 @@ class TemporalCausalGraph:
         for edge in edges:
             adjacency.setdefault(edge.source_node_id, []).append(edge)
         for outgoing in adjacency.values():
-            outgoing.sort(key=lambda item: (item.target_node_id, item.edge_id))
+            outgoing.sort(key=self._causal_edge_order_key)
 
         queue: list[tuple[tuple[str, ...], tuple[str, ...], tuple[str, ...]]] = [
             ((start,), (), ())
