@@ -61,6 +61,7 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "forecasts",
         "forecast_versions",
         "forecast_scenario_versions",
+        "forecast_version_inputs",
     }.issubset(tables)
     assert {"retry_count", "recovered"}.issubset(monitoring_run_columns)
     assert applied == {
@@ -75,4 +76,5 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "009_region_language_coverage.sql",
         "010_advanced_geopolitical_graph.sql",
         "011_advanced_forecasting.sql",
+        "012_forecast_provenance_inputs.sql",
     }
