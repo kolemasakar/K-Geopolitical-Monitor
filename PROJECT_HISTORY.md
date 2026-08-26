@@ -2,7 +2,7 @@
 
 Chronological record of major approved project milestones.
 
-Version: 1.5
+Version: 1.6
 Status: ACTIVE
 
 ## 2026-08-24
@@ -55,19 +55,41 @@ Status: ACTIVE
 - M7 recorded as BASELINE_VALIDATED.
 - M7 does not approve production/global operation or shared runtime storage.
 
+## 2026-08-26 - M8 Live End-to-End Controlled Pilot
+
+- Approved M7 live collections connected to project-local claim analysis and operational output.
+- Deterministic normalized-title claim grouping and collection-scoped analysis persistence implemented.
+- Evidence independence changed from adapter identity to original publisher/origin identity.
+- Single-origin evidence remains DETECTED; two distinct origins are required for PARTLY_VERIFIED.
+- Same-origin duplicate observations do not inflate verification status.
+- GDELT remains discovery-only metadata and is not counted as independent verification of publisher content.
+- Operational findings retain claim, raw-item and original-origin traceability.
+- Deterministic M0-M8 regression passed: GitHub Actions run 32963096313, 73 passed in 1.07s.
+- Initial live E2E smoke exposed a GDELT HTTP 429 response and validated the need for per-source failure isolation.
+- Live E2E gate was aligned with the approved PARTIAL collection contract.
+- Passing live E2E smoke: GitHub Actions run 32963354135.
+- Passing live output: PARTIAL collection, 1 successful source, 1 failed source, 6 items, 6 claims, 6 findings, 6 DETECTED.
+- The passing run recorded the GDELT TLS handshake timeout explicitly while Consilium completed end-to-end processing.
+- Runtime storage remained PROJECT_LOCAL_ONLY.
+- M8 recorded as BASELINE_VALIDATED.
+- ROADMAP Phase 5 Controlled Pilot Monitoring engineering baseline recorded as BASELINE_VALIDATED.
+
 ## Current State
 
-- Documentation: RECONCILED through M7
-- Engineering implementation: BASELINE_VALIDATED through M7
+- Documentation: RECONCILED through M8
+- Engineering implementation: BASELINE_VALIDATED through M8
 - M5 full test cycle: PASS
 - M6 controlled pilot baseline: PASS
 - M7 deterministic regression: PASS
 - M7 live-source smoke: PASS
+- M8 deterministic regression: PASS
+- M8 live end-to-end controlled pilot: PASS
+- ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED_PENDING_NEW_ARCHITECTURE_APPROVAL
 - Controlled-pilot external integrations: 2
 - Production/global external integrations: NONE_APPROVED
-- ROADMAP Phase 5 Controlled Pilot Monitoring: ACTIVE
-- Next development activity: M8 Live End-to-End Controlled Pilot Processing
+- Current roadmap activity: Phase 6 Strategic Alerts and Continuous Monitoring preparation
+- Next development activity: M9 Strategic Alerts and Continuous Monitoring baseline
 - Production/live operational status: NOT_OPERATIONAL
