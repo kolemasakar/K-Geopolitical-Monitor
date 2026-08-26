@@ -33,8 +33,11 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "events",
         "claims",
         "evidence",
+        "monitoring_watches",
+        "monitoring_runs",
     }.issubset(tables)
     assert applied == {
         "001_initial_schema.sql",
         "002_evidence_verification_schema.sql",
+        "003_operational_monitoring.sql",
     }
