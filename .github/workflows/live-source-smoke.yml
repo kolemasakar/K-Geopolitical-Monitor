@@ -2,11 +2,6 @@ name: Live Source Smoke
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "scripts/live_source_smoke.py"
-      - "src/kgeopolitical_monitor/live_sources.py"
-      - ".github/workflows/live-source-smoke.yml"
 
 permissions:
   contents: read
