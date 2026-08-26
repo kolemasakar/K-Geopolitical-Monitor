@@ -1,6 +1,6 @@
 # M12 Advanced Forecasting Plan
 
-Status: ACTIVE
+Status: COMPLETED
 Date: 2026-08-26
 Project: K-Geopolitical Monitor
 Roadmap phase: Phase 9 - Advanced Forecasting
@@ -119,7 +119,7 @@ Persist:
 
 ## M12.1 Durable Forecast Schema and Version Identity
 
-Implement:
+Implemented and validated:
 
 - migration `011_advanced_forecasting.sql`;
 - durable forecast, forecast-version and scenario-version tables;
@@ -127,28 +127,29 @@ Implement:
 - monotonic immutable version numbers;
 - validated horizon/status contracts;
 - probability distribution validation;
-- restart persistence and repeated-save idempotence where identities are deterministic;
-- compatibility with existing ForecastHorizon and scenario concepts where practical.
+- restart persistence and repeated-save idempotence;
+- compatibility with existing ForecastHorizon and scenario concepts.
 
 Gate:
-M12_1_DURABLE_FORECAST_SCHEMA_VALIDATED
+`M12_1_DURABLE_FORECAST_SCHEMA_VALIDATED = PASS`
 
 ## M12.2 Provenance-Bound Forecast Inputs
 
-Implement:
+Implemented and validated:
 
+- migration `012_forecast_provenance_inputs.sql`;
 - immutable forecast input snapshots;
 - evidence, event, finding and graph-reference provenance;
 - explicit assumptions and constraints;
-- input-kind distinction between SOURCE_EVIDENCE, CANONICAL_EVENT, GRAPH_RELATIONSHIP, OPERATIONAL_FINDING and ANALYST_ASSUMPTION;
-- fail-closed unknown canonical references where a durable project reference is required.
+- SOURCE_EVIDENCE, CANONICAL_EVENT, GRAPH_RELATIONSHIP, OPERATIONAL_FINDING and ANALYST_ASSUMPTION input kinds;
+- fail-closed unknown canonical references for durable project references.
 
 Gate:
-M12_2_PROVENANCE_INPUTS_VALIDATED
+`M12_2_PROVENANCE_INPUTS_VALIDATED = PASS`
 
 ## M12.3 Scenario Lifecycle and Updates
 
-Implement:
+Implemented and validated:
 
 - complete approved scenario structure;
 - raw probability vs calibrated probability;
@@ -159,12 +160,13 @@ Implement:
 - previous versions remain queryable.
 
 Gate:
-M12_3_SCENARIO_VERSIONING_VALIDATED
+`M12_3_SCENARIO_VERSIONING_VALIDATED = PASS`
 
 ## M12.4 Outcome Resolution and Historical Evaluation
 
-Implement:
+Implemented and validated:
 
+- migration `013_forecast_outcomes_evaluations.sql`;
 - durable outcome resolution;
 - exact forecast-version/scenario-version linkage;
 - Brier score and calibration evaluation;
@@ -173,26 +175,28 @@ Implement:
 - immutable evaluation records.
 
 Gate:
-M12_4_OUTCOME_EVALUATION_VALIDATED
+`M12_4_OUTCOME_EVALUATION_VALIDATED = PASS`
 
 ## M12.5 Calibration and Performance History
 
-Implement:
+Implemented and validated:
 
+- migration `014_forecast_calibration_history.sql`;
 - reproducible calibration records;
 - method/version metadata;
 - explicit historical cohort and sample count;
 - raw/calibrated probability history;
-- bucketed or cohort calibration summaries;
+- bucketed and cohort calibration summaries;
 - performance breakdown by horizon and scenario type;
-- no calibration without minimum explicit evidence/sample contract.
+- minimum five-scorable-evaluation sample contract;
+- deterministic RAW then CALIBRATED bucket ordering.
 
 Gate:
-M12_5_CALIBRATION_HISTORY_VALIDATED
+`M12_5_CALIBRATION_HISTORY_VALIDATED = PASS`
 
 ## M12.6 Advanced Forecast Query and Isolation Gate
 
-Implement/validate:
+Implemented and validated:
 
 - current forecast and version-history queries;
 - scenario comparison;
@@ -208,22 +212,27 @@ Implement/validate:
 - full deterministic repository regression CI passes.
 
 Gate:
-M12_ADVANCED_FORECASTING_BASELINE_PASS
+`M12_ADVANCED_FORECASTING_BASELINE_PASS = PASS`
 
-## Initial Implementation Order
+## Final Validation Summary
 
-1. Add migration 011 and durable forecast contracts.
-2. Add versioned project-local forecast repository.
-3. Add provenance-bound immutable input snapshots.
-4. Add scenario version validation and update lifecycle.
-5. Add durable outcome resolution and metrics.
-6. Add calibration history and cohort metrics.
-7. Add advanced forecast query/explanation facade.
-8. Add cross-layer isolation regressions.
-9. Run full CI and record completion/validation artifacts.
+M12 implementation commit for the final query/isolation gate:
+- `e148fe3e92892e95f565c8b6fa5aefba1528ec54`
+
+GitHub Actions final M12 implementation regression:
+- run `32980859938`;
+- `154 passed in 8.19s`;
+- conclusion: `success`.
+
+M12.5 fixed regression:
+- run `32977809109`;
+- `148 passed in 11.05s`;
+- conclusion: `success`.
+
+All M12.1-M12.6 gates passed.
 
 ## Completion Boundary
 
-M12 is complete only when all M12 gates pass and the full deterministic regression suite succeeds.
+M12 is complete and validates the ROADMAP Phase 9 Advanced Forecasting engineering baseline.
 
-M12 completion may validate ROADMAP Phase 9 Advanced Forecasting engineering baseline. It does not approve production/global operational status, shared runtime storage, external forecasting providers or automatic conversion of forecasts into verified facts/events.
+M12 completion does not approve production/global operational status, shared runtime storage, external forecasting providers, automatic probability optimization, or automatic conversion of forecasts into verified facts/events.

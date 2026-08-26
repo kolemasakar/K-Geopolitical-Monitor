@@ -102,19 +102,38 @@ This file records implementation-specific milestones and must not override the c
 - Final GitHub Actions run 32973378757: 118 passed in 4.24s.
 - M11 and ROADMAP Phase 8 recorded as BASELINE_VALIDATED.
 
+## 2026-08-26 - M12 advanced forecasting
+
+- M12 delta audit confirmed existing forecasting modules were baseline helpers and selected extension rather than replacement.
+- Migration 011 added durable forecasts, immutable forecast versions and scenario versions.
+- Migration 012 added typed immutable provenance bindings with fail-closed canonical reference validation.
+- M12.3 added complete scenario lifecycle/update orchestration without a second scenario store.
+- Migration 013 added durable forecast outcomes and exact-version evaluation records.
+- PARTIAL/AMBIGUOUS outcomes are preserved but not assigned fabricated binary metrics.
+- Migration 014 added immutable calibration-history snapshots, RAW/CALIBRATED buckets and performance breakdowns.
+- Minimum calibration cohort contract set to five scorable evaluations.
+- M12.5 initial deterministic bucket-ordering defect fixed in the repository; fixed CI run 32977809109 passed 148 tests in 11.05s.
+- M12.6 added AdvancedForecastQuery for current/history/scenario comparison/provenance/outcome/evaluation/calibration queries.
+- Forecast explanations keep graph inputs explicitly separate from independent source evidence.
+- M12.6 cross-layer regressions validated no mutation of M8 verification/confidence/origin state, no mutation of M11 graph state and preservation of PROJECT_LOCAL_ONLY storage.
+- Final GitHub Actions run 32980859938: 154 passed in 8.19s.
+- M12 and ROADMAP Phase 9 recorded as BASELINE_VALIDATED.
+
 ## Current Implementation Checkpoint
 
-- Engineering implementation: BASELINE_VALIDATED through M11
+- Engineering implementation: BASELINE_VALIDATED through M12
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 7 Multi-Region Expansion: BASELINE_VALIDATED
 - ROADMAP Phase 8 Advanced Geopolitical Graph: BASELINE_VALIDATED
+- ROADMAP Phase 9 Advanced Forecasting: BASELINE_VALIDATED
 - Runtime storage: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: NOT_ENABLED
 - External graph providers: NONE_APPROVED
+- External forecasting providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
 - Automatic translation providers: NONE_APPROVED
 - Production external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 9 Advanced Forecasting preparation
-- Next engineering work package: M12 Advanced Forecasting preparation and delta audit
+- Current roadmap activity: Phase 10 Full Reporting Environment preparation
+- Next engineering work package: M13 Full Reporting Environment delta audit and implementation plan
 - Production/live operational status: NOT_OPERATIONAL

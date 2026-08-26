@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 1.9
+Version: 2.0
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -10,7 +10,7 @@ Minimal Functional Core First.
 
 The project is developed through validation stages. Implementation does not equal validation.
 
-Implementation milestone labels M0-M12 are engineering work packages and are not identical to ROADMAP phase numbers.
+Implementation milestone labels M0-M13 are engineering work packages and are not identical to ROADMAP phase numbers.
 
 ## Phases
 
@@ -186,14 +186,36 @@ Develop:
 - calibration;
 - long-term forecasting.
 
-Current preparation scope:
-- audit the existing forecasting, calibration, historical-validation and adaptive-learning baselines;
-- define the M12 delta without duplicating existing forecasting modules;
-- preserve evidence, temporal and graph provenance in forecast inputs;
-- preserve PROJECT_LOCAL_ONLY runtime storage.
+Validated engineering foundation:
+- durable forecast identity and immutable version history: PASS;
+- normalized raw and calibrated scenario probability distributions: PASS;
+- typed provenance-bound inputs: PASS;
+- SOURCE_EVIDENCE/CANONICAL_EVENT/GRAPH_RELATIONSHIP/OPERATIONAL_FINDING/ANALYST_ASSUMPTION distinction: PASS;
+- fail-closed durable reference validation: PASS;
+- immutable scenario update lifecycle with explicit change reason: PASS;
+- triggers/inhibitors/invalidation signal analysis: PASS;
+- durable outcome resolution: PASS;
+- exact-version Brier and calibration evaluation: PASS;
+- PARTIAL/AMBIGUOUS non-scoring without false binary precision: PASS;
+- reproducible calibration history with minimum five-sample contract: PASS;
+- RAW/CALIBRATED bucket and cohort summaries: PASS;
+- performance breakdown by horizon and scenario type: PASS;
+- current/version-history/scenario-comparison queries: PASS;
+- provenance-backed forecast explanation: PASS;
+- outcome/evaluation/calibration history queries: PASS;
+- M8/M11 truth-state isolation: PASS;
+- graph-derived inputs remain non-independent evidence: PASS;
+- project-local runtime storage: PASS;
+- external forecasting provider dependency: NONE.
 
-Current engineering activity:
-- M12 Advanced Forecasting preparation and delta audit.
+M12 final regression:
+- GitHub Actions run 32980859938;
+- 154 passed in 8.19s.
+
+Phase 9 engineering baseline status:
+BASELINE_VALIDATED
+
+Phase 9 completion does not approve external forecasting providers, automatic probability optimization, forecast-to-fact promotion, shared runtime storage or production/live OPERATIONAL status.
 
 ## Phase 10 - Full Reporting Environment
 
@@ -204,6 +226,15 @@ Support:
 - event dossiers;
 - forecast reports.
 
+Current preparation scope:
+- audit existing reporting, alert, finding, graph and forecast output surfaces;
+- define one canonical report assembly contract rather than parallel report stacks;
+- preserve evidence and forecast provenance in every report artifact;
+- preserve PROJECT_LOCAL_ONLY runtime storage and current production boundaries.
+
+Current engineering activity:
+- M13 Full Reporting Environment preparation and delta audit.
+
 ## Phase 11 - Global Operational Coverage
 
 Implement measurable coverage contracts and coverage confidence.
@@ -212,7 +243,7 @@ Implement measurable coverage contracts and coverage confidence.
 
 - Product Concept: APPROVED
 - Roadmap: APPROVED
-- Engineering implementation: BASELINE_VALIDATED through M11
+- Engineering implementation: BASELINE_VALIDATED through M12
 - M5 full test cycle: PASS - 57 tests, GitHub Actions run 32953343877
 - M6 controlled pilot baseline: PASS - 62 tests, GitHub Actions run 32961649091
 - M7 deterministic regression: PASS - 68 tests, GitHub Actions run 32962379499
@@ -222,19 +253,22 @@ Implement measurable coverage contracts and coverage confidence.
 - M9 hardened regression: PASS - 82 tests, GitHub Actions run 32965387054
 - M10 multi-region/language regression: PASS - 88 tests, GitHub Actions run 32966128001
 - M11 advanced geopolitical graph regression: PASS - 118 tests, GitHub Actions run 32973378757
+- M12 advanced forecasting regression: PASS - 154 tests, GitHub Actions run 32980859938
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 7 Multi-Region Expansion: BASELINE_VALIDATED
 - ROADMAP Phase 8 Advanced Geopolitical Graph: BASELINE_VALIDATED
+- ROADMAP Phase 9 Advanced Forecasting: BASELINE_VALIDATED
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED pending new explicit architecture approval
 - Controlled-pilot external integrations: 2
 - External graph providers: NONE_APPROVED
+- External forecasting providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
 - Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 9 Advanced Forecasting preparation
-- Next engineering work package: M12 Advanced Forecasting preparation and delta audit
+- Current roadmap activity: Phase 10 Full Reporting Environment preparation
+- Next engineering work package: M13 Full Reporting Environment delta audit and implementation plan
 - Production/live operational status: NOT_OPERATIONAL

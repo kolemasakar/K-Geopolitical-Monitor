@@ -2,7 +2,7 @@
 
 Chronological record of major approved project milestones.
 
-Version: 1.9
+Version: 2.0
 Status: ACTIVE
 
 ## 2026-08-24
@@ -110,22 +110,43 @@ Status: ACTIVE
 - Runtime storage remained PROJECT_LOCAL_ONLY; no external graph provider is required.
 - M11 and ROADMAP Phase 8 recorded as BASELINE_VALIDATED.
 
+## 2026-08-26 - M12 Advanced Forecasting
+
+- Existing forecasting, calibration and historical-validation modules were audited and extended rather than replaced with a parallel stack.
+- Migration 011 added durable forecasts, immutable forecast versions and immutable scenario versions.
+- Deterministic forecast/version/scenario identities, monotonic versioning and normalized raw/calibrated probability distributions implemented.
+- Migration 012 added typed provenance-bound forecast inputs with explicit SOURCE_EVIDENCE, CANONICAL_EVENT, GRAPH_RELATIONSHIP, OPERATIONAL_FINDING and ANALYST_ASSUMPTION kinds.
+- Durable input references fail closed; graph relationships remain analytical inputs rather than independent source evidence.
+- Scenario lifecycle supports complete drivers, constraints, triggers, inhibitors, uncertainty and invalidation signals with immutable next-version updates.
+- Migration 013 added evidence-backed outcome resolution and immutable exact-version forecast evaluation.
+- Binary Brier/calibration metrics reuse the existing metric helpers; PARTIAL and AMBIGUOUS outcomes remain deliberately unscored.
+- Migration 014 added reproducible calibration history with explicit method/version metadata, exact evaluation-ID cohorts and a minimum five-scorable-evaluation contract.
+- Initial M12.5 CI exposed inconsistent RAW/CALIBRATED bucket return ordering; repository ordering was corrected without changing calibration values or weakening the test.
+- M12.5 fixed regression passed: GitHub Actions run 32977809109, 148 passed in 11.05s.
+- AdvancedForecastQuery added current forecast, immutable version history, scenario comparison, provenance explanation and outcome/evaluation/calibration history.
+- M12.6 regressions proved forecasting queries do not mutate M8 verification/confidence/origin state or M11 graph state and that graph-derived inputs remain separate from source evidence.
+- M12 final regression passed: GitHub Actions run 32980859938, 154 passed in 8.19s.
+- Runtime storage remained PROJECT_LOCAL_ONLY; no external forecasting provider is required.
+- M12 and ROADMAP Phase 9 recorded as BASELINE_VALIDATED.
+
 ## Current State
 
-- Documentation: RECONCILED through M11
-- Engineering implementation: BASELINE_VALIDATED through M11
+- Documentation: RECONCILED through M12
+- Engineering implementation: BASELINE_VALIDATED through M12
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 7 Multi-Region Expansion: BASELINE_VALIDATED
 - ROADMAP Phase 8 Advanced Geopolitical Graph: BASELINE_VALIDATED
+- ROADMAP Phase 9 Advanced Forecasting: BASELINE_VALIDATED
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED_PENDING_NEW_ARCHITECTURE_APPROVAL
 - Controlled-pilot external integrations: 2
 - External graph providers: NONE_APPROVED
+- External forecasting providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
 - Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 9 Advanced Forecasting preparation
-- Next development activity: M12 Advanced Forecasting preparation and delta audit
+- Current roadmap activity: Phase 10 Full Reporting Environment preparation
+- Next development activity: M13 Full Reporting Environment delta audit and implementation plan
 - Production/live operational status: NOT_OPERATIONAL
