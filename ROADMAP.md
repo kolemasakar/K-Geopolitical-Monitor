@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 1.7
+Version: 1.8
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -10,7 +10,7 @@ Minimal Functional Core First.
 
 The project is developed through validation stages. Implementation does not equal validation.
 
-Implementation milestone labels M0-M10 are engineering work packages and are not identical to ROADMAP phase numbers.
+Implementation milestone labels M0-M11 are engineering work packages and are not identical to ROADMAP phase numbers.
 
 ## Phases
 
@@ -125,17 +125,26 @@ Phase 6 completion does not approve external notification providers, unattended 
 
 Expand regional and language coverage.
 
-Current preparation scope:
-- define canonical region identifiers and region groups;
-- define language coverage metadata independent from evidence truth;
-- bind monitoring watches to explicit region/language scope;
-- measure region/language coverage and gaps;
-- ensure region or language priority does not inflate verification confidence;
-- preserve original-source provenance across translated or indexed observations;
-- preserve PROJECT_LOCAL_ONLY runtime storage.
+Validated engineering foundation:
+- canonical region registry: PASS;
+- canonical language registry: PASS;
+- watch-scoped region/language requirements: PASS;
+- raw-item region/language attribution: PASS;
+- required/observed/missing scope reporting: PASS;
+- coverage ratio persistence: PASS;
+- cross-watch attribution isolation: PASS;
+- restart persistence: PASS;
+- translation metadata verification-isolation: PASS;
+- project-local runtime storage: PASS.
 
-Current engineering activity:
-- M10 Multi-Region and Language Coverage baseline preparation.
+M10 regression:
+- GitHub Actions run 32966128001;
+- 88 passed in 2.07s.
+
+Phase 7 engineering baseline status:
+BASELINE_VALIDATED
+
+Phase 7 completion does not approve global production coverage, automatic translation providers, shared runtime storage or production/live OPERATIONAL status.
 
 ## Phase 8 - Advanced Geopolitical Graph
 
@@ -143,6 +152,16 @@ Develop:
 - actor graph;
 - event graph;
 - relationship analysis.
+
+Current preparation scope:
+- audit the existing M4 Knowledge Graph and Global Intelligence baseline;
+- extend existing graph contracts instead of creating a duplicate graph subsystem;
+- connect validated operational findings, strategic alerts and region/language scope to graph intelligence where provenance is explicit;
+- preserve graph evidence provenance and temporal semantics;
+- preserve PROJECT_LOCAL_ONLY runtime storage.
+
+Current engineering activity:
+- M11 Advanced Geopolitical Graph baseline preparation.
 
 ## Phase 9 - Advanced Forecasting
 
@@ -168,7 +187,7 @@ Implement measurable coverage contracts and coverage confidence.
 
 - Product Concept: APPROVED
 - Roadmap: APPROVED
-- Engineering implementation: BASELINE_VALIDATED through M9
+- Engineering implementation: BASELINE_VALIDATED through M10
 - M5 full test cycle: PASS - 57 tests, GitHub Actions run 32953343877
 - M6 controlled pilot baseline: PASS - 62 tests, GitHub Actions run 32961649091
 - M7 deterministic regression: PASS - 68 tests, GitHub Actions run 32962379499
@@ -176,15 +195,18 @@ Implement measurable coverage contracts and coverage confidence.
 - M8 deterministic regression: PASS - 73 tests, GitHub Actions run 32963096313
 - M8 live end-to-end controlled pilot: PASS - GitHub Actions run 32963354135
 - M9 hardened regression: PASS - 82 tests, GitHub Actions run 32965387054
+- M10 multi-region/language regression: PASS - 88 tests, GitHub Actions run 32966128001
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
+- ROADMAP Phase 7 Multi-Region Expansion: BASELINE_VALIDATED
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED pending new explicit architecture approval
 - Controlled-pilot external integrations: 2
 - External notification providers: NONE_APPROVED
+- Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 7 Multi-Region Expansion preparation
-- Next engineering gate: M10 Multi-Region and Language Coverage baseline
+- Current roadmap activity: Phase 8 Advanced Geopolitical Graph preparation
+- Next engineering gate: M11 Advanced Geopolitical Graph baseline
 - Production/live operational status: NOT_OPERATIONAL
