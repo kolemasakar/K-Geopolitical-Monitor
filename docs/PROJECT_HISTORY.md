@@ -34,11 +34,24 @@ This file records implementation-specific milestones and must not override the c
 - GitHub Actions run 32953343877: 57 passed in 1.05s on Python 3.11.16.
 - M5 project-local operational intelligence baseline recorded as BASELINE_VALIDATED.
 
+## 2026-08-26 - M6 controlled pilot
+
+- Deterministic project-local JSONL source adapter implemented.
+- Source class, provenance and source/raw-item persistence validated.
+- Persistent coverage reporting with explicit gaps implemented.
+- Controlled pilot source path isolation validated under data/pilot_sources.
+- Cadence determinism, restart persistence and idempotent raw-item ingestion validated.
+- Invalid source classes fail without creating operational findings.
+- GitHub Actions run 32961649091: 62 passed in 0.91s on Python 3.11.16.
+- M6 controlled pilot baseline recorded as BASELINE_VALIDATED.
+
 ## Current Implementation Checkpoint
 
-- Engineering implementation: BASELINE_VALIDATED through M5
+- Engineering implementation: BASELINE_VALIDATED through M6
 - M5 full test cycle: PASS
+- M6 controlled pilot baseline: PASS
 - Runtime storage: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: NOT_ENABLED
-- Controlled pilot readiness: READY
+- Production external integrations: NONE_APPROVED
+- Live public-source pilot: READY_FOR_INTEGRATION_REVIEW
 - Production/live operational status: NOT_OPERATIONAL
