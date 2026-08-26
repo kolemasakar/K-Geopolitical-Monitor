@@ -69,16 +69,8 @@ class CalibrationCohort:
     def __post_init__(self) -> None:
         object.__setattr__(self, "horizon", _horizon_value(self.horizon))
         object.__setattr__(self, "scenario_type", _scenario_type_value(self.scenario_type))
-        object.__setattr__(
-            self,
-            "evaluation_method",
-            _nonempty(self.evaluation_method, "evaluation_method"),
-        )
-        object.__setattr__(
-            self,
-            "evaluation_method_version",
-            _nonempty(self.evaluation_method_version, "evaluation_method_version"),
-        )
+        object.__setattr__(self, "evaluation_method", _nonempty(self.evaluation_method, "evaluation_method"))
+        object.__setattr__(self, "evaluation_method_version", _nonempty(self.evaluation_method_version, "evaluation_method_version"))
 
     @property
     def key(self) -> str:
@@ -173,16 +165,8 @@ class CalibrationRun:
             object.__setattr__(self, field_name, value)
         object.__setattr__(self, "evaluation_ids", evaluation_ids)
         object.__setattr__(self, "created_at", _normalize_time(self.created_at))
-        object.__setattr__(
-            self,
-            "calibration_method",
-            _nonempty(self.calibration_method, "calibration_method"),
-        )
-        object.__setattr__(
-            self,
-            "calibration_method_version",
-            _nonempty(self.calibration_method_version, "calibration_method_version"),
-        )
+        object.__setattr__(self, "calibration_method", _nonempty(self.calibration_method, "calibration_method"))
+        object.__setattr__(self, "calibration_method_version", _nonempty(self.calibration_method_version, "calibration_method_version"))
 
 
 @dataclass(frozen=True)
@@ -479,7 +463,7 @@ class SQLiteForecastCalibrationRepository:
                        mean_brier_score, mean_calibration_error
                 FROM forecast_calibration_buckets
                 WHERE calibration_id = ?
-                ORDER BY probability_basis, bucket_index
+                ORDER BY CASE probability_basis WHEN 'RAW' THEN 0 ELSE 1 END, bucket_index
                 """,
                 (calibration_id_value,),
             ).fetchall()
