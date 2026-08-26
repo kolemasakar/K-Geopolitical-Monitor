@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 2.1
+Version: 2.2
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -173,40 +173,49 @@ Phase 10 completion does not approve external publishing/delivery, global operat
 
 ## Phase 11 - Global Operational Coverage
 
-Implement measurable coverage contracts and coverage confidence.
+Validated engineering foundation:
+- explicit deterministic coverage contracts and typed requirements: PASS;
+- migrations 016-017 durable coverage snapshots/results and per-source collection attempts: PASS;
+- adapter/item source identity fail-closed integrity: PASS;
+- SOURCE_CLASS and SOURCE_ID/SOURCE_AVAILABILITY convergence: PASS;
+- REGION_LANGUAGE convergence with watch isolation: PASS;
+- explicit persisted freshness evaluation: PASS;
+- SATISFIED/GAP/UNAVAILABLE/STALE/UNKNOWN/UNMEASURED status separation: PASS;
+- deterministic coverage_ratio and coverage_confidence with distinct semantics: PASS;
+- source count cannot inflate coverage units: PASS;
+- immutable historical/latest coverage query: PASS;
+- M13 Global/Regional coverage reporting integration without a parallel report store: PASS;
+- UNKNOWN and UNMEASURED remain visible in structured and Markdown output: PASS;
+- M8/M10/M11/M12/M13 isolation: PASS;
+- GLOBAL scope does not suppress explicit gaps or imply universal completeness: PASS;
+- project-local runtime database enforcement: PASS;
+- external coverage provider dependency: NONE.
 
-Preparation requirements:
-- audit existing M6/M7/M8/M10 coverage semantics and reporting surfaces;
-- define measurable operational coverage without treating coverage as factual verification confidence;
-- preserve original-origin evidence independence;
-- preserve PROJECT_LOCAL_ONLY runtime storage;
-- do not claim global operational coverage until explicit acceptance gates pass.
+Phase 11 validation progression:
+- P11.1 run 32996565227 - 203 passed in 15.48s;
+- P11.2 run 32997440380 - 210 passed in 16.63s;
+- P11.3 run 32997961490 - 217 passed in 27.46s;
+- P11.4 run 32999092257 - 219 passed in 20.55s;
+- P11.5 run 32999835225 - 223 passed in 83.96s;
+- P11.6 run 33000478908 - 226 passed in 17.67s.
 
-Current engineering activity:
-Phase 11 Global Operational Coverage preparation and delta audit.
+Phase 11 engineering baseline status:
+BASELINE_VALIDATED
+
+Phase 11 validates the ability to explicitly define, measure, persist, query and report operational coverage. It does not prove complete real-time monitoring of every country, language, actor, storyline or source. Production/live status remains NOT_OPERATIONAL.
 
 ## Current implementation checkpoint
 
 - Product Concept: APPROVED
 - Roadmap: APPROVED
-- Engineering implementation: BASELINE_VALIDATED through M13
-- M5 full test cycle: PASS - 57 tests, GitHub Actions run 32953343877
-- M6 controlled pilot baseline: PASS - 62 tests, GitHub Actions run 32961649091
-- M7 deterministic regression: PASS - 68 tests, GitHub Actions run 32962379499
-- M7 live source smoke: PASS - GitHub Actions run 32962576874
-- M8 deterministic regression: PASS - 73 tests, GitHub Actions run 32963096313
-- M8 live end-to-end controlled pilot: PASS - GitHub Actions run 32963354135
-- M9 hardened regression: PASS - 82 tests, GitHub Actions run 32965387054
-- M10 multi-region/language regression: PASS - 88 tests, GitHub Actions run 32966128001
-- M11 advanced geopolitical graph regression: PASS - 118 tests, GitHub Actions run 32973378757
-- M12 advanced forecasting regression: PASS - 154 tests, GitHub Actions run 32980859938
-- M13 full reporting environment regression: PASS - 199 tests, GitHub Actions run 32993269910
+- Engineering implementation: BASELINE_VALIDATED through ROADMAP Phase 11
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 7 Multi-Region Expansion: BASELINE_VALIDATED
 - ROADMAP Phase 8 Advanced Geopolitical Graph: BASELINE_VALIDATED
 - ROADMAP Phase 9 Advanced Forecasting: BASELINE_VALIDATED
 - ROADMAP Phase 10 Full Reporting Environment: BASELINE_VALIDATED
+- ROADMAP Phase 11 Global Operational Coverage: BASELINE_VALIDATED
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
@@ -215,9 +224,11 @@ Phase 11 Global Operational Coverage preparation and delta audit.
 - External graph providers: NONE_APPROVED
 - External forecasting providers: NONE_APPROVED
 - External reporting/publishing providers: NONE_APPROVED
+- External coverage providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
 - Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 11 Global Operational Coverage preparation
-- Next engineering activity: Phase 11 delta audit and implementation planning
+- Current roadmap activity: Phase 11 completed and BASELINE_VALIDATED
+- Next roadmap phase: NONE_APPROVED
+- Next development decision: approve a ROADMAP extension before assigning a new phase or milestone
 - Production/live operational status: NOT_OPERATIONAL
