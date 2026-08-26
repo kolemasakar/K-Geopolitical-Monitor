@@ -1,7 +1,7 @@
 # ARCHITECTURE
 Technical architecture definition for K-Geopolitical Monitor.
 
-Version: 1.7
+Version: 1.8
 Status: APPROVED
 
 ## Purpose
@@ -14,7 +14,7 @@ Minimal Functional Core before global expansion.
 
 ## Logical Layers
 
-Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Processing -> Verification -> Analysis -> Forecasting -> Reporting -> Operational Monitoring -> Coverage -> Strategic Alerts -> Region/Language Scope
+Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Processing -> Verification -> Analysis -> Forecasting -> Reporting -> Operational Monitoring -> Coverage -> Strategic Alerts -> Region/Language Scope -> Advanced Geopolitical Graph
 
 ## Core Components
 
@@ -33,7 +33,8 @@ Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Pr
 - Pilot Coverage Reporting
 - Live End-to-End Analysis
 - Strategic Alert Layer
-- Region/Language Coverage Layer - next baseline
+- Region/Language Coverage Layer
+- Advanced Geopolitical Graph - next baseline
 
 ## Implemented and Validated Baseline
 
@@ -43,7 +44,7 @@ The repository contains validated baselines for:
 - evidence and verification;
 - event intelligence and correlation;
 - forecasting and adaptive-learning components;
-- knowledge graph and relationship analysis;
+- M4 knowledge graph and relationship analysis;
 - causal and temporal graph analysis;
 - intelligence query baseline;
 - project-local monitoring watch and run persistence;
@@ -69,7 +70,12 @@ The repository contains validated baselines for:
 - OPEN/UPDATED/INVALIDATED/RESOLVED strategic-alert state;
 - persistent strategic-alert event history;
 - alert restart persistence;
-- priority ordering for due watches without cadence bypass.
+- priority ordering for due watches without cadence bypass;
+- canonical project-local region and language registries;
+- watch-scoped region/language requirements;
+- raw-item region/language attribution;
+- region/language coverage and gap reports;
+- translation-attribution isolation from evidence confidence and source independence.
 
 These components represent a controlled project-local validated baseline and must not be interpreted as global production maturity.
 
@@ -111,7 +117,7 @@ M8 establishes the following baseline rules:
 - same-origin duplicate observations must not increase verification status;
 - VERIFIED is never assigned automatically by the M8 baseline.
 
-M9 preserves those rules. Alert priority and watch priority are operational handling metadata only and must not change evidence confidence or verification status.
+M9 and M10 preserve those rules. Alert priority and region/language attribution are operational/coverage metadata only and must not change evidence confidence or verification status.
 
 ## Strategic Alert Boundary
 
@@ -126,15 +132,37 @@ M9 establishes:
 - CRITICAL priority does not bypass cadence;
 - no external notification provider is enabled by the engineering baseline.
 
-## Phase 7 Boundary
+## Region and Language Boundary
 
-Multi-Region Expansion may add region and language scope to watches, coverage reports and source observations, but:
+M10 establishes:
 
-- region/language metadata must not change evidence truth;
-- translations or indexes must not create artificial source independence;
-- original publisher/origin provenance must remain authoritative for independence counting;
-- region/language expansion must remain measurable through explicit coverage/gap records;
-- PROJECT_LOCAL_ONLY runtime storage remains mandatory unless a new architecture decision approves otherwise.
+- explicit normalized region and language registries;
+- watch-scoped required region/language pairs;
+- watch-scoped raw-item attribution;
+- explicit missing-scope coverage reports;
+- translations and region/language tags do not create additional independent origins;
+- translations and region/language tags do not modify M8 confidence or verification status;
+- cross-watch attribution leakage is blocked.
+
+## Phase 8 Boundary
+
+Advanced Geopolitical Graph must extend the existing M4 graph baseline rather than create a second graph implementation.
+
+Phase 8 may integrate:
+
+- actor/entity graph views;
+- event graph views;
+- operational findings and strategic alerts as graph-linked intelligence artifacts;
+- region/language scope as graph metadata where appropriate;
+- temporal and causal relationship queries over validated graph facts.
+
+Phase 8 must preserve:
+
+- provenance for graph facts and derived links;
+- M8 source-independence semantics;
+- temporal semantics;
+- project-local canonical storage;
+- no confidence inflation from graph degree, region count or language count alone.
 
 ## Validation State
 
@@ -145,18 +173,22 @@ M7 live-source smoke: PASS - run 32962576874.
 M8 deterministic regression: PASS - 73 tests, run 32963096313.
 M8 live end-to-end controlled pilot: PASS - run 32963354135.
 M9 hardened regression: PASS - 82 tests, run 32965387054.
+M10 multi-region/language regression: PASS - 88 tests, run 32966128001.
 
 ## Current State
 
-- Implementation: BASELINE_VALIDATED through M9
+- Implementation: BASELINE_VALIDATED through M10
 - ROADMAP Phase 5: BASELINE_VALIDATED
 - ROADMAP Phase 6: BASELINE_VALIDATED
+- ROADMAP Phase 7: BASELINE_VALIDATED
 - Runtime storage: PROJECT_LOCAL_ONLY
 - Shared Infrastructure ADR: APPROVED
 - Controlled-pilot live integrations: VALIDATED
 - Strategic alert baseline: VALIDATED
+- Region/language coverage baseline: VALIDATED
 - External notification providers: NONE_APPROVED
+- Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 7 Multi-Region Expansion preparation
-- Next engineering milestone: M10 Multi-Region and Language Coverage baseline
+- Current roadmap activity: Phase 8 Advanced Geopolitical Graph preparation
+- Next engineering milestone: M11 Advanced Geopolitical Graph baseline
 - Production/live operational maturity: NOT_OPERATIONAL
