@@ -1,6 +1,6 @@
 # M7 Live Public-Source Pilot Plan
 
-Status: ACTIVE
+Status: COMPLETE
 Date: 2026-08-26
 Project: K-Geopolitical Monitor
 
@@ -16,12 +16,14 @@ M7 remains within ROADMAP Phase 5 - Controlled Pilot Monitoring.
    - source class: Official sources
    - access: public read-only RSS
    - authentication: none
+   - controlled-pilot validation: PASS
 
 2. GDELT DOC 2.0 API
    - source class: Structured data
    - access: public read-only HTTPS API
    - authentication: none
    - role: discovery/index metadata, not canonical evidence for the content of linked publisher articles
+   - controlled-pilot validation: PASS
 
 ## Governing Constraints
 
@@ -29,61 +31,37 @@ M7 remains within ROADMAP Phase 5 - Controlled Pilot Monitoring.
 - External sources are read-only.
 - No cross-project runtime resource is used.
 - CI contract tests use deterministic recorded payloads and do not depend on external network availability.
-- Live network validation runs in a separate smoke gate.
+- Live network validation runs in a separate manual smoke gate.
 - Source failures are fail-closed and isolated from other source adapters.
 - GDELT metadata does not replace verification against the original publisher or primary source.
 - No live source is promoted to production operation by this milestone alone.
 
-## Work Packages
+## Gate Results
 
-### M7.1 Integration Records
+M7_1_INTEGRATION_RECORDS_COMPLETE: PASS
+M7_2_SOURCE_ADAPTER_CONTRACTS_VALIDATED: PASS
+M7_3_COLLECTION_AUDIT_VALIDATED: PASS
+M7_LIVE_SOURCE_SMOKE_PASS: PASS
+M7_LIVE_PUBLIC_SOURCE_PILOT_PASS: PASS
 
-Create explicit integration records covering provider, data exchanged, classification, authentication, Source of Truth, fallback, failure isolation and approval boundary.
+## Evidence
 
-Gate:
-M7_1_INTEGRATION_RECORDS_COMPLETE
+Deterministic regression:
+- GitHub Actions run: 32962379499
+- result: 68 passed in 0.77s
 
-### M7.2 Live Source Adapter Contracts
+Live smoke:
+- GitHub Actions run: 32962576874
+- Consilium RSS: success; 7 parsed items for query Ukraine
+- GDELT DOC 2.0: success; 5 parsed items for query Ukraine
 
-Implement:
-
-- standard-library HTTPS transport;
-- source-specific parsing for Consilium RSS and GDELT DOC 2.0 JSON;
-- deterministic source and raw-item identities;
-- project-local provenance persistence;
-- fail-closed parsing and HTTP error handling.
-
-Gate:
-M7_2_SOURCE_ADAPTER_CONTRACTS_VALIDATED
-
-### M7.3 Collection Audit and Failure Isolation
-
-Implement:
-
-- collection-run audit records;
-- source success/failure accounting;
-- PARTIAL status when one source fails and another succeeds;
-- original URL and metadata linkage to canonical raw items.
-
-Gate:
-M7_3_COLLECTION_AUDIT_VALIDATED
-
-### M7.4 Live Smoke Validation
-
-Execute a separate live-source smoke workflow against the documented public endpoints.
-
-Gate:
-M7_LIVE_SOURCE_SMOKE_PASS
-
-### M7.5 Full Regression Gate
-
-Run the complete deterministic repository test suite after live-source adapter implementation.
-
-Gate:
-M7_LIVE_PUBLIC_SOURCE_PILOT_PASS
+Detailed result:
+- docs/implementation/M7_LIVE_PUBLIC_SOURCE_PILOT_RESULT.md
 
 ## Completion Boundary
 
-M7 is complete only when M7.1-M7.5 pass.
+M7 is COMPLETE and BASELINE_VALIDATED.
 
 M7 completion does not authorize shared runtime storage, cross-project writes or global production operation.
+
+ROADMAP Phase 5 remains active. The next engineering milestone is M8 Live End-to-End Controlled Pilot Processing, which must connect approved live-source collection to project-local verification/analysis and operational output.
