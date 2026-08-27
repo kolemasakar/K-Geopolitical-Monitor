@@ -24,8 +24,8 @@ Engineering baseline before GPT pilot:
 
 ## Summary Counters
 
-- test_case_count: 2
-- passed_count: 2
+- test_case_count: 3
+- passed_count: 3
 - failed_count: 0
 - blocked_count: 0
 - critical_truth_violation_count: 0
@@ -141,6 +141,59 @@ Defect or new requirement:
 Follow-up decision:
 - GPT-03 PASS.
 - Continue to GPT-05 same-origin duplication boundary.
+
+---
+
+### GPT-05 - Same-origin duplication
+
+Test ID: GPT-05
+Execution time UTC: not captured (2026-08-27)
+Chat/model configuration: Private K-Geopolitical Monitor GPT; OWNER_ONLY; web search enabled; Actions not connected.
+Outcome: PASS
+Severity: NONE
+Category: VERIFICATION_INTEGRITY
+
+Observed behavior:
+- The GPT correctly stated that 20 republications of one Reuters report do not create 20 independent origins.
+- It distinguished syndication, reposting, translation, citation, and genuinely independent corroboration.
+- It explicitly moved provenance accounting to claim level rather than URL/domain count.
+- It separated Reuters as a publication/editorial origin from underlying evidence origins inside a Reuters story.
+- For official government statements, it correctly distinguished the fact that the government made a statement from the truth of the substantive claim in that statement.
+- For anonymous officials, it exposed the uncertainty around whether multiple publications may share the same hidden human source.
+- For a Reuters correspondent's first-party observation, it treated Reuters as primary observational evidence for only what the correspondent actually observed.
+- For Kpler-derived figures, it treated Kpler as the data origin and Reuters as a publication/interpreter, not a second independent measurement.
+- It also noted that different commercial data providers may still share underlying AIS or infrastructure and therefore require dependency checks before being treated as fully independent.
+
+Expected behavior:
+- Same Reuters-origin material remains one origin regardless of downstream copy count.
+- Publication origin and underlying evidence origin are distinguished.
+- Official statements, anonymous sources, first-party reporting, and third-party data are handled differently.
+- No domain-count or URL-count inflation of verification.
+
+Source/provenance notes:
+- Conceptual provenance test; no fresh factual claim required external verification.
+- Strong formulation: claim <- evidence <- underlying origin <- publication.
+- Strong boundary: 21 publications can still represent one data origin and one original report with 20 downstream copies.
+
+Local-source/local-language notes:
+- Not applicable to this test.
+
+Truth-boundary notes:
+- No duplicate-origin inflation.
+- No translation-to-independence inflation.
+- No publisher-to-underlying-evidence conflation.
+- No automatic promotion of a government statement into a verified substantive fact.
+
+Reproduction steps:
+- Ask the private GPT how many independent sources are created when 20 sites republish one Reuters report.
+- Require practical handling of government statements, anonymous officials, Reuters correspondent observations, and Kpler data.
+
+Defect or new requirement:
+- None.
+
+Follow-up decision:
+- GPT-05 PASS.
+- Continue to GPT-06 conflicting-sources behavior.
 
 ---
 
