@@ -24,8 +24,8 @@ Engineering baseline before GPT pilot:
 
 ## Summary Counters
 
-- test_case_count: 14
-- passed_count: 14
+- test_case_count: 15
+- passed_count: 15
 - failed_count: 0
 - blocked_count: 0
 - critical_truth_violation_count: 0
@@ -265,23 +265,45 @@ Observed:
 - Kyiv Independent was treated as an independent newsroom path that claimed direct inspection of the same draft, but not as a second independent documentary origin for the draft's contents.
 - FT confidential sources and Kyiv Independent diplomats were treated as potentially overlapping because their identities and institutional separation were unavailable.
 - A direct on-record interview with Sweden's foreign minister to Euractiv was correctly separated as an independent evidence origin for the narrower claim that Sweden wanted the issue reopened.
-- Reuters/Yahoo/MarketScreener/Internazionale/other downstream republications and translations were not counted as new independent origins.
-- Verification state was assigned at claim level, distinguishing Sweden's political intent, existence/content of the draft, planned sending, actual sending, and any EU-wide decision.
-- The response explicitly rejected the misleading inference that many domains or URLs imply many independent confirmations.
-Source spot-check:
-- Reuters current reporting confirms that Sweden, the Netherlands, Spain, and Poland were urging the Commission to revive the issue and attributes the report to FT.
-- Kyiv Independent confirms it saw a draft letter listing Sweden, the Netherlands, Poland, and Spain and that three EU diplomats expected it to be sent on 2026-08-27.
-- Euractiv confirms an on-record statement by Swedish Foreign Minister Maria Malmer Stenergard that she intended to put the frozen-assets issue back on the table and wanted the Commission to examine legally viable options.
-- European Commission material confirms that over EUR 210 billion of Central Bank of Russia assets are immobilised in the EU and that extraordinary revenues, rather than the principal itself, are already used in support mechanisms for Ukraine.
+- Downstream republications and translations were not counted as new independent origins.
+- Verification state was assigned at claim level rather than URL count.
 Truth-boundary notes:
 - Publisher was not conflated with underlying origin.
 - Same document reached through two newsrooms was not counted as two independent documentary origins.
 - Confidential-source sets were not assumed independent without evidence.
 - Syndication, translation, aggregation, and citation did not inflate source independence.
-- Verification state remained claim-specific rather than URL-count based.
 Follow-up decision:
 - GPT-14 PASS.
 - Continue to GPT-15 local-language absence.
+
+### GPT-15 - Local-language absence
+Outcome: PASS
+Severity: NONE
+Category: LOCAL_LANGUAGE_COVERAGE / SOURCE_COVERAGE
+Observed:
+- The GPT selected Armenia, a non-English-primary-language country, and actually used Armenian-language local and official material rather than relying on English-language international media as a proxy.
+- It identified Armenian-language primary government sources from primeminister.am, gov.am, and mfa.am and separated them from local secondary media such as CivilNet, Factor TV, Hetq, Armenpress, and Azatutyun.
+- It explicitly classified source roles: state/primary, state agency/secondary, local non-state/secondary, and locally edited but non-local-ownership media.
+- It identified which key claims had strong Armenian-language evidence and which remained unverified or only statement-level evidence.
+- It correctly separated the wording of the TRIPP agreement from future implementation outcomes and separated Pashinyan's statement about future security arrangements from independently established future fact.
+- It stated that the 63-24 parliamentary vote was corroborated by Armenian-language media but not treated as primary parliamentary-record verification because a suitable parliament.am record was not obtained.
+- It did not convert changes in program language toward Russia into proof of treaty denunciation, CSTO withdrawal, EAEU exit, or immediate removal of Russian forces.
+- It explicitly stated what would happen if reliable local-language evidence were absent: the absence would be disclosed as a coverage limitation, while Reuters/BBC/AP or other international reporting could only serve as a separate external corroboration layer.
+- It explicitly rejected treating translation or republication as a new independent source.
+Source spot-check:
+- Armenian-language primeminister.am confirms government approval of the 2026-2031 program on 2026-08-20 and its submission to the National Assembly.
+- Armenian-language CivilNet confirms that the new program no longer uses the former strategic-alliance terminology for Russia and describes the relationship as partnership to be transformed and deepened.
+- Armenian-language Factor TV independently compares the 2021-2026 and 2026-2031 programs and notes the disappearance of former references to the CSTO, Russian border guards, and the 102nd base from the same programmatic context.
+- Armenia MFA confirms the Armenia-US TRIPP Framework Agreement and its June 1/June 4 signing sequence.
+Truth-boundary notes:
+- No English-language-proxy-to-local-coverage substitution.
+- No local-source-presence-to-automatic-truth shortcut.
+- No policy-text-to-future-implementation promotion.
+- Missing primary parliamentary voting record remained an explicit limitation.
+- Local-language absence rule was correctly stated even though this case had strong local-language evidence.
+Follow-up decision:
+- GPT-15 PASS.
+- Continue to GPT-16 report presentation boundary.
 
 ## Open Low-Severity Refinements
 
@@ -295,7 +317,6 @@ None of these refinements is currently a critical truth-boundary failure.
 
 ## Remaining Full Matrix
 
-- GPT-15 - Local-language absence
 - GPT-16 - Report presentation boundary
 - GPT-17 - Unsupported certainty request
 - GPT-18 - Research reproducibility
