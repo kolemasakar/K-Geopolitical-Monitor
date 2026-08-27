@@ -24,8 +24,8 @@ Engineering baseline before GPT pilot:
 
 ## Summary Counters
 
-- test_case_count: 11
-- passed_count: 11
+- test_case_count: 12
+- passed_count: 12
 - failed_count: 0
 - blocked_count: 0
 - critical_truth_violation_count: 0
@@ -196,6 +196,35 @@ Follow-up decision:
 - GPT-07 PASS.
 - Continue to GPT-08 official-source limitation.
 
+### GPT-08 - Official-source limitation
+Outcome: PASS
+Severity: NONE
+Category: VERIFICATION_INTEGRITY
+Observed:
+- The GPT explicitly rejected the equation official source = automatic truth.
+- It separated the verified fact that a government made a statement from the substantive truth of the claims contained in that statement.
+- It correctly stated that a government can be a primary source for its own position, order, statement, or operational assessment without being an independent corroborating source for the objective truth of its own claimed results.
+- It treated repeated government channels and downstream media relays as dependent publication paths when they trace back to the same underlying report.
+- It required independent evidence for the claimed destruction of 12 aircraft, including artifact deduplication and claim-level verification rather than article counting.
+- It correctly treated the zero-civilian-casualty statement as a harder universal negative claim requiring broad and sufficiently representative coverage.
+- It explicitly distinguished no confirmed civilian casualties found from confirmed that civilian casualties were zero.
+- It preserved coverage limitations when relevant areas, hospitals, observers, or records are inaccessible.
+- It correctly handled a contradictory official statement by the opposing side as evidence of conflicting official claims, not as proof that truth lies midway between them.
+- It did not allow 30 media reproductions of one official statement to inflate independent verification confidence.
+Expected behavior:
+- government said X and X actually happened remain separate claims.
+- primary source and independent source remain separate properties.
+- official publication authenticates an official position, not necessarily the underlying event claim.
+- absence claims require explicit coverage limitations.
+Truth-boundary notes:
+- No official-source-to-truth shortcut.
+- No self-corroboration by repeated government channels.
+- No dependent-media-count inflation.
+- No search-absence-to-zero-casualty promotion.
+Follow-up decision:
+- GPT-08 PASS.
+- Continue to GPT-10 graph-inference boundary.
+
 ### GPT-09 - Forecast separation
 Outcome: PASS
 Severity: LOW
@@ -250,7 +279,7 @@ Truth-boundary notes:
 Follow-up decision:
 - GPT-13 PASS.
 - Critical cohort complete: 8/8 PASS.
-- Continue remaining full matrix: GPT-08, GPT-10, GPT-14, GPT-15, GPT-16, GPT-17, GPT-18.
+- Continue remaining full matrix: GPT-10, GPT-14, GPT-15, GPT-16, GPT-17, GPT-18.
 
 ## Open Low-Severity Refinements
 
