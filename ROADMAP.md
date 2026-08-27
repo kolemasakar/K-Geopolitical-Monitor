@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 2.2
+Version: 2.3
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -11,6 +11,8 @@ Minimal Functional Core First.
 The project is developed through validation stages. Implementation does not equal validation.
 
 Implementation milestone labels M0-M13 are engineering work packages and are not identical to ROADMAP phase numbers.
+
+No ROADMAP Phase 12 and no M14 are approved at this checkpoint.
 
 ## Phases
 
@@ -204,6 +206,67 @@ BASELINE_VALIDATED
 
 Phase 11 validates the ability to explicitly define, measure, persist, query and report operational coverage. It does not prove complete real-time monitoring of every country, language, actor, storyline or source. Production/live status remains NOT_OPERATIONAL.
 
+## Unnumbered Post-Phase-11 Owner-Only GPT Pilot
+
+This activity is not ROADMAP Phase 12 and does not create M14.
+
+Validated preparation:
+- owner-only private K-Geopolitical Monitor GPT configured;
+- Web Search enabled;
+- Code Interpreter/Data Analysis enabled;
+- no Knowledge files required for initial pilot;
+- no backend Action/API connected;
+- unattended supervisor and cadence-safe live operational cycle implemented and regression-tested;
+- GitHub Actions run 33012596904: 236 passed.
+
+Final pilot matrix:
+- test_case_count: 18;
+- passed_count: 18;
+- failed_count: 0;
+- blocked_count: 0;
+- critical truth-boundary violations: 0;
+- hallucinated/untraceable source failures: 0;
+- verification-boundary failures: 0;
+- coverage-boundary failures: 0;
+- backend-access hallucination failures: 0.
+
+Closure validation:
+- GPT-18/full matrix closure run 33046581445: SUCCESS;
+- owner-only pilot plan closure run 33046621582: SUCCESS;
+- post-pilot retrospective/expansion-plan run 33046677596: SUCCESS.
+
+Pilot status:
+OWNER_ONLY_PILOT_PASS
+
+The pilot validates user-facing research and truth-boundary behavior for continued owner-only use. It does not approve production/live operation, public sharing, external delivery, shared runtime storage or backend Action access.
+
+## Approved Unnumbered Post-Pilot Expansion Workstreams
+
+These workstreams are post-Phase-11 engineering/planning activities. They are not a new numbered ROADMAP phase.
+
+Execution order:
+- E1 Automatic Translation Foundation - P0 - APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION;
+- E2 Source Reputation and Status History - P0 - APPROVED_FOR_DESIGN;
+- E3 Private GPT Backend Action API - P0 - APPROVED_FOR_DESIGN;
+- E4 Free Unattended Runtime Deployment - P0 - APPROVED_FOR_VALIDATION;
+- E5 Admin Read-Only Dashboard - P1 - PLANNED;
+- E6 Reproducibility Instrumentation - P1 - PLANNED;
+- E7 Forecast Probability Semantics - P1 - PLANNED;
+- E8 Controlled External Sharing / Public GPT - DEFERRED - NOT_APPROVED;
+- E9 Shared Production Runtime - DEFERRED - NOT_APPROVED.
+
+Post-pilot invariants:
+- runtime storage remains PROJECT_LOCAL_ONLY;
+- no shared runtime database;
+- no implicit mixed storage;
+- no translation-based source independence;
+- no graph-based source independence;
+- no forecast-to-fact promotion;
+- no coverage-to-verification promotion;
+- no report-presentation truth inflation;
+- no public-web substitution for persisted backend state;
+- no external provider activation without explicit approval.
+
 ## Current implementation checkpoint
 
 - Product Concept: APPROVED
@@ -216,6 +279,7 @@ Phase 11 validates the ability to explicitly define, measure, persist, query and
 - ROADMAP Phase 9 Advanced Forecasting: BASELINE_VALIDATED
 - ROADMAP Phase 10 Full Reporting Environment: BASELINE_VALIDATED
 - ROADMAP Phase 11 Global Operational Coverage: BASELINE_VALIDATED
+- Owner-only private GPT pilot: SUCCESSFUL, 18/18 PASS
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
@@ -228,7 +292,10 @@ Phase 11 validates the ability to explicitly define, measure, persist, query and
 - External notification providers: NONE_APPROVED
 - Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 11 completed and BASELINE_VALIDATED
+- Private GPT backend Action/API: NOT_CONNECTED
+- Unattended cloud runtime: NOT_DEPLOYED
+- Public sharing: DEFERRED
+- Shared production runtime: NOT_APPROVED
+- Current engineering activity: E1 Automatic Translation Foundation design and local implementation
 - Next roadmap phase: NONE_APPROVED
-- Next development decision: approve a ROADMAP extension before assigning a new phase or milestone
 - Production/live operational status: NOT_OPERATIONAL
