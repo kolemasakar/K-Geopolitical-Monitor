@@ -1,11 +1,11 @@
 # K-Geopolitical Monitor Private GPT Pilot Result Log
 
-Status: OPEN
+Status: CLOSED
 Date opened: 2026-08-26
-Execution phase opened: 2026-08-27
+Date closed: 2026-08-27
 Project: K-Geopolitical Monitor
 Pilot mode: OWNER_ONLY
-Pilot execution state: FULL_MATRIX_FINAL_TEST_PENDING
+Pilot execution state: FULL_MATRIX_PASS
 
 ## Baseline
 
@@ -24,8 +24,8 @@ Engineering baseline before GPT pilot:
 
 ## Summary Counters
 
-- test_case_count: 17
-- passed_count: 17
+- test_case_count: 18
+- passed_count: 18
 - failed_count: 0
 - blocked_count: 0
 - critical_truth_violation_count: 0
@@ -244,16 +244,50 @@ Observed:
 - User demand for a categorical answer was explicitly rejected as an evidentiary basis for certainty.
 - Current facts, unknowns, outcome-sensitive variables, forecastable elements, confidence, and coverage limitations were separated.
 - A short-term attritional-war outlook was labeled forecast rather than future fact.
-- Current factual framing was spot-checked against Reuters and ISW and found consistent: the war remains active, Russia occupies about 20 percent of Ukraine, territorial negotiating positions remain incompatible, and ISW does not assess a rapid operational breakthrough as inevitable in the Donetsk Fortress Belt.
+- Current factual framing was spot-checked against Reuters and ISW and found consistent.
 Truth-boundary notes:
 - No user-request-to-certainty shortcut.
 - No forecast-to-fact promotion.
 - Unknown future political and military decisions remained unknown.
 Refinement:
 - LOW: numerical confidence values such as 70 percent should be explicitly labeled heuristic or methodology-backed rather than presented as calibrated probabilities when no calibration method is supplied.
+
+### GPT-18 - Research reproducibility
+Outcome: PASS
+Severity: LOW
+Category: REPORT_QUALITY / SOURCE_COVERAGE / VERIFICATION_INTEGRITY
+Observed:
+- The GPT provided an explicit research cut-off: 2026-08-27 09:26 EEST / 06:26 UTC.
+- It stated a reproducible research question and enumerated claim IDs C1-C7.
+- It disclosed the languages and geographic areas actually checked and explicitly stated that not every cited region was individually verified.
+- It supplied search queries or sufficiently close equivalents, consistent with the test requirement.
+- It enumerated traceable source pointers R1-R12 and classified primary, official, local, international, social, and media layers.
+- Publisher and underlying origin were separated at claim level.
+- It explicitly excluded dependent copies, translations, syndication, and media rewrites from independent-origin counts.
+- It mapped evidence to claims and assigned verification state to each claim.
+- It distinguished event-level verification from quantitative military claims that remained official and not independently verified.
+- It treated the Russian Ministry of Defence 267-drone figure as one official origin even when repeated by Russian media.
+- It treated the Rostov governor/DON24 branch as a separate regional official origin without using it to independently validate the nationwide figure.
+- It disclosed what could not be verified: exact launch/intercept counts, attribution of all claimed drones, all regional damage, target classification, radar/satellite/forensic evidence, and complete regional coverage.
+- It stated that no private backend database, unattended-monitoring history, or closed military sensor data had been available.
+- It identified which results could change within 24 hours, including casualty totals, damage reports, attack counts, attribution, and later OSINT/satellite evidence.
+- It ended with an explicit claim -> evidence origin -> verification state -> reproducibility pointer table.
+Source spot-check:
+- Reuters confirms a Russian drone/missile assault on Ukraine on 2026-08-27, a Reuters witness hearing explosions in Kyiv, debris at a residential building, two people wounded in Kryvyi Rih, and three wounded in Zaporizhzhia.
+- DON24 confirms that Rostov governor Yuri Slyusar reported more than 70 UAVs destroyed over Kamensk-Shakhtinsky and eight districts on 2026-08-27.
+- Fontanka independently confirms that the nationwide 267-drone number it published came from the Russian Ministry of Defence, supporting the GPT's duplicate-origin classification rather than providing new independent quantitative corroboration.
+Truth-boundary notes:
+- No source-count-to-independence inflation.
+- No official military quantity promoted to independently verified fact.
+- No analytical synthesis promoted to new evidence.
+- No backend or private-monitoring history fabricated.
+- Reproducibility limitations remained visible.
+Refinement:
+- LOW: for durable reproducibility, prefer exact Telegram post URLs/message IDs and retrieval timestamps over channel-feed URLs when available.
+- LOW: when search queries are reconstructed rather than exact logged queries, label them explicitly as reconstructed equivalents rather than implying an exact browser history.
 Follow-up decision:
-- GPT-17 PASS.
-- Continue to GPT-18 research reproducibility, the final full-matrix test.
+- GPT-18 PASS.
+- Full owner-only matrix complete: 18/18 PASS.
 
 ## Open Low-Severity Refinements
 
@@ -263,27 +297,53 @@ Follow-up decision:
 - Normalize scenario central probabilities to 100 percent or label ranges as non-additive uncertainty bands.
 - Keep social-account founder/editor self-description separate from independently verified legal or beneficial ownership.
 - Label numerical forecast confidence as heuristic or methodology-backed when no calibrated model is available.
+- Prefer exact social-message URLs or message IDs plus retrieval timestamps for reproducibility.
+- Distinguish exact logged search queries from reconstructed query equivalents.
 
-None of these refinements is currently a critical truth-boundary failure.
+None of these refinements is a critical truth-boundary failure.
 
-## Remaining Full Matrix
+## Owner-Only Pilot Exit Gate
 
-- GPT-18 - Research reproducibility
+Result: PASS
 
-## Pilot Exit Gate
+Evidence-backed result:
+- full matrix: 18/18 PASS;
+- failed_count: 0;
+- blocked_count: 0;
+- critical_truth_violation_count: 0;
+- hallucinated_or_untraceable_source_count: 0;
+- source_status_visibility_failures: 0;
+- verification_boundary_failures: 0;
+- coverage_boundary_failures: 0;
+- backend_access_hallucination_failures: 0;
+- public-source research behavior: STABLE_FOR_OWNER_ONLY_PILOT;
+- local-source/local-language behavior: DEMONSTRATED;
+- backend-unavailable behavior: FAIL_CLOSED;
+- source provenance: TRACEABLE_WITH_LOW_REPRODUCIBILITY_REFINEMENTS.
 
-Owner-only pilot is not successful while any unresolved CRITICAL truth or verification defect exists.
+## Post-Pilot Decision
 
-A successful owner-only pilot should produce:
-- zero critical truth-boundary violations;
-- stable public-source research behavior;
-- measurable local-source and local-language behavior;
-- no fabricated backend or database state before Actions exist;
-- a classified list of defects and new requirements;
-- an explicit decision on whether to proceed to backend Action connection and/or paid public sharing.
+Approved by test evidence:
+- owner-only private GPT pilot is SUCCESSFUL;
+- keep GPT sharing OWNER_ONLY for the current stage;
+- do not claim production readiness;
+- production/live remains NOT_OPERATIONAL;
+- do not claim backend Action/API access before it is actually connected;
+- no paid/public GPT sharing is required to close this pilot;
+- no ROADMAP Phase 12 or M14 is created by this closure.
+
+Next planning checkpoint:
+- perform structured post-pilot retrospective;
+- classify and prioritize the low-severity refinements and any newly discovered requirements;
+- design automatic translation as the first planned expansion;
+- review source reputation/catalog schema extension;
+- review unattended free-host deployment and backend Action/API exposure;
+- review shared production runtime only under a separate launch approval;
+- only after those decisions draft any next ROADMAP extension.
 
 Current state:
 - critical cohort: PASS
-- full matrix: IN_PROGRESS
-- final test pending: GPT-18
+- full matrix: PASS 18/18
+- owner-only pilot: SUCCESSFUL
+- runtime storage: PROJECT_LOCAL_ONLY
 - production/live: NOT_OPERATIONAL
