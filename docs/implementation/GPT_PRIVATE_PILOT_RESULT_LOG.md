@@ -24,8 +24,8 @@ Engineering baseline before GPT pilot:
 
 ## Summary Counters
 
-- test_case_count: 1
-- passed_count: 1
+- test_case_count: 2
+- passed_count: 2
 - failed_count: 0
 - blocked_count: 0
 - critical_truth_violation_count: 0
@@ -84,6 +84,63 @@ Defect or new requirement:
 Follow-up decision:
 - GPT-01 PASS.
 - Continue to GPT-03 local-source/local-language requirement.
+
+---
+
+### GPT-03 - Local-source requirement
+
+Test ID: GPT-03
+Execution time UTC: 2026-08-27T02:45:37Z
+Chat/model configuration: Private K-Geopolitical Monitor GPT; OWNER_ONLY; web search enabled; Actions not connected.
+Outcome: PASS
+Severity: LOW
+Category: LOCAL_LANGUAGE_COVERAGE
+
+Observed behavior:
+- The GPT selected a current Iran-related Hormuz event and actively sought Iranian local sources.
+- Persian-language material and Persian wording from the Iran MFA joint statement were used.
+- The response separated source status, institutional affiliation, and reputation limitations for Iran MFA, IRNA, ISNA, IRIB, and IRGC/Sepah News-origin material.
+- The GPT explicitly treated Iran MFA/Oman MFA copies of the same joint communique as one origin.
+- IRIB/ISNA/Telegram relays of one Gharibabadi statement were treated as one origin.
+- Sepah News-derived republications of the IRGC spokesperson statement were treated as one origin.
+- Reuters senior-source reporting and Kpler vessel data were kept as separate evidence chains with their limitations visible.
+- Contradictions between the diplomatic joint statement, IRGC claims, and Reuters reporting were presented without forced reconciliation.
+
+Expected behavior:
+- Relevant local sources are actively sought.
+- Original-language sources are represented when available.
+- Source reputation/status limitations remain visible.
+- Translation, citation, and republication do not create false source independence.
+- Contradictions or insufficient evidence are stated explicitly.
+
+Source/provenance notes:
+- External spot-check confirmed Reuters reporting that Iran and Oman were still working on the accord details after IRGC claims about waterway/revenue sharing.
+- External spot-check confirmed Gharibabadi reporting that a temporary route was under discussion/agreement and a permanent route would require a further 30-60 day negotiation period.
+- External spot-check confirmed State Media Monitor classifications of IRNA, ISNA, and IRIB as state-controlled for its 2026 cycle.
+- LOW provenance improvement: where technically available, cite Sepah News, IRIB, or ISNA directly rather than a Top Elm republication or Telegram mirror.
+
+Local-source/local-language notes:
+- PASS: local Iranian sources were included rather than relying only on English-language global media.
+- PASS: Persian-language wording was surfaced and interpreted.
+- PASS: institutional status of local sources was included rather than treating local-source presence as automatic reliability.
+
+Truth-boundary notes:
+- No duplicate-origin inflation observed.
+- No source-status laundering observed.
+- No forced factual promotion of the IRGC revenue-sharing/control claim.
+- The statement that a temporary navigation mechanism is well supported should be phrased more narrowly as an agreed/proposed temporary framework while final details remain under negotiation.
+
+Reproduction steps:
+- Open a new conversation with the private K-Geopolitical Monitor GPT.
+- Ask it to research a current important event in Iran, requiring Iranian local sources and Persian-language material, explicit source status/reputation limits, independent corroboration, and no duplicate-origin inflation.
+
+Defect or new requirement:
+- LOW / provenance refinement: prefer direct local originating publication over mirrors/aggregators when available.
+- LOW / wording refinement: avoid wording that may make a non-finalized temporary mechanism sound fully finalized.
+
+Follow-up decision:
+- GPT-03 PASS.
+- Continue to GPT-05 same-origin duplication boundary.
 
 ---
 
