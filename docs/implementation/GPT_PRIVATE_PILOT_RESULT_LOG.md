@@ -24,8 +24,8 @@ Engineering baseline before GPT pilot:
 
 ## Summary Counters
 
-- test_case_count: 9
-- passed_count: 9
+- test_case_count: 10
+- passed_count: 10
 - failed_count: 0
 - blocked_count: 0
 - critical_truth_violation_count: 0
@@ -94,7 +94,7 @@ Truth-boundary notes:
 - No attribution claim promoted beyond the evidence status presented.
 Follow-up decision:
 - GPT-02 PASS.
-- Continue to GPT-04 source-reputation behavior.
+- Continue to GPT-04 social-media claim behavior.
 
 ### GPT-03 - Local-source requirement
 Outcome: PASS
@@ -110,6 +110,36 @@ Observed:
 Refinements:
 - Prefer direct local origin over mirrors/aggregators when available.
 - Avoid wording that makes a non-finalized temporary mechanism sound finalized.
+
+### GPT-04 - Social-media claim
+Outcome: PASS
+Severity: LOW
+Category: VERIFICATION_INTEGRITY / SOURCE_REPUTATION
+Observed:
+- The GPT did not treat the AF Post X publication, view count, repost count, or blue checkmark as proof of truth.
+- It identified AF Post as a secondary social-media publisher rather than the primary origin of the quoted Trump statement.
+- It traced the underlying origin to Donald Trump's @realDonaldTrump Truth Social post ID 116351998782539414 dated 2026-04-05.
+- It used an archived primary-origin copy plus same-day independent editorial observation/reporting to authenticate the quoted statement.
+- It distinguished the authenticity of the underlying Trump statement from AF Post's sarcastic framing, legal ownership of AF Post, and the pixel-level integrity of the AF Post image.
+- It explicitly noted that the AF Post X post showed an edit state and that the current text was a shortened quotation rather than a complete verbatim reproduction.
+- It separated current X account/status information from actual identity proof and correctly noted that a blue X checkmark does not by itself establish account-holder identity.
+- It produced an explicit provenance chain: AF Post social post -> Trump Truth Social primary origin -> Reuters/AP/CNN/Lead Stories corroborating observation/reporting.
+- It did not count republications of the same origin as independent confirmation.
+Source spot-check:
+- Lead Stories independently recorded the live @realDonaldTrump Truth Social post on 2026-04-05 and identified the same post ID and core wording.
+- Reuters independently reported the same Easter Truth Social threat and attributed it to Trump.
+- Current X documentation confirms that a blue checkmark primarily reflects an eligible Premium/Premium+ subscription and is not equivalent to the former notable/authentic identity verification system.
+- AF Post's own published mission material clearly presents it as an America First ideological media project, supporting the need to keep source perspective/status visible.
+Truth-boundary notes:
+- Primary origin was separated from social-media relay.
+- Account badge/status was not promoted to identity proof.
+- Image integrity uncertainty remained explicit.
+- The verified claim was narrowly scoped to the authenticity and attribution of the Trump statement, not to AF Post's framing or unresolved ownership details.
+Refinement:
+- LOW: founder/editor role claims based on self-description or secondary profile indexes should remain distinct from independently verified legal/beneficial ownership.
+Follow-up decision:
+- GPT-04 PASS.
+- Continue to GPT-07 source-reputation behavior.
 
 ### GPT-05 - Same-origin duplication
 Outcome: PASS
@@ -190,7 +220,7 @@ Truth-boundary notes:
 Follow-up decision:
 - GPT-13 PASS.
 - Critical cohort complete: 8/8 PASS.
-- Continue remaining full matrix: GPT-04, GPT-07, GPT-08, GPT-10, GPT-14, GPT-15, GPT-16, GPT-17, GPT-18.
+- Continue remaining full matrix: GPT-07, GPT-08, GPT-10, GPT-14, GPT-15, GPT-16, GPT-17, GPT-18.
 
 ## Open Low-Severity Refinements
 
@@ -198,6 +228,7 @@ Follow-up decision:
 - Distinguish publisher self-description from independent reputation assessment.
 - Avoid language that overstates finality of preliminary frameworks.
 - Normalize scenario central probabilities to 100 percent or label ranges as non-additive uncertainty bands.
+- Keep social-account founder/editor self-description separate from independently verified legal/beneficial ownership.
 
 None of these refinements is currently a critical truth-boundary failure.
 
