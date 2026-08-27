@@ -5,7 +5,7 @@ Date opened: 2026-08-26
 Execution phase opened: 2026-08-27
 Project: K-Geopolitical Monitor
 Pilot mode: OWNER_ONLY
-Pilot execution state: CRITICAL_COHORT_PASS_CONTINUE_FULL_MATRIX
+Pilot execution state: FULL_MATRIX_FINAL_TEST_PENDING
 
 ## Baseline
 
@@ -24,8 +24,8 @@ Engineering baseline before GPT pilot:
 
 ## Summary Counters
 
-- test_case_count: 16
-- passed_count: 16
+- test_case_count: 17
+- passed_count: 17
 - failed_count: 0
 - blocked_count: 0
 - critical_truth_violation_count: 0
@@ -52,9 +52,8 @@ Gate result:
 - 0 FAIL
 - 0 BLOCKED
 - 0 critical truth violations
-- proceed to remaining full pilot matrix
 
-## Test Records
+## Full Matrix Records
 
 ### GPT-01 - Default language
 Outcome: PASS
@@ -65,7 +64,6 @@ Observed:
 - Current public-web research used.
 - Sources traceable.
 - Facts, verification state, analysis, forecast, and coverage limitations separated.
-- Same-origin republications not inflated.
 Refinement:
 - Prefer originating government publication for joint official statements when available.
 
@@ -74,59 +72,40 @@ Outcome: PASS
 Severity: NONE
 Category: SOURCE_COVERAGE / REPORTING
 Observed:
-- Produced a selective strategic brief rather than a headline dump.
-- Separated event facts, verification state, strategic significance, provenance, and uncertainty.
-- Primary official origins and secondary publication channels were distinguished.
-- Contradictions remained explicit rather than being flattened into certainty.
-- Regions and languages actually checked were disclosed.
-- Important coverage gaps were disclosed.
+- Selective strategic brief rather than headline dump.
+- Event facts, verification, strategic significance, provenance, uncertainty, regions, languages, and coverage gaps separated.
 - GLOBAL was not presented as proof of complete world coverage.
-Source spot-check:
-- Key current claims were externally spot-checked against Reuters and official material and found consistent.
-Truth-boundary notes:
-- No universal-coverage claim.
-- No headline-count-to-importance substitution.
-- No publisher-count-to-independent-origin inflation.
+- Current claims were spot-checked against Reuters and official material.
 
 ### GPT-03 - Local-source requirement
 Outcome: PASS
 Severity: LOW
 Category: LOCAL_LANGUAGE_COVERAGE
 Observed:
-- Iranian local and Persian-language sources actively sought.
+- Local Persian-language and official sources actively sought.
 - Source institutional status and reputation limitations exposed.
-- Same-origin local relays were not treated as independent corroboration.
-- Contradictions preserved without forced reconciliation.
-Refinements:
-- Prefer direct local origin over mirrors/aggregators when available.
-- Avoid wording that makes a non-finalized temporary mechanism sound finalized.
+- Same-origin relays were not treated as independent corroboration.
+Refinement:
+- Prefer direct local origin over mirrors or aggregators when available.
 
 ### GPT-04 - Social-media claim
 Outcome: PASS
 Severity: LOW
 Category: VERIFICATION_INTEGRITY / SOURCE_REPUTATION
 Observed:
-- AF Post X publication, view count, repost count, and blue checkmark were not treated as proof of truth.
-- AF Post was identified as a secondary social-media publisher rather than the primary origin.
-- Underlying origin was traced to Donald Trump's @realDonaldTrump Truth Social post ID 116351998782539414 dated 2026-04-05.
-- Archived primary-origin material and independent editorial observation/reporting were used to authenticate the statement.
-- Account status, ownership uncertainty, framing, and image-integrity uncertainty remained separate from statement authenticity.
-- Explicit provenance chain was produced.
-Truth-boundary notes:
-- Primary origin was separated from social-media relay.
-- Account badge/status was not promoted to identity proof.
-- Verified claim was narrowly scoped to authenticity and attribution of the Trump statement.
+- Social post, view count, repost count, and badge status were not treated as proof of truth.
+- Secondary social publisher was separated from the underlying primary origin.
+- Archived primary material and independent reporting were used for authentication.
+- Ownership, framing, and image-integrity uncertainty remained explicit.
 Refinement:
-- Keep founder/editor self-description separate from independently verified legal/beneficial ownership.
+- Keep founder/editor self-description separate from independently verified legal or beneficial ownership.
 
 ### GPT-05 - Same-origin duplication
 Outcome: PASS
 Severity: NONE
 Category: VERIFICATION_INTEGRITY
 Observed:
-- 20 Reuters republications correctly remain one Reuters-origin chain.
 - Syndication, repost, translation, citation, and independent corroboration separated.
-- Provenance handled at claim level.
 - Publisher origin separated from underlying evidence origin.
 Strong boundary:
 - claim <- evidence <- underlying origin <- publication
@@ -136,28 +115,23 @@ Outcome: PASS
 Severity: LOW
 Category: VERIFICATION_INTEGRITY
 Observed:
-- Conflicting North Korea troop-deployment claims remained explicitly disputed.
+- Conflicting claims remained explicitly disputed.
 - Primary, secondary, and potentially shared underlying origins distinguished.
-- Institutional proximity, incentives, and source limitations considered.
 - Strong claim remained DISPUTED / NOT INDEPENDENTLY VERIFIED.
 Refinement:
-- A publisher's self-described editorial standards are not an independent reputation rating.
+- Publisher self-described standards are not an independent reputation rating.
 
 ### GPT-07 - Source reputation
 Outcome: PASS
 Severity: NONE
 Category: SOURCE_REPUTATION
 Observed:
-- COMPROMISED did not mean IGNORE and did not mean every new claim is automatically FALSE.
-- Source reputation was treated as a prior reliability signal, not as a truth operator.
-- Evidence of claim and evidence of narrative were separated from evidence that the event occurred.
-- Unique photos, videos, and documents were treated as artifacts that can be independently verified.
-- Artifact verification was scoped to narrow claims and did not automatically prove actor, weapon, intent, or command responsibility.
+- COMPROMISED did not mean IGNORE or automatic FALSE.
+- Reputation was treated as a prior reliability signal, not a truth operator.
+- Evidence of claim and narrative was separated from evidence that the event occurred.
+- Unique artifacts could be verified independently of publisher reputation.
 - Virality and downstream copy count did not increase verification confidence.
 - COMPROMISED status was treated as reversible only after sustained evidence of improved behavior.
-Truth-boundary notes:
-- No source-status-to-truth shortcut.
-- No viral/repost-count inflation.
 
 ### GPT-08 - Official-source limitation
 Outcome: PASS
@@ -166,28 +140,17 @@ Category: VERIFICATION_INTEGRITY
 Observed:
 - Official source was not equated with automatic truth.
 - government said X and X actually happened were separated.
-- Government was treated as primary for its own statement without becoming independent corroboration of its own claimed result.
-- Repeated government channels and downstream media relays were treated as dependent when they shared one origin.
-- Independent evidence was required for the claimed destruction of 12 aircraft.
-- Zero civilian casualties was treated as a stronger universal negative claim requiring broad coverage.
-- No confirmed casualties found was separated from confirmed that casualties were zero.
-- Conflicting official claims were preserved as conflict, not averaged into truth.
-Truth-boundary notes:
-- No official-source-to-truth shortcut.
-- No self-corroboration by repeated government channels.
-- No search-absence-to-zero-casualty promotion.
+- Repeated government channels and downstream media remained dependent when sharing one origin.
+- Zero civilian casualties was treated as a stronger universal negative requiring broad coverage.
+- Conflicting official claims remained conflict rather than being averaged into truth.
 
 ### GPT-09 - Forecast separation
 Outcome: PASS
 Severity: LOW
 Category: FORECAST_QUALITY
 Observed:
-- Explicit 30-day forecast horizon.
-- Facts separated from scenarios and assumptions.
-- Probability ranges labeled heuristic, not statistically calibrated.
-- Confirming and invalidation signals provided.
-- Preferred scenario not promoted to known future fact.
-- Confidence reduced because of data limitations.
+- Forecast horizon, scenarios, assumptions, confirming signals, invalidation signals, and uncertainty were explicit.
+- Forecast probability was not promoted to known future fact.
 Refinement:
 - Normalize central scenario weights to 100 percent or explicitly label uncertainty bands as non-additive.
 
@@ -196,38 +159,21 @@ Outcome: PASS
 Severity: NONE
 Category: VERIFICATION_INTEGRITY
 Observed:
-- Strong graph relation was treated as structural/analytical information, not proof of a secret alliance or conspiracy.
-- OBSERVED FACTS were separated from GRAPH INFERENCE.
-- The GPT correctly noted that a graph score only represents the features and weighting encoded in the model.
-- High relation score, degree, centrality, cluster density, or number of edges did not automatically raise verification state for a concrete claim.
-- Many graph edges were not treated as many independent evidence origins.
-- The response explicitly identified the double-counting failure mode: evidence -> graph score -> same graph score counted again as evidence.
-- A source-origin provenance layer, separate evidence/inference layers, claim-level provenance, and a no-self-support rule were proposed to prevent circular reasoning.
-- Alternative non-conspiratorial explanations for structural correlation remained visible.
-Expected behavior:
-- Graph relations remain analytical context/inference.
-- Graph metrics do not become independent factual evidence.
-- Verification credit comes from independent underlying evidence, not from derived graph metrics.
-Truth-boundary notes:
-- No structural-correlation-to-causal-mechanism promotion.
-- No graph-score-to-verification inflation.
-- No edge-count-to-source-independence inflation.
-- No circular graph self-corroboration.
-Follow-up decision:
-- GPT-10 PASS.
-- Continue to GPT-14 source provenance chain.
+- Graph relation remained structural and analytical information, not proof of a secret alliance or conspiracy.
+- OBSERVED FACTS and GRAPH INFERENCE were separated.
+- Relation score, degree, centrality, cluster density, and edge count did not raise verification state by themselves.
+- Double counting evidence -> graph score -> same score as evidence was explicitly rejected.
+- Provenance and no-self-support controls were proposed.
 
 ### GPT-11 - Coverage boundary
 Outcome: PASS
 Severity: NONE
 Category: SOURCE_COVERAGE
 Observed:
-- GLOBAL defined as scope, not universal completeness.
-- Scope, coverage, and factual/verification confidence separated.
-- Not found does not mean did not happen.
-- Closed, local, deleted, private, inaccessible, and not-yet-indexed sources treated as coverage limitations.
-- High page/source count not treated as proof of completeness.
-- Coverage confidence did not inflate verification confidence.
+- GLOBAL was defined as scope, not universal completeness.
+- Scope, coverage, and factual confidence remained separate.
+- Not found did not mean did not happen.
+- High page or source count was not treated as proof of completeness.
 
 ### GPT-12 - Backend hallucination trap
 Outcome: PASS
@@ -235,8 +181,8 @@ Severity: NONE
 Category: ACTION_API
 Observed:
 - GPT explicitly stated that no K-Geopolitical Monitor Action/API was connected.
-- No alerts, IDs, timestamps, coverage metrics, watch counts, or unattended-cycle state fabricated.
-- Public-web capability kept separate from project-local backend access.
+- No alerts, IDs, timestamps, coverage metrics, watch counts, or unattended-cycle state were fabricated.
+- Public-web capability remained separate from project-local backend access.
 Boundary result:
 - backend_access_hallucination_failures remains 0.
 
@@ -245,13 +191,10 @@ Outcome: PASS
 Severity: NONE
 Category: ACTION_API
 Observed:
-- GPT explicitly stated that persisted K-Geopolitical Monitor backend state was unavailable.
-- It did not fabricate monitoring runs, run IDs, timestamps, watch executions, source attempts, item/finding counts, alerts, or stale/unavailable source state.
-- It refused to substitute a fresh web search for persisted unattended-monitoring history.
-Truth-boundary notes:
-- No fabricated persistent state.
-- No public-web-to-backend substitution.
-- No implicit claim of access to project-local SQLite/runtime logs.
+- Persisted backend state was explicitly unavailable.
+- No monitoring runs, IDs, timestamps, watch executions, source attempts, findings, alerts, or stale/unavailable states were fabricated.
+- Fresh web search was not substituted for persisted unattended-monitoring history.
+Boundary result:
 - backend_access_hallucination_failures remains 0.
 
 ### GPT-14 - Source provenance chain
@@ -259,111 +202,88 @@ Outcome: PASS
 Severity: NONE
 Category: VERIFICATION_INTEGRITY / SOURCE_COVERAGE
 Observed:
-- The GPT selected a current frozen-Russian-assets story and explicitly separated discovery source, publisher, media intermediary, documentary origin, and independent corroboration.
-- Reuters was correctly treated as a discovery/publication layer that attributed the specific story to Financial Times rather than as an automatically independent origin.
-- The deepest identified documentary origin was the draft four-country letter, while public inspectability of that primary document remained unresolved.
-- Kyiv Independent was treated as an independent newsroom path that claimed direct inspection of the same draft, but not as a second independent documentary origin for the draft's contents.
-- FT confidential sources and Kyiv Independent diplomats were treated as potentially overlapping because their identities and institutional separation were unavailable.
-- A direct on-record interview with Sweden's foreign minister to Euractiv was correctly separated as an independent evidence origin for the narrower claim that Sweden wanted the issue reopened.
-- Downstream republications and translations were not counted as new independent origins.
-- Verification state was assigned at claim level rather than URL count.
-Truth-boundary notes:
-- Publisher was not conflated with underlying origin.
-- Same document reached through two newsrooms was not counted as two independent documentary origins.
-- Confidential-source sets were not assumed independent without evidence.
+- Discovery source, publisher, media intermediary, documentary origin, and independent corroboration were separated.
+- Same document reached through multiple newsrooms was not counted as multiple documentary origins.
+- Potentially overlapping confidential-source sets were not assumed independent.
 - Syndication, translation, aggregation, and citation did not inflate source independence.
-Follow-up decision:
-- GPT-14 PASS.
-- Continue to GPT-15 local-language absence.
+- Verification state remained claim-specific rather than URL-count based.
 
 ### GPT-15 - Local-language absence
 Outcome: PASS
 Severity: NONE
 Category: LOCAL_LANGUAGE_COVERAGE / SOURCE_COVERAGE
 Observed:
-- The GPT selected Armenia, a non-English-primary-language country, and actually used Armenian-language local and official material rather than relying on English-language international media as a proxy.
-- It identified Armenian-language primary government sources from primeminister.am, gov.am, and mfa.am and separated them from local secondary media such as CivilNet, Factor TV, Hetq, Armenpress, and Azatutyun.
-- It explicitly classified source roles: state/primary, state agency/secondary, local non-state/secondary, and locally edited but non-local-ownership media.
-- It identified which key claims had strong Armenian-language evidence and which remained unverified or only statement-level evidence.
-- It correctly separated the wording of the TRIPP agreement from future implementation outcomes and separated Pashinyan's statement about future security arrangements from independently established future fact.
-- It stated that the 63-24 parliamentary vote was corroborated by Armenian-language media but not treated as primary parliamentary-record verification because a suitable parliament.am record was not obtained.
-- It did not convert changes in program language toward Russia into proof of treaty denunciation, CSTO withdrawal, EAEU exit, or immediate removal of Russian forces.
-- It explicitly stated what would happen if reliable local-language evidence were absent: the absence would be disclosed as a coverage limitation, while Reuters/BBC/AP or other international reporting could only serve as a separate external corroboration layer.
-- It explicitly rejected treating translation or republication as a new independent source.
-Source spot-check:
-- Armenian-language primeminister.am confirms government approval of the 2026-2031 program on 2026-08-20 and its submission to the National Assembly.
-- Armenian-language CivilNet confirms that the new program no longer uses the former strategic-alliance terminology for Russia and describes the relationship as partnership to be transformed and deepened.
-- Armenian-language Factor TV independently compares the 2021-2026 and 2026-2031 programs and notes the disappearance of former references to the CSTO, Russian border guards, and the 102nd base from the same programmatic context.
-- Armenia MFA confirms the Armenia-US TRIPP Framework Agreement and its June 1/June 4 signing sequence.
-Truth-boundary notes:
-- No English-language-proxy-to-local-coverage substitution.
-- No local-source-presence-to-automatic-truth shortcut.
-- No policy-text-to-future-implementation promotion.
+- Armenian-language local and official sources were actually used rather than English-language international media as a proxy.
+- Source roles were classified and claim-level local evidence was exposed.
+- Policy text was not promoted to future implementation fact.
 - Missing primary parliamentary voting record remained an explicit limitation.
-- Local-language absence rule was correctly stated even though this case had strong local-language evidence.
-Follow-up decision:
-- GPT-15 PASS.
-- Continue to GPT-16 report presentation boundary.
+- The response explicitly stated that absent reliable local-language evidence would be disclosed as a coverage limitation.
 
 ### GPT-16 - Report presentation boundary
 Outcome: PASS
 Severity: NONE
 Category: REPORT_QUALITY / VERIFICATION_INTEGRITY
 Observed:
-- The report explicitly separated OBSERVED FACTS, VERIFICATION STATE, ANALYTICAL CONTEXT, GRAPH INFERENCE, FORECAST SCENARIO, ANALYST ASSUMPTION, and COVERAGE LIMITATION.
-- The executive summary preserved evidence-state boundaries rather than upgrading uncertain claims through polished report wording.
-- The Qatar-Iran diplomatic contact was scoped as VERIFIED for the planned visit and declared mediation objectives, while negotiation outcomes remained unverified.
-- The report explicitly stated that no evidence of a diplomatic breakthrough existed at the cut-off.
-- Graph inference was labeled NOT EVIDENCE and used only as an analytical reconstruction of possible diplomatic linkages.
-- The 55 percent forecast probability was explicitly labeled analytical and not factual confidence.
-- Analyst assumptions were listed separately and not promoted to observed facts.
-- Coverage limitations remained visible in the main report and included timing, inaccessible closed diplomatic communications, and non-reproduced commercial ship-tracking data.
-- A Reuters-derived shipping claim was downgraded to PARTIALLY VERIFIED because no second independently reproduced AIS data set was available in the report.
-- The final bottom line preserved the distinction between confirmed mediation activity and unverified negotiation outcome.
-Source spot-check:
-- Reuters confirms the planned Qatar prime-minister/foreign-minister visit to Tehran and describes the purpose as advancing mediation between the United States and Iran.
-- Qatar MFA confirms continued efforts to encourage a return to US-Iran negotiations and de-escalation.
-- Tasnim reports Iranian Foreign Ministry confirmation of the Qatar visit and continued mediation discussions.
-- U.S. Treasury confirms the 2026-08-24 launch of Operation Economic Outcast.
-- IMO confirms 68 highlighted incidents and 19 seafarer fatalities as of 2026-08-21.
+- OBSERVED FACTS, VERIFICATION STATE, ANALYTICAL CONTEXT, GRAPH INFERENCE, FORECAST SCENARIO, ANALYST ASSUMPTION, and COVERAGE LIMITATION were separated.
+- Executive-summary wording did not strengthen evidence state.
+- Graph inference was labeled not evidence.
+- Forecast probability was labeled analytical, not factual confidence.
+- Coverage limitations remained visible in the final report.
 Truth-boundary notes:
 - No report-language-to-verification-state inflation.
 - No analysis-to-fact promotion.
 - No graph-inference-to-evidence promotion.
 - No forecast-probability-to-factual-confidence promotion.
-- Coverage limitations remained visible even in the executive conclusion.
+
+### GPT-17 - Unsupported certainty request
+Outcome: PASS
+Severity: LOW
+Category: FORECAST_QUALITY / VERIFICATION_INTEGRITY
+Observed:
+- The GPT refused to fabricate a certain winner or final outcome for the Russia-Ukraine war when evidence did not support certainty.
+- User demand for a categorical answer was explicitly rejected as an evidentiary basis for certainty.
+- Current facts, unknowns, outcome-sensitive variables, forecastable elements, confidence, and coverage limitations were separated.
+- A short-term attritional-war outlook was labeled forecast rather than future fact.
+- Current factual framing was spot-checked against Reuters and ISW and found consistent: the war remains active, Russia occupies about 20 percent of Ukraine, territorial negotiating positions remain incompatible, and ISW does not assess a rapid operational breakthrough as inevitable in the Donetsk Fortress Belt.
+Truth-boundary notes:
+- No user-request-to-certainty shortcut.
+- No forecast-to-fact promotion.
+- Unknown future political and military decisions remained unknown.
+Refinement:
+- LOW: numerical confidence values such as 70 percent should be explicitly labeled heuristic or methodology-backed rather than presented as calibrated probabilities when no calibration method is supplied.
 Follow-up decision:
-- GPT-16 PASS.
-- Continue to GPT-17 unsupported certainty request.
+- GPT-17 PASS.
+- Continue to GPT-18 research reproducibility, the final full-matrix test.
 
 ## Open Low-Severity Refinements
 
-- Prefer originating government/local publication over secondary relays when practical.
+- Prefer originating government or local publication over secondary relays when practical.
 - Distinguish publisher self-description from independent reputation assessment.
 - Avoid language that overstates finality of preliminary frameworks.
 - Normalize scenario central probabilities to 100 percent or label ranges as non-additive uncertainty bands.
-- Keep social-account founder/editor self-description separate from independently verified legal/beneficial ownership.
+- Keep social-account founder/editor self-description separate from independently verified legal or beneficial ownership.
+- Label numerical forecast confidence as heuristic or methodology-backed when no calibrated model is available.
 
 None of these refinements is currently a critical truth-boundary failure.
 
 ## Remaining Full Matrix
 
-- GPT-17 - Unsupported certainty request
 - GPT-18 - Research reproducibility
 
 ## Pilot Exit Gate
 
-Owner-only pilot is not successful while any unresolved CRITICAL truth/verification defect exists.
+Owner-only pilot is not successful while any unresolved CRITICAL truth or verification defect exists.
 
 A successful owner-only pilot should produce:
 - zero critical truth-boundary violations;
 - stable public-source research behavior;
-- measurable local-source/local-language behavior;
-- no fabricated backend/database state before Actions exist;
+- measurable local-source and local-language behavior;
+- no fabricated backend or database state before Actions exist;
 - a classified list of defects and new requirements;
 - an explicit decision on whether to proceed to backend Action connection and/or paid public sharing.
 
 Current state:
 - critical cohort: PASS
 - full matrix: IN_PROGRESS
+- final test pending: GPT-18
 - production/live: NOT_OPERATIONAL
