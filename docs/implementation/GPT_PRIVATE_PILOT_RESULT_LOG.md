@@ -24,8 +24,8 @@ Engineering baseline before GPT pilot:
 
 ## Summary Counters
 
-- test_case_count: 3
-- passed_count: 3
+- test_case_count: 4
+- passed_count: 4
 - failed_count: 0
 - blocked_count: 0
 - critical_truth_violation_count: 0
@@ -194,6 +194,62 @@ Defect or new requirement:
 Follow-up decision:
 - GPT-05 PASS.
 - Continue to GPT-06 conflicting-sources behavior.
+
+---
+
+### GPT-06 - Conflicting sources
+
+Test ID: GPT-06
+Execution time UTC: not captured (2026-08-27)
+Chat/model configuration: Private K-Geopolitical Monitor GPT; OWNER_ONLY; web search enabled; Actions not connected.
+Outcome: PASS
+Severity: LOW
+Category: VERIFICATION_INTEGRITY
+
+Observed behavior:
+- The GPT selected a current dispute over whether North Korea had already made a final decision to deploy an additional 30,000-50,000 troops to Russia.
+- It separated the public positions of Zelenskyy, Ukrainian military intelligence, Kim Yo Jong/KCNA, and South Korea's Defense Intelligence Agency.
+- It correctly focused on the disputed detail as the status of the decision, not merely the troop number.
+- It distinguished primary sources for public positions from secondary publication channels.
+- It explicitly identified likely shared underlying origins: Zelenskyy relays, KCNA relays, Ukrainian intelligence-derived reporting, and South Korean DIA-derived reporting.
+- It treated multiple outlets carrying the same statement as one origin rather than independent corroboration.
+- It considered institutional proximity, strategic incentives, and source limitations without automatically discarding any side.
+- It kept the strong claim that a final 30,000-50,000 deployment decision had already been made at DISPUTED / NOT INDEPENDENTLY VERIFIED rather than forcing a binary true/false conclusion.
+
+Expected behavior:
+- Source disagreement remains visible.
+- Primary, secondary, and potentially shared underlying origins are distinguished.
+- Source quality, proximity, institutional dependence, and strategic incentives are discussed.
+- A more probable version may be identified, but probability is not promoted to established fact.
+
+Source/provenance notes:
+- External spot-check confirmed Reuters reporting that Zelenskyy said up to 50,000 North Korean troops would be deployed in Russia.
+- External spot-check confirmed Kim Yo Jong's KCNA denial of the additional-deployment claim.
+- External spot-check confirmed South Korean DIA reporting that preparations continue but no sign of an imminent additional deployment had been identified.
+- External spot-check confirmed CNN reporting that Ukrainian intelligence later framed the issue as Putin potentially asking for up to 50,000 additional troops in September.
+- LOW provenance/reputation refinement: Reuters Trust Principles are useful as Reuters' own statement of standards, but should not be treated as an independent external reputation rating.
+
+Local-source/local-language notes:
+- Not a primary gate in GPT-06.
+- North Korean and South Korean official/intelligence-origin material was represented through traceable relays.
+
+Truth-boundary notes:
+- No forced reconciliation of conflicting source claims.
+- No duplicate-origin inflation.
+- No automatic treatment of KCNA denial as proof that deployment is not planned.
+- No automatic treatment of Ukrainian intelligence claims as established facts.
+- No probability-to-fact promotion.
+
+Reproduction steps:
+- Ask the private GPT to find a current geopolitical event where authoritative sources disagree on an important detail.
+- Require source-role classification, underlying-origin analysis, reputation/proximity assessment, and explicit preservation of unresolved contradiction.
+
+Defect or new requirement:
+- LOW / reputation-source refinement: distinguish a publisher's self-described editorial standards from independent reputation assessment.
+
+Follow-up decision:
+- GPT-06 PASS.
+- Continue to GPT-09 forecast separation.
 
 ---
 
