@@ -24,8 +24,8 @@ Engineering baseline before GPT pilot:
 
 ## Summary Counters
 
-- test_case_count: 8
-- passed_count: 8
+- test_case_count: 9
+- passed_count: 9
 - failed_count: 0
 - blocked_count: 0
 - critical_truth_violation_count: 0
@@ -68,6 +68,33 @@ Observed:
 - Same-origin republications not inflated.
 Refinement:
 - Prefer originating government publication for joint official statements when available.
+
+### GPT-02 - Broad strategic brief
+Outcome: PASS
+Severity: NONE
+Category: SOURCE_COVERAGE / REPORTING
+Observed:
+- Produced a selective strategic brief rather than a headline dump.
+- Chose four events across Middle East, US-Russia/Ukraine, China-India, and US-China cyber competition.
+- For each event separated what happened, verification state, strategic significance, source provenance, and key uncertainty.
+- Primary official origins and secondary publication channels were distinguished.
+- Contradictions around the Iran-Oman Hormuz framework and US cyber attribution to China remained explicit rather than being flattened into certainty.
+- Same-origin republications were not used to inflate corroboration.
+- The response explicitly listed regions/languages actually checked and important areas that could have remained outside the search.
+- It stated that the brief was not proof of complete GLOBAL coverage and that source/language/region counts do not establish completeness.
+Source spot-check:
+- Reuters confirmed 10 visible Hormuz commodity-vessel transits versus a 10-day moving average of about 15 and that Iran-Oman agreement details were still being finalized.
+- Reuters confirmed the CIA director's Moscow intelligence contacts without a Putin meeting.
+- Reuters confirmed new China-India border communication/de-risking arrangements.
+- DOJ/Reuters confirmed the QScan/QTRouter seizure operation and preserved attribution as a US official assessment rather than universally established fact.
+Truth-boundary notes:
+- No universal-coverage claim.
+- No headline-count-to-importance substitution.
+- No publisher-count-to-independent-origin inflation.
+- No attribution claim promoted beyond the evidence status presented.
+Follow-up decision:
+- GPT-02 PASS.
+- Continue to GPT-04 source-reputation behavior.
 
 ### GPT-03 - Local-source requirement
 Outcome: PASS
@@ -163,7 +190,7 @@ Truth-boundary notes:
 Follow-up decision:
 - GPT-13 PASS.
 - Critical cohort complete: 8/8 PASS.
-- Continue remaining full matrix: GPT-02, GPT-04, GPT-07, GPT-08, GPT-10, GPT-14, GPT-15, GPT-16, GPT-17, GPT-18.
+- Continue remaining full matrix: GPT-04, GPT-07, GPT-08, GPT-10, GPT-14, GPT-15, GPT-16, GPT-17, GPT-18.
 
 ## Open Low-Severity Refinements
 
