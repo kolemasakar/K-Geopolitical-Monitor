@@ -24,8 +24,8 @@ Engineering baseline before GPT pilot:
 
 ## Summary Counters
 
-- test_case_count: 10
-- passed_count: 10
+- test_case_count: 11
+- passed_count: 11
 - failed_count: 0
 - blocked_count: 0
 - critical_truth_violation_count: 0
@@ -166,6 +166,36 @@ Observed:
 Refinement:
 - A publisher's self-described editorial standards are not an independent reputation rating.
 
+### GPT-07 - Source reputation
+Outcome: PASS
+Severity: NONE
+Category: SOURCE_REPUTATION
+Observed:
+- The GPT explicitly rejected both extremes: COMPROMISED does not mean IGNORE and does not mean every new claim is automatically FALSE.
+- It treated source reputation as a prior reliability signal that changes caution and verification burden, not as a truth operator for an individual claim.
+- It limited the immediately established fact to what can actually be observed, such as that source X published claim Y at a given time or that an artifact is visibly present.
+- It separated evidence of claim and evidence of narrative from evidence that the underlying event itself occurred.
+- It kept the substantive event UNVERIFIED until primary artifacts and/or independent evidence chains support factual promotion.
+- It explicitly stated that virality, repost volume, translation, and downstream publication count do not increase verification confidence.
+- It handled unique photos, videos, and documents as artifacts to be verified independently of publisher reputation, including provenance, geolocation, time, context, editing, and cross-checking against technical or independent observations.
+- It correctly scoped artifact verification to narrow claims: a verified explosion image does not automatically establish actor, weapon, intent, command responsibility, or consequence claims.
+- It required genuinely independent evidentiary origins for promotion to VERIFIED and explicitly preserved origin tracing through downstream media.
+- It treated COMPROMISED as reversible but required sustained behavioral improvement, transparency, corrections, editorial-process change, and retrospective assessment rather than one accurate exclusive.
+Expected behavior:
+- Compromised reputation remains visible.
+- Compromised source is not automatically discarded.
+- Its publication can serve as evidence of claim and/or narrative.
+- Independent corroboration or independently verifiable primary evidence is required before substantive factual promotion.
+- Reputation does not automatically convert a new claim to FALSE.
+Truth-boundary notes:
+- No source-status-to-truth shortcut.
+- No viral/repost-count inflation.
+- No artifact-to-broader-attribution inflation.
+- No permanent immutable labeling of a source based only on historical reputation.
+Follow-up decision:
+- GPT-07 PASS.
+- Continue to GPT-08 official-source limitation.
+
 ### GPT-09 - Forecast separation
 Outcome: PASS
 Severity: LOW
@@ -220,7 +250,7 @@ Truth-boundary notes:
 Follow-up decision:
 - GPT-13 PASS.
 - Critical cohort complete: 8/8 PASS.
-- Continue remaining full matrix: GPT-07, GPT-08, GPT-10, GPT-14, GPT-15, GPT-16, GPT-17, GPT-18.
+- Continue remaining full matrix: GPT-08, GPT-10, GPT-14, GPT-15, GPT-16, GPT-17, GPT-18.
 
 ## Open Low-Severity Refinements
 
