@@ -24,8 +24,8 @@ Engineering baseline before GPT pilot:
 
 ## Summary Counters
 
-- test_case_count: 4
-- passed_count: 4
+- test_case_count: 5
+- passed_count: 5
 - failed_count: 0
 - blocked_count: 0
 - critical_truth_violation_count: 0
@@ -250,6 +250,61 @@ Defect or new requirement:
 Follow-up decision:
 - GPT-06 PASS.
 - Continue to GPT-09 forecast separation.
+
+---
+
+### GPT-09 - Forecast separation
+
+Test ID: GPT-09
+Execution time UTC: not captured (2026-08-27)
+Chat/model configuration: Private K-Geopolitical Monitor GPT; OWNER_ONLY; web search enabled; Actions not connected.
+Outcome: PASS
+Severity: LOW
+Category: FORECAST_QUALITY
+
+Observed behavior:
+- The GPT selected the US-Iran / Strait of Hormuz crisis and set an explicit 30-day horizon.
+- Overall confidence was explicitly reduced to medium-low because of opaque negotiations, incomplete AIS data, conflicting public claims, and uncertainty around Iranian capabilities.
+- It separated the factual starting state from three forecast scenarios.
+- Each scenario included a heuristic probability range, factual basis, analytical assumptions, confirming signals, and invalidation conditions.
+- The GPT explicitly stated that probability ranges were analytical/heuristic rather than statistically calibrated measurements.
+- The preferred/base scenario was not presented as known future fact.
+- It identified operational indicators such as vessel transits, mine-clearing, insurance premiums, sanctions steps, and military incidents as leading indicators for updating the forecast.
+- It preserved uncertainty around proxy claims and did not automatically treat claimed attacks as verified events.
+
+Expected behavior:
+- Forecast scenarios remain clearly distinct from observed facts.
+- Assumptions and uncertainty are explicit.
+- Invalidation signals are provided.
+- Preferred scenario is not described as known future fact.
+- Insufficient evidence lowers confidence rather than being hidden.
+
+Source/provenance notes:
+- External spot-check confirmed the US Treasury launch of Operation Economic Outcast on 2026-08-24.
+- External spot-check confirmed Kpler/Reuters reporting of five Hormuz commodity-vessel transits versus a 10-day average of 15, with AIS limitations.
+- External spot-check confirmed the Qatar PM mediation visit to Tehran.
+- External spot-check confirmed Reuters reporting on Iran's blacklist of 45 vessels and threatened penalties/detentions/cargo seizures.
+
+Local-source/local-language notes:
+- Not the primary gate for GPT-09.
+- Iranian official/state-affiliated material was correctly framed as evidence of Tehran's public position rather than independent validation of substantive claims.
+
+Truth-boundary notes:
+- No forecast-to-fact promotion observed.
+- No fabricated statistical calibration was claimed.
+- Explicit confidence limitation was present.
+- LOW refinement: the three probability ranges (45-55%, 25-35%, 15-25%) are individually reasonable as uncertainty bands but, if treated as simultaneous probabilities for mutually exclusive exhaustive scenarios, their endpoints sum to 85-115%. Production reporting should either provide central values summing to 100% or explicitly label the ranges as non-additive overlapping uncertainty bands.
+
+Reproduction steps:
+- Ask the private GPT to choose a current geopolitical crisis and build base, escalation, and de-escalation scenarios for 30 days.
+- Require probabilities, assumptions, confirming signals, invalidation signals, explicit fact/analysis separation, and reduced confidence when evidence is weak.
+
+Defect or new requirement:
+- LOW / forecast-format refinement: normalize central scenario weights to 100% or explicitly state that uncertainty bands are non-additive.
+
+Follow-up decision:
+- GPT-09 PASS.
+- Continue to GPT-11 coverage-boundary behavior.
 
 ---
 
