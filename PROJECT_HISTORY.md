@@ -2,7 +2,7 @@
 
 Chronological record of major approved project milestones.
 
-Version: 2.2
+Version: 2.3
 Status: ACTIVE
 
 ## 2026-08-24
@@ -131,9 +131,65 @@ Status: ACTIVE
 - Runtime storage remained PROJECT_LOCAL_ONLY and production/live status remained NOT_OPERATIONAL.
 - ROADMAP Phase 11 recorded as BASELINE_VALIDATED without inventing an M14 milestone label.
 
+## 2026-08-27 - Post-Phase-11 unattended runtime harness
+
+- UnattendedMonitoringService added as a thin supervisor over existing due-cycle execution.
+- Startup recovery is performed once per process start and unexpected supervisor exceptions remain visible for external service management.
+- LiveOperationalCycle added to persist failed monitoring-run state for collection/processing failures and to avoid retry-every-poll cadence loops.
+- Successful zero-item live collection remains a completed monitoring attempt.
+- No schema or verification-truth semantics were changed.
+- Runtime storage remained PROJECT_LOCAL_ONLY.
+- GitHub Actions run 33012596904: 236 passed.
+- Cloud unattended runtime remained NOT_DEPLOYED and production/live remained NOT_OPERATIONAL.
+
+## 2026-08-27 - Private K-Geopolitical Monitor GPT owner-only pilot
+
+- Private GPT configured as OWNER_ONLY with Web Search and Code Interpreter/Data Analysis enabled.
+- No backend Action/API was connected during the pilot.
+- Pilot matrix executed across 18 scenarios covering current research, local-language sources, social provenance, same-origin duplication, conflicting sources, compromised sources, official-source limits, graph inference, forecast/fact separation, global coverage, backend hallucination traps, report truth boundaries and research reproducibility.
+- Final result: 18/18 PASS, 0 FAIL, 0 BLOCKED.
+- Critical truth-boundary violations: 0.
+- Hallucinated/untraceable source failures: 0.
+- Verification-boundary failures: 0.
+- Coverage-boundary failures: 0.
+- Backend-access hallucination failures: 0.
+- GPT-18/full pilot matrix closure commit: 74f800ffa427e52638b64ed7e37afffc929cad95.
+- GPT-18/full pilot matrix closure CI run 33046581445: SUCCESS.
+- Owner-only pilot plan closure commit: ba57f30563b936aa4cd9cfa891f726444e07221f.
+- Owner-only pilot plan closure CI run 33046621582: SUCCESS.
+- Owner-only pilot declared SUCCESSFUL for continued owner-only use.
+- Public sharing remained DEFERRED.
+- Backend Action/API remained NOT_CONNECTED.
+- Production/live remained NOT_OPERATIONAL.
+- No ROADMAP Phase 12 or M14 was created.
+
+## 2026-08-27 - Post-pilot retrospective and expansion plan
+
+- Canonical retrospective/expansion artifact created at docs/implementation/POST_PRIVATE_GPT_PILOT_RETROSPECTIVE_AND_EXPANSION_PLAN.md.
+- Retrospective commit: 8d874ca70421f4fe367484e3e9bdf562533af2f2.
+- Retrospective CI run 33046677596: SUCCESS.
+- Low-severity pilot refinements were carried forward without reclassifying them as critical defects.
+- E1 Automatic Translation Foundation approved for design and local implementation as the first expansion.
+- E2 Source Reputation and Status History approved for design.
+- E3 Private GPT Backend Action API approved for design with an initial read-only fail-closed scope.
+- E4 Free Unattended Runtime Deployment approved for validation only.
+- E5 Admin Read-Only Dashboard, E6 Reproducibility Instrumentation and E7 Forecast Probability Semantics recorded as planned workstreams.
+- E8 Controlled External Sharing/Public GPT and E9 Shared Production Runtime remain NOT_APPROVED.
+- External translation provider remains NONE_APPROVED.
+- Runtime storage remains PROJECT_LOCAL_ONLY.
+- No new numbered ROADMAP phase was approved.
+
+## 2026-08-27 - Canonical documentation synchronization
+
+- README.md, ROADMAP.md and ARCHITECTURE.md reconciled with the successful owner-only GPT pilot and post-pilot workstream state.
+- Documentation version advanced to 2.3 for the canonical top-level state documents.
+- The post-pilot workstreams are explicitly documented as unnumbered activities and do not create ROADMAP Phase 12 or M14.
+- Production/live remains NOT_OPERATIONAL.
+- A dedicated project control-state checkpoint is created after this reconciliation under docs/checkpoints/.
+
 ## Current State
 
-- Documentation: RECONCILED through ROADMAP Phase 11
+- Documentation: RECONCILED through successful owner-only private GPT pilot and approved post-pilot workstreams
 - Engineering implementation: BASELINE_VALIDATED through ROADMAP Phase 11
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
@@ -142,6 +198,8 @@ Status: ACTIVE
 - ROADMAP Phase 9 Advanced Forecasting: BASELINE_VALIDATED
 - ROADMAP Phase 10 Full Reporting Environment: BASELINE_VALIDATED
 - ROADMAP Phase 11 Global Operational Coverage: BASELINE_VALIDATED
+- Post-Phase-11 unattended supervisor/live-cycle local baseline: VALIDATED
+- Owner-only private GPT pilot: SUCCESSFUL, 18/18 PASS
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED_PENDING_NEW_ARCHITECTURE_APPROVAL
@@ -153,7 +211,10 @@ Status: ACTIVE
 - External notification providers: NONE_APPROVED
 - Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current roadmap activity: Phase 11 completed and BASELINE_VALIDATED
+- Private GPT backend Action/API: NOT_CONNECTED
+- Unattended cloud runtime: NOT_DEPLOYED
+- Public GPT sharing: DEFERRED
+- Shared production runtime: NOT_APPROVED
+- Current engineering activity: E1 Automatic Translation Foundation design and local implementation
 - Next roadmap phase: NONE_APPROVED
-- Next development activity: ROADMAP extension decision before assigning any new phase or milestone
 - Production/live operational status: NOT_OPERATIONAL
