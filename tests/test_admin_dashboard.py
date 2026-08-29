@@ -7,7 +7,7 @@ from kgeopolitical_monitor.admin_dashboard_app import create_admin_dashboard_app
 from kgeopolitical_monitor.operational_monitoring import OperationalMonitoringRuntime
 
 
-NOW = datetime(2026, 8, 29, 18, 0, tzinfo=timezone.utc)
+NOW = datetime(2026, 8, 29, 12, 0, tzinfo=timezone.utc)
 TOKEN = "dashboard-owner-token"
 AUTH = {"Authorization": f"Bearer {TOKEN}"}
 
