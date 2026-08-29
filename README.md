@@ -1,7 +1,7 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring system.
 
-Version: 2.8
+Version: 2.9
 Status: ACTIVE
 
 ## Purpose
@@ -24,8 +24,10 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - `docs/implementation/E5_ADMIN_READ_ONLY_DASHBOARD.md` - validated E5 dashboard foundation
 - `docs/implementation/E6_REPRODUCIBILITY_INSTRUMENTATION.md` - validated E6 reproducibility instrumentation
 - `docs/implementation/E7_FORECAST_PROBABILITY_SEMANTICS.md` - validated E7 forecast semantics
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-08-29_E7_FORECAST_PROBABILITY_SEMANTICS_VALIDATED.md` - current validated engineering checkpoint
-- `BOOTSTRAP_PACKAGE_2026-08-29_K-GEOPOLITICAL-MONITOR_POST_E7_TRANSITION.md` - current recovery entry point
+- `docs/implementation/E8_CONTROLLED_EXTERNAL_SHARING_PREFLIGHT.md` - completed E8 architecture/security preflight
+- `docs/decisions/E8_OWNER_ONLY_PUBLICATION_READINESS_DECISION_2026-08-29.md` - current owner decision for publication-ready GPT development
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-08-29_E8_OWNER_ONLY_PUBLICATION_READINESS.md` - current project checkpoint
+- `BOOTSTRAP_PACKAGE_2026-08-29_K-GEOPOLITICAL-MONITOR_POST_E7_TRANSITION.md` - post-E7 recovery entry point
 
 ## Current State
 
@@ -39,8 +41,12 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - E5 Admin Read-Only Dashboard: BASELINE_VALIDATED / LOCAL_PROTECTED / READ_ONLY / NOT_DEPLOYED
 - E6 Reproducibility Instrumentation: BASELINE_VALIDATED
 - E7 Forecast Probability Semantics: BASELINE_VALIDATED
+- E8 preflight: COMPLETE
+- E8 owner-only publication readiness: APPROVED
+- Intended users until development completion: 1 / OWNER_ONLY
+- Planned publication workspace: ChatGPT Business, subject to current workspace settings/permissions at publication time
+- External sharing/publication: DEFERRED until final publication gate
 - Canonical E7 engineering baseline: `72f049b30fcaa3711c7712c8df7d1da1f934f650`
-- Post-E7 transition HEAD before D0 convergence: `13af50a9e46a26ed745d5c1159cce3d4e6cef4d5`
 
 ## Canonical Validation Evidence
 
@@ -54,7 +60,8 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - E6 x64: 290 passed, run `33264133429`; native ARM64 run `33264133407`, SUCCESS
 - E7 x64: 294 passed, run `33265984585`; native ARM64 run `33265984622`, SUCCESS
 - Post-E7 closure x64: 294 passed, run `33266213476`, SUCCESS
-- Post-E7 transition package x64: 294 passed, run `33266465042`, SUCCESS
+- D0 documentation repair x64: 294 passed, run `33268276657`, SUCCESS
+- E8 preflight closure x64: 294 passed, run `33268460893`, SUCCESS
 
 ## Validated Truth and Coverage Boundaries
 
@@ -86,7 +93,10 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - Admin dashboard: `LOCAL_PROTECTED / READ_ONLY / NOT_DEPLOYED`
 - External translation/graph/forecast/reporting/coverage/notification providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Public GPT sharing: DEFERRED / NOT_APPROVED
+- GPT development mode: OWNER_ONLY / PUBLICATION_READY_TARGET
+- Planned publication workspace: ChatGPT Business
+- Public GPT sharing: DEFERRED until final publication gate
+- Public Action: NOT_APPROVED / NOT_DEPLOYED
 - Shared production runtime: NOT_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
 
@@ -104,9 +114,12 @@ Execution state:
 - E5 Admin Read-Only Dashboard - BASELINE_VALIDATED
 - E6 Reproducibility Instrumentation - BASELINE_VALIDATED
 - E7 Forecast Probability Semantics - BASELINE_VALIDATED
-- E8 Controlled External Sharing / Public GPT - PREFLIGHT ASSESSMENT APPROVED; IMPLEMENTATION NOT APPROVED
+- E8 Controlled External Sharing / Public GPT - PREFLIGHT COMPLETE; OWNER_ONLY PUBLICATION-READY DEVELOPMENT APPROVED; EXTERNAL SHARING DEFERRED
 - E9 Shared Production Runtime - DEFERRED / NOT_APPROVED
 
-Current engineering activity: D0 documentation convergence followed by E8 read-only preflight/delta audit.
+Current engineering/product activity: continue owner-only GPT development with publication-ready requirements. Exactly one intended user remains in scope until development completion.
 
-Next numbered ROADMAP phase: NONE_APPROVED. Any future phase number or E8/E9 implementation requires an explicit roadmap/architecture decision.
+Approved trajectory:
+`OWNER_ONLY DEVELOPMENT -> PUBLICATION-READY HARDENING -> BUSINESS WORKSPACE -> FINAL PUBLICATION GATE -> PUBLICATION/SHARING`
+
+Next numbered ROADMAP phase: NONE_APPROVED. Actual E8 external sharing/public backend activation and E9 still require separate explicit approval.
