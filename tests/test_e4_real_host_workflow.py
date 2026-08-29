@@ -47,7 +47,7 @@ def test_real_host_workflow_executes_real_reboot_recovery_gate():
 def test_real_host_workflow_preserves_monitoring_only_boundary():
     text = _workflow()
 
-    assert "sudo -n bash \"$PROJECT_ROOT/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh\"" in text
+    assert 'sudo -n bash \\"$PROJECT_ROOT/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh\\"' in text
     assert "kgeopolitical_monitor.e4_host_validation" in text
     assert "uvicorn" not in text
     assert "--host 0.0.0.0" not in text
