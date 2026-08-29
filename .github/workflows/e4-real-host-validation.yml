@@ -74,20 +74,20 @@ jobs:
              test "$VERSION_ID" = "24.04"
              sudo -n true
              if [ -e /opt/k-geopolitical-monitor ]; then
-               echo "validating pre-service bootstrap residue"
-               test -d /opt/k-geopolitical-monitor/.git
-               test -f /opt/k-geopolitical-monitor/pyproject.toml
-               test -f /opt/k-geopolitical-monitor/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh
-               test ! -e /etc/systemd/system/kgm-monitor.service
-               test "$(systemctl is-active kgm-monitor.service 2>/dev/null || true)" != "active"
-               test ! -e /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db
-               if [ -e /opt/k-geopolitical-monitor/data ]; then
-                 test -d /opt/k-geopolitical-monitor/data
-                 unexpected="$(find /opt/k-geopolitical-monitor/data -mindepth 1 -maxdepth 1 ! -name e4_host_validation -print -quit)"
+               echo "validating root-owned pre-service bootstrap residue"
+               sudo -n test -d /opt/k-geopolitical-monitor/.git
+               sudo -n test -f /opt/k-geopolitical-monitor/pyproject.toml
+               sudo -n test -f /opt/k-geopolitical-monitor/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh
+               sudo -n test ! -e /etc/systemd/system/kgm-monitor.service
+               test "$(sudo -n systemctl is-active kgm-monitor.service 2>/dev/null || true)" != "active"
+               sudo -n test ! -e /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db
+               if sudo -n test -e /opt/k-geopolitical-monitor/data; then
+                 sudo -n test -d /opt/k-geopolitical-monitor/data
+                 unexpected="$(sudo -n find /opt/k-geopolitical-monitor/data -mindepth 1 -maxdepth 1 ! -name e4_host_validation -print -quit)"
                  test -z "$unexpected"
-                 if [ -e /opt/k-geopolitical-monitor/data/e4_host_validation ]; then
-                   test -d /opt/k-geopolitical-monitor/data/e4_host_validation
-                   test -z "$(find /opt/k-geopolitical-monitor/data/e4_host_validation -mindepth 1 -print -quit)"
+                 if sudo -n test -e /opt/k-geopolitical-monitor/data/e4_host_validation; then
+                   sudo -n test -d /opt/k-geopolitical-monitor/data/e4_host_validation
+                   test -z "$(sudo -n find /opt/k-geopolitical-monitor/data/e4_host_validation -mindepth 1 -print -quit)"
                  fi
                fi
              fi'
@@ -107,20 +107,20 @@ jobs:
           set -Eeuo pipefail
           test -n "$DEPLOY_SHA"
           if [ -e /opt/k-geopolitical-monitor ]; then
-            echo "removing validated pre-service bootstrap residue"
-            test -d /opt/k-geopolitical-monitor/.git
-            test -f /opt/k-geopolitical-monitor/pyproject.toml
-            test -f /opt/k-geopolitical-monitor/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh
-            test ! -e /etc/systemd/system/kgm-monitor.service
-            test "$(systemctl is-active kgm-monitor.service 2>/dev/null || true)" != "active"
-            test ! -e /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db
-            if [ -e /opt/k-geopolitical-monitor/data ]; then
-              test -d /opt/k-geopolitical-monitor/data
-              unexpected="$(find /opt/k-geopolitical-monitor/data -mindepth 1 -maxdepth 1 ! -name e4_host_validation -print -quit)"
+            echo "removing validated root-owned pre-service bootstrap residue"
+            sudo -n test -d /opt/k-geopolitical-monitor/.git
+            sudo -n test -f /opt/k-geopolitical-monitor/pyproject.toml
+            sudo -n test -f /opt/k-geopolitical-monitor/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh
+            sudo -n test ! -e /etc/systemd/system/kgm-monitor.service
+            test "$(sudo -n systemctl is-active kgm-monitor.service 2>/dev/null || true)" != "active"
+            sudo -n test ! -e /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db
+            if sudo -n test -e /opt/k-geopolitical-monitor/data; then
+              sudo -n test -d /opt/k-geopolitical-monitor/data
+              unexpected="$(sudo -n find /opt/k-geopolitical-monitor/data -mindepth 1 -maxdepth 1 ! -name e4_host_validation -print -quit)"
               test -z "$unexpected"
-              if [ -e /opt/k-geopolitical-monitor/data/e4_host_validation ]; then
-                test -d /opt/k-geopolitical-monitor/data/e4_host_validation
-                test -z "$(find /opt/k-geopolitical-monitor/data/e4_host_validation -mindepth 1 -print -quit)"
+              if sudo -n test -e /opt/k-geopolitical-monitor/data/e4_host_validation; then
+                sudo -n test -d /opt/k-geopolitical-monitor/data/e4_host_validation
+                test -z "$(sudo -n find /opt/k-geopolitical-monitor/data/e4_host_validation -mindepth 1 -print -quit)"
               fi
             fi
             sudo -n rm -rf /opt/k-geopolitical-monitor
