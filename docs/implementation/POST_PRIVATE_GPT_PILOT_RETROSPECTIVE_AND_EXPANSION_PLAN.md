@@ -1,10 +1,11 @@
 # Post-Private-GPT Pilot Retrospective and Expansion Plan
 
-Status: ACTIVE_POST_PILOT_PLANNING
+Status: ACTIVE_POST_PILOT_ENGINEERING
 Date: 2026-08-27
+Last synchronized: 2026-08-29
 Project: K-Geopolitical Monitor
 
-This document is an unnumbered post-Phase-11 planning artifact.
+This document is an unnumbered post-Phase-11 planning and execution artifact.
 It does not create ROADMAP Phase 12 or M14.
 Production/live remains NOT_OPERATIONAL.
 
@@ -38,7 +39,7 @@ Validated user-facing behaviors:
 
 Conclusion:
 - analytical GPT behavior is stable enough for continued owner-only use;
-- the largest remaining product limitations are backend connectivity, durable operational deployment, translation, source-reputation persistence, and reproducibility instrumentation;
+- the remaining product limitations include backend connectivity, durable operational deployment, external translation capability, source-reputation persistence and reproducibility instrumentation;
 - no evidence supports declaring production readiness.
 
 ## 2. Low-Severity Refinements From Testing
@@ -71,40 +72,51 @@ All post-pilot work must preserve:
 
 ## 4. Expansion Workstream Priority
 
-### E1 - Automatic Translation Foundation - FIRST EXPANSION
+### E1 - Automatic Translation Foundation - BASELINE VALIDATED
 
 Priority: P0
-State: APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION
+State: BASELINE_VALIDATED
 External translation provider: NONE_APPROVED
 
-Goal:
-- make non-English source material consistently usable while preserving original-language provenance and source-independence rules.
+Goal achieved:
+- add durable provider-neutral translation handling while preserving original-language provenance and source-independence rules.
 
-Required design:
-- retain original text and language;
-- store translated text separately;
-- store source language and target language;
-- store translation method/provider metadata;
-- store translation timestamp/version;
-- inherit the same underlying origin ID as the source material;
-- translation must never create a new independent evidence origin;
-- expose translation uncertainty when wording is ambiguous;
-- support retranslation without rewriting the original source record.
+Implemented:
+- migration 018 raw_item_translations;
+- separately persisted original and translated text;
+- source/target language metadata;
+- translation method/provider/version metadata;
+- versioned retranslation history;
+- statuses SUCCESS, FAILED, UNAVAILABLE, UNSUPPORTED and AMBIGUOUS;
+- explicit uncertainty and failure state;
+- inherited underlying origin identity;
+- provider-neutral TranslationAdapter contract;
+- local deterministic validation adapter;
+- restart-persistent translation history.
 
-Initial implementation rule:
-- provider-neutral adapter/interface and persistence metadata may be implemented without activating an external provider;
-- any paid or external provider requires separate approval.
-
-Acceptance tests:
-- translated copy keeps original origin ID;
+Truth/isolation rules validated:
+- translated copy keeps the same underlying origin;
 - translation does not increase independent-source count;
-- original and translated text remain separately inspectable;
-- failed translation remains visible as a degraded state rather than silently dropping the source.
+- original raw item is not rewritten;
+- M8 verification state is unchanged by translation;
+- no external provider was activated.
+
+Canonical implementation record:
+- docs/implementation/E1_AUTOMATIC_TRANSLATION_FOUNDATION.md
+
+Canonical code regression:
+- GitHub Actions run 33244484173;
+- job 99079456390;
+- 241 passed in 37.10s;
+- result SUCCESS.
+
+E1 gate:
+- E1_AUTOMATIC_TRANSLATION_FOUNDATION_BASELINE_PASS.
 
 ### E2 - Source Reputation and Status History
 
 Priority: P0
-State: APPROVED_FOR_DESIGN
+State: APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION
 
 Current schema limitation:
 - sources currently contain only id, name, source_class, reliability.
@@ -128,7 +140,7 @@ Target statuses:
 
 Truth rule:
 - COMPROMISED affects verification burden but is not an automatic FALSE operator;
-- compromised sources may remain useful as evidence of claim, narrative, or information operation;
+- compromised sources may remain useful as evidence of claim, narrative or information operation;
 - reputation restoration requires reviewable evidence and must preserve history.
 
 ### E3 - Private GPT Backend Action API
@@ -277,8 +289,8 @@ No shared/mixed production runtime before:
 ## 5. Recommended Execution Order
 
 Execution sequence:
-- E1 automatic translation foundation;
-- E2 source reputation/status history;
+- E1 automatic translation foundation - BASELINE_VALIDATED;
+- E2 source reputation/status history - CURRENT;
 - E3 read-only backend Action API;
 - E4 free unattended deployment validation;
 - E5 admin dashboard;
@@ -294,6 +306,7 @@ E1-E7 are post-pilot engineering/planning workstreams, not a new numbered ROADMA
 Current state:
 - analytical baseline through Phase 11: BASELINE_VALIDATED;
 - private GPT owner-only pilot: SUCCESSFUL;
+- E1 Automatic Translation Foundation: BASELINE_VALIDATED;
 - runtime storage: PROJECT_LOCAL_ONLY;
 - private GPT backend Action/API: NOT_CONNECTED;
 - unattended cloud runtime: NOT_DEPLOYED;
@@ -304,4 +317,4 @@ Current state:
 - production/live: NOT_OPERATIONAL;
 - next ROADMAP phase: NOT_APPROVED.
 
-The next engineering action is E1 automatic translation foundation design and local implementation, while preserving all existing truth and storage invariants.
+The next engineering action is E2 Source Reputation and Status History design and local implementation while preserving all existing truth and storage invariants.
