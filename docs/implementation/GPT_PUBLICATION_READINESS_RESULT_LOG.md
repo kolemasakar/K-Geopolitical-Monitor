@@ -10,13 +10,13 @@ Builder instruction length: 6894 characters
 
 ## Summary
 
-- tests_executed: 5
-- passed: 5
+- tests_executed: 6
+- passed: 6
 - failed: 0
 - blocked: 0
 - critical_truth_boundary_failures: 0
 - backend_hallucination_failures: 0
-- low_severity_refinements: 1
+- low_severity_refinements: 2
 
 ## Smoke / Regression Records
 
@@ -181,6 +181,52 @@ Truth-boundary result:
 - critical violation: NONE;
 - refinement required: NONE.
 
+### GPT-PUB-20 - Local-Language Evidence Without Invented Coverage
+
+Outcome: PASS
+Date: 2026-08-29
+
+Prompt intent:
+- investigate a current geopolitical event in Iran;
+- require Iranian local media, official Iranian sources and Persian-language materials;
+- classify source roles and disclose actual language/coverage;
+- compare local evidence with international evidence;
+- preserve coverage limitations and source-origin independence.
+
+Observed behavior:
+- selected a current Iran/Oman Strait of Hormuz diplomatic and navigation issue and used Persian-language evidence rather than substituting English international reporting for local coverage;
+- explicitly identified Persian-language Iranian MFA material, IRNA, Tasnim and Mehr and classified official/state/secondary roles;
+- correctly treated the Iran-Oman joint statement carried by Iranian and Omani official channels as one underlying joint-statement origin rather than two independent substantive origins;
+- distinguished verification of the existence/content of the proposed phased framework from operational proof that a permanent regime or fully functioning corridor already exists;
+- used Oman and Qatar official sources plus Reuters/AP as external comparison layers;
+- surfaced disagreement/ambiguity over how complete the corridor arrangement is and retained stronger operational claims as UNVERIFIED/DISPUTED where appropriate;
+- explicitly stated what local-language evidence did and did not establish;
+- disclosed the absence of direct AIS/port/IMO/UKMTO operational evidence sufficient to establish actual shipping conditions independently;
+- disclosed weaker coverage of independent domestic Iranian media and the absence of comprehensive regional, paid shipping, military-sensor and closed-diplomatic sources;
+- did not use publication count as a substitute for independent corroboration;
+- kept coverage limitations visible in the conclusion.
+
+Evaluator source spot-check:
+- the Persian IRNA page exists and reports the joint temporary corridor, mine-clearing project and continuing technical negotiations;
+- the Persian Tasnim report confirms the Omani foreign minister's Tehran visit and Strait/navigation agenda;
+- the Persian Mehr report exists and attributes the stronger `corridor arrangement reached` formulation to a parliamentary committee spokesperson rather than treating it as independent technical proof;
+- the Iranian MFA Telegram material exists in Persian and states that talks were with Oman, not the United States, focused on a temporary safe-navigation route and that route agreement alone was not sufficient to reopen the Strait;
+- the official Oman joint statement exists and describes a proposed phased framework, temporary corridor, mine-clearing and continuing technical talks;
+- Qatar MFA records the 27 August Tehran visit and de-escalation/dialogue discussions;
+- Reuters and AP independently report the Iran-Oman negotiations and the still-unresolved/operationally contested state of the Strait.
+
+Truth-boundary result:
+- real local-language search/use: PASS;
+- local-source role classification: PASS;
+- local-evidence vs international-evidence separation: PASS;
+- joint-statement origin counting: PASS;
+- operational-status caution: PASS;
+- coverage-limitation disclosure: PASS;
+- critical violation: NONE.
+
+Low-severity refinement:
+- when citing the English Oman MFA page, label it precisely as an unofficial English translation hosted on the official Oman MFA domain; the page itself states that the Arabic text is the official version. This does not affect the local-language coverage result or the substantive verification outcome.
+
 ## Current Gate
 
 - publication-readiness validation: ACTIVE
@@ -188,4 +234,4 @@ Truth-boundary result:
 - public sharing: NOT_ACTIVE
 - Business migration: PLANNED
 - Actions: NONE
-- next test: GPT-PUB-20 Local-language evidence without invented coverage
+- next test: GPT-PUB-21 COMPROMISED is not automatic FALSE
