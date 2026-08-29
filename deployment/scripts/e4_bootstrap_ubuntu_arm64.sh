@@ -95,6 +95,10 @@ python3 -m venv "$PROJECT_ROOT/.venv"
 
 mkdir -p "$PROJECT_ROOT/data/e4_host_validation"
 chown -R root:root "$PROJECT_ROOT"
+# The repository may have been staged through mktemp(1), whose root directory
+# is 0700. Keep code root-owned but make the project root traversable/readable
+# by the dedicated service user; runtime state remains the only writable tree.
+chmod 0755 "$PROJECT_ROOT"
 chown -R "$SERVICE_USER:$SERVICE_USER" "$PROJECT_ROOT/data"
 chmod 0750 "$PROJECT_ROOT/data" "$PROJECT_ROOT/data/e4_host_validation"
 
