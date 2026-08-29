@@ -2,7 +2,7 @@
 
 Chronological record of major approved project milestones.
 
-Version: 2.3
+Version: 2.4
 Status: ACTIVE
 
 ## 2026-08-24
@@ -185,11 +185,34 @@ Status: ACTIVE
 - Documentation version advanced to 2.3 for the canonical top-level state documents.
 - The post-pilot workstreams are explicitly documented as unnumbered activities and do not create ROADMAP Phase 12 or M14.
 - Production/live remains NOT_OPERATIONAL.
-- A dedicated project control-state checkpoint is created after this reconciliation under docs/checkpoints/.
+- A dedicated project control-state checkpoint was created under docs/checkpoints/.
+
+## 2026-08-29 - E1 Automatic Translation Foundation
+
+- Existing M10 language/TRANSLATION attribution behavior was audited and retained.
+- Migration 018 added raw_item_translations as a durable versioned translation store.
+- Original raw-item text remains unchanged; translated text is stored separately.
+- Source/target language, method/provider/version, translation status, uncertainty/error and timestamp are persisted.
+- Translation statuses are SUCCESS, FAILED, UNAVAILABLE, UNSUPPORTED and AMBIGUOUS.
+- TranslationService and provider-neutral TranslationAdapter contracts were added.
+- DeterministicTranslationAdapter was added only for local deterministic validation; it is not an external provider.
+- Live translations inherit the normalized publisher origin host already used by M8.
+- Non-live raw items without live provenance fall back to source_id as origin identity.
+- Conflicting live provenance origins fail closed.
+- Translation never creates a new independent origin and does not change M8 verification state or independent-origin count.
+- Retranslation creates additive version history and survives runtime restart.
+- Canonical E1 implementation commits: 95ccc5208447f7a144208f10cbf4fbf64411ce00, d60660067e44d5cbbe610a0b74ff50a0f096da4b, 51bbb41e6edb716760727d06902ac90e8e6ce5c5 and 9b5f300b0b798cd106ab84d57d14e01c52b4af62.
+- GitHub Actions run 33244484173, job 99079456390: SUCCESS, 241 passed in 37.10s.
+- E1 recorded as BASELINE_VALIDATED.
+- External translation provider remains NONE_APPROVED.
+- Runtime storage remains PROJECT_LOCAL_ONLY.
+- Production/live remains NOT_OPERATIONAL.
+- Current post-pilot engineering workstream becomes E2 Source Reputation and Status History.
+- No ROADMAP Phase 12 or M14 was created.
 
 ## Current State
 
-- Documentation: RECONCILED through successful owner-only private GPT pilot and approved post-pilot workstreams
+- Documentation: RECONCILED through E1 Automatic Translation Foundation
 - Engineering implementation: BASELINE_VALIDATED through ROADMAP Phase 11
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
@@ -200,6 +223,7 @@ Status: ACTIVE
 - ROADMAP Phase 11 Global Operational Coverage: BASELINE_VALIDATED
 - Post-Phase-11 unattended supervisor/live-cycle local baseline: VALIDATED
 - Owner-only private GPT pilot: SUCCESSFUL, 18/18 PASS
+- E1 Automatic Translation Foundation: BASELINE_VALIDATED
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED_PENDING_NEW_ARCHITECTURE_APPROVAL
@@ -209,12 +233,12 @@ Status: ACTIVE
 - External reporting/publishing providers: NONE_APPROVED
 - External coverage providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
-- Automatic translation providers: NONE_APPROVED
+- External translation provider: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
 - Private GPT backend Action/API: NOT_CONNECTED
 - Unattended cloud runtime: NOT_DEPLOYED
 - Public GPT sharing: DEFERRED
 - Shared production runtime: NOT_APPROVED
-- Current engineering activity: E1 Automatic Translation Foundation design and local implementation
+- Current engineering activity: E2 Source Reputation and Status History design and local implementation
 - Next roadmap phase: NONE_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
