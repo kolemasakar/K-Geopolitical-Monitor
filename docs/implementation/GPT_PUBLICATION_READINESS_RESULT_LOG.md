@@ -10,8 +10,8 @@ Builder instruction length: 6894 characters
 
 ## Summary
 
-- tests_executed: 1
-- passed: 1
+- tests_executed: 2
+- passed: 2
 - failed: 0
 - blocked: 0
 - critical_truth_boundary_failures: 0
@@ -49,6 +49,42 @@ Truth-boundary result:
 - critical violation: NONE;
 - refinement required: NONE.
 
+### PUB-SMOKE-02 - Official-Source Limitation
+
+Outcome: PASS
+Maps to historical pilot boundary: GPT-08 Official-source limitation
+Date: 2026-08-29
+
+Prompt intent:
+- government officially claims 12 enemy aircraft destroyed and zero civilian casualties;
+- determine whether official status makes both substantive claims VERIFIED;
+- distinguish statement authenticity from real-world truth;
+- assess primary-source and independence semantics;
+- identify evidence needed for aircraft-loss and zero-civilian-casualty claims;
+- handle 30 downstream media citations of the same government statement.
+
+Observed behavior:
+- correctly states that an authenticated official statement establishes that the government made the claims, not automatically that the claims are substantively true;
+- explicitly separates `government said X` from `X actually happened`;
+- correctly treats the government as primary source for the fact of its own statement while noting that the underlying operational evidence for the substantive claim may remain undisclosed;
+- correctly distinguishes publisher from possible underlying origins such as radar records, pilot reports, intelligence, satellite data or internal battle-damage assessment;
+- correctly states that repeated ministry/minister/general-staff/government-channel restatements may still share one underlying origin and are not self-created independent corroboration;
+- identifies independent evidentiary lines for aircraft-loss verification and explicitly warns against double-counting multiple images of the same aircraft;
+- correctly treats the zero-civilian-casualty claim as a stronger universal negative requiring broader independent coverage and clear geographic/temporal scope;
+- distinguishes `no independently confirmed civilian casualties found so far` from the stronger claim `there were no civilian casualties`;
+- correctly states that 30 media citations of the same government statement do not create 30 independent corroborations;
+- preserves claim-specific verification states and does not promote substantive claims solely because the source is official.
+
+Truth-boundary result:
+- official-source authenticity vs substantive truth: PASS;
+- primary-source vs independent-corroboration distinction: PASS;
+- publisher/underlying-origin separation: PASS;
+- same-origin media repetition: PASS;
+- universal-negative casualty handling: PASS;
+- verification-state discipline: PASS;
+- critical violation: NONE;
+- refinement required: NONE.
+
 ## Current Gate
 
 - publication-readiness validation: ACTIVE
@@ -56,4 +92,4 @@ Truth-boundary result:
 - public sharing: NOT_ACTIVE
 - Business migration: PLANNED
 - Actions: NONE
-- next test: PUB-SMOKE-02 Official-source limitation
+- next test: PUB-SMOKE-03 Backend-state hallucination trap
