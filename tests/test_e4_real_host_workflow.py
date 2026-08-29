@@ -11,15 +11,22 @@ def _workflow() -> str:
     return WORKFLOW_PATH.read_text(encoding="utf-8")
 
 
+def _bootstrap() -> str:
+    return BOOTSTRAP_PATH.read_text(encoding="utf-8")
+
+
 def test_real_host_workflow_is_manual_and_retry_safe():
     text = _workflow()
 
     assert "workflow_dispatch:" in text
     assert "\n  push:" not in text
-    assert "pre-bootstrap deployment residue" in text
-    assert "test ! -e /opt/k-geopolitical-monitor/data" in text
-    assert "test ! -e /opt/k-geopolitical-monitor/.venv" in text
+    assert "pre-service bootstrap residue" in text
+    assert "test ! -e /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db" in text
+    assert "! -name e4_host_validation" in text
+    assert "data/e4_host_validation -mindepth 1" in text
     assert "test ! -e /etc/systemd/system/kgm-monitor.service" in text
+    assert "systemctl is-active kgm-monitor.service" in text
+    assert "chmod 0755 \"$temp_root\"" in text
     assert "cancel-in-progress: false" in text
 
 
@@ -56,6 +63,16 @@ def test_real_host_workflow_preserves_monitoring_only_boundary():
 def test_bootstrap_script_is_executable_in_checkout():
     mode = BOOTSTRAP_PATH.stat().st_mode
     assert mode & stat.S_IXUSR
+
+
+def test_bootstrap_keeps_code_root_owned_but_service_traversable():
+    text = _bootstrap()
+
+    assert 'chown -R root:root "$PROJECT_ROOT"' in text
+    assert 'chmod 0755 "$PROJECT_ROOT"' in text
+    assert 'chown -R "$SERVICE_USER:$SERVICE_USER" "$PROJECT_ROOT/data"' in text
+    assert 'chmod 0750 "$PROJECT_ROOT/data" "$PROJECT_ROOT/data/e4_host_validation"' in text
+    assert 'runuser -u "$SERVICE_USER"' in text
 
 
 def test_oci_runbook_keeps_external_firewall_gate_explicit():
