@@ -22,6 +22,7 @@ from .operational_monitoring import OperationalMonitoringRuntime, _normalize_tim
 
 INSTRUMENTATION_VERSION = "E6-1.0"
 ARTIFACT_HASH_BASIS = "KGM_PERSISTED_LIVE_ITEM_V1"
+ALLOWED_COLLECTION_STATUSES = {"COMPLETED", "PARTIAL", "FAILED"}
 ALLOWED_PROVENANCE_RELATIONS = {
     "PRIMARY_ORIGIN",
     "SYNDICATION",
@@ -104,9 +105,12 @@ class ReproducibilityStore:
                 INSERT INTO research_audit_runs(
                     research_run_id, run_kind, watch_id, collection_id,
                     exact_query_snapshot, research_cutoff,
-                    instrumentation_version, status, started_at,
-                    completed_at, error
-                ) VALUES (?, 'LIVE_COLLECTION', ?, NULL, ?, ?, ?, 'RUNNING', ?, NULL, NULL)
+                    instrumentation_version, status, collection_status,
+                    started_at, completed_at, error
+                ) VALUES (
+                    ?, 'LIVE_COLLECTION', ?, NULL, ?, ?, ?,
+                    'RUNNING', NULL, ?, NULL, NULL
+                )
                 """,
                 (
                     research_run_id,
@@ -126,28 +130,42 @@ class ReproducibilityStore:
         error: str,
         completed_at: datetime,
         collection_id: str | None = None,
+        collection_status: str | None = None,
     ) -> None:
         normalized_error = error.strip()
         if not normalized_error:
             raise ValueError("failed research audit requires an error")
+        normalized_collection_status = (
+            collection_status.strip().upper() if collection_status is not None else None
+        )
+        if (
+            normalized_collection_status is not None
+            and normalized_collection_status not in ALLOWED_COLLECTION_STATUSES
+        ):
+            raise ValueError("unsupported source collection status for reproducibility")
+        if normalized_collection_status is not None and collection_id is None:
+            raise ValueError("collection_status requires collection_id")
+
         completed = _normalize_time(completed_at)
         with sqlite3.connect(self.database_path) as connection:
             connection.execute("PRAGMA foreign_keys = ON")
-            connection.execute(
+            cursor = connection.execute(
                 """
                 UPDATE research_audit_runs
                 SET collection_id = COALESCE(?, collection_id),
+                    collection_status = COALESCE(?, collection_status),
                     status = 'FAILED', completed_at = ?, error = ?
                 WHERE research_run_id = ? AND status = 'RUNNING'
                 """,
                 (
                     collection_id,
+                    normalized_collection_status,
                     completed.isoformat(),
                     normalized_error,
                     research_run_id,
                 ),
             )
-            if connection.total_changes != 1:
+            if cursor.rowcount != 1:
                 raise ValueError("research audit run is missing or already terminal")
 
     def finalize_live_collection(
@@ -158,7 +176,7 @@ class ReproducibilityStore:
     ) -> None:
         """Attach canonical collection evidence and machine-captured query metadata."""
 
-        if report.status not in {"COMPLETED", "PARTIAL", "FAILED"}:
+        if report.status not in ALLOWED_COLLECTION_STATUSES:
             raise ValueError("unsupported source collection status for reproducibility")
         adapter_by_source: dict[str, object] = {}
         for adapter in adapters:
@@ -257,10 +275,11 @@ class ReproducibilityStore:
                     ),
                 )
 
-            connection.execute(
+            cursor = connection.execute(
                 """
                 UPDATE research_audit_runs
-                SET collection_id = ?, status = ?, completed_at = ?, error = NULL
+                SET collection_id = ?, status = 'COMPLETED',
+                    collection_status = ?, completed_at = ?, error = NULL
                 WHERE research_run_id = ? AND status = 'RUNNING'
                 """,
                 (
@@ -270,7 +289,7 @@ class ReproducibilityStore:
                     research_run_id,
                 ),
             )
-            if connection.total_changes < 1:
+            if cursor.rowcount != 1:
                 raise RuntimeError("research audit run finalization did not persist")
 
     def annotate_provenance(
@@ -334,8 +353,8 @@ class ReproducibilityStore:
                 """
                 SELECT research_run_id, run_kind, watch_id, collection_id,
                        exact_query_snapshot, research_cutoff,
-                       instrumentation_version, status, started_at,
-                       completed_at, error
+                       instrumentation_version, status, collection_status,
+                       started_at, completed_at, error
                 FROM research_audit_runs
                 WHERE collection_id = ?
                 """,
@@ -440,6 +459,7 @@ class ReproducibilityInstrumentedCollector:
                 self.reproducibility.fail_run(
                     research_run_id,
                     collection_id=report.collection_id,
+                    collection_status=report.status,
                     error=f"reproducibility finalization failed: {error}",
                     completed_at=report.completed_at,
                 )
