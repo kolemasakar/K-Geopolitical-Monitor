@@ -41,6 +41,11 @@ jobs:
       - name: Run full ARM64 regression
         run: python -m pytest -q
 
+      - name: Validate host bootstrap shell
+        run: |
+          bash -n deployment/scripts/e4_bootstrap_ubuntu_arm64.sh
+          python -m kgeopolitical_monitor.e4_host_validation --help >/dev/null
+
       - name: Run unattended one-tick smoke
         run: |
           python -m kgeopolitical_monitor.unattended_runner \
