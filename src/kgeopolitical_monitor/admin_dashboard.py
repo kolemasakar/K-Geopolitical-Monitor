@@ -30,12 +30,16 @@ def _items(value: object) -> list[dict[str, object]]:
     return [item for item in value if isinstance(item, dict)]
 
 
-def _text(value: object) -> str:
+def _plain(value: object) -> str:
     if value is None or value == "":
         return "—"
     if isinstance(value, bool):
         return "yes" if value else "no"
-    return escape(str(value), quote=True)
+    return str(value)
+
+
+def _text(value: object) -> str:
+    return escape(_plain(value), quote=True)
 
 
 def _percent(value: object) -> str:
@@ -44,7 +48,7 @@ def _percent(value: object) -> str:
     try:
         return f"{float(value) * 100:.1f}%"
     except (TypeError, ValueError):
-        return _text(value)
+        return _plain(value)
 
 
 def _table(headers: tuple[str, ...], rows: list[tuple[object, ...]]) -> str:
@@ -64,7 +68,7 @@ def _scenario_summary(value: object) -> str:
         return "—"
     rendered: list[str] = []
     for scenario in scenarios:
-        label = _text(scenario.get("label") or scenario.get("scenario_type"))
+        label = _plain(scenario.get("label") or scenario.get("scenario_type"))
         probability = _percent(scenario.get("calibrated_probability"))
         rendered.append(f"{label}: {probability}")
     return "; ".join(rendered)
