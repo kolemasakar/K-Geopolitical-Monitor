@@ -75,13 +75,13 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 ## Architecture and Runtime State
 
 - Shared infrastructure architecture: HYBRID
-- Runtime storage mode: `PROJECT_LOCAL_ONLY`
+- Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED pending a new explicit architecture approval
 - Controlled live integrations: Consilium RSS and GDELT DOC 2.0
 - GDELT is discovery/index metadata only, not independent factual verification
 - Owner-only unattended cloud runtime: `DEPLOYED_OWNER_ONLY_REAL_HOST_VALIDATED / NOT_PRODUCTION`
 - Owner-only read-only backend Action API foundation: VALIDATED
-- Backend Action API HTTPS deployment: NOT_DEPLOYED
+- Backend Action API deployment/HTTPS endpoint: NOT_DEPLOYED
 - Private GPT backend Action connection: NOT_CONNECTED
 - Admin dashboard: `LOCAL_PROTECTED / READ_ONLY / NOT_DEPLOYED`
 - External translation/graph/forecast/reporting/coverage/notification providers: NONE_APPROVED
