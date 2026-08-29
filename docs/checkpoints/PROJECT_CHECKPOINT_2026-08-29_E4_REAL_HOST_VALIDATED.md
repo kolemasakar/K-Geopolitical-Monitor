@@ -7,7 +7,7 @@ Branch: main
 Checkpoint date: 2026-08-29
 Validated deployment SHA: 6f8fb938590aa7ddabba96ee3a4c0e108e225d97
 
-This checkpoint records successful execution of the E4 real-host workflow on the owner-only OCI Ubuntu 24.04 ARM64 pilot. It records host runtime and reboot/recovery facts only. It does not claim that the OCI external firewall perimeter has been verified and does not mark production/live operational.
+This checkpoint records successful execution of the E4 real-host workflow on the owner-only OCI Ubuntu 24.04 ARM64 pilot and subsequent OCI Security List inspection. It records host runtime, reboot/recovery, and observed cloud-perimeter facts. Production/live is not marked operational.
 
 ## Canonical State
 
@@ -26,8 +26,12 @@ This checkpoint records successful execution of the E4 real-host workflow on the
 - E4 real reboot/recovery gate: PASS
 - E4 final host runtime gate: PASS
 - controlled live collection during recovery validation: SUCCESS_OBSERVED
-- OCI external firewall gate: NOT_YET_EVIDENCED
-- canonical unattended cloud deployment: FIREWALL_EVIDENCE_PENDING
+- OCI external firewall evidence: CAPTURED
+- OCI ingress 80/443 and database/API exposure: ABSENT
+- OCI SSH TCP/22: OPEN_FROM_0.0.0.0/0_BY_OWNER_DECISION
+- OCI egress: 0.0.0.0/0 ALL_PROTOCOLS / ALL_PORTS
+- network hardening: DEFERRED_UNTIL_PROJECT_COMPLETION_BY_OWNER_DECISION
+- canonical unattended cloud deployment: REAL_HOST_VALIDATED_WITH_TEMPORARY_SECURITY_EXCEPTION
 - production/live: NOT_OPERATIONAL
 - runtime storage: PROJECT_LOCAL_ONLY
 - public GPT sharing: DEFERRED
@@ -95,6 +99,31 @@ Evidence artifact:
 - created: `2026-08-29T14:51:12Z`
 - expires: `2026-09-28T14:51:12Z`
 
+## OCI Cloud-Perimeter Evidence
+
+Observed VCN/subnet:
+- VCN: `kgm-e4-vcn`
+- subnet: `kgm-e4-public-subnet`
+- attached Security Lists: exactly one observed, `Default Security List for kgm-e4-vcn`
+
+Observed ingress rules:
+- `0.0.0.0/0` -> TCP destination port 22: ALLOW
+- `0.0.0.0/0` -> ICMP type 3/code 4: ALLOW
+- `10.0.0.0/16` -> ICMP type 3: ALLOW
+
+Observed ingress conclusions:
+- inbound TCP 80: ABSENT
+- inbound TCP 443: ABSENT
+- inbound TCP/UDP 111: ABSENT at OCI Security List
+- database/API ingress: no rule observed
+- SSH TCP 22 remains reachable from `0.0.0.0/0`
+
+Observed egress rule:
+- destination `0.0.0.0/0`
+- IP protocol: All Protocols
+- destination ports: all
+- effect: all outbound traffic allowed by the Security List
+
 ## Security Boundary Preserved
 
 - SSH uses a pinned host key.
@@ -105,30 +134,33 @@ Evidence artifact:
 - service user `kgm` owns the project-local runtime data tree.
 - production/live remains `NOT_OPERATIONAL`.
 
-Host-local listener observation showed ports 22 and 111. This does not establish OCI ingress reachability. External cloud perimeter remains a separate evidence gate.
+Host-local listener observation showed ports 22 and 111. OCI perimeter inspection confirms no ingress rule for port 111. Port 22 is intentionally left open from `0.0.0.0/0` at this stage.
 
-## Remaining External Gate
+## Owner Security Exception / Deferred Hardening
 
-OCI Security List/NSG state must be captured from the OCI control plane and verified separately.
+On 2026-08-29 the owner explicitly decided not to restrict or close public SSH access during active project development because administration may occur from changing networks/IP addresses.
 
-Required perimeter truth:
-- inbound TCP 80: CLOSED / absent;
-- inbound TCP 443: CLOSED / absent;
-- database/API ingress: CLOSED / absent;
-- SSH TCP 22: restricted or removed after validation;
-- outbound access: only as required by approved monitoring adapters.
+Therefore:
+- do not remove or narrow the current TCP/22 `0.0.0.0/0` ingress rule during the current development phase unless the owner changes this decision;
+- do not tighten the current broad egress rule during the current development phase without a separate compatibility review;
+- revisit SSH ingress restriction, Bastion/private administration options, and egress least-privilege hardening after full project completion;
+- treat the current network configuration as a documented temporary security exception, not as final production hardening.
 
-Until that evidence is captured, use state:
+This exception does not convert the system to `PRODUCTION_LIVE` and does not prove production-grade perimeter hardening.
 
-`E4_REAL_HOST_VALIDATED / OCI_FIREWALL_EVIDENCE_PENDING`
+## Current Gate
 
-Do not use `E4_COMPLETE`, `PRODUCTION_LIVE`, or `GLOBAL_COVERAGE`.
+Use state:
+
+`E4_REAL_HOST_VALIDATED / OCI_FIREWALL_EVIDENCED / SECURITY_HARDENING_DEFERRED`
+
+Development may continue under the documented owner-approved temporary security exception.
+
+Do not use `PRODUCTION_LIVE` or `GLOBAL_COVERAGE` based on this validation.
 
 ## Exact Resume Point
 
-1. Inspect `kgm-e4-vcn` / `kgm-e4-public-subnet` security controls in OCI.
-2. Capture Security List and any NSG ingress/egress rules.
-3. Prove that 80/443 and database/API ingress are absent.
-4. Restrict or remove temporary SSH ingress after validation.
-5. Record the cloud-perimeter evidence in the repository.
-6. Only then evaluate whether E4 can move from firewall-evidence-pending to complete.
+1. Continue the project roadmap after E4 real-host validation.
+2. Preserve current SSH and egress configuration unless the owner explicitly changes the temporary exception.
+3. At full project completion, perform final network-security hardening review.
+4. That final review must cover SSH exposure, Bastion/private administration alternatives, egress least privilege, public listeners, OCI Security Lists/NSGs, and production launch criteria.
