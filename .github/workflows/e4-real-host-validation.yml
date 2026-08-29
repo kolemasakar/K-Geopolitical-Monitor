@@ -1,0 +1,228 @@
+name: E4 Real Host Validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_ref:
+        description: "Git ref or commit to deploy; blank uses the workflow commit"
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e4-real-host-validation
+  cancel-in-progress: false
+
+jobs:
+  deploy-reboot-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      E4_HOST: ${{ secrets.E4_HOST }}
+      E4_SSH_PRIVATE_KEY: ${{ secrets.E4_SSH_PRIVATE_KEY }}
+      E4_SSH_KNOWN_HOSTS: ${{ secrets.E4_SSH_KNOWN_HOSTS }}
+      E4_SSH_USER: ubuntu
+      PROJECT_ROOT: /opt/k-geopolitical-monitor
+
+    steps:
+      - name: Validate required connection secrets
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$E4_HOST"
+          test -n "$E4_SSH_PRIVATE_KEY"
+          test -n "$E4_SSH_KNOWN_HOSTS"
+
+      - name: Checkout deployment ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.deploy_ref || github.sha }}
+          fetch-depth: 1
+
+      - name: Resolve immutable deployment SHA
+        id: deploy
+        shell: bash
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Configure pinned SSH connection
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$E4_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_e4"
+          chmod 0600 "$HOME/.ssh/id_e4"
+          printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 0600 "$HOME/.ssh/known_hosts"
+
+      - name: Validate pristine Ubuntu ARM64 host
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh \
+            -i "$HOME/.ssh/id_e4" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            -o ConnectTimeout=10 \
+            "$E4_SSH_USER@$E4_HOST" \
+            'set -Eeuo pipefail
+             test "$(uname -m)" = "aarch64"
+             . /etc/os-release
+             test "$ID" = "ubuntu"
+             test "$VERSION_ID" = "24.04"
+             sudo -n true
+             test ! -e /opt/k-geopolitical-monitor'
+
+      - name: Deploy immutable repository checkpoint
+        shell: bash
+        env:
+          DEPLOY_SHA: ${{ steps.deploy.outputs.sha }}
+        run: |
+          set -Eeuo pipefail
+          ssh \
+            -i "$HOME/.ssh/id_e4" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$E4_SSH_USER@$E4_HOST" \
+            "DEPLOY_SHA='$DEPLOY_SHA' bash -s" <<'REMOTE'
+          set -Eeuo pipefail
+          test -n "$DEPLOY_SHA"
+          test ! -e /opt/k-geopolitical-monitor
+          temp_root="$(mktemp -d /tmp/kgm-e4-deploy.XXXXXX)"
+          trap 'rm -rf "$temp_root"' EXIT
+          git clone --filter=blob:none --no-checkout \
+            https://github.com/kolemasakar/K-Geopolitical-Monitor.git \
+            "$temp_root"
+          git -C "$temp_root" fetch --depth=1 origin "$DEPLOY_SHA"
+          git -C "$temp_root" checkout --detach "$DEPLOY_SHA"
+          test "$(git -C "$temp_root" rev-parse HEAD)" = "$DEPLOY_SHA"
+          sudo -n mv "$temp_root" /opt/k-geopolitical-monitor
+          trap - EXIT
+          REMOTE
+
+      - name: Bootstrap unattended runtime
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh \
+            -i "$HOME/.ssh/id_e4" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$E4_SSH_USER@$E4_HOST" \
+            "sudo -n $PROJECT_ROOT/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh --project-root $PROJECT_ROOT"
+
+      - name: Record pre-reboot host gate
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh \
+            -i "$HOME/.ssh/id_e4" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$E4_SSH_USER@$E4_HOST" \
+            "sudo -n $PROJECT_ROOT/.venv/bin/python -m kgeopolitical_monitor.e4_host_validation --project-root $PROJECT_ROOT status --require-pass"
+
+      - name: Prepare deterministic reboot recovery gate
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh \
+            -i "$HOME/.ssh/id_e4" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$E4_SSH_USER@$E4_HOST" \
+            "sudo -n $PROJECT_ROOT/.venv/bin/python -m kgeopolitical_monitor.e4_host_validation --project-root $PROJECT_ROOT prepare-reboot"
+
+      - name: Reboot real host
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          set +e
+          ssh \
+            -i "$HOME/.ssh/id_e4" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$E4_SSH_USER@$E4_HOST" \
+            'sudo -n systemctl reboot'
+          reboot_rc=$?
+          set -e
+          if [[ "$reboot_rc" -ne 0 && "$reboot_rc" -ne 255 ]]; then
+            exit "$reboot_rc"
+          fi
+
+      - name: Wait for SSH after reboot
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh_ready=0
+          for attempt in $(seq 1 60); do
+            if ssh \
+              -i "$HOME/.ssh/id_e4" \
+              -o BatchMode=yes \
+              -o StrictHostKeyChecking=yes \
+              -o ConnectTimeout=5 \
+              "$E4_SSH_USER@$E4_HOST" \
+              'true' >/dev/null 2>&1; then
+              ssh_ready=1
+              break
+            fi
+            sleep 5
+          done
+          test "$ssh_ready" -eq 1
+
+      - name: Verify real reboot and unattended recovery
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh \
+            -i "$HOME/.ssh/id_e4" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$E4_SSH_USER@$E4_HOST" \
+            "sudo -n $PROJECT_ROOT/.venv/bin/python -m kgeopolitical_monitor.e4_host_validation --project-root $PROJECT_ROOT verify-reboot --wait-seconds 180 --poll-seconds 3"
+
+      - name: Verify final host runtime gate
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh \
+            -i "$HOME/.ssh/id_e4" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$E4_SSH_USER@$E4_HOST" \
+            "sudo -n $PROJECT_ROOT/.venv/bin/python -m kgeopolitical_monitor.e4_host_validation --project-root $PROJECT_ROOT status --require-pass"
+
+      - name: Collect E4 host evidence
+        if: always()
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p e4-host-evidence
+          set +e
+          ssh \
+            -i "$HOME/.ssh/id_e4" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$E4_SSH_USER@$E4_HOST" \
+            "sudo -n tar -C $PROJECT_ROOT/data -czf /tmp/e4-host-evidence.tar.gz e4_host_validation && sudo -n chmod 0644 /tmp/e4-host-evidence.tar.gz"
+          archive_rc=$?
+          if [[ "$archive_rc" -eq 0 ]]; then
+            scp \
+              -i "$HOME/.ssh/id_e4" \
+              -o BatchMode=yes \
+              -o StrictHostKeyChecking=yes \
+              "$E4_SSH_USER@$E4_HOST:/tmp/e4-host-evidence.tar.gz" \
+              e4-host-evidence/
+          fi
+          set -e
+
+      - name: Upload E4 host evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e4-host-evidence-${{ steps.deploy.outputs.sha }}
+          path: e4-host-evidence/
+          if-no-files-found: warn
+          retention-days: 30
