@@ -1,7 +1,7 @@
 # ARCHITECTURE
 Technical architecture definition for K-Geopolitical Monitor.
 
-Version: 2.4
+Version: 2.5
 Status: APPROVED
 
 ## Purpose
@@ -26,6 +26,7 @@ The private GPT is a user interaction/orchestration surface over validated analy
 - Source Collection Audit
 - Ingestion Layer
 - Provider-Neutral Translation Foundation
+- Source Reputation and Status History
 - Event Processing Layer
 - Verification Engine
 - Relationship Analysis Layer
@@ -44,6 +45,7 @@ The private GPT is a user interaction/orchestration surface over validated analy
 - Unattended Monitoring Supervisor
 - Cadence-Safe Live Operational Cycle
 - Private GPT Interaction/Orchestration Surface
+- Owner-Only Read-Only Backend Action API Foundation
 
 ## Implemented and Validated Baseline
 
@@ -56,6 +58,8 @@ Validated foundations include:
 - watch-scoped region/language attribution and coverage reporting;
 - M10 translation-attribution isolation from evidence confidence/source independence;
 - E1 durable provider-neutral translation representation with version history and explicit degraded states;
+- E2 durable append-only source reputation/status history with review and restoration lineage;
+- E2 source reputation remains separate from claim truth and independent-origin counting;
 - durable advanced graph identity, projection, lifecycle, history, temporal/causal traversal and explainable queries;
 - durable advanced forecasting identity, immutable scenario versions, typed provenance, outcome evaluation, calibration history and explainable queries;
 - durable immutable report snapshots, sections and typed references;
@@ -68,7 +72,10 @@ Validated foundations include:
 - cross-layer M8/M10/M11/M12/M13 truth-state isolation through Phase 11;
 - unattended supervisor recovery-on-start and due-cycle execution;
 - cadence-safe failed live-watch attempts that persist monitoring-run state rather than retrying every supervisor poll;
-- owner-only private GPT behavior validated across 18 deterministic/real-world truth-boundary scenarios.
+- owner-only private GPT behavior validated across 18 deterministic/real-world truth-boundary scenarios;
+- E3 owner-only read-only FastAPI backend state facade with explicit OpenAPI operations;
+- E3 bearer authentication and read-only project-local SQLite access;
+- E3 no-mutation, no-web-substitution and fail-closed unavailable-state behavior.
 
 These components represent a controlled project-local validated engineering baseline and must not be interpreted as complete global production maturity.
 
@@ -151,6 +158,28 @@ E1 validation:
 - migration 018: VALIDATED;
 - GitHub Actions run 33244484173: 241 passed in 37.10s;
 - E1 state: BASELINE_VALIDATED.
+
+## E2 Source Reputation Boundary
+
+E2 is an unnumbered post-Phase-11 workstream and does not create ROADMAP Phase 12 or M14.
+
+Durable model:
+- source_reputation_history is append-only and versioned per source;
+- status, reliability rating, reason, evidence references, policy/version and review timestamps remain explicit;
+- restoration preserves adverse history and explicit restoration lineage;
+- current-state queries are deterministic while historical state remains inspectable;
+- legacy sources.reliability remains separate from E2 assessment history.
+
+Truth isolation:
+- COMPROMISED is not automatic FALSE;
+- source reputation/status does not modify claim truth;
+- source reputation/status does not change M8 independent-origin count;
+- a compromised source may still evidence that a claim or narrative exists.
+
+E2 validation:
+- migration 019: VALIDATED;
+- GitHub Actions run 33244795277: 248 passed in 24.01s;
+- E2 state: BASELINE_VALIDATED.
 
 ## Advanced Geopolitical Graph Boundary
 
@@ -239,7 +268,7 @@ Rules:
 
 Cloud unattended runtime state: NOT_DEPLOYED.
 
-## Private GPT Boundary
+## Private GPT and E3 Action API Boundary
 
 The private K-Geopolitical Monitor GPT is currently OWNER_ONLY.
 
@@ -254,12 +283,30 @@ Validated pilot behavior:
 - fail-closed backend/persistent-state behavior;
 - reproducibility-oriented research output.
 
-The GPT does not currently have a connected K-Geopolitical Monitor backend Action/API.
+E3 now provides a validated local backend Action API foundation, but the private GPT is not yet connected to it and no HTTPS deployment exists.
+
+E3 API rules:
+- initial scope is read-only;
+- owner bearer token is injected at runtime and is not persisted in repository state;
+- project-local SQLite is opened read-only and query-only;
+- missing or invalid bearer credentials fail with HTTP 401 and WWW-Authenticate: Bearer;
+- /health is separate from protected owner-state endpoints;
+- API GET requests must not mutate project state;
+- unavailable persisted state is returned explicitly and is never replaced with current web research;
+- last unattended-cycle provenance remains null/NOT_INSTRUMENTED until the runtime persists that distinction;
+- direct database exposure is forbidden;
+- HTTPS is required before a GPT Action connection is approved.
 
 Therefore:
-- it must not claim access to project-local SQLite, alerts, monitoring runs, watches, source attempts or persisted coverage state unless a future Action call actually returns that data;
+- the GPT must not claim Action-backed access until an actual Action call returns backend data;
 - it must not replace unavailable backend state with a fresh web search;
-- public-web search is user-facing research, not persisted monitoring history.
+- public-web search remains user-facing research, not persisted monitoring history;
+- E3 local validation is not a deployment or production-readiness claim.
+
+E3 validation:
+- GitHub Actions run 33247311921, job 99086917660: SUCCESS;
+- pytest: 254 passed in 26.66s;
+- E3 state: BASELINE_VALIDATED.
 
 ## Approved Post-Pilot Expansion Architecture
 
@@ -271,20 +318,22 @@ E1 Automatic Translation Foundation:
 - external translation provider: NONE_APPROVED.
 
 E2 Source Reputation and Status History:
-- CURRENT;
-- additive history/status model approved for design and local implementation;
+- BASELINE_VALIDATED;
+- append-only history/status model validated locally;
 - COMPROMISED is reviewable and reversible with preserved history;
 - source reputation remains separate from claim truth.
 
 E3 Private GPT Backend Action API:
-- read-only initial scope approved for design;
-- explicit OpenAPI contract;
-- authenticated owner-only access;
-- HTTPS required before GPT Action connection;
+- BASELINE_VALIDATED;
+- local read-only owner API and OpenAPI contract validated;
+- bearer authentication validated;
 - no direct database exposure;
-- backend unavailable must fail closed.
+- fail-closed no-web-substitution rule validated;
+- HTTPS deployment: NOT_DEPLOYED;
+- GPT Action connection: NOT_CONNECTED.
 
 E4 Free Unattended Runtime Deployment:
+- CURRENT;
 - approved for validation, not deployment claim;
 - ARM64/runtime/systemd/reboot/recovery/storage tests required;
 - database ports remain closed;
@@ -313,6 +362,8 @@ GPT-18/full matrix closure CI: SUCCESS - run 33046581445.
 Owner-only pilot plan closure CI: SUCCESS - run 33046621582.
 Post-pilot retrospective/expansion-plan CI: SUCCESS - run 33046677596.
 E1 Automatic Translation Foundation: PASS - 241 tests, run 33244484173.
+E2 Source Reputation and Status History: PASS - 248 tests, run 33244795277.
+E3 Private GPT Backend Action API: PASS - 254 tests, run 33247311921.
 
 ## Current State
 
@@ -326,11 +377,15 @@ E1 Automatic Translation Foundation: PASS - 241 tests, run 33244484173.
 - ROADMAP Phase 11: BASELINE_VALIDATED
 - Owner-only private GPT pilot: SUCCESSFUL, 18/18 PASS
 - E1 Automatic Translation Foundation: BASELINE_VALIDATED
+- E2 Source Reputation and Status History: BASELINE_VALIDATED
+- E3 Private GPT Backend Action API: BASELINE_VALIDATED
 - Runtime storage: PROJECT_LOCAL_ONLY
 - Shared Infrastructure ADR: APPROVED
 - Controlled-pilot live integrations: VALIDATED
 - Unattended supervisor/live-cycle local baseline: VALIDATED
-- Private GPT backend Action/API: NOT_CONNECTED
+- Backend Action API foundation: VALIDATED_LOCAL_READ_ONLY
+- Private GPT backend Action connection: NOT_CONNECTED
+- Backend HTTPS deployment: NOT_DEPLOYED
 - Unattended cloud runtime: NOT_DEPLOYED
 - External graph providers: NONE_APPROVED
 - External forecasting providers: NONE_APPROVED
@@ -339,6 +394,6 @@ E1 Automatic Translation Foundation: PASS - 241 tests, run 33244484173.
 - External notification providers: NONE_APPROVED
 - External translation provider: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current engineering activity: E2 Source Reputation and Status History design and local implementation
+- Current engineering activity: E4 Free Unattended Runtime Deployment validation
 - Next roadmap phase: NONE_APPROVED
 - Production/live operational maturity: NOT_OPERATIONAL
