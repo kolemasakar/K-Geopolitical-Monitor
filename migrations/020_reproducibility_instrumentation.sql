@@ -6,14 +6,35 @@ CREATE TABLE IF NOT EXISTS research_audit_runs (
     exact_query_snapshot TEXT NOT NULL,
     research_cutoff TEXT NOT NULL,
     instrumentation_version TEXT NOT NULL,
-    status TEXT NOT NULL CHECK (status IN ('RUNNING', 'COMPLETED', 'PARTIAL', 'FAILED')),
+    status TEXT NOT NULL CHECK (status IN ('RUNNING', 'COMPLETED', 'FAILED')),
+    collection_status TEXT CHECK (
+        collection_status IS NULL
+        OR collection_status IN ('COMPLETED', 'PARTIAL', 'FAILED')
+    ),
     started_at TEXT NOT NULL,
     completed_at TEXT,
     error TEXT,
     CHECK (
-        (status = 'RUNNING' AND completed_at IS NULL AND error IS NULL)
-        OR (status IN ('COMPLETED', 'PARTIAL') AND completed_at IS NOT NULL AND error IS NULL)
-        OR (status = 'FAILED' AND completed_at IS NOT NULL AND error IS NOT NULL AND length(trim(error)) > 0)
+        (
+            status = 'RUNNING'
+            AND collection_id IS NULL
+            AND collection_status IS NULL
+            AND completed_at IS NULL
+            AND error IS NULL
+        )
+        OR (
+            status = 'COMPLETED'
+            AND collection_id IS NOT NULL
+            AND collection_status IS NOT NULL
+            AND completed_at IS NOT NULL
+            AND error IS NULL
+        )
+        OR (
+            status = 'FAILED'
+            AND completed_at IS NOT NULL
+            AND error IS NOT NULL
+            AND length(trim(error)) > 0
+        )
     ),
     FOREIGN KEY(watch_id) REFERENCES monitoring_watches(watch_id),
     FOREIGN KEY(collection_id) REFERENCES source_collection_runs(collection_id)
