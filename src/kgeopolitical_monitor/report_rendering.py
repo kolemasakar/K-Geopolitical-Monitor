@@ -7,7 +7,8 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .reporting_environment import ReportBundle, SQLiteReportRepository
+from .forecast_semantics import forecast_semantic_contract
+from .reporting_environment import FORECAST_SCENARIO, ReportBundle, SQLiteReportRepository
 from .runtime_storage import RuntimeStoragePolicy
 
 
@@ -69,6 +70,9 @@ class ReportRenderer:
         snapshot = bundle.snapshot
         sections = tuple(sorted(bundle.sections, key=_section_sort_key))
         references = tuple(sorted(bundle.references, key=_reference_sort_key))
+        has_forecast = any(
+            section.presentation_class == FORECAST_SCENARIO for section in sections
+        )
 
         return {
             "snapshot": {
@@ -89,6 +93,7 @@ class ReportRenderer:
                 "created_at": snapshot.created_at.isoformat(),
                 "generator_version": snapshot.generator_version,
             },
+            "forecast_semantics": forecast_semantic_contract() if has_forecast else None,
             "sections": [
                 {
                     "section_id": section.section_id,
@@ -139,6 +144,21 @@ class ReportRenderer:
             )
 
         lines.extend(["", "## Summary", "", snapshot["summary"]])
+
+        forecast_semantics = data.get("forecast_semantics")
+        if isinstance(forecast_semantics, dict):
+            lines.extend(
+                [
+                    "",
+                    "## Forecast semantics",
+                    "",
+                    f"- Contract: `{forecast_semantics['version']}`",
+                    "- Raw probability: analytical scenario probability before calibration; not factual or verification confidence.",
+                    "- Calibrated probability: calibrated analytical scenario probability; not factual or verification confidence.",
+                    "- Scenario confidence: confidence in the scenario assessment; not scenario probability and not claim verification confidence.",
+                    "- Forecast metrics never modify verification state, evidence confidence, or independent-origin counts.",
+                ]
+            )
 
         for section in data["sections"]:
             lines.extend(
