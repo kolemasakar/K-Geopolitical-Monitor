@@ -2,17 +2,15 @@
 
 Chronological record of major approved project milestones.
 
-Version: 2.5
+Version: 2.8
 Status: ACTIVE
 
-## 2026-08-24
+## 2026-08-24 - Project foundation
 
 - Repository documentation foundation created.
-- Product concept approved.
-- Roadmap approved.
-- Documentation governance approved.
-- Engineering implementation milestone records M0-M4 added under docs/implementation/.
-- M4 completion report recorded the Knowledge Graph and Global Intelligence baseline.
+- Product concept, roadmap and documentation governance approved.
+- Engineering implementation milestones M0-M4 added.
+- M4 Knowledge Graph and Global Intelligence baseline completed.
 
 ## 2026-08-26 - M4 to M5 remediation
 
@@ -24,261 +22,201 @@ Status: ACTIVE
 
 ## 2026-08-26 - M5 Operational Intelligence Platform
 
-- Shared Infrastructure ADR approved with mandatory PROJECT_LOCAL_ONLY runtime storage.
-- Project-local watch/run persistence, monitoring orchestration, failure isolation, retry and recovery implemented.
-- Ranked operational findings with evidence references and explanations implemented.
-- GitHub Actions run 32953343877: 57 passed in 1.05s.
+- Shared Infrastructure ADR approved with mandatory `PROJECT_LOCAL_ONLY` runtime storage.
+- Project-local watch/run persistence, monitoring orchestration, failure isolation, retry/recovery and ranked findings implemented.
+- Run `32953343877`: 57 passed.
 - M5 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M6 Controlled Pilot Monitoring
 
-- Deterministic JSONL pilot-source adapter and project-local provenance persistence implemented.
-- Coverage gaps/confidence, path isolation, cadence/restart determinism and invalid-source failure behavior validated.
-- GitHub Actions run 32961649091: 62 passed in 0.91s.
+- Deterministic controlled-pilot adapter, project-local provenance and coverage-gap handling implemented.
+- Run `32961649091`: 62 passed.
 - M6 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M7 Live Public-Source Pilot
 
 - Controlled read-only Consilium RSS and GDELT DOC 2.0 integrations implemented.
 - GDELT constrained to discovery/index metadata rather than independent verification.
-- Source collection audit, HTTPS transport constraints, deterministic item identity and per-source failure isolation validated.
-- GitHub Actions run 32962379499: 68 passed in 0.77s.
-- Live source smoke run 32962576874 passed.
+- Run `32962379499`: 68 passed; live smoke `32962576874` passed.
 - M7 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M8 Live End-to-End Controlled Pilot
 
 - Live collections connected to claim analysis and operational findings.
-- Evidence independence changed to original publisher/origin identity.
-- Single-origin evidence remains DETECTED; two distinct origins are required for PARTLY_VERIFIED.
-- Same-origin duplicates do not inflate verification status.
-- Deterministic regression run 32963096313: 73 passed in 1.07s.
-- Passing live E2E smoke: run 32963354135.
-- Runtime storage remained PROJECT_LOCAL_ONLY.
-- M8 and ROADMAP Phase 5 recorded as BASELINE_VALIDATED.
+- Evidence independence changed to original publisher/underlying-origin identity.
+- Same-origin duplicates do not inflate verification state.
+- Run `32963096313`: 73 passed; live E2E `32963354135` passed.
+- ROADMAP Phase 5 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M9 Strategic Alerts and Continuous Monitoring
 
-- Migration 008 added alert policies, strategic alerts and immutable alert events.
-- Stable deduplication, cross-cycle updates, OPEN/UPDATED/INVALIDATED/RESOLVED lifecycle and restart persistence implemented.
-- Priority orders due watches without bypassing cadence or modifying evidence truth.
-- GitHub Actions run 32965387054: 82 passed in 1.71s.
-- M9 and ROADMAP Phase 6 recorded as BASELINE_VALIDATED.
+- Migration 008 added durable alert policies/state/events.
+- Stable deduplication, alert lifecycle, restart persistence and priority/cadence separation implemented.
+- Run `32965387054`: 82 passed.
+- ROADMAP Phase 6 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M10 Multi-Region and Language Coverage
 
-- Migration 009 added canonical region/language registries, watch-scoped requirements, attribution and coverage reports.
-- Required/observed/missing scopes and coverage ratio implemented.
-- Region/language and translation attribution do not alter M8 claim identity, origins, confidence or verification.
-- GitHub Actions run 32966128001: 88 passed in 2.07s.
-- M10 and ROADMAP Phase 7 recorded as BASELINE_VALIDATED.
+- Migration 009 added canonical region/language scope, attribution and coverage persistence.
+- Translation/region attribution remains isolated from M8 verification truth.
+- Run `32966128001`: 88 passed.
+- ROADMAP Phase 7 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M11 Advanced Geopolitical Graph
 
-- M4 graph fragments audited and converged into one durable advanced graph contract.
-- Migration 010 added project-local graph nodes, logical edges, edge evidence and material history.
-- Deterministic identity, canonical actor/event/claim/finding projection, evidence-backed lifecycle, temporal snapshots and bounded causal traversal implemented.
-- Existing IntelligenceQuery extended rather than replaced.
-- Cross-layer isolation proved graph analytics do not mutate M8/M10 truth semantics.
-- GitHub Actions run 32973378757: 118 passed in 4.24s.
-- M11 and ROADMAP Phase 8 recorded as BASELINE_VALIDATED.
+- M4 graph fragments converged into one durable project-local graph contract.
+- Migration 010, deterministic identity, lifecycle/history, temporal snapshots and bounded causal traversal implemented.
+- Graph analytics do not mutate M8/M10 truth.
+- Run `32973378757`: 118 passed.
+- ROADMAP Phase 8 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M12 Advanced Forecasting
 
-- Existing forecasting/calibration/history modules extended rather than replaced.
+- Existing forecasting/calibration/history components extended rather than replaced.
 - Migrations 011-014 added immutable forecast/scenario versions, typed provenance, outcomes/evaluations and calibration history.
-- Graph inputs remain analytical and never become independent source evidence.
-- PARTIAL/AMBIGUOUS outcomes remain unscored.
-- AdvancedForecastQuery added current/history/scenario/provenance/outcome/evaluation/calibration queries.
-- M12.5 fixed regression run 32977809109: 148 passed in 11.05s.
-- M12 final regression run 32980859938: 154 passed in 8.19s.
-- M12 and ROADMAP Phase 9 recorded as BASELINE_VALIDATED.
+- Graph inputs remain analytical and never become independent evidence.
+- Run `32980859938`: 154 passed.
+- ROADMAP Phase 9 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - M13 Full Reporting Environment
 
-- Existing findings, alerts, coverage, graph and forecast output surfaces were audited and converged into one canonical reporting subsystem.
-- Migration 015 added immutable report snapshots, ordered sections and typed report references.
-- One common ReportAssembler preserves source evidence, graph inference, forecast scenarios, assumptions and coverage as distinct presentation classes/references.
-- Strategic Alert, Global Geopolitical Brief, Regional/Country Brief, Event Dossier, report-scoped Storyline Report, Forecast Report and Strategic Outlook implemented.
-- Deterministic structured and Markdown rendering implemented from the same immutable persisted ReportBundle.
-- Rendering is reproducible after restart and uses existing RuntimeStoragePolicy for project-local runtime database enforcement.
-- Reporting isolation regressions prove rendering/assembly do not mutate M8 verification confidence/origin count, M10 coverage metadata, M11 graph state or M12 forecast state.
-- M13.1 run 32982639826: 160 passed in 11.40s.
-- M13.2 run 32989895962: 170 passed in 12.00s.
-- M13.3-M13.5 combined run 32992328055: 193 passed in 10.98s.
-- M13.6 run 32993269910: 199 passed in 12.10s.
-- M13 and ROADMAP Phase 10 recorded as BASELINE_VALIDATED.
+- Existing output surfaces converged into one canonical reporting subsystem.
+- Migration 015 added immutable report snapshots, sections and typed references.
+- Deterministic structured/Markdown rendering implemented with truth-state isolation.
+- Final run `32993269910`: 199 passed.
+- ROADMAP Phase 10 recorded as BASELINE_VALIDATED.
 
 ## 2026-08-26 - ROADMAP Phase 11 Global Operational Coverage
 
-- Phase 11 delta audit converged existing M6/M7/M10 coverage state and M13 presentation without creating a new verification engine.
-- Migration 016 added deterministic operational coverage contracts, typed requirements, immutable snapshots and per-requirement results.
-- Migration 017 added per-source collection attempts so successful zero-item acquisition, failure, staleness and unknown state remain distinguishable.
-- LiveSourceCollector was hardened so adapter/item source identity mismatch fails closed before ingestion.
-- SOURCE_CLASS, SOURCE_ID/SOURCE_AVAILABILITY, REGION_LANGUAGE and FRESHNESS dimensions were converged into one deterministic evaluator.
-- Unsupported declared dimensions remain explicit UNMEASURED limitations.
-- Coverage statuses are SATISFIED, GAP, UNAVAILABLE, STALE, UNKNOWN and UNMEASURED.
-- coverage_ratio measures satisfied required units; coverage_confidence measures assessment observability rather than geopolitical factual confidence.
-- Historical/latest coverage query and coverage-aware Global/Regional reporting were integrated through the existing M13 report store.
-- GLOBAL remains an explicit scope key; it does not imply complete world coverage and does not hide gaps or limitations.
-- Cross-layer regression proved Phase 11 does not mutate M8 verification/origin truth, M11 graph state, M12 forecast probabilities or M13 persisted report snapshots.
-- P11.1 run 32996565227: 203 passed in 15.48s.
-- P11.2 run 32997440380: 210 passed in 16.63s.
-- P11.3 run 32997961490: 217 passed in 27.46s.
-- P11.4 run 32999092257: 219 passed in 20.55s.
-- P11.5 run 32999835225: 223 passed in 83.96s.
-- P11.6 run 33000478908: 226 passed in 17.67s.
-- Runtime storage remained PROJECT_LOCAL_ONLY and production/live status remained NOT_OPERATIONAL.
-- ROADMAP Phase 11 recorded as BASELINE_VALIDATED without inventing an M14 milestone label.
+- Coverage-measurement layer implemented without creating a new verification engine.
+- Migrations 016-017 added coverage contracts/results and per-source collection attempts.
+- SOURCE_CLASS, SOURCE_ID/SOURCE_AVAILABILITY, REGION_LANGUAGE and FRESHNESS evaluation converged.
+- `coverage_ratio` and `coverage_confidence` were given distinct deterministic meanings.
+- GLOBAL remains an explicit scope key, not a universal-completeness claim.
+- Final run `33000478908`: 226 passed.
+- ROADMAP Phase 11 recorded as BASELINE_VALIDATED; no M14 created.
 
 ## 2026-08-27 - Post-Phase-11 unattended runtime harness
 
-- UnattendedMonitoringService added as a thin supervisor over existing due-cycle execution.
-- Startup recovery is performed once per process start and unexpected supervisor exceptions remain visible for external service management.
-- LiveOperationalCycle added to persist failed monitoring-run state for collection/processing failures and to avoid retry-every-poll cadence loops.
-- Successful zero-item live collection remains a completed monitoring attempt.
-- No schema or verification-truth semantics were changed.
-- Runtime storage remained PROJECT_LOCAL_ONLY.
-- GitHub Actions run 33012596904: 236 passed.
-- Cloud unattended runtime remained NOT_DEPLOYED and production/live remained NOT_OPERATIONAL.
+- UnattendedMonitoringService and cadence-safe LiveOperationalCycle added.
+- Failed monitoring runs remain persisted and do not retry every supervisor poll.
+- Run `33012596904`: 236 passed.
+- Runtime storage remained `PROJECT_LOCAL_ONLY`.
 
-## 2026-08-27 - Private K-Geopolitical Monitor GPT owner-only pilot
+## 2026-08-27 - Private owner-only GPT pilot
 
-- Private GPT configured as OWNER_ONLY with Web Search and Code Interpreter/Data Analysis enabled.
-- No backend Action/API was connected during the pilot.
-- Pilot matrix executed across 18 scenarios covering current research, local-language sources, social provenance, same-origin duplication, conflicting sources, compromised sources, official-source limits, graph inference, forecast/fact separation, global coverage, backend hallucination traps, report truth boundaries and research reproducibility.
-- Final result: 18/18 PASS, 0 FAIL, 0 BLOCKED.
-- Critical truth-boundary violations: 0.
-- Hallucinated/untraceable source failures: 0.
-- Verification-boundary failures: 0.
-- Coverage-boundary failures: 0.
-- Backend-access hallucination failures: 0.
-- GPT-18/full pilot matrix closure commit: 74f800ffa427e52638b64ed7e37afffc929cad95.
-- GPT-18/full pilot matrix closure CI run 33046581445: SUCCESS.
-- Owner-only pilot plan closure commit: ba57f30563b936aa4cd9cfa891f726444e07221f.
-- Owner-only pilot plan closure CI run 33046621582: SUCCESS.
-- Owner-only pilot declared SUCCESSFUL for continued owner-only use.
-- Public sharing remained DEFERRED.
-- Backend Action/API remained NOT_CONNECTED.
-- Production/live remained NOT_OPERATIONAL.
-- No ROADMAP Phase 12 or M14 was created.
-
-## 2026-08-27 - Post-pilot retrospective and expansion plan
-
-- Canonical retrospective/expansion artifact created at docs/implementation/POST_PRIVATE_GPT_PILOT_RETROSPECTIVE_AND_EXPANSION_PLAN.md.
-- Retrospective commit: 8d874ca70421f4fe367484e3e9bdf562533af2f2.
-- Retrospective CI run 33046677596: SUCCESS.
-- Low-severity pilot refinements were carried forward without reclassifying them as critical defects.
-- E1 Automatic Translation Foundation approved for design and local implementation as the first expansion.
-- E2 Source Reputation and Status History approved for design.
-- E3 Private GPT Backend Action API approved for design with an initial read-only fail-closed scope.
-- E4 Free Unattended Runtime Deployment approved for validation only.
-- E5 Admin Read-Only Dashboard, E6 Reproducibility Instrumentation and E7 Forecast Probability Semantics recorded as planned workstreams.
-- E8 Controlled External Sharing/Public GPT and E9 Shared Production Runtime remain NOT_APPROVED.
-- External translation provider remains NONE_APPROVED.
-- Runtime storage remains PROJECT_LOCAL_ONLY.
-- No new numbered ROADMAP phase was approved.
-
-## 2026-08-27 - Canonical documentation synchronization
-
-- README.md, ROADMAP.md and ARCHITECTURE.md reconciled with the successful owner-only GPT pilot and post-pilot workstream state.
-- Documentation version advanced to 2.3 for the canonical top-level state documents.
-- The post-pilot workstreams are explicitly documented as unnumbered activities and do not create ROADMAP Phase 12 or M14.
-- Production/live remains NOT_OPERATIONAL.
-- A dedicated project control-state checkpoint was created under docs/checkpoints/.
+- Private GPT configured OWNER_ONLY with web research/data-analysis capabilities.
+- No backend Action/API connected during the pilot.
+- 18-scenario truth-boundary matrix completed: 18/18 PASS.
+- Closure runs `33046581445`, `33046621582`, `33046677596`: SUCCESS.
+- Public sharing remained DEFERRED; no ROADMAP Phase 12 or M14 created.
 
 ## 2026-08-29 - E1 Automatic Translation Foundation
 
-- Existing M10 language/TRANSLATION attribution behavior was audited and retained.
-- Migration 018 added raw_item_translations as a durable versioned translation store.
-- Original raw-item text remains unchanged; translated text is stored separately.
-- Source/target language, method/provider/version, translation status, uncertainty/error and timestamp are persisted.
-- Translation statuses are SUCCESS, FAILED, UNAVAILABLE, UNSUPPORTED and AMBIGUOUS.
-- TranslationService and provider-neutral TranslationAdapter contracts were added.
-- DeterministicTranslationAdapter was added only for local deterministic validation; it is not an external provider.
-- Live translations inherit the normalized publisher origin host already used by M8.
-- Non-live raw items without live provenance fall back to source_id as origin identity.
-- Conflicting live provenance origins fail closed.
-- Translation never creates a new independent origin and does not change M8 verification state or independent-origin count.
-- Retranslation creates additive version history and survives runtime restart.
-- Canonical E1 implementation commits: 95ccc5208447f7a144208f10cbf4fbf64411ce00, d60660067e44d5cbbe610a0b74ff50a0f096da4b, 51bbb41e6edb716760727d06902ac90e8e6ce5c5 and 9b5f300b0b798cd106ab84d57d14e01c52b4af62.
-- GitHub Actions run 33244484173, job 99079456390: SUCCESS, 241 passed in 37.10s.
+- Migration 018 added versioned `raw_item_translations`.
+- Original source text remains unchanged and translations are stored separately.
+- Translation inherits origin and never creates independent-source credit.
+- Run `33244484173`: 241 passed.
 - E1 recorded as BASELINE_VALIDATED.
-- External translation provider remains NONE_APPROVED.
-- Runtime storage remains PROJECT_LOCAL_ONLY.
-- Production/live remains NOT_OPERATIONAL.
-- Current post-pilot engineering workstream becomes E2 Source Reputation and Status History.
-- No ROADMAP Phase 12 or M14 was created.
 
 ## 2026-08-29 - E2 Source Reputation and Status History
 
-- Migration 019 added durable append-only source_reputation_history records.
-- Source status, reliability rating, reason, evidence references, policy/version, assessment/review timestamps, supersession and restoration lineage were implemented.
-- Deterministic current-state and complete historical queries were added.
-- COMPROMISED remains a source-context state and is not an automatic FALSE operator.
-- Source reputation/status does not mutate claim truth or independent-origin counting.
-- RESTORED preserves adverse history and requires a valid same-source adverse assessment reference.
-- Legacy sources.reliability remains separate from the E2 history model.
-- GitHub Actions run 33244795277, job 99080306790: SUCCESS, 248 passed in 24.01s.
+- Migration 019 added append-only `source_reputation_history`.
+- COMPROMISED remains a source-context state, not an automatic FALSE operator.
+- Source reputation does not mutate claim truth or independent-origin count.
+- Run `33244795277`: 248 passed.
 - E2 recorded as BASELINE_VALIDATED.
-- Runtime storage remained PROJECT_LOCAL_ONLY.
-- Production/live remained NOT_OPERATIONAL.
-- Current post-pilot engineering workstream became E3 Private GPT Backend Action API.
-- No ROADMAP Phase 12 or M14 was created.
 
 ## 2026-08-29 - E3 Private GPT Backend Action API
 
-- FastAPI/uvicorn dependencies were added for the local owner-only Action API foundation.
-- src/kgeopolitical_monitor/backend_action_api.py implemented read-only access to persisted alerts, alert details, active watches, monitoring runs, source collection attempts, degraded source state, latest coverage and persisted-state summary.
-- Bearer-token authentication uses runtime token injection; tokens are not persisted in repository or project database state.
-- Project-local SQLite is opened with read-only URI mode and PRAGMA query_only.
-- /health remains separate from protected owner-state endpoints.
-- Missing/invalid bearer credentials return HTTP 401 with WWW-Authenticate: Bearer; valid owner credentials execute protected endpoints.
-- GET endpoint regression proves API reads do not mutate alerts, alert events, monitoring runs or source reputation history.
-- Public-web research is never substituted for unavailable persisted backend state.
-- Last unattended-cycle time fails closed as null/NOT_INSTRUMENTED because persisted monitoring_runs do not yet distinguish unattended provenance.
-- Initial CI exposed a FastAPI dependency-resolution regression: protected endpoints returned HTTP 422 because postponed annotations caused the local OwnerAuth Annotated alias to be interpreted as a query parameter.
-- Commit ec86512cfe509ef1e5f77cfee8fc1b828b68f46e removed postponed annotation evaluation from backend_action_api.py without changing the bearer/API contract.
-- GitHub Actions run 33247311921, job 99086917660: SUCCESS, 254 passed in 26.66s.
-- E3 recorded as BASELINE_VALIDATED as a local API foundation.
-- Private GPT Action connection remains NOT_CONNECTED; HTTPS backend deployment remains NOT_DEPLOYED.
-- Runtime storage remains PROJECT_LOCAL_ONLY; production/live remains NOT_OPERATIONAL.
-- Current post-pilot engineering workstream becomes E4 Free Unattended Runtime Deployment validation.
-- No ROADMAP Phase 12 or M14 was created.
+- Owner-only read-only FastAPI persisted-state facade implemented.
+- Bearer authentication, read-only/query-only project-local SQLite, no-mutation and no-web-substitution behavior validated.
+- Run `33247311921`: 254 passed.
+- E3 recorded as BASELINE_VALIDATED.
+- HTTPS deployment remained NOT_DEPLOYED; GPT Action remained NOT_CONNECTED.
+
+## 2026-08-29 - E4 Free Unattended Runtime Deployment
+
+- Real OCI Ubuntu 24.04 ARM64 owner-only runtime validated.
+- Immutable deployment/bootstrap, real reboot recovery, interrupted-run recovery, due-watch resumption and controlled live collection validated.
+- Database/API ingress remained closed; runtime storage remained `PROJECT_LOCAL_ONLY`.
+- Run `33258520620`: SUCCESS.
+- E4 recorded as `BASELINE_VALIDATED_WITH_TEMPORARY_SECURITY_EXCEPTION`.
+- Temporary exception retained public SSH TCP/22 from `0.0.0.0/0` and broad egress pending final hardening.
+- Runtime state became `DEPLOYED_OWNER_ONLY_REAL_HOST_VALIDATED / NOT_PRODUCTION`.
+
+## 2026-08-29 - E5 Admin Read-Only Dashboard
+
+- Owner/admin-only read-only dashboard implemented over the existing E3 reader.
+- No parallel database introduced.
+- Static script-free HTML, restrictive security headers and truth-boundary wording validated.
+- x64 run `33263584520`: 282 passed; native ARM64 run `33263584515`: SUCCESS.
+- E5 recorded as BASELINE_VALIDATED / LOCAL_PROTECTED / READ_ONLY / NOT_DEPLOYED.
+
+## 2026-08-29 - E6 Reproducibility Instrumentation
+
+- Migration 020 added additive reproducibility audit projection.
+- Exact query snapshot, timezone-aware cut-off, adapter fingerprint, source-attempt linkage and deterministic persisted-artifact SHA-256 hashing added.
+- Missing request locators remain `NOT_INSTRUMENTED`; unavailable history is not reconstructed.
+- Provenance annotations do not alter verification state, confidence or independent-origin count.
+- x64 run `33264133429`: 290 passed; native ARM64 run `33264133407`: 290 passed.
+- E6 recorded as BASELINE_VALIDATED.
+
+## 2026-08-29 - E7 Forecast Probability Semantics
+
+- M12 persisted raw/calibrated/scenario-confidence separation retained.
+- Canonical semantic contract `KGM_FORECAST_SEMANTICS_V1` introduced.
+- Read-only `/v1/forecasts/active` API projection added.
+- Dashboard and reports expose Raw / Calibrated / Scenario confidence separately.
+- Adversarial regression proved forecast values `0.95 / 0.98 / 0.99` do not promote an upstream `DETECTED / 0.31 / 1-origin` claim.
+- No migration 021 and no parallel forecasting subsystem introduced.
+- Canonical E7 engineering baseline: `72f049b30fcaa3711c7712c8df7d1da1f934f650`.
+- x64 run `33265984585`: 294 passed; native ARM64 run `33265984622`: 294 passed.
+- E7 recorded as BASELINE_VALIDATED.
+
+## 2026-08-29 - E7 closure and transition
+
+- ROADMAP advanced to v2.8 with E7 BASELINE_VALIDATED.
+- E7 closure commit: `585fdae9d2ca816b4d5250e1aade3470d959e11d`.
+- Closure CI run `33266213476`: 294 passed.
+- Post-E7 bootstrap package added at `BOOTSTRAP_PACKAGE_2026-08-29_K-GEOPOLITICAL-MONITOR_POST_E7_TRANSITION.md`.
+- Transition commit: `13af50a9e46a26ed745d5c1159cce3d4e6cef4d5`.
+- Transition CI run `33266465042`: 294 passed.
+- E8/E9 remained implementation-deferred and no numbered ROADMAP phase was approved.
+
+## 2026-08-29 - D0 documentation convergence / E8 preflight approval
+
+- Owner approved D0 documentation convergence and an E8 read-only preflight/delta audit.
+- E8 implementation, public sharing, production exposure, shared runtime storage and E9 remain NOT_APPROVED.
+- D0 scope reconciles README, ARCHITECTURE and PROJECT_HISTORY with the validated post-E7 state.
+- E8 preflight is limited to architecture/security assessment and minimum implementation/gate definition.
 
 ## Current State
 
-- Documentation: RECONCILED through E3 Private GPT Backend Action API
+- Documentation: RECONCILED through E7 after D0 convergence
 - Engineering implementation: BASELINE_VALIDATED through ROADMAP Phase 11
-- ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
-- ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
-- ROADMAP Phase 7 Multi-Region Expansion: BASELINE_VALIDATED
-- ROADMAP Phase 8 Advanced Geopolitical Graph: BASELINE_VALIDATED
-- ROADMAP Phase 9 Advanced Forecasting: BASELINE_VALIDATED
-- ROADMAP Phase 10 Full Reporting Environment: BASELINE_VALIDATED
-- ROADMAP Phase 11 Global Operational Coverage: BASELINE_VALIDATED
-- Post-Phase-11 unattended supervisor/live-cycle local baseline: VALIDATED
 - Owner-only private GPT pilot: SUCCESSFUL, 18/18 PASS
 - E1 Automatic Translation Foundation: BASELINE_VALIDATED
 - E2 Source Reputation and Status History: BASELINE_VALIDATED
 - E3 Private GPT Backend Action API: BASELINE_VALIDATED
-- Shared Infrastructure ADR: APPROVED
-- Runtime storage mode: PROJECT_LOCAL_ONLY
+- E4 Free Unattended Runtime Deployment: BASELINE_VALIDATED_WITH_TEMPORARY_SECURITY_EXCEPTION
+- E5 Admin Read-Only Dashboard: BASELINE_VALIDATED / LOCAL_PROTECTED / READ_ONLY / NOT_DEPLOYED
+- E6 Reproducibility Instrumentation: BASELINE_VALIDATED
+- E7 Forecast Probability Semantics: BASELINE_VALIDATED
+- Shared Infrastructure ADR: APPROVED / HYBRID
+- Runtime storage mode: `PROJECT_LOCAL_ONLY`
 - Mixed/shared runtime storage: BLOCKED_PENDING_NEW_ARCHITECTURE_APPROVAL
 - Controlled-pilot external integrations: 2
-- External graph providers: NONE_APPROVED
-- External forecasting providers: NONE_APPROVED
-- External reporting/publishing providers: NONE_APPROVED
-- External coverage providers: NONE_APPROVED
-- External notification providers: NONE_APPROVED
-- External translation provider: NONE_APPROVED
+- External translation/graph/forecast/reporting/coverage/notification providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
+- Owner-only unattended cloud runtime: `DEPLOYED_OWNER_ONLY_REAL_HOST_VALIDATED / NOT_PRODUCTION`
 - Backend Action API foundation: VALIDATED_LOCAL_READ_ONLY
 - Private GPT backend Action connection: NOT_CONNECTED
 - Backend HTTPS deployment: NOT_DEPLOYED
-- Unattended cloud runtime: NOT_DEPLOYED
-- Public GPT sharing: DEFERRED
-- Shared production runtime: NOT_APPROVED
-- Current engineering activity: E4 Free Unattended Runtime Deployment validation
-- Next roadmap phase: NONE_APPROVED
+- Admin dashboard deployment: NOT_DEPLOYED
+- Public GPT sharing: DEFERRED / NOT_APPROVED
+- E8: PREFLIGHT ASSESSMENT APPROVED; IMPLEMENTATION NOT APPROVED
+- E9 Shared Production Runtime: DEFERRED / NOT_APPROVED
+- Current engineering activity: D0 documentation convergence + E8 read-only preflight/delta audit
+- Next numbered ROADMAP phase: NONE_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
