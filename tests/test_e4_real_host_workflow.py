@@ -20,12 +20,13 @@ def test_real_host_workflow_is_manual_and_retry_safe():
 
     assert "workflow_dispatch:" in text
     assert "\n  push:" not in text
-    assert "pre-service bootstrap residue" in text
-    assert "test ! -e /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db" in text
+    assert "root-owned pre-service bootstrap residue" in text
+    assert "sudo -n test ! -e /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db" in text
+    assert "sudo -n find /opt/k-geopolitical-monitor/data" in text
     assert "! -name e4_host_validation" in text
     assert "data/e4_host_validation -mindepth 1" in text
-    assert "test ! -e /etc/systemd/system/kgm-monitor.service" in text
-    assert "systemctl is-active kgm-monitor.service" in text
+    assert "sudo -n test ! -e /etc/systemd/system/kgm-monitor.service" in text
+    assert "sudo -n systemctl is-active kgm-monitor.service" in text
     assert "chmod 0755 \"$temp_root\"" in text
     assert "cancel-in-progress: false" in text
 
