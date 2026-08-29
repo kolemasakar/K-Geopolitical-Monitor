@@ -13,7 +13,8 @@ import sqlite3
 from typing import Annotated
 from urllib.parse import quote
 
-from fastapi import Depends, FastAPI, Header, HTTPException, Query, status
+from fastapi import Depends, FastAPI, HTTPException, Query, status
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from .operational_monitoring import OperationalMonitoringRuntime
 
@@ -85,7 +86,7 @@ class BackendStateReader:
                 """,
                 (limit,),
             ).fetchall()
-            result = []
+            result: list[dict[str, object]] = []
             for row in rows:
                 verification = self._verification_state(connection, row[13])
                 result.append(
@@ -427,6 +428,7 @@ def create_action_app(
         raise ValueError("owner_token must not be empty")
 
     reader = BackendStateReader(runtime)
+    bearer = HTTPBearer(auto_error=False)
     app = FastAPI(
         title="K-Geopolitical Monitor Owner Action API",
         version=API_VERSION,
@@ -437,18 +439,26 @@ def create_action_app(
     )
 
     def authorize(
-        authorization: Annotated[str | None, Header()] = None,
-    ) -> None:
-        expected = f"Bearer {token}"
-        provided = authorization or ""
-        if not secrets.compare_digest(provided, expected):
+        credentials: Annotated[
+            HTTPAuthorizationCredentials | None,
+            Depends(bearer),
+        ],
+    ) -> str:
+        if credentials is None or credentials.scheme.casefold() != "bearer":
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="unauthorized",
                 headers={"WWW-Authenticate": "Bearer"},
             )
+        if not secrets.compare_digest(credentials.credentials, token):
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="unauthorized",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        return credentials.credentials
 
-    Auth = Annotated[None, Depends(authorize)]
+    OwnerAuth = Annotated[str, Depends(authorize)]
 
     @app.get("/health", operation_id="getHealth")
     def health() -> dict[str, object]:
@@ -460,30 +470,30 @@ def create_action_app(
         }
 
     @app.get("/v1/state/summary", operation_id="getPersistedStateSummary")
-    def get_state_summary(_: Auth) -> dict[str, object]:
+    def get_state_summary(_: OwnerAuth) -> dict[str, object]:
         return reader.state_summary()
 
     @app.get("/v1/alerts", operation_id="getRecentAlerts")
     def get_recent_alerts(
-        _: Auth,
+        _: OwnerAuth,
         limit: int = Query(default=10, ge=1, le=100),
     ) -> list[dict[str, object]]:
         return reader.recent_alerts(limit)
 
     @app.get("/v1/alerts/{alert_id}", operation_id="getAlert")
-    def get_alert(alert_id: str, _: Auth) -> dict[str, object]:
+    def get_alert(alert_id: str, _: OwnerAuth) -> dict[str, object]:
         item = reader.alert_detail(alert_id)
         if item is None:
             raise HTTPException(status_code=404, detail="alert not found")
         return item
 
     @app.get("/v1/watches", operation_id="getActiveMonitoringWatches")
-    def get_active_watches(_: Auth) -> list[dict[str, object]]:
+    def get_active_watches(_: OwnerAuth) -> list[dict[str, object]]:
         return reader.active_watches()
 
     @app.get("/v1/monitoring-runs", operation_id="getMonitoringRuns")
     def get_monitoring_runs(
-        _: Auth,
+        _: OwnerAuth,
         limit: int = Query(default=100, ge=1, le=500),
     ) -> list[dict[str, object]]:
         return reader.monitoring_runs(limit)
@@ -493,17 +503,17 @@ def create_action_app(
         operation_id="getSourceCollectionAttempts",
     )
     def get_source_collection_attempts(
-        _: Auth,
+        _: OwnerAuth,
         limit: int = Query(default=100, ge=1, le=500),
     ) -> list[dict[str, object]]:
         return reader.source_collection_attempts(limit)
 
     @app.get("/v1/sources/degraded", operation_id="getDegradedSources")
-    def get_degraded_sources(_: Auth) -> list[dict[str, object]]:
+    def get_degraded_sources(_: OwnerAuth) -> list[dict[str, object]]:
         return reader.degraded_sources()
 
     @app.get("/v1/coverage/latest", operation_id="getLatestCoverage")
-    def get_latest_coverage(_: Auth) -> list[dict[str, object]]:
+    def get_latest_coverage(_: OwnerAuth) -> list[dict[str, object]]:
         return reader.latest_coverage()
 
     return app
