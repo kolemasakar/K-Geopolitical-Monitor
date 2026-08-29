@@ -1,0 +1,62 @@
+name: E4 ARM64 Validation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "deployment/**"
+      - "pyproject.toml"
+      - ".github/workflows/e4-arm64-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  arm64-validation:
+    runs-on: ubuntu-24.04-arm
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Confirm native ARM64 runner
+        run: |
+          uname -m
+          test "$(uname -m)" = "aarch64"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install project and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test]"
+
+      - name: Run full ARM64 regression
+        run: python -m pytest -q
+
+      - name: Run unattended one-tick smoke
+        run: |
+          python -m kgeopolitical_monitor.unattended_runner \
+            --project-root "$RUNNER_TEMP/kgm-e4-smoke" \
+            --once
+          test -f "$RUNNER_TEMP/kgm-e4-smoke/data/kgeopolitical_monitor.db"
+
+      - name: Verify systemd unit contract
+        run: |
+          sudo useradd --system --user-group \
+            --home-dir /opt/k-geopolitical-monitor \
+            --shell /usr/sbin/nologin kgm || true
+          sudo mkdir -p \
+            /opt/k-geopolitical-monitor/.venv/bin \
+            /opt/k-geopolitical-monitor/data
+          sudo ln -sf "$(command -v python)" \
+            /opt/k-geopolitical-monitor/.venv/bin/python
+          sudo chown -R kgm:kgm /opt/k-geopolitical-monitor
+          systemd-analyze verify deployment/systemd/kgm-monitor.service
