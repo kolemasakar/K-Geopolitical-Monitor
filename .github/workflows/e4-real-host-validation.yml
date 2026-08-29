@@ -74,14 +74,22 @@ jobs:
              test "$VERSION_ID" = "24.04"
              sudo -n true
              if [ -e /opt/k-geopolitical-monitor ]; then
-               echo "validating pre-bootstrap deployment residue"
+               echo "validating pre-service bootstrap residue"
                test -d /opt/k-geopolitical-monitor/.git
                test -f /opt/k-geopolitical-monitor/pyproject.toml
                test -f /opt/k-geopolitical-monitor/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh
-               test ! -e /opt/k-geopolitical-monitor/data
-               test ! -e /opt/k-geopolitical-monitor/.venv
                test ! -e /etc/systemd/system/kgm-monitor.service
                test "$(systemctl is-active kgm-monitor.service 2>/dev/null || true)" != "active"
+               test ! -e /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db
+               if [ -e /opt/k-geopolitical-monitor/data ]; then
+                 test -d /opt/k-geopolitical-monitor/data
+                 unexpected="$(find /opt/k-geopolitical-monitor/data -mindepth 1 -maxdepth 1 ! -name e4_host_validation -print -quit)"
+                 test -z "$unexpected"
+                 if [ -e /opt/k-geopolitical-monitor/data/e4_host_validation ]; then
+                   test -d /opt/k-geopolitical-monitor/data/e4_host_validation
+                   test -z "$(find /opt/k-geopolitical-monitor/data/e4_host_validation -mindepth 1 -print -quit)"
+                 fi
+               fi
              fi'
 
       - name: Deploy immutable repository checkpoint
@@ -99,14 +107,22 @@ jobs:
           set -Eeuo pipefail
           test -n "$DEPLOY_SHA"
           if [ -e /opt/k-geopolitical-monitor ]; then
-            echo "removing validated pre-bootstrap deployment residue"
+            echo "removing validated pre-service bootstrap residue"
             test -d /opt/k-geopolitical-monitor/.git
             test -f /opt/k-geopolitical-monitor/pyproject.toml
             test -f /opt/k-geopolitical-monitor/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh
-            test ! -e /opt/k-geopolitical-monitor/data
-            test ! -e /opt/k-geopolitical-monitor/.venv
             test ! -e /etc/systemd/system/kgm-monitor.service
             test "$(systemctl is-active kgm-monitor.service 2>/dev/null || true)" != "active"
+            test ! -e /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db
+            if [ -e /opt/k-geopolitical-monitor/data ]; then
+              test -d /opt/k-geopolitical-monitor/data
+              unexpected="$(find /opt/k-geopolitical-monitor/data -mindepth 1 -maxdepth 1 ! -name e4_host_validation -print -quit)"
+              test -z "$unexpected"
+              if [ -e /opt/k-geopolitical-monitor/data/e4_host_validation ]; then
+                test -d /opt/k-geopolitical-monitor/data/e4_host_validation
+                test -z "$(find /opt/k-geopolitical-monitor/data/e4_host_validation -mindepth 1 -print -quit)"
+              fi
+            fi
             sudo -n rm -rf /opt/k-geopolitical-monitor
           fi
           temp_root="$(mktemp -d /tmp/kgm-e4-deploy.XXXXXX)"
@@ -117,6 +133,7 @@ jobs:
           git -C "$temp_root" fetch --depth=1 origin "$DEPLOY_SHA"
           git -C "$temp_root" checkout --detach "$DEPLOY_SHA"
           test "$(git -C "$temp_root" rev-parse HEAD)" = "$DEPLOY_SHA"
+          chmod 0755 "$temp_root"
           sudo -n mv "$temp_root" /opt/k-geopolitical-monitor
           trap - EXIT
           REMOTE
