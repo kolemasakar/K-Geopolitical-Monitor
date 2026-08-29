@@ -20,8 +20,7 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         }
         applied = {
             row[0]
-            for row in connection.execute(
-                "SELECT version FROM schema_migrations ORDER BY version"
+            for row in connection.execute("SELECT version FROM schema_migrations ORDER BY version"
             ).fetchall()
         }
         monitoring_run_columns = {
@@ -76,6 +75,10 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "operational_coverage_requirement_results",
         "raw_item_translations",
         "source_reputation_history",
+        "research_audit_runs",
+        "research_query_executions",
+        "research_artifact_hashes",
+        "research_provenance_annotations",
     }.issubset(tables)
     assert {"retry_count", "recovered"}.issubset(monitoring_run_columns)
     assert applied == {
@@ -98,4 +101,5 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "017_source_collection_attempts.sql",
         "018_translation_foundation.sql",
         "019_source_reputation_history.sql",
+        "020_reproducibility_instrumentation.sql",
     }
