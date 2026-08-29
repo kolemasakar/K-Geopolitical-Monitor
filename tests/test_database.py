@@ -74,6 +74,7 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "operational_coverage_requirements",
         "operational_coverage_snapshots",
         "operational_coverage_requirement_results",
+        "raw_item_translations",
     }.issubset(tables)
     assert {"retry_count", "recovered"}.issubset(monitoring_run_columns)
     assert applied == {
@@ -94,4 +95,5 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "015_full_reporting_environment.sql",
         "016_global_operational_coverage.sql",
         "017_source_collection_attempts.sql",
+        "018_translation_foundation.sql",
     }
