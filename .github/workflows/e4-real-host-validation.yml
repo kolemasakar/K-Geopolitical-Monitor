@@ -57,7 +57,7 @@ jobs:
           printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
           chmod 0600 "$HOME/.ssh/known_hosts"
 
-      - name: Validate pristine Ubuntu ARM64 host
+      - name: Validate Ubuntu ARM64 host and retry state
         shell: bash
         run: |
           set -Eeuo pipefail
@@ -73,7 +73,16 @@ jobs:
              test "$ID" = "ubuntu"
              test "$VERSION_ID" = "24.04"
              sudo -n true
-             test ! -e /opt/k-geopolitical-monitor'
+             if [ -e /opt/k-geopolitical-monitor ]; then
+               echo "validating pre-bootstrap deployment residue"
+               test -d /opt/k-geopolitical-monitor/.git
+               test -f /opt/k-geopolitical-monitor/pyproject.toml
+               test -f /opt/k-geopolitical-monitor/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh
+               test ! -e /opt/k-geopolitical-monitor/data
+               test ! -e /opt/k-geopolitical-monitor/.venv
+               test ! -e /etc/systemd/system/kgm-monitor.service
+               test "$(systemctl is-active kgm-monitor.service 2>/dev/null || true)" != "active"
+             fi'
 
       - name: Deploy immutable repository checkpoint
         shell: bash
@@ -89,7 +98,17 @@ jobs:
             "DEPLOY_SHA='$DEPLOY_SHA' bash -s" <<'REMOTE'
           set -Eeuo pipefail
           test -n "$DEPLOY_SHA"
-          test ! -e /opt/k-geopolitical-monitor
+          if [ -e /opt/k-geopolitical-monitor ]; then
+            echo "removing validated pre-bootstrap deployment residue"
+            test -d /opt/k-geopolitical-monitor/.git
+            test -f /opt/k-geopolitical-monitor/pyproject.toml
+            test -f /opt/k-geopolitical-monitor/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh
+            test ! -e /opt/k-geopolitical-monitor/data
+            test ! -e /opt/k-geopolitical-monitor/.venv
+            test ! -e /etc/systemd/system/kgm-monitor.service
+            test "$(systemctl is-active kgm-monitor.service 2>/dev/null || true)" != "active"
+            sudo -n rm -rf /opt/k-geopolitical-monitor
+          fi
           temp_root="$(mktemp -d /tmp/kgm-e4-deploy.XXXXXX)"
           trap 'rm -rf "$temp_root"' EXIT
           git clone --filter=blob:none --no-checkout \
@@ -111,7 +130,7 @@ jobs:
             -o BatchMode=yes \
             -o StrictHostKeyChecking=yes \
             "$E4_SSH_USER@$E4_HOST" \
-            "sudo -n $PROJECT_ROOT/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh --project-root $PROJECT_ROOT"
+            "sudo -n bash \"$PROJECT_ROOT/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh\" --project-root \"$PROJECT_ROOT\""
 
       - name: Record pre-reboot host gate
         shell: bash

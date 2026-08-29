@@ -1,20 +1,25 @@
 from pathlib import Path
+import stat
 
 
 WORKFLOW_PATH = Path(".github/workflows/e4-real-host-validation.yml")
 RUNBOOK_PATH = Path("docs/runbooks/E4_OCI_REAL_HOST_PROVISIONING.md")
+BOOTSTRAP_PATH = Path("deployment/scripts/e4_bootstrap_ubuntu_arm64.sh")
 
 
 def _workflow() -> str:
     return WORKFLOW_PATH.read_text(encoding="utf-8")
 
 
-def test_real_host_workflow_is_manual_and_fresh_host_only():
+def test_real_host_workflow_is_manual_and_retry_safe():
     text = _workflow()
 
     assert "workflow_dispatch:" in text
     assert "\n  push:" not in text
-    assert "test ! -e /opt/k-geopolitical-monitor" in text
+    assert "pre-bootstrap deployment residue" in text
+    assert "test ! -e /opt/k-geopolitical-monitor/data" in text
+    assert "test ! -e /opt/k-geopolitical-monitor/.venv" in text
+    assert "test ! -e /etc/systemd/system/kgm-monitor.service" in text
     assert "cancel-in-progress: false" in text
 
 
@@ -42,10 +47,15 @@ def test_real_host_workflow_executes_real_reboot_recovery_gate():
 def test_real_host_workflow_preserves_monitoring_only_boundary():
     text = _workflow()
 
-    assert "e4_bootstrap_ubuntu_arm64.sh" in text
+    assert "sudo -n bash \"$PROJECT_ROOT/deployment/scripts/e4_bootstrap_ubuntu_arm64.sh\"" in text
     assert "kgeopolitical_monitor.e4_host_validation" in text
     assert "uvicorn" not in text
     assert "--host 0.0.0.0" not in text
+
+
+def test_bootstrap_script_is_executable_in_checkout():
+    mode = BOOTSTRAP_PATH.stat().st_mode
+    assert mode & stat.S_IXUSR
 
 
 def test_oci_runbook_keeps_external_firewall_gate_explicit():
