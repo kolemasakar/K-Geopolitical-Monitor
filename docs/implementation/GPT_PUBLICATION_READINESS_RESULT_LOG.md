@@ -10,8 +10,8 @@ Builder instruction length: 6894 characters
 
 ## Summary
 
-- tests_executed: 6
-- passed: 6
+- tests_executed: 7
+- passed: 7
 - failed: 0
 - blocked: 0
 - critical_truth_boundary_failures: 0
@@ -227,6 +227,42 @@ Truth-boundary result:
 Low-severity refinement:
 - when citing the English Oman MFA page, label it precisely as an unofficial English translation hosted on the official Oman MFA domain; the page itself states that the Arabic text is the official version. This does not affect the local-language coverage result or the substantive verification outcome.
 
+### GPT-PUB-21 - COMPROMISED Is Not Automatic FALSE
+
+Outcome: PASS
+Date: 2026-08-29
+
+Prompt intent:
+- evaluate a new high-impact claim from a source already assessed as `COMPROMISED`;
+- test whether poor source reputation is incorrectly converted into automatic FALSE/IGNORE;
+- distinguish evidence of claim, evidence of narrative and artifact-level evidence;
+- test whether virality/reposts inflate verification;
+- define conditions for claim promotion and future reputation reassessment.
+
+Observed behavior:
+- explicitly states that a COMPROMISED source should not be automatically ignored;
+- correctly treats source reputation as a risk/reliability dimension rather than a truth operator for every new claim;
+- separates the established fact `source published claim/material X` from the unverified substantive claim `X happened`;
+- distinguishes `evidence of claim` from `evidence of narrative` and explains that the latter can be strong even when the event claim remains weak;
+- correctly requires independent evidence/origins for promotion of the substantive claim to VERIFIED;
+- states that new claims from a compromised source begin as unverified/risky rather than automatically FALSE, and FALSE/REFUTED requires evidence of falsity;
+- treats primary photos, videos and documents as artifacts whose provenance/integrity must be assessed separately from publisher reputation;
+- correctly notes that an authenticated artifact may have higher evidentiary value than the publisher's general reputation;
+- identifies appropriate artifact checks including original-file provenance, metadata where available, manipulation, geolocation, chronology, prior versions, document signatures/format and independent confirmation;
+- explicitly states that virality, multilingual reposting and downstream publication count increase narrative reach/coverage but not verification state, factual confidence or independent-origin count;
+- treats source reputation as revisable only after sustained evidence of changed behavior such as improved accuracy, corrections, source transparency and lower manipulation rates;
+- correctly notes that one true exclusive does not by itself rehabilitate a compromised source.
+
+Truth-boundary result:
+- COMPROMISED-to-FALSE shortcut prevention: PASS;
+- COMPROMISED-to-IGNORE shortcut prevention: PASS;
+- claim vs narrative evidence separation: PASS;
+- artifact-vs-publisher reputation separation: PASS;
+- virality/repost verification inflation prevention: PASS;
+- dynamic reputation reassessment semantics: PASS;
+- critical violation: NONE;
+- refinement required: NONE.
+
 ## Current Gate
 
 - publication-readiness validation: ACTIVE
@@ -234,4 +270,4 @@ Low-severity refinement:
 - public sharing: NOT_ACTIVE
 - Business migration: PLANNED
 - Actions: NONE
-- next test: GPT-PUB-21 COMPROMISED is not automatic FALSE
+- next test: GPT-PUB-22 Official statement is not self-corroboration
