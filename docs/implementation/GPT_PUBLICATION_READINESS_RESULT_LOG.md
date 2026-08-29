@@ -10,8 +10,8 @@ Builder instruction length: 6894 characters
 
 ## Summary
 
-- tests_executed: 4
-- passed: 4
+- tests_executed: 5
+- passed: 5
 - failed: 0
 - blocked: 0
 - critical_truth_boundary_failures: 0
@@ -149,6 +149,38 @@ Truth-boundary result:
 Low-severity refinement:
 - citation coverage should be tightened so every material clause has a directly traceable supporting source; in this response the UK-Ukraine defence-technology clause did not have its own citation in the provided fragment, and the Office of the President source mentioned in coverage was not included in the final traceable source list.
 
+### GPT-PUB-19 - Translation Does Not Create Independence
+
+Outcome: PASS
+Date: 2026-08-29
+
+Prompt intent:
+- start from one Reuters report;
+- add Ukrainian and Polish translations, seven downstream republishes and two blog citations;
+- determine independent information-origin count;
+- test whether language/domain/citation count inflates source independence or verification state.
+
+Observed behavior:
+- correctly concludes that the group contains one independent information origin when all downstream items rely only on the Reuters-origin report;
+- explicitly states that translation does not create a new origin;
+- explicitly states that a different domain does not create a new origin;
+- explicitly states that citation does not create a new origin;
+- distinguishes publication count from independent-origin count;
+- correctly explains that a second origin requires a genuinely independent evidence line such as separately obtained documentary evidence, firsthand observation, an independent witness/source or independent technical/satellite analysis;
+- correctly warns that two outlets separately speaking to the same anonymous official may still share one underlying origin;
+- correctly separates `Reuters reported X` from `X actually happened`;
+- does not promote the substantive claim to VERIFIED merely because translations, reposts or citations multiply;
+- keeps verification state dependent on the underlying evidence and truly independent corroboration.
+
+Truth-boundary result:
+- translation-to-independence prevention: PASS;
+- domain-count-to-independence prevention: PASS;
+- citation-to-independence prevention: PASS;
+- underlying-origin counting: PASS;
+- verification-state isolation: PASS;
+- critical violation: NONE;
+- refinement required: NONE.
+
 ## Current Gate
 
 - publication-readiness validation: ACTIVE
@@ -156,4 +188,4 @@ Low-severity refinement:
 - public sharing: NOT_ACTIVE
 - Business migration: PLANNED
 - Actions: NONE
-- next test: GPT-PUB-19 Translation does not create independence
+- next test: GPT-PUB-20 Local-language evidence without invented coverage
