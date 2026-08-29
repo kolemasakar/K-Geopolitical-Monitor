@@ -19,6 +19,7 @@ from .live_sources import (
     UrllibHttpTransport,
 )
 from .operational_monitoring import OperationalMonitoringRuntime
+from .reproducibility import ReproducibilityInstrumentedCollector
 from .unattended_service import UnattendedMonitoringService, UnattendedTick
 
 
@@ -32,13 +33,14 @@ def build_unattended_service(
 
     runtime = OperationalMonitoringRuntime(Path(project_root))
     http_transport = transport if transport is not None else UrllibHttpTransport()
-    collector = LiveSourceCollector(
+    base_collector = LiveSourceCollector(
         runtime,
         [
             ConsiliumRssAdapter(http_transport),
             GdeltDoc2Adapter(http_transport),
         ],
     )
+    collector = ReproducibilityInstrumentedCollector(base_collector)
     processor = LiveEndToEndProcessor(runtime)
     cycle = LiveOperationalCycle(runtime, collector, processor)
     return UnattendedMonitoringService(
