@@ -1,7 +1,7 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring system.
 
-Version: 2.3
+Version: 2.4
 Status: ACTIVE
 
 ## Purpose
@@ -17,6 +17,7 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - PROJECT_DOCUMENTATION_GOVERNANCE.md - documentation governance
 - docs/implementation/GPT_PRIVATE_PILOT_RESULT_LOG.md - closed owner-only GPT pilot evidence
 - docs/implementation/POST_PRIVATE_GPT_PILOT_RETROSPECTIVE_AND_EXPANSION_PLAN.md - approved post-pilot workstream plan
+- docs/implementation/E1_AUTOMATIC_TRANSLATION_FOUNDATION.md - validated E1 translation foundation
 - docs/implementation/ - implementation milestone and phase validation records
 - docs/checkpoints/ - explicit project control-state checkpoints
 
@@ -41,11 +42,14 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - GPT-18/full pilot matrix closure CI: SUCCESS - GitHub Actions run 33046581445
 - Owner-only pilot plan closure CI: SUCCESS - GitHub Actions run 33046621582
 - Post-pilot retrospective/expansion-plan CI: SUCCESS - GitHub Actions run 33046677596
+- E1 Automatic Translation Foundation: BASELINE_VALIDATED - 241 passed in 37.10s, GitHub Actions run 33244484173
 
 ## Validated Truth and Coverage Boundaries
 
 - Original publisher/underlying origin is the verification-independence unit.
 - Same-origin duplication, syndication, reposting and translation do not create independent corroboration.
+- Translated text is a derived representation stored separately from immutable original raw-item text.
+- Translation inherits the same underlying origin and does not increase M8 independent-origin count or verification state.
 - Official-source status does not automatically make the underlying event claim true.
 - COMPROMISED source status does not mean IGNORE or automatic FALSE.
 - Graph inference is analytical context and does not become source evidence.
@@ -62,12 +66,13 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - Mixed/shared runtime storage: BLOCKED pending a new explicit architecture approval
 - Controlled live integrations: Consilium RSS and GDELT DOC 2.0
 - GDELT is discovery/index metadata only, not independent factual verification
+- Provider-neutral local translation foundation: VALIDATED
+- External translation provider: NONE_APPROVED
 - External graph providers: NONE_APPROVED
 - External forecasting providers: NONE_APPROVED
 - External reporting/publishing providers: NONE_APPROVED
 - External coverage providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
-- Automatic translation providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
 - Private GPT backend Action/API: NOT_CONNECTED
 - Unattended cloud runtime: NOT_DEPLOYED
@@ -77,11 +82,11 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 
 ## Post-Pilot Workstream
 
-The owner-only GPT pilot is complete and successful. It unlocks unnumbered post-Phase-11 engineering workstreams, not a new ROADMAP phase.
+The owner-only GPT pilot is complete and successful. Post-pilot workstreams remain unnumbered and do not create a new ROADMAP phase.
 
-Approved execution order:
-- E1 Automatic Translation Foundation - APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION
-- E2 Source Reputation and Status History - APPROVED_FOR_DESIGN
+Execution order and current state:
+- E1 Automatic Translation Foundation - BASELINE_VALIDATED
+- E2 Source Reputation and Status History - APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION - CURRENT
 - E3 Private GPT Backend Action API - APPROVED_FOR_DESIGN
 - E4 Free Unattended Runtime Deployment - APPROVED_FOR_VALIDATION
 - E5 Admin Read-Only Dashboard - PLANNED
@@ -90,7 +95,7 @@ Approved execution order:
 - E8 Controlled External Sharing / Public GPT - NOT_APPROVED
 - E9 Shared Production Runtime - NOT_APPROVED
 
-Current engineering action: E1 Automatic Translation Foundation design and local implementation.
+Current engineering action: E2 Source Reputation and Status History design and local implementation.
 
 Next ROADMAP phase: NONE_APPROVED. Any future phase number requires an explicit roadmap-extension decision.
 
