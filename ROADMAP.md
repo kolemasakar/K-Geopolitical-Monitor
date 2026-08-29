@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 2.5
+Version: 2.6
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -311,12 +311,69 @@ E3 canonical regression:
 
 E3 completion validates the local API foundation only. It does not mean the private GPT is connected to the backend, an HTTPS endpoint is deployed, or production/live operation is approved.
 
+### E4 - Free Unattended Runtime Deployment
+
+State:
+BASELINE_VALIDATED_WITH_TEMPORARY_SECURITY_EXCEPTION
+
+Validated foundation:
+- real OCI Ubuntu 24.04 ARM64 owner-only VM: PASS;
+- immutable deployment and bootstrap: PASS;
+- real-host pytest `277 passed, 2 warnings`: PASS;
+- project-local database integrity: PASS;
+- systemd enable/start and real reboot auto-recovery: PASS;
+- interrupted-run recovery and due-watch resumption: PASS;
+- controlled live collection success after reboot: PASS;
+- OCI Security List evidence captured: PASS;
+- inbound TCP 80/443, TCP/UDP 111 and database/API ingress absent: PASS;
+- runtime storage remains PROJECT_LOCAL_ONLY: PASS;
+- production/live remains NOT_OPERATIONAL.
+
+Temporary owner-approved development exception:
+- public SSH TCP/22 remains allowed from `0.0.0.0/0` during active development;
+- broad egress to `0.0.0.0/0` remains unchanged during active development;
+- SSH/Bastion/private-admin and egress least-privilege hardening are deferred to final project security review.
+
+E4 canonical real-host validation:
+- workflow run `33258520620`;
+- job `99116323168`;
+- deployment SHA `6f8fb938590aa7ddabba96ee3a4c0e108e225d97`;
+- result SUCCESS.
+
+### E5 - Admin Read-Only Dashboard
+
+State:
+BASELINE_VALIDATED
+
+Supporting state:
+`LOCAL_PROTECTED / READ_ONLY / NOT_DEPLOYED`
+
+Validated foundation:
+- owner/admin-only read-only FastAPI dashboard app: PASS;
+- existing E3 persisted-state reader reused: PASS;
+- no parallel dashboard database: PASS;
+- PROJECT_LOCAL_ONLY runtime state preserved: PASS;
+- watch due/running/failed projection: PASS;
+- source reputation and availability projection: PASS;
+- coverage GAP/UNAVAILABLE/STALE/UNKNOWN/UNMEASURED visibility: PASS;
+- findings/alerts/active forecast projection: PASS;
+- source collection attempt visibility: PASS;
+- missing uptime instrumentation remains explicit rather than inferred: PASS;
+- no coverage-to-verification or forecast-to-fact promotion: PASS;
+- static script-free HTML with persisted-value escaping: PASS;
+- restrictive browser security headers: PASS;
+- dashboard GET requests do not mutate canonical state: PASS;
+- dashboard deployment/public exposure: NOT_DEPLOYED.
+
+E5 canonical regression at SHA `4da27ac374c9832cbe189d178cf2e10fa0326bb5`:
+- x64 run `33263584520`, job `99129562037`: 282 passed, 1 warning, SUCCESS;
+- native ARM64 run `33263584515`, job `99129561992`: SUCCESS;
+- native ARM64 confirmation, full regression, bootstrap-shell, one-tick smoke and systemd contract: PASS.
+
 ### Remaining workstreams
 
 Execution order:
-- E4 Free Unattended Runtime Deployment - P0 - APPROVED_FOR_VALIDATION - CURRENT;
-- E5 Admin Read-Only Dashboard - P1 - PLANNED;
-- E6 Reproducibility Instrumentation - P1 - PLANNED;
+- E6 Reproducibility Instrumentation - P1 - CURRENT;
 - E7 Forecast Probability Semantics - P1 - PLANNED;
 - E8 Controlled External Sharing / Public GPT - DEFERRED - NOT_APPROVED;
 - E9 Shared Production Runtime - DEFERRED - NOT_APPROVED.
@@ -349,6 +406,8 @@ Post-pilot invariants:
 - E1 Automatic Translation Foundation: BASELINE_VALIDATED
 - E2 Source Reputation and Status History: BASELINE_VALIDATED
 - E3 Private GPT Backend Action API: BASELINE_VALIDATED
+- E4 Free Unattended Runtime Deployment: BASELINE_VALIDATED_WITH_TEMPORARY_SECURITY_EXCEPTION
+- E5 Admin Read-Only Dashboard: BASELINE_VALIDATED / LOCAL_PROTECTED / NOT_DEPLOYED
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
@@ -364,9 +423,10 @@ Post-pilot invariants:
 - Backend Action API foundation: VALIDATED_LOCAL_READ_ONLY
 - Private GPT backend Action connection: NOT_CONNECTED
 - Backend HTTPS deployment: NOT_DEPLOYED
-- Unattended cloud runtime: NOT_DEPLOYED
+- Unattended cloud runtime: DEPLOYED_OWNER_ONLY_REAL_HOST_VALIDATED / NOT_PRODUCTION
+- Admin dashboard deployment: NOT_DEPLOYED
 - Public sharing: DEFERRED
 - Shared production runtime: NOT_APPROVED
-- Current engineering activity: E4 Free Unattended Runtime Deployment validation
+- Current engineering activity: E6 Reproducibility Instrumentation
 - Next roadmap phase: NONE_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
