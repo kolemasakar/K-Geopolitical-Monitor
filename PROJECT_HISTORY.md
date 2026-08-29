@@ -2,7 +2,7 @@
 
 Chronological record of major approved project milestones.
 
-Version: 2.4
+Version: 2.5
 Status: ACTIVE
 
 ## 2026-08-24
@@ -210,9 +210,45 @@ Status: ACTIVE
 - Current post-pilot engineering workstream becomes E2 Source Reputation and Status History.
 - No ROADMAP Phase 12 or M14 was created.
 
+## 2026-08-29 - E2 Source Reputation and Status History
+
+- Migration 019 added durable append-only source_reputation_history records.
+- Source status, reliability rating, reason, evidence references, policy/version, assessment/review timestamps, supersession and restoration lineage were implemented.
+- Deterministic current-state and complete historical queries were added.
+- COMPROMISED remains a source-context state and is not an automatic FALSE operator.
+- Source reputation/status does not mutate claim truth or independent-origin counting.
+- RESTORED preserves adverse history and requires a valid same-source adverse assessment reference.
+- Legacy sources.reliability remains separate from the E2 history model.
+- GitHub Actions run 33244795277, job 99080306790: SUCCESS, 248 passed in 24.01s.
+- E2 recorded as BASELINE_VALIDATED.
+- Runtime storage remained PROJECT_LOCAL_ONLY.
+- Production/live remained NOT_OPERATIONAL.
+- Current post-pilot engineering workstream became E3 Private GPT Backend Action API.
+- No ROADMAP Phase 12 or M14 was created.
+
+## 2026-08-29 - E3 Private GPT Backend Action API
+
+- FastAPI/uvicorn dependencies were added for the local owner-only Action API foundation.
+- src/kgeopolitical_monitor/backend_action_api.py implemented read-only access to persisted alerts, alert details, active watches, monitoring runs, source collection attempts, degraded source state, latest coverage and persisted-state summary.
+- Bearer-token authentication uses runtime token injection; tokens are not persisted in repository or project database state.
+- Project-local SQLite is opened with read-only URI mode and PRAGMA query_only.
+- /health remains separate from protected owner-state endpoints.
+- Missing/invalid bearer credentials return HTTP 401 with WWW-Authenticate: Bearer; valid owner credentials execute protected endpoints.
+- GET endpoint regression proves API reads do not mutate alerts, alert events, monitoring runs or source reputation history.
+- Public-web research is never substituted for unavailable persisted backend state.
+- Last unattended-cycle time fails closed as null/NOT_INSTRUMENTED because persisted monitoring_runs do not yet distinguish unattended provenance.
+- Initial CI exposed a FastAPI dependency-resolution regression: protected endpoints returned HTTP 422 because postponed annotations caused the local OwnerAuth Annotated alias to be interpreted as a query parameter.
+- Commit ec86512cfe509ef1e5f77cfee8fc1b828b68f46e removed postponed annotation evaluation from backend_action_api.py without changing the bearer/API contract.
+- GitHub Actions run 33247311921, job 99086917660: SUCCESS, 254 passed in 26.66s.
+- E3 recorded as BASELINE_VALIDATED as a local API foundation.
+- Private GPT Action connection remains NOT_CONNECTED; HTTPS backend deployment remains NOT_DEPLOYED.
+- Runtime storage remains PROJECT_LOCAL_ONLY; production/live remains NOT_OPERATIONAL.
+- Current post-pilot engineering workstream becomes E4 Free Unattended Runtime Deployment validation.
+- No ROADMAP Phase 12 or M14 was created.
+
 ## Current State
 
-- Documentation: RECONCILED through E1 Automatic Translation Foundation
+- Documentation: RECONCILED through E3 Private GPT Backend Action API
 - Engineering implementation: BASELINE_VALIDATED through ROADMAP Phase 11
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
@@ -224,6 +260,8 @@ Status: ACTIVE
 - Post-Phase-11 unattended supervisor/live-cycle local baseline: VALIDATED
 - Owner-only private GPT pilot: SUCCESSFUL, 18/18 PASS
 - E1 Automatic Translation Foundation: BASELINE_VALIDATED
+- E2 Source Reputation and Status History: BASELINE_VALIDATED
+- E3 Private GPT Backend Action API: BASELINE_VALIDATED
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
 - Mixed/shared runtime storage: BLOCKED_PENDING_NEW_ARCHITECTURE_APPROVAL
@@ -235,10 +273,12 @@ Status: ACTIVE
 - External notification providers: NONE_APPROVED
 - External translation provider: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Private GPT backend Action/API: NOT_CONNECTED
+- Backend Action API foundation: VALIDATED_LOCAL_READ_ONLY
+- Private GPT backend Action connection: NOT_CONNECTED
+- Backend HTTPS deployment: NOT_DEPLOYED
 - Unattended cloud runtime: NOT_DEPLOYED
 - Public GPT sharing: DEFERRED
 - Shared production runtime: NOT_APPROVED
-- Current engineering activity: E2 Source Reputation and Status History design and local implementation
+- Current engineering activity: E4 Free Unattended Runtime Deployment validation
 - Next roadmap phase: NONE_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
