@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 2.4
+Version: 2.5
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -268,14 +268,53 @@ E1 canonical regression:
 - GitHub Actions run 33244484173;
 - 241 passed in 37.10s.
 
-E1 completion does not activate external automatic translation and does not approve production/live operation.
+### E2 - Source Reputation and Status History
+
+State:
+BASELINE_VALIDATED
+
+Validated foundation:
+- migration 019 durable append-only source_reputation_history: PASS;
+- explicit status/reliability/reason/evidence/policy/review metadata: PASS;
+- deterministic current-state and complete history queries: PASS;
+- restoration lineage with preserved adverse history: PASS;
+- COMPROMISED is not automatic FALSE: PASS;
+- source status does not alter claim truth or independent-origin count: PASS;
+- legacy sources.reliability remains separate: PASS.
+
+E2 canonical regression:
+- GitHub Actions run 33244795277;
+- 248 passed in 24.01s.
+
+### E3 - Private GPT Backend Action API
+
+State:
+BASELINE_VALIDATED
+
+Validated foundation:
+- FastAPI owner-only read-only backend API: PASS;
+- explicit OpenAPI operation IDs for persisted-state reads: PASS;
+- bearer-token authentication with runtime token injection: PASS;
+- missing/invalid bearer token -> HTTP 401 with WWW-Authenticate: Bearer: PASS;
+- valid owner bearer token -> protected endpoint execution: PASS;
+- /health remains separately accessible: PASS;
+- project-local SQLite opened read-only/query-only: PASS;
+- GET endpoint sweep does not mutate canonical project state: PASS;
+- no public-web substitution for unavailable persisted backend state: PASS;
+- unattended-cycle timestamp fails closed as NOT_INSTRUMENTED when provenance is unavailable: PASS.
+
+E3 canonical regression:
+- GitHub Actions run 33247311921;
+- job 99086917660;
+- 254 passed in 26.66s;
+- result SUCCESS.
+
+E3 completion validates the local API foundation only. It does not mean the private GPT is connected to the backend, an HTTPS endpoint is deployed, or production/live operation is approved.
 
 ### Remaining workstreams
 
 Execution order:
-- E2 Source Reputation and Status History - P0 - APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION - CURRENT;
-- E3 Private GPT Backend Action API - P0 - APPROVED_FOR_DESIGN;
-- E4 Free Unattended Runtime Deployment - P0 - APPROVED_FOR_VALIDATION;
+- E4 Free Unattended Runtime Deployment - P0 - APPROVED_FOR_VALIDATION - CURRENT;
 - E5 Admin Read-Only Dashboard - P1 - PLANNED;
 - E6 Reproducibility Instrumentation - P1 - PLANNED;
 - E7 Forecast Probability Semantics - P1 - PLANNED;
@@ -308,6 +347,8 @@ Post-pilot invariants:
 - ROADMAP Phase 11 Global Operational Coverage: BASELINE_VALIDATED
 - Owner-only private GPT pilot: SUCCESSFUL, 18/18 PASS
 - E1 Automatic Translation Foundation: BASELINE_VALIDATED
+- E2 Source Reputation and Status History: BASELINE_VALIDATED
+- E3 Private GPT Backend Action API: BASELINE_VALIDATED
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
@@ -320,10 +361,12 @@ Post-pilot invariants:
 - External notification providers: NONE_APPROVED
 - External translation provider: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Private GPT backend Action/API: NOT_CONNECTED
+- Backend Action API foundation: VALIDATED_LOCAL_READ_ONLY
+- Private GPT backend Action connection: NOT_CONNECTED
+- Backend HTTPS deployment: NOT_DEPLOYED
 - Unattended cloud runtime: NOT_DEPLOYED
 - Public sharing: DEFERRED
 - Shared production runtime: NOT_APPROVED
-- Current engineering activity: E2 Source Reputation and Status History design and local implementation
+- Current engineering activity: E4 Free Unattended Runtime Deployment validation
 - Next roadmap phase: NONE_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
