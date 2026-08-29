@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 2.7
+Version: 2.8
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -398,11 +398,38 @@ E6 canonical regression at SHA `af4444098ff4e1541ddaa2323c0fed723eeb3d65`:
 - native ARM64 run `33264133407`, job `99131026851`: 290 passed, 1 warning in 29.53s, SUCCESS;
 - native architecture `aarch64`, bootstrap-shell, one-tick smoke and systemd contract: PASS.
 
+### E7 - Forecast Probability Semantics
+
+State:
+BASELINE_VALIDATED
+
+Validated foundation:
+- M12 persisted raw/calibrated/scenario-confidence separation preserved: PASS;
+- canonical semantic contract `KGM_FORECAST_SEMANTICS_V1`: PASS;
+- `raw_probability` explicitly analytical pre-calibration probability: PASS;
+- `calibrated_probability` explicitly calibrated analytical probability: PASS;
+- `scenario_confidence` explicitly scenario-assessment confidence, not probability: PASS;
+- owner-only read-only `/v1/forecasts/active` API projection: PASS;
+- API omits generic probability/confidence aliases for new E7 forecast surfaces: PASS;
+- dashboard renders Raw / Calibrated / Scenario confidence separately: PASS;
+- structured reports expose machine-readable forecast semantics: PASS;
+- Markdown reports expose explicit forecast semantic boundaries: PASS;
+- high forecast probability cannot promote weak claim verification/factual confidence: PASS;
+- verification state, factual confidence and independent-origin count remain unchanged: PASS;
+- no migration 021 and no parallel forecasting subsystem: PASS;
+- PROJECT_LOCAL_ONLY runtime storage preserved: PASS;
+- external forecasting provider dependency: NONE.
+
+E7 canonical regression at SHA `72f049b30fcaa3711c7712c8df7d1da1f934f650`:
+- x64 run `33265984585`, job `99136020793`: 294 passed, 1 warning in 29.26s, SUCCESS;
+- native ARM64 run `33265984622`, job `99136020853`: 294 passed, 1 warning in 28.09s, SUCCESS;
+- native architecture `aarch64`, bootstrap-shell, one-tick smoke and systemd contract: PASS.
+
 ### Remaining workstreams
 
 Execution order:
 - E6 Reproducibility Instrumentation - P1 - BASELINE_VALIDATED;
-- E7 Forecast Probability Semantics - P1 - NEXT;
+- E7 Forecast Probability Semantics - P1 - BASELINE_VALIDATED;
 - E8 Controlled External Sharing / Public GPT - DEFERRED - NOT_APPROVED;
 - E9 Shared Production Runtime - DEFERRED - NOT_APPROVED.
 
@@ -437,6 +464,7 @@ Post-pilot invariants:
 - E4 Free Unattended Runtime Deployment: BASELINE_VALIDATED_WITH_TEMPORARY_SECURITY_EXCEPTION
 - E5 Admin Read-Only Dashboard: BASELINE_VALIDATED / LOCAL_PROTECTED / NOT_DEPLOYED
 - E6 Reproducibility Instrumentation: BASELINE_VALIDATED
+- E7 Forecast Probability Semantics: BASELINE_VALIDATED
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
@@ -456,6 +484,6 @@ Post-pilot invariants:
 - Admin dashboard deployment: NOT_DEPLOYED
 - Public sharing: DEFERRED
 - Shared production runtime: NOT_APPROVED
-- Current engineering activity: TRANSITION_READY / E7 Forecast Probability Semantics NEXT
+- Current engineering activity: TRANSITION_READY / E8-E9 DEFERRED / NO APPROVED NEXT IMPLEMENTATION
 - Next roadmap phase: NONE_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
