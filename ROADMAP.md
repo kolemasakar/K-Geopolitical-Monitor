@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 2.3
+Version: 2.4
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -244,9 +244,36 @@ The pilot validates user-facing research and truth-boundary behavior for continu
 
 These workstreams are post-Phase-11 engineering/planning activities. They are not a new numbered ROADMAP phase.
 
+### E1 - Automatic Translation Foundation
+
+State:
+BASELINE_VALIDATED
+
+Validated foundation:
+- migration 018 durable raw_item_translations store: PASS;
+- original raw-item text remains unchanged: PASS;
+- translated text stored separately: PASS;
+- source/target language and method/provider/version metadata: PASS;
+- SUCCESS/FAILED/UNAVAILABLE/UNSUPPORTED/AMBIGUOUS states: PASS;
+- ambiguity/failure remains visible: PASS;
+- versioned retranslation history: PASS;
+- live translation inherits normalized original publisher host: PASS;
+- non-live fallback origin uses source identity: PASS;
+- translation never creates new independent-source credit: PASS;
+- M8 verification and independent-origin count unchanged: PASS;
+- restart persistence: PASS;
+- external translation provider dependency: NONE.
+
+E1 canonical regression:
+- GitHub Actions run 33244484173;
+- 241 passed in 37.10s.
+
+E1 completion does not activate external automatic translation and does not approve production/live operation.
+
+### Remaining workstreams
+
 Execution order:
-- E1 Automatic Translation Foundation - P0 - APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION;
-- E2 Source Reputation and Status History - P0 - APPROVED_FOR_DESIGN;
+- E2 Source Reputation and Status History - P0 - APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION - CURRENT;
 - E3 Private GPT Backend Action API - P0 - APPROVED_FOR_DESIGN;
 - E4 Free Unattended Runtime Deployment - P0 - APPROVED_FOR_VALIDATION;
 - E5 Admin Read-Only Dashboard - P1 - PLANNED;
@@ -280,6 +307,7 @@ Post-pilot invariants:
 - ROADMAP Phase 10 Full Reporting Environment: BASELINE_VALIDATED
 - ROADMAP Phase 11 Global Operational Coverage: BASELINE_VALIDATED
 - Owner-only private GPT pilot: SUCCESSFUL, 18/18 PASS
+- E1 Automatic Translation Foundation: BASELINE_VALIDATED
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
@@ -290,12 +318,12 @@ Post-pilot invariants:
 - External reporting/publishing providers: NONE_APPROVED
 - External coverage providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
-- Automatic translation providers: NONE_APPROVED
+- External translation provider: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
 - Private GPT backend Action/API: NOT_CONNECTED
 - Unattended cloud runtime: NOT_DEPLOYED
 - Public sharing: DEFERRED
 - Shared production runtime: NOT_APPROVED
-- Current engineering activity: E1 Automatic Translation Foundation design and local implementation
+- Current engineering activity: E2 Source Reputation and Status History design and local implementation
 - Next roadmap phase: NONE_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
