@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 2.6
+Version: 2.7
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -370,11 +370,39 @@ E5 canonical regression at SHA `4da27ac374c9832cbe189d178cf2e10fa0326bb5`:
 - native ARM64 run `33263584515`, job `99129561992`: SUCCESS;
 - native ARM64 confirmation, full regression, bootstrap-shell, one-tick smoke and systemd contract: PASS.
 
+### E6 - Reproducibility Instrumentation
+
+State:
+BASELINE_VALIDATED
+
+Validated foundation:
+- migration 020 durable additive reproducibility audit projection: PASS;
+- exact query snapshot and timezone-aware research cut-off capture: PASS;
+- instrumentation version and adapter identity/version fingerprint: PASS;
+- canonical source collection/attempt linkage without parallel acquisition state: PASS;
+- deterministic SHA-256 persisted-artifact hashing: PASS;
+- persisted-artifact hash basis explicitly identified as `KGM_PERSISTED_LIVE_ITEM_V1`: PASS;
+- missing request locator remains `NOT_INSTRUMENTED`, not reconstructed: PASS;
+- audit status and source collection status remain distinct: PASS;
+- source collection failure can coexist with successful audit capture: PASS;
+- explicit provenance annotation only when classification exists: PASS;
+- no automatic origin/syndication/repost/translation/citation/duplicate inference from URL/domain count: PASS;
+- provenance annotations do not modify claim verification or independent-origin count: PASS;
+- uninstrumented collection does not fabricate research history: PASS;
+- adapter/source-attempt mismatch fails closed: PASS;
+- canonical unattended runtime integration: PASS;
+- PROJECT_LOCAL_ONLY runtime storage preserved: PASS.
+
+E6 canonical regression at SHA `af4444098ff4e1541ddaa2323c0fed723eeb3d65`:
+- x64 run `33264133429`, job `99131026905`: 290 passed, 1 warning in 27.77s, SUCCESS;
+- native ARM64 run `33264133407`, job `99131026851`: 290 passed, 1 warning in 29.53s, SUCCESS;
+- native architecture `aarch64`, bootstrap-shell, one-tick smoke and systemd contract: PASS.
+
 ### Remaining workstreams
 
 Execution order:
-- E6 Reproducibility Instrumentation - P1 - CURRENT;
-- E7 Forecast Probability Semantics - P1 - PLANNED;
+- E6 Reproducibility Instrumentation - P1 - BASELINE_VALIDATED;
+- E7 Forecast Probability Semantics - P1 - NEXT;
 - E8 Controlled External Sharing / Public GPT - DEFERRED - NOT_APPROVED;
 - E9 Shared Production Runtime - DEFERRED - NOT_APPROVED.
 
@@ -408,6 +436,7 @@ Post-pilot invariants:
 - E3 Private GPT Backend Action API: BASELINE_VALIDATED
 - E4 Free Unattended Runtime Deployment: BASELINE_VALIDATED_WITH_TEMPORARY_SECURITY_EXCEPTION
 - E5 Admin Read-Only Dashboard: BASELINE_VALIDATED / LOCAL_PROTECTED / NOT_DEPLOYED
+- E6 Reproducibility Instrumentation: BASELINE_VALIDATED
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
@@ -427,6 +456,6 @@ Post-pilot invariants:
 - Admin dashboard deployment: NOT_DEPLOYED
 - Public sharing: DEFERRED
 - Shared production runtime: NOT_APPROVED
-- Current engineering activity: E6 Reproducibility Instrumentation
+- Current engineering activity: TRANSITION_READY / E7 Forecast Probability Semantics NEXT
 - Next roadmap phase: NONE_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
