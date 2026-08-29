@@ -1,7 +1,7 @@
 # ARCHITECTURE
 Technical architecture definition for K-Geopolitical Monitor.
 
-Version: 2.3
+Version: 2.4
 Status: APPROVED
 
 ## Purpose
@@ -14,7 +14,7 @@ Minimal Functional Core before global expansion.
 
 ## Logical Layers
 
-Sources -> Live/Controlled Acquisition -> Ingestion -> Normalization -> Event Processing -> Verification -> Analysis -> Forecasting -> Reporting -> Operational Monitoring -> Coverage -> Strategic Alerts -> Region/Language Scope -> Advanced Geopolitical Graph -> Advanced Forecasting -> Full Reporting Environment -> Global Operational Coverage -> User Interaction/Orchestration
+Sources -> Live/Controlled Acquisition -> Ingestion -> Translation Representation -> Normalization -> Event Processing -> Verification -> Analysis -> Forecasting -> Reporting -> Operational Monitoring -> Coverage -> Strategic Alerts -> Region/Language Scope -> Advanced Geopolitical Graph -> Advanced Forecasting -> Full Reporting Environment -> Global Operational Coverage -> User Interaction/Orchestration
 
 The private GPT is a user interaction/orchestration surface over validated analytical behavior. It is not the unattended monitoring host, canonical runtime store or source of persisted backend state.
 
@@ -25,6 +25,7 @@ The private GPT is a user interaction/orchestration surface over validated analy
 - Live Public-Source Adapters
 - Source Collection Audit
 - Ingestion Layer
+- Provider-Neutral Translation Foundation
 - Event Processing Layer
 - Verification Engine
 - Relationship Analysis Layer
@@ -53,7 +54,8 @@ Validated foundations include:
 - original-origin M8 evidence independence;
 - strategic alert policies/lifecycle and priority/cadence separation;
 - watch-scoped region/language attribution and coverage reporting;
-- translation-attribution isolation from evidence confidence/source independence;
+- M10 translation-attribution isolation from evidence confidence/source independence;
+- E1 durable provider-neutral translation representation with version history and explicit degraded states;
 - durable advanced graph identity, projection, lifecycle, history, temporal/causal traversal and explainable queries;
 - durable advanced forecasting identity, immutable scenario versions, typed provenance, outcome evaluation, calibration history and explainable queries;
 - durable immutable report snapshots, sections and typed references;
@@ -110,6 +112,45 @@ No external translation, graph, forecasting, reporting/publishing, coverage, not
 - graph intelligence, forecast outputs, coverage metrics and report presentation must not increase evidence confidence or independent-origin count;
 - user demand for certainty does not create evidentiary certainty;
 - public-web research cannot substitute for unavailable persisted backend state.
+
+## E1 Translation Foundation Boundary
+
+E1 is an unnumbered post-Phase-11 workstream and does not create ROADMAP Phase 12 or M14.
+
+Durable model:
+- raw_item_translations stores versioned derived translation records;
+- raw_items remains the immutable source-text record for translation purposes;
+- source_language and target_language are explicit;
+- original_text and translated_text are separately inspectable;
+- method, provider, provider_version and translation_version are persisted;
+- status is explicit: SUCCESS, FAILED, UNAVAILABLE, UNSUPPORTED or AMBIGUOUS;
+- uncertainty_note and error_message preserve degraded/ambiguous state;
+- underlying_origin_id and origin_kind bind the translation to its source origin.
+
+Origin rules:
+- live items inherit the normalized host from live_source_provenance.original_url, matching M8 origin semantics;
+- non-live raw items without live provenance fall back to source_id;
+- conflicting live provenance hosts for one raw item fail closed;
+- a translation record exposes no new independent-origin credit.
+
+Truth isolation:
+- translation cannot increase M8 independent-origin count;
+- translation cannot modify M8 verification state;
+- translation cannot become independent graph evidence;
+- translation cannot increase forecast factual confidence;
+- translation cannot inflate coverage confidence;
+- translation cannot strengthen report presentation truth.
+
+Runtime contract:
+- TranslationAdapter is provider-neutral;
+- TranslationService persists derived records and history;
+- DeterministicTranslationAdapter exists only for local deterministic validation;
+- no external translation provider is activated or approved.
+
+E1 validation:
+- migration 018: VALIDATED;
+- GitHub Actions run 33244484173: 241 passed in 37.10s;
+- E1 state: BASELINE_VALIDATED.
 
 ## Advanced Geopolitical Graph Boundary
 
@@ -225,17 +266,13 @@ Therefore:
 The following workstreams are unnumbered post-Phase-11 activities and do not create ROADMAP Phase 12 or M14.
 
 E1 Automatic Translation Foundation:
-- provider-neutral local design/implementation approved;
-- original source text remains immutable/inspectable;
-- translated text stored separately;
-- source/target language, method/provider, timestamp/version retained;
-- translated copy inherits the same underlying origin;
-- translation never creates independent-source credit;
-- failed translation remains explicit degraded state;
+- BASELINE_VALIDATED;
+- provider-neutral local persistence and adapter contract validated;
 - external translation provider: NONE_APPROVED.
 
 E2 Source Reputation and Status History:
-- additive history/status model approved for design;
+- CURRENT;
+- additive history/status model approved for design and local implementation;
 - COMPROMISED is reviewable and reversible with preserved history;
 - source reputation remains separate from claim truth.
 
@@ -275,6 +312,7 @@ Private GPT owner-only full matrix: PASS - 18/18.
 GPT-18/full matrix closure CI: SUCCESS - run 33046581445.
 Owner-only pilot plan closure CI: SUCCESS - run 33046621582.
 Post-pilot retrospective/expansion-plan CI: SUCCESS - run 33046677596.
+E1 Automatic Translation Foundation: PASS - 241 tests, run 33244484173.
 
 ## Current State
 
@@ -287,6 +325,7 @@ Post-pilot retrospective/expansion-plan CI: SUCCESS - run 33046677596.
 - ROADMAP Phase 10: BASELINE_VALIDATED
 - ROADMAP Phase 11: BASELINE_VALIDATED
 - Owner-only private GPT pilot: SUCCESSFUL, 18/18 PASS
+- E1 Automatic Translation Foundation: BASELINE_VALIDATED
 - Runtime storage: PROJECT_LOCAL_ONLY
 - Shared Infrastructure ADR: APPROVED
 - Controlled-pilot live integrations: VALIDATED
@@ -298,8 +337,8 @@ Post-pilot retrospective/expansion-plan CI: SUCCESS - run 33046677596.
 - External reporting/publishing providers: NONE_APPROVED
 - External coverage providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
-- Automatic translation providers: NONE_APPROVED
+- External translation provider: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Current engineering activity: E1 Automatic Translation Foundation design and local implementation
+- Current engineering activity: E2 Source Reputation and Status History design and local implementation
 - Next roadmap phase: NONE_APPROVED
 - Production/live operational maturity: NOT_OPERATIONAL
