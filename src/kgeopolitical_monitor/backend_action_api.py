@@ -4,8 +4,6 @@ The API exposes persisted K-Geopolitical Monitor state. It never substitutes pub
 web research for unavailable backend state and opens SQLite in read-only mode.
 """
 
-from __future__ import annotations
-
 from pathlib import Path
 import json
 import secrets
