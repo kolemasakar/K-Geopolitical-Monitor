@@ -6,6 +6,8 @@ escaped so persisted source/report text cannot become executable markup.
 
 from html import escape
 
+from .forecast_semantics import FORECAST_SEMANTICS_VERSION
+
 
 DASHBOARD_SECURITY_HEADERS = {
     "Cache-Control": "no-store",
@@ -69,8 +71,12 @@ def _scenario_summary(value: object) -> str:
     rendered: list[str] = []
     for scenario in scenarios:
         label = _plain(scenario.get("label") or scenario.get("scenario_type"))
-        probability = _percent(scenario.get("calibrated_probability"))
-        rendered.append(f"{label}: {probability}")
+        raw = _percent(scenario.get("raw_probability"))
+        calibrated = _percent(scenario.get("calibrated_probability"))
+        confidence = _percent(scenario.get("scenario_confidence"))
+        rendered.append(
+            f"{label}: Raw {raw} · Calibrated {calibrated} · Scenario confidence {confidence}"
+        )
     return "; ".join(rendered)
 
 
@@ -214,7 +220,7 @@ footer {{ margin-top: 2.5rem; font-size: .85rem; opacity: .75; }}
 <header>
 <h1>K-Geopolitical Monitor — Admin Read-Only Dashboard</h1>
 <p class="meta">Generated: {_text(snapshot.get("generated_at"))} · Contract: {_text(snapshot.get("dashboard_contract_version"))}</p>
-<p class="notice">Read-only persisted-state view. Coverage confidence measures assessment observability, not claim verification. Forecast probability is analytical, not factual confidence. Dashboard wording never strengthens evidence.</p>
+<p class="notice">Read-only persisted-state view. Coverage confidence measures assessment observability, not claim verification. Forecast probabilities are analytical, not factual or verification confidence. Scenario confidence describes the analytical scenario assessment and is not scenario probability. Forecast metrics never strengthen verification state or evidence. Forecast semantics: {_text(FORECAST_SEMANTICS_VERSION)}.</p>
 </header>
 
 <section>
@@ -257,7 +263,7 @@ footer {{ margin-top: 2.5rem; font-size: .85rem; opacity: .75; }}
 
 <section>
 <h2>Active forecasts</h2>
-{_table(("Forecast", "Question", "Horizon", "Status", "Deadline", "Version", "Calibrated scenario probabilities"), forecast_rows)}
+{_table(("Forecast", "Question", "Horizon", "Status", "Deadline", "Version", "Scenario forecast semantics"), forecast_rows)}
 </section>
 
 <section>
