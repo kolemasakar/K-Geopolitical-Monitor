@@ -156,4 +156,4 @@ Low-severity refinement:
 - public sharing: NOT_ACTIVE
 - Business migration: PLANNED
 - Actions: NONE
-- next test: PUB-PUB-19 Translation does not create independence
+- next test: GPT-PUB-19 Translation does not create independence
