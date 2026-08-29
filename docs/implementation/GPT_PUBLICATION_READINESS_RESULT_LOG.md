@@ -37,14 +37,17 @@ Observed behavior:
 - distinguishes syndication, repost, translation and citation from independent corroboration;
 - correctly notes Reuters itself may be the publisher rather than the substantive origin when relying on an anonymous official, document or other source;
 - gives examples of genuinely independent corroboration such as separately obtained evidence, independent witness reporting or independent technical evidence;
-- does not inflate verification confidence from repetition.
+- does not inflate verification confidence from repetition;
+- owner-provided visual confirmation shows the response table renders correctly in the GPT UI.
 
 Truth-boundary result:
 - same-origin duplication: PASS;
 - publisher/origin separation: PASS;
 - translation/repost/syndication independence: PASS;
 - independent corroboration concept: PASS;
-- critical violation: NONE.
+- response rendering: PASS;
+- critical violation: NONE;
+- refinement required: NONE.
 
 ## Current Gate
 
