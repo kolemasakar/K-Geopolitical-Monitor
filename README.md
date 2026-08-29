@@ -1,7 +1,7 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring system.
 
-Version: 2.4
+Version: 2.5
 Status: ACTIVE
 
 ## Purpose
@@ -18,6 +18,8 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - docs/implementation/GPT_PRIVATE_PILOT_RESULT_LOG.md - closed owner-only GPT pilot evidence
 - docs/implementation/POST_PRIVATE_GPT_PILOT_RETROSPECTIVE_AND_EXPANSION_PLAN.md - approved post-pilot workstream plan
 - docs/implementation/E1_AUTOMATIC_TRANSLATION_FOUNDATION.md - validated E1 translation foundation
+- docs/implementation/E2_SOURCE_REPUTATION_STATUS_HISTORY.md - validated E2 source reputation/status history
+- docs/implementation/E3_PRIVATE_GPT_BACKEND_ACTION_API.md - validated E3 owner-only read-only Action API foundation
 - docs/implementation/ - implementation milestone and phase validation records
 - docs/checkpoints/ - explicit project control-state checkpoints
 
@@ -43,6 +45,8 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - Owner-only pilot plan closure CI: SUCCESS - GitHub Actions run 33046621582
 - Post-pilot retrospective/expansion-plan CI: SUCCESS - GitHub Actions run 33046677596
 - E1 Automatic Translation Foundation: BASELINE_VALIDATED - 241 passed in 37.10s, GitHub Actions run 33244484173
+- E2 Source Reputation and Status History: BASELINE_VALIDATED - 248 passed in 24.01s, GitHub Actions run 33244795277
+- E3 Private GPT Backend Action API: BASELINE_VALIDATED - 254 passed in 26.66s, GitHub Actions run 33247311921
 
 ## Validated Truth and Coverage Boundaries
 
@@ -67,6 +71,10 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - Controlled live integrations: Consilium RSS and GDELT DOC 2.0
 - GDELT is discovery/index metadata only, not independent factual verification
 - Provider-neutral local translation foundation: VALIDATED
+- Source reputation/status history: VALIDATED
+- Owner-only read-only backend Action API foundation: VALIDATED
+- Backend Action API deployment/HTTPS endpoint: NOT_DEPLOYED
+- Private GPT backend Action connection: NOT_CONNECTED
 - External translation provider: NONE_APPROVED
 - External graph providers: NONE_APPROVED
 - External forecasting providers: NONE_APPROVED
@@ -74,7 +82,6 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - External coverage providers: NONE_APPROVED
 - External notification providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Private GPT backend Action/API: NOT_CONNECTED
 - Unattended cloud runtime: NOT_DEPLOYED
 - Public GPT sharing: DEFERRED
 - Shared production runtime: NOT_APPROVED
@@ -86,16 +93,16 @@ The owner-only GPT pilot is complete and successful. Post-pilot workstreams rema
 
 Execution order and current state:
 - E1 Automatic Translation Foundation - BASELINE_VALIDATED
-- E2 Source Reputation and Status History - APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION - CURRENT
-- E3 Private GPT Backend Action API - APPROVED_FOR_DESIGN
-- E4 Free Unattended Runtime Deployment - APPROVED_FOR_VALIDATION
+- E2 Source Reputation and Status History - BASELINE_VALIDATED
+- E3 Private GPT Backend Action API - BASELINE_VALIDATED
+- E4 Free Unattended Runtime Deployment - APPROVED_FOR_VALIDATION - CURRENT
 - E5 Admin Read-Only Dashboard - PLANNED
 - E6 Reproducibility Instrumentation - PLANNED
 - E7 Forecast Probability Semantics - PLANNED
 - E8 Controlled External Sharing / Public GPT - NOT_APPROVED
 - E9 Shared Production Runtime - NOT_APPROVED
 
-Current engineering action: E2 Source Reputation and Status History design and local implementation.
+Current engineering action: E4 Free Unattended Runtime Deployment validation.
 
 Next ROADMAP phase: NONE_APPROVED. Any future phase number requires an explicit roadmap-extension decision.
 
