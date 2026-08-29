@@ -14,10 +14,11 @@ from urllib.parse import quote
 from fastapi import Depends, FastAPI, HTTPException, Query, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
+from .forecast_semantics import forecast_semantic_contract
 from .operational_monitoring import OperationalMonitoringRuntime
 
 
-API_VERSION = "1.0.0"
+API_VERSION = "1.1.0"
 UNATTENDED_CYCLE_NOT_INSTRUMENTED = "NOT_INSTRUMENTED"
 
 
@@ -379,6 +380,84 @@ class BackendStateReader:
             for row in rows
         ]
 
+    def active_forecasts(self, limit: int = 20) -> dict[str, object]:
+        with self._connect() as connection:
+            rows = connection.execute(
+                """
+                WITH latest_versions AS (
+                    SELECT forecast_id, MAX(version_number) AS version_number
+                    FROM forecast_versions
+                    GROUP BY forecast_id
+                )
+                SELECT f.forecast_id, f.target_key, f.question, f.horizon,
+                       f.evaluation_deadline, f.status, f.created_at, f.updated_at,
+                       v.forecast_version_id, v.version_number, v.created_at
+                FROM forecasts f
+                LEFT JOIN latest_versions latest
+                  ON latest.forecast_id = f.forecast_id
+                LEFT JOIN forecast_versions v
+                  ON v.forecast_id = f.forecast_id
+                 AND v.version_number = latest.version_number
+                WHERE f.status = 'ACTIVE'
+                ORDER BY f.evaluation_deadline, f.forecast_id
+                LIMIT ?
+                """,
+                (limit,),
+            ).fetchall()
+
+            version_ids = [str(row[8]) for row in rows if row[8] is not None]
+            scenarios_by_version: dict[str, list[dict[str, object]]] = {
+                version_id: [] for version_id in version_ids
+            }
+            if version_ids:
+                placeholders = ",".join("?" for _ in version_ids)
+                scenario_rows = connection.execute(
+                    f"""
+                    SELECT forecast_version_id, scenario_version_id,
+                           scenario_type, label, raw_probability,
+                           calibrated_probability, scenario_confidence
+                    FROM forecast_scenario_versions
+                    WHERE forecast_version_id IN ({placeholders})
+                    ORDER BY forecast_version_id, scenario_type, label
+                    """,
+                    version_ids,
+                ).fetchall()
+                for scenario in scenario_rows:
+                    scenarios_by_version[str(scenario[0])].append(
+                        {
+                            "scenario_version_id": scenario[1],
+                            "scenario_type": scenario[2],
+                            "label": scenario[3],
+                            "raw_probability": float(scenario[4]),
+                            "calibrated_probability": float(scenario[5]),
+                            "scenario_confidence": float(scenario[6]),
+                        }
+                    )
+
+        forecasts = [
+            {
+                "forecast_id": row[0],
+                "target_key": row[1],
+                "question": row[2],
+                "horizon": row[3],
+                "evaluation_deadline": row[4],
+                "status": row[5],
+                "created_at": row[6],
+                "updated_at": row[7],
+                "forecast_version_id": row[8],
+                "version_number": None if row[9] is None else int(row[9]),
+                "version_created_at": row[10],
+                "scenarios": []
+                if row[8] is None
+                else scenarios_by_version.get(str(row[8]), []),
+            }
+            for row in rows
+        ]
+        return {
+            "forecast_semantics": forecast_semantic_contract(),
+            "forecasts": forecasts,
+        }
+
     def state_summary(self) -> dict[str, object]:
         with self._connect() as connection:
             active_count = int(
@@ -513,5 +592,12 @@ def create_action_app(
     @app.get("/v1/coverage/latest", operation_id="getLatestCoverage")
     def get_latest_coverage(_: OwnerAuth) -> list[dict[str, object]]:
         return reader.latest_coverage()
+
+    @app.get("/v1/forecasts/active", operation_id="getActiveForecasts")
+    def get_active_forecasts(
+        _: OwnerAuth,
+        limit: int = Query(default=20, ge=1, le=100),
+    ) -> dict[str, object]:
+        return reader.active_forecasts(limit)
 
     return app
