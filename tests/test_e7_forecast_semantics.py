@@ -185,7 +185,8 @@ def test_dashboard_renders_all_three_forecast_metrics_with_explicit_labels():
     assert "Calibrated 98.0%" in html
     assert "Scenario confidence 99.0%" in html
     assert FORECAST_SEMANTICS_VERSION in html
-    assert "not factual or verification confidence" in html
+    assert "Forecast probability is analytical, not factual confidence" in html
+    assert "Forecast probabilities are not verification confidence" in html
     assert "never strengthen verification state or evidence" in html
 
 
