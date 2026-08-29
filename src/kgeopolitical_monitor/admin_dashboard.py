@@ -220,7 +220,7 @@ footer {{ margin-top: 2.5rem; font-size: .85rem; opacity: .75; }}
 <header>
 <h1>K-Geopolitical Monitor — Admin Read-Only Dashboard</h1>
 <p class="meta">Generated: {_text(snapshot.get("generated_at"))} · Contract: {_text(snapshot.get("dashboard_contract_version"))}</p>
-<p class="notice">Read-only persisted-state view. Coverage confidence measures assessment observability, not claim verification. Forecast probabilities are analytical, not factual or verification confidence. Scenario confidence describes the analytical scenario assessment and is not scenario probability. Forecast metrics never strengthen verification state or evidence. Forecast semantics: {_text(FORECAST_SEMANTICS_VERSION)}.</p>
+<p class="notice">Read-only persisted-state view. Coverage confidence measures assessment observability, not claim verification. Forecast probability is analytical, not factual confidence. Forecast probabilities are not verification confidence. Scenario confidence describes the analytical scenario assessment and is not scenario probability. Forecast metrics never strengthen verification state or evidence. Forecast semantics: {_text(FORECAST_SEMANTICS_VERSION)}.</p>
 </header>
 
 <section>
