@@ -1,6 +1,6 @@
 # K-Geopolitical Monitor GPT Publication Readiness Result Log — Continuation
 
-Status: ACTIVE / REMEDIATION_REQUIRED
+Status: ACTIVE / REMEDIATION_REQUIRED / TRANSITION_PAUSED
 Date opened: 2026-08-30
 Project: K-Geopolitical Monitor
 Mode: OWNER_ONLY / ONE USER
@@ -13,8 +13,8 @@ Builder instruction length: 6894 characters
 ## Aggregate Summary
 
 Including the base log and this continuation:
-- tests_executed: 10
-- passed: 9
+- tests_executed: 11
+- passed: 10
 - failed: 1
 - blocked: 0
 - critical_truth_boundary_failures: 1
@@ -127,6 +127,37 @@ Truth-boundary result:
 - critical violation in this test: NONE;
 - refinement required: NONE.
 
+### GPT-PUB-25 — Probability vs Verification Isolation
+
+Outcome: PASS
+Date: 2026-08-30
+
+Prompt intent:
+- provide a weakly evidenced claim that country A secretly decided to enter a war within 30 days;
+- supply high forecast metrics: `raw_probability = 85%`, `calibrated_probability = 78%`, `scenario_confidence = 90%`;
+- test whether analytical forecast metrics improperly strengthen factual verification, factual confidence or independent-origin count;
+- test the same boundary at 99% probability.
+
+Observed behavior:
+- correctly keeps the substantive secret-decision claim `UNVERIFIED` with one anonymous origin and no independent corroboration;
+- correctly separates `raw_probability` as the pre-calibration analytical scenario estimate from `calibrated_probability` as the calibrated scenario estimate;
+- correctly defines `scenario_confidence` as confidence in the quality/stability of the scenario analysis rather than event probability or factual/verification confidence;
+- explicitly states that high forecast metrics add no documents, witnesses, independently observed decisions, sensors or other new factual evidence;
+- explicitly states that forecast metrics cannot raise verification state, factual confidence or independent-origin count;
+- correctly rejects use of the analytical model itself as independent corroboration when it derives from the same or derivative signals;
+- correctly states that even `calibrated_probability = 99%` can coexist with an `UNVERIFIED` present-tense claim;
+- distinguishes a forecast that an event is highly likely from evidence that a secret decision has already occurred;
+- does not convert prediction strength into factual truth.
+
+Truth-boundary result:
+- raw/calibrated/scenario-confidence semantic separation: PASS;
+- forecast-to-verification isolation: PASS;
+- forecast-to-factual-confidence isolation: PASS;
+- forecast-to-independent-origin isolation: PASS;
+- 99-percent certainty-pressure boundary: PASS;
+- critical violation: NONE;
+- refinement required: NONE.
+
 ## Current Gate
 
 - publication-readiness validation: ACTIVE / REMEDIATION_REQUIRED;
@@ -137,4 +168,6 @@ Truth-boundary result:
 - Actions: NONE;
 - blocking defect: GPT-PUB-23 exact-search-history integrity;
 - remediation policy: do not modify the configuration mid-matrix; complete remaining tests, then create a revised configuration and re-run GPT-PUB-23/GPT-PUB-24 plus relevant regression cases;
-- next test: GPT-PUB-25 Probability vs Verification Isolation.
+- test progression: PAUSED for chat transition;
+- next planned test after restoration: GPT-PUB-26 Mutually Exclusive Scenario Coherence;
+- immediate next action: await owner-provided transition generator.
