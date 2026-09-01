@@ -65,11 +65,29 @@ apt-get update
 apt-get install -y --no-install-recommends \
   ca-certificates \
   git \
+  iproute2 \
   python3 \
   python3-pip \
   python3-venv \
   sqlite3 \
   util-linux
+
+# KGM does not use NFS/RPC. Remove the default rpcbind listener only when the
+# host proves that no NFS mount or persistent NFS configuration is present.
+if findmnt -rn -t nfs,nfs4 | grep -q .; then
+  fail "NFS mount detected; refusing to disable rpcbind"
+fi
+if grep -Ev '^[[:space:]]*(#|$)' /etc/fstab | grep -Eq '[[:space:]]nfs4?[[:space:]]'; then
+  fail "NFS fstab entry detected; refusing to disable rpcbind"
+fi
+systemctl disable --now rpcbind.socket rpcbind.service 2>/dev/null || true
+systemctl mask rpcbind.socket rpcbind.service 2>/dev/null || true
+if systemctl is-active --quiet rpcbind.socket || systemctl is-active --quiet rpcbind.service; then
+  fail "rpcbind remains active after hardening"
+fi
+if ss -H -ltn '( sport = :111 )' | grep -q . || ss -H -lun '( sport = :111 )' | grep -q .; then
+  fail "port 111 listener remains after rpcbind hardening"
+fi
 
 if ! id -u "$SERVICE_USER" >/dev/null 2>&1; then
   useradd \
@@ -154,6 +172,7 @@ E4 fresh-host bootstrap PASS
 project_root=$PROJECT_ROOT
 service=$SERVICE_NAME
 runtime_storage=PROJECT_LOCAL_ONLY
+rpcbind_surface=DISABLED
 next_gate=prepare-reboot -> real reboot -> verify-reboot
 production_live=NOT_OPERATIONAL
 EOF
