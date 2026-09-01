@@ -241,10 +241,21 @@ Implementation should remain additive and minimal. Each sub-gate must preserve e
 
 ## 7. Current Gate
 
-`E9A_OWNER_ONLY_PRODUCTION_RUNTIME_HARDENING = APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION`
+`E9A_OWNER_ONLY_PRODUCTION_RUNTIME_HARDENING = IN_PROGRESS`
 
-Current first implementation step:
-`E9A.1_SINGLE_INSTANCE_RUNTIME_LEASE`
+Validated/recorded sub-gates:
+- `E9A.1_SINGLE_INSTANCE_RUNTIME_LEASE = BASELINE_VALIDATED` — x64/ARM64 `299 passed`;
+- `E9A.2_SQLITE_RUNTIME_PROFILE = BASELINE_VALIDATED` — x64/ARM64 `303 passed`;
+- `E9A.3_BACKUP_AND_DISASTER_RECOVERY = BASELINE_VALIDATED_WITH_REAL_HOST_DR_PENDING` — x64/ARM64 `308 passed`; clean-host real-host restore timing remains pending for E9A.6;
+- `E9A.4_OWNER_ONLY_RUNTIME_HEALTH = IMPLEMENTATION_REGRESSION_VALIDATED` — repair commit `6db189a2ad672e4bc8099be378e2e2a0044de1ed`; x64 CI run `33482602853` and ARM64 run `33482602833`, both `313 passed, 1 warning`.
+
+Current engineering sub-gate:
+`E9A.5_DEPLOYMENT_SECURITY_HARDENING`
+
+Pending final gate:
+`E9A.6_VALIDATION_MATRIX`
+
+Candidate-ready, if ultimately earned, remains an engineering classification only. It does not activate Business migration, publication, shared runtime, public ingress or production/live operation.
 
 Production/live:
 `NOT_OPERATIONAL`
