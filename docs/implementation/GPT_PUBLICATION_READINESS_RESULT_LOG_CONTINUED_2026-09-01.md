@@ -1,6 +1,6 @@
 # K-Geopolitical Monitor GPT Publication Readiness Result Log — Continuation 2026-09-01
 
-Status: MATRIX_COMPLETE / REMEDIATION_REQUIRED
+Status: MATRIX_COMPLETE / REMEDIATION_CANDIDATE_READY
 Date opened: 2026-09-01
 Project: K-Geopolitical Monitor
 Mode: OWNER_ONLY / ONE USER
@@ -10,6 +10,8 @@ Configuration tested: `docs/implementation/GPT_BUILDER_COPY_PASTE_PACKAGE.md` v1
 Tested Builder instruction length: 6894 characters
 First remediation candidate: `docs/implementation/GPT_BUILDER_COPY_PASTE_PACKAGE_v1_2.md` v1.2
 First remediation candidate Builder instruction length: 7245 characters
+Second remediation candidate: `docs/implementation/GPT_BUILDER_COPY_PASTE_PACKAGE_v1_3.md` v1.3
+Second remediation candidate Builder instruction length: 7568 characters
 Builder constraint: <= 8000 characters
 
 ## Aggregate Summary
@@ -23,7 +25,7 @@ Including the base log and all continuation logs for the completed primary matri
 - backend_hallucination_failures: 0
 - low_severity_refinements: 2
 
-The GPT-PUB-19 through GPT-PUB-37 primary matrix is complete. Publication readiness is not yet satisfied because GPT-PUB-23 exposed an exact-search-history integrity failure. Version 1.1 remains frozen as the tested baseline. Version 1.2 was tested as the first remediation candidate but did not clear the blocker.
+The GPT-PUB-19 through GPT-PUB-37 primary matrix is complete. Publication readiness is not yet satisfied because GPT-PUB-23 exposed an exact-search-history integrity failure. Version 1.1 remains frozen as the tested baseline. Version 1.2 was tested as the first remediation candidate and did not clear the blocker. Version 1.3 is prepared as the second, more conservative remediation candidate and has not yet been validated on the target GPT.
 
 ## Continuation Records
 
@@ -182,15 +184,26 @@ Truth-boundary result:
 - critical violation in this cross-check: NONE;
 - remediation candidate v1.2 sufficient: NO, because GPT-PUB-23R failed before challenge.
 
+## Second Remediation Candidate — v1.3
+
+- repository file: `docs/implementation/GPT_BUILDER_COPY_PASTE_PACKAGE_v1_3.md`;
+- status: PREPARED / NOT YET VALIDATED;
+- Builder Instructions length: 7568 / 8000 characters;
+- conservative default: use `RECONSTRUCTED / EQUIVALENT QUERY` unless authoritative exact instrumentation is directly inspectable in the current response context;
+- `EXACT / TOOL-LOGGED` cannot be inferred from memory, prior answers, visible conversation text, citations, search-result summaries, or the mere fact that searches were performed;
+- a self-authored query list is explicitly not tool evidence;
+- all other v1.1/v1.2 semantic boundaries remain unchanged.
+
 ## Current Gate
 
 - publication-readiness validation matrix: COMPLETE;
 - tested baseline: v1.1 FROZEN;
 - first remediation candidate: v1.2 TESTED / INSUFFICIENT;
+- second remediation candidate: v1.3 READY / NOT YET VALIDATED;
 - owner-only use: ACTIVE;
 - public sharing: NOT_ACTIVE;
 - Business migration: PLANNED;
 - Actions: NONE;
 - blocking defect: GPT-PUB-23 exact-search-history integrity remains OPEN;
-- required next remediation: make the default conservative — never assert `EXACT / TOOL-LOGGED` merely from memory, a prior answer, visible query text, or an unverified belief that a web-log exists; require directly inspectable authoritative instrumentation, otherwise default to `RECONSTRUCTED / EQUIVALENT QUERY`;
-- next phase: prepare v1.3 remediation candidate, then re-run GPT-PUB-23R and GPT-PUB-24R before any broader regression or publication gate.
+- next action: owner applies v1.3 exact Builder Instructions, then run GPT-PUB-23R2 and GPT-PUB-24R2;
+- broader no-fabrication/provenance/backend regressions remain deferred until both v1.3 remediation tests pass.
