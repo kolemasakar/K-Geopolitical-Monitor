@@ -42,3 +42,16 @@ def test_bootstrap_preserves_project_local_data_ownership_boundary():
     assert "ProtectSystem=strict" in unit
     assert "ReadWritePaths=/opt/k-geopolitical-monitor/data" in unit
     assert "production_live=NOT_OPERATIONAL" in text
+
+
+def test_bootstrap_removes_unused_rpcbind_surface_fail_closed_on_nfs():
+    text = BOOTSTRAP.read_text(encoding="utf-8")
+
+    assert "iproute2" in text
+    assert "findmnt -rn -t nfs,nfs4" in text
+    assert "NFS mount detected; refusing to disable rpcbind" in text
+    assert "NFS fstab entry detected; refusing to disable rpcbind" in text
+    assert "systemctl disable --now rpcbind.socket rpcbind.service" in text
+    assert "systemctl mask rpcbind.socket rpcbind.service" in text
+    assert "port 111 listener remains after rpcbind hardening" in text
+    assert "rpcbind_surface=DISABLED" in text
