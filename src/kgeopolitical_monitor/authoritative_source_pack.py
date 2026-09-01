@@ -23,7 +23,7 @@ from .operational_monitoring import OperationalMonitoringRuntime, _normalize_tim
 from .source_portfolio import SourcePortfolioRecord, SourcePortfolioService
 
 
-AUTHORITATIVE_SOURCE_PACK_VERSION = "P12.3-1.0"
+AUTHORITATIVE_SOURCE_PACK_VERSION = "P12.3-1.1"
 
 
 @dataclass(frozen=True)
@@ -41,9 +41,14 @@ class AuthoritativeSourceSpec:
     expected_freshness_minutes: int
     collection_cadence_minutes: int
     reliability: str
+    availability_state: str
     origin_characteristics: str
     independence_constraints: str
     terms_notes: str
+
+    def __post_init__(self) -> None:
+        if self.availability_state not in {"ACTIVE", "DEGRADED"}:
+            raise ValueError("P12.3 pack availability_state must be ACTIVE or DEGRADED")
 
     @property
     def outbound_domain(self) -> str:
@@ -99,6 +104,7 @@ AUTHORITATIVE_SOURCE_PACK: tuple[AuthoritativeSourceSpec, ...] = (
         expected_freshness_minutes=120,
         collection_cadence_minutes=60,
         reliability="official",
+        availability_state="ACTIVE",
         origin_characteristics=_COMMON_ORIGIN,
         independence_constraints=_COMMON_INDEPENDENCE,
         terms_notes="Public European Commission press-corner syndication endpoint; public/non-sensitive only.",
@@ -117,9 +123,14 @@ AUTHORITATIVE_SOURCE_PACK: tuple[AuthoritativeSourceSpec, ...] = (
         expected_freshness_minutes=240,
         collection_cadence_minutes=120,
         reliability="official",
+        availability_state="DEGRADED",
         origin_characteristics=_COMMON_ORIGIN,
         independence_constraints=_COMMON_INDEPENDENCE,
-        terms_notes="Public European Parliament press-release feed; public/non-sensitive only.",
+        terms_notes=(
+            "Official European Parliament press-release RSS endpoint. Controlled-live "
+            "validation on 2026-09-01 returned anti-bot HTML to the unattended runner, so "
+            "the source remains governed but DEGRADED for unattended RSS acquisition."
+        ),
     ),
     AuthoritativeSourceSpec(
         source_id="uk-government-news-communications",
@@ -135,6 +146,7 @@ AUTHORITATIVE_SOURCE_PACK: tuple[AuthoritativeSourceSpec, ...] = (
         expected_freshness_minutes=120,
         collection_cadence_minutes=60,
         reliability="official",
+        availability_state="ACTIVE",
         origin_characteristics=_COMMON_ORIGIN,
         independence_constraints=_COMMON_INDEPENDENCE,
         terms_notes="Public GOV.UK news-and-communications Atom feed; broad government scope is filtered by watch query.",
@@ -153,6 +165,7 @@ AUTHORITATIVE_SOURCE_PACK: tuple[AuthoritativeSourceSpec, ...] = (
         expected_freshness_minutes=180,
         collection_cadence_minutes=60,
         reliability="official",
+        availability_state="ACTIVE",
         origin_characteristics=_COMMON_ORIGIN,
         independence_constraints=_COMMON_INDEPENDENCE,
         terms_notes="Public OSCE latest-news syndication endpoint; availability remains measurable operational state.",
@@ -211,7 +224,7 @@ def _record_matches_spec(record: SourcePortfolioRecord, spec: AuthoritativeSourc
         and record.adapter_version == spec.adapter_version
         and record.outbound_domains == (spec.outbound_domain,)
         and record.outbound_protocols == ("HTTPS",)
-        and record.availability_state == "ACTIVE"
+        and record.availability_state == spec.availability_state
         and record.data_classification == "PUBLIC"
         and record.origin_characteristics == spec.origin_characteristics
         and record.independence_constraints == spec.independence_constraints
@@ -273,7 +286,7 @@ def install_source_pack_governance(
                 outbound_domains=(spec.outbound_domain,),
                 outbound_protocols=("HTTPS",),
                 fallback_source_ids=(),
-                availability_state="ACTIVE",
+                availability_state=spec.availability_state,
                 data_classification="PUBLIC",
                 origin_characteristics=spec.origin_characteristics,
                 independence_constraints=spec.independence_constraints,

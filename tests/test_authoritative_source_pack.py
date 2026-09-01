@@ -54,7 +54,7 @@ def _runtime(tmp_path):
 
 def test_pack_is_materially_broader_public_free_and_unique():
     specs = source_pack_specs()
-    assert AUTHORITATIVE_SOURCE_PACK_VERSION == "P12.3-1.0"
+    assert AUTHORITATIVE_SOURCE_PACK_VERSION == "P12.3-1.1"
     assert len(specs) == 4
     assert len({spec.source_id for spec in specs}) == 4
     assert len({spec.publisher_name for spec in specs}) == 4
@@ -62,6 +62,7 @@ def test_pack_is_materially_broader_public_free_and_unique():
     assert all(spec.access_mode == "PUBLIC_ANONYMOUS" for spec in specs)
     assert all(spec.cost_mode == "FREE" for spec in specs)
     assert all(spec.data_classification == "PUBLIC" for spec in specs)
+    assert all(spec.availability_state in {"ACTIVE", "DEGRADED"} for spec in specs)
 
 
 def test_pack_contains_priority_institutions_and_explicit_origin_boundary():
@@ -73,6 +74,16 @@ def test_pack_contains_priority_institutions_and_explicit_origin_boundary():
         "osce-latest-news",
     }
     assert by_id["osce-latest-news"].publisher_name.startswith("Organization for Security")
+    assert by_id["eu-parliament-press-releases"].availability_state == "DEGRADED"
+    assert {
+        spec.source_id
+        for spec in by_id.values()
+        if spec.availability_state == "ACTIVE"
+    } == {
+        "eu-commission-press-corner",
+        "uk-government-news-communications",
+        "osce-latest-news",
+    }
     for spec in by_id.values():
         assert spec.establishes_independence is False
         assert spec.changes_verification_state is False
@@ -105,7 +116,9 @@ def test_governance_install_is_explicit_approved_free_and_idempotent(tmp_path):
     ]
     assert all(record.portfolio_version == 1 for record in first)
     assert all(record.review_status == "APPROVED" for record in first)
-    assert all(record.availability_state == "ACTIVE" for record in first)
+    assert {record.source_id: record.availability_state for record in first} == {
+        spec.source_id: spec.availability_state for spec in source_pack_specs()
+    }
     assert all(record.cost_mode == "FREE" for record in first)
     assert all(record.paid_provider_approved is False for record in first)
 
@@ -122,6 +135,7 @@ def test_governance_install_creates_no_parallel_source_identity(tmp_path):
         assert current.publisher_name == spec.publisher_name
         assert current.adapter_id == spec.adapter_id
         assert current.outbound_domains == (spec.outbound_domain,)
+        assert current.availability_state == spec.availability_state
         assert current.activates_collection is False
         assert current.establishes_independence is False
         assert current.changes_verification_state is False
@@ -151,7 +165,7 @@ def test_governance_drift_fails_closed_instead_of_silent_supersession(tmp_path):
         adapter_version=spec.adapter_version,
         outbound_domains=(spec.outbound_domain,),
         outbound_protocols=("HTTPS",),
-        availability_state="ACTIVE",
+        availability_state=spec.availability_state,
         data_classification="PUBLIC",
         origin_characteristics=spec.origin_characteristics,
         independence_constraints=spec.independence_constraints,
