@@ -25,7 +25,9 @@ def test_p12_5_measured_degradation_remains_explicit():
     matrix = _read("docs/implementation/P12_5_CONTROLLED_LIVE_SOURCE_HEALTH_MATRIX.md")
     result = _read("docs/implementation/P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_RESULT.md")
 
-    assert "10/10" in result
+    assert "governed source paths: `10`" in result
+    assert "measured source paths: `10`" in result
+    assert "unmeasured: `0`" in result
     assert "8 SUCCESS / 2 FAILED" in result
     assert "European Parliament Press Releases" in matrix
     assert "UNAVAILABLE" in matrix
