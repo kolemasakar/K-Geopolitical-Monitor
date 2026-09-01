@@ -1,63 +1,93 @@
 # SOURCE_POLICY
-Source management and provenance rules.
+Source management, onboarding and provenance rules.
 
-Version: 1.2
-Status: APPROVED
+Version: 2.0
+Status: APPROVED / ROADMAP_V4_PHASE_12_SYNCHRONIZED
 
 ## Source Classes
 
-- Official sources
-- International media
-- Regional media
-- Social platforms
-- OSINT
-- Structured data
-- User-provided information
+Baseline classes include:
+- Official sources;
+- International media;
+- Regional/local media;
+- Social platforms;
+- OSINT;
+- Structured data/discovery;
+- User-provided information.
 
-## Principle
+Phase 12 may refine class/role metadata through the source-portfolio contract without weakening provenance rules.
+
+## Core Principle
 
 Source quantity does not equal source independence.
 
+Publisher/domain/adapter identity is not automatically the underlying-origin identity.
+
 ## Provenance Requirement
 
-Every operational source item must remain traceable to:
-
+Every operational source item must remain traceable, where applicable, to:
 - source identity;
-- source class;
-- collection context;
+- source class/role;
+- collection context and attempt;
 - raw item identity;
-- original source URL where applicable;
-- derived operational finding where applicable.
+- original/public URL;
+- publisher and known/assessed underlying origin;
+- translation/derived-representation lineage;
+- derived finding/claim/evidence objects.
 
-Derived conclusions must remain distinguishable from source evidence.
+Derived conclusions remain distinguishable from source evidence.
 
-## Controlled Pilot State
+## Independence Rules
 
-M6 validated deterministic project-local source fixtures.
+- same-origin duplicate observations do not increase independent corroboration;
+- reposts, syndication, translations and citations do not create new independent origins;
+- an official source is authoritative for what it states, but that alone does not prove the substantive event claim;
+- a discovery/index source does not corroborate a linked claim merely by indexing it;
+- source reputation/status changes context/review burden, not truth automatically.
 
-M7 validated two live read-only public-source integrations under explicit controlled-pilot records:
+## Validated Starting Live Baseline
 
-- Consilium press-release RSS as Official sources;
-- GDELT DOC 2.0 as Structured data discovery metadata.
+The current live public-source baseline contains:
+- Consilium press-release RSS — Official sources;
+- GDELT DOC 2.0 — Structured discovery/index metadata.
 
-GDELT discovery metadata is not independent verification of publisher claims. The original publisher or primary source remains the factual Source of Truth for linked content.
+Both are read-only and were validated in controlled live workflows. GDELT metadata is not independent verification of linked publisher claims.
 
-The M7 live smoke gate succeeded against both approved public endpoints.
+This two-source baseline is intentionally recognized as narrow relative to KGM's intended global scope.
 
-## Live Source Rule
+## Phase 12 Source Expansion Rule
 
-Only integrations with explicit records under docs/integrations may be activated for controlled live pilots.
+Phase 12 is approved to materially expand the public-source network.
 
-A controlled-pilot approval does not equal production/global operational approval.
+Before activation, each new source requires an explicit integration/source record covering identity, role/class, region/language, access mode, cadence/freshness, parser/adapter, provenance/origin characteristics, failure boundary, required egress and approval state.
+
+Additional rules:
+- prefer public/free sources first;
+- no paid provider is approved by Phase 12 alone;
+- local-language gaps remain explicit;
+- translation is a derived representation and does not create source independence;
+- one source failure must remain isolated from other sources;
+- deterministic CI does not depend on live network availability;
+- source health/freshness and required egress are measured in P12.5 before network restriction decisions.
+
+P12.1 will formalize the versioned source-portfolio contract. P12.0 does not activate new sources by itself.
 
 ## User Data
 
-User-provided information requires reliability assessment and remains identifiable as non-public unless independently verified.
+User-provided information requires reliability assessment and remains identifiable as user-provided/non-public unless independently supported and handled under applicable privacy/data rules.
+
+## Coverage Boundary
+
+Configured source requirements and source availability contribute to coverage measurement only. Source count or coverage confidence cannot strengthen factual verification confidence, and `GLOBAL` does not prove exhaustive world coverage.
 
 ## Current State
 
-Source/provenance implementation: BASELINE_VALIDATED through M7
-Deterministic controlled pilot: PASS
-Live read-only source acquisition pilot: PASS
-Production external-source operation: NOT_APPROVED
-Runtime storage: PROJECT_LOCAL_ONLY
+- source/provenance implementation: `BASELINE_VALIDATED` across the current engineering line;
+- controlled live starting source network: `2 integrations / VALIDATED_BASELINE`;
+- Phase 12 source-network expansion: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
+- P12.0: canonical convergence in progress;
+- P12.1 source-portfolio contract: not yet implemented;
+- new Phase 12 source activations: none created by P12.0;
+- paid source providers: none approved;
+- runtime storage: `PROJECT_LOCAL_ONLY`;
+- production/live: `NOT_OPERATIONAL`.
