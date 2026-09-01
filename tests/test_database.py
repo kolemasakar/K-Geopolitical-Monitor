@@ -79,6 +79,7 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "research_query_executions",
         "research_artifact_hashes",
         "research_provenance_annotations",
+        "owner_runtime_health",
     }.issubset(tables)
     assert {"retry_count", "recovered"}.issubset(monitoring_run_columns)
     assert applied == {
@@ -102,4 +103,5 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "018_translation_foundation.sql",
         "019_source_reputation_history.sql",
         "020_reproducibility_instrumentation.sql",
+        "021_owner_runtime_health.sql",
     }
