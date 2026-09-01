@@ -1,6 +1,13 @@
 import json
 
+import pytest
+
 from kgeopolitical_monitor.live_operational_cycle import LiveOperationalCycle
+from kgeopolitical_monitor.runtime_lease import (
+    RuntimeInstanceLease,
+    RuntimeLeaseError,
+    default_runtime_lease_path,
+)
 from kgeopolitical_monitor.unattended_runner import build_unattended_service, main
 
 
@@ -24,6 +31,17 @@ def test_once_mode_initializes_runtime_without_network_when_no_watches(tmp_path,
     assert payload["executions"] == []
     assert payload["recovered_runs"] == 0
     assert (tmp_path / "data" / "kgeopolitical_monitor.db").is_file()
+    assert default_runtime_lease_path(tmp_path).is_file()
+
+
+def test_once_mode_fails_closed_before_database_initialization_when_lease_is_held(tmp_path):
+    lease_path = default_runtime_lease_path(tmp_path)
+
+    with RuntimeInstanceLease(lease_path):
+        with pytest.raises(RuntimeLeaseError, match="already holds the lease"):
+            main(["--project-root", str(tmp_path), "--once"])
+
+    assert not (tmp_path / "data" / "kgeopolitical_monitor.db").exists()
 
 
 def test_runner_rejects_non_positive_poll_interval(tmp_path):
