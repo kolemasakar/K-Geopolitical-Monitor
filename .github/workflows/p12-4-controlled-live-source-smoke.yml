@@ -1,0 +1,28 @@
+name: P12.4 Controlled Live Language Source Smoke
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/kgeopolitical_monitor/local_language_discovery_pack.py"
+      - "scripts/p12_4_live_source_smoke.py"
+      - ".github/workflows/p12-4-controlled-live-source-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  controlled-live-language-smoke:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install project
+        run: python -m pip install -e .
+      - name: Run P12.4 controlled-live language source smoke
+        run: python scripts/p12_4_live_source_smoke.py
