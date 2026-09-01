@@ -1,7 +1,7 @@
 # SECURITY_AND_DATA_POLICY
 
-Version: 0.7
-Status: APPROVED / P12_3_VALIDATED
+Version: 0.8
+Status: APPROVED / P12_4_VALIDATED
 
 ## Principles
 
@@ -9,7 +9,7 @@ Status: APPROVED / P12_3_VALIDATED
 - Use least privilege unless an explicit owner-approved exception exists.
 - Keep credentials/secrets out of repository state and routine logs.
 - Security/operational claims require reproducible evidence.
-- Governance, adapter or availability metadata cannot be promoted into truth or production acceptance.
+- Governance, adapter, language or availability metadata cannot be promoted into truth or production acceptance.
 
 ## Canonical Storage
 
@@ -22,9 +22,8 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 ## Secret / Logging Policy
 
 - credentials, tokens and private keys are not stored in repository files;
-- credentialed integrations require explicit approval and environment/platform secret handling;
-- secret-bearing URLs/commands and authorization headers must not enter routine logs;
-- keyword scans are supporting evidence, not proof of exhaustive secret absence.
+- credentialed integrations require explicit approval and platform secret handling;
+- secret-bearing URLs/commands and authorization headers must not enter routine logs.
 
 ## Owner-Only Runtime
 
@@ -48,19 +47,23 @@ P12.1/P12.2 rules remain mandatory:
 - source failures remain isolated and visible;
 - paid provider approval requires separate explicit owner approval.
 
-## P12.3 Security Result
+## P12.3 Retained Security State
 
-The priority authoritative pack uses public anonymous HTTPS only and introduces no credentials or paid provider.
+European Parliament remains `DEGRADED` because its official RSS endpoint returns anti-bot HTML to the unattended runner. No bypass is authorized and no third-party mirror is promoted to canonical status.
 
-Validated operational states:
-- European Commission — `ACTIVE`;
-- European Parliament — `DEGRADED` because the official endpoint returns anti-bot HTML to the unattended runner;
-- GOV.UK — `ACTIVE`;
-- OSCE — `ACTIVE`.
+## P12.4 Security / Data Result
 
-No attempt is authorized to bypass European Parliament anti-bot controls. No third-party mirror is promoted to canonical source status as a workaround.
+The local-language/media discovery pack uses public anonymous HTTPS only and introduces no credentials, paid provider or new canonical database schema.
 
-P12.5 owns measured egress inventory and any later egress-restriction proposal.
+Validated controlled-live acquisition paths at the P12.4 probe:
+- Ukrainska Pravda — `ACTIVE`;
+- Meduza — `ACTIVE`;
+- RMF24 — `ACTIVE`;
+- Haberturk — `ACTIVE`.
+
+Original-language public content is preserved. Translation remains a separate derived representation. Language/source count does not change data sensitivity, factual verification or independent-origin count.
+
+P12.5 owns measured source-health/freshness and real egress inventory. Broad outbound egress remains the explicit owner-approved candidate exception until a later validated decision changes it.
 
 ## Public Exposure Boundary
 
@@ -78,9 +81,8 @@ Start.me must not store credentials, private endpoints, canonical monitoring/run
 
 ## Current State
 
-- P12.0-P12.3: `VALIDATED`;
-- P12.3 controlled-live state: 3 `ACTIVE`, European Parliament `DEGRADED`;
-- P12.4: `NEXT / NOT_STARTED`;
+- P12.0-P12.4: `VALIDATED`;
+- P12.5: `NEXT / NOT_STARTED`;
 - paid providers: `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - public API/dashboard: `NOT_APPROVED / NOT_DEPLOYED`;

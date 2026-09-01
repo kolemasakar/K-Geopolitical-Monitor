@@ -1,8 +1,8 @@
 # SOURCE_POLICY
 Source management, onboarding and provenance rules.
 
-Version: 2.3
-Status: APPROVED / P12_3_VALIDATED
+Version: 2.4
+Status: APPROVED / P12_4_VALIDATED
 
 ## Core Principle
 
@@ -25,15 +25,23 @@ P12.1 immutable portfolio records and P12.2 governed adapters preserve:
 
 ## P12.3 Authoritative Pack
 
-Validated governed sources:
-- European Commission Press Corner — `ACTIVE`;
-- European Parliament Press Releases — `DEGRADED` for unattended RSS acquisition;
-- UK Government News and Communications — `ACTIVE`;
-- OSCE Latest News — `ACTIVE`.
+European Commission, GOV.UK and OSCE remain `ACTIVE`. European Parliament remains `DEGRADED` for unattended RSS because the official endpoint returns anti-bot HTML. The parser fails closed; no bypass or third-party canonical mirror is approved.
 
-The European Parliament official RSS endpoint returns anti-bot HTML to the unattended runner. The P12.2 parser fails closed; no bypass or third-party canonical mirror is approved.
+## P12.4 Local-Language / Media Discovery Pack
 
-Controlled-live source-specific failure isolation is validated. A degraded endpoint remains visible rather than being removed from evidence about source health.
+Gate: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`.
+
+Validated first language slice:
+- `uk` — Ukrainska Pravda — `ACTIVE`;
+- `ru` — Meduza — `ACTIVE`;
+- `pl` — RMF24 — `ACTIVE`;
+- `tr` — Haberturk — `ACTIVE`.
+
+P12.4 media sources are discovery inputs. A media publication may derive from the outlet's own reporting, an official statement, a wire service, another publisher, social content or unresolved/combined origins. Publisher identity therefore cannot be promoted to underlying-origin identity.
+
+Original-language text is preserved. Translation remains a separate derived representation and does not create an independent source/origin.
+
+The initial `uk/ru/pl/tr` slice is not global language coverage. Missing local languages, publishers, inaccessible/removed/closed sources and not-yet-indexed material remain explicit gaps.
 
 ## Provenance / Independence
 
@@ -41,29 +49,31 @@ Controlled-live source-specific failure isolation is validated. A degraded endpo
 - reposts, syndication, translations and citations do not create independent origins;
 - official sources are authoritative for their own statements, not automatically for the underlying event;
 - discovery/index services do not corroborate claims merely by indexing them;
+- media publication does not establish underlying-origin independence;
 - source reputation/status changes context, not truth;
 - portfolio governance changes governance, not truth;
 - adapter availability/parser success changes operational state, not verification;
-- source/domain/adapter/item count is not independent-origin count.
+- source/domain/adapter/item count is not independent-origin count;
+- media/domain/language/adapter/item count is not independent-origin count.
 
 ## Coverage Boundary
 
-Source portfolio/adapter/live-health metadata may inform configured coverage and future P12.5 source-health assessment, but does not itself change factual verification confidence or prove exhaustive coverage. `GLOBAL` remains scope, not proof of completeness.
+Source portfolio/adapter/live-health/language metadata may inform configured coverage and P12.5 source-health assessment, but does not itself change factual verification confidence or prove exhaustive coverage. `GLOBAL` remains scope, not proof of completeness.
 
 ## Activation Boundary
 
-P12.3 validates a governed pack and controlled-live acquisition behavior; it does not declare system-wide production/live operation. P12.4 discovery-source expansion must use the same P12.1/P12.2 governance path.
+P12.4 validates governed media-discovery acquisition behavior; it does not declare system-wide production/live operation. P12.5 measures source health/freshness and egress inventory before any egress restriction decision.
 
-No source becomes evidentially independent solely because it is approved, active or parsed successfully.
+No source becomes evidentially independent solely because it is approved, active, in another language or parsed successfully.
 
 ## Current State
 
 - source/provenance baseline: `VALIDATED`;
 - P12.1 source portfolio: `VALIDATED`;
 - P12.2 adapter framework: `VALIDATED`;
-- P12.3 authoritative source pack: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`;
-- P12.3 live state: 3 `ACTIVE`, European Parliament `DEGRADED`;
+- P12.3 authoritative source pack: `VALIDATED`;
+- P12.4 local-language/media discovery: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
+- P12.5: `NEXT / NOT_STARTED`;
 - paid providers: none approved;
-- P12.4: `NEXT / NOT_STARTED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.

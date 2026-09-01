@@ -1,8 +1,8 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring and intelligence platform.
 
-Version: 4.4
-Status: ACTIVE / ROADMAP_V4_PHASE_12 / P12_3_VALIDATED
+Version: 4.5
+Status: ACTIVE / ROADMAP_V4_PHASE_12 / P12_4_VALIDATED
 
 ## Purpose
 
@@ -18,10 +18,10 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - `DATA_MODELS.md` — canonical data-model summary;
 - `PROJECT_HISTORY.md` — chronological project record;
 - `docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md` — Phase 12 plan;
-- `docs/implementation/P12_3_PRIORITY_AUTHORITATIVE_SOURCE_PACK.md` — P12.3 implementation;
-- `docs/implementation/P12_3_PRIORITY_AUTHORITATIVE_SOURCE_PACK_RESULT.md` — P12.3 result;
-- `docs/implementation/P12_3_CONTROLLED_LIVE_SOURCE_MATRIX.md` — P12.3 controlled-live evidence;
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED.md` — current checkpoint.
+- `docs/implementation/P12_4_LOCAL_LANGUAGE_MEDIA_DISCOVERY_PACK.md` — P12.4 implementation;
+- `docs/implementation/P12_4_LOCAL_LANGUAGE_MEDIA_DISCOVERY_PACK_RESULT.md` — P12.4 result;
+- `docs/implementation/P12_4_CONTROLLED_LIVE_LANGUAGE_SOURCE_MATRIX.md` — P12.4 controlled-live evidence;
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED.md` — current checkpoint.
 
 ## Current State
 
@@ -38,31 +38,39 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - P12.1: `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`;
 - P12.2: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`;
 - P12.3: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`;
-- current/next engineering activity: `P12.4_LOCAL_LANGUAGE_AND_MEDIA_DISCOVERY_PACK / NEXT_NOT_STARTED`;
+- P12.4: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
+- current/next engineering activity: `P12.5_SOURCE_HEALTH_EGRESS_INVENTORY / NEXT_NOT_STARTED`;
 - production/live: `NOT_OPERATIONAL`.
 
 Production/live operational status: NOT_OPERATIONAL
 Runtime storage mode: PROJECT_LOCAL_ONLY
 
-## P12.3 Validation Evidence
+## P12.4 Validation Evidence
 
-- validation anchor: `038122e44139d6ff23bc5d79bb50a8dee3c38cde`;
-- x64 CI: run `33527433110`, job `99921745359`, `356 passed, 1 warning / SUCCESS`;
-- native ARM64: run `33527433197`, job `99921746285`, `356 passed, 1 warning / SUCCESS`;
-- controlled-live repeat: run `33527433106`, job `99921745640`, `3 SUCCESS / 1 European Parliament DEGRADED`.
+Validation anchor: `595d7f0f0e6316e95aca518bb9309e615f239479`.
 
-P12.3 is validated with explicit degradation, not as a 4/4-health claim.
+- x64 CI: run `33531518780`, job `99935566406`, `370 passed, 1 warning / SUCCESS`;
+- native ARM64: run `33531518525`, job `99935564828`, native `aarch64`, `370 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS;
+- controlled-live: run `33531518652`, job `99935565895`, `4 SUCCESS / 0 FAILED`.
 
-## Priority Authoritative Source Pack
+## Local-Language and Media Discovery Pack
 
-Validated governed source states:
+Validated initial language slice:
 
-- European Commission Press Corner — `ACTIVE`;
-- European Parliament Press Releases — `DEGRADED` for unattended RSS acquisition: the official endpoint returns anti-bot HTML to the unattended runner rather than RSS XML;
-- UK Government News and Communications — `ACTIVE`;
-- OSCE Latest News — `ACTIVE`.
+- `uk` — Ukrainska Pravda — `ACTIVE`;
+- `ru` — Meduza — `ACTIVE`;
+- `pl` — RMF24 — `ACTIVE`;
+- `tr` — Haberturk — `ACTIVE`.
 
-All pack sources are public/free, use P12.1 governance and P12.2-compatible read-only HTTPS adapter paths. The European Parliament official endpoint remains canonical; no anti-bot bypass or third-party mirror substitution is authorized.
+All four are public/free anonymous HTTPS media/discovery inputs using P12.1 governance and P12.2-compatible adapters. The controlled-live probe succeeded for transport/parsing on all four paths; zero native-query matches at a source are not transport failures.
+
+Original-language Unicode content and source URL are preserved. Translation remains a separate derived representation and does not create another source or independent origin.
+
+The `uk/ru/pl/tr` pack is a prioritized initial language slice, not global language coverage, continuous source-health proof or exhaustive regional coverage.
+
+## P12.3 Retained Degradation
+
+European Parliament Press Releases remains `DEGRADED` for unattended RSS acquisition because its official endpoint returns anti-bot HTML to the runner. The official endpoint remains canonical; no anti-bot bypass or third-party canonical mirror substitution is authorized.
 
 ## Truth / Epistemic Boundaries
 
@@ -71,11 +79,12 @@ All pack sources are public/free, use P12.1 governance and P12.2-compatible read
 - official-source status proves the source made a statement, not automatically the underlying event claim;
 - source reputation/status and source-portfolio metadata are not truth operators;
 - adapter/source/domain/item count is not independent-origin count;
+- media/domain/language/adapter/item count is not independent-origin count;
 - portfolio approval does not establish evidence independence;
 - acquisition/parser success or failure does not promote factual verification;
+- translation remains derived and creates no independent origin;
 - graph inference is analytical context, not source evidence;
 - forecast probability/confidence cannot promote factual verification;
-- presentation cannot strengthen upstream evidence;
 - coverage metrics do not modify factual confidence;
 - `GLOBAL` is scope, not proof of exhaustive world coverage;
 - missing/uninstrumented tool history is never reconstructed and labeled exact;
@@ -95,13 +104,13 @@ Remaining explicit owner-approved candidate networking exceptions:
 - public SSH TCP/22 from `0.0.0.0/0`;
 - broad outbound egress.
 
+P12.5 owns measured source-health/freshness and real egress inventory before any outbound restriction proposal.
+
 ## Source / Integration State
 
-Previously validated controlled-live integrations remain Consilium press-release RSS and GDELT DOC 2.0 discovery/index metadata.
+Previously validated integrations remain Consilium press-release RSS and GDELT DOC 2.0 discovery/index metadata. P12.3 authoritative sources remain governed, including explicit European Parliament degradation. P12.4 adds the validated initial local-language media-discovery slice above.
 
-P12.3 adds the governed authoritative source pack described above. Controlled-live acquisition is currently successful for European Commission, GOV.UK and OSCE; European Parliament unattended RSS is explicitly `DEGRADED`.
-
-GDELT discovery is not independent factual corroboration. No source count is treated as independent-origin count.
+GDELT discovery is not independent factual corroboration. No source, media, domain, adapter or language count is treated as independent-origin count.
 
 No paid source/data/translation/graph/forecast/reporting/coverage/notification provider is approved.
 
@@ -109,7 +118,7 @@ No paid source/data/translation/graph/forecast/reporting/coverage/notification p
 
 ## ROADMAP v4
 
-- Phase 12 — ACTIVE; P12.0-P12.3 validated; P12.4 NEXT/NOT_STARTED.
+- Phase 12 — ACTIVE; P12.0-P12.4 validated; P12.5 NEXT/NOT_STARTED.
 - Phase 13 — approved sequential / not started.
 - Phase 14 — approved sequential / not started.
 - Phase 15 — approved sequential / not started.
@@ -117,4 +126,4 @@ No paid source/data/translation/graph/forecast/reporting/coverage/notification p
 - Phase 17 — conditional / not activated.
 - Phase 18 — conditional / new architecture approval required.
 
-No production launch, Business migration, public sharing, public backend exposure or shared runtime transition is implied by P12.3 validation.
+No production launch, Business migration, public sharing, public backend exposure or shared runtime transition is implied by P12.4 validation.

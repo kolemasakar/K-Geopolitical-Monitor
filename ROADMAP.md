@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.4
+Version: 4.5
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -25,6 +25,8 @@ No M14 engineering label is created by ROADMAP v4.
 - an official statement establishes `actor said X`, not automatically `X happened`;
 - source reputation and source-portfolio metadata are context/governance, not truth operators;
 - adapter/source/domain/item count is not independent-origin count;
+- media/domain/language/adapter/item count is not independent-origin count;
+- translation remains derived and creates no independent origin;
 - graph inference cannot promote factual verification or independent-origin count;
 - forecast probability/confidence cannot promote factual verification;
 - coverage confidence cannot promote factual verification confidence;
@@ -65,39 +67,47 @@ Gate: `P12_0_CANONICAL_CONVERGENCE_VALIDATED`
 ### P12.1 — Source Portfolio Contract and Governance
 State: `VALIDATED`
 Gate: `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`
-Result: `docs/implementation/P12_1_SOURCE_PORTFOLIO_CONTRACT_RESULT.md`
 
 ### P12.2 — Live Adapter Framework v2
 State: `VALIDATED`
 Gate: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`
-Result: `docs/implementation/P12_2_LIVE_ADAPTER_FRAMEWORK_V2_RESULT.md`
 
 ### P12.3 — Priority Authoritative Source Pack
 State: `VALIDATED_WITH_EXPLICIT_DEGRADATION`
 Gate: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`
-Implementation: `docs/implementation/P12_3_PRIORITY_AUTHORITATIVE_SOURCE_PACK.md`
 Result: `docs/implementation/P12_3_PRIORITY_AUTHORITATIVE_SOURCE_PACK_RESULT.md`
 Controlled-live matrix: `docs/implementation/P12_3_CONTROLLED_LIVE_SOURCE_MATRIX.md`
-Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED.md`
-Validation anchor: `038122e44139d6ff23bc5d79bb50a8dee3c38cde`.
-Validation: x64 run `33527433110`, job `99921745359`, `356 passed, 1 warning / SUCCESS`; native ARM64 run `33527433197`, job `99921746285`, `356 passed, 1 warning / SUCCESS`.
-Controlled-live repeat: run `33527433106`, job `99921745640`, `3 SUCCESS / 1 European Parliament DEGRADED`, failure isolation PASS.
 
-Validated P12.3 source states:
+Validated P12.3 source states remain:
 - European Commission Press Corner — `ACTIVE`;
-- European Parliament Press Releases — `DEGRADED` for unattended RSS acquisition because the official endpoint returns anti-bot HTML to the runner;
+- European Parliament Press Releases — `DEGRADED` because the official endpoint returns anti-bot HTML to the unattended runner;
 - UK Government News and Communications — `ACTIVE`;
 - OSCE Latest News — `ACTIVE`.
 
-The European Parliament official endpoint is retained; no anti-bot bypass or third-party canonical mirror substitution is authorized.
+The European Parliament official endpoint remains canonical; no anti-bot bypass or third-party canonical mirror substitution is authorized.
 
 ### P12.4 — Local-Language and Media Discovery Pack
-State: `NEXT / NOT_STARTED`
-Expand priority region/language discovery while retaining publisher/underlying-origin uncertainty, translation isolation and explicit local-language gaps.
+State: `VALIDATED`
 Gate: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`
+Implementation: `docs/implementation/P12_4_LOCAL_LANGUAGE_MEDIA_DISCOVERY_PACK.md`
+Result: `docs/implementation/P12_4_LOCAL_LANGUAGE_MEDIA_DISCOVERY_PACK_RESULT.md`
+Controlled-live matrix: `docs/implementation/P12_4_CONTROLLED_LIVE_LANGUAGE_SOURCE_MATRIX.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED.md`
+Validation anchor: `595d7f0f0e6316e95aca518bb9309e615f239479`.
+Validation: x64 run `33531518780`, job `99935566406`, `370 passed, 1 warning / SUCCESS`; native ARM64 run `33531518525`, job `99935564828`, real `aarch64`, `370 passed, 1 warning / SUCCESS` plus bootstrap/unattended/systemd PASS.
+Controlled-live: run `33531518652`, job `99935565895`, `4 SUCCESS / 0 FAILED`.
+
+Validated first language slice:
+- Ukrainian `uk` — Ukrainska Pravda — `ACTIVE`;
+- Russian `ru` — Meduza — `ACTIVE`;
+- Polish `pl` — RMF24 — `ACTIVE`;
+- Turkish `tr` — Haberturk — `ACTIVE`.
+
+This is a prioritized initial slice, not global language coverage or continuous-uptime proof. Original-language text is preserved; translation remains a separate derived representation.
 
 ### P12.5 — Source Health, Freshness and Egress Inventory
-State: `PLANNED`
+State: `NEXT / NOT_STARTED`
+Measure availability, freshness/staleness, adapter/parser errors, source drift and the actual outbound host/protocol inventory before any egress-restriction decision.
 Gate: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`
 
 ### P12.6 — Phase 12 Validation Matrix
@@ -132,12 +142,13 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.4`;
+- state synchronization: `v4.5`;
 - P12.0: `VALIDATED`;
 - P12.1: `VALIDATED`;
 - P12.2: `VALIDATED`;
 - P12.3: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`;
-- current/next engineering activity: `P12.4_LOCAL_LANGUAGE_AND_MEDIA_DISCOVERY_PACK / NEXT_NOT_STARTED`;
+- P12.4: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
+- current/next engineering activity: `P12.5_SOURCE_HEALTH_EGRESS_INVENTORY / NEXT_NOT_STARTED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared runtime storage: `BLOCKED`;
 - production/live operational status: `NOT_OPERATIONAL`;
@@ -148,4 +159,4 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - paid providers: `NONE_APPROVED`.
 
 Next gate:
-`P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`
+`P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`

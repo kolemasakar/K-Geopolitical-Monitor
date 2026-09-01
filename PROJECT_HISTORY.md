@@ -2,8 +2,8 @@
 
 Chronological record of major approved K-Geopolitical Monitor milestones.
 
-Version: 4.4
-Status: ACTIVE / P12_3_VALIDATED
+Version: 4.5
+Status: ACTIVE / P12_4_VALIDATED
 
 ## Validated Historical Baseline
 
@@ -15,63 +15,60 @@ E9A final state remains `OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`; `PRO
 
 Owner approved the sequential intelligence-quality/source-expansion/owner-value development line through Phases 12-16. Phase 17 remains conditional and Phase 18 requires new architecture approval.
 
-## 2026-09-01 — P12.0 Canonical Convergence
+## P12.0–P12.2
 
-- validation anchor `374beb4664cd92a4f41063cbbe30f6830ee3a831`;
-- CI `33517021594`, job `99886494759`, `318 passed, 1 warning / SUCCESS`;
-- gate `P12_0_CANONICAL_CONVERGENCE_VALIDATED`.
+- P12.0 gate `P12_0_CANONICAL_CONVERGENCE_VALIDATED`;
+- P12.1 gate `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`;
+- P12.2 gate `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`.
 
-## 2026-09-01 — P12.1 Source Portfolio Contract and Governance
-
-- implementation/validation `905a727d85701bf43d18de2d5216b83ab9a2b8bd`;
-- CI `33520371480`, job `99897786494`, `334 passed, 1 warning / SUCCESS`;
-- immutable source-portfolio governance added without source activation;
-- gate `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`.
-
-## 2026-09-01 — P12.2 Live Adapter Framework v2
-
-- reusable bounded read-only HTTPS transport, deterministic RSS/Atom/JSON parsers and governed adapter contracts added;
-- validation anchor `cb6866e82d5dc4a26042e0b9d08e9098aae10ecb`;
-- CI `33523574819`, job `99908604206`, `346 passed, 1 warning / SUCCESS`;
-- no new source activated and no paid provider approved;
-- gate `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`.
+These gates established canonical convergence, immutable source governance and reusable governed public adapters.
 
 ## 2026-09-01 — P12.3 Priority Authoritative Source Pack
 
-Implemented a P12.1-governed/P12.2-compatible public/free authoritative pack:
-- European Commission Press Corner;
-- European Parliament Press Releases;
-- UK Government News and Communications;
-- OSCE Latest News.
-
-Implementation lineage:
-- pack implementation `02ba74c59f34d70cbc1ceec9cc806159554f603b`;
-- controlled-live smoke `dbeed606db6d07602b0a17d86c30838afd8a4213`;
-- governance-corrected validation anchor `038122e44139d6ff23bc5d79bb50a8dee3c38cde`.
-
-Validation anchor evidence:
-- x64 CI `33527433110`, job `99921745359`: `356 passed, 1 warning / SUCCESS`;
-- native ARM64 `33527433197`, job `99921746285`: `356 passed, 1 warning / SUCCESS` plus bootstrap/unattended/systemd checks PASS;
-- controlled-live repeat `33527433106`, job `99921745640`: 3 source acquisitions `SUCCESS`, European Parliament `FAILED`/governed `DEGRADED`, workflow SUCCESS.
-
-European Parliament's official RSS endpoint returned anti-bot HTML rather than XML to the unattended runner. The official endpoint was retained and governed as `DEGRADED`; no bypass or third-party canonical mirror was introduced.
-
-Validated source states:
-- European Commission `ACTIVE`;
-- European Parliament `DEGRADED`;
-- GOV.UK `ACTIVE`;
-- OSCE `ACTIVE`.
-
-P12.3 validation explicitly does not mean 4/4 endpoint health, independent-origin count, exhaustive coverage or production/live activation.
+P12.3 validated European Commission, European Parliament, GOV.UK and OSCE governed source paths. European Parliament remained explicitly `DEGRADED` because its official RSS endpoint returned anti-bot HTML to unattended acquisition. No bypass or third-party canonical mirror was introduced.
 
 Gate: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`.
+
+## 2026-09-01 — P12.4 Local-Language and Media Discovery Pack
+
+Implemented the first explicit public/free local-language media-discovery slice:
+- Ukrainska Pravda (`uk`);
+- Meduza (`ru`);
+- RMF24 (`pl`);
+- Haberturk (`tr`).
+
+Implementation lineage:
+- initial module commit `5c44618fa2dbc5bcf2270001bf65fbb455a02110`;
+- full implementation candidate / validation anchor `595d7f0f0e6316e95aca518bb9309e615f239479`.
+
+Validated behavior:
+- P12.1 portfolio governance and fail-closed drift detection;
+- P12.2-compatible public anonymous HTTPS feed adapters;
+- deterministic `uk/ru/pl/tr` fixtures;
+- original Unicode content preservation;
+- native controlled-probe terms (`Україна`, `Украина`, `Ukraina`, `Ukrayna`);
+- broad discovery collection without assuming English-query equivalence;
+- source-specific failure isolation;
+- explicit translation, provenance, verification and coverage boundaries.
+
+Validation anchor evidence:
+- x64 CI `33531518780`, job `99935566406`: `370 passed, 1 warning / SUCCESS`;
+- native ARM64 `33531518525`, job `99935564828`: native `aarch64`, `370 passed, 1 warning / SUCCESS`, host-bootstrap/unattended/systemd PASS;
+- controlled-live `33531518652`, job `99935565895`: `4 SUCCESS / 0 FAILED`.
+
+Controlled-live native-query matches were 0 for Ukrainska Pravda, 1 for Meduza, 1 for RMF24 and 0 for Haberturk. Zero matches were correctly treated as non-failures because the acquisition/parser paths succeeded.
+
+All four paths are governed `ACTIVE` at the validation observation. This does not claim continuous uptime.
+
+P12.4 explicitly does not make `uk/ru/pl/tr` global language coverage, does not turn media/language counts into independent-origin counts, and does not translate inside acquisition adapters.
+
+Gate: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`.
 
 ## Current State
 
 - strategic ROADMAP: `APPROVED / v4`;
-- Phase 12 P12.0-P12.3: `VALIDATED`;
-- next activity: `P12.4_LOCAL_LANGUAGE_AND_MEDIA_DISCOVERY_PACK / NEXT_NOT_STARTED`;
-- P12.3 live state: 3 `ACTIVE`, European Parliament `DEGRADED`;
+- Phase 12 P12.0-P12.4: `VALIDATED`;
+- next activity: `P12.5_SOURCE_HEALTH_EGRESS_INVENTORY / NEXT_NOT_STARTED`;
 - paid providers: none approved;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - public API/dashboard ingress: not approved/deployed;
