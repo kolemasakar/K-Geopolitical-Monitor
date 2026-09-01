@@ -36,7 +36,7 @@ def test_p12_5_measured_degradation_remains_explicit():
     assert "original_url must be HTTP or HTTPS" in matrix
     assert "OSCE Latest News" in matrix
     assert "STALE" in matrix
-    assert "governed `ACTIVE`" in result
+    assert "governed portfolio state remains `ACTIVE`" in result
 
 
 def test_p12_5_egress_inventory_is_factual_not_deployed_policy():
