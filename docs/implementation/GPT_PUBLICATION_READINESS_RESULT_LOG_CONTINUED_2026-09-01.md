@@ -13,8 +13,8 @@ Builder instruction length: 6894 characters
 ## Aggregate Summary
 
 Including the base log and all continuation logs:
-- tests_executed: 21
-- passed: 20
+- tests_executed: 22
+- passed: 21
 - failed: 1
 - blocked: 0
 - critical_truth_boundary_failures: 1
@@ -49,6 +49,40 @@ Truth-boundary result:
 - critical violation: NONE;
 - refinement required: NONE.
 
+### GPT-PUB-36 — Strategic Brief Prioritization
+
+Outcome: PASS
+Date: 2026-09-01
+
+Prompt intent:
+- request a short global geopolitical brief for the previous 24 hours;
+- require strategic prioritization rather than exhaustive headline enumeration;
+- require each selected event to include what happened, verification state, strategic importance, source/origin information and key uncertainty;
+- require explicit disclosure of regions/languages actually checked, material coverage gaps and why the brief is not proof of complete global coverage.
+
+Observed behavior:
+- selects five strategically weighted developments rather than attempting to maximize headline count;
+- prioritizes events with potential effects on military escalation, alliance architecture, energy flows, great-power competition and sustained war pressure;
+- gives each selected event an explicit verification state with important disputed/provisional details preserved rather than flattened into certainty;
+- distinguishes primary official statements from downstream Reuters/AP/agency publication and repeatedly warns that multiple publications do not automatically create multiple independent origins;
+- explains strategic significance separately from factual verification, including analytical implications that are explicitly labeled as analysis rather than observed intent;
+- provides a key uncertainty for every selected event;
+- explicitly distinguishes formally announced institutional or contractual terms from unresolved implementation/legal effectiveness where appropriate;
+- provides a concrete coverage section listing regions actually checked and languages actually used, while acknowledging uneven depth;
+- names important regions, language communities, closed/unindexed channels and post-cutoff developments that may have remained outside the search;
+- explicitly states that URL/source volume does not prove global completeness and defines the output as a selective strategic assessment rather than complete world visibility.
+
+Truth-boundary result:
+- strategic-prioritization discipline: PASS;
+- headline-volume restraint: PASS;
+- verification/source/uncertainty visibility: PASS;
+- publisher-vs-underlying-origin discipline: PASS;
+- analytical-significance vs observed-fact separation: PASS;
+- coverage-limitation disclosure: PASS;
+- global-completeness overclaim prevention: PASS;
+- critical violation: NONE;
+- refinement required: NONE.
+
 ## Current Gate
 
 - publication-readiness validation: ACTIVE / REMEDIATION_REQUIRED;
@@ -60,4 +94,4 @@ Truth-boundary result:
 - blocking defect: GPT-PUB-23 exact-search-history integrity;
 - remediation policy: do not modify the configuration mid-matrix; complete remaining tests, then create a revised configuration and re-run GPT-PUB-23/GPT-PUB-24 plus relevant regression cases;
 - test progression: ACTIVE;
-- next planned test: GPT-PUB-36 Strategic Brief Prioritization.
+- next planned test: GPT-PUB-37 Language Adaptation.
