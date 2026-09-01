@@ -8,7 +8,7 @@ def _read(name: str) -> str:
     return (ROOT / name).read_text(encoding="utf-8")
 
 
-def test_p12_5_gate_and_next_activity_are_canonical():
+def test_p12_5_gate_and_later_phase_progress_are_canonical():
     roadmap = _read("ROADMAP.md")
     readme = _read("README.md")
     plan = _read("docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md")
@@ -16,9 +16,13 @@ def test_p12_5_gate_and_next_activity_are_canonical():
 
     for document in (roadmap, readme, plan, result):
         assert "P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED" in document
-    assert "P12.6_PHASE_12_VALIDATION_MATRIX / NEXT_NOT_STARTED" in roadmap
-    assert "P12.6_PHASE_12_VALIDATION_MATRIX / NEXT_NOT_STARTED" in readme
-    assert "P12.6_PHASE_12_VALIDATION_MATRIX" in plan
+
+    # Historical P12.5 closure must remain valid after the validated P12.6 gate.
+    assert "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED" in roadmap
+    assert "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE / NEXT_NOT_STARTED" in roadmap
+    assert "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE / NEXT_NOT_STARTED" in readme
+    assert "P12.6 — Phase 12 Validation Matrix" in plan
+    assert "State: `VALIDATED`" in plan
 
 
 def test_p12_5_measured_degradation_remains_explicit():

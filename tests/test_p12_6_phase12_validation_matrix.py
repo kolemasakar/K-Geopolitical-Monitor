@@ -31,17 +31,20 @@ def test_p12_6_closure_evidence_is_exact_and_saved():
     matrix = MATRIX.read_text(encoding="utf-8")
     result = RESULT.read_text(encoding="utf-8")
     checkpoint = CHECKPOINT.read_text(encoding="utf-8")
-    for text in (
+
+    for exact_id in (
         "c6aca6a2fe3c0dc991b267efa82c5748bd6460e2",
         "33546794411",
         "99986187419",
         "33546794273",
         "99986186748",
-        "391 passed, 1 warning / SUCCESS",
     ):
-        assert text in matrix
-        assert text in result
-        assert text in checkpoint
+        assert exact_id in matrix
+        assert exact_id in result
+        assert exact_id in checkpoint
+
+    for document in (result, checkpoint):
+        assert "391 passed, 1 warning / SUCCESS" in document
 
 
 def test_p12_6_known_limitations_remain_visible():

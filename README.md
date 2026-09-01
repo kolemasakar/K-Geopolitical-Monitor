@@ -74,6 +74,10 @@ P12.5 inventoried ten current HTTPS host requirements:
 
 This is measurement evidence, not a deployed firewall allowlist. Broad outbound egress remains an explicit owner-approved candidate exception pending a separate decision.
 
+## Local-Language / Translation Boundary
+
+Original-language Unicode content and source URL remain preserved. **Translation remains a separate derived representation**; translation does not create another source, publisher, underlying origin or independent corroboration. The validated `uk/ru/pl/tr` slice remains explicitly non-global.
+
 ## Truth / Epistemic Boundaries
 
 - publisher/publication is not automatically the underlying origin;
