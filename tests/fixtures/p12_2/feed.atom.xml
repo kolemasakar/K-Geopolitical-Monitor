@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>P12.2 deterministic Atom fixture</title>
+  <entry>
+    <title>Ukraine security Atom update</title>
+    <summary>Atom update concerning Ukraine security support.</summary>
+    <link rel="alternate" href="https://official.example/atom/1" />
+    <updated>2026-09-01T11:35:00Z</updated>
+  </entry>
+  <entry>
+    <title>Unrelated energy item</title>
+    <summary>Deterministic unrelated Atom fixture.</summary>
+    <link rel="alternate" href="https://official.example/atom/2" />
+    <updated>2026-09-01T11:25:00Z</updated>
+  </entry>
+</feed>

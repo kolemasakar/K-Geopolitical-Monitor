@@ -1,0 +1,22 @@
+{
+  "articles": [
+    {
+      "url": "https://example.org/discovery-1",
+      "title": "Ukraine security discovery item",
+      "domain": "example.org",
+      "seendate": "20260901T113500Z",
+      "language": "English",
+      "sourcecountry": "Ukraine",
+      "tone": 1.5
+    },
+    {
+      "url": "https://example.net/discovery-2",
+      "title": "Second discovery item",
+      "domain": "example.net",
+      "seendate": "20260901T112500Z",
+      "language": "English",
+      "sourcecountry": "Poland",
+      "tone": -0.5
+    }
+  ]
+}
