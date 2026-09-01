@@ -89,7 +89,7 @@ Start.me must not become a KGM evidence store, provenance store, runtime depende
 
 Baseline boundaries: DOCUMENTED
 E9A owner-only deployment/security baseline: DEFINED
-E9A.5 implementation/regression validation: IN_PROGRESS
+E9A.5 implementation/regression validation: BASELINE_REGRESSION_VALIDATED_WITH_REAL_HOST_NETWORK_EVIDENCE_PENDING_E9A_6
 Real-host/network candidate evidence: PENDING_E9A_6
 Shared production runtime: NOT_APPROVED
 Public API/dashboard: NOT_APPROVED / NOT_DEPLOYED
