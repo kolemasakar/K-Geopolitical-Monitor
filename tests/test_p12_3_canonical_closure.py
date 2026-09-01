@@ -1,0 +1,60 @@
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def _read(name: str) -> str:
+    return (ROOT / name).read_text(encoding="utf-8")
+
+
+def test_p12_3_gate_and_next_activity_are_canonical():
+    roadmap = _read("ROADMAP.md")
+    readme = _read("README.md")
+    plan = _read("docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md")
+
+    assert "P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED" in roadmap
+    assert "P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED" in readme
+    assert "P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED" in plan
+    assert "P12.4_LOCAL_LANGUAGE_AND_MEDIA_DISCOVERY_PACK / NEXT_NOT_STARTED" in roadmap
+    assert "P12.4_LOCAL_LANGUAGE_AND_MEDIA_DISCOVERY_PACK / NEXT_NOT_STARTED" in readme
+    assert "P12.4_LOCAL_LANGUAGE_AND_MEDIA_DISCOVERY_PACK" in plan
+
+
+def test_p12_3_preserves_production_and_storage_contracts():
+    readme = _read("README.md")
+    roadmap = _read("ROADMAP.md")
+
+    assert "Production/live operational status: NOT_OPERATIONAL" in readme
+    assert "Runtime storage mode: PROJECT_LOCAL_ONLY" in readme
+    assert "Production/live operational status: NOT_OPERATIONAL" in roadmap
+    assert "Runtime storage mode: PROJECT_LOCAL_ONLY" in roadmap
+
+
+def test_p12_3_explicitly_preserves_degraded_european_parliament_state():
+    documents = "\n".join(
+        [
+            _read("README.md"),
+            _read("ARCHITECTURE.md"),
+            _read("EXTERNAL_INTEGRATIONS.md"),
+            _read("SOURCE_POLICY.md"),
+            _read("SECURITY_AND_DATA_POLICY.md"),
+            _read("docs/implementation/P12_3_PRIORITY_AUTHORITATIVE_SOURCE_PACK_RESULT.md"),
+            _read("docs/implementation/P12_3_CONTROLLED_LIVE_SOURCE_MATRIX.md"),
+        ]
+    )
+
+    assert "European Parliament" in documents
+    assert "DEGRADED" in documents
+    assert "anti-bot" in documents
+    assert "third-party" in documents
+
+
+def test_p12_3_epistemic_and_paid_provider_boundaries_remain_explicit():
+    readme = _read("README.md")
+    source_policy = _read("SOURCE_POLICY.md")
+    result = _read("docs/implementation/P12_3_PRIORITY_AUTHORITATIVE_SOURCE_PACK_RESULT.md")
+
+    assert "adapter/source/domain/item count is not independent-origin count" in readme
+    assert "official sources are authoritative for their own statements, not automatically for the underlying event" in source_policy
+    assert "paid providers: `NONE_APPROVED`" in result
