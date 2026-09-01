@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 2.9
+Version: 3.0
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -428,7 +428,7 @@ E7 canonical regression at SHA `72f049b30fcaa3711c7712c8df7d1da1f934f650`:
 ### E9A - Owner-Only Production Runtime Hardening
 
 State:
-APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION
+OWNER_ONLY_PRODUCTION_CANDIDATE_READY
 
 Decision:
 `docs/decisions/E9A_OWNER_ONLY_PRODUCTION_HARDENING_DECISION_2026-09-01.md`
@@ -436,16 +436,31 @@ Decision:
 Plan:
 `docs/implementation/E9A_OWNER_ONLY_PRODUCTION_RUNTIME_HARDENING_PLAN.md`
 
-Approved scope:
-- single-instance runtime lease;
-- explicit SQLite durability/concurrency profile;
-- owner-only backup/disaster-recovery hardening;
-- owner-only runtime health instrumentation;
-- deployment/security hardening review;
-- x64, native ARM64 and real-host validation.
+Final validation:
+`docs/implementation/E9A_6_VALIDATION_MATRIX_RESULT.md`
 
-Mandatory boundaries:
-- runtime storage remains PROJECT_LOCAL_ONLY;
+Canonical checkpoint:
+`docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_E9A_RUNTIME_HARDENING_CANDIDATE_READY.md`
+
+Validated closure:
+- E9A.1 single-instance runtime lease: PASS;
+- E9A.2 canonical SQLite runtime profile: PASS;
+- E9A.3 backup/disaster recovery including real-host restore drill: PASS;
+- E9A.4 owner-only runtime health instrumentation: PASS;
+- E9A.5 deployment/security hardening with explicit owner exceptions: PASS;
+- E9A.6 validation matrix: PASS;
+- final x64 CI run `33503085538`: `318 passed, 1 warning`, SUCCESS;
+- final native ARM64 run `33503085489`: native `aarch64`, `318 passed, 1 warning`, SUCCESS;
+- real OCI state-preserving validation run `33486944907`: SUCCESS;
+- rpcbind persistent-closure run `33488954688`: SUCCESS;
+- unnecessary TCP/UDP port 111 removed and reboot persistence validated: PASS;
+- runtime storage remains PROJECT_LOCAL_ONLY: PASS.
+
+Explicit owner-approved candidate exceptions remain:
+- public SSH TCP/22 from `0.0.0.0/0`;
+- broad outbound egress.
+
+Mandatory boundaries after closure:
 - no shared/mixed runtime database;
 - no public API/dashboard/GPT exposure;
 - E8 Business/publication remains user-deferred;
@@ -458,7 +473,7 @@ Execution state:
 - E6 Reproducibility Instrumentation - P1 - BASELINE_VALIDATED;
 - E7 Forecast Probability Semantics - P1 - BASELINE_VALIDATED;
 - E8 Controlled External Sharing / Public GPT - USER_DEFERRED_UNTIL_SEPARATE_REQUEST;
-- E9A Owner-Only Production Runtime Hardening - CURRENT / APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION;
+- E9A Owner-Only Production Runtime Hardening - OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE;
 - E9 Shared Production Runtime - DEFERRED - NOT_APPROVED.
 
 Post-pilot invariants:
@@ -476,7 +491,7 @@ Post-pilot invariants:
 ## Current implementation checkpoint
 
 - Product Concept: APPROVED
-- Roadmap: APPROVED / v2.9
+- Roadmap: APPROVED / v3.0
 - Engineering implementation: BASELINE_VALIDATED through ROADMAP Phase 11
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
@@ -494,7 +509,7 @@ Post-pilot invariants:
 - E6 Reproducibility Instrumentation: BASELINE_VALIDATED
 - E7 Forecast Probability Semantics: BASELINE_VALIDATED
 - E8 Controlled External Sharing / Public GPT: USER_DEFERRED_UNTIL_SEPARATE_REQUEST
-- E9A Owner-Only Production Runtime Hardening: CURRENT / APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION
+- E9A Owner-Only Production Runtime Hardening: OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE
 - E9 Shared Production Runtime: DEFERRED / NOT_APPROVED
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
@@ -511,10 +526,10 @@ Post-pilot invariants:
 - Backend Action API foundation: VALIDATED_LOCAL_READ_ONLY
 - Private GPT backend Action connection: NOT_CONNECTED
 - Backend HTTPS deployment: NOT_DEPLOYED
-- Unattended cloud runtime: DEPLOYED_OWNER_ONLY_REAL_HOST_VALIDATED / NOT_PRODUCTION
+- Unattended cloud runtime: DEPLOYED_OWNER_ONLY_REAL_HOST_VALIDATED / OWNER_ONLY_PRODUCTION_CANDIDATE_READY / NOT_PRODUCTION
 - Admin dashboard deployment: NOT_DEPLOYED
 - Public sharing: USER_DEFERRED_UNTIL_SEPARATE_REQUEST
 - Shared production runtime: NOT_APPROVED
-- Current engineering activity: E9A_OWNER_ONLY_PRODUCTION_RUNTIME_HARDENING / E9A.1_SINGLE_INSTANCE_RUNTIME_LEASE
+- Current engineering activity: NONE_APPROVED_AFTER_E9A_CLOSURE
 - Next roadmap phase: NONE_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
