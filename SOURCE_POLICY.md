@@ -1,8 +1,8 @@
 # SOURCE_POLICY
 Source management, onboarding and provenance rules.
 
-Version: 2.6
-Status: APPROVED / PHASE_12_VALIDATED / PHASE_13_P13.0_CURRENT
+Version: 2.7
+Status: APPROVED / PHASE_12_VALIDATED / PHASE_13_P13.0_VALIDATED / P13.1_CURRENT
 
 ## Core Principle
 
@@ -30,9 +30,12 @@ Known Phase 12 observations remain visible:
 
 ## Provenance / Independence — Phase 13 Contract
 
-P13.0 semantic verification architecture contract: `CURRENT / IMPLEMENTED_PENDING_VALIDATION`.
+P13.0 semantic verification architecture contract: `VALIDATED`.
+Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`.
 
-Phase 13 makes provenance/origin relationships executable rather than relying on host/domain counts.
+P13.1 structured semantic claim model: `CURRENT / NOT_STARTED`.
+
+Phase 13 makes provenance/origin relationships executable rather than relying on host/domain counts. P13.1 first adds structured semantic claim identity/persistence; provenance/origin execution itself remains P13.2 work.
 
 The semantic provenance layer must distinguish:
 - publisher/publication;
@@ -123,8 +126,9 @@ Phase 13 does not activate public backend/API/dashboard ingress, backend HTTPS, 
 - source/provenance Phase 12 baseline: `VALIDATED`;
 - Phase 12 gate: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`;
 - Phase 13: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
-- P13.0 semantic verification architecture contract: `CURRENT / IMPLEMENTED_PENDING_VALIDATION`;
-- P13.1 structured semantic claim model: `PLANNED / NOT_STARTED`;
+- P13.0 semantic verification architecture contract: `VALIDATED`;
+- P13.0 gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
+- P13.1 structured semantic claim model: `CURRENT / NOT_STARTED`;
 - paid providers: `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.

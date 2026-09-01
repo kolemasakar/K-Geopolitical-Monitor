@@ -3,6 +3,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PLAN = ROOT / "docs" / "implementation" / "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md"
+RESULT = ROOT / "docs" / "implementation" / "P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_RESULT.md"
+CHECKPOINT = ROOT / "docs" / "checkpoints" / "PROJECT_CHECKPOINT_2026-09-01_P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED.md"
 
 
 def _read(path: str) -> str:
@@ -11,15 +13,10 @@ def _read(path: str) -> str:
 
 def test_p13_0_plan_declares_additive_compatibility_boundary():
     plan = PLAN.read_text(encoding="utf-8")
-    assert "P13.0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT" in plan
+    assert "P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED" in plan
     assert "creates **no database migration**" in plan
     assert "additive migrations only" in plan
-    for legacy in (
-        "`claims`",
-        "`evidence`",
-        "`live_analysis_claims`",
-        "`live_analysis_evidence`",
-    ):
+    for legacy in ("`claims`", "`evidence`", "`live_analysis_claims`", "`live_analysis_evidence`"):
         assert legacy in plan
     assert "must link to legacy/live objects rather than silently overwrite" in plan
 
@@ -86,12 +83,12 @@ def test_p13_0_canonical_state_and_sequencing():
     source_policy = _read("SOURCE_POLICY.md")
 
     assert "Phase 13 — Semantic Verification and Provenance Intelligence\nState: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
-    assert "P13.0 — Semantic Verification Architecture Contract\nState: `CURRENT / IMPLEMENTED_PENDING_VALIDATION`" in roadmap
-    assert "P13.1 — Structured Semantic Claim Model\nState: `PLANNED / NOT_STARTED`" in roadmap
+    assert "P13.0 — Semantic Verification Architecture Contract\nState: `VALIDATED`" in roadmap
+    assert "P13.1 — Structured Semantic Claim Model\nState: `CURRENT / NOT_STARTED`" in roadmap
+    assert "P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED" in readme
+    assert "Phase 13 semantic model v2 architecture: `P13.0_VALIDATED`" in data_models
+    assert "P13.0 semantic verification architecture contract: `VALIDATED`" in source_policy
     assert "Phase 14 — Owner Operational Intelligence Activation\nState: `APPROVED_SEQUENTIAL / NOT_STARTED`" in roadmap
-    assert "P13.0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT" in readme
-    assert "Phase 13 semantic model v2: `P13.0_CURRENT`" in data_models
-    assert "P13.0 semantic verification architecture contract: `CURRENT / IMPLEMENTED_PENDING_VALIDATION`" in source_policy
 
 
 def test_p13_0_preserves_runtime_and_truth_boundaries():
@@ -105,14 +102,33 @@ def test_p13_0_preserves_runtime_and_truth_boundaries():
         assert "Runtime storage mode: PROJECT_LOCAL_ONLY" in doc
 
     plan = PLAN.read_text(encoding="utf-8").lower()
-    assert "publisher/publication is not automatically the underlying origin" in plan
+    assert "publisher/domain identity is not automatically underlying-origin identity" in plan
     assert "does not create independent corroboration" in plan
     assert "are not truth operators" in plan
     assert "graph inference and forecast probability cannot promote factual verification" in plan
     assert "`global` remains scope, not proof of exhaustive coverage" in plan
 
 
-def test_p13_0_validation_anchor_requires_saved_gate_before_p13_1():
+def test_p13_0_validation_evidence_is_saved_exactly():
+    result = RESULT.read_text(encoding="utf-8")
+    checkpoint = CHECKPOINT.read_text(encoding="utf-8")
+    for exact in (
+        "4422fae5e2a4546585a43237d2124f466c457543",
+        "33554568574",
+        "100012110127",
+        "33554568570",
+        "100012110488",
+        "399 passed, 1 warning / SUCCESS",
+    ):
+        assert exact in result
+        assert exact in checkpoint
+    assert "P13.1_STRUCTURED_SEMANTIC_CLAIM_MODEL / CURRENT_NOT_STARTED" in checkpoint
+
+
+def test_p13_0_closure_opens_only_p13_1_not_later_packages():
+    roadmap = _read("ROADMAP.md")
     plan = PLAN.read_text(encoding="utf-8")
-    assert "Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`" in plan
-    assert "P13.1 must not start before this gate is validated and saved." in plan
+    assert "current engineering activity: `P13.1_STRUCTURED_SEMANTIC_CLAIM_MODEL`" in roadmap
+    assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `PLANNED / NOT_STARTED`" in roadmap
+    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `PLANNED / NOT_STARTED`" in roadmap
+    assert "P13.2 must not start before P13.1 is implemented, validated and saved." in plan

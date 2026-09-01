@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.8
+Version: 4.9
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -111,7 +111,7 @@ P12.6 reconciles P12.0-P12.5 evidence and explicitly retains external-source deg
 
 ## Phase 13 — Semantic Verification and Provenance Intelligence
 State: `APPROVED / ACTIVE_ENGINEERING_PHASE`
-Current activity: `P13.0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT`
+Current activity: `P13.1_STRUCTURED_SEMANTIC_CLAIM_MODEL`
 Strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
 Implementation plan: `docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md`
 
@@ -120,23 +120,30 @@ Phase 13 replaces analytical shortcuts with structured, provenance-bound, policy
 The P13.x labels below are internal implementation work packages derived from the approved Phase 13 architecture. They do not change strategic roadmap numbering.
 
 ### P13.0 — Semantic Verification Architecture Contract
-State: `CURRENT / IMPLEMENTED_PENDING_VALIDATION`
+State: `VALIDATED`
 Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`
+Result: `docs/implementation/P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED.md`
+Validation anchor: `4422fae5e2a4546585a43237d2124f466c457543`.
 
-Required contract:
+Validation:
+- x64 run `33554568574`, job `100012110127`: `399 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33554568570`, job `100012110488`: native `aarch64`, `399 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Validated contract:
 - semantic claim identity is not normalized-headline identity;
 - provenance distinguishes publisher/publication, cited source and underlying origin;
 - typed evidence relations are separate from final verification decisions;
 - semantic independence is explicit and cannot be inferred from domain/source/language count;
-- contradiction reasoning becomes typed and versionable;
+- contradiction reasoning is typed and versionable;
 - verification promotion is policy-controlled and cannot use `>=2 domains/hosts` as a sufficient rule;
 - extraction confidence, factual confidence and coverage confidence remain separate;
 - legacy `claims/evidence/live_analysis_*` remain readable and are not destructively rewritten.
 
-P13.0 creates no database migration. The first additive semantic schema begins only after this contract is validated.
+P13.0 creates no database migration. The first additive semantic schema starts in P13.1.
 
 ### P13.1 — Structured Semantic Claim Model
-State: `PLANNED / NOT_STARTED`
+State: `CURRENT / NOT_STARTED`
 Expected gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`
 
 ### P13.2 — Provenance / Underlying-Origin Relation Model
@@ -183,12 +190,14 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.8`;
+- state synchronization: `v4.9`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - P12.0-P12.6 validated gates remain canonical;
 - Phase 13: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
-- current engineering activity: `P13.0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT`;
-- P13.1-P13.6: planned / not started;
+- P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
+- current engineering activity: `P13.1_STRUCTURED_SEMANTIC_CLAIM_MODEL`;
+- P13.1: `CURRENT / NOT_STARTED`;
+- P13.2-P13.6: planned / not started;
 - Phase 14+: not started;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared runtime storage: `BLOCKED`;
@@ -200,4 +209,4 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - paid providers: `NONE_APPROVED`.
 
 Next implementation gate to evaluate:
-`P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`
+`P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`

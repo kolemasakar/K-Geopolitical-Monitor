@@ -1,8 +1,8 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring and intelligence platform.
 
-Version: 4.8
-Status: ACTIVE / ROADMAP_V4 / PHASE_13_ACTIVE / P13.0_PENDING_VALIDATION
+Version: 4.9
+Status: ACTIVE / ROADMAP_V4 / PHASE_13_ACTIVE / P13.0_VALIDATED / P13.1_CURRENT
 
 ## Purpose
 
@@ -18,8 +18,9 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - `DATA_MODELS.md` — canonical data-model summary;
 - `PROJECT_HISTORY.md` — chronological project record;
 - `docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md` — Phase 12 closure;
-- `docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md` — active Phase 13 implementation contract/plan;
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_6_PHASE_12_VALIDATED.md` — latest closed-phase checkpoint.
+- `docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md` — active Phase 13 plan;
+- `docs/implementation/P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_RESULT.md` — P13.0 result;
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED.md` — latest saved gate checkpoint.
 
 ## Current State
 
@@ -31,9 +32,10 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - P12.5: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`;
 - P12.6: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`;
 - Phase 13: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
-- current engineering activity: `P13.0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT`;
-- P13.0: `CURRENT / IMPLEMENTED_PENDING_VALIDATION`;
-- P13.1-P13.6: `PLANNED / NOT_STARTED`;
+- P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
+- current engineering activity: `P13.1_STRUCTURED_SEMANTIC_CLAIM_MODEL`;
+- P13.1: `CURRENT / NOT_STARTED`;
+- P13.2-P13.6: `PLANNED / NOT_STARTED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.
 
@@ -52,21 +54,25 @@ Known Phase 12 source/network limitations remain explicit: European Parliament u
 
 Phase 13 addresses the gap between the project's strong epistemic policy and the current executable analytical baseline.
 
-Audited baseline:
+Audited baseline remains compatibility state until a later validated cutover:
 - legacy `claims/evidence` are minimal;
-- live claim identity is still normalized-title based;
+- live claim identity is normalized-title based;
 - `live_analysis_evidence` uses `origin_host`;
-- live verification currently uses distinct host count as a `PARTLY_VERIFIED` threshold;
+- live verification uses distinct host count as a historical `PARTLY_VERIFIED` threshold;
 - baseline confidence derives an independence term from source-ID count;
 - contradiction reasoning is minimal.
 
-These remain historical compatibility behavior until a later Phase 13 cutover. They are **not** the rules for the new semantic layer.
+These are not the rules for the new semantic layer.
 
-### P13.0 Current Contract
+### P13.0 Validated Contract
 
-`P13.0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT`
+Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`.
+Validation anchor: `4422fae5e2a4546585a43237d2124f466c457543`.
 
-P13.0 creates no database migration. It establishes the fail-closed architecture for subsequent additive semantic persistence:
+- x64 run `33554568574`, job `100012110127`: `399 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33554568570`, job `100012110488`: native `aarch64`, `399 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+P13.0 creates no database migration. It validates the fail-closed architecture for subsequent additive semantic persistence:
 - semantic claim identity is not headline identity;
 - one publication may contain multiple claims;
 - publisher/publication, cited source and underlying origin are distinct provenance concepts;
@@ -77,8 +83,14 @@ P13.0 creates no database migration. It establishes the fail-closed architecture
 - extraction confidence, factual verification confidence and coverage confidence remain separate;
 - model/LLM extraction may propose structured objects but cannot directly promote canonical truth.
 
-Planned Phase 13 work packages:
-`P13.0 contract -> P13.1 semantic claims -> P13.2 provenance/origin -> P13.3 evidence/independence -> P13.4 contradictions -> P13.5 verification/confidence -> P13.6 live cutover/validation`.
+### P13.1 Current Package
+
+`P13.1_STRUCTURED_SEMANTIC_CLAIM_MODEL / CURRENT_NOT_STARTED`.
+
+P13.1 is the first schema-bearing Phase 13 package. It must introduce additive structured semantic-claim persistence linked to existing/raw objects without implementing provenance-origin relations, independence assessment, typed contradiction resolution or the verification policy engine reserved for P13.2-P13.5.
+
+Planned Phase 13 sequence:
+`P13.0 validated contract -> P13.1 semantic claims -> P13.2 provenance/origin -> P13.3 evidence/independence -> P13.4 contradictions -> P13.5 verification/confidence -> P13.6 live cutover/validation`.
 
 ## Local-Language / Translation Boundary
 
@@ -119,7 +131,7 @@ Remaining explicit owner-approved candidate networking exceptions:
 ## ROADMAP v4
 
 - Phase 12 — validated with known limitations; P12.0-P12.6 validated gates remain canonical.
-- Phase 13 — `APPROVED / ACTIVE_ENGINEERING_PHASE`; P13.0 current/pending validation.
+- Phase 13 — `APPROVED / ACTIVE_ENGINEERING_PHASE`; P13.0 validated, P13.1 current/not started.
 - Phase 14 — approved sequential / not started.
 - Phase 15 — approved sequential / not started.
 - Phase 16 — approved sequential / not started.

@@ -1,10 +1,10 @@
 # Phase 13 — Semantic Verification and Provenance Intelligence
 
 Date: 2026-09-01
-Status: `ACTIVE_ENGINEERING_PHASE / P13.0_CURRENT`
+Status: `ACTIVE_ENGINEERING_PHASE / P13.0_VALIDATED / P13.1_CURRENT`
 Project: K-Geopolitical Monitor
 Strategic phase gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
-Current activity: `P13.0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT`
+Current activity: `P13.1_STRUCTURED_SEMANTIC_CLAIM_MODEL`
 
 ## Objective
 
@@ -25,17 +25,22 @@ The existing baseline is intentionally retained as historical compatibility stat
 
 These behaviors remain supported until a later Phase 13 compatibility cutover. They are not the semantic rules for the new layer.
 
-## P13.0 Architecture Contract
+## P13.0 Architecture Contract — VALIDATED
+
+Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`.
+Validation anchor: `4422fae5e2a4546585a43237d2124f466c457543`.
+
+Validation evidence:
+- x64 run `33554568574`, job `100012110127`: `399 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33554568570`, job `100012110488`: native `aarch64`, `399 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 P13.0 is documentation/test contract work only. It intentionally creates **no database migration** and does not mutate legacy analytical tables.
-
-The first schema-bearing work begins only after P13.0 is validated.
 
 ### Semantic claim identity
 
 A semantic claim is not identified solely by a headline or normalized headline.
 
-The future structured claim contract must be able to represent, where applicable:
+The structured claim contract must be able to represent, where applicable:
 - claimant / attributed actor;
 - normalized proposition;
 - subject / object or theme;
@@ -151,12 +156,29 @@ Coverage confidence remains separate and cannot promote factual verification con
 - A later cutover may change live output wording and verification behavior only after deterministic compatibility tests and stored migration evidence.
 - No LLM/model extraction output may directly promote canonical factual truth state. Model output may propose structured objects; policy validates and records them.
 
+## P13.1 Current Work Package — Structured Semantic Claim Model
+
+State: `CURRENT / NOT_STARTED`.
+Expected gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
+
+P13.1 is the first schema-bearing Phase 13 package. Its scope is deliberately narrow:
+- additive structured semantic claim persistence;
+- explicit claim identity/version/supersession fields;
+- normalized proposition plus structured actor/subject/event/polarity/modality/time/location/quantity/language/extraction metadata;
+- links to legacy/live/raw objects without destructive rewrite;
+- deterministic validation and compatibility tests.
+
+P13.1 must not implement:
+- provenance/underlying-origin relations — P13.2;
+- evidence relation/independence assessment — P13.3;
+- contradiction lifecycle — P13.4;
+- verification-policy engine/multidimensional factual confidence — P13.5;
+- live analytical cutover — P13.6.
+
 ## Internal Phase 13 Sequencing
 
-These P13.x labels are implementation work packages derived from the approved Phase 13 architecture; they do not replace the strategic ROADMAP phase numbering.
-
-- `P13.0` — Semantic Verification Architecture Contract — **CURRENT**;
-- `P13.1` — Structured Semantic Claim Model and additive persistence;
+- `P13.0` — Semantic Verification Architecture Contract — **VALIDATED**;
+- `P13.1` — Structured Semantic Claim Model and additive persistence — **CURRENT / NOT_STARTED**;
 - `P13.2` — Provenance / Underlying-Origin Relation Model;
 - `P13.3` — Evidence Relation and Independence Assessment;
 - `P13.4` — Typed Contradiction Model and resolution lifecycle;
@@ -186,13 +208,8 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 
 Public KGM API/dashboard ingress remains not approved/deployed. Backend HTTPS remains not deployed. Private GPT backend Action remains not connected. Paid providers remain `NONE_APPROVED`. Public SSH TCP/22 from `0.0.0.0/0` and broad outbound egress remain explicit owner-approved candidate exceptions.
 
-## P13.0 Gate
+## Current Gate
 
-Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`
+Next gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
 
-P13.0 passes only when:
-- this contract and canonical state are synchronized;
-- regression tests guard the headline/domain-count prohibition and compatibility boundary;
-- full x64 and native ARM64 regression are green on the exact validation commit.
-
-P13.1 must not start before this gate is validated and saved.
+P13.2 must not start before P13.1 is implemented, validated and saved.
