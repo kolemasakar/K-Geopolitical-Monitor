@@ -2,8 +2,8 @@
 
 Chronological record of major approved K-Geopolitical Monitor milestones.
 
-Version: 4.6
-Status: ACTIVE / P12_5_VALIDATED
+Version: 4.7
+Status: ACTIVE / PHASE_13 / P13.1_VALIDATED / P13.2_CURRENT
 
 ## Validated Historical Baseline
 
@@ -73,12 +73,61 @@ P12.5 validates measurement completeness, not universal source health. It adds n
 
 Gate: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`.
 
+## 2026-09-01 — P12.6 Phase 12 Validation Matrix
+
+Phase 12 closed with `PASS_WITH_KNOWN_LIMITATIONS` and gate `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`.
+
+Final Phase 12 closure HEAD: `3211994450c11698a553f5249e3ecec94079b5ad`.
+- x64 run `33552777066`, job `100006077954`: `391 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33552776997`, job `100006077747`: native `aarch64`, `391 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Known limitations remained explicit: European Parliament parser degradation, Haberturk item-URL failure observation, stale OSCE content observation, limited `uk/ru/pl/tr` language slice, broad outbound egress and public SSH candidate exceptions. None of these observations were converted into truth or exhaustive coverage claims.
+
+## 2026-09-01 — P13.0 Semantic Verification Architecture Contract
+
+Phase 13 began with an architecture/test contract rather than a schema change.
+
+Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`.
+Validation anchor: `4422fae5e2a4546585a43237d2124f466c457543`.
+- x64 run `33554568574`, job `100012110127`: `399 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33554568570`, job `100012110488`: native `aarch64`, `399 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+P13.0 established that semantic claim identity is not headline identity; publisher/publication is distinct from cited source and underlying origin; evidence relation, independence, contradiction and verification are separate layers; count-based domain/host shortcuts cannot become canonical truth rules; extraction, factual and coverage confidence remain separate.
+
+## 2026-09-01 — P13.1 Structured Semantic Claim Model
+
+P13.1 introduced the first additive Phase 13 semantic schema.
+
+Implementation/validation anchor: `69c3282077ad8dd90ef239c0594be56f9363bfe5`.
+- migration `023_structured_semantic_claim_model.sql`;
+- module `src/kgeopolitical_monitor/semantic_claims.py`;
+- deterministic regression suite `tests/test_semantic_claims.py`;
+- canonical database migration guard updated for migration 023.
+
+Validation evidence:
+- x64 run `33555804493`, job `100016206225`: `408 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33555804396`, job `100016205406`: native `aarch64`, `408 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Validated behavior:
+- explicit caller-controlled semantic claim identity;
+- append-only versioning and supersession;
+- structured proposition, actor/subject/object/action, polarity, modality, time/location/quantity, original-language and extraction metadata;
+- non-evidentiary links to legacy claims, live-analysis claims and raw items;
+- Unicode/original-language preservation;
+- extraction confidence remains separate from factual confidence;
+- no P13.2-P13.5 provenance/independence/contradiction/verification-policy fields were introduced.
+
+Gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
+
 ## Current State
 
 - strategic ROADMAP: `APPROVED / v4`;
-- Phase 12 P12.0-P12.5: `VALIDATED`;
-- next activity: `P12.6_PHASE_12_VALIDATION_MATRIX / NEXT_NOT_STARTED`;
-- phase gate to evaluate next: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`;
+- Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
+- Phase 13: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
+- P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
+- P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
+- current activity: `P13.2_PROVENANCE_ORIGIN_RELATION_MODEL / CURRENT_NOT_STARTED`;
+- next gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
 - paid providers: none approved;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - broad outbound egress: retained explicit owner-approved candidate exception;

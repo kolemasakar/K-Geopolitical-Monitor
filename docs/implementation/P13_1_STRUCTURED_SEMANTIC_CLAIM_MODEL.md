@@ -1,10 +1,11 @@
 # Phase 13 P13.1 — Structured Semantic Claim Model
 
 Date: 2026-09-01
-Status: `IMPLEMENTED / VALIDATION_PENDING`
+Status: `VALIDATED`
 Gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`
 Parent phase: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE`
 Parent gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`
+Validation anchor: `69c3282077ad8dd90ef239c0594be56f9363bfe5`
 
 ## Purpose
 
@@ -66,8 +67,19 @@ P13.1 does **not** implement:
 - verification policy engine or multidimensional factual confidence — P13.5;
 - live compatibility cutover — P13.6.
 
-## Validation Requirements
+## Validation Evidence
 
+Exact implementation/validation anchor: `69c3282077ad8dd90ef239c0594be56f9363bfe5`.
+
+- x64 CI run `33555804493`, job `100016206225`: `408 passed, 1 warning / SUCCESS`.
+- native ARM64 run `33555804396`, job `100016205406`: native `aarch64`, `408 passed, 1 warning / SUCCESS`.
+- ARM64 bootstrap shell validation: PASS.
+- unattended one-tick smoke: PASS.
+- systemd unit contract validation: PASS.
+
+The single warning remains the existing FastAPI/Starlette TestClient deprecation warning.
+
+Validated deterministic guards cover:
 - migration idempotence through canonical database initialization;
 - Unicode/original-language preservation;
 - explicit identity independent of identical wording;
@@ -76,9 +88,7 @@ P13.1 does **not** implement:
 - extraction-confidence validation and truth-confidence separation;
 - compatibility links to legacy/live/raw targets;
 - link target fail-closed validation;
-- schema guard proving P13.2-P13.5 truth fields are absent;
-- full x64 regression;
-- native ARM64 regression plus bootstrap/unattended/systemd checks.
+- schema guard proving P13.2-P13.5 truth fields are absent.
 
 ## Runtime / Security Boundary
 
@@ -86,3 +96,9 @@ Production/live operational status: NOT_OPERATIONAL
 Runtime storage mode: PROJECT_LOCAL_ONLY
 
 P13.1 does not activate public ingress, backend HTTPS, GPT Action, shared runtime, paid providers or autonomous truth promotion.
+
+## Next Package
+
+`P13.2_PROVENANCE_ORIGIN_RELATION_MODEL` becomes `CURRENT / NOT_STARTED` after this validated gate is saved.
+
+P13.2 must add explicit provenance/origin relations without yet implementing evidence independence, contradiction resolution, verification promotion or live cutover.

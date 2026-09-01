@@ -1,10 +1,10 @@
 # Phase 13 — Semantic Verification and Provenance Intelligence
 
 Date: 2026-09-01
-Status: `ACTIVE_ENGINEERING_PHASE / P13.0_VALIDATED / P13.1_CURRENT`
+Status: `ACTIVE_ENGINEERING_PHASE / P13.0_VALIDATED / P13.1_VALIDATED / P13.2_CURRENT`
 Project: K-Geopolitical Monitor
 Strategic phase gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
-Current activity: `P13.1_STRUCTURED_SEMANTIC_CLAIM_MODEL`
+Current activity: `P13.2_PROVENANCE_ORIGIN_RELATION_MODEL`
 
 ## Objective
 
@@ -156,30 +156,53 @@ Coverage confidence remains separate and cannot promote factual verification con
 - A later cutover may change live output wording and verification behavior only after deterministic compatibility tests and stored migration evidence.
 - No LLM/model extraction output may directly promote canonical factual truth state. Model output may propose structured objects; policy validates and records them.
 
-## P13.1 Current Work Package — Structured Semantic Claim Model
+## P13.1 Structured Semantic Claim Model — VALIDATED
+
+Gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
+Validation anchor: `69c3282077ad8dd90ef239c0594be56f9363bfe5`.
+
+Validation evidence:
+- x64 run `33555804493`, job `100016206225`: `408 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33555804396`, job `100016205406`: native `aarch64`, `408 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+P13.1 introduced additive migration `023_structured_semantic_claim_model.sql` with:
+- append-only `semantic_claim_versions`;
+- append-only `semantic_claim_links`;
+- explicit caller-controlled semantic identity and version/supersession;
+- structured proposition, actor/subject/object/action, polarity, modality, time/location/quantity, original-language and extraction metadata;
+- non-evidentiary links to legacy claims, live-analysis claims and raw items;
+- fail-closed validation of link targets and structured values;
+- explicit separation of extraction confidence from factual/coverage confidence.
+
+P13.1 intentionally contains no P13.2-P13.5 truth semantics: no underlying-origin field, independence state, evidence relation, contradiction state, verification state, factual confidence or coverage confidence.
+
+## P13.2 Current Work Package — Provenance / Underlying-Origin Relation Model
 
 State: `CURRENT / NOT_STARTED`.
-Expected gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
+Expected gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
 
-P13.1 is the first schema-bearing Phase 13 package. Its scope is deliberately narrow:
-- additive structured semantic claim persistence;
-- explicit claim identity/version/supersession fields;
-- normalized proposition plus structured actor/subject/event/polarity/modality/time/location/quantity/language/extraction metadata;
-- links to legacy/live/raw objects without destructive rewrite;
-- deterministic validation and compatibility tests.
+P13.2 is responsible for additive, auditable provenance/origin persistence tied to semantic claims and acquired/raw evidence.
 
-P13.1 must not implement:
-- provenance/underlying-origin relations — P13.2;
-- evidence relation/independence assessment — P13.3;
+Required scope:
+- distinguish publication/publisher, immediate acquired source, cited/quoted source and asserted underlying origin;
+- represent official statement/document, wire/syndication, dataset/structured-data, social/user-provided and unresolved/mixed origins;
+- represent derivation such as citation, syndication, repost and translation without creating another independent origin;
+- retain explicit `UNKNOWN/UNRESOLVED` where origin cannot be established;
+- preserve source/publication URL and identity traceability without conflating publisher with origin;
+- use append-only/versionable persistence and deterministic validation;
+- link to P13.1 semantic claim versions and existing raw/source objects without destructive rewrite.
+
+P13.2 must not implement:
+- evidentiary independence decision or evidence stance — P13.3;
 - contradiction lifecycle — P13.4;
-- verification-policy engine/multidimensional factual confidence — P13.5;
+- verification promotion or multidimensional factual confidence — P13.5;
 - live analytical cutover — P13.6.
 
 ## Internal Phase 13 Sequencing
 
 - `P13.0` — Semantic Verification Architecture Contract — **VALIDATED**;
-- `P13.1` — Structured Semantic Claim Model and additive persistence — **CURRENT / NOT_STARTED**;
-- `P13.2` — Provenance / Underlying-Origin Relation Model;
+- `P13.1` — Structured Semantic Claim Model and additive persistence — **VALIDATED**;
+- `P13.2` — Provenance / Underlying-Origin Relation Model — **CURRENT / NOT_STARTED**;
 - `P13.3` — Evidence Relation and Independence Assessment;
 - `P13.4` — Typed Contradiction Model and resolution lifecycle;
 - `P13.5` — Verification Policy Engine and multidimensional confidence;
@@ -210,6 +233,6 @@ Public KGM API/dashboard ingress remains not approved/deployed. Backend HTTPS re
 
 ## Current Gate
 
-Next gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
+Next gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
 
-P13.2 must not start before P13.1 is implemented, validated and saved.
+P13.3 must not start before P13.2 is implemented, validated and saved.

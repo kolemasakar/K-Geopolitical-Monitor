@@ -1,8 +1,8 @@
 # DATA_MODELS
 Canonical data concepts for K-Geopolitical Monitor.
 
-Version: 2.7
-Status: APPROVED / PHASE_12_VALIDATED / PHASE_13_P13.0_VALIDATED / P13.1_CURRENT
+Version: 2.8
+Status: APPROVED / PHASE_12_VALIDATED / P13.1_VALIDATED / P13.2_CURRENT
 
 ## Principle
 
@@ -10,7 +10,7 @@ Data provenance must be preserved from acquisition through analytical and operat
 
 ## Implemented Canonical Domains
 
-The project-local model includes source identity/raw items, immutable source-portfolio versions, collection attempts/provenance, reproducibility audit metadata, translations, source reputation/status, legacy claims/evidence/events, live-analysis claims/evidence, monitoring/alerts, region-language coverage, graph, forecasts/calibration, reporting and owner-only runtime-health state.
+The project-local model includes source identity/raw items, immutable source-portfolio versions, collection attempts/provenance, reproducibility audit metadata, translations, source reputation/status, legacy claims/evidence/events, live-analysis claims/evidence, additive structured semantic-claim versions/links, monitoring/alerts, region-language coverage, graph, forecasts/calibration, reporting and owner-only runtime-health state.
 
 ## Phase 12 Validated Boundary
 
@@ -33,34 +33,42 @@ These tables remain readable. Their current headline/host-based semantics are no
 Phase 13 semantic model v2 architecture: `P13.0_VALIDATED`.
 Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`.
 
-P13.0 creates no database migration. It validates the compatibility and schema requirements that P13.1+ must implement additively.
+P13.0 creates no database migration. It validates the compatibility and schema requirements that P13.1+ implement additively.
 
-Validated future semantic claim requirements include claimant/actor, normalized proposition, subject/object/theme, event/action type, negation/polarity, modality, time, location, quantitative values/units, original language, extraction method/version, extraction confidence, version/supersession and links to legacy/live/raw objects.
+Validated semantic claim requirements include claimant/actor, normalized proposition, subject/object/theme, event/action type, negation/polarity, modality, time, location, quantitative values/units, original language, extraction method/version, extraction confidence, version/supersession and links to legacy/live/raw objects.
 
 A single publication may contain multiple semantic claims. Different wording may represent the same proposition; similar wording may represent different propositions.
 
 ## P13.1 Structured Semantic Claim Model
 
+State: `VALIDATED`.
+Gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
+Migration: `023_structured_semantic_claim_model.sql`.
+
+P13.1 adds two append-only tables:
+- `semantic_claim_versions`;
+- `semantic_claim_links`.
+
+`semantic_claim_versions` stores explicit caller-controlled semantic identity, monotonic version number, normalized proposition, claimant/actor, subject, object/theme, event/action type, polarity, modality, structured time/location/quantity JSON, original language, extraction method/version/confidence, supersession and creation metadata.
+
+`semantic_claim_links` stores non-evidentiary links from a semantic claim version to `LEGACY_CLAIM`, `LIVE_ANALYSIS_CLAIM` or `RAW_ITEM` targets. Link existence means association only; it does not mean `SUPPORTS`, `CONTRADICTS`, provenance identity or evidentiary independence.
+
+Both tables are append-only through SQL triggers. Semantic identity is not auto-merged from identical proposition text, normalized headlines, publishers, embeddings or storage hashes.
+
+`extraction_confidence` is explicitly extraction-only. P13.1 contains no `underlying_origin`, `independence_state`, `evidence_relation`, `contradiction_state`, `verification_state`, `factual_confidence` or `coverage_confidence` fields.
+
+Validation anchor: `69c3282077ad8dd90ef239c0594be56f9363bfe5`.
+- x64 run `33555804493`, job `100016206225`: `408 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33555804396`, job `100016205406`: native `aarch64`, `408 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+## P13.2 Provenance / Underlying-Origin Relation Model
+
 State: `CURRENT / NOT_STARTED`.
-Expected gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
+Expected gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
 
-P13.1 is the first schema-bearing Phase 13 work package. It must use additive persistence and link semantic claim objects to legacy/live/raw objects. It must not prematurely implement P13.2 provenance-origin relations, P13.3 independence/evidence assessment, P13.4 contradiction resolution or P13.5 verification-policy semantics.
+P13.2 is responsible for explicit provenance/origin relations. It must distinguish publisher/publication, immediate acquired source, cited/quoted source, asserted underlying origin, official statement/document origin, wire/syndication origin, dataset/structured-data origin, social/user-provided origin, derivation relations and unresolved/mixed origin.
 
-## Provenance / Origin Model Contract
-
-Future provenance must distinguish:
-- publisher/publication;
-- immediate acquired source;
-- cited/quoted source;
-- asserted underlying origin;
-- official statement/document origin;
-- wire/syndication origin;
-- dataset/structured-data origin;
-- social/user-provided origin;
-- translation/repost/syndication/citation derivation;
-- unresolved/mixed origin.
-
-Unknown underlying origin remains unknown; another hostname or language is not proof of a new origin.
+P13.2 must not infer origin identity from a different hostname, publisher or language. Unknown origin remains explicit. P13.2 must not yet decide evidentiary independence, contradiction resolution or verification promotion.
 
 ## Evidence Relation / Independence Contract
 
@@ -98,9 +106,9 @@ Semantic extraction confidence is not factual verification confidence. Coverage 
 
 - Phase 13 uses additive migrations unless a later explicit architecture decision authorizes otherwise;
 - existing `claims`, `evidence`, `live_analysis_claims`, `live_analysis_evidence` rows are not destructively rewritten;
-- new semantic objects must link to historical/raw objects;
+- P13.1 semantic objects link to historical/raw objects rather than replacing them;
 - model/LLM extraction may propose structured objects but cannot directly promote canonical truth state;
-- P13.1 is now the current first schema-bearing work package.
+- P13.2 is the current provenance/origin package and must remain separate from later independence/verification packages.
 
 ## Runtime Storage Boundary
 
@@ -112,9 +120,11 @@ Shared/mixed canonical runtime storage remains not approved.
 ## Current State
 
 - migration 022/source portfolio: `VALIDATED`;
+- migration 023/structured semantic claim model: `VALIDATED`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`;
 - Phase 13 P13.0 gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
-- P13.0 architecture contract: `VALIDATED`;
-- P13.1 semantic schema: `CURRENT / NOT_STARTED`;
+- Phase 13 P13.1 gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
+- P13.1 semantic schema: `VALIDATED`;
+- P13.2 provenance/origin model: `CURRENT / NOT_STARTED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.
