@@ -42,6 +42,7 @@ K-Geopolitical Monitor is designed for discovery, provenance-aware verification,
 - current engineering activity: `P12.0_CANONICAL_ARCHITECTURE_SECURITY_INTEGRATION_CONVERGENCE`.
 
 Production/live operational status: NOT_OPERATIONAL
+Runtime storage mode: PROJECT_LOCAL_ONLY
 
 ## Canonical Validation Evidence Retained
 
