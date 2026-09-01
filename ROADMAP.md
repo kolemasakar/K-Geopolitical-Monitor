@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 2.8
+Version: 2.9
 Status: APPROVED
 Project: K-Geopolitical Monitor
 
@@ -425,12 +425,40 @@ E7 canonical regression at SHA `72f049b30fcaa3711c7712c8df7d1da1f934f650`:
 - native ARM64 run `33265984622`, job `99136020853`: 294 passed, 1 warning in 28.09s, SUCCESS;
 - native architecture `aarch64`, bootstrap-shell, one-tick smoke and systemd contract: PASS.
 
-### Remaining workstreams
+### E9A - Owner-Only Production Runtime Hardening
 
-Execution order:
+State:
+APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION
+
+Decision:
+`docs/decisions/E9A_OWNER_ONLY_PRODUCTION_HARDENING_DECISION_2026-09-01.md`
+
+Plan:
+`docs/implementation/E9A_OWNER_ONLY_PRODUCTION_RUNTIME_HARDENING_PLAN.md`
+
+Approved scope:
+- single-instance runtime lease;
+- explicit SQLite durability/concurrency profile;
+- owner-only backup/disaster-recovery hardening;
+- owner-only runtime health instrumentation;
+- deployment/security hardening review;
+- x64, native ARM64 and real-host validation.
+
+Mandatory boundaries:
+- runtime storage remains PROJECT_LOCAL_ONLY;
+- no shared/mixed runtime database;
+- no public API/dashboard/GPT exposure;
+- E8 Business/publication remains user-deferred;
+- E9 Shared Production Runtime remains NOT_APPROVED;
+- production/live remains NOT_OPERATIONAL until a separate explicit launch decision.
+
+### Remaining deferred workstreams
+
+Execution state:
 - E6 Reproducibility Instrumentation - P1 - BASELINE_VALIDATED;
 - E7 Forecast Probability Semantics - P1 - BASELINE_VALIDATED;
-- E8 Controlled External Sharing / Public GPT - DEFERRED - NOT_APPROVED;
+- E8 Controlled External Sharing / Public GPT - USER_DEFERRED_UNTIL_SEPARATE_REQUEST;
+- E9A Owner-Only Production Runtime Hardening - CURRENT / APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION;
 - E9 Shared Production Runtime - DEFERRED - NOT_APPROVED.
 
 Post-pilot invariants:
@@ -448,7 +476,7 @@ Post-pilot invariants:
 ## Current implementation checkpoint
 
 - Product Concept: APPROVED
-- Roadmap: APPROVED
+- Roadmap: APPROVED / v2.9
 - Engineering implementation: BASELINE_VALIDATED through ROADMAP Phase 11
 - ROADMAP Phase 5 Controlled Pilot Monitoring: BASELINE_VALIDATED
 - ROADMAP Phase 6 Strategic Alerts and Continuous Monitoring: BASELINE_VALIDATED
@@ -465,6 +493,9 @@ Post-pilot invariants:
 - E5 Admin Read-Only Dashboard: BASELINE_VALIDATED / LOCAL_PROTECTED / NOT_DEPLOYED
 - E6 Reproducibility Instrumentation: BASELINE_VALIDATED
 - E7 Forecast Probability Semantics: BASELINE_VALIDATED
+- E8 Controlled External Sharing / Public GPT: USER_DEFERRED_UNTIL_SEPARATE_REQUEST
+- E9A Owner-Only Production Runtime Hardening: CURRENT / APPROVED_FOR_DESIGN_AND_LOCAL_IMPLEMENTATION
+- E9 Shared Production Runtime: DEFERRED / NOT_APPROVED
 - Shared Infrastructure Architecture Review: COMPLETE; HYBRID adopted
 - Shared Infrastructure ADR: APPROVED
 - Runtime storage mode: PROJECT_LOCAL_ONLY
@@ -482,8 +513,8 @@ Post-pilot invariants:
 - Backend HTTPS deployment: NOT_DEPLOYED
 - Unattended cloud runtime: DEPLOYED_OWNER_ONLY_REAL_HOST_VALIDATED / NOT_PRODUCTION
 - Admin dashboard deployment: NOT_DEPLOYED
-- Public sharing: DEFERRED
+- Public sharing: USER_DEFERRED_UNTIL_SEPARATE_REQUEST
 - Shared production runtime: NOT_APPROVED
-- Current engineering activity: TRANSITION_READY / E8-E9 DEFERRED / NO APPROVED NEXT IMPLEMENTATION
+- Current engineering activity: E9A_OWNER_ONLY_PRODUCTION_RUNTIME_HARDENING / E9A.1_SINGLE_INSTANCE_RUNTIME_LEASE
 - Next roadmap phase: NONE_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
