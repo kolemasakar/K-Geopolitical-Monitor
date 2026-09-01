@@ -1,8 +1,8 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring and intelligence platform.
 
-Version: 4.6
-Status: ACTIVE / ROADMAP_V4_PHASE_12 / P12_5_VALIDATED_WITH_MEASURED_DEGRADATION
+Version: 4.7
+Status: ACTIVE / ROADMAP_V4 / PHASE_12_VALIDATED_WITH_KNOWN_LIMITATIONS / PHASE_13_NEXT
 
 ## Purpose
 
@@ -10,18 +10,17 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 
 ## Canonical Documentation
 
-- `ROADMAP.md` — ROADMAP v4 and current Phase 12 state;
+- `ROADMAP.md` — ROADMAP v4 and current phase state;
 - `ARCHITECTURE.md` — architecture/truth/storage/runtime boundaries;
 - `SECURITY_AND_DATA_POLICY.md` — security/data policy;
 - `EXTERNAL_INTEGRATIONS.md` — integration/source rules;
 - `SOURCE_POLICY.md` — source/provenance governance;
 - `DATA_MODELS.md` — canonical data-model summary;
 - `PROJECT_HISTORY.md` — chronological project record;
-- `docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md` — Phase 12 plan;
-- `docs/implementation/P12_5_SOURCE_HEALTH_EGRESS_INVENTORY.md` — P12.5 implementation;
-- `docs/implementation/P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_RESULT.md` — P12.5 result;
-- `docs/implementation/P12_5_CONTROLLED_LIVE_SOURCE_HEALTH_MATRIX.md` — P12.5 controlled-live evidence;
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_5_SOURCE_HEALTH_EGRESS_VALIDATED.md` — current checkpoint.
+- `docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md` — Phase 12 plan and closure;
+- `docs/implementation/P12_6_PHASE_12_VALIDATION_MATRIX.md` — Phase 12 cross-gate matrix;
+- `docs/implementation/P12_6_PHASE_12_VALIDATION_MATRIX_RESULT.md` — Phase 12 validation result;
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_6_PHASE_12_VALIDATED.md` — current checkpoint.
 
 ## Current State
 
@@ -40,32 +39,33 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - P12.3: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`;
 - P12.4: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
 - P12.5: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`;
-- current/next engineering activity: `P12.6_PHASE_12_VALIDATION_MATRIX / NEXT_NOT_STARTED`;
+- P12.6 / Phase 12 gate: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
+- current/next engineering activity: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE / NEXT_NOT_STARTED`;
 - production/live: `NOT_OPERATIONAL`.
 
 Production/live operational status: NOT_OPERATIONAL
 Runtime storage mode: PROJECT_LOCAL_ONLY
 
-## P12.5 Validation Evidence
+## Phase 12 Closure Evidence
 
-Validation anchor: `92d0c0516351e2af7ba836d3ae711dd414d22023`.
+P12.6 validation anchor: `c6aca6a2fe3c0dc991b267efa82c5748bd6460e2`.
 
-- x64 CI: run `33533313297`, job `99941475948`, `382 passed, 1 warning / SUCCESS`;
-- native ARM64: run `33533313313`, job `99941475266`, native `aarch64`, `382 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS;
-- controlled-live: run `33533313654`, job `99941475574`, workflow `SUCCESS`, `10/10` source paths measured, `8 SUCCESS / 2 FAILED`.
+- x64 CI: run `33546794411`, job `99986187419`, `391 passed, 1 warning / SUCCESS`;
+- native ARM64: run `33546794273`, job `99986186748`, native `aarch64`, `391 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS;
+- decision: `PASS_WITH_KNOWN_LIMITATIONS`;
+- gate: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`.
 
-P12.5 validates measurement completeness and egress inventory, not an all-sources-healthy claim.
+P12.5 controlled-live evidence remains part of the Phase 12 decision: validation anchor `92d0c0516351e2af7ba836d3ae711dd414d22023`, run `33533313654`, job `99941475574`, all `10/10` governed paths measured, `8 SUCCESS / 2 FAILED`.
 
-## P12.5 Measured Health / Freshness
+## Known Phase 12 Limitations
 
-Controlled-live findings:
-- European Parliament Press Releases — governed `DEGRADED`; measured `UNAVAILABLE / PARSER`;
-- Haberturk — governed `ACTIVE`; measured `UNAVAILABLE / UNKNOWN` because an item `original_url` failed HTTP/HTTPS validation;
-- OSCE Latest News — acquisition `HEALTHY`; observed publisher content `STALE`;
-- Consilium and European Commission — acquisition `HEALTHY`, zero bounded watch matches, content freshness `UNKNOWN`;
-- GDELT, Meduza, RMF24, Ukrainska Pravda and GOV.UK — acquisition `HEALTHY` in the probe; content freshness is recorded only when a parseable source timestamp exists.
+- European Parliament Press Releases — governed `DEGRADED`; measured `UNAVAILABLE / PARSER` on the unattended endpoint;
+- Haberturk — governed `ACTIVE`; measured `UNAVAILABLE / UNKNOWN` after an item `original_url` failed HTTP/HTTPS validation; explicit remediation is required before any governance change;
+- OSCE Latest News — acquisition `HEALTHY`, observed publisher content `STALE`;
+- `uk/ru/pl/tr` is a prioritized initial language slice, not global language coverage;
+- controlled-live observations are point-in-time evidence, not continuous-uptime guarantees.
 
-A governed portfolio state and a measured operational observation are deliberately separate. P12.5 did not silently rewrite P12.3/P12.4 governance from a single probe.
+A governed portfolio state and a measured operational observation are deliberately separate. Phase 12 did not silently rewrite governance from a single probe.
 
 ## Measured Egress Inventory
 
@@ -74,20 +74,6 @@ P12.5 inventoried ten current HTTPS host requirements:
 
 This is measurement evidence, not a deployed firewall allowlist. Broad outbound egress remains an explicit owner-approved candidate exception pending a separate decision.
 
-## Local-Language and Media Discovery Pack
-
-P12.4 validated the initial governed language slice:
-- `uk` — Ukrainska Pravda;
-- `ru` — Meduza;
-- `pl` — RMF24;
-- `tr` — Haberturk.
-
-P12.4's bounded validation observed four successful acquisition/parser paths. P12.5 is the later health measurement and therefore records the Haberturk item-URL validation failure separately without erasing the historical P12.4 result.
-
-Original-language Unicode content and source URL are preserved. Translation remains a separate derived representation and does not create another source or independent origin.
-
-The `uk/ru/pl/tr` pack is a prioritized initial language slice, not global language coverage, continuous source-health proof or exhaustive regional coverage.
-
 ## Truth / Epistemic Boundaries
 
 - publisher/publication is not automatically the underlying origin;
@@ -95,7 +81,7 @@ The `uk/ru/pl/tr` pack is a prioritized initial language slice, not global langu
 - official-source status proves the source made a statement, not automatically the underlying event claim;
 - source reputation/status and source-portfolio metadata are not truth operators;
 - adapter/source/domain/item count is not independent-origin count;
-- media/domain/language/adapter/item count is not independent-origin count;
+- media/domain/language/adapter/item/host count is not independent-origin count;
 - operational source health or content freshness does not promote factual verification;
 - translation remains derived and creates no independent origin;
 - graph inference is analytical context, not source evidence;
@@ -119,11 +105,11 @@ Remaining explicit owner-approved candidate networking exceptions:
 - public SSH TCP/22 from `0.0.0.0/0`;
 - broad outbound egress.
 
-P12.5 measured outbound requirements but did not deploy egress restriction.
+Phase 12 did not deploy egress restriction or production activation.
 
 ## Source / Integration State
 
-Consilium and GDELT remain validated baseline integrations. P12.3 authoritative and P12.4 local-language/media packs remain governed. P12.5 adds the validated read-only health/freshness/egress assessment layer and explicit current controlled-live observations.
+Consilium and GDELT remain validated baseline integrations. P12.3 authoritative and P12.4 local-language/media packs remain governed. P12.5 adds validated read-only health/freshness/egress assessment. P12.6 validates the complete chain while retaining measured degradation and scope limits.
 
 GDELT discovery is not independent factual corroboration. No source, media, domain, adapter, host or language count is treated as independent-origin count.
 
@@ -133,12 +119,12 @@ No paid source/data/translation/graph/forecast/reporting/coverage/notification p
 
 ## ROADMAP v4
 
-- Phase 12 — ACTIVE; P12.0-P12.5 validated; P12.6 NEXT/NOT_STARTED.
-- Phase 13 — approved sequential / not started.
+- Phase 12 — `VALIDATED_WITH_KNOWN_LIMITATIONS`; gate `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`.
+- Phase 13 — `NEXT / NOT_STARTED`.
 - Phase 14 — approved sequential / not started.
 - Phase 15 — approved sequential / not started.
 - Phase 16 — approved sequential / not started.
 - Phase 17 — conditional / not activated.
 - Phase 18 — conditional / new architecture approval required.
 
-No production launch, Business migration, public sharing, public backend exposure, outbound firewall restriction or shared runtime transition is implied by P12.5 validation.
+No production launch, Business migration, public sharing, public backend exposure, outbound firewall restriction or shared runtime transition is implied by Phase 12 validation.

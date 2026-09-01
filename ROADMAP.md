@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.6
+Version: 4.7
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -25,7 +25,7 @@ No M14 engineering label is created by ROADMAP v4.
 - an official statement establishes `actor said X`, not automatically `X happened`;
 - source reputation and source-portfolio metadata are context/governance, not truth operators;
 - adapter/source/domain/item count is not independent-origin count;
-- media/domain/language/adapter/item count is not independent-origin count;
+- media/domain/language/adapter/item/host count is not independent-origin count;
 - operational source health and content freshness are not truth operators;
 - translation remains derived and creates no independent origin;
 - graph inference cannot promote factual verification or independent-origin count;
@@ -59,7 +59,17 @@ E9A retains explicit owner-approved candidate networking exceptions:
 # ROADMAP v4 Development Line
 
 ## Phase 12 — Intelligence Quality and Source Network Foundation
-State: `APPROVED / ACTIVE_ENGINEERING_PHASE`
+State: `VALIDATED_WITH_KNOWN_LIMITATIONS`
+Gate: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`
+Decision: `PASS_WITH_KNOWN_LIMITATIONS`
+Validation matrix: `docs/implementation/P12_6_PHASE_12_VALIDATION_MATRIX.md`
+Result: `docs/implementation/P12_6_PHASE_12_VALIDATION_MATRIX_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_6_PHASE_12_VALIDATED.md`
+Validation anchor: `c6aca6a2fe3c0dc991b267efa82c5748bd6460e2`.
+
+Phase 12 validation evidence:
+- x64 run `33546794411`, job `99986187419`: `391 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33546794273`, job `99986186748`: native `aarch64`, `391 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 ### P12.0 — Canonical Architecture / Security / Integration Convergence
 State: `VALIDATED`
@@ -76,8 +86,6 @@ Gate: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`
 ### P12.3 — Priority Authoritative Source Pack
 State: `VALIDATED_WITH_EXPLICIT_DEGRADATION`
 Gate: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`
-Result: `docs/implementation/P12_3_PRIORITY_AUTHORITATIVE_SOURCE_PACK_RESULT.md`
-Controlled-live matrix: `docs/implementation/P12_3_CONTROLLED_LIVE_SOURCE_MATRIX.md`
 
 Governed P12.3 portfolio states remain:
 - European Commission Press Corner — `ACTIVE`;
@@ -85,18 +93,11 @@ Governed P12.3 portfolio states remain:
 - UK Government News and Communications — `ACTIVE`;
 - OSCE Latest News — `ACTIVE`.
 
-European Parliament remains degraded because its official endpoint returns non-feed/anti-bot content to unattended acquisition. No bypass or third-party canonical mirror is authorized.
-
-P12.5 later measured OSCE acquisition as healthy while observed publisher content was stale; this does not silently rewrite the P12.3 governed portfolio state.
+European Parliament remains degraded because its official endpoint returns non-feed/anti-bot content to unattended acquisition. No bypass or third-party canonical mirror is authorized. P12.5 later measured OSCE acquisition as healthy while observed publisher content was stale; this does not silently rewrite governance.
 
 ### P12.4 — Local-Language and Media Discovery Pack
 State: `VALIDATED`
 Gate: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`
-Implementation: `docs/implementation/P12_4_LOCAL_LANGUAGE_MEDIA_DISCOVERY_PACK.md`
-Result: `docs/implementation/P12_4_LOCAL_LANGUAGE_MEDIA_DISCOVERY_PACK_RESULT.md`
-Controlled-live matrix: `docs/implementation/P12_4_CONTROLLED_LIVE_LANGUAGE_SOURCE_MATRIX.md`
-Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED.md`
-Validation anchor: `595d7f0f0e6316e95aca518bb9309e615f239479`.
 
 Governed first language slice remains:
 - Ukrainian `uk` — Ukrainska Pravda — `ACTIVE`;
@@ -104,40 +105,36 @@ Governed first language slice remains:
 - Polish `pl` — RMF24 — `ACTIVE`;
 - Turkish `tr` — Haberturk — `ACTIVE`.
 
-P12.5 later measured one Haberturk item-URL validation failure and recorded the path `UNAVAILABLE` for that probe. The discrepancy is preserved for P12.6 review instead of silently rewriting governance from one observation.
-
-This is a prioritized initial slice, not global language coverage or continuous-uptime proof. Original-language text is preserved; translation remains a separate derived representation.
+P12.5 later measured one Haberturk item-URL validation failure and recorded the path `UNAVAILABLE` for that probe. The discrepancy is preserved for explicit remediation instead of silently rewriting governance. `uk/ru/pl/tr` is a prioritized initial slice, not global language coverage; translation remains derived.
 
 ### P12.5 — Source Health, Freshness and Egress Inventory
 State: `VALIDATED_WITH_MEASURED_DEGRADATION`
 Gate: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`
-Implementation: `docs/implementation/P12_5_SOURCE_HEALTH_EGRESS_INVENTORY.md`
-Result: `docs/implementation/P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_RESULT.md`
-Controlled-live matrix: `docs/implementation/P12_5_CONTROLLED_LIVE_SOURCE_HEALTH_MATRIX.md`
-Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_5_SOURCE_HEALTH_EGRESS_VALIDATED.md`
 Validation anchor: `92d0c0516351e2af7ba836d3ae711dd414d22023`.
 
 Validation evidence:
 - x64 run `33533313297`, job `99941475948`: `382 passed, 1 warning / SUCCESS`;
-- native ARM64 run `33533313313`, job `99941475266`: native `aarch64`, `382 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS;
-- controlled-live run `33533313654`, job `99941475574`: workflow SUCCESS, `10/10` source paths measured, `8 SUCCESS / 2 FAILED`.
+- native ARM64 run `33533313313`, job `99941475266`: `382 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS;
+- controlled-live run `33533313654`, job `99941475574`: `10/10` source paths measured, `8 SUCCESS / 2 FAILED`.
 
-Measured operational findings retained for Phase 12 reconciliation:
-- European Parliament — `UNAVAILABLE / PARSER` while governed `DEGRADED`;
-- Haberturk — `UNAVAILABLE / UNKNOWN` while governed `ACTIVE`;
+Measured findings retained:
+- European Parliament — governed `DEGRADED`, measured `UNAVAILABLE / PARSER`;
+- Haberturk — governed `ACTIVE`, measured `UNAVAILABLE / UNKNOWN`;
 - OSCE — acquisition `HEALTHY`, observed content `STALE`.
 
-P12.5 inventoried ten required HTTPS hosts. It did not deploy an outbound allowlist; broad outbound egress remains the explicit owner-approved candidate exception pending a separate restriction decision.
+Ten required HTTPS hosts were inventoried. No outbound allowlist was deployed; broad outbound egress remains an explicit owner-approved candidate exception.
 
 ### P12.6 — Phase 12 Validation Matrix
-State: `NEXT / NOT_STARTED`
-Current activity: `P12.6_PHASE_12_VALIDATION_MATRIX / NEXT_NOT_STARTED`
-Phase gate: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`
+State: `VALIDATED`
+Gate: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`
+Decision: `PASS_WITH_KNOWN_LIMITATIONS`
+Validation anchor: `c6aca6a2fe3c0dc991b267efa82c5748bd6460e2`.
 
-P12.6 must reconcile P12.0-P12.5 evidence, including measured source degradation/staleness and the difference between governed portfolio state and latest operational observation. It must not convert source availability into truth, coverage completeness or production acceptance.
+P12.6 reconciles P12.0-P12.5 evidence and explicitly retains external-source degradation/staleness, portfolio-vs-observation differences, limited language scope, security exceptions and production/runtime boundaries. It does not convert source availability into truth, coverage completeness or production acceptance.
 
 ## Phase 13 — Semantic Verification and Provenance Intelligence
-State: `APPROVED_SEQUENTIAL / NOT_STARTED`
+State: `NEXT / NOT_STARTED`
+Current activity: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE / NEXT_NOT_STARTED`
 Gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
 
 ## Phase 14 — Owner Operational Intelligence Activation
@@ -164,14 +161,10 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.6`;
-- P12.0: `VALIDATED`;
-- P12.1: `VALIDATED`;
-- P12.2: `VALIDATED`;
-- P12.3: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`;
-- P12.4: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
-- P12.5: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`;
-- current/next engineering activity: `P12.6_PHASE_12_VALIDATION_MATRIX / NEXT_NOT_STARTED`;
+- state synchronization: `v4.7`;
+- Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
+- P12.0-P12.6: validated;
+- current/next engineering activity: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE / NEXT_NOT_STARTED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared runtime storage: `BLOCKED`;
 - production/live operational status: `NOT_OPERATIONAL`;
@@ -182,4 +175,4 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - paid providers: `NONE_APPROVED`.
 
 Next phase gate to evaluate:
-`PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`
+`PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
