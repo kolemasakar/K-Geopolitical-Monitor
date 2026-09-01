@@ -79,13 +79,15 @@ def test_p12_6_preserves_truth_runtime_security_boundaries():
     assert "broad outbound egress" in matrix
 
 
-def test_p12_6_closes_phase12_and_advances_only_phase13_to_next():
+def test_p12_6_closes_phase12_and_allows_validated_sequential_phase13_progress():
     roadmap = _read("ROADMAP.md")
     readme = _read("README.md")
     assert "Phase 12 — Intelligence Quality and Source Network Foundation\nState: `VALIDATED_WITH_KNOWN_LIMITATIONS`" in roadmap
     assert "P12.6 — Phase 12 Validation Matrix\nState: `VALIDATED`" in roadmap
     assert "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED" in roadmap
-    assert "Phase 13 — Semantic Verification and Provenance Intelligence\nState: `NEXT / NOT_STARTED`" in roadmap
+    assert "Phase 13 — Semantic Verification and Provenance Intelligence\nState: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
+    assert "P13.0 — Semantic Verification Architecture Contract\nState: `CURRENT / IMPLEMENTED_PENDING_VALIDATION`" in roadmap
+    assert "P13.1 — Structured Semantic Claim Model\nState: `PLANNED / NOT_STARTED`" in roadmap
     assert "Phase 14 — Owner Operational Intelligence Activation\nState: `APPROVED_SEQUENTIAL / NOT_STARTED`" in roadmap
     assert "P12.6" in readme and "VALIDATED" in readme
-    assert "Phase 13" in readme and "NEXT / NOT_STARTED" in readme
+    assert "P13.0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT" in readme

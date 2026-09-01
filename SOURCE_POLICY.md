@@ -76,6 +76,7 @@ Legacy `origin_host` and `independent_origin_count` remain historical observatio
 
 ## Official / Media / Discovery Semantics
 
+- official sources are authoritative for their own statements, not automatically for the underlying event;
 - official sources are authoritative for what the institution published or stated, not automatically for the substantive event;
 - media publication may derive from own reporting, official statements, wire services, other publishers, social content, datasets or mixed/unresolved origins;
 - discovery/index services such as GDELT do not corroborate a claim merely by indexing it;

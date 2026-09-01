@@ -17,10 +17,11 @@ def test_p12_5_gate_and_later_phase_progress_are_canonical():
     for document in (roadmap, readme, plan, result):
         assert "P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED" in document
 
-    # Historical P12.5 closure must remain valid after the validated P12.6 gate.
+    # Historical P12.5 closure remains valid after Phase 12 closure and later Phase 13 activation.
     assert "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED" in roadmap
-    assert "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE / NEXT_NOT_STARTED" in roadmap
-    assert "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE / NEXT_NOT_STARTED" in readme
+    assert "Phase 13 — Semantic Verification and Provenance Intelligence" in roadmap
+    assert "State: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
+    assert "P13.0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT" in readme
     assert "P12.6 — Phase 12 Validation Matrix" in plan
     assert "State: `VALIDATED`" in plan
 
