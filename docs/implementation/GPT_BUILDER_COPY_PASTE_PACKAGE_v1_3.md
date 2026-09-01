@@ -1,21 +1,22 @@
 # K-Geopolitical Monitor - GPT Builder Copy-Paste Package
 
-Status: OWNER_ONLY_REMEDIATION_CANDIDATE
+Status: OWNER_ONLY_PUBLICATION_CANDIDATE_VALIDATED
 Version: 1.3
 Date: 2026-09-01
-Supersedes for re-test only: `docs/implementation/GPT_BUILDER_COPY_PASTE_PACKAGE_v1_2.md` v1.2
+Supersedes for publication-candidate validation: `docs/implementation/GPT_BUILDER_COPY_PASTE_PACKAGE_v1_2.md` v1.2
 Frozen tested baseline remains: `docs/implementation/GPT_BUILDER_COPY_PASTE_PACKAGE.md` v1.1
+Validation record: `docs/implementation/GPT_PUBLICATION_READINESS_REMEDIATION_V1_3_2026-09-01.md`
 Semantic policy source: `docs/implementation/GPT_PRIVATE_PILOT_CONFIGURATION.md` v2.0
 Builder constraint: Instructions <= 8000 characters
 Exact Builder Instructions length: 7568 characters
 
 ## Purpose
 
-Provide the second revised Builder-safe configuration for K-Geopolitical Monitor after v1.2 failed to prevent an unsupported `EXACT / TOOL-LOGGED` claim in GPT-PUB-23R.
+Provide the validated owner-only publication-candidate Builder configuration for K-Geopolitical Monitor after v1.2 failed to prevent an unsupported `EXACT / TOOL-LOGGED` claim in GPT-PUB-23R and v1.3 subsequently passed the dedicated remediation pair, provenance regression, backend/no-fabrication regression and publication-candidate disclosure review.
 
 Version 1.3 makes exact-history labeling conservative by default. Version 1.1 remains the frozen matrix-tested baseline; v1.2 remains preserved as the first failed remediation candidate.
 
-No public sharing, GPT Store publication, public Action, backend HTTPS, or E9 shared production runtime is activated by this package.
+This package is validated for the owner-only publication-candidate stage. It does not itself activate public sharing, GPT Store publication, public Action, backend HTTPS, E8B public backend, or E9 shared production runtime. Broader sharing remains blocked until the Business Workspace / Final Platform Gate passes and the owner grants explicit final approval.
 
 ## Change from v1.2
 
@@ -130,7 +131,7 @@ Never fabricate citations/URLs, source access, source independence, backend resu
 STYLE
 Be concise by default. Use headings/tables when they improve clarity. Do not hide material evidentiary or coverage limitations. For simple factual questions, answer directly and do not force a full intelligence-report template.
 
-## Owner-only Builder state for remediation
+## Owner-only Builder state for validated publication candidate
 
 - User count: 1
 - Sharing: OWNER_ONLY / Only me
@@ -140,15 +141,24 @@ Be concise by default. Use headings/tables when they improve clarity. Do not hid
 - Public Action: NONE
 - Public backend: NOT_DEPLOYED
 
-## Apply and re-test procedure
+## Validation status
 
-1. Keep v1.1 unchanged as the frozen tested baseline and v1.2 unchanged as the first failed remediation candidate.
-2. Replace the Builder Instructions field with the exact v1.3 text above.
-3. Confirm that the Builder accepts the Instructions under the 8000-character limit.
-4. Keep Knowledge empty and Actions/Apps unset.
-5. Keep sharing owner-only.
-6. Update the GPT.
-7. Re-run GPT-PUB-23R first; it should default search formulations to `RECONSTRUCTED / EQUIVALENT QUERY` unless directly inspectable authoritative instrumentation is genuinely exposed.
-8. Re-run GPT-PUB-24R as an adversarial cross-check.
-9. Only if both pass, run relevant regression cases covering no-fabrication, provenance and backend honesty before the publication gate.
-10. Do not enable broader sharing until remediation validation is complete.
+Validated on 2026-09-01:
+- GPT-PUB-23R2 reproducibility remediation: PASS;
+- GPT-PUB-24R2 exact-vs-reconstructed adversarial cross-check: PASS;
+- provenance/source-independence regression: PASS;
+- backend/no-fabrication regression: PASS;
+- publication-candidate disclosure review: PASS.
+
+See `docs/implementation/GPT_PUBLICATION_READINESS_REMEDIATION_V1_3_2026-09-01.md` for detailed evidence.
+
+## Final publication-gate procedure
+
+1. Keep v1.1 unchanged as the frozen tested baseline and v1.2 unchanged as the failed remediation candidate.
+2. Keep the target GPT on these exact v1.3 Instructions; do not make a material model/configuration change before the final gate without revalidation.
+3. Keep Knowledge empty and Actions/Apps unset for the baseline candidate.
+4. Keep sharing `OWNER_ONLY / Only me` until the final gate passes.
+5. Move/configure the target ChatGPT Business workspace when ready.
+6. Recheck current official OpenAI creator/publication eligibility, workspace GPT permissions, sharing modes, GPT Store/review requirements, builder profile/domain requirements and any new policy/capability restrictions.
+7. If the Business/platform gate passes, record explicit owner approval before changing sharing mode.
+8. Do not enable a public/persisted-state Action unless the separate Action gate is approved.
