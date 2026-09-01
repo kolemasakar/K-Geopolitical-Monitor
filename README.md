@@ -26,6 +26,10 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - strategic ROADMAP: `APPROVED / v4`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 12 final closure HEAD: `3211994450c11698a553f5249e3ecec94079b5ad`;
+- P12.3: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`;
+- P12.4: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
+- P12.5: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`;
+- P12.6: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`;
 - Phase 13: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
 - current engineering activity: `P13.0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT`;
 - P13.0: `CURRENT / IMPLEMENTED_PENDING_VALIDATION`;
@@ -87,6 +91,8 @@ Original-language Unicode content and source URL remain preserved. **Translation
 - official-source status proves the source made a statement, not automatically the underlying event claim;
 - source reputation/status, portfolio metadata, source health and freshness are not truth operators;
 - semantic extraction confidence is not factual verification confidence;
+- adapter/source/domain/item count is not independent-origin count;
+- media/domain/language/adapter/item count is not independent-origin count;
 - source/domain/media/language/adapter/item/host count is not independent-origin count;
 - graph inference is analytical context, not source evidence;
 - forecast probability/confidence cannot promote factual verification;
@@ -112,7 +118,7 @@ Remaining explicit owner-approved candidate networking exceptions:
 
 ## ROADMAP v4
 
-- Phase 12 — validated with known limitations.
+- Phase 12 — validated with known limitations; P12.0-P12.6 validated gates remain canonical.
 - Phase 13 — `APPROVED / ACTIVE_ENGINEERING_PHASE`; P13.0 current/pending validation.
 - Phase 14 — approved sequential / not started.
 - Phase 15 — approved sequential / not started.

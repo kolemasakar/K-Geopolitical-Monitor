@@ -16,6 +16,12 @@ Approved baseline classes remain Official sources, International media, Regional
 
 P12.1-P12.6 remain validated. Portfolio approval, adapter success, operational availability, freshness and source count do not establish factual truth or independent corroboration.
 
+Validated Phase 12 gates remain canonical:
+- `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`;
+- `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
+- `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`;
+- `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`.
+
 Known Phase 12 observations remain visible:
 - European Parliament — governed `DEGRADED`, measured `UNAVAILABLE / PARSER`;
 - Haberturk — governed `ACTIVE`, measured `UNAVAILABLE / UNKNOWN` for the P12.5 probe;
@@ -74,6 +80,11 @@ Legacy `origin_host` and `independent_origin_count` remain historical observatio
 - media publication may derive from own reporting, official statements, wire services, other publishers, social content, datasets or mixed/unresolved origins;
 - discovery/index services such as GDELT do not corroborate a claim merely by indexing it;
 - translation remains a separate derived representation and creates no new underlying origin.
+
+Historical Phase 12 invariants remain explicit:
+- adapter/source/domain/item count is not independent-origin count;
+- media/domain/language/adapter/item count is not independent-origin count;
+- media/domain/language/adapter/item/host count is not independent-origin count.
 
 ## Verification Promotion Boundary
 

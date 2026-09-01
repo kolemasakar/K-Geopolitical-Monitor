@@ -72,7 +72,42 @@ Final closure validation:
 - x64 run `33552777066`, job `100006077954`: `391 passed, 1 warning / SUCCESS`;
 - native ARM64 run `33552776997`, job `100006077747`: native `aarch64`, `391 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-P12.0-P12.6 remain validated. Known P12.3-P12.5 source degradation, language-scope limitations and networking exceptions remain explicit and are not converted into truth or production claims.
+### P12.0 — Canonical Architecture / Security / Integration Convergence
+State: `VALIDATED`
+Gate: `P12_0_CANONICAL_CONVERGENCE_VALIDATED`
+
+### P12.1 — Source Portfolio Contract and Governance
+State: `VALIDATED`
+Gate: `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`
+
+### P12.2 — Live Adapter Framework v2
+State: `VALIDATED`
+Gate: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`
+
+### P12.3 — Priority Authoritative Source Pack
+State: `VALIDATED_WITH_EXPLICIT_DEGRADATION`
+Gate: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`
+
+European Commission, European Parliament, GOV.UK and OSCE governance remains canonical. European Parliament remains explicitly degraded for unattended acquisition; OSCE's later stale-content observation remains separate from acquisition health.
+
+### P12.4 — Local-Language and Media Discovery Pack
+State: `VALIDATED`
+Gate: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`
+
+Validated initial slice remains `uk/ru/pl/tr`; this is not global language coverage. Translation remains derived and publisher identity is not underlying-origin identity.
+
+### P12.5 — Source Health, Freshness and Egress Inventory
+State: `VALIDATED_WITH_MEASURED_DEGRADATION`
+Gate: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`
+
+P12.5 retained European Parliament `UNAVAILABLE/PARSER`, Haberturk `UNAVAILABLE/UNKNOWN`, OSCE acquisition `HEALTHY` with observed content `STALE`, and ten measured HTTPS egress hosts without deploying an allowlist.
+
+### P12.6 — Phase 12 Validation Matrix
+State: `VALIDATED`
+Gate: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`
+Decision: `PASS_WITH_KNOWN_LIMITATIONS`
+
+P12.6 reconciles P12.0-P12.5 evidence and explicitly retains external-source degradation/staleness, limited language scope, security exceptions and production/runtime boundaries. It does not convert source availability into truth, coverage completeness or production acceptance.
 
 ## Phase 13 — Semantic Verification and Provenance Intelligence
 State: `APPROVED / ACTIVE_ENGINEERING_PHASE`
@@ -150,6 +185,7 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - Strategic ROADMAP: `APPROVED / v4`;
 - state synchronization: `v4.8`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
+- P12.0-P12.6 validated gates remain canonical;
 - Phase 13: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
 - current engineering activity: `P13.0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT`;
 - P13.1-P13.6: planned / not started;
