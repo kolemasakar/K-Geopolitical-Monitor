@@ -2,7 +2,7 @@
 
 Chronological record of major approved project milestones.
 
-Version: 2.8
+Version: 3.0
 Status: ACTIVE
 
 ## 2026-08-24 - Project foundation
@@ -187,36 +187,66 @@ Status: ACTIVE
 ## 2026-08-29 - D0 documentation convergence / E8 preflight approval
 
 - Owner approved D0 documentation convergence and an E8 read-only preflight/delta audit.
-- E8 implementation, public sharing, production exposure, shared runtime storage and E9 remain NOT_APPROVED.
-- D0 scope reconciles README, ARCHITECTURE and PROJECT_HISTORY with the validated post-E7 state.
-- E8 preflight is limited to architecture/security assessment and minimum implementation/gate definition.
+- E8 implementation, public sharing, production exposure, shared runtime storage and E9 remained outside the validated runtime state.
+- D0 reconciled README, ARCHITECTURE and PROJECT_HISTORY with the post-E7 state at that time.
+- Later owner decisions superseded the E8 trajectory; current state is recorded below.
+
+## 2026-09-01 - E9A Owner-Only Production Runtime Hardening
+
+- E9A was executed as an unnumbered post-Phase-11 engineering workstream; no ROADMAP Phase 12 or M14 was created.
+- E9A.1 added fail-closed project-local single-instance runtime leasing.
+- E9A.2 established the canonical SQLite durability/concurrency profile.
+- E9A.3 established canonical backup/restore and completed a real clean-project-root disaster-recovery drill.
+- E9A.4 added owner-only persisted runtime-health instrumentation without truth/coverage inflation.
+- E9A.5 hardened systemd/runtime/security policy and retained explicit owner security exceptions.
+- E9A.6 completed x64, native ARM64 and real OCI validation.
+- Real OCI state-preserving validation run `33486944907`: SUCCESS.
+- rpcbind persistent-closure run `33488954688`: SUCCESS.
+- Unnecessary TCP/UDP port 111 was removed; closure persisted after physical reboot.
+- Final canonical x64 run `33503085538`: 318 passed, 1 warning, SUCCESS.
+- Final canonical native ARM64 run `33503085489`: native `aarch64`, 318 passed, 1 warning, SUCCESS.
+- Runtime storage remained `PROJECT_LOCAL_ONLY`.
+- Public SSH TCP/22 from `0.0.0.0/0` and broad outbound egress remain explicit owner-approved candidate exceptions.
+- E9A final state: `OWNER_ONLY_PRODUCTION_CANDIDATE_READY`.
+- `PRODUCTION_LIVE` remained `NOT_OPERATIONAL`.
+- E8 publication/sharing remains user-deferred until separate request.
+- E9 Shared Production Runtime remains NOT_APPROVED.
+
+## 2026-09-01 - Post-E9A canonical documentation synchronization
+
+- E9A final validation result recorded in `docs/implementation/E9A_6_VALIDATION_MATRIX_RESULT.md`.
+- Canonical checkpoint recorded in `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_E9A_RUNTIME_HARDENING_CANDIDATE_READY.md`.
+- ROADMAP advanced to v3.0 and old `E9A CURRENT / E9A.1` resume state was removed.
+- README and PROJECT_HISTORY synchronized to the candidate-ready engineering state.
+- No new roadmap phase/workstream was invented after E9A closure.
 
 ## Current State
 
-- Documentation: RECONCILED through E7 after D0 convergence
+- Documentation: RECONCILED through E9A closure
 - Engineering implementation: BASELINE_VALIDATED through ROADMAP Phase 11
 - Owner-only private GPT pilot: SUCCESSFUL, 18/18 PASS
 - E1 Automatic Translation Foundation: BASELINE_VALIDATED
 - E2 Source Reputation and Status History: BASELINE_VALIDATED
 - E3 Private GPT Backend Action API: BASELINE_VALIDATED
-- E4 Free Unattended Runtime Deployment: BASELINE_VALIDATED_WITH_TEMPORARY_SECURITY_EXCEPTION
+- E4 Free Unattended Runtime Deployment: REAL_HOST_VALIDATED_WITH_OWNER_SECURITY_EXCEPTIONS
 - E5 Admin Read-Only Dashboard: BASELINE_VALIDATED / LOCAL_PROTECTED / READ_ONLY / NOT_DEPLOYED
 - E6 Reproducibility Instrumentation: BASELINE_VALIDATED
 - E7 Forecast Probability Semantics: BASELINE_VALIDATED
+- E8 Controlled External Sharing / Public GPT: USER_DEFERRED_UNTIL_SEPARATE_REQUEST
+- E9A Owner-Only Production Runtime Hardening: OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE
+- E9 Shared Production Runtime: DEFERRED / NOT_APPROVED
 - Shared Infrastructure ADR: APPROVED / HYBRID
 - Runtime storage mode: `PROJECT_LOCAL_ONLY`
 - Mixed/shared runtime storage: BLOCKED_PENDING_NEW_ARCHITECTURE_APPROVAL
 - Controlled-pilot external integrations: 2
 - External translation/graph/forecast/reporting/coverage/notification providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- Owner-only unattended cloud runtime: `DEPLOYED_OWNER_ONLY_REAL_HOST_VALIDATED / NOT_PRODUCTION`
+- Owner-only unattended cloud runtime: `DEPLOYED_OWNER_ONLY_REAL_HOST_VALIDATED / OWNER_ONLY_PRODUCTION_CANDIDATE_READY / NOT_PRODUCTION`
 - Backend Action API foundation: VALIDATED_LOCAL_READ_ONLY
 - Private GPT backend Action connection: NOT_CONNECTED
 - Backend HTTPS deployment: NOT_DEPLOYED
 - Admin dashboard deployment: NOT_DEPLOYED
-- Public GPT sharing: DEFERRED / NOT_APPROVED
-- E8: PREFLIGHT ASSESSMENT APPROVED; IMPLEMENTATION NOT APPROVED
-- E9 Shared Production Runtime: DEFERRED / NOT_APPROVED
-- Current engineering activity: D0 documentation convergence + E8 read-only preflight/delta audit
+- Public GPT sharing: USER_DEFERRED_UNTIL_SEPARATE_REQUEST
+- Current engineering activity: NONE_APPROVED_AFTER_E9A_CLOSURE
 - Next numbered ROADMAP phase: NONE_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
