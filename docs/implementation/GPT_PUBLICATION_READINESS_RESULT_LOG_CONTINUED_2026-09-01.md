@@ -1,6 +1,6 @@
 # K-Geopolitical Monitor GPT Publication Readiness Result Log — Continuation 2026-09-01
 
-Status: MATRIX_COMPLETE / REMEDIATION_CANDIDATE_READY
+Status: MATRIX_COMPLETE / REMEDIATION_VALIDATION_ACTIVE
 Date opened: 2026-09-01
 Project: K-Geopolitical Monitor
 Mode: OWNER_ONLY / ONE USER
@@ -23,7 +23,7 @@ Including the base log and all continuation logs:
 - backend_hallucination_failures: 0
 - low_severity_refinements: 2
 
-The GPT-PUB-19 through GPT-PUB-37 matrix is complete. Publication readiness is not yet satisfied because GPT-PUB-23 exposed an exact-search-history integrity failure. Version 1.1 remains frozen as the tested baseline. Version 1.2 has been prepared in the repository as a minimal remediation candidate but is not considered applied to the target GPT until the owner updates the Builder.
+The GPT-PUB-19 through GPT-PUB-37 matrix is complete. Publication readiness is not yet satisfied because GPT-PUB-23 exposed an exact-search-history integrity failure. Version 1.1 remains frozen as the tested baseline. Version 1.2 has been prepared in the repository as a minimal remediation candidate and remediation validation is now active.
 
 ## Continuation Records
 
@@ -116,22 +116,61 @@ Truth-boundary result:
 
 - candidate version: v1.2;
 - repository file: `docs/implementation/GPT_BUILDER_COPY_PASTE_PACKAGE_v1_2.md`;
-- candidate status: PREPARED / NOT YET APPLIED TO TARGET GPT;
+- candidate status: PREPARED / REMEDIATION RETEST IN PROGRESS;
 - scope: minimal strengthening of REPRODUCIBILITY exact-vs-reconstructed history discipline;
 - exact-label rule: `EXACT` / `TOOL-LOGGED` permitted only when current-session instrumentation explicitly preserves exact query text and relevant execution order;
 - fallback rule: otherwise use `RECONSTRUCTED / EQUIVALENT QUERY` and do not imply exactness;
 - prohibited reconstruction: missing retries, zero-result queries, timestamps, ordering, query-to-URL mappings or omitted searches;
 - all other v1.1 semantic boundaries remain unchanged.
 
+## Remediation Validation Records
+
+### GPT-PUB-23R — Reproducibility Record Retest
+
+Outcome: PROVISIONAL PASS / PENDING GPT-PUB-24R CROSS-CHECK
+Date: 2026-09-01
+Configuration target: v1.2 remediation candidate, based on the owner-run target-GPT retest response; Builder application itself is not independently observable from repository state.
+
+Prompt intent:
+- repeat the reproducibility-record test after strengthening the exact-vs-reconstructed search-history rule;
+- require research cut-off, claims, regions/languages, queries or equivalents, opened sources, provenance/duplicate handling, evidence mapping, verification states and limitations;
+- permit `EXACT / TOOL-LOGGED` only when current-session instrumentation actually preserves exact query text and relevant order;
+- prohibit invented retries, zero-result queries, timestamps, execution order and query-to-URL mappings.
+
+Observed behavior:
+- provides a complete reproducibility record for the 26th SCO summit in Bishkek with explicit cut-off, key question, claim set, geographic/language scope, opened-source provenance, independence treatment, evidence mapping and limitations;
+- explicitly distinguishes the publication cut-off from page-open timestamps and states that per-open wall-clock timestamps are unavailable rather than inventing them;
+- labels the query list `EXACT / TOOL-LOGGED` only after explicitly asserting that the current web log preserves the exact query strings and the order of those search calls;
+- narrows the exactness claim by stating that ranking internals, hidden retries and complete internal search-engine history are not available;
+- does not invent hidden retries, zero-result query history, per-open timestamps or other unavailable instrumentation;
+- separately notes a utility local-time lookup without treating it as event evidence;
+- distinguishes primary/official origins from Reuters/AP/downstream publication and avoids origin inflation;
+- preserves claim granularity and marks the final SCO declaration unverified at the cut-off because it was not successfully opened.
+
+Evaluator caution:
+- the evaluator cannot independently inspect the target GPT's private/current-session web instrumentation;
+- because GPT-PUB-23 originally failed after a later contradiction about exact logging, this retest is not used by itself to clear the blocker;
+- GPT-PUB-24R must directly challenge the claimed exact-history instrumentation and test whether the target maintains, narrows, or correctly withdraws the `EXACT / TOOL-LOGGED` label.
+
+Truth-boundary result at this stage:
+- research cut-off discipline: PASS;
+- claim/evidence/provenance mapping: PASS;
+- opened-source and failure disclosure: PASS;
+- exact-label conditionality: PROVISIONAL PASS;
+- no-fabrication of unavailable timestamps/retries/order beyond the claimed logged search list: PASS;
+- blocking defect cleared: NO — pending GPT-PUB-24R;
+- critical violation in this retest: NONE OBSERVED;
+- refinement required: NONE.
+
 ## Current Gate
 
 - publication-readiness validation matrix: COMPLETE;
 - tested baseline: v1.1 FROZEN;
-- remediation candidate: v1.2 READY / NOT YET APPLIED;
+- remediation candidate: v1.2 RETEST ACTIVE;
 - owner-only use: ACTIVE;
 - public sharing: NOT_ACTIVE;
 - Business migration: PLANNED;
 - Actions: NONE;
-- blocking defect: GPT-PUB-23 exact-search-history integrity;
-- remediation validation required: GPT-PUB-23 + GPT-PUB-24, followed by relevant no-fabrication/provenance/backend regression cases;
-- next action: owner applies v1.2 exact Builder Instructions to the target GPT while keeping owner-only state, Knowledge empty, and Actions/Apps unset.
+- blocking defect: GPT-PUB-23 exact-search-history integrity remains OPEN pending GPT-PUB-24R cross-check;
+- remediation validation required: GPT-PUB-24R next, followed by relevant no-fabrication/provenance/backend regression cases if the cross-check passes;
+- next action: run GPT-PUB-24R against the same target GPT/session context where possible.
