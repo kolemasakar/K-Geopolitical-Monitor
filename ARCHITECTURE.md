@@ -1,8 +1,8 @@
 # ARCHITECTURE
 Technical architecture definition for K-Geopolitical Monitor.
 
-Version: 3.2
-Status: APPROVED / ROADMAP_V4_SYNCHRONIZED / P12_1_VALIDATED
+Version: 3.3
+Status: APPROVED / ROADMAP_V4_SYNCHRONIZED / P12_2_VALIDATED
 
 ## Architecture Principle
 
@@ -13,29 +13,46 @@ Current numbered phase:
 
 Validated gates:
 - `P12_0_CANONICAL_CONVERGENCE_VALIDATED`;
-- `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`.
+- `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`;
+- `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`.
 
 Next activity:
-`P12.2_LIVE_ADAPTER_FRAMEWORK_V2 / NEXT_NOT_STARTED`.
+`P12.3_PRIORITY_AUTHORITATIVE_SOURCE_PACK / NEXT_NOT_STARTED`.
 
 ## Logical Architecture
 
-`Public Sources -> Source Portfolio / Adapters -> Acquisition -> Ingestion -> Translation Representation -> Normalization -> Claims / Evidence / Events -> Verification -> Analysis / Graph -> Forecasting -> Reporting -> Monitoring / Coverage / Alerts -> Owner Interaction`
+`Public Sources -> Source Portfolio -> Governed Adapter Framework -> Acquisition -> Ingestion -> Translation Representation -> Normalization -> Claims / Evidence / Events -> Verification -> Analysis / Graph -> Forecasting -> Reporting -> Monitoring / Coverage / Alerts -> Owner Interaction`
 
 The private GPT is an interaction/orchestration surface, not the unattended runtime or canonical state store.
 
 ## Canonical Source / Portfolio Boundary
 
-- `sources` remains the minimal canonical source-identity table.
-- `source_portfolio_versions` is additive immutable governance metadata over source identity.
-- Portfolio versions record publisher identity, class/role, region/language, access/cost/authentication, cadence/freshness, adapter identity, outbound host/protocol requirements, fallback, availability, data classification, origin/provenance characteristics, independence constraints, terms and review state.
+- `sources` remains the minimal canonical source-identity table;
+- `source_portfolio_versions` is immutable governance metadata over source identity;
 - portfolio registration/approval does not activate collection;
 - portfolio metadata does not establish evidence independence;
-- source reputation history remains a separate contextual subsystem;
+- source reputation history remains separate contextual state;
 - collection/provenance/coverage/verification stores remain separate canonical concerns.
-- new source activation requires later adapter/integration work.
 
-P12.1 seeded no new external live source.
+## P12.2 Adapter Framework Boundary
+
+`src/kgeopolitical_monitor/adapter_framework.py` is an additive facade over the validated M7 `LiveSourceCollector`, not a parallel ingestion system.
+
+Framework properties:
+
+- public-anonymous acquisition uses bounded read-only HTTPS GET;
+- non-HTTPS URLs, URL-embedded credentials and credential-bearing headers fail closed;
+- RSS and Atom share deterministic feed parsing;
+- JSON-list adapters use bounded record parsing;
+- source ID, adapter ID/version and stable item identity are explicit;
+- collection requires a current P12.1 portfolio record matching canonical source identity, approval state, public access, adapter version and outbound hostname;
+- governance is rechecked at collection time to detect drift;
+- canonical source-collection attempts, raw items and live-source provenance remain the persistence path;
+- E6 reproducibility remains the audit path for exact query, adapter identity/version and persisted artifact hashes;
+- uninstrumented exact request locators remain `NOT_INSTRUMENTED` rather than reconstructed;
+- one adapter failure remains isolated from other adapters by the underlying validated collector.
+
+P12.2 seeded no new external live source and made no automatic runtime switch to v2 adapter definitions.
 
 ## Runtime / Storage Boundary
 
@@ -48,15 +65,11 @@ Mandatory rules:
 - shared/mixed canonical runtime storage requires a new architecture approval.
 
 Runtime storage mode: PROJECT_LOCAL_ONLY
-
 E9 Shared Production Runtime: `NOT_APPROVED`.
 
 ## Owner-Only Runtime Boundary
 
-E9A:
-`OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`.
-
-Validated properties include owner-only OCI ARM64 operation, hardened systemd, project-local SQLite durability, single-instance leasing, backup/restore, reboot/recovery, runtime-health instrumentation and persistent removal of rpcbind TCP/UDP port 111.
+E9A remains `OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`.
 
 Remaining explicit owner-approved candidate networking exceptions:
 
@@ -85,14 +98,14 @@ Phase 12 source-network rules:
 - explicit outbound host/protocol inventory;
 - no paid provider approval by Phase 12 alone.
 
-P12.2 may modernize adapters but must consume rather than bypass P12.1 governance.
+P12.3 must onboard each authoritative source through P12.1 governance and a P12.2-compatible adapter path rather than bypassing either layer.
 
 ## Truth Boundary
 
 - publisher/publication is not automatically underlying origin;
 - repost/syndication/translation/citation does not create independent corroboration;
 - official statements prove what was stated, not automatically the underlying event;
-- source reputation and portfolio governance do not determine truth;
+- source reputation, portfolio approval and adapter availability do not determine truth;
 - graph inference cannot promote verification;
 - forecast probability/confidence cannot promote factual verification;
 - coverage metrics cannot promote factual confidence;
@@ -119,9 +132,10 @@ Start.me is non-canonical and cannot hold credentials, private endpoints, canoni
 - ROADMAP: `APPROVED / v4`;
 - P12.0: `VALIDATED`;
 - P12.1: `VALIDATED`;
-- P12.2: `NEXT / NOT_STARTED`;
-- migration 022/source portfolio: `VALIDATED`;
+- P12.2: `VALIDATED`;
+- P12.3: `NEXT / NOT_STARTED`;
 - controlled-live integrations: Consilium RSS + GDELT DOC 2.0;
+- additional external sources activated by P12.2: `NONE`;
 - paid providers: `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.

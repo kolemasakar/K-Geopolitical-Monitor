@@ -1,7 +1,7 @@
 # Phase 12 — Intelligence Quality and Source Network Foundation Plan
 
 Date: 2026-09-01
-Status: `APPROVED_FOR_IMPLEMENTATION / P12_1_VALIDATED`
+Status: `APPROVED_FOR_IMPLEMENTATION / P12_2_VALIDATED`
 Project: K-Geopolitical Monitor
 Roadmap: `ROADMAP.md / v4`
 
@@ -28,61 +28,73 @@ Phase 12 does not activate production/live, public publication, shared runtime o
 ## P12.0 — Canonical Convergence
 
 State: `VALIDATED`
-
-Gate:
-`P12_0_CANONICAL_CONVERGENCE_VALIDATED`
-
-Result:
-`docs/implementation/P12_0_CANONICAL_CONVERGENCE_RESULT.md`
+Gate: `P12_0_CANONICAL_CONVERGENCE_VALIDATED`
+Result: `docs/implementation/P12_0_CANONICAL_CONVERGENCE_RESULT.md`
 
 ## P12.1 — Source Portfolio Contract and Governance
 
 State: `VALIDATED`
-
-Gate:
-`P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`
-
-Implementation:
-`docs/implementation/P12_1_SOURCE_PORTFOLIO_CONTRACT.md`
-
-Result:
-`docs/implementation/P12_1_SOURCE_PORTFOLIO_CONTRACT_RESULT.md`
-
-Validation:
-commit `905a727d85701bf43d18de2d5216b83ab9a2b8bd`; CI `33520371480`; job `99897786494`; `334 passed, 1 warning / SUCCESS`.
-
-Validated contract covers source identity/publisher, class/role, region/language, access/cost/authentication, freshness/cadence, adapter identity/version, outbound host/protocol, fallback, availability, data classification, provenance/origin characteristics, independence constraints, terms, owner/reviewer/review state and paid-provider approval state.
+Gate: `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`
+Implementation: `docs/implementation/P12_1_SOURCE_PORTFOLIO_CONTRACT.md`
+Result: `docs/implementation/P12_1_SOURCE_PORTFOLIO_CONTRACT_RESULT.md`
+Validation: commit `905a727d85701bf43d18de2d5216b83ab9a2b8bd`; CI `33520371480`; job `99897786494`; `334 passed, 1 warning / SUCCESS`.
 
 P12.1 activates no new live source and approves no paid provider.
 
 ## P12.2 — Live Adapter Framework v2
 
-State: `NEXT / NOT_STARTED`
-
-Required capabilities:
-
-- reusable HTTPS read-only transport;
-- bounded timeout/payload/pagination/record limits;
-- RSS/Atom/JSON framework support;
-- source-specific parsing extensions;
-- deterministic source/adapter identity;
-- linkage to P12.1 portfolio governance;
-- collection-attempt and reproducibility linkage;
-- no secret leakage;
-- deterministic fixtures;
-- source-failure isolation;
-- live smoke separate from deterministic regression.
+State: `VALIDATED`
 
 Gate:
 `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`
 
+Implementation:
+`docs/implementation/P12_2_LIVE_ADAPTER_FRAMEWORK_V2.md`
+
+Result:
+`docs/implementation/P12_2_LIVE_ADAPTER_FRAMEWORK_V2_RESULT.md`
+
+Checkpoint:
+`docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED.md`
+
+Implementation commit:
+`f2635cc5724b24ed7f3b880c50a67a4ca0f849fa`.
+
+Validation:
+commit `cb6866e82d5dc4a26042e0b9d08e9098aae10ecb`; CI `33523574819`; job `99908604206`; `346 passed, 1 warning / SUCCESS`.
+
+Validated capabilities:
+
+- reusable bounded HTTPS read-only GET transport;
+- fail-closed non-HTTPS/credential-bearing public-anonymous requests;
+- RSS/Atom deterministic parsing;
+- bounded JSON-list parsing;
+- reusable feed/JSON adapter contracts;
+- deterministic source/adapter/version/item identity;
+- linkage to P12.1 portfolio governance;
+- exact adapter-version/outbound-host enforcement;
+- canonical collection-attempt/provenance linkage;
+- E6 reproducibility compatibility without fabricated exact request locators;
+- deterministic fixtures independent of live network availability;
+- source-failure isolation.
+
+P12.2 introduces no schema migration, seeds no new external source, performs no automatic runtime switch and approves no paid provider.
+
 ## P12.3 — Priority Authoritative Source Pack
 
-State: `PLANNED`
+State: `NEXT / NOT_STARTED`
 
-Select and validate a materially broader authoritative public-source pack across prioritized international organizations and official government/institutional sources.
+Select, govern and validate a materially broader authoritative public-source pack across prioritized international organizations and official government/institutional sources.
 
-Each source requires a P12.1 portfolio/integration record.
+Requirements:
+
+- each source requires a P12.1 portfolio/integration record;
+- each source requires a P12.2-compatible adapter path;
+- public/free sources are preferred;
+- deterministic fixtures precede controlled-live validation;
+- source count/domain count/adapter count is not independent-origin count;
+- activation remains explicit and controlled;
+- source-specific failures remain visible and isolated.
 
 Gate:
 `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`
@@ -150,6 +162,6 @@ Start.me remains non-canonical and may contain only public, non-sensitive naviga
 
 Next engineering activity:
 
-`P12.2_LIVE_ADAPTER_FRAMEWORK_V2`
+`P12.3_PRIORITY_AUTHORITATIVE_SOURCE_PACK`
 
-P12.3 does not begin until P12.2 is validated and saved to canonical state.
+P12.4 does not begin until P12.3 is validated and saved to canonical state.

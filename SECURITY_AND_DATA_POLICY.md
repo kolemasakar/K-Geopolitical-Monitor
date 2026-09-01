@@ -1,7 +1,7 @@
 # SECURITY_AND_DATA_POLICY
 
-Version: 0.5
-Status: APPROVED / P12_1_VALIDATED
+Version: 0.6
+Status: APPROVED / P12_2_VALIDATED
 
 ## Principles
 
@@ -9,7 +9,7 @@ Status: APPROVED / P12_1_VALIDATED
 - Use least privilege unless an explicit owner-approved exception exists.
 - Keep credentials/secrets out of repository state and routine logs.
 - Security/operational claims require reproducible evidence.
-- Governance metadata cannot be promoted into truth or production acceptance.
+- Governance or adapter metadata cannot be promoted into truth or production acceptance.
 
 ## Canonical Storage
 
@@ -30,8 +30,6 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 
 E9A remains `OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`.
 
-Validated controls include dedicated service identity, restricted writable path, hardened systemd, no KGM public API/database/dashboard listener, single-instance lease, recovery, backup/restore and persistent port-111 closure.
-
 Remaining explicit owner-approved candidate networking exceptions:
 
 - public SSH TCP/22 from `0.0.0.0/0`;
@@ -51,10 +49,26 @@ Fail-closed rules include:
 - operational availability requires approved review state;
 - approved sources require assigned adapter identity/version;
 - paid source approval requires separate explicit paid-provider approval;
-- a P12.1 portfolio record does not activate collection;
-- P12.1 itself approves no paid provider.
+- a portfolio record does not activate collection.
 
-P12.5, not P12.1, owns measured egress inventory and any later egress-restriction proposal.
+## P12.2 Adapter Security Rules
+
+The validated public-anonymous adapter framework:
+
+- performs read-only HTTP `GET` only;
+- requires HTTPS before network access;
+- rejects URL-embedded usernames/passwords;
+- rejects URL fragments for acquisition requests;
+- rejects `Authorization`, `Proxy-Authorization`, `Cookie` and `X-Api-Key` request headers;
+- enforces configured timeout and maximum response size;
+- bounds feed and JSON record counts;
+- requires exact P12.1 adapter ID/version and outbound-host approval before collection;
+- revalidates governance at collection time;
+- isolates source failures rather than weakening other source audit state.
+
+These controls apply to the P12.2 public-anonymous framework. Future credentialed adapters require separate explicit design/approval and secret handling.
+
+P12.5 owns measured egress inventory and any later egress-restriction proposal.
 
 ## Public Exposure Boundary
 
@@ -74,8 +88,9 @@ Start.me must not store credentials, private endpoints, canonical monitoring/run
 ## Current State
 
 - P12.0: `VALIDATED`;
-- P12.1: `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`;
-- P12.2: `NEXT / NOT_STARTED`;
+- P12.1: `VALIDATED`;
+- P12.2: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`;
+- P12.3: `NEXT / NOT_STARTED`;
 - paid providers: `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - public API/dashboard: `NOT_APPROVED / NOT_DEPLOYED`;

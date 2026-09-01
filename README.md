@@ -1,8 +1,8 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring and intelligence platform.
 
-Version: 4.2
-Status: ACTIVE / ROADMAP_V4_PHASE_12 / P12_1_VALIDATED
+Version: 4.3
+Status: ACTIVE / ROADMAP_V4_PHASE_12 / P12_2_VALIDATED
 
 ## Purpose
 
@@ -18,10 +18,9 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - `DATA_MODELS.md` — canonical data-model summary;
 - `PROJECT_HISTORY.md` — chronological project record;
 - `docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md` — Phase 12 plan;
-- `docs/implementation/P12_0_CANONICAL_CONVERGENCE_RESULT.md` — P12.0 result;
-- `docs/implementation/P12_1_SOURCE_PORTFOLIO_CONTRACT.md` — P12.1 implementation;
-- `docs/implementation/P12_1_SOURCE_PORTFOLIO_CONTRACT_RESULT.md` — P12.1 result;
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED.md` — current checkpoint.
+- `docs/implementation/P12_2_LIVE_ADAPTER_FRAMEWORK_V2.md` — P12.2 implementation;
+- `docs/implementation/P12_2_LIVE_ADAPTER_FRAMEWORK_V2_RESULT.md` — P12.2 result;
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED.md` — current checkpoint.
 
 ## Current State
 
@@ -36,43 +35,37 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - P12.0: `P12_0_CANONICAL_CONVERGENCE_VALIDATED`;
 - P12.1: `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`;
-- current/next engineering activity: `P12.2_LIVE_ADAPTER_FRAMEWORK_V2 / NEXT_NOT_STARTED`;
+- P12.2: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`;
+- current/next engineering activity: `P12.3_PRIORITY_AUTHORITATIVE_SOURCE_PACK / NEXT_NOT_STARTED`;
 - production/live: `NOT_OPERATIONAL`.
 
 Production/live operational status: NOT_OPERATIONAL
 Runtime storage mode: PROJECT_LOCAL_ONLY
 
-## P12.1 Validation Evidence
+## P12.2 Validation Evidence
 
-- implementation/validation commit: `905a727d85701bf43d18de2d5216b83ab9a2b8bd`;
-- CI run: `33520371480`;
-- job: `99897786494`;
-- result: `334 passed, 1 warning / SUCCESS`;
-- migration: `022_source_portfolio_contract.sql`;
-- durable table: `source_portfolio_versions`.
+- implementation commit: `f2635cc5724b24ed7f3b880c50a67a4ca0f849fa`;
+- validation commit: `cb6866e82d5dc4a26042e0b9d08e9098aae10ecb`;
+- CI run: `33523574819`;
+- job: `99908604206`;
+- result: `346 passed, 1 warning / SUCCESS`.
 
-P12.1 is governance infrastructure. It activates no new source and approves no paid provider.
+## Live Adapter Framework v2
 
-## Source Portfolio Contract
+P12.2 adds an additive governed framework over the validated M7 collector:
 
-The versioned source portfolio records:
+- bounded read-only HTTPS GET transport;
+- fail-closed non-HTTPS/credential rejection for public-anonymous acquisition;
+- deterministic RSS and Atom parsing;
+- bounded JSON-list parsing;
+- reusable public feed/JSON adapter contracts;
+- deterministic source/adapter/version/item identity;
+- exact P12.1 portfolio review/access/adapter/outbound-host enforcement;
+- compatibility with canonical collection attempts, ingestion/provenance and E6 reproducibility;
+- deterministic local fixtures independent of live network availability;
+- source-failure isolation.
 
-- canonical source/publisher identity;
-- source class and role;
-- region/language scope;
-- access/cost/authentication mode;
-- expected freshness and collection cadence;
-- adapter identity/version;
-- required outbound HTTPS hostnames;
-- fallback sources;
-- availability/degradation state;
-- data classification;
-- origin/provenance characteristics and independence constraints;
-- licensing/terms notes;
-- owner/reviewer/review state;
-- explicit paid-provider approval state.
-
-Portfolio versions are immutable. Later versions supersede earlier versions rather than mutating them.
+P12.2 does not activate a source merely because a v2 adapter class exists. Existing Consilium/GDELT v2 classes are reusable adapter definitions, not automatic runtime switches.
 
 ## Truth / Epistemic Boundaries
 
@@ -80,22 +73,19 @@ Portfolio versions are immutable. Later versions supersede earlier versions rath
 - repost/syndication/translation/citation does not create independent corroboration;
 - official-source status proves the source made a statement, not automatically the underlying event claim;
 - source reputation/status and source-portfolio metadata are not truth operators;
+- adapter/source/domain count is not independent-origin count;
 - portfolio approval does not establish evidence independence;
 - graph inference is analytical context, not source evidence;
 - forecast probability/confidence cannot promote factual verification;
 - presentation cannot strengthen upstream evidence;
 - coverage metrics do not modify factual confidence;
 - `GLOBAL` is scope, not proof of exhaustive world coverage;
-- missing local-language evidence remains explicit;
 - missing/uninstrumented tool history is never reconstructed and labeled exact;
-- public-web research is not a substitute for unavailable persisted backend/runtime state;
-- runtime-health instrumentation cannot imply unavailable coverage/source-health/verification/production facts.
+- public-web research is not a substitute for unavailable persisted backend/runtime state.
 
 ## Runtime / Security State
 
 - owner-only OCI Ubuntu 24.04 ARM64 runtime: real-host validated and candidate-ready;
-- application writable path: `/opt/k-geopolitical-monitor/data`;
-- rpcbind TCP/UDP port 111: removed; persistent closure validated after reboot;
 - public KGM HTTP/HTTPS/database/API/dashboard ingress: not approved/not deployed;
 - backend HTTPS: not deployed;
 - private GPT backend Action: not connected;
@@ -115,7 +105,7 @@ Validated controlled-live starting integrations remain:
 - Consilium press-release RSS;
 - GDELT DOC 2.0 discovery/index metadata.
 
-P12.1 added no new live source. P12.2 is the next gate and will connect reusable adapter behavior to the validated source-portfolio governance model.
+P12.2 added reusable governed adapter infrastructure but seeded and activated no new external source. P12.3 is the next gate for a priority authoritative source pack.
 
 No paid source/data/translation/graph/forecast/reporting/coverage/notification provider is approved.
 
@@ -123,7 +113,7 @@ No paid source/data/translation/graph/forecast/reporting/coverage/notification p
 
 ## ROADMAP v4
 
-- Phase 12 — ACTIVE; P12.0 and P12.1 validated; P12.2 NEXT/NOT_STARTED.
+- Phase 12 — ACTIVE; P12.0, P12.1 and P12.2 validated; P12.3 NEXT/NOT_STARTED.
 - Phase 13 — approved sequential / not started.
 - Phase 14 — approved sequential / not started.
 - Phase 15 — approved sequential / not started.
@@ -131,4 +121,4 @@ No paid source/data/translation/graph/forecast/reporting/coverage/notification p
 - Phase 17 — conditional / not activated.
 - Phase 18 — conditional / new architecture approval required.
 
-No production launch, Business migration, public sharing, public backend exposure or shared runtime transition is implied by P12.1 validation.
+No production launch, Business migration, public sharing, public backend exposure or shared runtime transition is implied by P12.2 validation.

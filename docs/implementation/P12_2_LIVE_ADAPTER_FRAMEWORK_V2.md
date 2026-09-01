@@ -1,6 +1,6 @@
 # P12.2 — Live Adapter Framework v2
 
-State: `IMPLEMENTED / VALIDATION_PENDING`
+State: `VALIDATED`
 Gate: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`
 Parent gate: `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`
 
@@ -10,9 +10,10 @@ Provide a reusable, deterministic and fail-closed public-source adapter framewor
 
 ## Implementation
 
-Added `src/kgeopolitical_monitor/adapter_framework.py` as an additive governed facade over the validated M7 `LiveSourceCollector`.
+Canonical implementation:
+`src/kgeopolitical_monitor/adapter_framework.py`.
 
-The framework provides:
+The framework is an additive governed facade over the validated M7 `LiveSourceCollector` and provides:
 
 - bounded read-only HTTPS GET transport;
 - rejection of non-HTTPS request URLs;
@@ -23,7 +24,7 @@ The framework provides:
 - reusable `PublicFeedAdapterV2` and `PublicJsonListAdapterV2` contracts;
 - deterministic `adapter_id`, `adapter_version`, `source_id` and stable item identity;
 - concrete v2 adapter definitions for the already-known Consilium and GDELT source shapes;
-- P12.1 portfolio governance enforcement before collection and again at each collection attempt;
+- P12.1 portfolio governance enforcement before collection and again at each collection;
 - exact portfolio adapter-version and outbound-host matching;
 - compatibility with existing source-attempt audit, ingestion/provenance and `ReproducibilityInstrumentedCollector`;
 - source failure isolation through the validated underlying collector.
@@ -47,7 +48,7 @@ P12.2 itself approves or activates no paid provider.
 
 ## Deterministic Fixtures
 
-Added CI-local fixtures:
+CI-local fixtures:
 
 - `tests/fixtures/p12_2/feed.rss.xml`;
 - `tests/fixtures/p12_2/feed.atom.xml`;
@@ -57,7 +58,7 @@ Tests do not depend on live network availability.
 
 ## Reproducibility Boundary
 
-The framework collector is intentionally compatible with the existing E6 reproducibility wrapper. Source attempts therefore link to:
+The framework collector is compatible with the existing E6 reproducibility wrapper. Source attempts link to:
 
 - exact watch query snapshot;
 - source ID;
@@ -66,7 +67,7 @@ The framework collector is intentionally compatible with the existing E6 reprodu
 - collection attempt status;
 - persisted artifact hashes/provenance.
 
-The existing E6 schema still marks remote request locator as `NOT_INSTRUMENTED`; P12.2 does not reconstruct or relabel that field as exact merely because the adapter can deterministically construct a URL.
+The existing E6 schema still marks remote request locator as `NOT_INSTRUMENTED`. P12.2 does not reconstruct or relabel that field as exact merely because an adapter can deterministically construct a URL.
 
 ## Epistemic Boundaries
 
@@ -86,24 +87,35 @@ Portfolio approval and adapter availability remain governance/collection state, 
 
 - existing M7 collector remains available for backward-compatible validated paths;
 - P12.2 framework is additive and governed;
-- no new external source is seeded or activated by this implementation commit;
+- no new external source is seeded or activated by P12.2;
 - Consilium/GDELT v2 classes describe reusable adapter shapes but do not automatically switch runtime configuration;
 - runtime storage remains `PROJECT_LOCAL_ONLY`;
 - production/live operational status remains `NOT_OPERATIONAL`.
 
-## Validation Requirements
+## Validation Evidence
 
-The P12.2 gate requires green full regression including tests for:
+Implementation commit:
+`f2635cc5724b24ed7f3b880c50a67a4ca0f849fa`.
 
-- request/credential/HTTPS fail-closed behavior;
-- resource bounds;
-- RSS/Atom/JSON deterministic parsing;
-- stable source/item/adapter identity;
-- P12.1 governance enforcement;
-- adapter/domain drift rejection;
-- source failure isolation;
-- persisted collection audit/provenance compatibility;
-- reproducibility linkage without fabricated exact request history;
-- unchanged prior baseline behavior.
+Initial implementation CI:
+- run `33523359982`;
+- job `99907884699`;
+- `345 passed, 1 failed, 1 warning`;
+- sole failure was a deterministic fixture ordering assertion caused by stable item-ID sorting; production framework code was not changed to resolve it.
 
-Gate remains `VALIDATION_PENDING` until CI succeeds on the implementation commit.
+Validation commit:
+`cb6866e82d5dc4a26042e0b9d08e9098aae10ecb`.
+
+Final validation:
+- CI run `33523574819`;
+- job `99908604206`;
+- `346 passed, 1 warning / SUCCESS`.
+
+Validated tests cover request/credential/HTTPS fail-closed behavior, resource bounds, RSS/Atom/JSON deterministic parsing, stable identities, P12.1 governance enforcement, adapter/domain drift rejection, failure isolation, persisted collection audit/provenance compatibility and reproducibility linkage without fabricated exact request history.
+
+## Gate Result
+
+`P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`
+
+Next engineering activity:
+`P12.3_PRIORITY_AUTHORITATIVE_SOURCE_PACK / NEXT_NOT_STARTED`.

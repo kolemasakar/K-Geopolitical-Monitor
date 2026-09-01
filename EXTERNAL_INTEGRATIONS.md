@@ -1,7 +1,7 @@
 # EXTERNAL_INTEGRATIONS
 
-Version: 0.7
-Status: APPROVED / P12_1_VALIDATED
+Version: 0.8
+Status: APPROVED / P12_2_VALIDATED
 
 ## Purpose
 
@@ -9,31 +9,32 @@ Define governance rules for public sources, external services, cross-project res
 
 ## P12.1 Source Portfolio Contract
 
-P12.1 is validated.
-
-Canonical implementation:
+Canonical governance:
 
 - migration `022_source_portfolio_contract.sql`;
 - table `source_portfolio_versions`;
 - service `src/kgeopolitical_monitor/source_portfolio.py`.
 
-Every governed source version can record:
-
-- canonical source/publisher identity;
-- source class/role;
-- region/language scope;
-- access/cost/authentication mode;
-- freshness/cadence;
-- adapter identity/version;
-- exact required outbound hostnames/protocols;
-- fallback/replacement sources;
-- availability/degradation state;
-- data classification;
-- provenance/origin characteristics and independence constraints;
-- licensing/terms notes;
-- owner/reviewer/review state.
-
 Portfolio versions are immutable. Portfolio approval does not activate collection and does not establish evidence independence.
+
+## P12.2 Live Adapter Framework v2
+
+Validated implementation:
+
+- `src/kgeopolitical_monitor/adapter_framework.py`;
+- bounded read-only HTTPS GET transport;
+- RSS/Atom parser;
+- bounded JSON-list parser;
+- reusable public feed and JSON adapter contracts;
+- deterministic source/adapter/version/item identity;
+- P12.1 review/access/adapter/outbound-host enforcement;
+- canonical collection-attempt/provenance compatibility;
+- E6 reproducibility compatibility;
+- deterministic local fixtures and isolated source failures.
+
+The public-anonymous P12.2 framework rejects non-HTTPS URLs, URL credentials and credential-bearing request headers.
+
+A v2 adapter class does not activate a source. Runtime/source activation remains a separate explicit integration decision.
 
 ## Validated Starting Live Integrations
 
@@ -42,7 +43,8 @@ Portfolio versions are immutable. Portfolio approval does not activate collectio
 - class: Official sources;
 - mode: public read-only RSS/HTTPS;
 - authentication: none;
-- live baseline: validated.
+- controlled-live baseline: validated;
+- P12.2 includes a reusable v2 adapter definition but does not automatically switch runtime configuration.
 
 ### GDELT DOC 2.0
 
@@ -50,11 +52,12 @@ Portfolio versions are immutable. Portfolio approval does not activate collectio
 - role: discovery/index;
 - mode: public read-only HTTPS API;
 - authentication: none;
-- live baseline: validated.
+- controlled-live baseline: validated;
+- P12.2 includes a reusable v2 JSON adapter definition but does not automatically switch runtime configuration.
 
 GDELT indexing/discovery is not independent factual corroboration of linked publisher claims.
 
-P12.1 activates no additional live source.
+P12.2 activates no additional external live source.
 
 ## Phase 12 Integration Policy
 
@@ -65,8 +68,7 @@ P12.1 activates no additional live source.
 - deterministic CI must not depend on live source availability;
 - live failures remain isolated and visible;
 - exact outbound host/protocol requirements must be recorded;
-- new reusable adapter behavior belongs to P12.2;
-- P12.2 must link adapter identity to P12.1 governance rather than bypassing it.
+- P12.3 source onboarding must use both P12.1 governance and a P12.2-compatible adapter path.
 
 ## Cross-Project Boundary
 
@@ -81,7 +83,7 @@ P12.1 activates no additional live source.
 
 Credentialed sources require explicit approval and external secret handling.
 
-A paid source may be documented as planned, but APPROVED paid-provider state requires a separate explicit approval. P12.1 grants none.
+A paid source may be documented as planned, but APPROVED paid-provider state requires a separate explicit approval. P12.2 grants none.
 
 ## Start.me
 
@@ -92,9 +94,10 @@ Start.me is non-canonical and limited to public, non-sensitive navigation/source
 ## Current State
 
 - P12.1 source-portfolio governance: `VALIDATED`;
+- P12.2 adapter framework: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`;
 - controlled-live source baseline: Consilium RSS + GDELT DOC 2.0;
-- additional live Phase 12 sources: `NONE_ACTIVATED_BY_P12_1`;
+- additional live sources activated by P12.2: `NONE`;
 - paid providers: `NONE_APPROVED`;
-- P12.2 adapter framework: `NEXT / NOT_STARTED`;
+- P12.3 authoritative source pack: `NEXT / NOT_STARTED`;
 - public KGM ingress: `NOT_APPROVED / NOT_DEPLOYED`;
 - production/live: `NOT_OPERATIONAL`.

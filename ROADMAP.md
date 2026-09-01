@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.2
+Version: 4.3
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -29,6 +29,7 @@ All phases preserve:
 - repost/syndication/translation/citation does not create independent corroboration;
 - an official statement establishes `actor said X`, not automatically `X happened`;
 - source reputation and source-portfolio metadata are context/governance, not truth operators;
+- adapter/source/domain count is not independent-origin count;
 - graph inference cannot promote factual verification or independent-origin count;
 - forecast probability/confidence cannot promote factual verification;
 - coverage confidence cannot promote factual verification confidence;
@@ -99,61 +100,57 @@ Objective: materially broaden and govern the public-source network while preserv
 ### P12.0 — Canonical Architecture / Security / Integration Convergence
 
 State: `VALIDATED`
-
 Gate: `P12_0_CANONICAL_CONVERGENCE_VALIDATED`
-
 Result: `docs/implementation/P12_0_CANONICAL_CONVERGENCE_RESULT.md`
-
 Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_0_CANONICAL_CONVERGENCE_VALIDATED.md`
-
 Validation: commit `374beb4664cd92a4f41063cbbe30f6830ee3a831`; CI run `33517021594`, job `99886494759`; `318 passed, 1 warning / SUCCESS`.
 
 ### P12.1 — Source Portfolio Contract and Governance
 
 State: `VALIDATED`
-
 Gate: `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`
-
 Implementation: `docs/implementation/P12_1_SOURCE_PORTFOLIO_CONTRACT.md`
-
 Result: `docs/implementation/P12_1_SOURCE_PORTFOLIO_CONTRACT_RESULT.md`
-
 Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED.md`
-
 Validation: commit `905a727d85701bf43d18de2d5216b83ab9a2b8bd`; CI run `33520371480`, job `99897786494`; `334 passed, 1 warning / SUCCESS`.
 
-P12.1 establishes:
-
-- additive migration `022_source_portfolio_contract.sql`;
-- immutable versioned `source_portfolio_versions`;
-- source identity/class/role, region/language, access/cost/authentication, freshness/cadence, adapter identity, outbound host/protocol, fallback, availability, data classification, provenance/independence, terms, owner/reviewer and review state;
-- paid-provider approval fail-closed;
-- explicit non-activation and truth/verification/coverage isolation.
-
-P12.1 activates no new source and approves no paid provider.
+P12.1 establishes immutable versioned source governance and activates no source by itself.
 
 ### P12.2 — Live Adapter Framework v2
 
-State: `NEXT / NOT_STARTED`
-
-Goals:
-
-- reusable HTTPS read-only fail-closed transport;
-- RSS/Atom/JSON/public-adapter framework;
-- bounded timeout, payload, pagination and record limits;
-- deterministic source/adapter identity;
-- source-portfolio governance linkage;
-- collection-attempt/reproducibility linkage;
-- source-specific parsing and failure isolation;
-- deterministic fixtures independent of live network availability.
+State: `VALIDATED`
 
 Gate: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`
 
+Implementation: `docs/implementation/P12_2_LIVE_ADAPTER_FRAMEWORK_V2.md`
+
+Result: `docs/implementation/P12_2_LIVE_ADAPTER_FRAMEWORK_V2_RESULT.md`
+
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED.md`
+
+Implementation commit: `f2635cc5724b24ed7f3b880c50a67a4ca0f849fa`.
+
+Validation commit: `cb6866e82d5dc4a26042e0b9d08e9098aae10ecb`; CI run `33523574819`, job `99908604206`; `346 passed, 1 warning / SUCCESS`.
+
+P12.2 establishes:
+
+- reusable bounded read-only HTTPS GET transport for public-anonymous adapters;
+- fail-closed rejection of non-HTTPS URLs, URL credentials and credential-bearing headers;
+- deterministic RSS/Atom and bounded JSON-list parsing;
+- reusable feed/JSON adapter contracts;
+- deterministic source/adapter/version/item identity;
+- P12.1 portfolio review/access/adapter/outbound-host enforcement;
+- compatibility with canonical collection attempts, ingestion/provenance and E6 reproducibility;
+- deterministic CI fixtures independent of live networks;
+- source-failure isolation through the validated collector.
+
+P12.2 does not seed or activate new external sources, does not approve paid providers, and does not relabel uninstrumented exact request locators as captured.
+
 ### P12.3 — Priority Authoritative Source Pack
 
-State: `PLANNED`
+State: `NEXT / NOT_STARTED`
 
-Expand prioritized official/institutional public-source coverage. Every source requires an explicit portfolio/integration record. Source/domain/adapter count is not independent corroboration count.
+Expand prioritized official/institutional public-source coverage. Every source requires an explicit P12.1 portfolio/integration record and P12.2-compatible adapter path. Source/domain/adapter count is not independent corroboration count.
 
 Gate: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`
 
@@ -184,36 +181,26 @@ Phase gate: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`
 ## Phase 13 — Semantic Verification and Provenance Intelligence
 
 State: `APPROVED_SEQUENTIAL / NOT_STARTED`
-
 Objective: richer structured claim/provenance/evidence-relation/contradiction reasoning with fail-closed truth promotion.
-
 Gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
 
 ## Phase 14 — Owner Operational Intelligence Activation
 
 State: `APPROVED_SEQUENTIAL / NOT_STARTED`
-
 Objective: practical owner-operated intelligence with owner-only access, operational workflows, soak evidence, source operations, backup/admin/egress decisions and a separate launch-specific gate.
-
-Required separate activation decision:
-`OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`
-
+Required separate activation decision: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
 Gate: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY`
 
 ## Phase 15 — Forecast Calibration and Performance Intelligence
 
 State: `APPROVED_SEQUENTIAL / NOT_STARTED`
-
 Objective: measurable forecast calibration without false numerical precision.
-
 Gate: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`
 
 ## Phase 16 — Delivery, Operator Experience and Quality Feedback
 
 State: `APPROVED_SEQUENTIAL / NOT_STARTED`
-
 Objective: provider-neutral owner delivery, audit/retry/failure isolation, redaction/minimization, operator feedback and quality metrics. Start.me remains public/non-sensitive and non-canonical if used.
-
 Gate: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`
 
 # Conditional / Owner-Gated Future Phases
@@ -221,28 +208,25 @@ Gate: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`
 ## Phase 17 — Controlled External Publication Readiness
 
 State: `CONDITIONAL / NOT_ACTIVATED`
-
 Activation requires a separate explicit owner publication decision.
-
 Gate: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`
 
 ## Phase 18 — Shared / Team Runtime
 
 State: `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`
-
 Activation requires explicit owner request, new architecture ADR, Source-of-Truth/tenancy/concurrency/storage/backup/security/migration decisions and no silent mixed storage.
-
 Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 
 # Current Implementation Checkpoint
 
 - Product Concept: `APPROVED`
 - Strategic ROADMAP: `APPROVED / v4`
-- State synchronization: `v4.2`
+- State synchronization: `v4.3`
 - Engineering baseline: validated through Phase 11 + E1-E7 + E9A
 - Phase 12 P12.0: `VALIDATED`
-- Phase 12 P12.1: `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`
-- Current/next engineering activity: `P12.2_LIVE_ADAPTER_FRAMEWORK_V2 / NEXT_NOT_STARTED`
+- Phase 12 P12.1: `VALIDATED`
+- Phase 12 P12.2: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`
+- Current/next engineering activity: `P12.3_PRIORITY_AUTHORITATIVE_SOURCE_PACK / NEXT_NOT_STARTED`
 - Runtime storage: `PROJECT_LOCAL_ONLY`
 - Mixed/shared runtime storage: `BLOCKED`
 - Production/live operational status: `NOT_OPERATIONAL`
@@ -253,4 +237,4 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - Paid providers: `NONE_APPROVED`
 
 Next gate:
-`P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`
+`P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`
