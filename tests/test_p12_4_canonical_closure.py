@@ -8,7 +8,7 @@ def _read(name: str) -> str:
     return (ROOT / name).read_text(encoding="utf-8")
 
 
-def test_p12_4_gate_and_next_activity_are_canonical():
+def test_p12_4_gate_remains_canonical_after_later_phase_progress():
     roadmap = _read("ROADMAP.md")
     readme = _read("README.md")
     plan = _read("docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md")
@@ -16,9 +16,9 @@ def test_p12_4_gate_and_next_activity_are_canonical():
     assert "P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED" in roadmap
     assert "P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED" in readme
     assert "P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED" in plan
-    assert "P12.5_SOURCE_HEALTH_EGRESS_INVENTORY / NEXT_NOT_STARTED" in roadmap
-    assert "P12.5_SOURCE_HEALTH_EGRESS_INVENTORY / NEXT_NOT_STARTED" in readme
-    assert "P12.5_SOURCE_HEALTH_EGRESS_INVENTORY" in plan
+    assert "P12.5" in roadmap
+    assert "P12.5" in readme
+    assert "P12.5" in plan
 
 
 def test_p12_4_preserves_production_storage_and_paid_provider_contracts():

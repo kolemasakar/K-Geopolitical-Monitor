@@ -1,7 +1,7 @@
 # EXTERNAL_INTEGRATIONS
 
-Version: 1.0
-Status: APPROVED / P12_4_VALIDATED
+Version: 1.1
+Status: APPROVED / P12_5_VALIDATED
 
 ## Purpose
 
@@ -26,9 +26,9 @@ GDELT indexing/discovery is not independent factual corroboration.
 
 Gate: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`.
 
-Current governed source states:
+Governed source states:
 - European Commission Press Corner — `ACTIVE`;
-- European Parliament Press Releases — `DEGRADED` for unattended RSS acquisition because the official endpoint returns anti-bot HTML;
+- European Parliament Press Releases — `DEGRADED` for unattended RSS acquisition;
 - UK Government News and Communications — `ACTIVE`;
 - OSCE Latest News — `ACTIVE`.
 
@@ -38,15 +38,32 @@ The European Parliament official endpoint remains canonical. No anti-bot bypass 
 
 Gate: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`.
 
-Validated first public/free media-discovery slice:
+Governed first public/free media-discovery slice:
 - Ukrainska Pravda — `uk` — `ACTIVE`;
 - Meduza — `ru` — `ACTIVE`;
 - RMF24 — `pl` — `ACTIVE`;
 - Haberturk — `tr` — `ACTIVE`.
 
-Controlled-live validation: run `33531518652`, job `99935565895`, `4 SUCCESS / 0 FAILED`.
+P12.4 controlled-live validation: run `33531518652`, job `99935565895`, `4 SUCCESS / 0 FAILED`.
 
 The pack preserves original-language Unicode and source URL. Translation remains a separate derived representation. `uk/ru/pl/tr` is a prioritized first slice, not global language coverage.
+
+## P12.5 Health / Freshness / Egress Inventory
+
+Gate: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`.
+Validation anchor: `92d0c0516351e2af7ba836d3ae711dd414d22023`.
+
+Controlled-live run `33533313654`, job `99941475574` measured all ten governed paths: `8 SUCCESS / 2 FAILED`.
+
+Measured observations:
+- European Parliament — `UNAVAILABLE / PARSER`; governed `DEGRADED` remains unchanged;
+- Haberturk — `UNAVAILABLE / UNKNOWN` due an invalid item `original_url`; governed `ACTIVE` remains unchanged pending P12.6 reconciliation;
+- OSCE — acquisition healthy, observed publisher content stale.
+
+P12.5 inventoried these HTTPS destinations:
+`api.gdeltproject.org`, `ec.europa.eu`, `feeds.osce.org`, `meduza.io`, `rss.haberturk.com`, `www.consilium.europa.eu`, `www.europarl.europa.eu`, `www.gov.uk`, `www.pravda.com.ua`, `www.rmf24.pl`.
+
+This inventory is not an outbound allowlist and does not itself authorize or deploy egress restriction.
 
 ## Phase 12 Integration Policy
 
@@ -58,9 +75,9 @@ The pack preserves original-language Unicode and source URL. Translation remains
 - official-source status confirms institutional publication/statement, not automatically the underlying event;
 - media publication confirms publisher publication, not automatically the underlying origin or event;
 - deterministic CI must not depend on live source availability;
-- live failures/degradation remain isolated and visible;
-- exact outbound host/protocol requirements must be recorded;
-- P12.5 owns measured health/freshness and egress inventory before egress-restriction decisions.
+- live failures/degradation/staleness remain isolated and visible;
+- governed availability and latest measured operational state are separate;
+- exact outbound host/protocol requirements must be recorded before a restriction decision.
 
 ## Cross-Project Boundary
 
@@ -88,7 +105,8 @@ Start.me is non-canonical and limited to public, non-sensitive navigation/source
 - P12.2 adapter framework: `VALIDATED`;
 - P12.3 authoritative source pack: `VALIDATED`;
 - P12.4 local-language/media discovery pack: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
-- P12.5: `NEXT / NOT_STARTED`;
+- P12.5 health/freshness/egress inventory: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`;
+- P12.6: `NEXT / NOT_STARTED`;
 - paid providers: `NONE_APPROVED`;
 - public KGM ingress: `NOT_APPROVED / NOT_DEPLOYED`;
 - production/live: `NOT_OPERATIONAL`.

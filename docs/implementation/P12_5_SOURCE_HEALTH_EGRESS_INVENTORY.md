@@ -1,9 +1,10 @@
 # P12.5 — Source Health, Freshness and Egress Inventory
 
 Date: 2026-09-01
-State: `IMPLEMENTED / VALIDATION_PENDING`
+State: `VALIDATED_WITH_MEASURED_DEGRADATION`
 Gate: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`
 Depends on: P12.1-P12.4 validated.
+Validation anchor: `92d0c0516351e2af7ba836d3ae711dd414d22023`.
 
 ## Objective
 
@@ -96,13 +97,24 @@ It reuses:
 
 The assessment layer is read-only over this persisted state.
 
-## Controlled-Live Probe
+## Controlled-Live Validation
 
 Workflow: `P12.5 Controlled Live Source Health Inventory`.
 
-The workflow creates an ephemeral project-local runtime, installs exact governance for all ten measured paths, runs one bounded read-only collection and prints a complete JSON health/freshness/egress snapshot.
+Validation evidence:
+- x64 run `33533313297`, job `99941475948`: `382 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33533313313`, job `99941475266`: native `aarch64`, `382 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS;
+- controlled-live run `33533313654`, job `99941475574`: workflow `SUCCESS`, `10/10` source paths measured, `8 SUCCESS / 2 FAILED`, `10` HTTPS egress entries.
 
-A source failure is measured data and does not by itself fail the workflow. The workflow fails if the measurement cannot persist one attempt for each of the ten governed paths or if governance/adapter construction itself is invalid.
+Measured degradation remains explicit:
+- European Parliament: `UNAVAILABLE / PARSER`, governed `DEGRADED` retained;
+- Haberturk: `UNAVAILABLE / UNKNOWN` due invalid item `original_url`, governed `ACTIVE` retained pending P12.6 review;
+- OSCE: acquisition `HEALTHY`, observed content `STALE`.
+
+A source failure is measured data and does not invalidate a measurement gate when the failure itself is persisted and visible.
+
+Detailed matrix: `docs/implementation/P12_5_CONTROLLED_LIVE_SOURCE_HEALTH_MATRIX.md`.
+Result: `docs/implementation/P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_RESULT.md`.
 
 ## Epistemic / Coverage Boundary
 
@@ -121,4 +133,10 @@ A source failure is measured data and does not by itself fail the workflow. The 
 - runtime storage remains `PROJECT_LOCAL_ONLY`;
 - public KGM ingress remains not approved/deployed;
 - production/live operational status remains `NOT_OPERATIONAL`;
-- broad outbound egress remains the explicit owner-approved candidate exception until measured inventory is validated and a separate restriction decision is made.
+- broad outbound egress remains the explicit owner-approved candidate exception; the measured inventory is input to a separate restriction decision, not a deployed allowlist.
+
+## Gate Decision
+
+`P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`
+
+Next: `P12.6_PHASE_12_VALIDATION_MATRIX / NEXT_NOT_STARTED`.

@@ -1,7 +1,7 @@
 # SECURITY_AND_DATA_POLICY
 
-Version: 0.8
-Status: APPROVED / P12_4_VALIDATED
+Version: 0.9
+Status: APPROVED / P12_5_VALIDATED
 
 ## Principles
 
@@ -9,7 +9,7 @@ Status: APPROVED / P12_4_VALIDATED
 - Use least privilege unless an explicit owner-approved exception exists.
 - Keep credentials/secrets out of repository state and routine logs.
 - Security/operational claims require reproducible evidence.
-- Governance, adapter, language or availability metadata cannot be promoted into truth or production acceptance.
+- Governance, adapter, language, availability or freshness metadata cannot be promoted into truth or production acceptance.
 
 ## Canonical Storage
 
@@ -49,21 +49,30 @@ P12.1/P12.2 rules remain mandatory:
 
 ## P12.3 Retained Security State
 
-European Parliament remains `DEGRADED` because its official RSS endpoint returns anti-bot HTML to the unattended runner. No bypass is authorized and no third-party mirror is promoted to canonical status.
+European Parliament remains governed `DEGRADED` because its official RSS endpoint returns non-feed/anti-bot content to the unattended runner. No bypass is authorized and no third-party mirror is promoted to canonical status.
 
 ## P12.4 Security / Data Result
 
 The local-language/media discovery pack uses public anonymous HTTPS only and introduces no credentials, paid provider or new canonical database schema.
 
-Validated controlled-live acquisition paths at the P12.4 probe:
-- Ukrainska Pravda — `ACTIVE`;
-- Meduza — `ACTIVE`;
-- RMF24 — `ACTIVE`;
-- Haberturk — `ACTIVE`.
+P12.4 validation observed successful bounded acquisition/parser paths for Ukrainska Pravda, Meduza, RMF24 and Haberturk. Original-language public content is preserved. Translation remains a separate derived representation. Language/source count does not change data sensitivity, factual verification or independent-origin count.
 
-Original-language public content is preserved. Translation remains a separate derived representation. Language/source count does not change data sensitivity, factual verification or independent-origin count.
+## P12.5 Security / Egress Result
 
-P12.5 owns measured source-health/freshness and real egress inventory. Broad outbound egress remains the explicit owner-approved candidate exception until a later validated decision changes it.
+Gate: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`.
+
+P12.5 measured all ten governed source paths and inventoried ten exact HTTPS host requirements without deploying any network-policy change.
+
+Controlled-live findings remain visible:
+- European Parliament — measured `UNAVAILABLE / PARSER`, governed `DEGRADED` retained;
+- Haberturk — measured `UNAVAILABLE / UNKNOWN` from invalid item URL validation, governed `ACTIVE` retained pending review;
+- OSCE — acquisition healthy while observed content is stale.
+
+No measured failure or freshness result changes truth, verification, independent-origin credit, coverage confidence or production state.
+
+P12.5 did **not** deploy an outbound allowlist. Broad outbound egress remains the explicit owner-approved candidate exception until a separate validated restriction decision changes it.
+
+Measured HTTPS hosts are documented in `docs/implementation/P12_5_CONTROLLED_LIVE_SOURCE_HEALTH_MATRIX.md`.
 
 ## Public Exposure Boundary
 
@@ -81,9 +90,10 @@ Start.me must not store credentials, private endpoints, canonical monitoring/run
 
 ## Current State
 
-- P12.0-P12.4: `VALIDATED`;
-- P12.5: `NEXT / NOT_STARTED`;
+- P12.0-P12.5: `VALIDATED`;
+- P12.6: `NEXT / NOT_STARTED`;
 - paid providers: `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
+- broad outbound egress: `OWNER_APPROVED_CANDIDATE_EXCEPTION / NOT_RESTRICTED_BY_P12_5`;
 - public API/dashboard: `NOT_APPROVED / NOT_DEPLOYED`;
 - production/live: `NOT_OPERATIONAL`.
