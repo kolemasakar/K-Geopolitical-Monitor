@@ -1,14 +1,16 @@
 # K-Geopolitical Monitor GPT Publication Readiness Result Log — Continuation 2026-09-01
 
-Status: MATRIX_COMPLETE / REMEDIATION_REQUIRED
+Status: MATRIX_COMPLETE / REMEDIATION_CANDIDATE_READY
 Date opened: 2026-09-01
 Project: K-Geopolitical Monitor
 Mode: OWNER_ONLY / ONE USER
 Previous continuation log: `docs/implementation/GPT_PUBLICATION_READINESS_RESULT_LOG_CONTINUED_2026-08-30.md`
 Previous continuation anchor commit: `8aebe96c8250b28d229730365100a34e012bbb68`
-Configuration under test: `docs/implementation/GPT_BUILDER_COPY_PASTE_PACKAGE.md` v1.1
-Instruction constraint: <= 8000 characters
-Builder instruction length: 6894 characters
+Configuration tested: `docs/implementation/GPT_BUILDER_COPY_PASTE_PACKAGE.md` v1.1
+Tested Builder instruction length: 6894 characters
+Remediation candidate: `docs/implementation/GPT_BUILDER_COPY_PASTE_PACKAGE_v1_2.md` v1.2
+Remediation candidate Builder instruction length: 7245 characters
+Builder constraint: <= 8000 characters
 
 ## Aggregate Summary
 
@@ -21,7 +23,7 @@ Including the base log and all continuation logs:
 - backend_hallucination_failures: 0
 - low_severity_refinements: 2
 
-The GPT-PUB-19 through GPT-PUB-37 matrix is complete. Publication readiness is not yet satisfied because GPT-PUB-23 exposed an exact-search-history integrity failure. The unchanged v1.1 configuration has completed the matrix and must now enter remediation before the publication gate.
+The GPT-PUB-19 through GPT-PUB-37 matrix is complete. Publication readiness is not yet satisfied because GPT-PUB-23 exposed an exact-search-history integrity failure. Version 1.1 remains frozen as the tested baseline. Version 1.2 has been prepared in the repository as a minimal remediation candidate but is not considered applied to the target GPT until the owner updates the Builder.
 
 ## Continuation Records
 
@@ -110,15 +112,26 @@ Truth-boundary result:
 - critical violation: NONE;
 - refinement required: NONE.
 
+## Remediation Candidate
+
+- candidate version: v1.2;
+- repository file: `docs/implementation/GPT_BUILDER_COPY_PASTE_PACKAGE_v1_2.md`;
+- candidate status: PREPARED / NOT YET APPLIED TO TARGET GPT;
+- scope: minimal strengthening of REPRODUCIBILITY exact-vs-reconstructed history discipline;
+- exact-label rule: `EXACT` / `TOOL-LOGGED` permitted only when current-session instrumentation explicitly preserves exact query text and relevant execution order;
+- fallback rule: otherwise use `RECONSTRUCTED / EQUIVALENT QUERY` and do not imply exactness;
+- prohibited reconstruction: missing retries, zero-result queries, timestamps, ordering, query-to-URL mappings or omitted searches;
+- all other v1.1 semantic boundaries remain unchanged.
+
 ## Current Gate
 
-- publication-readiness validation matrix: COMPLETE / REMEDIATION_REQUIRED;
-- current configuration under test: v1.1 matrix-complete and frozen as tested baseline;
+- publication-readiness validation matrix: COMPLETE;
+- tested baseline: v1.1 FROZEN;
+- remediation candidate: v1.2 READY / NOT YET APPLIED;
 - owner-only use: ACTIVE;
 - public sharing: NOT_ACTIVE;
 - Business migration: PLANNED;
 - Actions: NONE;
 - blocking defect: GPT-PUB-23 exact-search-history integrity;
-- remediation policy: create a revised configuration only after matrix completion, then re-run GPT-PUB-23/GPT-PUB-24 plus relevant regression cases before the publication gate;
-- test progression: COMPLETE;
-- next phase: GPT-PUB-23 REMEDIATION / REVISED BUILDER CONFIGURATION.
+- remediation validation required: GPT-PUB-23 + GPT-PUB-24, followed by relevant no-fabrication/provenance/backend regression cases;
+- next action: owner applies v1.2 exact Builder Instructions to the target GPT while keeping owner-only state, Knowledge empty, and Actions/Apps unset.
