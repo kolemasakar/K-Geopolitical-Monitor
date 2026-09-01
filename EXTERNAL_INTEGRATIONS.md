@@ -1,60 +1,28 @@
 # EXTERNAL_INTEGRATIONS
 
-Version: 0.5
-Status: APPROVED / ROADMAP_V4_PHASE_12_BASELINE
+Version: 0.6
+Status: APPROVED / ROADMAP_V4_PHASE_12_BASELINE / P12_0_VALIDATED
 
 ## Purpose
 
 Define rules for public sources, external services, cross-project resources and integrations.
 
-## Integration Categories
-
-- public data/source feeds;
-- external APIs;
-- authentication services;
-- AI services;
-- storage services;
-- monitoring/delivery services;
-- cross-project repositories and shared-infrastructure resources;
-- non-canonical operator/navigation tools.
-
 ## Required Integration Record
 
-Each integration requires an explicit record containing, as applicable:
-- purpose;
-- owner/reviewer;
-- provider/source and canonical identity;
-- source/integration class and role;
-- data exchanged and data classification;
-- region/language scope when relevant;
-- public/free/credentialed access mode;
-- authentication mode;
-- expected freshness/cadence;
-- adapter/parser identity/version;
-- required outbound destination/protocol;
-- licensing/terms notes where relevant;
-- Source of Truth;
-- provenance/origin characteristics and independence caveats;
-- fallback/replacement strategy;
-- failure-isolation rule;
-- operational impact;
-- approval/review status.
+Each integration requires an explicit record covering, as applicable: purpose/owner, provider/source identity, source class/role, exchanged data and classification, region/language, public/free/credentialed access, authentication, freshness/cadence, adapter/parser identity/version, required outbound destination/protocol, licensing/terms, Source of Truth, provenance/origin characteristics and independence caveats, fallback/replacement, failure isolation, operational impact and approval state.
 
-P12.1 will formalize this into a versioned source-portfolio contract. This document does not claim that P12.1 is already implemented.
+P12.1 will formalize this into a versioned source-portfolio contract. `P12.1 = NEXT / NOT_STARTED`.
 
 ## Cross-Project Rule
 
 `ADR_M5_SHARED_INFRASTRUCTURE.md` remains approved and establishes HYBRID architecture with `PROJECT_LOCAL_ONLY` runtime storage.
 
-Current rules:
 - no shared runtime database;
 - no implicit mixed canonical storage;
 - no direct write access to another project's canonical store;
 - cross-project exchange requires an explicit versioned contract/export/API;
-- cross-project reads remain external integrations unless a later architecture decision promotes them;
-- failures in one project must not corrupt another project's canonical state.
-
-Any future shared/team runtime or cross-project canonical write capability requires a new explicit architecture approval.
+- failures in one project must not corrupt another project's canonical state;
+- shared/team runtime or cross-project canonical write capability requires a new architecture approval.
 
 ## Validated Starting Live Integrations
 
@@ -74,63 +42,53 @@ Mode: public read-only HTTPS API; no authentication
 Record: `docs/integrations/GDELT_DOC2_CONTROLLED_PILOT.md`
 Live smoke: PASS
 
-GDELT is discovery/index metadata only. Discovering or indexing a publisher link does not create independent factual corroboration.
+GDELT discovery/index metadata does not itself provide independent factual corroboration of linked publisher claims.
 
-These two integrations are the validated starting baseline for Phase 12; they are not evidence of broad/global source coverage.
+These two integrations remain the validated starting Phase 12 baseline; they are not evidence of broad/global source coverage.
 
 ## Phase 12 Integration Policy
 
-Phase 12 is approved to broaden the public-source network, but each source remains separately governed.
-
-Rules:
 - prefer public/free sources first;
-- no paid provider is activated by ROADMAP v4 or Phase 12 alone;
-- read-only HTTPS/RSS/Atom/JSON/other explicitly approved public acquisition is preferred;
-- source/adaptor/domain count is not underlying-origin independence count;
+- no paid provider is activated by Phase 12 alone;
+- prefer read-only HTTPS/RSS/Atom/JSON/other explicitly approved public acquisition;
+- source/adapter/domain count is not underlying-origin independence count;
 - repost/syndication/translation/citation do not create independent corroboration;
-- a discovery/index provider is not factual corroboration merely by surfacing a link;
-- local-language gaps remain visible rather than being masked by translation;
-- transport timeout, payload/pagination/record limits and parser identity must be explicit in the adapter framework;
-- deterministic CI must use fixtures and must not depend on live source availability;
+- discovery/index providers are not factual corroboration merely by surfacing links;
+- local-language gaps remain visible;
+- timeouts, payload/pagination/record limits and parser identity must be explicit in the adapter framework;
+- deterministic CI uses fixtures and does not depend on live source availability;
 - controlled-live checks remain separate from deterministic regression;
-- collection attempts/failures must remain persisted/visible where the source framework provides such state.
+- collection failures remain visible where the source framework provides such state.
+
+P12.0 was documentation convergence only and activated no new source/integration.
 
 ## Failure Boundary
 
-- external-source failures fail closed at the affected adapter;
-- failures remain visible in collection-attempt/audit state;
-- one source failure must not block/corrupt another source adapter or canonical state;
-- unavailable/stale/parser/network states must not be silently converted to success;
-- external provider availability does not strengthen verification or coverage confidence.
+External-source failures fail closed at the affected adapter, remain visible and must not block/corrupt another source adapter or canonical state. Unavailable/stale/parser/network states must not silently become success. Provider availability does not strengthen verification or coverage confidence.
 
 ## Network / Egress Boundary
 
-The current owner-only candidate runtime retains broad outbound egress as an explicit owner-approved exception.
-
-P12.5 owns creation of the real source/service destination and protocol inventory. No egress allowlist restriction is authorized merely by this document.
+Broad outbound egress remains an explicit owner-approved candidate exception. P12.5 owns the real source/service destination/protocol inventory. No egress allowlist restriction is authorized merely by Phase 12 documentation.
 
 Public KGM application ingress remains not approved/not deployed. Public SSH TCP/22 remains the separate owner administrative exception.
 
 ## Credential / Secret Boundary
 
-- credentials are not stored in repository files;
-- credentialed sources require explicit approval and platform/environment secret handling;
-- secret-bearing URLs/commands must not enter routine logs or integration records;
-- Phase 12 source expansion does not itself authorize credentials or paid services.
+Credentials are not stored in repository files. Credentialed sources require explicit approval and platform/environment secret handling. Phase 12 source expansion does not itself authorize credentials or paid services.
 
 ## Start.me
 
 `START_ME_DATA_POLICY = PUBLIC_NON_SENSITIVE_ONLY`.
 
-Start.me may hold public URLs/RSS/source names/classes and public analytical/navigation resources only. It is non-canonical and cannot hold credentials, private endpoints, runtime state, private findings/alerts, sensitive data, canonical evidence/provenance or coverage authority.
+Start.me may hold public URLs/RSS/source names/classes and public analytical/navigation resources only. It is non-canonical and cannot hold credentials, private endpoints, runtime state, private findings/alerts, sensitive data or canonical evidence/provenance/coverage authority.
 
 ## Current State
 
-- validated controlled-live starting integrations: `2` (Consilium RSS, GDELT DOC 2.0);
-- controlled live-source acquisition: `VALIDATED_BASELINE`;
-- ROADMAP v4 Phase 12 source-network expansion: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
-- P12.0 canonical convergence: `IN_PROGRESS`;
-- additional Phase 12 sources: `NOT_YET_APPROVED_BY_P12_0`;
+- controlled-live starting integrations: `2 / VALIDATED_BASELINE` — Consilium RSS and GDELT DOC 2.0;
+- Phase 12 source-network expansion: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
+- P12.0 canonical convergence: `VALIDATED`;
+- P12.1 source-portfolio contract: `NEXT / NOT_STARTED`;
+- additional Phase 12 sources activated by P12.0: `NONE`;
 - paid providers: `NONE_APPROVED`;
 - cross-project runtime sharing: `BLOCKED_BY_PROJECT_LOCAL_ONLY_BOUNDARY`;
 - public KGM API/dashboard ingress: `NOT_APPROVED / NOT_DEPLOYED`;

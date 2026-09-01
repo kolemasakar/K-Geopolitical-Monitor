@@ -1,8 +1,8 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring and intelligence platform.
 
-Version: 4.0
-Status: ACTIVE / ROADMAP_V4_PHASE_12
+Version: 4.1
+Status: ACTIVE / ROADMAP_V4_PHASE_12 / P12_0_VALIDATED
 
 ## Purpose
 
@@ -18,11 +18,10 @@ K-Geopolitical Monitor is designed for discovery, provenance-aware verification,
 - `SOURCE_POLICY.md` — source/provenance governance;
 - `PROJECT_HISTORY.md` — chronological project record;
 - `docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md` — Phase 12 implementation plan;
+- `docs/implementation/P12_0_CANONICAL_CONVERGENCE_RESULT.md` — validated P12.0 result;
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_0_CANONICAL_CONVERGENCE_VALIDATED.md` — P12.0 checkpoint;
 - `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md` — owner-approved ROADMAP v4 direction;
-- `docs/analysis/KGM_SYSTEM_DEVELOPMENT_ANALYSIS_2026-09-01.md` — post-E9A development analysis;
-- `docs/implementation/E9A_6_VALIDATION_MATRIX_RESULT.md` — final E9A candidate evidence;
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_ROADMAP_V4_PHASE_12_READY.md` — Phase 12 transition checkpoint;
-- `BOOTSTRAP_PACKAGE_2026-09-01_K-GEOPOLITICAL-MONITOR_ROADMAP_V4_PHASE_12_TRANSITION.md` — current transition bootstrap.
+- `docs/implementation/E9A_6_VALIDATION_MATRIX_RESULT.md` — final E9A candidate evidence.
 
 ## Current State
 
@@ -37,29 +36,19 @@ K-Geopolitical Monitor is designed for discovery, provenance-aware verification,
 - intended current runtime users: `1 / OWNER_ONLY`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared canonical runtime storage: blocked pending new explicit architecture approval;
-- production/live: `NOT_OPERATIONAL`;
-- active numbered ROADMAP phase: `Phase 12 — Intelligence Quality and Source Network Foundation`;
-- current engineering activity: `P12.0_CANONICAL_ARCHITECTURE_SECURITY_INTEGRATION_CONVERGENCE`.
+- P12.0: `P12_0_CANONICAL_CONVERGENCE_VALIDATED`;
+- current/next engineering activity: `P12.1_SOURCE_PORTFOLIO_CONTRACT_AND_GOVERNANCE / NEXT_NOT_STARTED`;
+- production/live: `NOT_OPERATIONAL`.
 
 Production/live operational status: NOT_OPERATIONAL
 Runtime storage mode: PROJECT_LOCAL_ONLY
 
-## Canonical Validation Evidence Retained
+## P12.0 Validation Evidence
 
-- Phase 11: 226 passed, run `33000478908`;
-- private GPT pilot: 18/18 PASS;
-- E1: 241 passed, run `33244484173`;
-- E2: 248 passed, run `33244795277`;
-- E3: 254 passed, run `33247311921`;
-- E4 real host: run `33258520620`, SUCCESS;
-- E5: x64 282 passed run `33263584520`; native ARM64 `33263584515`, SUCCESS;
-- E6: x64 290 passed run `33264133429`; native ARM64 `33264133407`, SUCCESS;
-- E7: x64 294 passed run `33265984585`; native ARM64 `33265984622`, SUCCESS;
-- E9A.6 real OCI state-preserving validation: run `33486944907`, SUCCESS;
-- rpcbind persistent closure: run `33488954688`, SUCCESS;
-- final E9A x64: `318 passed, 1 warning`, run `33503085538`, SUCCESS;
-- final E9A native ARM64: native `aarch64`, `318 passed, 1 warning`, run `33503085489`, SUCCESS;
-- post-E9A canonical sync: `318 passed, 1 warning`, run `33504369245`, SUCCESS.
+- validation commit: `374beb4664cd92a4f41063cbbe30f6830ee3a831`;
+- CI run: `33517021594`;
+- job: `99886494759`;
+- result: `318 passed, 1 warning / SUCCESS`.
 
 ## Truth / Epistemic Boundaries
 
@@ -69,13 +58,13 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 - source reputation/status is not an automatic truth/falsehood operator;
 - graph inference is analytical context, not source evidence;
 - forecast probability/confidence cannot promote factual verification;
-- report presentation cannot strengthen upstream evidence;
-- `coverage_ratio` and `coverage_confidence` do not modify factual confidence;
+- presentation cannot strengthen upstream evidence;
+- coverage metrics do not modify factual confidence;
 - `GLOBAL` is intended scope, not proof of exhaustive world coverage;
 - missing local-language evidence remains explicit;
 - missing/uninstrumented exact tool/search history is never reconstructed and labeled exact;
 - public-web research is not a substitute for unavailable persisted backend/runtime state;
-- runtime-health instrumentation cannot imply unavailable coverage, source-health, uptime, verification or production facts.
+- runtime-health instrumentation cannot imply unavailable coverage/source-health/uptime/verification/production facts.
 
 ## Runtime / Security State
 
@@ -90,11 +79,9 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 - public GPT sharing: user-deferred;
 - production/live: not operational.
 
-Remaining explicit owner-approved candidate exceptions:
+Remaining explicit owner-approved candidate networking exceptions:
 - public SSH TCP/22 from `0.0.0.0/0`;
 - broad outbound egress.
-
-These are not equivalent to final least-privilege production networking.
 
 ## Source / Integration State
 
@@ -102,7 +89,7 @@ Validated controlled-live starting integrations:
 - Consilium press-release RSS;
 - GDELT DOC 2.0 discovery/index metadata.
 
-Phase 12 is approved to broaden this source network under explicit source/integration records, fail-closed acquisition, origin-independence rules, public/free-first preference and deterministic fixture testing.
+P12.0 activated no new source. P12.1 is the next gate and is not started. Phase 12 source expansion remains subject to explicit source/integration records, fail-closed acquisition, origin-independence rules, public/free-first preference and deterministic fixture testing.
 
 No paid source/data/translation/graph/forecast/reporting/coverage/notification provider is activated by Phase 12.
 
@@ -110,15 +97,12 @@ No paid source/data/translation/graph/forecast/reporting/coverage/notification p
 
 ## ROADMAP v4
 
-Sequential approved phases:
-- Phase 12 — Intelligence Quality and Source Network Foundation — ACTIVE;
-- Phase 13 — Semantic Verification and Provenance Intelligence — approved sequential / not started;
-- Phase 14 — Owner Operational Intelligence Activation — approved sequential / not started;
-- Phase 15 — Forecast Calibration and Performance Intelligence — approved sequential / not started;
+- Phase 12 — Intelligence Quality and Source Network Foundation — ACTIVE; P12.0 validated; P12.1 NEXT/NOT_STARTED.
+- Phase 13 — Semantic Verification and Provenance Intelligence — approved sequential / not started.
+- Phase 14 — Owner Operational Intelligence Activation — approved sequential / not started.
+- Phase 15 — Forecast Calibration and Performance Intelligence — approved sequential / not started.
 - Phase 16 — Delivery, Operator Experience and Quality Feedback — approved sequential / not started.
+- Phase 17 external publication readiness — conditional/not activated.
+- Phase 18 shared/team runtime — conditional/new architecture approval required.
 
-Conditional only:
-- Phase 17 external publication readiness — not activated;
-- Phase 18 shared/team runtime — new architecture approval required.
-
-P12.0 must validate before P12.1 begins. No production launch, Business migration, public sharing, public backend exposure or shared runtime transition is implied by ROADMAP v4 approval.
+No production launch, Business migration, public sharing, public backend exposure or shared runtime transition is implied by ROADMAP v4 approval or P12.0 validation.

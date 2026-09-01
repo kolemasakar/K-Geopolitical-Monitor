@@ -1,7 +1,7 @@
 # Phase 12 — Intelligence Quality and Source Network Foundation Plan
 
 Date: 2026-09-01
-Status: `APPROVED_FOR_IMPLEMENTATION`
+Status: `APPROVED_FOR_IMPLEMENTATION / P12_0_VALIDATED`
 Project: K-Geopolitical Monitor
 Roadmap: `ROADMAP.md / v4.0`
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
@@ -9,9 +9,9 @@ Analysis: `docs/analysis/KGM_SYSTEM_DEVELOPMENT_ANALYSIS_2026-09-01.md`
 
 ## 1. Objective
 
-Build a materially broader, measurable and maintainable public-source network and strengthen the source operating model without weakening the validated truth/provenance/coverage boundaries.
+Build a materially broader, measurable and maintainable public-source network and strengthen the source operating model without weakening validated truth/provenance/coverage boundaries.
 
-Phase 12 is a source-network and intelligence-input foundation phase. It does not claim exhaustive global coverage and does not activate production/live, public publication, shared runtime or paid providers.
+Phase 12 does not claim exhaustive global coverage and does not activate production/live, public publication, shared runtime or paid providers.
 
 ## 2. Design Rules
 
@@ -21,48 +21,48 @@ Phase 12 is a source-network and intelligence-input foundation phase. It does no
 - Adapter/source identity is not evidence independence.
 - Publisher/domain count is not automatically underlying-origin count.
 - Translation does not create an independent source.
-- GDELT or other discovery/index services do not become factual corroboration merely by discovering a link.
-- Source failure must remain isolated and visible.
-- Deterministic CI must not depend on live network availability.
+- Discovery/index services do not become factual corroboration merely by discovering a link.
+- Source failure remains isolated and visible.
+- Deterministic CI does not depend on live network availability.
 - Coverage metrics measure configured requirements; they do not prove universal completeness.
 - Model/LLM assistance may propose extraction/classification but cannot directly promote claim verification.
 - Broad egress is not narrowed until the real approved source destination inventory is measured.
 
 ## 3. P12.0 — Canonical Convergence
 
-State: `NEXT`
+State: `VALIDATED`
+Gate: `P12_0_CANONICAL_CONVERGENCE_VALIDATED`
+Result: `docs/implementation/P12_0_CANONICAL_CONVERGENCE_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_0_CANONICAL_CONVERGENCE_VALIDATED.md`
+Validation commit: `374beb4664cd92a4f41063cbbe30f6830ee3a831`
+Validation CI: run `33517021594`, job `99886494759`, `318 passed, 1 warning / SUCCESS`
 
-Required work:
-- reconcile `ARCHITECTURE.md` with E9A closure and ROADMAP v4;
-- reconcile `SECURITY_AND_DATA_POLICY.md` with completed E9A.6 real-host evidence;
-- reconcile `EXTERNAL_INTEGRATIONS.md` with the owner-only candidate runtime and Phase 12 integration rules;
-- review `README.md`, `PROJECT_HISTORY.md`, `SOURCE_POLICY.md`, `TEST_PLAN.md`, `DATA_MODELS.md`, `VERIFICATION_MODEL.md`, `FORECASTING_MODEL.md`, `REPORTING_MODEL.md` and other primary documentation for stale current-state claims;
-- preserve accepted historical decisions/ADRs as historical records rather than rewriting them;
-- run full regression after convergence.
-
-Gate:
-`P12_0_CANONICAL_CONVERGENCE_VALIDATED`
+Completed work:
+- reconciled architecture with E9A closure/ROADMAP v4;
+- reconciled security policy with completed E9A.6 evidence;
+- reconciled integrations/source policy with owner-only candidate runtime and Phase 12 rules;
+- reviewed secondary canonical documents for stale current-state claims;
+- preserved historical decisions/ADRs;
+- completed full deterministic regression.
 
 ## 4. P12.1 — Source Portfolio Contract
 
-State: `PLANNED`
+State: `NEXT / NOT_STARTED`
 
 Define a durable/versioned source-portfolio contract for:
-- canonical source ID/name;
-- publisher/organization identity;
-- source class;
-- source role: primary / official / media / discovery / structured-data / other approved role;
+- canonical source ID/name and publisher/organization identity;
+- source class/role;
 - region/language scope;
-- access mode;
-- public/free/credentialed classification;
+- ownership/operator responsibility;
+- public/free/credentialed access mode;
+- licensing/terms notes where relevant;
 - expected freshness/cadence;
 - adapter/parser identity/version;
-- required outbound domain/protocol;
+- required outbound destination/protocol;
 - fallback/replacement source;
-- source availability/degradation state;
-- provenance/origin characteristics;
-- independence caveats;
-- licensing/terms notes where relevant;
+- availability/degradation state;
+- data classification;
+- provenance/origin characteristics and independence caveats;
 - owner/review status;
 - reputation/status linkage without automatic truth promotion.
 
@@ -75,160 +75,80 @@ State: `PLANNED`
 
 Required capabilities:
 - reusable HTTPS read-only transport;
-- bounded timeout and payload size;
-- explicit pagination/record limits;
+- bounded timeout/payload/pagination/record limits;
 - RSS/Atom and JSON framework support;
 - source-specific parsing extensions;
 - deterministic adapter/source identity checks;
-- collection-attempt persistence;
-- reproducibility/audit linkage;
+- collection-attempt persistence and reproducibility linkage;
 - no secret leakage to logs;
 - deterministic fixture testing;
-- one adapter failure must not corrupt/block another source;
-- live smoke workflows remain separate from deterministic regression.
+- source-failure isolation;
+- live smoke workflows separate from deterministic regression.
 
-Gate:
-`P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`
+Gate: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`
 
 ## 6. P12.3 — Priority Authoritative Source Pack
 
 State: `PLANNED`
 
-Select and validate a first materially broader authoritative source pack.
+Select and validate a materially broader authoritative public-source pack, subject to source-specific technical/legal review. Candidate classes include UN/UN agencies, EU institutions, NATO, OSCE, official foreign-affairs/government/defence sources, sanctions/regulatory/legal public sources and humanitarian/security institutions.
 
-Candidate classes, subject to per-source technical/legal review:
-- UN and selected UN agencies;
-- EU institutions;
-- NATO;
-- OSCE;
-- official foreign-affairs/government/defence sources;
-- sanctions/regulatory/legal public sources;
-- humanitarian/security institutions.
+Selection criteria include strategic relevance, diversity, public accessibility, machine readability where possible, local-language/multilingual value, freshness, provenance clarity and maintenance cost.
 
-Selection criteria:
-- strategic relevance;
-- geographic/institutional diversity;
-- public accessibility;
-- stable machine-readable interface where possible;
-- local-language or multilingual value;
-- freshness;
-- provenance clarity;
-- maintenance cost.
+Source count is not independent corroboration count.
 
-No source is automatically considered independent corroboration of another source solely because it is a separate adapter/domain.
-
-Gate:
-`P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`
+Gate: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`
 
 ## 7. P12.4 — Local-Language and Media Discovery Pack
 
 State: `PLANNED`
 
-Goals:
-- expand discovery for priority regions/languages;
-- record source-language and region attribution;
-- preserve local-language gaps explicitly;
-- preserve publisher/underlying-origin uncertainty;
-- preserve translation isolation;
-- support media/discovery feeds without treating syndication as corroboration;
-- define quality/maintenance rules for source onboarding.
+Goals: expand priority region/language discovery, preserve source-language/region attribution, expose local-language gaps, preserve publisher/underlying-origin uncertainty and translation isolation, and define quality/maintenance rules for source onboarding.
 
-This gate should begin with a bounded priority-region set rather than pretending all global languages are covered at once.
+Start with bounded priority regions rather than claiming all global languages are covered.
 
-Gate:
-`P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`
+Gate: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`
 
 ## 8. P12.5 — Source Health and Egress Inventory
 
 State: `PLANNED`
 
-Implement/validate portfolio-level operational measurements:
-- source availability;
-- last-success / last-attempt;
-- freshness/staleness;
-- adapter error rate;
-- parser/drift signals;
-- replacement/fallback readiness;
-- destination domain/protocol inventory;
-- outbound dependency categories for source collection, OS maintenance and approved tooling.
+Measure source availability, last-success/last-attempt, freshness/staleness, adapter error rate, parser/drift signals, replacement readiness, destination domain/protocol inventory and outbound dependency categories.
 
-Output must distinguish:
-- source unavailable;
-- source stale;
-- adapter/parser failure;
-- network failure;
-- unmeasured state.
+Distinguish source unavailable, source stale, adapter/parser failure, network failure and unmeasured state.
 
-Gate:
-`P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`
+Gate: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`
 
 ## 9. P12.6 — Validation Matrix
 
 State: `PLANNED`
 
-Required deterministic evidence:
-- full x64 regression;
-- full native ARM64 regression;
-- source-contract validation;
-- adapter fixture tests;
-- source identity fail-closed tests;
-- provenance/origin invariants;
-- translation independence invariants;
-- region/language coverage isolation;
-- coverage-to-verification isolation;
-- source reputation-to-truth isolation;
-- reproducibility linkage;
-- failure isolation;
-- `PROJECT_LOCAL_ONLY` enforcement;
-- no public API/dashboard exposure;
-- no shared/mixed runtime storage.
+Required evidence includes full x64/native ARM64 regression, source-contract validation, adapter fixtures, source identity fail-closed tests, provenance/origin invariants, translation independence, region/language/coverage isolation, coverage-to-verification isolation, reputation-to-truth isolation, reproducibility linkage, failure isolation, `PROJECT_LOCAL_ONLY`, no public API/dashboard exposure and no shared/mixed runtime storage.
 
-Required controlled-live evidence:
-- selected authoritative source pack live smoke;
-- selected local-language/media discovery live smoke;
-- source failure visibility;
-- persisted collection attempts;
-- coverage snapshot behavior with real availability/staleness conditions;
-- real outbound destination inventory evidence.
+Controlled-live evidence includes selected authoritative and local-language/media live smoke, source-failure visibility, persisted attempts, real availability/staleness coverage behavior and outbound destination inventory.
 
-Phase gate:
-`PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`
+Phase gate: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`
 
 ## 10. Explicit Non-Goals
 
-Phase 12 does not:
-- implement Phase 13 semantic claim/verification v2;
-- deploy public API/dashboard;
-- connect a public GPT Action;
-- activate ChatGPT Business/publication;
-- enable shared/team runtime;
-- replace SQLite because of hypothetical scale;
-- activate a paid provider without a separate integration decision;
-- claim complete global coverage;
-- automatically alter source reputation/truth policy from drift metrics;
-- set `PRODUCTION_LIVE = OPERATIONAL`.
+Phase 12 does not implement Phase 13 semantic verification v2, deploy public API/dashboard, connect public GPT Action, activate Business/publication, enable shared/team runtime, replace SQLite for hypothetical scale, activate paid providers without separate approval, claim complete global coverage, automatically change truth policy from drift metrics, or set `PRODUCTION_LIVE = OPERATIONAL`.
 
 ## 11. Security Constraints
 
-Current explicit candidate exceptions remain:
-- public SSH TCP/22 from `0.0.0.0/0`;
-- broad outbound egress.
-
-Phase 12 owns the **egress inventory**, not automatic egress restriction.
-Private-admin/SSH final disposition belongs to the later owner operational activation gate unless separately requested earlier.
+Current explicit candidate exceptions remain public SSH TCP/22 from `0.0.0.0/0` and broad outbound egress. Phase 12 owns the egress inventory, not automatic egress restriction. Private-admin/SSH final disposition belongs to later owner operational activation unless separately requested.
 
 ## 12. Start.me Boundary
 
 `START_ME_DATA_POLICY = PUBLIC_NON_SENSITIVE_ONLY`.
 
-Start.me may be used only as a non-canonical operator/navigation surface for public, non-sensitive URLs, RSS feeds, source names and classifications.
+Start.me may be used only as a non-canonical operator/navigation surface for public, non-sensitive URLs, RSS feeds, source names/classes and public analytical resources. It must not store credentials, private runtime state, canonical evidence, sensitive findings or monitoring state and must not become a coverage authority.
 
-It must not store credentials, private runtime state, canonical evidence, sensitive findings or monitoring state and must not become a coverage authority.
+## 13. Exact Next Point
 
-## 13. Exact Start Point
+Next engineering activity:
+`P12.1_SOURCE_PORTFOLIO_CONTRACT_AND_GOVERNANCE`
 
-The first engineering task in the next chat is:
+State:
+`NEXT / NOT_STARTED`
 
-`P12.0_CANONICAL_ARCHITECTURE_SECURITY_INTEGRATION_CONVERGENCE`
-
-No P12.1 implementation begins until P12.0 is validated and saved to canonical state.
+No P12.2 implementation begins until P12.1 is validated and saved to canonical state.
