@@ -5,10 +5,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-import sqlite3
 from uuid import uuid4
 
-from .database import initialize_database
+from .database import initialize_database, runtime_database_connection
 from .runtime_storage import RuntimeStoragePolicy
 
 
@@ -67,7 +66,7 @@ class SQLiteOperationalMonitoringRepository:
         initialize_database(str(database_path))
 
     def save_watch(self, watch: MonitoringWatch) -> None:
-        with sqlite3.connect(self.database_path) as connection:
+        with runtime_database_connection(self.database_path) as connection:
             connection.execute(
                 """
                 INSERT INTO monitoring_watches(
@@ -85,7 +84,7 @@ class SQLiteOperationalMonitoringRepository:
             )
 
     def get_watch(self, watch_id: str) -> MonitoringWatch | None:
-        with sqlite3.connect(self.database_path) as connection:
+        with runtime_database_connection(self.database_path) as connection:
             row = connection.execute(
                 """
                 SELECT watch_id, name, query, cadence_minutes, enabled, created_at
@@ -115,7 +114,7 @@ class SQLiteOperationalMonitoringRepository:
             query += " WHERE enabled = 1"
         query += " ORDER BY watch_id"
 
-        with sqlite3.connect(self.database_path) as connection:
+        with runtime_database_connection(self.database_path) as connection:
             rows = connection.execute(query).fetchall()
 
         return [
@@ -131,7 +130,7 @@ class SQLiteOperationalMonitoringRepository:
         ]
 
     def save_run(self, run: MonitoringRun) -> None:
-        with sqlite3.connect(self.database_path) as connection:
+        with runtime_database_connection(self.database_path) as connection:
             connection.execute(
                 """
                 INSERT INTO monitoring_runs(
@@ -155,7 +154,7 @@ class SQLiteOperationalMonitoringRepository:
             )
 
     def latest_run(self, watch_id: str) -> MonitoringRun | None:
-        with sqlite3.connect(self.database_path) as connection:
+        with runtime_database_connection(self.database_path) as connection:
             row = connection.execute(
                 """
                 SELECT run_id, watch_id, status, started_at, completed_at,
@@ -196,7 +195,7 @@ class SQLiteOperationalMonitoringRepository:
         if result_count < 0:
             raise ValueError("result_count must not be negative")
 
-        with sqlite3.connect(self.database_path) as connection:
+        with runtime_database_connection(self.database_path) as connection:
             cursor = connection.execute(
                 """
                 UPDATE monitoring_runs
@@ -210,7 +209,7 @@ class SQLiteOperationalMonitoringRepository:
 
     def recover_running_runs(self, recovered_at: datetime) -> int:
         recovered_at = _normalize_time(recovered_at)
-        with sqlite3.connect(self.database_path) as connection:
+        with runtime_database_connection(self.database_path) as connection:
             cursor = connection.execute(
                 """
                 UPDATE monitoring_runs
