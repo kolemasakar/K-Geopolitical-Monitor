@@ -32,17 +32,42 @@ jobs:
           chmod 0600 "$HOME/.ssh/id_probe"
           printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
           chmod 0600 "$HOME/.ssh/known_hosts"
-      - name: Read-only deployment process probe
+
+      - name: Read-only port 111 and host firewall probe
         shell: bash
         run: |
           set -Eeuo pipefail
           ssh -i "$HOME/.ssh/id_probe" -o BatchMode=yes -o StrictHostKeyChecking=yes \
-            -o ConnectTimeout=10 "$E4_SSH_USER@$E4_HOST" \
-            'set -Eeuo pipefail
-             root=/opt/k-geopolitical-monitor
-             echo "probe_sha=$(sudo -n git -C "$root" rev-parse HEAD 2>/dev/null || echo unavailable)"
-             echo "probe_service_active=$(sudo -n systemctl is-active kgm-monitor.service 2>/dev/null || true)"
-             echo "probe_db_integrity=$(sudo -n sqlite3 "$root/data/kgeopolitical_monitor.db" "PRAGMA integrity_check;" 2>/dev/null || echo unavailable)"
-             active="$(sudo -n ps -eo comm= | grep -E "^(apt-get|apt|dpkg|python|python3|pytest|pip|bash)$" | sort -u | tr "\n" " " || true)"
-             echo "active_deployment_process_classes=$active"
-             echo "read_only_probe=PASS"'
+            -o ConnectTimeout=10 "$E4_SSH_USER@$E4_HOST" 'sudo -n bash -s' <<'REMOTE'
+          set -Eeuo pipefail
+          root=/opt/k-geopolitical-monitor
+          echo "probe_sha=$(git -C "$root" rev-parse HEAD)"
+          echo "probe_service_active=$(systemctl is-active kgm-monitor.service || true)"
+          echo "probe_db_integrity=$(sqlite3 "$root/data/kgeopolitical_monitor.db" "PRAGMA integrity_check;")"
+          echo "port_111_tcp_listeners_begin"
+          ss -ltnp '( sport = :111 )' || true
+          echo "port_111_tcp_listeners_end"
+          echo "port_111_udp_listeners_begin"
+          ss -lunp '( sport = :111 )' || true
+          echo "port_111_udp_listeners_end"
+          for unit in rpcbind.socket rpcbind.service nfs-server.service nfs-client.target; do
+            echo "$unit enabled=$(systemctl is-enabled "$unit" 2>/dev/null || true) active=$(systemctl is-active "$unit" 2>/dev/null || true)"
+          done
+          echo "rpcbind_package=$(dpkg-query -W -f='${Status} ${Version}' rpcbind 2>/dev/null || echo absent)"
+          echo "nfs_mount_count=$(findmnt -rn -t nfs,nfs4 | wc -l)"
+          echo "nfs_fstab_count=$(grep -Ev '^[[:space:]]*(#|$)' /etc/fstab | grep -Ec '[[:space:]]nfs4?[[:space:]]' || true)"
+          echo "rpcinfo_registered_programs_begin"
+          rpcinfo -p 127.0.0.1 2>/dev/null || true
+          echo "rpcinfo_registered_programs_end"
+          if command -v ufw >/dev/null 2>&1; then
+            echo "ufw_status_begin"
+            ufw status verbose || true
+            echo "ufw_status_end"
+          else
+            echo "ufw_status=UNAVAILABLE"
+          fi
+          echo "nft_input_policy_begin"
+          nft list ruleset 2>/dev/null | grep -E 'hook input|policy (accept|drop|reject)|tcp dport (22|111)|udp dport 111' || true
+          echo "nft_input_policy_end"
+          echo "port_111_read_only_probe=PASS"
+          REMOTE
