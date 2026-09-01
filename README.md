@@ -1,8 +1,8 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring and intelligence platform.
 
-Version: 4.3
-Status: ACTIVE / ROADMAP_V4_PHASE_12 / P12_2_VALIDATED
+Version: 4.4
+Status: ACTIVE / ROADMAP_V4_PHASE_12 / P12_3_VALIDATED
 
 ## Purpose
 
@@ -18,9 +18,10 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - `DATA_MODELS.md` — canonical data-model summary;
 - `PROJECT_HISTORY.md` — chronological project record;
 - `docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md` — Phase 12 plan;
-- `docs/implementation/P12_2_LIVE_ADAPTER_FRAMEWORK_V2.md` — P12.2 implementation;
-- `docs/implementation/P12_2_LIVE_ADAPTER_FRAMEWORK_V2_RESULT.md` — P12.2 result;
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED.md` — current checkpoint.
+- `docs/implementation/P12_3_PRIORITY_AUTHORITATIVE_SOURCE_PACK.md` — P12.3 implementation;
+- `docs/implementation/P12_3_PRIORITY_AUTHORITATIVE_SOURCE_PACK_RESULT.md` — P12.3 result;
+- `docs/implementation/P12_3_CONTROLLED_LIVE_SOURCE_MATRIX.md` — P12.3 controlled-live evidence;
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED.md` — current checkpoint.
 
 ## Current State
 
@@ -36,36 +37,32 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - P12.0: `P12_0_CANONICAL_CONVERGENCE_VALIDATED`;
 - P12.1: `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`;
 - P12.2: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`;
-- current/next engineering activity: `P12.3_PRIORITY_AUTHORITATIVE_SOURCE_PACK / NEXT_NOT_STARTED`;
+- P12.3: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`;
+- current/next engineering activity: `P12.4_LOCAL_LANGUAGE_AND_MEDIA_DISCOVERY_PACK / NEXT_NOT_STARTED`;
 - production/live: `NOT_OPERATIONAL`.
 
 Production/live operational status: NOT_OPERATIONAL
 Runtime storage mode: PROJECT_LOCAL_ONLY
 
-## P12.2 Validation Evidence
+## P12.3 Validation Evidence
 
-- implementation commit: `f2635cc5724b24ed7f3b880c50a67a4ca0f849fa`;
-- validation commit: `cb6866e82d5dc4a26042e0b9d08e9098aae10ecb`;
-- CI run: `33523574819`;
-- job: `99908604206`;
-- result: `346 passed, 1 warning / SUCCESS`.
+- validation anchor: `038122e44139d6ff23bc5d79bb50a8dee3c38cde`;
+- x64 CI: run `33527433110`, job `99921745359`, `356 passed, 1 warning / SUCCESS`;
+- native ARM64: run `33527433197`, job `99921746285`, `356 passed, 1 warning / SUCCESS`;
+- controlled-live repeat: run `33527433106`, job `99921745640`, `3 SUCCESS / 1 European Parliament DEGRADED`.
 
-## Live Adapter Framework v2
+P12.3 is validated with explicit degradation, not as a 4/4-health claim.
 
-P12.2 adds an additive governed framework over the validated M7 collector:
+## Priority Authoritative Source Pack
 
-- bounded read-only HTTPS GET transport;
-- fail-closed non-HTTPS/credential rejection for public-anonymous acquisition;
-- deterministic RSS and Atom parsing;
-- bounded JSON-list parsing;
-- reusable public feed/JSON adapter contracts;
-- deterministic source/adapter/version/item identity;
-- exact P12.1 portfolio review/access/adapter/outbound-host enforcement;
-- compatibility with canonical collection attempts, ingestion/provenance and E6 reproducibility;
-- deterministic local fixtures independent of live network availability;
-- source-failure isolation.
+Validated governed source states:
 
-P12.2 does not activate a source merely because a v2 adapter class exists. Existing Consilium/GDELT v2 classes are reusable adapter definitions, not automatic runtime switches.
+- European Commission Press Corner — `ACTIVE`;
+- European Parliament Press Releases — `DEGRADED` for unattended RSS acquisition: the official endpoint returns anti-bot HTML to the unattended runner rather than RSS XML;
+- UK Government News and Communications — `ACTIVE`;
+- OSCE Latest News — `ACTIVE`.
+
+All pack sources are public/free, use P12.1 governance and P12.2-compatible read-only HTTPS adapter paths. The European Parliament official endpoint remains canonical; no anti-bot bypass or third-party mirror substitution is authorized.
 
 ## Truth / Epistemic Boundaries
 
@@ -73,8 +70,9 @@ P12.2 does not activate a source merely because a v2 adapter class exists. Exist
 - repost/syndication/translation/citation does not create independent corroboration;
 - official-source status proves the source made a statement, not automatically the underlying event claim;
 - source reputation/status and source-portfolio metadata are not truth operators;
-- adapter/source/domain count is not independent-origin count;
+- adapter/source/domain/item count is not independent-origin count;
 - portfolio approval does not establish evidence independence;
+- acquisition/parser success or failure does not promote factual verification;
 - graph inference is analytical context, not source evidence;
 - forecast probability/confidence cannot promote factual verification;
 - presentation cannot strengthen upstream evidence;
@@ -94,18 +92,16 @@ P12.2 does not activate a source merely because a v2 adapter class exists. Exist
 - production/live: not operational.
 
 Remaining explicit owner-approved candidate networking exceptions:
-
 - public SSH TCP/22 from `0.0.0.0/0`;
 - broad outbound egress.
 
 ## Source / Integration State
 
-Validated controlled-live starting integrations remain:
+Previously validated controlled-live integrations remain Consilium press-release RSS and GDELT DOC 2.0 discovery/index metadata.
 
-- Consilium press-release RSS;
-- GDELT DOC 2.0 discovery/index metadata.
+P12.3 adds the governed authoritative source pack described above. Controlled-live acquisition is currently successful for European Commission, GOV.UK and OSCE; European Parliament unattended RSS is explicitly `DEGRADED`.
 
-P12.2 added reusable governed adapter infrastructure but seeded and activated no new external source. P12.3 is the next gate for a priority authoritative source pack.
+GDELT discovery is not independent factual corroboration. No source count is treated as independent-origin count.
 
 No paid source/data/translation/graph/forecast/reporting/coverage/notification provider is approved.
 
@@ -113,7 +109,7 @@ No paid source/data/translation/graph/forecast/reporting/coverage/notification p
 
 ## ROADMAP v4
 
-- Phase 12 — ACTIVE; P12.0, P12.1 and P12.2 validated; P12.3 NEXT/NOT_STARTED.
+- Phase 12 — ACTIVE; P12.0-P12.3 validated; P12.4 NEXT/NOT_STARTED.
 - Phase 13 — approved sequential / not started.
 - Phase 14 — approved sequential / not started.
 - Phase 15 — approved sequential / not started.
@@ -121,4 +117,4 @@ No paid source/data/translation/graph/forecast/reporting/coverage/notification p
 - Phase 17 — conditional / not activated.
 - Phase 18 — conditional / new architecture approval required.
 
-No production launch, Business migration, public sharing, public backend exposure or shared runtime transition is implied by P12.2 validation.
+No production launch, Business migration, public sharing, public backend exposure or shared runtime transition is implied by P12.3 validation.

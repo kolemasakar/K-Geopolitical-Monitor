@@ -1,60 +1,39 @@
 # SOURCE_POLICY
 Source management, onboarding and provenance rules.
 
-Version: 2.2
-Status: APPROVED / P12_2_VALIDATED
+Version: 2.3
+Status: APPROVED / P12_3_VALIDATED
 
 ## Core Principle
 
-Source quantity does not equal source independence.
-
-Publisher/domain/adapter identity is not automatically underlying-origin identity.
+Source quantity does not equal source independence. Publisher/domain/adapter/item identity is not automatically underlying-origin identity.
 
 ## Source Classes
 
-Approved baseline classes:
+Approved baseline classes remain Official sources, International media, Regional media, Social platforms, OSINT, Structured data and User-provided information. P12.1 source roles are separate governance metadata.
 
-- Official sources;
-- International media;
-- Regional media;
-- Social platforms;
-- OSINT;
-- Structured data;
-- User-provided information.
+## Source Portfolio / Adapter Governance
 
-P12.1 adds a separate source-role vocabulary without changing these canonical classes.
+P12.1 immutable portfolio records and P12.2 governed adapters preserve:
 
-## Source Portfolio Governance
-
-P12.1 establishes immutable versioned governance in `source_portfolio_versions`.
-
-Rules:
-
-- a portfolio record does not activate collection;
+- portfolio registration does not activate collection;
 - portfolio approval does not establish independent corroboration;
-- source identity conflicts fail closed;
-- operational availability requires approved review state;
-- approved sources require assigned adapter identity/version;
-- paid provider approval requires separate explicit approval;
-- no Phase 12 gate approves a paid provider by itself.
+- approved public sources require exact adapter identity/version and outbound HTTPS host;
+- public-anonymous acquisition rejects credentials and non-HTTPS requests;
+- `ACTIVE` and `DEGRADED` are operational availability states, not truth values;
+- paid provider approval requires separate explicit owner approval.
 
-## P12.2 Adapter Governance
+## P12.3 Authoritative Pack
 
-P12.2 validates a reusable governed public-adapter layer.
+Validated governed sources:
+- European Commission Press Corner — `ACTIVE`;
+- European Parliament Press Releases — `DEGRADED` for unattended RSS acquisition;
+- UK Government News and Communications — `ACTIVE`;
+- OSCE Latest News — `ACTIVE`.
 
-A framework adapter may collect only when its current portfolio record:
+The European Parliament official RSS endpoint returns anti-bot HTML to the unattended runner. The P12.2 parser fails closed; no bypass or third-party canonical mirror is approved.
 
-- exists and is `APPROVED`;
-- is operational (`ACTIVE` or `DEGRADED`);
-- matches canonical source name/class;
-- is `PUBLIC_ANONYMOUS` with authentication `NONE` and data classification `PUBLIC`;
-- matches the exact declared adapter ID/version;
-- approves HTTPS;
-- explicitly allows the adapter request hostname.
-
-Public-anonymous acquisition rejects non-HTTPS URLs, URL credentials and credential-bearing headers.
-
-Adapter/source/domain count remains operational metadata, not independent-origin count.
+Controlled-live source-specific failure isolation is validated. A degraded endpoint remains visible rather than being removed from evidence about source health.
 
 ## Provenance / Independence
 
@@ -64,33 +43,27 @@ Adapter/source/domain count remains operational metadata, not independent-origin
 - discovery/index services do not corroborate claims merely by indexing them;
 - source reputation/status changes context, not truth;
 - portfolio governance changes governance, not truth;
-- adapter availability or parser success does not promote verification.
-
-## Validated Starting Live Baseline
-
-- Consilium press-release RSS — Official sources;
-- GDELT DOC 2.0 — Structured discovery/index metadata.
-
-P12.2 adds reusable v2 adapter definitions for these known shapes but does not automatically switch or activate runtime integrations.
+- adapter availability/parser success changes operational state, not verification;
+- source/domain/adapter/item count is not independent-origin count.
 
 ## Coverage Boundary
 
-Source portfolio/adapter metadata may inform future configured coverage/source-health requirements, but it does not itself change coverage confidence or factual verification confidence. `GLOBAL` remains scope, not proof of exhaustive monitoring.
+Source portfolio/adapter/live-health metadata may inform configured coverage and future P12.5 source-health assessment, but does not itself change factual verification confidence or prove exhaustive coverage. `GLOBAL` remains scope, not proof of completeness.
 
 ## Activation Boundary
 
-P12.3 is the next gate. Each authoritative source must have an explicit portfolio/integration record and a P12.2-compatible adapter path before any controlled activation.
+P12.3 validates a governed pack and controlled-live acquisition behavior; it does not declare system-wide production/live operation. P12.4 discovery-source expansion must use the same P12.1/P12.2 governance path.
 
-No source becomes live solely because it exists in the portfolio or because an adapter class exists.
+No source becomes evidentially independent solely because it is approved, active or parsed successfully.
 
 ## Current State
 
 - source/provenance baseline: `VALIDATED`;
 - P12.1 source portfolio: `VALIDATED`;
-- P12.2 adapter framework: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`;
-- current controlled-live source network: 2 validated integrations;
-- new external live sources from P12.2: none;
+- P12.2 adapter framework: `VALIDATED`;
+- P12.3 authoritative source pack: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`;
+- P12.3 live state: 3 `ACTIVE`, European Parliament `DEGRADED`;
 - paid providers: none approved;
-- P12.3: `NEXT / NOT_STARTED`;
+- P12.4: `NEXT / NOT_STARTED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.

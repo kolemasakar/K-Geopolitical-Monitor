@@ -1,7 +1,7 @@
 # SECURITY_AND_DATA_POLICY
 
-Version: 0.6
-Status: APPROVED / P12_2_VALIDATED
+Version: 0.7
+Status: APPROVED / P12_3_VALIDATED
 
 ## Principles
 
@@ -9,7 +9,7 @@ Status: APPROVED / P12_2_VALIDATED
 - Use least privilege unless an explicit owner-approved exception exists.
 - Keep credentials/secrets out of repository state and routine logs.
 - Security/operational claims require reproducible evidence.
-- Governance or adapter metadata cannot be promoted into truth or production acceptance.
+- Governance, adapter or availability metadata cannot be promoted into truth or production acceptance.
 
 ## Canonical Storage
 
@@ -31,42 +31,34 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 E9A remains `OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`.
 
 Remaining explicit owner-approved candidate networking exceptions:
-
 - public SSH TCP/22 from `0.0.0.0/0`;
 - broad outbound egress.
 
 Production/live operational status: NOT_OPERATIONAL
 
-## P12.1 Source-Portfolio Security Rules
+## Source / Adapter Security Rules
 
-The versioned portfolio records access mode, cost mode, authentication mode, data classification and exact required outbound HTTPS hostnames.
-
-Fail-closed rules include:
-
+P12.1/P12.2 rules remain mandatory:
 - public-anonymous sources cannot require credentials;
-- credentialed/restricted sources require explicit authentication mode;
-- restricted/sensitive data cannot be public-anonymous;
-- operational availability requires approved review state;
-- approved sources require assigned adapter identity/version;
-- paid source approval requires separate explicit paid-provider approval;
-- a portfolio record does not activate collection.
+- operational sources require approved governance;
+- approved sources require exact adapter identity/version and outbound host;
+- public-anonymous acquisition is read-only HTTPS GET;
+- non-HTTPS URLs, URL credentials and credential-bearing headers fail closed;
+- timeout, response-size and record-count bounds apply;
+- source failures remain isolated and visible;
+- paid provider approval requires separate explicit owner approval.
 
-## P12.2 Adapter Security Rules
+## P12.3 Security Result
 
-The validated public-anonymous adapter framework:
+The priority authoritative pack uses public anonymous HTTPS only and introduces no credentials or paid provider.
 
-- performs read-only HTTP `GET` only;
-- requires HTTPS before network access;
-- rejects URL-embedded usernames/passwords;
-- rejects URL fragments for acquisition requests;
-- rejects `Authorization`, `Proxy-Authorization`, `Cookie` and `X-Api-Key` request headers;
-- enforces configured timeout and maximum response size;
-- bounds feed and JSON record counts;
-- requires exact P12.1 adapter ID/version and outbound-host approval before collection;
-- revalidates governance at collection time;
-- isolates source failures rather than weakening other source audit state.
+Validated operational states:
+- European Commission — `ACTIVE`;
+- European Parliament — `DEGRADED` because the official endpoint returns anti-bot HTML to the unattended runner;
+- GOV.UK — `ACTIVE`;
+- OSCE — `ACTIVE`.
 
-These controls apply to the P12.2 public-anonymous framework. Future credentialed adapters require separate explicit design/approval and secret handling.
+No attempt is authorized to bypass European Parliament anti-bot controls. No third-party mirror is promoted to canonical source status as a workaround.
 
 P12.5 owns measured egress inventory and any later egress-restriction proposal.
 
@@ -82,15 +74,13 @@ P12.5 owns measured egress inventory and any later egress-restriction proposal.
 ## Start.me
 
 `START_ME_DATA_POLICY = PUBLIC_NON_SENSITIVE_ONLY`.
-
 Start.me must not store credentials, private endpoints, canonical monitoring/runtime state, private findings/alerts, sensitive information or canonical evidence/provenance/coverage authority.
 
 ## Current State
 
-- P12.0: `VALIDATED`;
-- P12.1: `VALIDATED`;
-- P12.2: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`;
-- P12.3: `NEXT / NOT_STARTED`;
+- P12.0-P12.3: `VALIDATED`;
+- P12.3 controlled-live state: 3 `ACTIVE`, European Parliament `DEGRADED`;
+- P12.4: `NEXT / NOT_STARTED`;
 - paid providers: `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - public API/dashboard: `NOT_APPROVED / NOT_DEPLOYED`;

@@ -2,138 +2,76 @@
 
 Chronological record of major approved K-Geopolitical Monitor milestones.
 
-Version: 4.3
-Status: ACTIVE / P12_2_VALIDATED
+Version: 4.4
+Status: ACTIVE / P12_3_VALIDATED
 
-## 2026-08-24 — Foundation
+## Validated Historical Baseline
 
-- Product concept, roadmap and documentation governance established.
-- Initial engineering line through M4 created.
+Phases 0-11, owner-only private GPT pilot, E1-E7 and E9A remain validated as recorded in prior project checkpoints. E8 remains user-deferred and E9 shared production runtime remains not approved.
 
-## 2026-08-26 — M5 through Phase 11
-
-Validated milestones:
-
-- M5 Operational Intelligence Platform — run `32953343877`, 57 passed.
-- M6 Controlled Pilot Monitoring — run `32961649091`, 62 passed.
-- M7 Live Public-Source Pilot — run `32962379499`, 68 passed; live smoke `32962576874`.
-- M8 Live End-to-End Controlled Pilot — run `32963096313`, 73 passed; live E2E `32963354135`.
-- M9 Strategic Alerts — run `32965387054`, 82 passed.
-- M10 Multi-Region/Language Coverage — run `32966128001`, 88 passed.
-- M11 Advanced Geopolitical Graph — run `32973378757`, 118 passed.
-- M12 Advanced Forecasting — run `32980859938`, 154 passed.
-- M13 Full Reporting Environment — run `32993269910`, 199 passed.
-- ROADMAP Phase 11 Global Operational Coverage — run `33000478908`, 226 passed.
-
-Key truth boundary established: publisher/domain/adapter count is not automatically underlying-origin independence.
-
-## 2026-08-27 — Unattended runtime / private GPT pilot
-
-- unattended monitoring harness validated — run `33012596904`, 236 passed;
-- private owner-only GPT truth-boundary pilot completed — `18/18 PASS`;
-- no backend Action connected during pilot;
-- public sharing remained deferred.
-
-## 2026-08-29 — E1–E7
-
-- E1 translation foundation — `33244484173`, 241 passed.
-- E2 source reputation/status history — `33244795277`, 248 passed.
-- E3 owner-only read-only backend API foundation — `33247311921`, 254 passed.
-- E4 real OCI ARM64 unattended runtime — `33258520620`, SUCCESS.
-- E5 read-only admin dashboard — x64 `33263584520`, 282 passed; native ARM64 `33263584515`, SUCCESS.
-- E6 reproducibility instrumentation — x64 `33264133429`, 290 passed; native ARM64 `33264133407`, 290 passed.
-- E7 forecast probability semantics — x64 `33265984585`, 294 passed; native ARM64 `33265984622`, 294 passed.
-
-Backend HTTPS remained undeployed; private GPT Action remained unconnected.
-
-## 2026-09-01 — E9A owner-only runtime hardening
-
-E9A completed single-instance leasing, SQLite durability/concurrency profile, backup/restore, real clean-project-root DR, runtime-health instrumentation and systemd/security hardening.
-
-Evidence:
-
-- real OCI state-preserving run `33486944907`: SUCCESS;
-- rpcbind persistent-closure run `33488954688`: SUCCESS;
-- final x64 run `33503085538`: `318 passed, 1 warning`, SUCCESS;
-- final native ARM64 run `33503085489`: native `aarch64`, `318 passed, 1 warning`, SUCCESS;
-- post-E9A canonical sync `33504369245`: `318 passed, 1 warning`, SUCCESS.
-
-Final E9A state: `OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`.
-
-`PRODUCTION_LIVE = NOT_OPERATIONAL`.
+E9A final state remains `OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`; `PRODUCTION_LIVE = NOT_OPERATIONAL`.
 
 ## 2026-09-01 — ROADMAP v4 / Phase 12
 
-- owner approved intelligence-quality/source-expansion/owner-value direction;
-- Phase 12–16 approved sequentially;
-- Phase 17 remained conditional/not activated;
-- Phase 18 remained conditional/new architecture approval required;
-- no M14 created.
+Owner approved the sequential intelligence-quality/source-expansion/owner-value development line through Phases 12-16. Phase 17 remains conditional and Phase 18 requires new architecture approval.
 
-## 2026-09-01 — P12.0 canonical convergence
+## 2026-09-01 — P12.0 Canonical Convergence
 
-Validation commit `374beb4664cd92a4f41063cbbe30f6830ee3a831`; CI run `33517021594`, job `99886494759`; `318 passed, 1 warning / SUCCESS`.
-
-Closure commit `606c3341e02acaf0bae59867ebd2262f978c4558`; closure CI `33517876078 / SUCCESS`.
-
-Gate: `P12_0_CANONICAL_CONVERGENCE_VALIDATED`.
+- validation anchor `374beb4664cd92a4f41063cbbe30f6830ee3a831`;
+- CI `33517021594`, job `99886494759`, `318 passed, 1 warning / SUCCESS`;
+- gate `P12_0_CANONICAL_CONVERGENCE_VALIDATED`.
 
 ## 2026-09-01 — P12.1 Source Portfolio Contract and Governance
 
-Implemented additive immutable source governance without activating new live sources.
-
-Added migration `022_source_portfolio_contract.sql`, `source_portfolio_versions`, `SourcePortfolioService`, access/cost/authentication/freshness/cadence/adapter/outbound/fallback/availability/data-classification/origin/independence/terms/review governance and paid-provider fail-closed approval.
-
-Validation:
-
-- implementation/validation commit `905a727d85701bf43d18de2d5216b83ab9a2b8bd`;
-- CI run `33520371480`;
-- job `99897786494`;
-- `334 passed, 1 warning / SUCCESS`.
-
-Gate: `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`.
+- implementation/validation `905a727d85701bf43d18de2d5216b83ab9a2b8bd`;
+- CI `33520371480`, job `99897786494`, `334 passed, 1 warning / SUCCESS`;
+- immutable source-portfolio governance added without source activation;
+- gate `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`.
 
 ## 2026-09-01 — P12.2 Live Adapter Framework v2
 
-Implemented a reusable governed public-source adapter framework over the validated M7 collector.
+- reusable bounded read-only HTTPS transport, deterministic RSS/Atom/JSON parsers and governed adapter contracts added;
+- validation anchor `cb6866e82d5dc4a26042e0b9d08e9098aae10ecb`;
+- CI `33523574819`, job `99908604206`, `346 passed, 1 warning / SUCCESS`;
+- no new source activated and no paid provider approved;
+- gate `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`.
 
-Added:
+## 2026-09-01 — P12.3 Priority Authoritative Source Pack
 
-- `src/kgeopolitical_monitor/adapter_framework.py`;
-- bounded read-only HTTPS GET transport;
-- rejection of non-HTTPS requests, URL credentials and credential-bearing headers for public-anonymous adapters;
-- deterministic RSS/Atom parsing;
-- bounded JSON-list parsing;
-- reusable public feed and JSON adapter contracts;
-- deterministic source/adapter/version/item identity;
-- v2 definitions for the existing Consilium and GDELT source shapes;
-- strict P12.1 portfolio approval/access/adapter/outbound-host linkage;
-- compatibility with existing collection attempts, ingestion/provenance and E6 reproducibility;
-- deterministic RSS/Atom/JSON CI fixtures;
-- source-failure isolation through the validated collector.
+Implemented a P12.1-governed/P12.2-compatible public/free authoritative pack:
+- European Commission Press Corner;
+- European Parliament Press Releases;
+- UK Government News and Communications;
+- OSCE Latest News.
 
-The first implementation CI on commit `f2635cc5724b24ed7f3b880c50a67a4ca0f849fa` exposed one deterministic-fixture ordering assertion (`345 passed, 1 failed`). No production-code defect was indicated by that traceback. The fixture was corrected without weakening stable sorting.
+Implementation lineage:
+- pack implementation `02ba74c59f34d70cbc1ceec9cc806159554f603b`;
+- controlled-live smoke `dbeed606db6d07602b0a17d86c30838afd8a4213`;
+- governance-corrected validation anchor `038122e44139d6ff23bc5d79bb50a8dee3c38cde`.
 
-Final validation:
+Validation anchor evidence:
+- x64 CI `33527433110`, job `99921745359`: `356 passed, 1 warning / SUCCESS`;
+- native ARM64 `33527433197`, job `99921746285`: `356 passed, 1 warning / SUCCESS` plus bootstrap/unattended/systemd checks PASS;
+- controlled-live repeat `33527433106`, job `99921745640`: 3 source acquisitions `SUCCESS`, European Parliament `FAILED`/governed `DEGRADED`, workflow SUCCESS.
 
-- validation commit `cb6866e82d5dc4a26042e0b9d08e9098aae10ecb`;
-- CI run `33523574819`;
-- job `99908604206`;
-- `346 passed, 1 warning / SUCCESS`.
+European Parliament's official RSS endpoint returned anti-bot HTML rather than XML to the unattended runner. The official endpoint was retained and governed as `DEGRADED`; no bypass or third-party canonical mirror was introduced.
 
-P12.2 seeded no new external source, approved no paid provider and did not claim exact request locators where E6 still records `NOT_INSTRUMENTED`.
+Validated source states:
+- European Commission `ACTIVE`;
+- European Parliament `DEGRADED`;
+- GOV.UK `ACTIVE`;
+- OSCE `ACTIVE`.
 
-Gate: `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`.
+P12.3 validation explicitly does not mean 4/4 endpoint health, independent-origin count, exhaustive coverage or production/live activation.
+
+Gate: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`.
 
 ## Current State
 
 - strategic ROADMAP: `APPROVED / v4`;
-- Phase 12 P12.0: `VALIDATED`;
-- Phase 12 P12.1: `VALIDATED`;
-- Phase 12 P12.2: `VALIDATED`;
-- next activity: `P12.3_PRIORITY_AUTHORITATIVE_SOURCE_PACK / NEXT_NOT_STARTED`;
-- controlled-live baseline: Consilium RSS + GDELT DOC 2.0;
-- new external live sources from P12.2: none;
+- Phase 12 P12.0-P12.3: `VALIDATED`;
+- next activity: `P12.4_LOCAL_LANGUAGE_AND_MEDIA_DISCOVERY_PACK / NEXT_NOT_STARTED`;
+- P12.3 live state: 3 `ACTIVE`, European Parliament `DEGRADED`;
 - paid providers: none approved;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - public API/dashboard ingress: not approved/deployed;
