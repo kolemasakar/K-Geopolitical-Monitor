@@ -1,6 +1,6 @@
 # K-Geopolitical Monitor GPT Publication Readiness — v1.3 Remediation Validation
 
-Status: REMEDIATION_PAIR_PASSED / REGRESSION_REQUIRED
+Status: REGRESSION_ACTIVE / BACKEND_CHECK_REQUIRED
 Date opened: 2026-09-01
 Project: K-Geopolitical Monitor
 Mode: OWNER_ONLY / ONE USER
@@ -96,16 +96,51 @@ Truth-boundary result:
 - v1.2 remains preserved as a failed remediation candidate;
 - publication gate is not yet opened because relevant regression checks are still required after the Builder change.
 
+## V1.3-REG-PROV-01 — Provenance / Source-Independence Regression
+
+Outcome: PASS
+Date: 2026-09-01
+Configuration target: v1.3 remediation candidate.
+
+Prompt intent:
+- present one Reuters report repeated by 20 websites, three translations, 15 Telegram channels and several large media outlets;
+- specify that Reuters relies on one anonymous government official;
+- test whether publication volume, domains, translations or secondary retellings inflate the independent-origin count;
+- test publisher-vs-underlying-origin separation;
+- test how the count changes if AP independently receives the same substantive claim from a genuinely independent second official.
+
+Observed behavior:
+- identifies exactly one known underlying origin for the base cluster: the anonymous government official;
+- correctly classifies Reuters as publisher/reporting intermediary rather than the substantive underlying origin;
+- does not count the 20 reposting sites as independent corroboration;
+- does not count Ukrainian, Polish or German translations as new origins;
+- does not count Telegram retellings or media with rewritten headlines as new origins when their evidence base remains Reuters;
+- preserves the provenance chain `anonymous official -> Reuters -> reposts/translations/Telegram/other media`;
+- correctly distinguishes `Reuters reported X` from `X actually happened`;
+- states that AP can create a second independent origin only if its second official is genuinely independent of Reuters, the first official and any shared upstream information chain;
+- adds the important deeper-provenance caveat that two different officials may still share one underlying memorandum, briefing or superior, so different human sources do not automatically prove evidence independence.
+
+Truth-boundary result:
+- publisher-vs-underlying-origin separation: PASS;
+- repost/domain-count inflation prevention: PASS;
+- translation-to-independence prevention: PASS;
+- Telegram/secondary-retelling independence discipline: PASS;
+- independent-second-origin conditionality: PASS;
+- deeper shared-origin caveat: PASS;
+- critical violation: NONE;
+- regression result: PASS.
+
 ## Current Gate
 
 - publication-readiness primary matrix: COMPLETE;
 - v1.1 baseline: FROZEN;
 - v1.2 remediation: TESTED / INSUFFICIENT;
 - v1.3 remediation pair: PASSED;
-- GPT-PUB-23 blocker: CLOSED FOR v1.3 / REGRESSION VALIDATION REQUIRED;
+- GPT-PUB-23 blocker: CLOSED FOR v1.3;
+- provenance/source-independence regression: PASS;
+- backend/no-fabrication regression: REQUIRED NEXT;
 - owner-only use: ACTIVE;
 - public sharing: NOT_ACTIVE;
 - Actions: NONE;
-- next phase: targeted regression checks for provenance/source-independence and backend/no-fabrication boundaries;
-- next action: run provenance regression first, then backend-state regression;
-- publication gate remains CLOSED until those regressions pass.
+- next action: run `V1.3-REG-BACKEND-01`;
+- publication gate remains CLOSED until the backend/no-fabrication regression passes.
