@@ -53,7 +53,8 @@ def test_p13_1_closure_preserves_scope_and_truth_boundaries():
     assert "semantic extraction confidence is not factual verification confidence" in roadmap
     assert "publisher/publication is not automatically the underlying origin" in roadmap
     assert "different publisher/domain/language" in readme
-    assert "P13.2-P13.5" in result
+    assert "provenance / underlying-origin relations — P13.2" in result
+    assert "verification policy engine or multidimensional factual confidence — P13.5" in result
     assert "no live analytical cutover" in result.lower()
 
 
