@@ -73,7 +73,7 @@ def test_p12_6_preserves_runtime_security_and_paid_provider_boundaries():
     assert "NONE_APPROVED" in matrix
     assert "0.0.0.0/0" in matrix
     assert "broad outbound egress" in matrix
-    assert "not a firewall allowlist" in matrix.lower()
+    assert "ten-host inventory is not deployed enforcement" in matrix.lower()
 
 
 def test_p12_6_candidate_does_not_predeclare_phase_gate_or_start_phase13():
