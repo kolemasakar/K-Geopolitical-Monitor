@@ -20,6 +20,7 @@ from .live_sources import (
 )
 from .operational_monitoring import OperationalMonitoringRuntime
 from .reproducibility import ReproducibilityInstrumentedCollector
+from .runtime_lease import RuntimeInstanceLease, default_runtime_lease_path
 from .unattended_service import UnattendedMonitoringService, UnattendedTick
 
 
@@ -95,25 +96,28 @@ def _parser() -> argparse.ArgumentParser:
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = _parser().parse_args(argv)
-    service = build_unattended_service(
-        args.project_root,
-        poll_seconds=args.poll_seconds,
-    )
+    lease_path = default_runtime_lease_path(args.project_root)
 
-    if args.once:
-        tick = service.run_once()
-        print(json.dumps(_tick_payload(tick), sort_keys=True))
+    with RuntimeInstanceLease(lease_path):
+        service = build_unattended_service(
+            args.project_root,
+            poll_seconds=args.poll_seconds,
+        )
+
+        if args.once:
+            tick = service.run_once()
+            print(json.dumps(_tick_payload(tick), sort_keys=True))
+            return 0
+
+        stop_event = threading.Event()
+
+        def request_stop(_signum, _frame) -> None:
+            stop_event.set()
+
+        signal.signal(signal.SIGTERM, request_stop)
+        signal.signal(signal.SIGINT, request_stop)
+        service.serve_forever(stop_requested=stop_event.is_set)
         return 0
-
-    stop_event = threading.Event()
-
-    def request_stop(_signum, _frame) -> None:
-        stop_event.set()
-
-    signal.signal(signal.SIGTERM, request_stop)
-    signal.signal(signal.SIGINT, request_stop)
-    service.serve_forever(stop_requested=stop_event.is_set)
-    return 0
 
 
 if __name__ == "__main__":
