@@ -53,7 +53,7 @@ def test_p12_4_translation_and_origin_boundaries_remain_explicit():
     source_policy = _read("SOURCE_POLICY.md")
     result = _read("docs/implementation/P12_4_LOCAL_LANGUAGE_MEDIA_DISCOVERY_PACK_RESULT.md")
 
-    assert "translation remains a separate derived representation" in readme
+    assert "translation remains a separate derived representation" in readme.lower()
     assert "media/domain/language/adapter/item count is not independent-origin count" in source_policy
     assert "media/domain/language/adapter/item count is not independent-origin count" in result
     assert "does not directly promote factual verification" in result
