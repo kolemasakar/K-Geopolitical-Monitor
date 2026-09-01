@@ -41,6 +41,8 @@ K-Geopolitical Monitor is designed for discovery, provenance-aware verification,
 - active numbered ROADMAP phase: `Phase 12 — Intelligence Quality and Source Network Foundation`;
 - current engineering activity: `P12.0_CANONICAL_ARCHITECTURE_SECURITY_INTEGRATION_CONVERGENCE`.
 
+Production/live operational status: NOT_OPERATIONAL
+
 ## Canonical Validation Evidence Retained
 
 - Phase 11: 226 passed, run `33000478908`;
