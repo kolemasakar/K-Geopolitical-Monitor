@@ -1,0 +1,114 @@
+name: E9A6 Real Host Read-Only Audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/e9a6-host-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e9a6-real-host-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      E4_HOST: ${{ secrets.E4_HOST }}
+      E4_SSH_PRIVATE_KEY: ${{ secrets.E4_SSH_PRIVATE_KEY }}
+      E4_SSH_KNOWN_HOSTS: ${{ secrets.E4_SSH_KNOWN_HOSTS }}
+      E4_SSH_USER: ubuntu
+      PROJECT_ROOT: /opt/k-geopolitical-monitor
+
+    steps:
+      - name: Validate required connection secrets
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$E4_HOST"
+          test -n "$E4_SSH_PRIVATE_KEY"
+          test -n "$E4_SSH_KNOWN_HOSTS"
+
+      - name: Configure pinned SSH connection
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$E4_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_e9a6"
+          chmod 0600 "$HOME/.ssh/id_e9a6"
+          printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 0600 "$HOME/.ssh/known_hosts"
+
+      - name: Audit existing OCI runtime without mutation
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh \
+            -i "$HOME/.ssh/id_e9a6" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            -o ConnectTimeout=10 \
+            "$E4_SSH_USER@$E4_HOST" \
+            'set -Eeuo pipefail
+             root=/opt/k-geopolitical-monitor
+             db="$root/data/kgeopolitical_monitor.db"
+             test "$(uname -m)" = "aarch64"
+             . /etc/os-release
+             test "$ID" = "ubuntu"
+             test "$VERSION_ID" = "24.04"
+             sudo -n true
+             sudo -n test -d "$root/.git"
+             sudo -n test -f "$db"
+             echo "architecture=$(uname -m)"
+             echo "deployed_sha=$(sudo -n git -C "$root" rev-parse HEAD)"
+             echo "service_active=$(sudo -n systemctl is-active kgm-monitor.service)"
+             echo "service_enabled=$(sudo -n systemctl is-enabled kgm-monitor.service)"
+             echo "database_integrity=$(sudo -n sqlite3 "$db" "PRAGMA integrity_check;")"
+             echo "project_owner=$(sudo -n stat -c %U:%G "$root")"
+             echo "data_owner=$(sudo -n stat -c %U:%G "$root/data")"
+             echo "data_mode=$(sudo -n stat -c %a "$root/data")"
+             echo "systemd_security_properties_begin"
+             sudo -n systemctl show kgm-monitor.service \
+               --property=User \
+               --property=Group \
+               --property=NoNewPrivileges \
+               --property=PrivateTmp \
+               --property=PrivateDevices \
+               --property=ProtectSystem \
+               --property=ProtectHome \
+               --property=ProtectKernelTunables \
+               --property=ProtectKernelModules \
+               --property=ProtectKernelLogs \
+               --property=ProtectControlGroups \
+               --property=ProtectClock \
+               --property=ProtectHostname \
+               --property=LockPersonality \
+               --property=RestrictRealtime \
+               --property=RestrictSUIDSGID \
+               --property=RestrictNamespaces \
+               --property=SystemCallArchitectures \
+               --property=RestrictAddressFamilies \
+               --property=CapabilityBoundingSet \
+               --property=AmbientCapabilities \
+               --property=ReadWritePaths \
+               --no-pager
+             echo "systemd_security_properties_end"
+             public_ports="$(sudo -n ss -ltnH | awk '\''{print $4}'\'' | sed -n '\''s/.*:\([0-9][0-9]*\)$/\1/p'\'' | sort -nu | tr '\''\n'\'' '\'' '\'')"
+             echo "listening_tcp_ports=$public_ports"
+             for port in 80 443 3306 5432; do
+               if printf " %s " "$public_ports" | grep -q " $port "; then
+                 echo "unexpected_public_service_port=$port" >&2
+                 exit 1
+               fi
+             done
+             tracked_sensitive="$(sudo -n git -C "$root" ls-files | grep -E '\''(^|/)(\.env($|\.)|id_(rsa|ed25519)|[^/]+\.(pem|key|p12|pfx)$|kgeopolitical_monitor\.db$)'\'' || true)"
+             test -z "$tracked_sensitive"
+             journal_hits="$(sudo -n journalctl -u kgm-monitor.service --since "24 hours ago" --no-pager 2>/dev/null | grep -Eic '\''BEGIN (OPENSSH|RSA|EC|DSA) PRIVATE KEY|Authorization:[[:space:]]*(Bearer|Basic)[[:space:]]+[^*[:space:]]|api[_-]?key[=:][[:space:]]*[^*[:space:]]+'\'' || true)"
+             echo "journal_secret_pattern_hits=$journal_hits"
+             test "$journal_hits" -eq 0
+             echo "e9a6_read_only_host_audit=PASS"'
