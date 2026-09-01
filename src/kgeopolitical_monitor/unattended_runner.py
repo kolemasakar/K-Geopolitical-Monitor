@@ -20,6 +20,7 @@ from .live_sources import (
 )
 from .operational_monitoring import OperationalMonitoringRuntime
 from .reproducibility import ReproducibilityInstrumentedCollector
+from .runtime_health import RuntimeHealthStore
 from .runtime_lease import RuntimeInstanceLease, default_runtime_lease_path
 from .unattended_service import UnattendedMonitoringService, UnattendedTick
 
@@ -48,6 +49,7 @@ def build_unattended_service(
         runtime,
         cycle,
         poll_seconds=poll_seconds,
+        health_recorder=RuntimeHealthStore(runtime.database_path),
     )
 
 
