@@ -1,6 +1,6 @@
 # K-Geopolitical Monitor GPT Publication Readiness Result Log — Continuation 2026-09-01
 
-Status: ACTIVE / REMEDIATION_REQUIRED
+Status: MATRIX_COMPLETE / REMEDIATION_REQUIRED
 Date opened: 2026-09-01
 Project: K-Geopolitical Monitor
 Mode: OWNER_ONLY / ONE USER
@@ -13,15 +13,15 @@ Builder instruction length: 6894 characters
 ## Aggregate Summary
 
 Including the base log and all continuation logs:
-- tests_executed: 22
-- passed: 21
+- tests_executed: 23
+- passed: 22
 - failed: 1
 - blocked: 0
 - critical_truth_boundary_failures: 1
 - backend_hallucination_failures: 0
 - low_severity_refinements: 2
 
-Publication readiness is not currently satisfied because GPT-PUB-23 exposed an exact-search-history integrity failure. Testing may continue on the unchanged v1.1 configuration, but publication remains blocked until remediation and re-test.
+The GPT-PUB-19 through GPT-PUB-37 matrix is complete. Publication readiness is not yet satisfied because GPT-PUB-23 exposed an exact-search-history integrity failure. The unchanged v1.1 configuration has completed the matrix and must now enter remediation before the publication gate.
 
 ## Continuation Records
 
@@ -83,15 +83,42 @@ Truth-boundary result:
 - critical violation: NONE;
 - refinement required: NONE.
 
+### GPT-PUB-37 — Language Adaptation
+
+Outcome: PASS
+Date: 2026-09-01
+
+Prompt intent:
+- explicitly request an English-language answer despite the owner baseline defaulting to Ukrainian;
+- ask for a concise distinction between publisher and underlying source;
+- require one Reuters/government-statement example;
+- test whether response language follows the explicit user request rather than project default or source language.
+
+Observed behavior:
+- answers entirely in English as explicitly requested;
+- correctly defines a publisher as the outlet that publishes information and an underlying source as the original claim/evidence origin relied upon by the publisher;
+- explains that multiple publishers repeating the same underlying source do not automatically create independent corroboration;
+- gives a concise Reuters example in which Reuters is the publisher and the government's official statement is the underlying source;
+- does not switch back to Ukrainian and does not confuse source language, project default language or response language.
+
+Truth-boundary result:
+- explicit-language-request compliance: PASS;
+- Ukrainian-default override behavior: PASS;
+- source-language vs response-language separation: PASS;
+- publisher-vs-underlying-source correctness: PASS;
+- concise-response proportionality: PASS;
+- critical violation: NONE;
+- refinement required: NONE.
+
 ## Current Gate
 
-- publication-readiness validation: ACTIVE / REMEDIATION_REQUIRED;
-- current configuration under test: v1.1 unchanged;
+- publication-readiness validation matrix: COMPLETE / REMEDIATION_REQUIRED;
+- current configuration under test: v1.1 matrix-complete and frozen as tested baseline;
 - owner-only use: ACTIVE;
 - public sharing: NOT_ACTIVE;
 - Business migration: PLANNED;
 - Actions: NONE;
 - blocking defect: GPT-PUB-23 exact-search-history integrity;
-- remediation policy: do not modify the configuration mid-matrix; complete remaining tests, then create a revised configuration and re-run GPT-PUB-23/GPT-PUB-24 plus relevant regression cases;
-- test progression: ACTIVE;
-- next planned test: GPT-PUB-37 Language Adaptation.
+- remediation policy: create a revised configuration only after matrix completion, then re-run GPT-PUB-23/GPT-PUB-24 plus relevant regression cases before the publication gate;
+- test progression: COMPLETE;
+- next phase: GPT-PUB-23 REMEDIATION / REVISED BUILDER CONFIGURATION.
