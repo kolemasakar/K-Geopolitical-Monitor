@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Authoritative Atom fixture</title>
+  <entry>
+    <title>Ukraine security official update</title>
+    <summary>Official government communication concerning Ukraine security.</summary>
+    <link href="https://official.example/p12-3/atom/ukraine-security" rel="alternate" />
+    <updated>2026-09-01T15:05:00Z</updated>
+  </entry>
+  <entry>
+    <title>Unrelated administrative update</title>
+    <summary>Administrative notice without monitored terms.</summary>
+    <link href="https://official.example/p12-3/atom/other" rel="alternate" />
+    <updated>2026-09-01T14:05:00Z</updated>
+  </entry>
+</feed>
