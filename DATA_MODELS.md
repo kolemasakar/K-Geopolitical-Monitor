@@ -1,71 +1,65 @@
 # DATA_MODELS
 Canonical data concepts for K-Geopolitical Monitor.
 
-Version: 2.0
-Status: APPROVED / IMPLEMENTED_BASELINE
+Version: 2.1
+Status: APPROVED / IMPLEMENTED_BASELINE / P12_1_VALIDATED
 
 ## Principle
 
-Data provenance must be preserved from source acquisition through analytical and operational outputs. Persisted analytical context must not silently become source evidence or factual verification.
+Data provenance must be preserved from acquisition through analytical and operational outputs. Governance or analytical metadata must not silently become source evidence or factual verification.
 
 ## Implemented Canonical Domains
 
-The validated project-local data model includes persisted structures for major domains such as:
-- source registry and raw source items;
-- collection attempts/audit and reproducibility metadata;
+The project-local model includes:
+
+- `sources` and raw source items;
+- immutable versioned `source_portfolio_versions`;
+- source collection attempts/audit and reproducibility metadata;
 - translations as derived representations;
-- source reputation/status history;
-- claims, evidence, entities, events, event updates and storylines;
-- operational monitoring watches/runs and findings;
-- strategic alerts/policies/state/events;
-- region/language scope and attribution;
-- coverage contracts, snapshots/results and source availability/freshness dimensions;
-- geopolitical graph nodes/relationships, lifecycle/history and temporal snapshots;
-- forecasts/scenarios, immutable versions, typed provenance, outcomes/evaluations and calibration history;
-- report snapshots, sections and typed references;
-- runtime lease and owner-only runtime-health instrumentation.
+- append-only source reputation/status history;
+- claims/evidence/events;
+- monitoring watches/runs/findings and alerts;
+- region/language attribution and coverage;
+- geopolitical graph;
+- forecasts/scenarios/outcomes/calibration;
+- report snapshots/references;
+- owner-only runtime-health state.
 
-Detailed schema ownership remains in migrations and implementation-specific model/storage modules rather than this summary document.
+## P12.1 Source Portfolio Model
 
-## Source / Evidence Identity Boundary
+`source_portfolio_versions` is additive governance metadata over the existing canonical source identity.
 
-Canonical source and publication identity does not automatically equal underlying origin. Evidence independence must preserve origin uncertainty and must not treat duplicate publishers/adapters as independent by default.
+It records source/publisher identity, class/role, region/language, access/cost/authentication, freshness/cadence, adapter identity/version, outbound host/protocol, fallback, availability, data classification, provenance/origin characteristics, independence constraints, terms, owner/reviewer/review state and paid-provider approval state.
 
-## Translation Boundary
+Properties:
 
-Original source text remains immutable. Translations are separately persisted/versioned derived representations that retain origin lineage and cannot create independent-source credit.
+- immutable versions;
+- monotonically increasing per-source version numbers;
+- supersession links;
+- current state derived from latest version;
+- no new parallel source truth store;
+- no collection activation semantics;
+- no verification/independence/coverage promotion semantics.
 
-## Graph Boundary
+## Boundaries
 
-Graph state is a durable analytical projection over canonical project objects. Graph inference does not become independent evidence and cannot promote claim verification.
-
-## Forecast Boundary
-
-Forecast scenario probability/confidence objects are analytical state. They cannot modify factual verification or evidence independence.
-
-## Reporting Boundary
-
-Report snapshots/renderings are presentation artifacts over existing canonical state and cannot strengthen upstream truth.
-
-## Coverage Boundary
-
-Coverage objects measure configured monitoring requirements and known assessment state. Coverage confidence is not factual verification confidence and `GLOBAL` is scope, not proof of completeness.
+- translation remains derived and does not create independent origin;
+- source reputation remains contextual and separate from portfolio governance;
+- graph inference is analytical, not source evidence;
+- forecast probability/confidence does not change factual verification;
+- report rendering cannot strengthen evidence;
+- coverage metrics cannot strengthen factual confidence;
+- Phase 13 semantic verification v2 is not implemented by P12.1.
 
 ## Runtime Storage Boundary
 
 - canonical runtime storage: `PROJECT_LOCAL_ONLY`;
-- shared/mixed canonical runtime storage: not approved;
-- direct cross-project canonical mutation: prohibited absent a new explicit architecture decision.
-
-## Phase 12 / Phase 13 Boundary
-
-Phase 12 may add source-portfolio/source-health/adapter metadata under explicit migrations/contracts where required, but P12.0 is documentation convergence only.
-
-The richer structured semantic claim/provenance/contradiction model planned for Phase 13 is not yet implemented and must not be back-claimed by this document.
+- shared/mixed canonical runtime storage: not approved.
 
 ## Current State
 
-- canonical persisted model: `IMPLEMENTED / BASELINE_VALIDATED` through the existing Phase 0-11 + E1-E7 + E9A engineering line;
-- P12.0 schema mutation: `NONE`;
+- migration 022/source portfolio: `VALIDATED`;
+- P12.1: `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`;
+- P12.2: `NEXT / NOT_STARTED`;
 - Phase 13 semantic model v2: `NOT_STARTED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`.

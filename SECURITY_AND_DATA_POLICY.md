@@ -1,105 +1,82 @@
 # SECURITY_AND_DATA_POLICY
 
 Version: 0.5
-Status: APPROVED / E9A_OWNER_ONLY_CANDIDATE_EVIDENCE_COMPLETE / P12_0_VALIDATED
-
-## Purpose
-
-Define security and data governance principles for K-Geopolitical Monitor.
+Status: APPROVED / P12_1_VALIDATED
 
 ## Principles
 
-- Data provenance must be preserved.
-- Access follows least privilege unless an explicit owner-approved exception is recorded.
-- Sensitive user-provided information requires explicit handling rules.
-- External data usage must respect applicable restrictions.
-- Auditability is required for important analytical and operational outputs.
-- Operational/security claims require reproducible evidence.
-- Security exceptions remain explicit and do not become production acceptance by wording alone.
+- Preserve provenance.
+- Use least privilege unless an explicit owner-approved exception exists.
+- Keep credentials/secrets out of repository state and routine logs.
+- Security/operational claims require reproducible evidence.
+- Governance metadata cannot be promoted into truth or production acceptance.
 
-## Data / Storage Boundary
+## Canonical Storage
 
-Data categories include public information, user-provided information, derived analytical data and operational metadata.
+- runtime storage: `PROJECT_LOCAL_ONLY`;
+- shared/mixed canonical runtime storage: not approved;
+- direct cross-project canonical mutation: prohibited without a new architecture approval.
 
-- Runtime storage remains `PROJECT_LOCAL_ONLY`.
-- Shared/mixed canonical runtime storage is not approved.
-- Cross-project resources are external integrations unless explicitly approved as shared infrastructure.
-- One project must not silently mutate another project's canonical data.
-- Shared resources require explicit owner, Source of Truth, contract, access mode, failure boundary and lifecycle rule.
+Runtime storage mode: PROJECT_LOCAL_ONLY
 
 ## Secret / Logging Policy
 
-- Secrets, tokens, credentials and private keys must not be stored in repository files.
-- External credentials must use environment/platform secret storage.
-- Local `.env`, SSH/private-key material and runtime databases remain excluded from Git tracking.
-- Authorization headers, private keys, environment dumps and secret-bearing URLs/commands must not enter routine logs or validation artifacts.
-- Repository keyword scans are supporting evidence only, not proof of exhaustive historical secret absence.
+- credentials, tokens and private keys are not stored in repository files;
+- credentialed integrations require explicit approval and environment/platform secret handling;
+- secret-bearing URLs/commands and authorization headers must not enter routine logs;
+- keyword scans are supporting evidence, not proof of exhaustive secret absence.
 
-## Owner-Only Runtime Security Baseline
+## Owner-Only Runtime
 
-E9A is `OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`.
+E9A remains `OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`.
 
-Validated evidence includes dedicated non-login `kgm`, root-owned deployed code/service definition, service write access limited to `/opt/k-geopolitical-monitor/data`, restrictive file-creation mask, hardened systemd/no service capabilities, no KGM public API/dashboard/database listener, fail-closed project-local storage, second-instance rejection, restart/reboot recovery, interrupted-run recovery, due-watch resumption, clean project-local backup/restore, emergency stop/re-enable recovery, zero detected secret-pattern hits in the validated journal drill, and persistent removal of rpcbind TCP/UDP port 111.
+Validated controls include dedicated service identity, restricted writable path, hardened systemd, no KGM public API/database/dashboard listener, single-instance lease, recovery, backup/restore and persistent port-111 closure.
 
-Canonical E9A evidence: `docs/implementation/E9A_6_VALIDATION_MATRIX_RESULT.md`.
+Remaining explicit owner-approved candidate networking exceptions:
 
-## Remaining Explicit Security Exceptions
-
-Owner-approved candidate networking exceptions:
 - public SSH TCP/22 from `0.0.0.0/0`;
 - broad outbound egress.
 
-They are not final least-privilege production networking. Port 111 is not an exception; its removal was validated.
+Production/live operational status: NOT_OPERATIONAL
 
-P12.5 must build the actual source/service outbound destination/protocol inventory before any egress allowlist change is proposed. Private-admin/SSH final disposition belongs to later owner operational activation unless separately requested.
+## P12.1 Source-Portfolio Security Rules
 
-## Backup Boundary
+The versioned portfolio records access mode, cost mode, authentication mode, data classification and exact required outbound HTTPS hostnames.
 
-The E9A clean-project-root drill validated project-local backup/restore engineering objectives for that drill; it is not an operational SLA. No off-host backup provider is active.
+Fail-closed rules include:
 
-## Public Ingress / Exposure Boundary
+- public-anonymous sources cannot require credentials;
+- credentialed/restricted sources require explicit authentication mode;
+- restricted/sensitive data cannot be public-anonymous;
+- operational availability requires approved review state;
+- approved sources require assigned adapter identity/version;
+- paid source approval requires separate explicit paid-provider approval;
+- a P12.1 portfolio record does not activate collection;
+- P12.1 itself approves no paid provider.
 
-- public KGM HTTP/HTTPS/API/dashboard ingress: `NOT_APPROVED / NOT_DEPLOYED`;
-- backend HTTPS: `NOT_DEPLOYED`;
-- private GPT backend Action: `NOT_CONNECTED`;
-- Business migration: not activated;
-- GPT public sharing: user-deferred;
-- shared/team production runtime: not approved;
+P12.5, not P12.1, owns measured egress inventory and any later egress-restriction proposal.
+
+## Public Exposure Boundary
+
+- public KGM HTTP/HTTPS/API/dashboard ingress: not approved/deployed;
+- backend HTTPS: not deployed;
+- private GPT Action: not connected;
+- public GPT sharing: user-deferred;
+- shared/team runtime: not approved;
 - production/live: `NOT_OPERATIONAL`.
 
-ROADMAP v4 and Phase 12 do not alter these states.
-
-## External Integration Security
-
-- Prefer public/free read-only sources first.
-- Every source/integration requires an explicit record with data classification, access/authentication mode, failure boundary and required egress.
-- Credentials are not introduced merely to increase source count.
-- Adapter/source/domain identity does not establish evidentiary independence.
-- Source failures fail closed and remain visible.
-- Deterministic CI must not require live network access.
-- No paid provider is approved by Phase 12 alone.
-
-P12.0 activated no new source or credential. P12.1 is `NEXT / NOT_STARTED`.
-
-## External Operator Tools
+## Start.me
 
 `START_ME_DATA_POLICY = PUBLIC_NON_SENSITIVE_ONLY`.
 
-Start.me is non-canonical. It may contain public URLs, RSS feeds, public source names/classes and public analytical/navigation resources only. It must not contain credentials, private endpoints, canonical runtime/monitoring state, private findings/alerts, non-public project documents, personal/sensitive information or canonical evidence/provenance/coverage authority.
-
-## Provenance / Analytical Boundary
-
-External-tool availability cannot strengthen verification, provenance independence, coverage confidence or factual confidence. Public-web research cannot substitute for unavailable persisted backend state. Runtime-health data cannot imply unavailable coverage, source health, uptime, verification or production status.
+Start.me must not store credentials, private endpoints, canonical monitoring/runtime state, private findings/alerts, sensitive information or canonical evidence/provenance/coverage authority.
 
 ## Current State
 
-- baseline security/data boundaries: `APPROVED`;
-- E9A hardening: `OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`;
-- E9A.6 real-host/network evidence: `VALIDATED`;
-- P12.0 convergence: `VALIDATED`;
-- remaining candidate exceptions: public SSH TCP/22 from `0.0.0.0`; broad outbound egress;
+- P12.0: `VALIDATED`;
+- P12.1: `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`;
+- P12.2: `NEXT / NOT_STARTED`;
+- paid providers: `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
-- shared production runtime: `NOT_APPROVED`;
 - public API/dashboard: `NOT_APPROVED / NOT_DEPLOYED`;
-- next engineering activity: `PHASE_12 / P12.1_SOURCE_PORTFOLIO_CONTRACT_AND_GOVERNANCE / NEXT_NOT_STARTED`;
 - production/live: `NOT_OPERATIONAL`.

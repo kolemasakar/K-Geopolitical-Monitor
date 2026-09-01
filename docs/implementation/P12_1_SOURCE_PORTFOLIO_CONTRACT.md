@@ -1,7 +1,7 @@
 # P12.1 — Source Portfolio Contract and Governance
 
 Date: 2026-09-01
-Status: `IMPLEMENTED / VALIDATION_PENDING`
+Status: `BASELINE_VALIDATED`
 Project: K-Geopolitical Monitor
 Roadmap: `ROADMAP.md / v4.0`
 Parent gate: `P12_0_CANONICAL_CONVERGENCE_VALIDATED`
@@ -146,7 +146,11 @@ New deterministic tests cover:
 - truth/verification/coverage isolation;
 - current-entry projection.
 
-Full regression is required before gate closure.
+Full regression validation evidence:
+- commit `905a727d85701bf43d18de2d5216b83ab9a2b8bd`;
+- CI run `33520371480`;
+- job `99897786494`;
+- result `334 passed, 1 warning / SUCCESS`.
 
-Current validation state:
-`PENDING`
+Gate state:
+`P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`
