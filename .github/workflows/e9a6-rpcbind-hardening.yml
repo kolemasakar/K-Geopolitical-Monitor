@@ -1,0 +1,139 @@
+name: E9A6 RPCBind Surface Hardening
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/e9a6-rpcbind-hardening.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e9a6-real-host-validation
+  cancel-in-progress: false
+
+jobs:
+  harden:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      E4_HOST: ${{ secrets.E4_HOST }}
+      E4_SSH_PRIVATE_KEY: ${{ secrets.E4_SSH_PRIVATE_KEY }}
+      E4_SSH_KNOWN_HOSTS: ${{ secrets.E4_SSH_KNOWN_HOSTS }}
+      E4_SSH_USER: ubuntu
+      PROJECT_ROOT: /opt/k-geopolitical-monitor
+      VALIDATION_ID: ${{ github.run_id }}
+
+    steps:
+      - name: Configure pinned SSH
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$E4_HOST"
+          test -n "$E4_SSH_PRIVATE_KEY"
+          test -n "$E4_SSH_KNOWN_HOSTS"
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$E4_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_e9a6_rpc"
+          chmod 0600 "$HOME/.ssh/id_e9a6_rpc"
+          printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 0600 "$HOME/.ssh/known_hosts"
+
+      - name: Guard NFS absence and remove rpcbind listener
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_e9a6_rpc" -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            -o ConnectTimeout=10 "$E4_SSH_USER@$E4_HOST" \
+            "VALIDATION_ID='$VALIDATION_ID' sudo -n -E bash -s" <<'REMOTE'
+          set -Eeuo pipefail
+          root=/opt/k-geopolitical-monitor
+          db="$root/data/kgeopolitical_monitor.db"
+          test "$(systemctl is-active kgm-monitor.service)" = "active"
+          test "$(sqlite3 "$db" 'PRAGMA integrity_check;')" = "ok"
+          test "$(findmnt -rn -t nfs,nfs4 | wc -l)" -eq 0
+          test "$(grep -Ev '^[[:space:]]*(#|$)' /etc/fstab | grep -Ec '[[:space:]]nfs4?[[:space:]]' || true)" -eq 0
+          non_portmapper="$(rpcinfo -p 127.0.0.1 2>/dev/null | awk 'NR > 1 && $1 != "100000" {print}')"
+          test -z "$non_portmapper"
+
+          evidence="$root/data/e9a6_validation"
+          mkdir -p "$evidence"
+          chown kgm:kgm "$evidence"
+          backup="$evidence/pre_rpcbind_hardening_${VALIDATION_ID}.db"
+          test ! -e "$backup"
+          runuser -u kgm -- env PROJECT_ROOT="$root" BACKUP_PATH="$backup" \
+            "$root/.venv/bin/python" - <<'PY'
+          import os
+          from kgeopolitical_monitor.runtime_backup import backup_project_database
+          backup_project_database(os.environ["PROJECT_ROOT"], os.environ["BACKUP_PATH"])
+          PY
+          test "$(sqlite3 "$backup" 'PRAGMA integrity_check;')" = "ok"
+          chmod 0600 "$backup"
+
+          systemctl disable --now rpcbind.socket rpcbind.service 2>/dev/null || true
+          systemctl mask rpcbind.socket rpcbind.service
+          test "$(systemctl is-active rpcbind.socket 2>/dev/null || true)" != "active"
+          test "$(systemctl is-active rpcbind.service 2>/dev/null || true)" != "active"
+          test "$(systemctl is-enabled rpcbind.socket 2>/dev/null || true)" = "masked"
+          test "$(systemctl is-enabled rpcbind.service 2>/dev/null || true)" = "masked"
+          test -z "$(ss -H -ltn '( sport = :111 )')"
+          test -z "$(ss -H -lun '( sport = :111 )')"
+          test "$(systemctl is-active kgm-monitor.service)" = "active"
+          test "$(sqlite3 "$db" 'PRAGMA integrity_check;')" = "ok"
+          echo "rpcbind_pre_reboot_hardening=PASS"
+          REMOTE
+
+      - name: Reboot OCI host
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          set +e
+          ssh -i "$HOME/.ssh/id_e9a6_rpc" -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            "$E4_SSH_USER@$E4_HOST" 'sudo -n systemctl reboot'
+          reboot_rc=$?
+          set -e
+          if [[ "$reboot_rc" -ne 0 && "$reboot_rc" -ne 255 ]]; then
+            exit "$reboot_rc"
+          fi
+
+      - name: Wait for SSH after reboot
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ready=0
+          for attempt in $(seq 1 60); do
+            if ssh -i "$HOME/.ssh/id_e9a6_rpc" -o BatchMode=yes -o StrictHostKeyChecking=yes \
+              -o ConnectTimeout=5 "$E4_SSH_USER@$E4_HOST" true >/dev/null 2>&1; then
+              ready=1
+              break
+            fi
+            sleep 5
+          done
+          test "$ready" -eq 1
+
+      - name: Verify persistent closure and KGM recovery
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_e9a6_rpc" -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            "$E4_SSH_USER@$E4_HOST" 'sudo -n bash -s' <<'REMOTE'
+          set -Eeuo pipefail
+          root=/opt/k-geopolitical-monitor
+          db="$root/data/kgeopolitical_monitor.db"
+          test "$(systemctl is-enabled rpcbind.socket 2>/dev/null || true)" = "masked"
+          test "$(systemctl is-enabled rpcbind.service 2>/dev/null || true)" = "masked"
+          test "$(systemctl is-active rpcbind.socket 2>/dev/null || true)" != "active"
+          test "$(systemctl is-active rpcbind.service 2>/dev/null || true)" != "active"
+          test -z "$(ss -H -ltn '( sport = :111 )')"
+          test -z "$(ss -H -lun '( sport = :111 )')"
+          test "$(findmnt -rn -t nfs,nfs4 | wc -l)" -eq 0
+          test "$(systemctl is-enabled kgm-monitor.service)" = "enabled"
+          test "$(systemctl is-active kgm-monitor.service)" = "active"
+          test "$(sqlite3 "$db" 'PRAGMA integrity_check;')" = "ok"
+          runuser -u kgm -- "$root/.venv/bin/python" -m kgeopolitical_monitor.e4_host_validation \
+            --project-root "$root" status --require-pass
+          echo "port_111_persistently_closed=PASS"
+          echo "kgm_post_rpcbind_reboot_recovery=PASS"
+          echo "production_live=NOT_OPERATIONAL"
+          REMOTE
