@@ -110,3 +110,9 @@ def test_p13_0_preserves_runtime_and_truth_boundaries():
     assert "are not truth operators" in plan
     assert "graph inference and forecast probability cannot promote factual verification" in plan
     assert "`global` remains scope, not proof of exhaustive coverage" in plan
+
+
+def test_p13_0_validation_anchor_requires_saved_gate_before_p13_1():
+    plan = PLAN.read_text(encoding="utf-8")
+    assert "Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`" in plan
+    assert "P13.1 must not start before this gate is validated and saved." in plan
