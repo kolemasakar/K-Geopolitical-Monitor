@@ -1,89 +1,112 @@
 # DATA_MODELS
 Canonical data concepts for K-Geopolitical Monitor.
 
-Version: 2.5
-Status: APPROVED / IMPLEMENTED_BASELINE / P12_5_VALIDATED
+Version: 2.6
+Status: APPROVED / PHASE_12_VALIDATED / PHASE_13_P13.0_CURRENT
 
 ## Principle
 
-Data provenance must be preserved from acquisition through analytical and operational outputs. Governance, adapter, language, health, freshness or analytical metadata must not silently become source evidence or factual verification.
+Data provenance must be preserved from acquisition through analytical and operational outputs. Governance, adapter, language, health, freshness, extraction or analytical metadata must not silently become source evidence or factual verification.
 
 ## Implemented Canonical Domains
 
-The project-local model includes source identity/raw items, immutable source-portfolio versions, collection attempts/provenance, reproducibility audit metadata, translations, source reputation/status, claims/evidence/events, monitoring/alerts, region-language coverage, graph, forecasts/calibration, reporting and owner-only runtime-health state.
+The project-local model includes source identity/raw items, immutable source-portfolio versions, collection attempts/provenance, reproducibility audit metadata, translations, source reputation/status, legacy claims/evidence/events, live-analysis claims/evidence, monitoring/alerts, region-language coverage, graph, forecasts/calibration, reporting and owner-only runtime-health state.
 
-## P12.1 Source Portfolio Model
+## Phase 12 Validated Boundary
 
-`source_portfolio_versions` remains immutable governance metadata over canonical source identity. It does not activate collection, establish independent-origin credit, promote verification or modify coverage confidence.
+Phase 12 source-governance/acquisition/health layers are validated. Governed source state and measured operational state remain separate. Health/freshness does not modify truth. Translation is derived. Source/domain/language/adapter/item/host counts are not semantic independence.
 
-## P12.2–P12.5 Data Boundary
+Phase 12 final gate: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`.
 
-P12.2, P12.3, P12.4 and P12.5 introduce no new canonical database table or migration beyond validated migration 022.
+## Phase 13 Baseline Audit
 
-P12.4 reuses:
-- `sources` for canonical media-source identity;
-- `source_portfolio_versions` for region/language/access/adapter/outbound/availability governance;
-- `source_collection_runs` / `source_collection_attempts` for collection audit;
-- `raw_items` and `live_source_provenance` for original-language parsed acquisition;
-- existing translation storage for later derived representations;
-- E6 reproducibility tables for query/adapter/artifact audit.
+The pre-Phase-13 analytical persistence remains historical compatibility state:
+- migration 002 `claims(id,event_id,text,confidence)`;
+- migration 002 `evidence(id,claim_id,source_id,provenance,verification_status)`;
+- migration 007 `live_analysis_claims`, including normalized `claim_key`, verification status, scalar confidence and historical `independent_origin_count`;
+- migration 007 `live_analysis_evidence`, including `original_url` and `origin_host`.
 
-P12.5 adds a read-only assessment layer over existing persisted state:
-- current `source_portfolio_versions` for governance and expected freshness/cadence;
-- `source_collection_attempts` for latest measured SUCCESS/FAILED and attempt time;
-- `raw_items` + `live_source_provenance` for observed publication metadata;
-- governed outbound-domain/protocol fields for egress inventory.
+These tables remain readable. Their current headline/host-based semantics are not promoted into the new Phase 13 semantic model.
 
-No P12.5 health snapshot is silently promoted into a new canonical truth table. Reassessment is derived from the persisted observations and current governance.
+## P13.0 Semantic Verification Architecture Contract
 
-## Governed vs Measured Operational State
+Phase 13 semantic model v2: `P13.0_CURRENT`.
 
-Governed portfolio state and latest measured source-health state are separate data concepts.
+P13.0 creates no database migration. It defines the compatibility and schema requirements that P13.1+ must implement additively.
 
-Examples from P12.5 controlled validation:
-- European Parliament: governed `DEGRADED`, measured `UNAVAILABLE / PARSER`;
-- Haberturk: governed `ACTIVE`, measured `UNAVAILABLE / UNKNOWN` for the probe;
-- OSCE: governed `ACTIVE`, measured acquisition `HEALTHY`, observed content `STALE`.
+Future semantic claim objects must support explicit structured identity rather than normalized headline identity, including where applicable claimant/actor, proposition, subject/object/theme, event/action type, negation/polarity, modality, time, location, quantitative values/units, original language, extraction method/version, extraction confidence, version/supersession and links to legacy/live/raw objects.
 
-A single controlled observation does not mutate immutable governance history.
+A single publication may contain multiple semantic claims. Different wording may represent the same proposition; similar wording may represent different propositions.
 
-## Freshness Model
+## Provenance / Origin Model Contract
 
-P12.5 separates:
-- measurement freshness — recency of the latest persisted attempt;
-- content freshness — recency of an actually observed source/publisher timestamp.
+Future provenance must distinguish:
+- publisher/publication;
+- immediate acquired source;
+- cited/quoted source;
+- asserted underlying origin;
+- official statement/document origin;
+- wire/syndication origin;
+- dataset/structured-data origin;
+- social/user-provided origin;
+- translation/repost/syndication/citation derivation;
+- unresolved/mixed origin.
 
-When no parseable source timestamp exists, content freshness remains `UNKNOWN`; collection time is not substituted as a publisher timestamp.
+Unknown underlying origin remains unknown; another hostname or language is not proof of a new origin.
 
-## Boundaries
+## Evidence Relation / Independence Contract
 
-- translation remains derived and does not create independent origin;
-- source reputation remains contextual and separate from portfolio governance;
-- adapter/parser/acquisition health and content freshness are operational, not evidence truth;
-- official-source status proves institutional publication/statement, not automatically the underlying event;
-- media publisher identity does not prove underlying-origin identity;
-- language/source/adapter/host count does not strengthen factual confidence;
-- graph inference is analytical, not source evidence;
-- forecast probability/confidence does not change factual verification;
-- report rendering cannot strengthen evidence;
-- coverage metrics cannot strengthen factual confidence;
-- Phase 13 semantic verification v2 is not implemented by Phase 12.
+Future evidence relations are typed separately from verification decisions. Planned relation vocabulary: `SUPPORTS`, `CONTRADICTS`, `QUALIFIES`, `CONTEXT_ONLY`, `ATTRIBUTION_ONLY`, `DUPLICATE_OR_SAME_ORIGIN`.
+
+Semantic independence is an explicit provenance assessment with planned states `INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN`, and where appropriate `MIXED`.
+
+Legacy `origin_host` and `independent_origin_count` remain historical fields; they are not sufficient proof of semantic/evidentiary independence.
+
+## Contradiction / Verification Contract
+
+Contradictions must become typed/versioned analytical objects with dimensions such as occurrence, attribution, actor, quantity, time, location, status/outcome and scope.
+
+Verification promotion must be policy-controlled. Evidence count, domain/host count, publisher count, language count, official status, freshness, source reputation, graph inference or forecast probability cannot alone promote canonical factual truth state.
+
+Existing compatibility states remain `DETECTED`, `PARTLY_VERIFIED`, `VERIFIED`, `DISPUTED`, `UNVERIFIABLE` unless a later explicit migration changes the vocabulary.
+
+## Confidence Separation
+
+Future confidence is multidimensional before any presentation scalar:
+- evidence sufficiency;
+- provenance/independence confidence;
+- proposition-specific source authority/proximity;
+- source reliability context;
+- contradiction severity;
+- temporal freshness;
+- extraction uncertainty;
+- translation uncertainty;
+- claim-specific uncertainty;
+- coverage limitation.
+
+Semantic extraction confidence is not factual verification confidence. Coverage confidence remains separate and cannot promote factual verification confidence.
+
+## Migration / Compatibility Boundary
+
+- Phase 13 uses additive migrations unless a later explicit architecture decision authorizes otherwise;
+- existing `claims`, `evidence`, `live_analysis_claims`, `live_analysis_evidence` rows are not destructively rewritten;
+- new semantic objects must link to historical/raw objects;
+- model/LLM extraction may propose structured objects but cannot directly promote canonical truth state;
+- P13.1 is the first planned schema-bearing work package and remains `NOT_STARTED` until P13.0 validation.
 
 ## Runtime Storage Boundary
 
-- canonical runtime storage: `PROJECT_LOCAL_ONLY`;
-- shared/mixed canonical runtime storage: not approved.
+Production/live operational status: NOT_OPERATIONAL
+Runtime storage mode: PROJECT_LOCAL_ONLY
+
+Shared/mixed canonical runtime storage remains not approved.
 
 ## Current State
 
 - migration 022/source portfolio: `VALIDATED`;
-- P12.1: `VALIDATED`;
-- P12.2 schema mutation: `NONE`;
-- P12.3 schema mutation: `NONE`;
-- P12.4 schema mutation: `NONE`;
-- P12.5 schema mutation: `NONE`;
-- P12.4 local-language/media discovery: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
-- P12.5 source-health/egress assessment: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`;
-- P12.6: `NEXT / NOT_STARTED`;
-- Phase 13 semantic model v2: `NOT_STARTED`;
-- runtime storage: `PROJECT_LOCAL_ONLY`.
+- Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`;
+- Phase 13 semantic model v2: `P13.0_CURRENT`;
+- P13.0 architecture contract: `CURRENT / IMPLEMENTED_PENDING_VALIDATION`;
+- P13.1 semantic schema: `PLANNED / NOT_STARTED`;
+- runtime storage: `PROJECT_LOCAL_ONLY`;
+- production/live: `NOT_OPERATIONAL`.

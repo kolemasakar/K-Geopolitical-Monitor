@@ -1,100 +1,118 @@
 # SOURCE_POLICY
 Source management, onboarding and provenance rules.
 
-Version: 2.5
-Status: APPROVED / P12_5_VALIDATED
+Version: 2.6
+Status: APPROVED / PHASE_12_VALIDATED / PHASE_13_P13.0_CURRENT
 
 ## Core Principle
 
-Source quantity does not equal source independence. Publisher/domain/adapter/item identity is not automatically underlying-origin identity.
+Source quantity does not equal source independence. Publisher/domain/adapter/item/language/host identity is not automatically underlying-origin identity.
 
 ## Source Classes
 
-Approved baseline classes remain Official sources, International media, Regional media, Social platforms, OSINT, Structured data and User-provided information. P12.1 source roles are separate governance metadata.
+Approved baseline classes remain Official sources, International media, Regional media, Social platforms, OSINT, Structured data and User-provided information. P12.1 source roles remain separate governance metadata.
 
-## Source Portfolio / Adapter Governance
+## Phase 12 Source Governance
 
-P12.1 immutable portfolio records and P12.2 governed adapters preserve:
+P12.1-P12.6 remain validated. Portfolio approval, adapter success, operational availability, freshness and source count do not establish factual truth or independent corroboration.
 
-- portfolio registration does not activate collection;
-- portfolio approval does not establish independent corroboration;
-- approved public sources require exact adapter identity/version and outbound HTTPS host;
-- public-anonymous acquisition rejects credentials and non-HTTPS requests;
-- `ACTIVE` and `DEGRADED` are governed operational availability states, not truth values;
-- latest measured health/freshness is observation state and does not silently rewrite governance;
-- paid provider approval requires separate explicit owner approval.
+Known Phase 12 observations remain visible:
+- European Parliament — governed `DEGRADED`, measured `UNAVAILABLE / PARSER`;
+- Haberturk — governed `ACTIVE`, measured `UNAVAILABLE / UNKNOWN` for the P12.5 probe;
+- OSCE — acquisition `HEALTHY`, observed publisher content `STALE`;
+- `uk/ru/pl/tr` — initial language slice, not global coverage.
 
-## P12.3 Authoritative Pack
+## Provenance / Independence — Phase 13 Contract
 
-European Commission, GOV.UK and OSCE remain governed `ACTIVE`. European Parliament remains governed `DEGRADED` for unattended RSS because the official endpoint returns non-feed/anti-bot content. The parser fails closed; no bypass or third-party canonical mirror is approved.
+P13.0 semantic verification architecture contract: `CURRENT / IMPLEMENTED_PENDING_VALIDATION`.
 
-## P12.4 Local-Language / Media Discovery Pack
+Phase 13 makes provenance/origin relationships executable rather than relying on host/domain counts.
 
-Gate: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`.
+The semantic provenance layer must distinguish:
+- publisher/publication;
+- immediate acquired source;
+- cited/quoted source;
+- asserted underlying origin;
+- official statement/document origin;
+- wire/syndication origin;
+- dataset/structured-data origin;
+- social/user-provided origin;
+- translation/repost/syndication/citation derivation;
+- unresolved/mixed origin.
 
-Governed first language slice:
-- `uk` — Ukrainska Pravda — `ACTIVE`;
-- `ru` — Meduza — `ACTIVE`;
-- `pl` — RMF24 — `ACTIVE`;
-- `tr` — Haberturk — `ACTIVE`.
+Publisher identity therefore cannot be promoted to underlying-origin identity. Unknown origin remains unresolved rather than being inferred from a different domain, publisher or language.
 
-P12.4 media sources are discovery inputs. A media publication may derive from the outlet's own reporting, an official statement, a wire service, another publisher, social content or unresolved/combined origins. Publisher identity therefore cannot be promoted to underlying-origin identity.
+## Evidence Relations
 
-Original-language text is preserved. Translation remains a separate derived representation and does not create an independent source/origin.
+Phase 13 evidence-to-claim relations are planned as typed analytical relationships:
+- `SUPPORTS`;
+- `CONTRADICTS`;
+- `QUALIFIES`;
+- `CONTEXT_ONLY`;
+- `ATTRIBUTION_ONLY`;
+- `DUPLICATE_OR_SAME_ORIGIN`.
 
-The initial `uk/ru/pl/tr` slice is not global language coverage. Missing local languages, publishers, inaccessible/removed/closed sources and not-yet-indexed material remain explicit gaps.
+A relation describes how evidence bears on a claim. It does not itself determine final verification state.
 
-## P12.5 Operational Measurement
+## Semantic Independence
 
-Gate: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`.
+Planned states: `INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN`, and where appropriate `MIXED`.
 
-P12.5 measures governed source paths without converting availability into evidence truth.
+Independence requires provenance/origin reasoning. It is not established solely by:
+- another publisher/domain/host;
+- another adapter/source ID;
+- another language/translation;
+- another repost/syndication/citation;
+- source reputation or official status;
+- successful parsing, freshness or portfolio `ACTIVE` state.
 
-Latest controlled observation:
-- European Parliament — `UNAVAILABLE / PARSER`, while governed state remains `DEGRADED`;
-- Haberturk — `UNAVAILABLE / UNKNOWN` due invalid item URL validation, while governed state remains `ACTIVE` pending review;
-- OSCE — acquisition `HEALTHY` while observed publisher content is `STALE`.
+Legacy `origin_host` and `independent_origin_count` remain historical observations, not sufficient semantic independence proof.
 
-These differences are deliberate: portfolio state describes approved governance; source-health state describes a measured observation. A single probe does not silently rewrite governance.
+## Official / Media / Discovery Semantics
 
-## Provenance / Independence
+- official sources are authoritative for what the institution published or stated, not automatically for the substantive event;
+- media publication may derive from own reporting, official statements, wire services, other publishers, social content, datasets or mixed/unresolved origins;
+- discovery/index services such as GDELT do not corroborate a claim merely by indexing it;
+- translation remains a separate derived representation and creates no new underlying origin.
 
-- same-origin duplicate observations do not increase corroboration;
-- reposts, syndication, translations and citations do not create independent origins;
-- official sources are authoritative for their own statements, not automatically for the underlying event;
-- discovery/index services do not corroborate claims merely by indexing them;
-- media publication does not establish underlying-origin independence;
-- source reputation/status changes context, not truth;
-- portfolio governance changes governance, not truth;
-- adapter availability/parser success/failure and content freshness change operational assessment, not verification;
-- source/domain/adapter/item count is not independent-origin count;
-- media/domain/language/adapter/item count is not independent-origin count.
+## Verification Promotion Boundary
+
+Canonical Phase 13 factual verification is policy-controlled and auditable.
+
+A claim cannot be promoted solely because:
+- evidence count is at least two;
+- two domains/hosts/publishers differ;
+- the same claim appears in multiple languages;
+- a source is official/high-reputation/fresh/healthy;
+- a graph model infers a relationship;
+- a forecasting model assigns high probability.
+
+Model/LLM-assisted extraction may propose structured claims/provenance/relations. It cannot directly promote canonical truth state.
+
+## Contradiction Boundary
+
+Contradictions are planned as typed/versioned analytical objects. Conflicting sources must remain visible when unresolved. A claim/denial pair is not resolved automatically by source reputation or publisher count.
 
 ## Coverage Boundary
 
-Source portfolio/adapter/live-health/language metadata may inform configured coverage and source-health assessment, but does not itself change factual verification confidence or prove exhaustive coverage. `GLOBAL` remains scope, not proof of completeness.
+Source portfolio, language, source-health and semantic-provenance metadata may inform coverage assessment, but coverage confidence does not modify factual verification confidence. `GLOBAL` remains intended scope, not proof of exhaustive coverage.
 
-Unavailable or stale sources are coverage limitations and must remain visible. They are not evidence that no event occurred.
+Unavailable, stale, closed, inaccessible, deleted or unindexed sources remain coverage limitations, not evidence that an event did not occur.
 
-## Egress Boundary
+## Runtime / Activation Boundary
 
-P12.5 inventories ten required HTTPS hosts. This inventory is not a firewall allowlist. Broad outbound egress remains an explicit owner-approved candidate exception pending a separate validated restriction decision.
+Production/live operational status: NOT_OPERATIONAL
+Runtime storage mode: PROJECT_LOCAL_ONLY
 
-## Activation Boundary
-
-P12.4 validates governed media-discovery acquisition behavior; P12.5 validates operational measurement/inventory behavior. Neither declares system-wide production/live operation.
-
-No source becomes evidentially independent solely because it is approved, active, in another language, parsed successfully or currently fresh.
+Phase 13 does not activate public backend/API/dashboard ingress, backend HTTPS, GPT Action connection, shared runtime or paid providers.
 
 ## Current State
 
-- source/provenance baseline: `VALIDATED`;
-- P12.1 source portfolio: `VALIDATED`;
-- P12.2 adapter framework: `VALIDATED`;
-- P12.3 authoritative source pack: `VALIDATED`;
-- P12.4 local-language/media discovery: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
-- P12.5 health/freshness/egress inventory: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`;
-- P12.6: `NEXT / NOT_STARTED`;
-- paid providers: none approved;
+- source/provenance Phase 12 baseline: `VALIDATED`;
+- Phase 12 gate: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`;
+- Phase 13: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
+- P13.0 semantic verification architecture contract: `CURRENT / IMPLEMENTED_PENDING_VALIDATION`;
+- P13.1 structured semantic claim model: `PLANNED / NOT_STARTED`;
+- paid providers: `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.
