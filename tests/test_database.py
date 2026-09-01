@@ -84,6 +84,9 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "source_portfolio_versions",
         "semantic_claim_versions",
         "semantic_claim_links",
+        "semantic_provenance_entity_versions",
+        "semantic_claim_provenance_role_versions",
+        "semantic_provenance_relation_versions",
     }.issubset(tables)
     assert {"retry_count", "recovered"}.issubset(monitoring_run_columns)
     assert applied == {
@@ -110,4 +113,5 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "021_owner_runtime_health.sql",
         "022_source_portfolio_contract.sql",
         "023_structured_semantic_claim_model.sql",
+        "024_semantic_provenance_origin_relation_model.sql",
     }
