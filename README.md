@@ -1,7 +1,7 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring system.
 
-Version: 2.9
+Version: 3.0
 Status: ACTIVE
 
 ## Purpose
@@ -25,9 +25,10 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - `docs/implementation/E6_REPRODUCIBILITY_INSTRUMENTATION.md` - validated E6 reproducibility instrumentation
 - `docs/implementation/E7_FORECAST_PROBABILITY_SEMANTICS.md` - validated E7 forecast semantics
 - `docs/implementation/E8_CONTROLLED_EXTERNAL_SHARING_PREFLIGHT.md` - completed E8 architecture/security preflight
-- `docs/decisions/E8_OWNER_ONLY_PUBLICATION_READINESS_DECISION_2026-08-29.md` - current owner decision for publication-ready GPT development
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-08-29_E8_OWNER_ONLY_PUBLICATION_READINESS.md` - current project checkpoint
-- `BOOTSTRAP_PACKAGE_2026-08-29_K-GEOPOLITICAL-MONITOR_POST_E7_TRANSITION.md` - post-E7 recovery entry point
+- `docs/implementation/E9A_OWNER_ONLY_PRODUCTION_RUNTIME_HARDENING_PLAN.md` - completed E9A hardening plan
+- `docs/implementation/E9A_6_VALIDATION_MATRIX_RESULT.md` - final E9A.6 validation evidence
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_E9A_RUNTIME_HARDENING_CANDIDATE_READY.md` - current canonical project checkpoint
+- `BOOTSTRAP_PACKAGE_2026-08-29_K-GEOPOLITICAL-MONITOR_POST_E7_TRANSITION.md` - historical post-E7 recovery entry point
 
 ## Current State
 
@@ -37,16 +38,17 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - E1 Automatic Translation Foundation: BASELINE_VALIDATED
 - E2 Source Reputation and Status History: BASELINE_VALIDATED
 - E3 Private GPT Backend Action API: BASELINE_VALIDATED
-- E4 Free Unattended Runtime Deployment: BASELINE_VALIDATED_WITH_TEMPORARY_SECURITY_EXCEPTION
+- E4 Free Unattended Runtime Deployment: REAL_HOST_VALIDATED_WITH_OWNER_SECURITY_EXCEPTIONS
 - E5 Admin Read-Only Dashboard: BASELINE_VALIDATED / LOCAL_PROTECTED / READ_ONLY / NOT_DEPLOYED
 - E6 Reproducibility Instrumentation: BASELINE_VALIDATED
 - E7 Forecast Probability Semantics: BASELINE_VALIDATED
-- E8 preflight: COMPLETE
-- E8 owner-only publication readiness: APPROVED
-- Intended users until development completion: 1 / OWNER_ONLY
-- Planned publication workspace: ChatGPT Business, subject to current workspace settings/permissions at publication time
-- External sharing/publication: DEFERRED until final publication gate
-- Canonical E7 engineering baseline: `72f049b30fcaa3711c7712c8df7d1da1f934f650`
+- E8 Controlled External Sharing / Public GPT: USER_DEFERRED_UNTIL_SEPARATE_REQUEST
+- E9A Owner-Only Production Runtime Hardening: OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE
+- E9 Shared Production Runtime: DEFERRED / NOT_APPROVED
+- Intended users at current runtime gate: 1 / OWNER_ONLY
+- Runtime storage: PROJECT_LOCAL_ONLY
+- Production/live: NOT_OPERATIONAL
+- Next numbered ROADMAP phase: NONE_APPROVED
 
 ## Canonical Validation Evidence
 
@@ -59,9 +61,10 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - E5 x64: 282 passed, run `33263584520`; native ARM64 run `33263584515`, SUCCESS
 - E6 x64: 290 passed, run `33264133429`; native ARM64 run `33264133407`, SUCCESS
 - E7 x64: 294 passed, run `33265984585`; native ARM64 run `33265984622`, SUCCESS
-- Post-E7 closure x64: 294 passed, run `33266213476`, SUCCESS
-- D0 documentation repair x64: 294 passed, run `33268276657`, SUCCESS
-- E8 preflight closure x64: 294 passed, run `33268460893`, SUCCESS
+- E9A.6 real OCI state-preserving validation: run `33486944907`, SUCCESS
+- E9A.6 rpcbind persistent closure: run `33488954688`, SUCCESS
+- E9A final x64 canonical validation: 318 passed, 1 warning, run `33503085538`, SUCCESS
+- E9A final native ARM64 canonical validation: 318 passed, 1 warning, run `33503085489`, SUCCESS
 
 ## Validated Truth and Coverage Boundaries
 
@@ -78,6 +81,7 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - `coverage_ratio` and `coverage_confidence` do not modify geopolitical factual confidence.
 - GLOBAL is an explicit scope key and is not proof of universal world completeness.
 - Public-web research is not a substitute for persisted backend/runtime state.
+- Missing exact tool/search history is never reconstructed and labeled exact.
 
 ## Architecture and Runtime State
 
@@ -86,21 +90,25 @@ K-Geopolitical Monitor is designed for discovery, verification, analysis, foreca
 - Mixed/shared runtime storage: BLOCKED pending a new explicit architecture approval
 - Controlled live integrations: Consilium RSS and GDELT DOC 2.0
 - GDELT is discovery/index metadata only, not independent factual verification
-- Owner-only unattended cloud runtime: `DEPLOYED_OWNER_ONLY_REAL_HOST_VALIDATED / NOT_PRODUCTION`
+- Owner-only unattended cloud runtime: `DEPLOYED_OWNER_ONLY_REAL_HOST_VALIDATED / OWNER_ONLY_PRODUCTION_CANDIDATE_READY / NOT_PRODUCTION`
 - Owner-only read-only backend Action API foundation: VALIDATED
 - Backend Action API deployment/HTTPS endpoint: NOT_DEPLOYED
 - Private GPT backend Action connection: NOT_CONNECTED
 - Admin dashboard: `LOCAL_PROTECTED / READ_ONLY / NOT_DEPLOYED`
 - External translation/graph/forecast/reporting/coverage/notification providers: NONE_APPROVED
 - Production/global external integrations: NONE_APPROVED
-- GPT development mode: OWNER_ONLY / PUBLICATION_READY_TARGET
-- Planned publication workspace: ChatGPT Business
-- Public GPT sharing: DEFERRED until final publication gate
+- Public GPT sharing: USER_DEFERRED_UNTIL_SEPARATE_REQUEST
 - Public Action: NOT_APPROVED / NOT_DEPLOYED
 - Shared production runtime: NOT_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
 
-Temporary owner-approved development security exception remains active for E4 infrastructure: public SSH TCP/22 from `0.0.0.0/0` and broad egress remain temporarily unchanged until final security hardening.
+E9A removed unnecessary `rpcbind` exposure from the host and validated that TCP/UDP port 111 remains absent after physical reboot.
+
+Explicit owner-approved candidate security exceptions remain:
+- public SSH TCP/22 from `0.0.0.0/0`;
+- broad outbound egress.
+
+These remain documented exceptions and are not equivalent to final least-privilege production networking.
 
 ## Post-Pilot Workstream
 
@@ -110,16 +118,17 @@ Execution state:
 - E1 Automatic Translation Foundation - BASELINE_VALIDATED
 - E2 Source Reputation and Status History - BASELINE_VALIDATED
 - E3 Private GPT Backend Action API - BASELINE_VALIDATED
-- E4 Free Unattended Runtime Deployment - BASELINE_VALIDATED_WITH_TEMPORARY_SECURITY_EXCEPTION
-- E5 Admin Read-Only Dashboard - BASELINE_VALIDATED
+- E4 Free Unattended Runtime Deployment - REAL_HOST_VALIDATED_WITH_OWNER_SECURITY_EXCEPTIONS
+- E5 Admin Read-Only Dashboard - BASELINE_VALIDATED / NOT_DEPLOYED
 - E6 Reproducibility Instrumentation - BASELINE_VALIDATED
 - E7 Forecast Probability Semantics - BASELINE_VALIDATED
-- E8 Controlled External Sharing / Public GPT - PREFLIGHT COMPLETE; OWNER_ONLY PUBLICATION-READY DEVELOPMENT APPROVED; EXTERNAL SHARING DEFERRED
+- E8 Controlled External Sharing / Public GPT - USER_DEFERRED_UNTIL_SEPARATE_REQUEST
+- E9A Owner-Only Production Runtime Hardening - OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE
 - E9 Shared Production Runtime - DEFERRED / NOT_APPROVED
 
-Current engineering/product activity: continue owner-only GPT development with publication-ready requirements. Exactly one intended user remains in scope until development completion.
+Current engineering activity: `NONE_APPROVED_AFTER_E9A_CLOSURE`.
 
-Approved trajectory:
-`OWNER_ONLY DEVELOPMENT -> PUBLICATION-READY HARDENING -> BUSINESS WORKSPACE -> FINAL PUBLICATION GATE -> PUBLICATION/SHARING`
+No production launch, Business migration, public sharing, backend public exposure, or E9 shared runtime transition is implied by E9A completion.
 
-Next numbered ROADMAP phase: NONE_APPROVED. Actual E8 external sharing/public backend activation and E9 still require separate explicit approval.
+Next numbered ROADMAP phase: NONE_APPROVED.
+Production/live operational status: NOT_OPERATIONAL.
