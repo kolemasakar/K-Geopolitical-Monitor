@@ -21,7 +21,7 @@ def test_p12_5_gate_and_later_phase_progress_are_canonical():
     assert "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED" in roadmap
     assert "Phase 13 — Semantic Verification and Provenance Intelligence" in roadmap
     assert "State: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
-    assert "P13.0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT" in readme
+    assert "P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED" in readme
     assert "P12.6 — Phase 12 Validation Matrix" in plan
     assert "State: `VALIDATED`" in plan
 
