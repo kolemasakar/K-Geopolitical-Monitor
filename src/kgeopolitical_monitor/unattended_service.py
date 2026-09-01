@@ -15,6 +15,16 @@ class DueCycleExecutor(Protocol):
     def execute_due(self, now: datetime) -> list[CycleExecution]: ...
 
 
+class RuntimeHealthRecorder(Protocol):
+    def record_tick(
+        self,
+        *,
+        checked_at: datetime,
+        recovered_runs: int,
+        executions: tuple[CycleExecution, ...],
+    ) -> object: ...
+
+
 @dataclass(frozen=True)
 class UnattendedTick:
     checked_at: datetime
@@ -37,12 +47,14 @@ class UnattendedMonitoringService:
         cycle: DueCycleExecutor,
         *,
         poll_seconds: float = 60.0,
+        health_recorder: RuntimeHealthRecorder | None = None,
     ) -> None:
         if poll_seconds <= 0:
             raise ValueError("poll_seconds must be positive")
         self.runtime = runtime
         self.cycle = cycle
         self.poll_seconds = float(poll_seconds)
+        self.health_recorder = health_recorder
         self._startup_recovery_complete = False
 
     def run_once(self, now: datetime | None = None) -> UnattendedTick:
@@ -53,11 +65,18 @@ class UnattendedMonitoringService:
             self._startup_recovery_complete = True
 
         executions = tuple(self.cycle.execute_due(current))
-        return UnattendedTick(
+        tick = UnattendedTick(
             checked_at=current,
             recovered_runs=recovered_runs,
             executions=executions,
         )
+        if self.health_recorder is not None:
+            self.health_recorder.record_tick(
+                checked_at=current,
+                recovered_runs=recovered_runs,
+                executions=executions,
+            )
+        return tick
 
     def serve_forever(
         self,
