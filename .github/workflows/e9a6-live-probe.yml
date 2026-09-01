@@ -1,0 +1,48 @@
+name: E9A6 Real Host Live Probe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/e9a6-live-probe.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      E4_HOST: ${{ secrets.E4_HOST }}
+      E4_SSH_PRIVATE_KEY: ${{ secrets.E4_SSH_PRIVATE_KEY }}
+      E4_SSH_KNOWN_HOSTS: ${{ secrets.E4_SSH_KNOWN_HOSTS }}
+      E4_SSH_USER: ubuntu
+    steps:
+      - name: Configure pinned SSH
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$E4_HOST"
+          test -n "$E4_SSH_PRIVATE_KEY"
+          test -n "$E4_SSH_KNOWN_HOSTS"
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$E4_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_probe"
+          chmod 0600 "$HOME/.ssh/id_probe"
+          printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 0600 "$HOME/.ssh/known_hosts"
+      - name: Read-only deployment process probe
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_probe" -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            -o ConnectTimeout=10 "$E4_SSH_USER@$E4_HOST" \
+            'set -Eeuo pipefail
+             root=/opt/k-geopolitical-monitor
+             echo "probe_sha=$(sudo -n git -C "$root" rev-parse HEAD 2>/dev/null || echo unavailable)"
+             echo "probe_service_active=$(sudo -n systemctl is-active kgm-monitor.service 2>/dev/null || true)"
+             echo "probe_db_integrity=$(sudo -n sqlite3 "$root/data/kgeopolitical_monitor.db" "PRAGMA integrity_check;" 2>/dev/null || echo unavailable)"
+             active="$(sudo -n ps -eo comm= | grep -E "^(apt-get|apt|dpkg|python|python3|pytest|pip|bash)$" | sort -u | tr "\n" " " || true)"
+             echo "active_deployment_process_classes=$active"
+             echo "read_only_probe=PASS"'
