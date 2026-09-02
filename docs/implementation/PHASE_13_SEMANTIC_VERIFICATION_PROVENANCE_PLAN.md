@@ -1,10 +1,10 @@
 # Phase 13 — Semantic Verification and Provenance Intelligence
 
-Date: 2026-09-01
-Status: `ACTIVE_ENGINEERING_PHASE / P13.0_VALIDATED / P13.1_VALIDATED / P13.2_CURRENT`
+Date: 2026-09-02
+Status: `ACTIVE_ENGINEERING_PHASE / P13.0_VALIDATED / P13.1_VALIDATED / P13.2_VALIDATED / P13.3_CURRENT`
 Project: K-Geopolitical Monitor
 Strategic phase gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
-Current activity: `P13.2_PROVENANCE_ORIGIN_RELATION_MODEL`
+Current activity: `P13.3_EVIDENCE_RELATION_INDEPENDENCE`
 
 ## Objective
 
@@ -176,25 +176,45 @@ P13.1 introduced additive migration `023_structured_semantic_claim_model.sql` wi
 
 P13.1 intentionally contains no P13.2-P13.5 truth semantics: no underlying-origin field, independence state, evidence relation, contradiction state, verification state, factual confidence or coverage confidence.
 
-## P13.2 Current Work Package — Provenance / Underlying-Origin Relation Model
+## P13.2 Provenance / Underlying-Origin Relation Model — VALIDATED
+
+Gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
+Validation anchor: `6cd37a334b122ae5de2b4cb6272f9cc222f1f174`.
+
+Validation evidence:
+- x64 run `33558425194`, job `100024835794`: `420 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33558425252`, job `100024836399`: native `aarch64`, `420 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+P13.2 introduced additive migration `024_semantic_provenance_origin_relation_model.sql` with:
+- append-only `semantic_provenance_entity_versions`;
+- append-only `semantic_claim_provenance_role_versions`;
+- append-only `semantic_provenance_relation_versions`;
+- explicit separation of publication/publisher, immediate acquired source, cited/quoted source and underlying origin;
+- explicit official statement/document, wire, dataset, social/user-provided and unresolved/mixed origin representation;
+- citation/syndication/repost/translation/derivation relations without independence promotion;
+- source/raw traceability and URL credential-leak guards;
+- explicit `UNKNOWN/UNRESOLVED` and `MIXED` provenance states;
+- preservation of the legacy provenance API.
+
+P13.2 intentionally contains no evidentiary independence decision, evidence stance, contradiction lifecycle, verification promotion or factual-confidence engine.
+
+## P13.3 Current Work Package — Evidence Relation and Independence Assessment
 
 State: `CURRENT / NOT_STARTED`.
-Expected gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
+Expected gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
 
-P13.2 is responsible for additive, auditable provenance/origin persistence tied to semantic claims and acquired/raw evidence.
+P13.3 is responsible for typed evidence-to-claim relations and explicit independence assessment built on P13.1 semantic claims plus P13.2 provenance.
 
 Required scope:
-- distinguish publication/publisher, immediate acquired source, cited/quoted source and asserted underlying origin;
-- represent official statement/document, wire/syndication, dataset/structured-data, social/user-provided and unresolved/mixed origins;
-- represent derivation such as citation, syndication, repost and translation without creating another independent origin;
-- retain explicit `UNKNOWN/UNRESOLVED` where origin cannot be established;
-- preserve source/publication URL and identity traceability without conflating publisher with origin;
-- use append-only/versionable persistence and deterministic validation;
-- link to P13.1 semantic claim versions and existing raw/source objects without destructive rewrite.
+- persist typed evidence relations such as `SUPPORTS`, `CONTRADICTS`, `QUALIFIES`, `CONTEXT_ONLY`, `ATTRIBUTION_ONLY` and `DUPLICATE_OR_SAME_ORIGIN`;
+- assess independence as `INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN` or `MIXED` from provenance/origin relationships;
+- fail closed when origin/derivation is unresolved rather than inferring independence from different hosts/domains/publishers/languages;
+- keep evidence relation and independence decisions versionable/auditable;
+- preserve compatibility with legacy/live evidence state without destructive rewrite;
+- keep evidence relation/independence separate from final verification promotion.
 
-P13.2 must not implement:
-- evidentiary independence decision or evidence stance — P13.3;
-- contradiction lifecycle — P13.4;
+P13.3 must not implement:
+- contradiction lifecycle/resolution — P13.4;
 - verification promotion or multidimensional factual confidence — P13.5;
 - live analytical cutover — P13.6.
 
@@ -202,8 +222,8 @@ P13.2 must not implement:
 
 - `P13.0` — Semantic Verification Architecture Contract — **VALIDATED**;
 - `P13.1` — Structured Semantic Claim Model and additive persistence — **VALIDATED**;
-- `P13.2` — Provenance / Underlying-Origin Relation Model — **CURRENT / NOT_STARTED**;
-- `P13.3` — Evidence Relation and Independence Assessment;
+- `P13.2` — Provenance / Underlying-Origin Relation Model — **VALIDATED**;
+- `P13.3` — Evidence Relation and Independence Assessment — **CURRENT / NOT_STARTED**;
 - `P13.4` — Typed Contradiction Model and resolution lifecycle;
 - `P13.5` — Verification Policy Engine and multidimensional confidence;
 - `P13.6` — Live compatibility cutover, reproducibility and Phase 13 validation matrix.
@@ -233,6 +253,6 @@ Public KGM API/dashboard ingress remains not approved/deployed. Backend HTTPS re
 
 ## Current Gate
 
-Next gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
+Next gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
 
-P13.3 must not start before P13.2 is implemented, validated and saved.
+P13.4 must not start before P13.3 is implemented, validated and saved.

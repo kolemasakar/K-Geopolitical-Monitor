@@ -2,8 +2,8 @@
 
 Chronological record of major approved K-Geopolitical Monitor milestones.
 
-Version: 4.7
-Status: ACTIVE / PHASE_13 / P13.1_VALIDATED / P13.2_CURRENT
+Version: 4.8
+Status: ACTIVE / PHASE_13 / P13.2_VALIDATED / P13.3_CURRENT
 
 ## Validated Historical Baseline
 
@@ -119,6 +119,30 @@ Validated behavior:
 
 Gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
 
+## 2026-09-02 — P13.2 Provenance / Underlying-Origin Relation Model
+
+P13.2 introduced additive append-only provenance/origin persistence tied to P13.1 semantic claims and existing source/raw objects.
+
+Implementation/validation anchor: `6cd37a334b122ae5de2b4cb6272f9cc222f1f174`.
+- migration `024_semantic_provenance_origin_relation_model.sql`;
+- module `src/kgeopolitical_monitor/semantic_provenance.py`;
+- legacy API compatibility preserved through `src/kgeopolitical_monitor/provenance.py`;
+- deterministic provenance regression coverage.
+
+Validation evidence:
+- x64 run `33558425194`, job `100024835794`: `420 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33558425252`, job `100024836399`: native `aarch64`, `420 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Validated behavior:
+- publication/publisher, immediate acquired source, cited/quoted source and underlying origin remain distinct;
+- official statement/document, wire, dataset, social/user-provided, unknown and mixed origins are explicit;
+- citation, syndication, repost, translation and derivation are provenance relationships, not independent corroboration;
+- unresolved/mixed origin remains explicit rather than inferred from publisher/domain/language differences;
+- source/raw traceability and URL credential-leak guards fail closed;
+- no P13.3 independence, P13.4 contradiction, P13.5 verification/confidence or P13.6 live cutover semantics were introduced.
+
+Gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
+
 ## Current State
 
 - strategic ROADMAP: `APPROVED / v4`;
@@ -126,11 +150,15 @@ Gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
 - Phase 13: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
 - P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
-- current activity: `P13.2_PROVENANCE_ORIGIN_RELATION_MODEL / CURRENT_NOT_STARTED`;
-- next gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
+- P13.2: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
+- current activity: `P13.3_EVIDENCE_RELATION_INDEPENDENCE / CURRENT_NOT_STARTED`;
+- next gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
 - paid providers: none approved;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - broad outbound egress: retained explicit owner-approved candidate exception;
 - public API/dashboard ingress: not approved/deployed;
 - private GPT Action: not connected;
 - production/live: `NOT_OPERATIONAL`.
+
+Production/live operational status: NOT_OPERATIONAL
+Runtime storage mode: PROJECT_LOCAL_ONLY

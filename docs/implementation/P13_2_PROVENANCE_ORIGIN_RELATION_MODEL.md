@@ -1,9 +1,10 @@
 # Phase 13 P13.2 — Provenance / Underlying-Origin Relation Model
 
-Date: 2026-09-01
-Status: `IMPLEMENTED_PENDING_VALIDATION`
-Expected gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`
+Date: 2026-09-02
+Status: `VALIDATED`
+Gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`
 Parent gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`
+Validation anchor: `6cd37a334b122ae5de2b4cb6272f9cc222f1f174`
 
 ## Purpose
 
@@ -108,6 +109,7 @@ Syndication, repost and translation relations therefore remain same/derived prov
 - P13.1 semantic claim versions are referenced, not rewritten.
 - Existing `sources`, `raw_items`, `live_source_provenance`, legacy `claims/evidence`, and `live_analysis_*` remain readable and unchanged.
 - The older translation table's `underlying_origin_id/origin_kind` fields remain historical compatibility metadata and are not treated as P13.2 semantic-origin proof.
+- The legacy public provenance API remains available for backward compatibility.
 - No live analytical cutover occurs in P13.2.
 
 ## Deterministic Validation Targets
@@ -121,7 +123,18 @@ Tests cover:
 - syndication/translation chains without independence promotion;
 - URL credential leakage guards;
 - schema proof that P13.3-P13.5 fields are absent;
-- canonical migration idempotence.
+- canonical migration idempotence;
+- legacy provenance API compatibility.
+
+## Validation Evidence
+
+- x64 CI run `33558425194`, job `100024835794`: `420 passed, 1 warning / SUCCESS`.
+- native ARM64 run `33558425252`, job `100024836399`: native `aarch64`, `420 passed, 1 warning / SUCCESS`.
+- ARM64 bootstrap shell validation: PASS.
+- unattended one-tick smoke: PASS.
+- systemd unit contract validation: PASS.
+
+The single warning remains the existing FastAPI/Starlette TestClient deprecation warning.
 
 ## Runtime / Security Boundary
 
@@ -130,8 +143,8 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 
 P13.2 does not activate public ingress, backend HTTPS, private GPT Action, shared runtime, paid providers or production/live operation.
 
-## Validation Rule
+## Closure / Continuation
 
-Implementation is not validation. The gate may be marked validated only after full x64 and native ARM64 regression evidence is green and saved.
+Gate saved: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
 
-P13.3 must not start before P13.2 is implemented, validated and saved.
+P13.3 becomes `CURRENT / NOT_STARTED` and is responsible for typed evidence-to-claim relations plus explicit independence assessment. Contradiction lifecycle remains P13.4; verification promotion and multidimensional factual confidence remain P13.5; live compatibility cutover remains P13.6.

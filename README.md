@@ -1,8 +1,8 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring and intelligence platform.
 
-Version: 4.10
-Status: ACTIVE / ROADMAP_V4 / PHASE_13_ACTIVE / P13.1_VALIDATED / P13.2_CURRENT
+Version: 4.11
+Status: ACTIVE / ROADMAP_V4 / PHASE_13_ACTIVE / P13.2_VALIDATED / P13.3_CURRENT
 
 ## Purpose
 
@@ -19,8 +19,8 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - `PROJECT_HISTORY.md` — chronological project record;
 - `docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md` — Phase 12 closure;
 - `docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md` — active Phase 13 plan;
-- `docs/implementation/P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_RESULT.md` — latest validated work-package result;
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-01_P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED.md` — latest saved gate checkpoint.
+- `docs/implementation/P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_RESULT.md` — latest validated work-package result;
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-02_P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED.md` — latest saved gate checkpoint.
 
 ## Current State
 
@@ -34,9 +34,10 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - Phase 13: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
 - P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
-- current engineering activity: `P13.2_PROVENANCE_ORIGIN_RELATION_MODEL`;
-- P13.2: `CURRENT / NOT_STARTED`;
-- P13.3-P13.6: `PLANNED / NOT_STARTED`;
+- P13.2: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
+- current engineering activity: `P13.3_EVIDENCE_RELATION_INDEPENDENCE`;
+- P13.3: `CURRENT / NOT_STARTED`;
+- P13.4-P13.6: `PLANNED / NOT_STARTED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.
 
@@ -101,14 +102,32 @@ P13.1 is the first schema-bearing Phase 13 package and is additive only:
 - `extraction_confidence` is extraction-only and cannot promote factual truth;
 - P13.2-P13.5 fields for origin, independence, contradiction and verification policy are intentionally absent.
 
-### P13.2 Current Package
+### P13.2 Validated Package
 
-`P13.2_PROVENANCE_ORIGIN_RELATION_MODEL / CURRENT_NOT_STARTED`.
+Gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
+Validation anchor: `6cd37a334b122ae5de2b4cb6272f9cc222f1f174`.
 
-P13.2 must add explicit, auditable provenance and underlying-origin relations without yet implementing evidence independence assessment, contradiction resolution or verification promotion. Unknown/unresolved origin must remain explicit; different publisher/domain/language must never be treated as sufficient proof of a different underlying origin.
+- x64 run `33558425194`, job `100024835794`: `420 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33558425252`, job `100024836399`: native `aarch64`, `420 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+P13.2 adds explicit provenance/origin persistence without truth promotion:
+- migration `024_semantic_provenance_origin_relation_model.sql` adds append-only provenance entities, claim provenance roles and provenance relations;
+- publication/publisher, immediate acquired source, cited/quoted source and underlying origin are distinct;
+- official statements/documents, wire reports, datasets, social/user-provided and unresolved/mixed origins are represented explicitly;
+- citation, syndication, repost, translation and derivation relations do not create independent corroboration;
+- `UNKNOWN/UNRESOLVED` origin remains explicit rather than inferred from different publisher/domain/language;
+- source/raw traceability fails closed on identity mismatch and canonical URLs reject credential leakage;
+- legacy provenance API compatibility is preserved;
+- P13.3 independence/evidence stance, P13.4 contradiction, P13.5 verification/confidence and P13.6 cutover remain outside this package.
+
+### P13.3 Current Package
+
+`P13.3_EVIDENCE_RELATION_INDEPENDENCE / CURRENT_NOT_STARTED`.
+
+P13.3 must add typed evidence-to-claim relations and explicit independence assessment using P13.2 provenance/origin relationships. Different source, publisher, host, domain or language must never be sufficient by itself to establish independence.
 
 Planned Phase 13 sequence:
-`P13.0 validated contract -> P13.1 validated semantic claims -> P13.2 provenance/origin -> P13.3 evidence/independence -> P13.4 contradictions -> P13.5 verification/confidence -> P13.6 live cutover/validation`.
+`P13.0 validated contract -> P13.1 validated semantic claims -> P13.2 validated provenance/origin -> P13.3 evidence/independence -> P13.4 contradictions -> P13.5 verification/confidence -> P13.6 live cutover/validation`.
 
 ## Local-Language / Translation Boundary
 
@@ -149,7 +168,7 @@ Remaining explicit owner-approved candidate networking exceptions:
 ## ROADMAP v4
 
 - Phase 12 — validated with known limitations; P12.0-P12.6 validated gates remain canonical.
-- Phase 13 — `APPROVED / ACTIVE_ENGINEERING_PHASE`; P13.0 and P13.1 validated, P13.2 current/not started.
+- Phase 13 — `APPROVED / ACTIVE_ENGINEERING_PHASE`; P13.0-P13.2 validated, P13.3 current/not started.
 - Phase 14 — approved sequential / not started.
 - Phase 15 — approved sequential / not started.
 - Phase 16 — approved sequential / not started.
