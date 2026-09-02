@@ -8,7 +8,7 @@ def _read(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
 
-def test_p13_2_gate_and_p13_3_transition_are_canonical():
+def test_p13_2_gate_and_later_sequential_progress_are_canonical():
     roadmap = _read("ROADMAP.md")
     readme = _read("README.md")
     plan = _read("docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md")
@@ -19,9 +19,10 @@ def test_p13_2_gate_and_p13_3_transition_are_canonical():
         assert "P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED" in document
 
     assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`" in roadmap
-    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `CURRENT / NOT_STARTED`" in roadmap
-    assert "P13.3_EVIDENCE_RELATION_INDEPENDENCE" in readme
-    assert "P13.3_EVIDENCE_RELATION_INDEPENDENCE" in plan
+    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `VALIDATED`" in roadmap
+    assert "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `CURRENT / NOT_STARTED`" in roadmap
+    assert "P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED" in readme
+    assert "P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED" in plan
 
 
 def test_p13_2_saved_validation_evidence_is_exact():

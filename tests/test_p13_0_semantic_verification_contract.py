@@ -86,7 +86,8 @@ def test_p13_0_canonical_state_and_sequencing():
     assert "P13.0 — Semantic Verification Architecture Contract\nState: `VALIDATED`" in roadmap
     assert "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`" in roadmap
     assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`" in roadmap
-    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `CURRENT / NOT_STARTED`" in roadmap
+    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `VALIDATED`" in roadmap
+    assert "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `CURRENT / NOT_STARTED`" in roadmap
     assert "P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED" in readme
     assert "Phase 13 semantic model v2 architecture: `P13.0_VALIDATED`" in data_models
     assert "P13.0 semantic verification architecture contract: `VALIDATED`" in source_policy
@@ -132,6 +133,8 @@ def test_p13_0_closure_allows_validated_sequential_phase13_progress():
     plan = PLAN.read_text(encoding="utf-8")
     assert "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`" in roadmap
     assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`" in roadmap
-    assert "current engineering activity: `P13.3_EVIDENCE_RELATION_INDEPENDENCE`" in roadmap
-    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `CURRENT / NOT_STARTED`" in roadmap
-    assert "P13.4 must not start before P13.3 is implemented, validated and saved." in plan
+    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `VALIDATED`" in roadmap
+    assert "current engineering activity: `P13.4_TYPED_CONTRADICTION_MODEL`" in roadmap
+    assert "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `CURRENT / NOT_STARTED`" in roadmap
+    assert "P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED" in plan
+    assert "P13.5 must not start before P13.4 is implemented, validated and saved." in plan

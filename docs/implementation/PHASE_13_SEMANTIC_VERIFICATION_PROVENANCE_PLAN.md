@@ -1,10 +1,10 @@
 # Phase 13 — Semantic Verification and Provenance Intelligence
 
 Date: 2026-09-02
-Status: `ACTIVE_ENGINEERING_PHASE / P13.0_VALIDATED / P13.1_VALIDATED / P13.2_VALIDATED / P13.3_CURRENT`
+Status: `ACTIVE_ENGINEERING_PHASE / P13.0_VALIDATED / P13.1_VALIDATED / P13.2_VALIDATED / P13.3_VALIDATED / P13.4_CURRENT`
 Project: K-Geopolitical Monitor
 Strategic phase gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
-Current activity: `P13.3_EVIDENCE_RELATION_INDEPENDENCE`
+Current activity: `P13.4_TYPED_CONTRADICTION_MODEL`
 
 ## Objective
 
@@ -198,33 +198,59 @@ P13.2 introduced additive migration `024_semantic_provenance_origin_relation_mod
 
 P13.2 intentionally contains no evidentiary independence decision, evidence stance, contradiction lifecycle, verification promotion or factual-confidence engine.
 
-## P13.3 Current Work Package — Evidence Relation and Independence Assessment
+## P13.3 Evidence Relation and Independence Assessment — VALIDATED
+
+Gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
+Validation anchor: `639d6b2e64d618edfbe742636cb2ac0f663c68ee`.
+
+Validation evidence:
+- x64 run `33575533714`, job `100078564552`: `434 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33575533657`, job `100078564729`: native `aarch64`, `434 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+P13.3 introduced additive migration `025_semantic_evidence_relation_independence.sql` with:
+- append-only `semantic_evidence_relation_versions`;
+- append-only `semantic_independence_assessment_versions`;
+- typed evidence relations `SUPPORTS`, `CONTRADICTS`, `QUALIFIES`, `CONTEXT_ONLY`, `ATTRIBUTION_ONLY`, `DUPLICATE_OR_SAME_ORIGIN`;
+- explicit independence states `INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN`, `MIXED`;
+- fail-closed provenance/origin inference that can establish non-independence or uncertainty but never infers `INDEPENDENT` merely from absence of a derivation path;
+- current-only provenance derivation traversal while superseded provenance edges remain historical audit data;
+- append-only evidence and independence histories;
+- explicit separation from final verification promotion.
+
+Different publisher, source, host, domain or language is not sufficient to establish independence. Same-origin, syndication, repost, translation, citation and current derivation paths do not create independent corroboration.
+
+P13.3 intentionally contains no typed contradiction lifecycle/resolution, verification-policy promotion, multidimensional factual confidence or live cutover.
+
+## P13.4 Current Work Package — Typed Contradiction Model and Resolution Lifecycle
 
 State: `CURRENT / NOT_STARTED`.
-Expected gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
+Expected gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
 
-P13.3 is responsible for typed evidence-to-claim relations and explicit independence assessment built on P13.1 semantic claims plus P13.2 provenance.
+P13.4 is responsible for typed/versioned contradiction objects linked to P13.1 semantic claims and P13.3 evidence relations without duplicating provenance or deciding final verification state.
 
 Required scope:
-- persist typed evidence relations such as `SUPPORTS`, `CONTRADICTS`, `QUALIFIES`, `CONTEXT_ONLY`, `ATTRIBUTION_ONLY` and `DUPLICATE_OR_SAME_ORIGIN`;
-- assess independence as `INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN` or `MIXED` from provenance/origin relationships;
-- fail closed when origin/derivation is unresolved rather than inferring independence from different hosts/domains/publishers/languages;
-- keep evidence relation and independence decisions versionable/auditable;
-- preserve compatibility with legacy/live evidence state without destructive rewrite;
-- keep evidence relation/independence separate from final verification promotion.
+- represent contradiction dimensions including occurrence/existence, attribution/responsibility, actor identity, quantity/value, time, location, status/outcome and scope/extent;
+- allow causal interpretation only where explicitly modeled rather than inferred as fact;
+- preserve unresolved/evolving/resolved lifecycle history through append-only versions or equivalent auditable supersession;
+- retain historical disagreement after later resolution;
+- support explicit linkage to contradictory/qualifying evidence relations;
+- fail closed on claim/evidence identity mismatch;
+- keep source reputation, official status and independence metadata as context rather than automatic contradiction resolution;
+- preserve legacy/live contradiction compatibility state without destructive rewrite.
 
-P13.3 must not implement:
-- contradiction lifecycle/resolution — P13.4;
-- verification promotion or multidimensional factual confidence — P13.5;
+P13.4 must not implement:
+- canonical verification promotion or multidimensional factual confidence — P13.5;
 - live analytical cutover — P13.6.
+
+A claim/denial pair is not automatically resolved by source reputation alone. Independence metadata alone cannot determine substantive truth.
 
 ## Internal Phase 13 Sequencing
 
 - `P13.0` — Semantic Verification Architecture Contract — **VALIDATED**;
 - `P13.1` — Structured Semantic Claim Model and additive persistence — **VALIDATED**;
 - `P13.2` — Provenance / Underlying-Origin Relation Model — **VALIDATED**;
-- `P13.3` — Evidence Relation and Independence Assessment — **CURRENT / NOT_STARTED**;
-- `P13.4` — Typed Contradiction Model and resolution lifecycle;
+- `P13.3` — Evidence Relation and Independence Assessment — **VALIDATED**;
+- `P13.4` — Typed Contradiction Model and resolution lifecycle — **CURRENT / NOT_STARTED**;
 - `P13.5` — Verification Policy Engine and multidimensional confidence;
 - `P13.6` — Live compatibility cutover, reproducibility and Phase 13 validation matrix.
 
@@ -253,6 +279,6 @@ Public KGM API/dashboard ingress remains not approved/deployed. Backend HTTPS re
 
 ## Current Gate
 
-Next gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
+Next gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
 
-P13.4 must not start before P13.3 is implemented, validated and saved.
+P13.5 must not start before P13.4 is implemented, validated and saved.

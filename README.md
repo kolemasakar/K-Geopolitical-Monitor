@@ -1,8 +1,8 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring and intelligence platform.
 
-Version: 4.11
-Status: ACTIVE / ROADMAP_V4 / PHASE_13_ACTIVE / P13.2_VALIDATED / P13.3_CURRENT
+Version: 4.12
+Status: ACTIVE / ROADMAP_V4 / PHASE_13_ACTIVE / P13.3_VALIDATED / P13.4_CURRENT
 
 ## Purpose
 
@@ -19,8 +19,8 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - `PROJECT_HISTORY.md` — chronological project record;
 - `docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md` — Phase 12 closure;
 - `docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md` — active Phase 13 plan;
-- `docs/implementation/P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_RESULT.md` — latest validated work-package result;
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-02_P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED.md` — latest saved gate checkpoint.
+- `docs/implementation/P13_3_EVIDENCE_RELATION_INDEPENDENCE_RESULT.md` — latest validated work-package result;
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-02_P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED.md` — latest saved gate checkpoint.
 
 ## Current State
 
@@ -35,9 +35,10 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
 - P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
 - P13.2: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
-- current engineering activity: `P13.3_EVIDENCE_RELATION_INDEPENDENCE`;
-- P13.3: `CURRENT / NOT_STARTED`;
-- P13.4-P13.6: `PLANNED / NOT_STARTED`;
+- P13.3: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
+- current engineering activity: `P13.4_TYPED_CONTRADICTION_MODEL`;
+- P13.4: `CURRENT / NOT_STARTED`;
+- P13.5-P13.6: `PLANNED / NOT_STARTED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.
 
@@ -120,14 +121,35 @@ P13.2 adds explicit provenance/origin persistence without truth promotion:
 - legacy provenance API compatibility is preserved;
 - P13.3 independence/evidence stance, P13.4 contradiction, P13.5 verification/confidence and P13.6 cutover remain outside this package.
 
-### P13.3 Current Package
+### P13.3 Validated Package
 
-`P13.3_EVIDENCE_RELATION_INDEPENDENCE / CURRENT_NOT_STARTED`.
+Gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
+Validation anchor: `639d6b2e64d618edfbe742636cb2ac0f663c68ee`.
 
-P13.3 must add typed evidence-to-claim relations and explicit independence assessment using P13.2 provenance/origin relationships. Different source, publisher, host, domain or language must never be sufficient by itself to establish independence.
+- x64 run `33575533714`, job `100078564552`: `434 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33575533657`, job `100078564729`: native `aarch64`, `434 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+P13.3 adds typed evidence relations and explicit pairwise evidentiary-independence assessment without final truth promotion:
+- migration `025_semantic_evidence_relation_independence.sql` adds append-only `semantic_evidence_relation_versions` and `semantic_independence_assessment_versions`;
+- evidence relations are `SUPPORTS`, `CONTRADICTS`, `QUALIFIES`, `CONTEXT_ONLY`, `ATTRIBUTION_ONLY` or `DUPLICATE_OR_SAME_ORIGIN`;
+- independence states are `INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN` and `MIXED`;
+- same-origin, syndication, translation, citation and current derivation paths do not create independent corroboration;
+- different publisher/domain/language, source, host or item identity is not sufficient independence proof;
+- absence of a known derivation path remains `UNKNOWN`, not automatically `INDEPENDENT`;
+- automated inference uses only current P13.2 provenance-relation versions while superseded edges remain audit history;
+- evidence relation and independence metadata do not themselves determine or promote final verification state;
+- P13.4 contradiction lifecycle, P13.5 verification/confidence and P13.6 live cutover remain outside this package.
+
+### P13.4 Current Package
+
+`P13.4_TYPED_CONTRADICTION_MODEL / CURRENT_NOT_STARTED`.
+
+P13.4 must add typed, versioned contradiction objects and an auditable unresolved/evolving/resolved lifecycle across dimensions including occurrence/existence, attribution/responsibility, actor identity, quantity/value, time, location, status/outcome and scope/extent. A claim/denial pair is not automatically resolved by source reputation or independence metadata.
+
+Verification promotion and multidimensional factual confidence remain P13.5. Live analytical cutover remains P13.6.
 
 Planned Phase 13 sequence:
-`P13.0 validated contract -> P13.1 validated semantic claims -> P13.2 validated provenance/origin -> P13.3 evidence/independence -> P13.4 contradictions -> P13.5 verification/confidence -> P13.6 live cutover/validation`.
+`P13.0 validated contract -> P13.1 validated semantic claims -> P13.2 validated provenance/origin -> P13.3 validated evidence/independence -> P13.4 contradictions -> P13.5 verification/confidence -> P13.6 live cutover/validation`.
 
 ## Local-Language / Translation Boundary
 
@@ -168,7 +190,7 @@ Remaining explicit owner-approved candidate networking exceptions:
 ## ROADMAP v4
 
 - Phase 12 — validated with known limitations; P12.0-P12.6 validated gates remain canonical.
-- Phase 13 — `APPROVED / ACTIVE_ENGINEERING_PHASE`; P13.0-P13.2 validated, P13.3 current/not started.
+- Phase 13 — `APPROVED / ACTIVE_ENGINEERING_PHASE`; P13.0-P13.3 validated, P13.4 current/not started.
 - Phase 14 — approved sequential / not started.
 - Phase 15 — approved sequential / not started.
 - Phase 16 — approved sequential / not started.

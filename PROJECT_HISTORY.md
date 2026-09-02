@@ -2,8 +2,8 @@
 
 Chronological record of major approved K-Geopolitical Monitor milestones.
 
-Version: 4.8
-Status: ACTIVE / PHASE_13 / P13.2_VALIDATED / P13.3_CURRENT
+Version: 4.9
+Status: ACTIVE / PHASE_13 / P13.3_VALIDATED / P13.4_CURRENT
 
 ## Validated Historical Baseline
 
@@ -143,6 +143,32 @@ Validated behavior:
 
 Gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
 
+## 2026-09-02 — P13.3 Evidence Relation and Independence Assessment
+
+P13.3 introduced additive append-only evidence-to-semantic-claim relations and separate pairwise evidentiary-independence assessments built on P13.1 semantic claims and P13.2 provenance.
+
+Implementation/validation anchor: `639d6b2e64d618edfbe742636cb2ac0f663c68ee`.
+- migration `025_semantic_evidence_relation_independence.sql`;
+- module `src/kgeopolitical_monitor/semantic_evidence.py`;
+- deterministic regression suites `tests/test_semantic_evidence.py` and `tests/test_semantic_evidence_current_provenance.py`;
+- canonical database migration guard updated for migration 025.
+
+Validation evidence:
+- x64 run `33575533714`, job `100078564552`: `434 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33575533657`, job `100078564729`: native `aarch64`, `434 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Validated behavior:
+- typed evidence relations: `SUPPORTS`, `CONTRADICTS`, `QUALIFIES`, `CONTEXT_ONLY`, `ATTRIBUTION_ONLY`, `DUPLICATE_OR_SAME_ORIGIN`;
+- explicit independence states: `INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN`, `MIXED`;
+- different publisher/source/host/domain/language never suffices to establish independence;
+- same-origin and current provenance derivation paths remain non-independent;
+- absence of a known derivation path remains `UNKNOWN`, not automatically independent;
+- superseded provenance edges remain auditable but do not permanently determine current independence;
+- evidence relation and independence metadata do not promote final verification state;
+- P13.4 contradiction lifecycle, P13.5 verification/confidence and P13.6 live cutover remain outside P13.3.
+
+Gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
+
 ## Current State
 
 - strategic ROADMAP: `APPROVED / v4`;
@@ -151,8 +177,9 @@ Gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
 - P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
 - P13.2: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
-- current activity: `P13.3_EVIDENCE_RELATION_INDEPENDENCE / CURRENT_NOT_STARTED`;
-- next gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
+- P13.3: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
+- current activity: `P13.4_TYPED_CONTRADICTION_MODEL / CURRENT_NOT_STARTED`;
+- next gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`;
 - paid providers: none approved;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - broad outbound egress: retained explicit owner-approved candidate exception;
