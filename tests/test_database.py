@@ -89,6 +89,8 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "semantic_provenance_relation_versions",
         "semantic_evidence_relation_versions",
         "semantic_independence_assessment_versions",
+        "semantic_contradiction_versions",
+        "semantic_contradiction_evidence_links",
     }.issubset(tables)
     assert {"retry_count", "recovered"}.issubset(monitoring_run_columns)
     assert applied == {
@@ -117,4 +119,5 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "023_structured_semantic_claim_model.sql",
         "024_semantic_provenance_origin_relation_model.sql",
         "025_semantic_evidence_relation_independence.sql",
+        "026_semantic_contradiction_model.sql",
     }
