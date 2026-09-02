@@ -50,7 +50,7 @@ def test_p13_2_closure_preserves_epistemic_and_runtime_boundaries():
         assert "Runtime storage mode: PROJECT_LOCAL_ONLY" in document
 
     assert "publisher/publication is not automatically the underlying origin" in roadmap
-    assert "does not create independent corroboration" in result
+    assert "do not create independent corroboration" in result
     assert "does not establish that a claim is true" in result
     assert "no live analytical cutover occurred" in result.lower()
 

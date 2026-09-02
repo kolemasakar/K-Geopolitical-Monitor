@@ -85,7 +85,8 @@ def test_p13_0_canonical_state_and_sequencing():
     assert "Phase 13 — Semantic Verification and Provenance Intelligence\nState: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
     assert "P13.0 — Semantic Verification Architecture Contract\nState: `VALIDATED`" in roadmap
     assert "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`" in roadmap
-    assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `CURRENT / NOT_STARTED`" in roadmap
+    assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`" in roadmap
+    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `CURRENT / NOT_STARTED`" in roadmap
     assert "P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED" in readme
     assert "Phase 13 semantic model v2 architecture: `P13.0_VALIDATED`" in data_models
     assert "P13.0 semantic verification architecture contract: `VALIDATED`" in source_policy
@@ -126,11 +127,11 @@ def test_p13_0_validation_evidence_is_saved_exactly():
     assert "P13.1_STRUCTURED_SEMANTIC_CLAIM_MODEL / CURRENT_NOT_STARTED" in checkpoint
 
 
-def test_p13_0_closure_allows_only_validated_sequential_phase13_progress():
+def test_p13_0_closure_allows_validated_sequential_phase13_progress():
     roadmap = _read("ROADMAP.md")
     plan = PLAN.read_text(encoding="utf-8")
     assert "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`" in roadmap
-    assert "current engineering activity: `P13.2_PROVENANCE_ORIGIN_RELATION_MODEL`" in roadmap
-    assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `CURRENT / NOT_STARTED`" in roadmap
-    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `PLANNED / NOT_STARTED`" in roadmap
-    assert "P13.3 must not start before P13.2 is implemented, validated and saved." in plan
+    assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`" in roadmap
+    assert "current engineering activity: `P13.3_EVIDENCE_RELATION_INDEPENDENCE`" in roadmap
+    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `CURRENT / NOT_STARTED`" in roadmap
+    assert "P13.4 must not start before P13.3 is implemented, validated and saved." in plan
