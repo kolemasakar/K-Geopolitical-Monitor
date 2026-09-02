@@ -56,7 +56,7 @@ def test_p13_3_closure_preserves_independence_truth_and_runtime_boundaries():
     assert "independent" in lower
     assert "verification" in lower
     assert "does not" in lower
-    assert "live analytical cutover" in lower
+    assert "live compatibility cutover" in lower
 
 
 def test_p13_3_scope_stops_before_contradiction_policy_and_cutover():
