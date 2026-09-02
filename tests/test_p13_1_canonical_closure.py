@@ -21,7 +21,7 @@ def test_p13_1_gate_and_later_sequential_progress_are_canonical():
     assert "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`" in roadmap
     assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`" in roadmap
     assert "P13.3 — Evidence Relation and Independence Assessment\nState: `CURRENT / NOT_STARTED`" in roadmap
-    assert "P13.2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED" in readme
+    assert "P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED" in readme
     assert "P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED" in plan
 
 
