@@ -4,7 +4,10 @@ import sqlite3
 import pytest
 
 from kgeopolitical_monitor.database import initialize_database
-from kgeopolitical_monitor.forecast_calibration_contract import OutcomeResolutionState
+from kgeopolitical_monitor.forecast_calibration_contract import (
+    OUTCOME_RESOLVED,
+    OUTCOME_UNRESOLVED,
+)
 from kgeopolitical_monitor.forecast_outcome_persistence import (
     ForecastOutcomeAssessment,
     OutcomeEvidenceReference,
@@ -68,13 +71,13 @@ def test_resolution_state_is_separate_from_legacy_outcome_state(tmp_path):
     assessment = ForecastOutcomeAssessment.create(
         "forecast-p15-1",
         1,
-        OutcomeResolutionState.UNRESOLVED,
+        OUTCOME_UNRESOLVED,
         explanation="Evaluation deadline has not yet produced sufficient outcome evidence.",
         assessed_at=NOW,
     )
     repository.save(assessment)
     stored = repository.list_for_forecast("forecast-p15-1")
-    assert stored[0].resolution_state is OutcomeResolutionState.UNRESOLVED
+    assert stored[0].resolution_state == OUTCOME_UNRESOLVED
     with sqlite3.connect(db_path) as connection:
         legacy_count = connection.execute("SELECT COUNT(*) FROM forecast_outcomes").fetchone()[0]
     assert legacy_count == 0
@@ -87,7 +90,7 @@ def test_resolved_assessment_requires_explicit_outcome_evidence(tmp_path):
         ForecastOutcomeAssessment.create(
             "forecast-p15-1",
             1,
-            OutcomeResolutionState.RESOLVED,
+            OUTCOME_RESOLVED,
             explanation="Resolved without evidence is forbidden.",
             assessed_at=NOW,
         )
@@ -100,7 +103,7 @@ def test_append_only_assessment_history_and_typed_provenance(tmp_path):
     first = ForecastOutcomeAssessment.create(
         "forecast-p15-1",
         1,
-        OutcomeResolutionState.UNRESOLVED,
+        OUTCOME_UNRESOLVED,
         evidence=(
             OutcomeEvidenceReference("EXTERNAL_REFERENCE", "official-release-1", "RESOLUTION_CONTEXT"),
         ),
@@ -110,7 +113,7 @@ def test_append_only_assessment_history_and_typed_provenance(tmp_path):
     second = ForecastOutcomeAssessment.create(
         "forecast-p15-1",
         2,
-        OutcomeResolutionState.RESOLVED,
+        OUTCOME_RESOLVED,
         evidence=(
             OutcomeEvidenceReference("RAW_ITEM", "raw-item-123"),
             OutcomeEvidenceReference("SEMANTIC_CLAIM", "claim-456"),
@@ -122,7 +125,7 @@ def test_append_only_assessment_history_and_typed_provenance(tmp_path):
     repository.save(second)
     stored = repository.list_for_forecast("forecast-p15-1")
     assert [item.assessment_sequence for item in stored] == [1, 2]
-    assert stored[1].resolution_state is OutcomeResolutionState.RESOLVED
+    assert stored[1].resolution_state == OUTCOME_RESOLVED
     assert [item.evidence_kind for item in stored[1].evidence] == ["RAW_ITEM", "SEMANTIC_CLAIM"]
 
     with sqlite3.connect(db_path) as connection:
@@ -158,7 +161,7 @@ def test_legacy_outcome_link_must_match_same_forecast(tmp_path):
     assessment = ForecastOutcomeAssessment.create(
         "forecast-b",
         1,
-        OutcomeResolutionState.RESOLVED,
+        OUTCOME_RESOLVED,
         evidence=(OutcomeEvidenceReference("EXTERNAL_REFERENCE", "evidence-1"),),
         explanation="Cross-forecast compatibility link must fail.",
         assessed_at=NOW,
