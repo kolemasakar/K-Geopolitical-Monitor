@@ -30,6 +30,7 @@ These historical fields are not promoted into the canonical Phase 13 semantic tr
 
 State: `VALIDATED`.
 Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`.
+Phase 13 semantic model v2 architecture: `P13.0_VALIDATED`.
 
 Semantic claim identity is not headline identity. Publisher/publication, cited source and underlying origin are distinct. Evidence relation, independence, contradiction and final verification remain separate layers.
 
@@ -43,6 +44,8 @@ Validation anchor: `69c3282077ad8dd90ef239c0594be56f9363bfe5`.
 - native ARM64: `408 passed, 1 warning / SUCCESS`.
 
 P13.1 adds append-only `semantic_claim_versions` and `semantic_claim_links`. Semantic identity is explicit/caller-controlled; association links carry no evidentiary meaning. `extraction_confidence` is extraction-only.
+
+The P13.1 schema boundary remains explicit: it does not add `underlying_origin`, `independence_state`, `evidence_relation`, `contradiction_state`, `verification_state`, `factual_confidence` or `coverage_confidence` fields to semantic claim versions; those concepts belong to later Phase 13 layers.
 
 ## P13.2 Provenance / Underlying-Origin Relation Model
 
