@@ -17,6 +17,7 @@ Existing validated capabilities are reused rather than replaced:
 
 - M12 advanced forecasting already persists stable `forecast_id`, immutable `forecast_version_id` and immutable `scenario_version_id` objects;
 - scenario versions already keep `raw_probability`, `calibrated_probability` and `scenario_confidence` separate;
+- M12 outcome/evaluation history remains readable compatibility state;
 - E7 defines `KGM_FORECAST_SEMANTICS_V1` and explicitly forbids forecast metrics from changing factual verification, factual/evidence confidence or independent-origin counts;
 - P13.5/P13.6 remain the canonical factual-verification path;
 - Phase 14 remains `VALIDATED_READY / NOT_ACTIVATED` and owner execution remains separately gated.
@@ -63,8 +64,6 @@ Initial states are:
 
 Only `RESOLVED` is automatically scoreable at the P15.0 architecture level. `UNRESOLVED` is not a negative outcome, `PARTIAL` is not coerced to binary, and `AMBIGUOUS` fails closed for automatic scoring.
 
-Later implementation phases may add typed resolution detail, but they must not weaken this fail-closed baseline.
-
 ### Calibration contract
 
 The initial metric family is prepared for:
@@ -101,9 +100,45 @@ Migration `028`: `NONE_FOR_P15_0`.
 
 Reason: P15.0 establishes the architecture and validation contract only. Existing forecast identity/version fields are sufficient for the contract baseline. Any later Phase 15 persistence change must be additive, explicitly reviewed and must preserve historical forecast versions.
 
-### Runtime / security boundary
+## P15.1 — Forecast/Outcome Persistence Model
 
-Unchanged:
+State: `VALIDATED`
+Gate: `P15_1_FORECAST_OUTCOME_PERSISTENCE_MODEL_VALIDATED`
+Validation anchor: `a5b25aae1bf3c5962385b852c987e802469239ca`
+
+Validation evidence:
+
+- x64 CI run `33899347550`, job `101109486579`: `525 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33899347669`, job `101109486964`: native `aarch64`, `525 passed, 2 warnings / SUCCESS`;
+- ARM64 host bootstrap: PASS;
+- ARM64 unattended one-tick: PASS;
+- ARM64 systemd contract: PASS.
+
+P15.1 introduces additive migration `028_forecast_outcome_assessment_history.sql` and `forecast_outcome_persistence.py`.
+
+### Persistence contract
+
+- `forecast_outcome_assessments` is append-only history keyed by deterministic assessment identity and per-forecast sequence;
+- `forecast_outcome_assessment_evidence` stores ordered typed provenance references;
+- allowed resolution states remain `RESOLVED`, `UNRESOLVED`, `PARTIAL`, `AMBIGUOUS`;
+- a `RESOLVED` assessment requires explicit outcome evidence;
+- optional compatibility linkage to legacy M12 `forecast_outcomes` must reference the same forecast;
+- UPDATE/DELETE of Phase 15 assessment/evidence history is blocked by database triggers;
+- legacy `forecast_outcomes` and `forecast_evaluations` are not rewritten or reinterpreted.
+
+### Semantic separation
+
+Legacy M12 outcome state and Phase 15 resolution state are distinct concepts. `OBSERVED/NOT_OBSERVED` describes an evaluated scenario result; `RESOLVED/UNRESOLVED/PARTIAL/AMBIGUOUS` describes the resolution lifecycle. P15.1 does not collapse these vocabularies.
+
+The Phase 15 assessment schema deliberately contains no factual-verification status, factual-confidence scalar, coverage-confidence, independent-origin count, source/host/domain counts or forecast-probability field capable of acting as a truth operator.
+
+### Migration history boundary
+
+Phase 14 introduced no migration `028`. Migration `028_forecast_outcome_assessment_history.sql` is introduced only by P15.1. Historical Phase 14 closure tests were updated to preserve that temporal distinction rather than globally forbidding future migration 028.
+
+## Runtime / security boundary
+
+Unchanged through P15.1:
 
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared canonical runtime: `BLOCKED`;
@@ -113,16 +148,14 @@ Unchanged:
 - owner execution: disabled;
 - `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
 
-P15.0 does not activate Phase 14 operations or any external forecasting provider.
-
 ## Planned Phase 15 sequence
 
 - P15.0 — Forecast Calibration Architecture Contract — `VALIDATED`;
-- P15.1 — Forecast/Outcome Persistence Model — `NOT_STARTED`;
+- P15.1 — Forecast/Outcome Persistence Model — `VALIDATED`;
 - P15.2 — Provenance-Bound Outcome Resolution — `NOT_STARTED`;
 - P15.3 — Calibration Engine — `NOT_STARTED`;
 - P15.4 — Performance Intelligence and Drift/Bias Analysis — `NOT_STARTED`;
 - P15.5 — Owner Read-Only Performance Projection — `NOT_STARTED`;
 - P15.6 — Phase 15 Validation Matrix / Closure — `NOT_STARTED`.
 
-P15.0 is validated. The next sequential engineering task is P15.1 — Forecast/Outcome Persistence Model.
+P15.1 is validated. The next sequential engineering task is P15.2 — Provenance-Bound Outcome Resolution.
