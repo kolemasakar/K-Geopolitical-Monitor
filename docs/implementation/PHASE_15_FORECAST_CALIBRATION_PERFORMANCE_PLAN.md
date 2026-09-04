@@ -95,7 +95,7 @@ Validation:
 - ARM64 unattended one-tick: PASS;
 - ARM64 systemd contract: PASS.
 
-P15.3 introduces additive migration `029_forecast_calibration_observations.sql` and `forecast_calibration_engine.py`. Legacy M12 `forecast_evaluations`, `forecast_calibration_runs` and `forecast_calibration_buckets` remain unchanged.
+P15.3 introduced additive migration `029_forecast_calibration_observations.sql` and `forecast_calibration_engine.py`. Legacy M12 `forecast_evaluations`, `forecast_calibration_runs` and `forecast_calibration_buckets` remain unchanged.
 
 Validated calibration rules:
 - only a Phase 15 `RESOLVED` assessment is eligible for automatic scoring;
@@ -110,6 +110,35 @@ Validated calibration rules:
 - P15.3 persists observation-level evidence only; cohort aggregation, drift/bias analysis and performance intelligence remain P15.4 scope;
 - calibration does not write or promote P13 factual-verification state.
 
+## P15.4 — Performance Intelligence and Drift/Bias Analysis
+
+State: `VALIDATED`
+Gate: `P15_4_PERFORMANCE_INTELLIGENCE_DRIFT_BIAS_VALIDATED`
+Validation anchor: `ca014fbc3d3e7807b82c0a183d30356dab5414bd`
+
+Validation:
+- x64 run `33903267073`, job `101122112480`: `560 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33903266962`, job `101122111679`: native `aarch64`, `560 passed, 2 warnings / SUCCESS`;
+- ARM64 host bootstrap: PASS;
+- ARM64 unattended one-tick: PASS;
+- ARM64 systemd contract: PASS.
+
+P15.4 introduces additive migration `030_forecast_performance_intelligence.sql` and `forecast_performance_intelligence.py`.
+
+Validated performance-intelligence rules:
+- aggregate snapshots are derived only from immutable P15.3 calibration observations;
+- every aggregate persists an explicit cohort definition, exact ordered observation membership and deterministic observation-set hash;
+- aggregate identity changes when the underlying observation membership changes; earlier snapshots are never rewritten;
+- sample size is always exposed, with descriptive qualification `N_LT_5`, `N_5_TO_19` or `N_GE_20`; these labels do not imply statistical confidence or significance;
+- raw and calibrated performance remain separate across mean probability, mean Brier score, reliability-based expected calibration error and signed probability bias;
+- positive signed bias means over-prediction relative to observed frequency; negative signed bias means under-prediction;
+- raw-to-calibrated Brier/ECE deltas are descriptive performance evidence only;
+- drift comparison is permitted only between identical non-temporal cohort dimensions with explicit ordered, non-overlapping time windows;
+- drift stores recent-minus-baseline deltas and bias shifts without significance claims, causal interpretation or automatic escalation;
+- aggregates, observation membership and drift comparisons are deterministic/idempotent and append-only;
+- legacy M12 forecast evaluation/calibration history remains unchanged;
+- P15.4 does not write, alter, rank or promote P13 factual-verification state.
+
 ## Permanent Epistemic Boundary
 
 The following cannot promote factual verification:
@@ -123,7 +152,7 @@ Canonical factual verification remains supplied only by the current P13.5 decisi
 
 ## Runtime / Security Boundary
 
-Unchanged through P15.3:
+Unchanged through P15.4:
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared canonical runtime: `BLOCKED`;
 - `PRODUCTION_LIVE = NOT_OPERATIONAL`;
@@ -138,8 +167,8 @@ Unchanged through P15.3:
 - P15.1 — Forecast/Outcome Persistence Model — `VALIDATED`;
 - P15.2 — Provenance-Bound Outcome Resolution — `VALIDATED`;
 - P15.3 — Calibration Engine — `VALIDATED`;
-- P15.4 — Performance Intelligence and Drift/Bias Analysis — `NOT_STARTED`;
+- P15.4 — Performance Intelligence and Drift/Bias Analysis — `VALIDATED`;
 - P15.5 — Owner Read-Only Performance Projection — `NOT_STARTED`;
 - P15.6 — Phase 15 Validation Matrix / Closure — `NOT_STARTED`.
 
-Next sequential engineering task: P15.4 — Performance Intelligence and Drift/Bias Analysis.
+Next sequential engineering task: P15.5 — Owner Read-Only Performance Projection.
