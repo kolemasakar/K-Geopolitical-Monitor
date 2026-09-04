@@ -78,6 +78,16 @@ def test_phase14_owner_runtime_contract_remains_pre_activation():
     assert RUNTIME_STORAGE == "PROJECT_LOCAL_ONLY"
 
 
-def test_phase14_introduces_no_migration_028():
-    migrations = ROOT / "migrations"
-    assert not any(path.name.startswith("028") for path in migrations.iterdir())
+def test_phase14_introduced_no_migration_028_but_p15_1_may_do_so_later():
+    phase14_documents = "\n".join(
+        [
+            _text("docs/implementation/PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_RESULT.md"),
+            _text("docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY.md"),
+            _text("docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_POST_PHASE_14_TRANSITION_READY.md"),
+        ]
+    )
+    assert "migration `028`: `NONE`" in phase14_documents or "No migration `028` is introduced" in phase14_documents
+
+    migration_028 = ROOT / "migrations" / "028_forecast_outcome_assessment_history.sql"
+    if migration_028.exists():
+        assert "Phase 15.1" in migration_028.read_text(encoding="utf-8")
