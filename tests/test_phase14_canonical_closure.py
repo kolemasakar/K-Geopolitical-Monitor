@@ -22,11 +22,14 @@ def test_phase14_validated_ready_state_is_synchronized():
         "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY.md"
     )
 
-    assert "Version: 4.18" in roadmap
+    # Phase 14 is a historical readiness boundary. Later validated roadmap phases
+    # may advance the v4 synchronization version, so this guard must assert the
+    # preserved Phase 14 state rather than freeze the global roadmap at v4.18.
+    assert "Strategic roadmap: v4" in roadmap
     assert "PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY" in roadmap
     assert "VALIDATED_READY / NOT_ACTIVATED" in roadmap
     assert "PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED" in checkpoint
-    assert "PHASE_14_VALIDATED_READY / NOT_ACTIVATED" in readme
+    assert "PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED" in readme
 
 
 def test_phase14_closure_evidence_is_exact_and_saved():
