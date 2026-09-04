@@ -1,11 +1,12 @@
-# PROJECT CHECKPOINT — PHASE 14 OWNER OPERATIONAL INTELLIGENCE CLOSURE CANDIDATE
+# PROJECT CHECKPOINT — PHASE 14 OWNER OPERATIONAL INTELLIGENCE READY
 
 Date: 2026-09-04
 Project: K-Geopolitical Monitor
-Status: `PHASE_14_CLOSURE_CANDIDATE / EXACT_HEAD_VALIDATION_PENDING`
-Gate target: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY`
+Status: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED`
+Strategic gate: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY`
 Implementation HEAD: `695c5a0f82aa6c89f95032bfebaa90617065a100`
-Operational activation: `OWNER_DECISION_REQUIRED`
+Closure validation anchor: `43a26aee7ed677dafd46eb91c510d0e724d558c2`
+Operational activation: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`
 
 ## Implementation Evidence
 
@@ -18,10 +19,21 @@ Operational activation: `OWNER_DECISION_REQUIRED`
 Pre-merge clean candidate:
 - x64 PR run `33872079350`, job `101020177627`: `506 passed, 2 warnings / SUCCESS`.
 
-## Candidate Canonical State
+## Strategic Closure Evidence
 
-- P14.0–P14.5 implementation: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`;
-- P14.6: `CLOSURE_CANDIDATE / EXACT_HEAD_VALIDATION_PENDING`;
+Closure validation anchor `43a26aee7ed677dafd46eb91c510d0e724d558c2`:
+
+- x64 run `33873131265`, job `101023637949`: `510 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33873131300`, job `101023638027`: native `aarch64`, `510 passed, 2 warnings / SUCCESS`;
+- host bootstrap — PASS;
+- unattended one-tick — PASS;
+- systemd contract — PASS.
+
+The immediately preceding closure-candidate HEAD `02d9c718b20e26aff60c78cc855f009961ca3326` exposed four stale historical guard assertions only. The repair commit `43a26aee7ed677dafd46eb91c510d0e724d558c2` changed those tests without changing Phase 14 semantic/runtime implementation.
+
+## Canonical State
+
+- P14.0–P14.6: `VALIDATED`;
 - migration `028`: `NONE`;
 - canonical verification source: explicit current P13.5 decision reached through P13.6 semantic/live compatibility;
 - missing/stale/ambiguous semantic state: fail closed;
@@ -41,6 +53,8 @@ Pre-merge clean candidate:
 - owner execution = disabled;
 - owner operational activation = `OWNER_DECISION_REQUIRED`.
 
-## Remaining Closure Requirement
+## Closure Decision
 
-This checkpoint does not grant the Phase 14 readiness gate. The synchronized closure candidate must first pass full x64 and native ARM64 validation. Only then may the gate be recorded as validated, followed by final exact-head validation of the synchronized validated state.
+`PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY = VALIDATED_READY`
+
+This readiness gate does not authorize operational activation. `OWNER_ONLY_OPERATIONAL_ACTIVATION` remains `OWNER_DECISION_REQUIRED` and production/live remains `NOT_OPERATIONAL`.

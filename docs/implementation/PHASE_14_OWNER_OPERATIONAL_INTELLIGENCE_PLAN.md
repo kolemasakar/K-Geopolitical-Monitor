@@ -2,17 +2,18 @@
 
 Date: 2026-09-04
 Project: K-Geopolitical Monitor
-Status: `CLOSURE_CANDIDATE / EXACT_HEAD_VALIDATION_PENDING`
-Strategic gate target: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY`
+Status: `VALIDATED_READY / NOT_ACTIVATED`
+Strategic gate: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY`
 Activation decision: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`
 Base HEAD: `9e6bb86b8827422f03989da38ec37d326516031e`
 Implementation HEAD: `695c5a0f82aa6c89f95032bfebaa90617065a100`
+Closure validation anchor: `43a26aee7ed677dafd46eb91c510d0e724d558c2`
 
 ## Objective
 
 Phase 14 prepares an owner-facing operational intelligence layer over the validated Phase 12 acquisition/runtime foundation and Phase 13 semantic verification/provenance stack.
 
-Phase 14 readiness is not operational activation. Engineering and validation may complete while unattended owner execution, production/live operation, public ingress, shared runtime and paid providers remain blocked.
+Phase 14 readiness is now validated. Readiness is not operational activation: unattended owner execution, production/live operation, public ingress, shared runtime and paid providers remain blocked pending separate owner decisions where required.
 
 Production/live operational status: `NOT_OPERATIONAL`
 Runtime storage mode: `PROJECT_LOCAL_ONLY`
@@ -60,11 +61,18 @@ Implementation HEAD: `695c5a0f82aa6c89f95032bfebaa90617065a100`.
 Pre-merge clean candidate validation:
 - PR run `33872079350`, job `101020177627`: `506 passed, 2 warnings / SUCCESS`.
 
-These runs validate the implementation head. They do not by themselves validate the subsequent canonical closure commit.
+## Strategic Closure Validation Anchor
+
+Closure validation anchor: `43a26aee7ed677dafd46eb91c510d0e724d558c2`.
+
+- x64 run `33873131265`, job `101023637949`: `510 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33873131300`, job `101023638027`: native `aarch64`, `510 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+The predecessor closure-candidate HEAD `02d9c718b20e26aff60c78cc855f009961ca3326` produced four stale historical guard failures only. Repair HEAD `43a26aee7ed677dafd46eb91c510d0e724d558c2` changed those guards without semantic/runtime implementation changes.
 
 ## P14.0 — Operational Architecture Contract
 
-State: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`
+State: `VALIDATED`
 
 Validated invariants:
 
@@ -80,7 +88,7 @@ Module: `src/kgeopolitical_monitor/owner_operational_intelligence.py`.
 
 ## P14.1 — Owner Intelligence Workspace
 
-State: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`
+State: `VALIDATED`
 
 `OwnerOperationalIntelligenceReader.workspace_snapshot()` projects:
 
@@ -95,7 +103,7 @@ The workspace does not mutate persisted state.
 
 ## P14.2 — Watch and Priority Operational Queue
 
-State: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`
+State: `VALIDATED`
 
 `watch_queue()` reads existing monitoring-watch state and existing M9 alert-policy priority without creating or changing either.
 
@@ -111,7 +119,7 @@ Owner mutation/control endpoints are deliberately not introduced before activati
 
 ## P14.3 — Canonical Alert Qualification Readiness
 
-State: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`
+State: `VALIDATED`
 
 Historical M9 alert evaluation used legacy `live_analysis_claims.verification_status`. Phase 14 does not reuse that shortcut as canonical truth.
 
@@ -128,7 +136,7 @@ Historical M9 alert evaluation used legacy `live_analysis_claims.verification_st
 
 ## P14.4 — Operational Health and Auditability
 
-State: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`
+State: `VALIDATED`
 
 `operational_health()` reports persisted-only:
 
@@ -142,7 +150,7 @@ Coverage remains an observability/assessment dimension, not verification confide
 
 ## P14.5 — Owner Briefing Layer
 
-State: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`
+State: `VALIDATED`
 
 `owner_brief()` produces a structured persisted-state briefing:
 
@@ -156,24 +164,21 @@ State: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`
 
 ## P14.6 — Validation Matrix / Closure
 
-State: `CLOSURE_CANDIDATE / EXACT_HEAD_VALIDATION_PENDING`
+State: `VALIDATED`
 
-Deterministic tests in `tests/test_owner_operational_intelligence.py` validate the implementation behavior. `tests/test_phase14_canonical_closure.py` guards canonical state synchronization and the activation boundary.
+Deterministic tests in `tests/test_owner_operational_intelligence.py` validate implementation behavior. `tests/test_phase14_canonical_closure.py` guards canonical state synchronization, exact saved closure evidence and the activation boundary.
 
-Closure requirements:
+Validated closure requirements:
 
-- closure candidate must pass x64 full regression;
-- closure candidate must pass native ARM64 full regression;
-- native ARM64 must remain `aarch64`;
-- host bootstrap, unattended one-tick and systemd contract must remain PASS;
-- only then may the readiness gate be recorded as validated;
-- a final exact-head regression must then confirm the synchronized validated state.
+- closure validation passed x64 full regression;
+- closure validation passed native ARM64 full regression;
+- native ARM64 remained `aarch64`;
+- host bootstrap, unattended one-tick and systemd contract remained PASS;
+- readiness gate is therefore recorded as validated.
 
-## Candidate Strategic Decision
+## Final Strategic Decision
 
-Current state:
-
-`PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY = EXACT_HEAD_VALIDATION_PENDING`
+`PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY = VALIDATED_READY`
 
 Operational activation remains:
 

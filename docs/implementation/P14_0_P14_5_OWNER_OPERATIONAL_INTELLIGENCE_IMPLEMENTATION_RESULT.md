@@ -2,10 +2,11 @@
 
 Date: 2026-09-04
 Project: K-Geopolitical Monitor
-Status: `IMPLEMENTATION_VALIDATED / STRATEGIC_CLOSURE_PENDING`
+Status: `IMPLEMENTATION_VALIDATED / STRATEGIC_CLOSURE_VALIDATED`
 Base HEAD: `9e6bb86b8827422f03989da38ec37d326516031e`
 Implementation HEAD: `695c5a0f82aa6c89f95032bfebaa90617065a100`
-Expected gate: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY`
+Strategic gate: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY`
+Closure validation anchor: `43a26aee7ed677dafd46eb91c510d0e724d558c2`
 Activation state: `OWNER_DECISION_REQUIRED`
 
 ## Implemented
@@ -18,7 +19,7 @@ Activation state: `OWNER_DECISION_REQUIRED`
 - P14.5 structured owner briefing projection;
 - P14.6 deterministic validation tests.
 
-## Semantic Safety Repair
+## Semantic Safety
 
 The Phase 14 read model does not treat legacy `live_analysis_claims.verification_status`, scalar confidence, host count or `independent_origin_count` as canonical truth.
 
@@ -50,4 +51,8 @@ Implementation HEAD `695c5a0f82aa6c89f95032bfebaa90617065a100`:
 - x64 run `33872226847`, job `101020657369`: `506 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33872226777`, job `101020657023`: native `aarch64`, `506 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Strategic closure remains pending until the synchronized closure candidate itself passes x64 and native ARM64 validation.
+Strategic closure validation anchor `43a26aee7ed677dafd46eb91c510d0e724d558c2`:
+- x64 run `33873131265`, job `101023637949`: `510 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33873131300`, job `101023638027`: native `aarch64`, `510 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+P14.0–P14.5 and the P14.6 closure contract are validated. Operational activation remains a separate owner decision.
