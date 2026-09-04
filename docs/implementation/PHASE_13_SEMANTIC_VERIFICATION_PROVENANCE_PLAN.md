@@ -1,10 +1,10 @@
 # Phase 13 — Semantic Verification and Provenance Intelligence
 
 Date: 2026-09-04
-Status: `ACTIVE_ENGINEERING_PHASE / P13.0-P13.5_VALIDATED / P13.6_CURRENT`
+Status: `P13.0-P13.6_IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`
 Project: K-Geopolitical Monitor
-Strategic phase gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
-Current activity: `P13.6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX`
+Strategic phase gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` — `PENDING_EXACT_HEAD_CLOSURE_REGRESSION`
+Current activity: `PHASE_13_CANONICAL_CLOSURE_VALIDATION`
 
 ## Objective
 
@@ -14,7 +14,7 @@ Phase 13 improves analytical depth. It does not activate production/live operati
 
 ## Audited Compatibility Baseline
 
-The existing baseline remains historical compatibility state until P13.6:
+The existing baseline remains historical compatibility state:
 - `claims` / `evidence` from migration 002 are minimal legacy objects;
 - `live_analysis_claims` / `live_analysis_evidence` group evidence by normalized headline and store `origin_host` / `independent_origin_count`;
 - historical `verification.py` uses an evidence-count threshold;
@@ -69,7 +69,7 @@ Evidence relation does not itself determine final verification state.
 
 Independence states are `INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN`, `MIXED`.
 
-Unknown independence cannot be promoted to independent to satisfy a verification threshold. Different source, host, domain, publisher or language is not sufficient proof of independence.
+Unknown independence cannot be promoted to independent to satisfy a verification threshold. Different source, host, domain, publisher or language is not sufficient proof of independence. Repost/syndication/translation/citation does not create independent corroboration.
 
 ### Contradiction contract
 
@@ -142,9 +142,14 @@ Migration `026_semantic_contradiction_model.sql` introduced append-only typed co
 Gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`.
 Validation anchor: `0f0d746c538dc5ce8f010fb80f8afbe00685414a`.
 
-Validation evidence:
+Implementation validation evidence:
 - x64 run `33849149736`, job `100947736040`: `475 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33849149742`, job `100947736318`: native `aarch64`, `475 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Formal closure HEAD: `d2e80fe8a1bd998ca422be1e1001744be0e9e6e3`.
+Formal closure evidence:
+- x64 run `33856550956`, job `100971101911`: `480 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33856550913`, job `100971101835`: native `aarch64`, `480 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Migration `027_semantic_verification_policy_confidence.sql` introduced append-only verification policy versions, multidimensional factual-confidence versions and auditable semantic verification decisions.
 
@@ -168,27 +173,37 @@ Minimum modeled factual-confidence dimensions:
 - claim-specific certainty;
 - coverage limitation remains separate.
 
-## P13.6 Current Work Package — Live Compatibility Cutover and Phase 13 Validation Matrix
+## P13.6 Live Compatibility Cutover and Phase 13 Validation Matrix — IMPLEMENTATION VALIDATED
 
-State: `CURRENT / NOT_STARTED`.
+State: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`.
+Implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`.
+Evidence-save HEAD: `2a482eb85b118fa5ea46396fa92707733dad5159`.
 Expected strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
 
-Required scope:
-- define a non-destructive compatibility/cutover path between historical `live_analysis_claims` / `live_analysis_evidence` and P13.1-P13.5 semantic state;
-- preserve historical live rows and legacy read APIs;
-- prevent historical `origin_host`, distinct-host counts, `independent_origin_count`, evidence-count thresholds or scalar confidence from being reinterpreted as canonical semantic independence/truth;
-- bind semantic decisions to reproducibility/traceability records where instrumented evidence exists;
-- prove deterministic restart/read compatibility and migration idempotence;
-- validate that P13.5 decisions can be consumed without rewriting legacy records;
-- produce a Phase 13 validation matrix covering P13.0-P13.6 boundaries and exact validation evidence;
-- retain `PROJECT_LOCAL_ONLY` and `NOT_OPERATIONAL` runtime status.
+Implementation evidence:
+- x64 run `33857212159`, job `100973174656`: `489 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33857212157`, job `100973174256`: native `aarch64`, `489 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-P13.6 must not:
+Evidence-save exact-head validation:
+- x64 run `33857629735`, job `100974493101`: `493 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33857629714`, job `100974493074`: native `aarch64`, `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Validated scope:
+- non-destructive compatibility/cutover path between historical `live_analysis_claims` / `live_analysis_evidence` and P13.1-P13.5 semantic state;
+- historical live rows and legacy read APIs preserved;
+- historical `origin_host`, distinct-host counts, `independent_origin_count`, evidence-count thresholds and scalar confidence are not reinterpreted as canonical semantic independence/truth;
+- explicit P13.1 `LIVE_ANALYSIS_CLAIM` link is the bridge to semantic identity;
+- semantic verification state is exposed only from an unambiguous current P13.5 decision;
+- instrumented E6 reproducibility state is bound when persisted; absent instrumentation remains `NOT_INSTRUMENTED` rather than reconstructed;
+- deterministic restart/read compatibility validated;
+- migration 028: `NONE`.
+
+P13.6 must not and does not:
 - silently promote old `PARTLY_VERIFIED`/`VERIFIED` values into P13.5 decisions;
 - invent exact provenance or tool history that was not instrumented;
 - use a compatibility view as proof of independent origin;
 - activate production/live, public ingress, shared runtime or paid providers;
-- advance Phase 14 without closing the Phase 13 strategic gate.
+- advance Phase 14 operational activation without an explicit owner decision.
 
 ## Internal Phase 13 Sequencing
 
@@ -198,9 +213,9 @@ P13.6 must not:
 - `P13.3` — evidence relation / independence — **VALIDATED**;
 - `P13.4` — typed contradiction lifecycle — **VALIDATED**;
 - `P13.5` — verification policy / multidimensional confidence — **VALIDATED**;
-- `P13.6` — live compatibility cutover, reproducibility and Phase 13 validation matrix — **CURRENT / NOT_STARTED**.
+- `P13.6` — live compatibility cutover, reproducibility and Phase 13 validation matrix — **IMPLEMENTATION VALIDATED / CLOSURE CANDIDATE**.
 
-Each work package requires its own validation before the next package becomes current.
+P13.6 must be implemented, validated and saved before Phase 13 is closed. That condition is now satisfied; strategic closure still requires exact-head regression of the synchronized canonical closure candidate.
 
 ## Permanent Boundaries
 
@@ -226,6 +241,7 @@ Public KGM API/dashboard ingress remains not approved/deployed. Backend HTTPS re
 
 ## Current Gate
 
-Next gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
+Strategic gate candidate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
+State: `PENDING_EXACT_HEAD_CLOSURE_REGRESSION`.
 
-P13.6 must be implemented, validated and saved before Phase 13 is closed or Phase 14 engineering becomes current.
+Phase 14 remains `APPROVED_SEQUENTIAL / NOT_STARTED`. Operational activation requires `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.

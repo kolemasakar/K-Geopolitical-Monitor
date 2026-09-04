@@ -2,8 +2,8 @@
 
 Chronological record of major approved K-Geopolitical Monitor milestones.
 
-Version: 4.11
-Status: ACTIVE / PHASE_13 / P13.5_VALIDATED / P13.6_CURRENT
+Version: 4.12
+Status: ACTIVE / PHASE_13_CLOSURE_CANDIDATE / P13.6_IMPLEMENTATION_VALIDATED
 
 ## Validated Historical Baseline
 
@@ -122,9 +122,13 @@ Contradiction identity binds two immutable semantic claims plus one typed dimens
 
 Implementation/validation anchor `0f0d746c538dc5ce8f010fb80f8afbe00685414a` added migration `027_semantic_verification_policy_confidence.sql`, `semantic_verification.py`, versioned verification policies, multidimensional factual-confidence profiles and append-only auditable semantic verification decisions.
 
-Validation:
+Implementation validation:
 - x64 `33849149736 / 100947736040`: `475 passed, 2 warnings / SUCCESS`;
 - ARM64 `33849149742 / 100947736318`: native `aarch64`, `475 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Formal closure HEAD `d2e80fe8a1bd998ca422be1e1001744be0e9e6e3`:
+- x64 `33856550956 / 100971101911`: `480 passed, 2 warnings / SUCCESS`;
+- ARM64 `33856550913 / 100971101835`: native `aarch64`, `480 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Validated policy semantics:
 - count-only evidence/source/domain/host/publisher/language promotion is forbidden;
@@ -138,20 +142,40 @@ Validated policy semantics:
 
 Gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`.
 
+## 2026-09-04 — P13.6 Live Compatibility Cutover and Validation Matrix
+
+Implementation anchor `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4` added read-only `semantic_live_compatibility.py` and deterministic compatibility coverage. No migration 028 was introduced.
+
+Implementation validation:
+- x64 `33857212159 / 100973174656`: `489 passed, 2 warnings / SUCCESS`;
+- ARM64 `33857212157 / 100973174256`: native `aarch64`, `489 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Evidence-save HEAD `2a482eb85b118fa5ea46396fa92707733dad5159` saved the Phase-13 validation matrix/result/checkpoint without prematurely granting the strategic gate:
+- x64 `33857629735 / 100974493101`: `493 passed, 2 warnings / SUCCESS`;
+- ARM64 `33857629714 / 100974493074`: native `aarch64`, `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+P13.6 validated a non-destructive bridge from explicit P13.1 `LIVE_ANALYSIS_CLAIM` links to current P13.5 semantic decisions. Legacy `PARTLY_VERIFIED`, scalar confidence, URL-host counts and `independent_origin_count` remain historical compatibility metadata. Stale/ambiguous links fail closed. E6 reproducibility metadata appears only when actually persisted; `NOT_INSTRUMENTED` history is never reconstructed. Legacy and semantic rows are not rewritten by the projection.
+
+State: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`.
+Strategic gate `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` remains pending exact-head regression of the synchronized canonical closure candidate.
+
 ## Current State
 
 - strategic ROADMAP: `APPROVED / v4`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
-- Phase 13: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
+- Phase 13: `CLOSURE_CANDIDATE / AWAITING_EXACT_HEAD_REGRESSION`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
 - P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
 - P13.2: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
 - P13.3: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
 - P13.4: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`;
 - P13.5: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`;
-- current activity: `P13.6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX / CURRENT_NOT_STARTED`;
-- next gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
-- paid providers: none approved;
+- P13.6: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`;
+- current activity: `PHASE_13_CANONICAL_CLOSURE_VALIDATION`;
+- strategic gate: `PENDING_EXACT_HEAD_CLOSURE_REGRESSION`;
+- Phase 14: `APPROVED_SEQUENTIAL / NOT_STARTED`;
+- operational activation: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`;
+- paid providers: none approved / `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - broad outbound egress: retained explicit owner-approved candidate exception;
 - public API/dashboard ingress: not approved/deployed;

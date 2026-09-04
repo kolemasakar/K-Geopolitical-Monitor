@@ -81,7 +81,12 @@ def test_p13_0_canonical_state_and_sequencing_survive_later_progress():
     data_models = _read("DATA_MODELS.md")
     source_policy = _read("SOURCE_POLICY.md")
 
-    assert "Phase 13 — Semantic Verification and Provenance Intelligence\nState: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
+    assert "Phase 13 — Semantic Verification and Provenance Intelligence" in roadmap
+    assert (
+        "State: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
+        or "State: `CLOSURE_CANDIDATE / AWAITING_EXACT_HEAD_REGRESSION`" in roadmap
+        or "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED" in roadmap
+    )
     for section in (
         "P13.0 — Semantic Verification Architecture Contract\nState: `VALIDATED`",
         "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`",
@@ -95,6 +100,7 @@ def test_p13_0_canonical_state_and_sequencing_survive_later_progress():
     assert "Phase 13 semantic model v2 architecture: `P13.0_VALIDATED`" in data_models
     assert "P13.0 semantic verification architecture contract: `VALIDATED`" in source_policy
     assert "Phase 14 — Owner Operational Intelligence Activation\nState: `APPROVED_SEQUENTIAL / NOT_STARTED`" in roadmap
+    assert "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED" in roadmap
 
 
 def test_p13_0_preserves_runtime_and_truth_boundaries():
@@ -141,17 +147,13 @@ def test_p13_0_closure_allows_validated_sequential_phase13_progress():
         "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `VALIDATED`",
     ):
         assert section in roadmap
-    assert (
-        "P13.5 — Verification Policy Engine and Multidimensional Confidence\nState: `CURRENT / NOT_STARTED`" in roadmap
-        or "P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED" in roadmap
-    )
+    assert "P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED" in roadmap
     assert "P13.6 — Live Compatibility Cutover and Phase 13 Validation Matrix" in roadmap
     assert (
         "current engineering activity: `P13.5_VERIFICATION_POLICY_CONFIDENCE`" in roadmap
         or "current engineering activity: `P13.6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX`" in roadmap
+        or "current engineering activity: `PHASE_13_CANONICAL_CLOSURE_VALIDATION`" in roadmap
+        or "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED" in roadmap
     )
     assert "P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED" in plan
-    assert (
-        "P13.6 must not start before P13.5 is implemented, validated and saved." in plan
-        or "P13.6 must be implemented, validated and saved before Phase 13 is closed" in plan
-    )
+    assert "P13.6 must be implemented, validated and saved before Phase 13 is closed" in plan

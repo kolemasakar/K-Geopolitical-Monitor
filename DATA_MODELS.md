@@ -1,8 +1,8 @@
 # DATA_MODELS
 Canonical data concepts for K-Geopolitical Monitor.
 
-Version: 2.12
-Status: APPROVED / PHASE_12_VALIDATED / P13.0-P13.5_VALIDATED / P13.6_CURRENT
+Version: 2.13
+Status: APPROVED / PHASE_12_VALIDATED / P13.0-P13.6_IMPLEMENTATION_VALIDATED / PHASE_13_CLOSURE_CANDIDATE
 
 ## Principle
 
@@ -10,7 +10,7 @@ Data provenance must be preserved from acquisition through analytical and operat
 
 ## Implemented Canonical Domains
 
-The project-local model includes source identity/raw items, immutable source-portfolio versions, collection attempts/provenance, reproducibility audit metadata, translations, source reputation/status, legacy claims/evidence/events, live-analysis claims/evidence, additive semantic claim versions/links, semantic provenance/origin entities and relations, typed semantic evidence relations, pairwise independence assessments, typed contradiction versions/evidence links, versioned verification policies, multidimensional factual-confidence profiles, versioned semantic verification decisions, monitoring/alerts, region-language coverage, graph, forecasts/calibration, reporting and owner-only runtime-health state.
+The project-local model includes source identity/raw items, immutable source-portfolio versions, collection attempts/provenance, reproducibility audit metadata, translations, source reputation/status, legacy claims/evidence/events, live-analysis claims/evidence, additive semantic claim versions/links, semantic provenance/origin entities and relations, typed semantic evidence relations, pairwise independence assessments, typed contradiction versions/evidence links, versioned verification policies, multidimensional factual-confidence profiles, versioned semantic verification decisions, a read-only semantic/live compatibility projection, monitoring/alerts, region-language coverage, graph, forecasts/calibration, reporting and owner-only runtime-health state.
 
 ## Phase 12 Validated Boundary
 
@@ -101,6 +101,9 @@ Migration: `027_semantic_verification_policy_confidence.sql`.
 Validation anchor: `0f0d746c538dc5ce8f010fb80f8afbe00685414a`.
 - x64 run `33849149736`, job `100947736040`: `475 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33849149742`, job `100947736318`: native `aarch64`, `475 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+Formal closure HEAD: `d2e80fe8a1bd998ca422be1e1001744be0e9e6e3`.
+- x64 run `33856550956`, job `100971101911`: `480 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33856550913`, job `100971101835`: native `aarch64`, `480 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 P13.5 adds append-only:
 - `semantic_verification_policy_versions`;
@@ -129,10 +132,23 @@ Compatibility vocabulary remains `DETECTED`, `PARTLY_VERIFIED`, `VERIFIED`, `DIS
 
 ## P13.6 Live Compatibility / Validation Matrix Contract
 
-State: `CURRENT / NOT_STARTED`.
+State: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`.
+Implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`.
+Evidence-save HEAD: `2a482eb85b118fa5ea46396fa92707733dad5159`.
 Expected gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
 
-P13.6 must provide a non-destructive compatibility/cutover path from historical `live_analysis_*` outputs to P13.1-P13.5 semantic decision state, maintain reproducibility/traceability, preserve historical rows/read APIs, and prove that legacy `origin_host`, `independent_origin_count` and scalar-confidence shortcuts are not silently treated as canonical semantic verification.
+Implementation validation:
+- x64 run `33857212159`, job `100973174656`: `489 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33857212157`, job `100973174256`: native `aarch64`, `489 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+Evidence-save validation:
+- x64 run `33857629735`, job `100974493101`: `493 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33857629714`, job `100974493074`: native `aarch64`, `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+P13.6 introduces no database migration. Migration 028: `NONE`. The canonical migration set remains through `027_semantic_verification_policy_confidence.sql`.
+
+`semantic_live_compatibility.py` is a read-only projection over existing validated tables. It uses explicit P13.1 `LIVE_ANALYSIS_CLAIM` links and exposes semantic verification only from an unambiguous current P13.5 decision. Historical `verification_status`, scalar confidence, `origin_host`, distinct-host counts and `independent_origin_count` remain legacy compatibility metadata and never establish semantic independence or truth by fallback.
+
+If a semantic/live link is stale or ambiguous, the projection fails closed. If an E6 reproducibility bundle does not exist, state remains `NOT_INSTRUMENTED`; exact query/run metadata is not reconstructed. Projection/restart does not rewrite legacy or semantic rows.
 
 ## Migration / Compatibility Boundary
 
@@ -142,8 +158,9 @@ P13.6 must provide a non-destructive compatibility/cutover path from historical 
 - P13.2 provenance is referenced rather than duplicated by P13.3;
 - P13.4 references P13.3 evidence instead of duplicating evidence/provenance state;
 - P13.5 references current P13.3/P13.4 state and stores auditable snapshots rather than mutating them;
+- P13.6 adds no persistence path and reads existing explicit links/decisions/reproducibility state;
 - legacy `origin_host`, `independent_origin_count`, scalar confidence and count-based verification remain historical fields, not sufficient proof of semantic independence or factual truth;
-- no live analytical cutover has occurred yet.
+- live compatibility projection is implemented, but production/live activation has not occurred.
 
 ## Runtime Storage Boundary
 
@@ -154,7 +171,7 @@ Shared/mixed canonical runtime storage remains not approved.
 
 ## Current State
 
-- migrations 022-027: validated through P13.5;
+- migrations 022-027: validated through P13.5; migration 028: `NONE`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`;
 - Phase 13 P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
 - Phase 13 P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
@@ -162,6 +179,8 @@ Shared/mixed canonical runtime storage remains not approved.
 - Phase 13 P13.3: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
 - Phase 13 P13.4: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`;
 - Phase 13 P13.5: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`;
-- P13.6: `CURRENT / NOT_STARTED`;
+- P13.6: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`;
+- Phase 13 strategic gate: `PENDING_EXACT_HEAD_CLOSURE_REGRESSION`;
+- Phase 14: `APPROVED_SEQUENTIAL / NOT_STARTED / OWNER_DECISION_REQUIRED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.

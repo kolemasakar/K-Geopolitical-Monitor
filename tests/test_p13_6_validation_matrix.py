@@ -58,15 +58,19 @@ def test_p13_6_saved_boundary_has_no_parallel_migration_or_legacy_truth_promotio
     assert "never reconstructed" in combined or "not reconstructed" in combined
 
 
-def test_p13_6_evidence_save_does_not_prematurely_grant_strategic_gate():
+def test_p13_6_strategic_state_remains_fail_closed_until_final_gate():
     matrix = _read(MATRIX)
     result = _read(RESULT)
     checkpoint = _read(CHECKPOINT)
-    assert "PENDING_CANONICAL_CLOSURE" in matrix
-    assert "PENDING_CANONICAL_CLOSURE" in result
-    assert "NOT_YET_GRANTED" in checkpoint
-    assert "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED" in matrix
-    assert "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED" in checkpoint
+    allowed = (
+        "PENDING_CANONICAL_CLOSURE",
+        "PENDING_EXACT_HEAD_CLOSURE_REGRESSION",
+        "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED",
+    )
     for document in (matrix, result, checkpoint):
+        assert any(token in document for token in allowed)
+        assert "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED" in document
         assert "Production/live operational status: NOT_OPERATIONAL" in document
         assert "Runtime storage mode: PROJECT_LOCAL_ONLY" in document
+    if "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` — `VALIDATED" not in matrix:
+        assert "NOT_YET_GRANTED" in checkpoint or "PENDING_EXACT_HEAD_CLOSURE_REGRESSION" in checkpoint

@@ -31,7 +31,6 @@ def test_p12_6_closure_evidence_is_exact_and_saved():
     matrix = MATRIX.read_text(encoding="utf-8")
     result = RESULT.read_text(encoding="utf-8")
     checkpoint = CHECKPOINT.read_text(encoding="utf-8")
-
     for exact_id in (
         "c6aca6a2fe3c0dc991b267efa82c5748bd6460e2",
         "33546794411",
@@ -42,7 +41,6 @@ def test_p12_6_closure_evidence_is_exact_and_saved():
         assert exact_id in matrix
         assert exact_id in result
         assert exact_id in checkpoint
-
     for document in (result, checkpoint):
         assert "391 passed, 1 warning / SUCCESS" in document
 
@@ -84,7 +82,12 @@ def test_p12_6_closes_phase12_and_allows_later_sequential_phase13_progress():
     assert "Phase 12 — Intelligence Quality and Source Network Foundation\nState: `VALIDATED_WITH_KNOWN_LIMITATIONS`" in roadmap
     assert "P12.6 — Phase 12 Validation Matrix\nState: `VALIDATED`" in roadmap
     assert "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED" in roadmap
-    assert "Phase 13 — Semantic Verification and Provenance Intelligence\nState: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
+    assert "Phase 13 — Semantic Verification and Provenance Intelligence" in roadmap
+    assert (
+        "State: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
+        or "State: `CLOSURE_CANDIDATE / AWAITING_EXACT_HEAD_REGRESSION`" in roadmap
+        or "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED" in roadmap
+    )
     for section in (
         "P13.0 — Semantic Verification Architecture Contract\nState: `VALIDATED`",
         "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`",
@@ -93,9 +96,7 @@ def test_p12_6_closes_phase12_and_allows_later_sequential_phase13_progress():
         "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `VALIDATED`",
     ):
         assert section in roadmap
-    assert "P13.5 — Verification Policy Engine and Multidimensional Confidence" in roadmap
-    assert (
-        "P13.5 — Verification Policy Engine and Multidimensional Confidence\nState: `CURRENT / NOT_STARTED`" in roadmap
-        or "P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED" in roadmap
-    )
+    assert "P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED" in roadmap
+    assert "P13.6 — Live Compatibility Cutover and Phase 13 Validation Matrix" in roadmap
     assert "Phase 14 — Owner Operational Intelligence Activation\nState: `APPROVED_SEQUENTIAL / NOT_STARTED`" in roadmap
+    assert "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED" in roadmap

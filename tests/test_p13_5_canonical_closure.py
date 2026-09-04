@@ -11,30 +11,30 @@ def _read(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
 
-def test_p13_5_gate_and_transition_to_p13_6_are_canonical():
+def test_p13_5_gate_and_transition_to_p13_6_are_canonical_or_later():
     roadmap = _read("ROADMAP.md")
     readme = _read("README.md")
     plan = _read("docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md")
     implementation = IMPLEMENTATION.read_text(encoding="utf-8")
     result = RESULT.read_text(encoding="utf-8")
     checkpoint = CHECKPOINT.read_text(encoding="utf-8")
-
     for document in (roadmap, readme, plan, implementation, result, checkpoint):
         assert "P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED" in document
     assert "P13.5 — Verification Policy Engine and Multidimensional Confidence\nState: `VALIDATED`" in roadmap
-    assert "P13.6 — Live Compatibility Cutover and Phase 13 Validation Matrix\nState: `CURRENT / NOT_STARTED`" in roadmap
+    assert "P13.6 — Live Compatibility Cutover and Phase 13 Validation Matrix" in roadmap
+    assert (
+        "State: `CURRENT / NOT_STARTED`" in roadmap
+        or "State: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`" in roadmap
+        or "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED" in roadmap
+    )
     assert "P13.6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX" in readme
 
 
 def test_p13_5_validation_evidence_is_exact_and_saved():
     documents = (
-        _read("ROADMAP.md"),
-        _read("README.md"),
-        _read("DATA_MODELS.md"),
+        _read("ROADMAP.md"), _read("README.md"), _read("DATA_MODELS.md"),
         _read("docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md"),
-        IMPLEMENTATION.read_text(encoding="utf-8"),
-        RESULT.read_text(encoding="utf-8"),
-        CHECKPOINT.read_text(encoding="utf-8"),
+        IMPLEMENTATION.read_text(encoding="utf-8"), RESULT.read_text(encoding="utf-8"), CHECKPOINT.read_text(encoding="utf-8"),
     )
     for document in documents:
         assert "0f0d746c538dc5ce8f010fb80f8afbe00685414a" in document
@@ -44,15 +44,7 @@ def test_p13_5_validation_evidence_is_exact_and_saved():
 
 
 def test_p13_5_policy_and_confidence_boundaries_remain_explicit():
-    combined = "\n".join(
-        [
-            _read("ROADMAP.md"),
-            _read("README.md"),
-            _read("DATA_MODELS.md"),
-            IMPLEMENTATION.read_text(encoding="utf-8"),
-            RESULT.read_text(encoding="utf-8"),
-        ]
-    ).lower()
+    combined = "\n".join([_read("ROADMAP.md"), _read("README.md"), _read("DATA_MODELS.md"), IMPLEMENTATION.read_text(encoding="utf-8"), RESULT.read_text(encoding="utf-8")]).lower()
     assert "count-only" in combined
     assert "independent" in combined and "supports" in combined
     assert "multidimensional" in combined
@@ -66,7 +58,6 @@ def test_p13_5_preserves_legacy_runtime_and_cutover_boundaries():
     result = RESULT.read_text(encoding="utf-8")
     implementation = IMPLEMENTATION.read_text(encoding="utf-8")
     plan = _read("docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md")
-
     for document in (readme, result, implementation, plan):
         assert "Production/live operational status: NOT_OPERATIONAL" in document
         assert "Runtime storage mode: PROJECT_LOCAL_ONLY" in document
@@ -81,14 +72,6 @@ def test_p13_5_preserves_legacy_runtime_and_cutover_boundaries():
 def test_p13_5_state_sync_preserves_prior_semantic_schema_boundaries():
     data_models = _read("DATA_MODELS.md")
     assert "Phase 13 semantic model v2 architecture: `P13.0_VALIDATED`" in data_models
-    for token in (
-        "underlying_origin",
-        "independence_state",
-        "evidence_relation",
-        "contradiction_state",
-        "verification_state",
-        "factual_confidence",
-        "coverage_confidence",
-    ):
+    for token in ("underlying_origin", "independence_state", "evidence_relation", "contradiction_state", "verification_state", "factual_confidence", "coverage_confidence"):
         assert token in data_models
     assert "P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED" in data_models

@@ -1,21 +1,27 @@
 # P13.6 — Live Compatibility Cutover Result
 
 Date: 2026-09-04
-Status: `IMPLEMENTATION_VALIDATED / STRATEGIC_CLOSURE_PENDING`
+Status: `IMPLEMENTATION_VALIDATED / CANONICAL_CLOSURE_CANDIDATE / AWAITING_EXACT_HEAD_REGRESSION`
 Package: `P13.6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX`
 Implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`
-Strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` — `PENDING_CANONICAL_CLOSURE`
+Evidence-save HEAD: `2a482eb85b118fa5ea46396fa92707733dad5159`
+Strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` — `PENDING_EXACT_HEAD_CLOSURE_REGRESSION`
 
 ## Validation Evidence
 
+Implementation validation:
 - x64 run `33857212159`, job `100973174656`: `489 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33857212157`, job `100973174256`: native `aarch64`, `489 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Evidence-save exact-head validation:
+- x64 run `33857629735`, job `100974493101`: `493 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33857629714`, job `100974493074`: native `aarch64`, `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 The warnings are dependency deprecation warnings in the FastAPI/Starlette/anyio test stack, not a P13.6 functional failure.
 
 ## Validated Scope
 
-P13.6 adds `src/kgeopolitical_monitor/semantic_live_compatibility.py`, a read-only projection over existing validated state. New database migration: `NONE`; canonical migration set remains through `027_semantic_verification_policy_confidence.sql`.
+P13.6 adds `src/kgeopolitical_monitor/semantic_live_compatibility.py`, a read-only projection over existing validated state. New database migration: `NONE`; migration 028: `NONE`; canonical migration set remains through `027_semantic_verification_policy_confidence.sql`.
 
 The projection reuses:
 - explicit P13.1 `LIVE_ANALYSIS_CLAIM` links;
@@ -25,7 +31,7 @@ The projection reuses:
 Validated behavior:
 - legacy `PARTLY_VERIFIED`/`VERIFIED` never becomes semantic truth by fallback;
 - legacy scalar confidence never becomes P13.5 factual confidence;
-- URL-host counts and `independent_origin_count` never establish semantic independence;
+- URL-host counts, `origin_host` and `independent_origin_count` never establish semantic independence;
 - superseded-only links fail closed as `STALE_LINK`;
 - multiple current semantic identities fail closed as `AMBIGUOUS_CURRENT_LINKS`;
 - exactly one current semantic link without a decision remains `LINKED_NO_DECISION`;
@@ -36,6 +42,8 @@ Validated behavior:
 ## Epistemic Result
 
 P13.6 closes the compatibility gap without importing historical M8 analytical shortcuts into the canonical semantic layer. It does not make a historical live-analysis record evidence of independent origin, factual truth, coverage completeness or production readiness.
+
+Publisher/publication is not automatically the underlying origin. Repost/syndication/translation/citation does not create independent corroboration. Official-source status is not automatically substantive event truth. Source reputation, source health and coverage are not truth operators. Coverage confidence cannot promote factual verification confidence.
 
 ## Data / Runtime / Security Result
 
@@ -53,6 +61,6 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 
 ## Gate Decision
 
-P13.6 implementation is validated. The strategic gate `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` remains pending until canonical state synchronization and exact-head x64/native-ARM64 closure validation complete.
+P13.6 implementation and evidence-save state are validated. Canonical documents are now synchronized as a closure candidate. The strategic gate `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` remains pending until full x64 and native ARM64 regression complete successfully on the exact synchronized closure-candidate HEAD and the final gate evidence is saved.
 
 Phase 14 operational activation is not implied and still requires `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
