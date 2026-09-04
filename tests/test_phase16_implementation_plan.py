@@ -17,10 +17,24 @@ def test_phase16_plan_identity_and_strategic_gate_are_explicit():
     text = _plan_text()
 
     assert "# Phase 16 — Delivery, Operator Experience and Quality Feedback" in text
-    assert "Plan status: `VALIDATED_PLAN / IMPLEMENTATION_NOT_STARTED`" in text
+    assert "Plan status: `IN_PROGRESS`" in text
     assert "ROADMAP basis: `v4.19`" in text
     assert "Strategic phase state: `APPROVED_SEQUENTIAL / NOT_STARTED`" in text
     assert "Strategic phase gate: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`" in text
+
+
+def test_phase16_p16_0_validated_gate_and_evidence_are_recorded():
+    text = _plan_text()
+
+    assert "### P16.0 — Delivery / Operator / Quality Architecture Contract" in text
+    assert "State: `VALIDATED`" in text
+    assert "Gate: `P16_0_DELIVERY_OPERATOR_QUALITY_ARCHITECTURE_CONTRACT_VALIDATED`" in text
+    assert "Validation anchor: `bab44c76abdcf5da198b007aeda90e3e30ab4796`" in text
+    assert "x64 CI run `33915893936`, job `101162849016`: `594 passed, 2 warnings / SUCCESS`" in text
+    assert "native ARM64 run `33915893917`, job `101162848853`: native `aarch64`, `594 passed, 2 warnings / SUCCESS`" in text
+    assert "ARM64 host bootstrap: PASS" in text
+    assert "ARM64 unattended one-tick: PASS" in text
+    assert "ARM64 systemd contract: PASS" in text
 
 
 def test_phase16_plan_sequence_is_complete_and_ordered():
@@ -88,7 +102,7 @@ def test_phase16_plan_requires_redaction_dedup_and_failure_isolation_before_real
 def test_phase16_plan_does_not_pre_authorize_new_schema_or_provider_activation():
     text = _plan_text()
 
-    assert "Persistence decision for P16.0: no migration" in text
+    assert "migration `031`: `NONE_FOR_P16_0`" in text
     assert "Its exact schema is not pre-authorized by this plan" in text
     assert "exact schema remains subject to P16.5 review" in text
     assert "Paid providers remain forbidden unless separately approved" in text
