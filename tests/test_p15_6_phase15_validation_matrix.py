@@ -14,6 +14,7 @@ from kgeopolitical_monitor.forecast_performance_projection import P15_5_GATE
 ROOT = Path(__file__).resolve().parents[1]
 STRATEGIC_GATE = "PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED"
 CLOSURE_ANCHOR = "77b444e2c89f763e56acc22183c74634ea993573"
+SYNC_VALIDATION_ANCHOR = "4f61249ef4531e6df41bf26cda030a5cfb2f07e4"
 
 
 def _text(path: str) -> str:
@@ -167,3 +168,27 @@ def test_phase15_saved_closure_evidence_matches_exact_candidate_runs():
         "native `aarch64`",
     ):
         assert token in documents
+
+
+def test_post_phase15_transition_checkpoint_preserves_two_level_validation_evidence():
+    checkpoint = _text(
+        "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_POST_PHASE_15_TRANSITION_READY.md"
+    )
+    for token in (
+        STRATEGIC_GATE,
+        "TRANSITION_READY",
+        CLOSURE_ANCHOR,
+        SYNC_VALIDATION_ANCHOR,
+        "dc583ab5cabecdac8f7eec088bd7419311f435dc",
+        "33907735406",
+        "101136577868",
+        "33907735130",
+        "101136576521",
+        "578 passed, 2 warnings / SUCCESS",
+        "Phase 16 — Delivery, Operator Experience and Quality Feedback",
+        "APPROVED_SEQUENTIAL / NOT_STARTED",
+        "PROJECT_LOCAL_ONLY",
+        "PRODUCTION_LIVE = NOT_OPERATIONAL",
+        "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
+    ):
+        assert token in checkpoint
