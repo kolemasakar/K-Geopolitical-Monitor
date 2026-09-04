@@ -1,8 +1,9 @@
 # P15.6 — PHASE 15 VALIDATION MATRIX
 
 Date: 2026-09-04
-Status: `CLOSURE_CANDIDATE`
+Status: `VALIDATED`
 Strategic gate: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`
+Closure validation anchor: `77b444e2c89f763e56acc22183c74634ea993573`
 
 ## Validation Scope
 
@@ -36,21 +37,28 @@ P15.6 validates the completed Phase 15 engineering line without introducing a ne
 | P15.3 x64 / ARM64 | full regression | `548 / 548 passed` |
 | P15.4 x64 / ARM64 | full regression | `560 / 560 passed` |
 | P15.5 x64 / ARM64 | full regression | `568 / 568 passed` |
+| P15.6 x64 | canonical full regression | `33906546408 / 101132699703`: `576 passed, 2 warnings / SUCCESS` |
+| P15.6 ARM64 | native full regression | `33906546431 / 101132700003`: `576 passed, 2 warnings / SUCCESS` |
+| Native architecture | `aarch64` | PASS |
+| Host bootstrap | shell/bootstrap contract | PASS |
+| Unattended one-tick | project-local smoke | PASS |
+| systemd contract | unit verification | PASS |
 
-## Closure Preconditions
+## Closure Assessment
 
-Strategic closure is valid only if the closure-candidate exact HEAD passes:
-- canonical x64 full regression;
-- native ARM64 full regression with `aarch64` confirmation;
-- ARM64 host bootstrap validation;
-- unattended one-tick smoke;
-- systemd unit contract.
+Exact closure validation anchor `77b444e2c89f763e56acc22183c74634ea993573` passed both required full regressions and all native ARM64 host checks.
 
-After those checks pass, the exact closure validation anchor and workflow evidence are to be recorded in the Phase 15 result/checkpoint and synchronized into the canonical roadmap state.
+Strategic gate:
+
+`PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED = VALIDATED`
+
+All P15.0–P15.6 requirements are validated. Phase 16 remains the next approved sequential phase and is not started by this closure.
 
 ## Permanent Non-Promotion Rule
 
 No Phase 15 field or metric may become a factual-verification promotion operator. This includes forecast probability, scenario confidence, Brier score, reliability/ECE, signed bias, drift delta, sample size/qualification, coverage confidence, legacy scalar confidence and source/domain/host/language/adapter/item counts.
+
+Canonical factual verification remains P13.5/P13.6 only.
 
 ## Runtime / Security Boundary
 
