@@ -52,7 +52,7 @@ def _seed_raw_item(db_path, raw_item_id="raw-p15-2"):
 
 def _seed_legacy_outcome(db_path, state, outcome_id=None, forecast_id="forecast-p15-2"):
     outcome_id = outcome_id or f"legacy-{state.lower()}"
-    observed_type = "BASE" if state == "OBSERVED" else None
+    observed_type = "baseline" if state == "OBSERVED" else None
     with sqlite3.connect(db_path) as connection:
         connection.execute(
             """INSERT INTO forecast_outcomes(
