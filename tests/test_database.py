@@ -70,6 +70,9 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "forecast_outcome_assessments",
         "forecast_outcome_assessment_evidence",
         "forecast_calibration_observations",
+        "forecast_performance_aggregates",
+        "forecast_performance_aggregate_observations",
+        "forecast_performance_drift_comparisons",
         "report_snapshots",
         "report_sections",
         "report_references",
@@ -129,4 +132,5 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "027_semantic_verification_policy_confidence.sql",
         "028_forecast_outcome_assessment_history.sql",
         "029_forecast_calibration_observations.sql",
+        "030_forecast_performance_intelligence.sql",
     }
