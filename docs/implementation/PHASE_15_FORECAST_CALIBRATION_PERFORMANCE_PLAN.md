@@ -70,7 +70,7 @@ Validation:
 - ARM64 unattended one-tick: PASS;
 - ARM64 systemd contract: PASS.
 
-P15.2 introduces `forecast_outcome_resolution.py` and no new migration.
+P15.2 introduced `forecast_outcome_resolution.py` and no new migration.
 
 Validated resolution rules:
 - no persisted final forecast result resolves fail-closed to `UNRESOLVED`;
@@ -81,6 +81,34 @@ Validated resolution rules:
 - a resolved assessment requires persisted evidence with provenance role `OUTCOME_EVIDENCE`;
 - assessment history remains monotonic and append-only;
 - outcome resolution does not write, alter or promote `semantic_verification_decision_versions` or any other P13 factual-verification state.
+
+## P15.3 — Calibration Engine
+
+State: `VALIDATED`
+Gate: `P15_3_CALIBRATION_ENGINE_VALIDATED`
+Validation anchor: `a2e16cd7e41f2bbef50f6da8e61083e9e944ccd4`
+
+Validation:
+- x64 run `33902093460`, job `101118300735`: `548 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33902093284`, job `101118300259`: native `aarch64`, `548 passed, 2 warnings / SUCCESS`;
+- ARM64 host bootstrap: PASS;
+- ARM64 unattended one-tick: PASS;
+- ARM64 systemd contract: PASS.
+
+P15.3 introduces additive migration `029_forecast_calibration_observations.sql` and `forecast_calibration_engine.py`. Legacy M12 `forecast_evaluations`, `forecast_calibration_runs` and `forecast_calibration_buckets` remain unchanged.
+
+Validated calibration rules:
+- only a Phase 15 `RESOLVED` assessment is eligible for automatic scoring;
+- scoring additionally requires a same-forecast binary legacy result (`OBSERVED` or `NOT_OBSERVED`) and addressable persisted `OUTCOME_EVIDENCE` provenance;
+- `UNRESOLVED`, `PARTIAL` and `AMBIGUOUS` fail closed and are not coerced to negative outcomes;
+- `OBSERVED` uses one-vs-rest binary targets and must map to exactly one scenario in the scored forecast version;
+- `NOT_OBSERVED` maps all scenario targets to `0.0`;
+- raw and calibrated probabilities are scored separately with Brier score;
+- equal-width reliability buckets are persisted separately for raw and calibrated probability; probability `1.0` remains in the final bucket;
+- `scenario_confidence` is not used as probability or scoring input;
+- calibration observations are deterministic, idempotent and append-only;
+- P15.3 persists observation-level evidence only; cohort aggregation, drift/bias analysis and performance intelligence remain P15.4 scope;
+- calibration does not write or promote P13 factual-verification state.
 
 ## Permanent Epistemic Boundary
 
@@ -95,7 +123,7 @@ Canonical factual verification remains supplied only by the current P13.5 decisi
 
 ## Runtime / Security Boundary
 
-Unchanged through P15.2:
+Unchanged through P15.3:
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared canonical runtime: `BLOCKED`;
 - `PRODUCTION_LIVE = NOT_OPERATIONAL`;
@@ -109,9 +137,9 @@ Unchanged through P15.2:
 - P15.0 — Forecast Calibration Architecture Contract — `VALIDATED`;
 - P15.1 — Forecast/Outcome Persistence Model — `VALIDATED`;
 - P15.2 — Provenance-Bound Outcome Resolution — `VALIDATED`;
-- P15.3 — Calibration Engine — `NOT_STARTED`;
+- P15.3 — Calibration Engine — `VALIDATED`;
 - P15.4 — Performance Intelligence and Drift/Bias Analysis — `NOT_STARTED`;
 - P15.5 — Owner Read-Only Performance Projection — `NOT_STARTED`;
 - P15.6 — Phase 15 Validation Matrix / Closure — `NOT_STARTED`.
 
-Next sequential engineering task: P15.3 — Calibration Engine.
+Next sequential engineering task: P15.4 — Performance Intelligence and Drift/Bias Analysis.
