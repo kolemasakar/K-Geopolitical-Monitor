@@ -1,7 +1,7 @@
 # Phase 16 — Delivery, Operator Experience and Quality Feedback
 
 Date: 2026-09-04
-Plan status: `VALIDATED_PLAN / IMPLEMENTATION_NOT_STARTED`
+Plan status: `IN_PROGRESS`
 Project: K-Geopolitical Monitor
 ROADMAP basis: `v4.19`
 Strategic phase state: `APPROVED_SEQUENTIAL / NOT_STARTED`
@@ -66,20 +66,31 @@ Delivery lifecycle and alert lifecycle remain separate. An alert may be open/upd
 
 ### P16.0 — Delivery / Operator / Quality Architecture Contract
 
-State: `NOT_STARTED`
-Target gate: `P16_0_DELIVERY_OPERATOR_QUALITY_ARCHITECTURE_CONTRACT_VALIDATED`
+State: `VALIDATED`
+Gate: `P16_0_DELIVERY_OPERATOR_QUALITY_ARCHITECTURE_CONTRACT_VALIDATED`
+Validation anchor: `bab44c76abdcf5da198b007aeda90e3e30ab4796`
 
-Define a machine-readable architecture contract covering:
+Validation evidence:
 
-- delivery-intent identity and lifecycle;
-- delivery payload/redaction boundary;
-- transport-attempt and receipt semantics;
-- operator-feedback semantics;
-- quality-observation and advisory-summary semantics;
-- explicit non-promotional truth rules;
-- activation/provider/runtime boundaries.
+- x64 CI run `33915893936`, job `101162849016`: `594 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33915893917`, job `101162848853`: native `aarch64`, `594 passed, 2 warnings / SUCCESS`;
+- ARM64 host bootstrap: PASS;
+- ARM64 unattended one-tick: PASS;
+- ARM64 systemd contract: PASS.
 
-Persistence decision for P16.0: no migration. P16.0 establishes contracts only.
+Validated machine-readable contract: `KGM_DELIVERY_OPERATOR_QUALITY_ARCHITECTURE_V1` in `src/kgeopolitical_monitor/delivery_operator_quality_contract.py`.
+
+Validated architecture boundaries:
+
+- canonical intelligence state, delivery intent, redacted payload, transport attempt, delivery receipt, operator feedback, quality observation and advisory quality summary remain distinct entities;
+- delivery and transport lifecycle states are typed delivery evidence and never factual-verification states;
+- redaction/data minimization precedes any external transport boundary;
+- provider credentials and sensitive owner/runtime metadata are excluded from canonical delivery payload semantics;
+- operator feedback is workflow/quality evidence and not independent event evidence by itself;
+- a factual correction request must re-enter the existing provenance/verification workflow rather than mutate truth state directly;
+- quality metrics are descriptive/advisory only and cannot self-modify source, verification, alert, forecast or provider policy;
+- migration `031`: `NONE_FOR_P16_0`;
+- no provider, public ingress, owner execution or production/live operation is activated by P16.0.
 
 ### P16.1 — Canonical Delivery Intent and Audit Persistence
 
@@ -259,10 +270,10 @@ Phase 16 does not authorize:
 
 ## Plan Validation Result
 
-This plan is structurally consistent with ROADMAP v4.19, the Phase 14 readiness boundary, the Phase 15 closure boundary and the system-development recommendation for notification/delivery plus observed-metric quality loops.
+P16.0 is validated on exact implementation anchor `bab44c76abdcf5da198b007aeda90e3e30ab4796` with matching successful x64 and native ARM64 regressions.
 
-Plan decision: `VALIDATED_PLAN / IMPLEMENTATION_NOT_STARTED`.
+Plan decision: `IN_PROGRESS`.
 
-The ROADMAP Phase 16 state remains `APPROVED_SEQUENTIAL / NOT_STARTED` until P16.0 implementation begins.
+The strategic ROADMAP Phase 16 entry remains `APPROVED_SEQUENTIAL / NOT_STARTED` pending later canonical roadmap synchronization; this does not invalidate the validated P16.0 implementation gate.
 
-Next engineering task after plan validation: P16.0 — Delivery / Operator / Quality Architecture Contract.
+Next sequential engineering task: P16.1 — Canonical Delivery Intent and Audit Persistence.
