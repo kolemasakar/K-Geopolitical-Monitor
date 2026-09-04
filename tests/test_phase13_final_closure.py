@@ -71,5 +71,6 @@ def test_phase13_final_gate_does_not_activate_phase14_or_production():
         assert "Production/live operational status: NOT_OPERATIONAL" in document
         assert "Runtime storage mode: PROJECT_LOCAL_ONLY" in document
         assert "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED" in document
-    assert "Phase 14 — Owner Operational Intelligence Activation\nState: `APPROVED_SEQUENTIAL / NOT_STARTED`" in roadmap
+    # Phase-13 closure protects the activation boundary, not a permanent Phase-14 lifecycle state.
+    assert "Phase 14 — Owner Operational Intelligence Activation" in roadmap
     assert "paid providers: `NONE_APPROVED`" in roadmap or "paid providers: `NONE_APPROVED`" in readme

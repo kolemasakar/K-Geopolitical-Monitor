@@ -98,5 +98,6 @@ def test_p12_6_closes_phase12_and_allows_later_sequential_phase13_progress():
         assert section in roadmap
     assert "P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED" in roadmap
     assert "P13.6 — Live Compatibility Cutover and Phase 13 Validation Matrix" in roadmap
-    assert "Phase 14 — Owner Operational Intelligence Activation\nState: `APPROVED_SEQUENTIAL / NOT_STARTED`" in roadmap
+    # Historical Phase-12 closure must allow later sequential Phase-14 progress.
+    assert "Phase 14 — Owner Operational Intelligence Activation" in roadmap
     assert "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED" in roadmap

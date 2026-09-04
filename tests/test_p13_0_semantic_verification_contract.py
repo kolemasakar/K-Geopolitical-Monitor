@@ -99,7 +99,8 @@ def test_p13_0_canonical_state_and_sequencing_survive_later_progress():
     assert "P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED" in readme
     assert "Phase 13 semantic model v2 architecture: `P13.0_VALIDATED`" in data_models
     assert "P13.0 semantic verification architecture contract: `VALIDATED`" in source_policy
-    assert "Phase 14 — Owner Operational Intelligence Activation\nState: `APPROVED_SEQUENTIAL / NOT_STARTED`" in roadmap
+    # P13.0 remains valid after later sequential Phase-14 engineering progress.
+    assert "Phase 14 — Owner Operational Intelligence Activation" in roadmap
     assert "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED" in roadmap
 
 
