@@ -1,9 +1,10 @@
 # Phase 15 — Forecast Calibration and Performance Intelligence
 
 Date: 2026-09-04
-Status: `IN_PROGRESS`
+Status: `VALIDATED`
 Project: K-Geopolitical Monitor
 Strategic phase gate: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`
+Closure validation anchor: `77b444e2c89f763e56acc22183c74634ea993573`
 
 ## Objective
 
@@ -167,11 +168,36 @@ Validated owner-projection rules:
 - no API route, dashboard deployment, public ingress or new backend is activated by P15.5;
 - the projection cannot write, alter, rank or promote P13 factual-verification state.
 
+## P15.6 — Phase 15 Validation Matrix / Closure
+
+State: `VALIDATED`
+Gate: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`
+Closure validation anchor: `77b444e2c89f763e56acc22183c74634ea993573`
+Validation matrix: `docs/implementation/P15_6_VALIDATION_MATRIX.md`
+
+Strategic closure validation:
+- x64 run `33906546408`, job `101132699703`: `576 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33906546431`, job `101132700003`: native `aarch64`, `576 passed, 2 warnings / SUCCESS`;
+- ARM64 host bootstrap: PASS;
+- ARM64 unattended one-tick: PASS;
+- ARM64 systemd contract: PASS.
+
+Validated closure rules:
+- P15.0–P15.5 gates are present and exact;
+- additive migration scope stops at `030`; P15.5/P15.6 require no `031`;
+- Phase 15 schema does not create factual-verification promotion fields;
+- Phase 14 activation remains `OWNER_DECISION_REQUIRED`;
+- P15.5 owner projection is not wired into public/backend routes;
+- Phase 16 remains `APPROVED_SEQUENTIAL / NOT_STARTED`;
+- canonical x64 and native ARM64 full regressions pass on the exact closure anchor.
+
 ## Permanent Epistemic Boundary
 
 The following cannot promote factual verification:
 - forecast probability or scenario confidence;
 - Brier/calibration/performance measurements;
+- sample size or sample qualification;
+- bias/drift measurements;
 - coverage metrics;
 - legacy scalar confidence;
 - source/host/domain/language/adapter/item counts.
@@ -180,7 +206,7 @@ Canonical factual verification remains supplied only by the current P13.5 decisi
 
 ## Runtime / Security Boundary
 
-Unchanged through P15.5:
+Unchanged through P15.6:
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared canonical runtime: `BLOCKED`;
 - `PRODUCTION_LIVE = NOT_OPERATIONAL`;
@@ -189,7 +215,7 @@ Unchanged through P15.5:
 - owner execution: disabled;
 - `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
 
-## Planned Phase 15 Sequence
+## Final Phase 15 Sequence
 
 - P15.0 — Forecast Calibration Architecture Contract — `VALIDATED`;
 - P15.1 — Forecast/Outcome Persistence Model — `VALIDATED`;
@@ -197,6 +223,8 @@ Unchanged through P15.5:
 - P15.3 — Calibration Engine — `VALIDATED`;
 - P15.4 — Performance Intelligence and Drift/Bias Analysis — `VALIDATED`;
 - P15.5 — Owner Read-Only Performance Projection — `VALIDATED`;
-- P15.6 — Phase 15 Validation Matrix / Closure — `NOT_STARTED`.
+- P15.6 — Phase 15 Validation Matrix / Closure — `VALIDATED`.
 
-Next sequential engineering task: P15.6 — Phase 15 Validation Matrix / Closure.
+Final strategic decision: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`.
+
+Next approved sequential engineering phase: Phase 16 — Delivery, Operator Experience and Quality Feedback — `APPROVED_SEQUENTIAL / NOT_STARTED`.
