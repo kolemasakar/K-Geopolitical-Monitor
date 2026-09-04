@@ -13,6 +13,7 @@ from kgeopolitical_monitor.forecast_performance_projection import P15_5_GATE
 
 ROOT = Path(__file__).resolve().parents[1]
 STRATEGIC_GATE = "PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED"
+CLOSURE_ANCHOR = "77b444e2c89f763e56acc22183c74634ea993573"
 
 
 def _text(path: str) -> str:
@@ -114,3 +115,55 @@ def test_p15_6_does_not_add_owner_projection_to_public_backend_routes():
     backend = _text("src/kgeopolitical_monitor/backend_action_api.py")
     assert "forecast_performance_projection" not in backend
     assert "OwnerForecastPerformanceProjection" not in backend
+
+
+def test_phase15_canonical_closure_state_is_synchronized_to_v4_19():
+    roadmap = _text("ROADMAP.md")
+    readme = _text("README.md")
+    plan = _text("docs/implementation/PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_PLAN.md")
+    matrix = _text("docs/implementation/P15_6_VALIDATION_MATRIX.md")
+    result = _text("docs/implementation/PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_RESULT.md")
+    checkpoint = _text(
+        "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED.md"
+    )
+
+    assert "Version: 4.19" in roadmap
+    assert "state synchronization: `v4.19`" in roadmap
+    assert "Version: 4.19" in readme
+    assert "PHASE_15_VALIDATED" in readme
+
+    for document in (roadmap, readme, plan, matrix, result, checkpoint):
+        assert STRATEGIC_GATE in document
+        assert CLOSURE_ANCHOR in document
+
+    assert "Status: `VALIDATED`" in plan
+    assert "Status: `VALIDATED`" in matrix
+    assert "Status: `VALIDATED`" in result
+    assert f"State: `{STRATEGIC_GATE}`" in checkpoint
+    assert "P15.0–P15.6: `VALIDATED`" in roadmap
+    assert "P15.0–P15.6: `VALIDATED`" in readme
+
+
+def test_phase15_saved_closure_evidence_matches_exact_candidate_runs():
+    documents = "\n".join(
+        [
+            _text("ROADMAP.md"),
+            _text("README.md"),
+            _text("docs/implementation/PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_PLAN.md"),
+            _text("docs/implementation/P15_6_VALIDATION_MATRIX.md"),
+            _text("docs/implementation/PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_RESULT.md"),
+            _text(
+                "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED.md"
+            ),
+        ]
+    )
+    for token in (
+        CLOSURE_ANCHOR,
+        "33906546408",
+        "101132699703",
+        "33906546431",
+        "101132700003",
+        "576 passed, 2 warnings / SUCCESS",
+        "native `aarch64`",
+    ):
+        assert token in documents
