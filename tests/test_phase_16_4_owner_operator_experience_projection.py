@@ -105,13 +105,13 @@ def test_owner_projection_surfaces_failure_reason_without_mutating_state(tmp_pat
         connection.close()
 
 
-def test_feedback_action_is_unavailable_before_p16_5_schema(tmp_path):
+def test_feedback_action_is_available_after_p16_5_schema(tmp_path):
     connection = _connection(tmp_path)
     try:
         _, payload = _report(connection)
         SQLiteDeliveryDispatcher(connection, InMemoryDeliverySink([True])).dispatch(payload)
         row = SQLiteOwnerDeliveryExperienceProjection(connection).list_rows()[0]
-        assert row.feedback_action_available is False
+        assert row.feedback_action_available is True
     finally:
         connection.close()
 
