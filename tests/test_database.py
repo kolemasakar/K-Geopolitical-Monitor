@@ -1,6 +1,10 @@
+from pathlib import Path
 import sqlite3
 
 from kgeopolitical_monitor.database import initialize_database
+
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_database_initialization_applies_canonical_migrations(tmp_path):
@@ -100,37 +104,15 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "semantic_verification_policy_versions",
         "semantic_factual_confidence_versions",
         "semantic_verification_decision_versions",
+        "delivery_intents",
+        "delivery_intent_audit_events",
+        "delivery_transport_attempts",
+        "delivery_receipts",
     }.issubset(tables)
     assert {"retry_count", "recovered"}.issubset(monitoring_run_columns)
-    assert applied == {
-        "001_initial_schema.sql",
-        "002_evidence_verification_schema.sql",
-        "003_operational_monitoring.sql",
-        "004_operational_cycle_and_findings.sql",
-        "005_controlled_pilot_coverage.sql",
-        "006_live_source_collection.sql",
-        "007_live_end_to_end_analysis.sql",
-        "008_strategic_alerts.sql",
-        "009_region_language_coverage.sql",
-        "010_advanced_geopolitical_graph.sql",
-        "011_advanced_forecasting.sql",
-        "012_forecast_provenance_inputs.sql",
-        "013_forecast_outcomes_evaluations.sql",
-        "014_forecast_calibration_history.sql",
-        "015_full_reporting_environment.sql",
-        "016_global_operational_coverage.sql",
-        "017_source_collection_attempts.sql",
-        "018_translation_foundation.sql",
-        "019_source_reputation_history.sql",
-        "020_reproducibility_instrumentation.sql",
-        "021_owner_runtime_health.sql",
-        "022_source_portfolio_contract.sql",
-        "023_structured_semantic_claim_model.sql",
-        "024_semantic_provenance_origin_relation_model.sql",
-        "025_semantic_evidence_relation_independence.sql",
-        "026_semantic_contradiction_model.sql",
-        "027_semantic_verification_policy_confidence.sql",
-        "028_forecast_outcome_assessment_history.sql",
-        "029_forecast_calibration_observations.sql",
-        "030_forecast_performance_intelligence.sql",
+
+    expected_migrations = {
+        path.name for path in (ROOT / "migrations").glob("*.sql") if path.is_file()
     }
+    assert applied == expected_migrations
+    assert "031_delivery_intent_audit.sql" in applied
