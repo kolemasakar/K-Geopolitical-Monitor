@@ -139,6 +139,34 @@ Validated performance-intelligence rules:
 - legacy M12 forecast evaluation/calibration history remains unchanged;
 - P15.4 does not write, alter, rank or promote P13 factual-verification state.
 
+## P15.5 — Owner Read-Only Performance Projection
+
+State: `VALIDATED`
+Gate: `P15_5_OWNER_READ_ONLY_PERFORMANCE_PROJECTION_VALIDATED`
+Validation anchor: `7659c33b321c6dec62240976930015696ae4e1da`
+
+Validation:
+- x64 run `33904943801`, job `101127542119`: `568 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33904943796`, job `101127542387`: native `aarch64`, `568 passed, 2 warnings / SUCCESS`;
+- ARM64 host bootstrap: PASS;
+- ARM64 unattended one-tick: PASS;
+- ARM64 systemd contract: PASS.
+
+P15.5 introduces `forecast_performance_projection.py` and no new migration.
+
+Validated owner-projection rules:
+- the projection reads only already-persisted P15.4 aggregate and drift state;
+- SQLite is opened with `mode=ro` and `PRAGMA query_only = ON`;
+- the projection never calls database initialization or P15.4 aggregate/drift creation paths;
+- missing canonical project-local storage fails closed and does not create a database;
+- absence of persisted performance records is surfaced explicitly as `NO_PERSISTED_PERFORMANCE_DATA`;
+- aggregate and drift lists are bounded while total persisted counts remain visible;
+- cohort definition, observation-set hash, sample size, raw/calibrated metrics and descriptive limitations remain visible to the owner;
+- sample qualification remains descriptive and never becomes statistical confidence;
+- drift remains descriptive temporal delta only, with no causal or significance claim;
+- no API route, dashboard deployment, public ingress or new backend is activated by P15.5;
+- the projection cannot write, alter, rank or promote P13 factual-verification state.
+
 ## Permanent Epistemic Boundary
 
 The following cannot promote factual verification:
@@ -152,7 +180,7 @@ Canonical factual verification remains supplied only by the current P13.5 decisi
 
 ## Runtime / Security Boundary
 
-Unchanged through P15.4:
+Unchanged through P15.5:
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared canonical runtime: `BLOCKED`;
 - `PRODUCTION_LIVE = NOT_OPERATIONAL`;
@@ -168,7 +196,7 @@ Unchanged through P15.4:
 - P15.2 — Provenance-Bound Outcome Resolution — `VALIDATED`;
 - P15.3 — Calibration Engine — `VALIDATED`;
 - P15.4 — Performance Intelligence and Drift/Bias Analysis — `VALIDATED`;
-- P15.5 — Owner Read-Only Performance Projection — `NOT_STARTED`;
+- P15.5 — Owner Read-Only Performance Projection — `VALIDATED`;
 - P15.6 — Phase 15 Validation Matrix / Closure — `NOT_STARTED`.
 
-Next sequential engineering task: P15.5 — Owner Read-Only Performance Projection.
+Next sequential engineering task: P15.6 — Phase 15 Validation Matrix / Closure.
