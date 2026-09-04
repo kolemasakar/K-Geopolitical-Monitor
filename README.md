@@ -1,8 +1,8 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring and intelligence platform.
 
-Version: 4.18
-Status: ACTIVE / ROADMAP_V4 / PHASE_14_VALIDATED_READY / NOT_ACTIVATED / OWNER_ACTIVATION_REQUIRED
+Version: 4.19
+Status: ACTIVE / ROADMAP_V4 / PHASE_15_VALIDATED / PHASE_14_NOT_ACTIVATED / OWNER_ACTIVATION_REQUIRED
 
 ## Purpose
 
@@ -24,7 +24,11 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - `docs/implementation/PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_PLAN.md` — Phase 14 validated pre-activation architecture and closure record;
 - `docs/implementation/P14_6_VALIDATION_MATRIX.md` — Phase 14 validation matrix;
 - `docs/implementation/PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_RESULT.md` — Phase 14 final strategic result;
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY.md` — Phase 14 final readiness checkpoint.
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY.md` — Phase 14 final readiness checkpoint;
+- `docs/implementation/PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_PLAN.md` — Phase 15 implementation and validation record;
+- `docs/implementation/P15_6_VALIDATION_MATRIX.md` — Phase 15 validation matrix;
+- `docs/implementation/PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_RESULT.md` — final Phase 15 strategic result;
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED.md` — final saved Phase 15 checkpoint.
 
 ## Current State
 
@@ -40,6 +44,9 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - P13.6: `VALIDATED`;
 - Phase 14: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED`;
 - P14.0–P14.6: `VALIDATED`;
+- Phase 15: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`;
+- P15.0–P15.6: `VALIDATED`;
+- Phase 16: `APPROVED_SEQUENTIAL / NOT_STARTED`;
 - operational activation: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.
@@ -156,6 +163,29 @@ Phase 14 owner intelligence does not treat legacy live verification status, scal
 
 The readiness gate does not grant operational activation. Owner execution remains disabled and `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
 
+## Phase 15 Strategic Closure
+
+Gate: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`.
+State: `VALIDATED`.
+Closure validation anchor: `77b444e2c89f763e56acc22183c74634ea993573`.
+
+Strategic closure validation:
+- x64 run `33906546408`, job `101132699703`: `576 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33906546431`, job `101132700003`: native `aarch64`, `576 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Validated Phase 15 includes:
+- P15.0 — architecture contract separating forecast, outcome, calibration and performance roles;
+- P15.1 — append-only provenance-bound outcome-assessment persistence;
+- P15.2 — fail-closed provenance-bound outcome resolution;
+- P15.3 — immutable calibration observations with separate raw/calibrated Brier and reliability evidence;
+- P15.4 — exact-cohort performance aggregates and descriptive drift/bias intelligence;
+- P15.5 — owner read-only persisted performance projection using SQLite `mode=ro` and `query_only`;
+- P15.6 — canonical validation matrix and closure guards.
+
+Forecast probability, scenario confidence, calibration/performance metrics, sample size, drift/bias, coverage confidence and legacy scalar/count metadata remain non-truth operators. Canonical factual verification remains P13.5/P13.6 only.
+
+Phase 15 closure does not activate owner execution, public ingress, shared runtime or production/live operation. Phase 14 remains `VALIDATED_READY / NOT_ACTIVATED`, and operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
+
 ## Truth / Epistemic Boundaries
 
 - publisher/publication is not automatically the underlying origin;
@@ -192,9 +222,9 @@ Remaining explicit owner-approved candidate networking exceptions:
 - Phase 12 — validated with known limitations.
 - Phase 13 — `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
 - Phase 14 — `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED`; operational activation remains `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
-- Phase 15 — approved sequential / not started.
+- Phase 15 — `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`.
 - Phase 16 — approved sequential / not started.
 - Phase 17 — conditional / not activated.
 - Phase 18 — conditional / new architecture approval required.
 
-No production launch, public sharing, public backend exposure, shared runtime transition or paid-provider activation is implied by Phase 13 validation or Phase 14 readiness validation.
+No production launch, public sharing, public backend exposure, shared runtime transition or paid-provider activation is implied by Phase 13 validation, Phase 14 readiness validation or Phase 15 validation.
