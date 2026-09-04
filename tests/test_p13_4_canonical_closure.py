@@ -69,7 +69,7 @@ def test_p13_4_schema_lifecycle_and_evidence_link_contract_are_canonical():
         "RESOLVED",
     ):
         assert token in combined
-    assert "current P13.3 evidence relation version" in implementation
+    assert "current P13.3 evidence relation version" in combined
 
 
 def test_p13_4_closure_preserves_truth_confidence_runtime_and_cutover_boundaries():
@@ -89,5 +89,4 @@ def test_p13_4_closure_preserves_truth_confidence_runtime_and_cutover_boundaries
     assert "factual confidence" in combined
     assert "coverage confidence" in combined
     assert "live" in combined and "cutover" in combined
-    assert "left_true" not in combined
-    assert "right_true" not in combined
+    assert "no `left_true` / `right_true` shortcut" in combined

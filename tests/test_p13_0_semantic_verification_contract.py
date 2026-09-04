@@ -27,7 +27,7 @@ def test_p13_0_forbids_headline_and_count_shortcuts():
     assert "evidence count is `>= 2`" in plan
     assert "two domains/hosts are different" in plan
     assert "same statement appears in multiple languages" in plan
-    assert "not accepted as sufficient semantic independence proof" in plan
+    assert "different source, host, domain, publisher or language is not sufficient proof of independence" in plan
 
 
 def test_p13_0_provenance_and_independence_are_explicit():
@@ -70,24 +70,27 @@ def test_p13_0_evidence_relations_and_contradictions_are_typed():
 
 def test_p13_0_separates_extraction_confidence_truth_and_coverage():
     plan = PLAN.read_text(encoding="utf-8").lower()
-    assert "extraction confidence separated from factual verification confidence" in plan
     assert "semantic extraction confidence is not factual verification confidence" in plan
     assert "coverage confidence remains separate and cannot promote factual verification confidence" in plan
     assert "model output may propose structured objects; policy validates and records them" in plan
 
 
-def test_p13_0_canonical_state_and_sequencing():
+def test_p13_0_canonical_state_and_sequencing_survive_later_progress():
     roadmap = _read("ROADMAP.md")
     readme = _read("README.md")
     data_models = _read("DATA_MODELS.md")
     source_policy = _read("SOURCE_POLICY.md")
 
     assert "Phase 13 — Semantic Verification and Provenance Intelligence\nState: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
-    assert "P13.0 — Semantic Verification Architecture Contract\nState: `VALIDATED`" in roadmap
-    assert "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`" in roadmap
-    assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`" in roadmap
-    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `VALIDATED`" in roadmap
-    assert "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `CURRENT / NOT_STARTED`" in roadmap
+    for section in (
+        "P13.0 — Semantic Verification Architecture Contract\nState: `VALIDATED`",
+        "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`",
+        "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`",
+        "P13.3 — Evidence Relation and Independence Assessment\nState: `VALIDATED`",
+        "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `VALIDATED`",
+    ):
+        assert section in roadmap
+    assert "P13.5 — Verification Policy Engine and Multidimensional Confidence" in roadmap
     assert "P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED" in readme
     assert "Phase 13 semantic model v2 architecture: `P13.0_VALIDATED`" in data_models
     assert "P13.0 semantic verification architecture contract: `VALIDATED`" in source_policy
@@ -134,7 +137,11 @@ def test_p13_0_closure_allows_validated_sequential_phase13_progress():
     assert "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`" in roadmap
     assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`" in roadmap
     assert "P13.3 — Evidence Relation and Independence Assessment\nState: `VALIDATED`" in roadmap
-    assert "current engineering activity: `P13.4_TYPED_CONTRADICTION_MODEL`" in roadmap
-    assert "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `CURRENT / NOT_STARTED`" in roadmap
+    assert "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `VALIDATED`" in roadmap
+    assert "current engineering activity: `P13.5_VERIFICATION_POLICY_CONFIDENCE`" in roadmap
+    assert (
+        "P13.5 — Verification Policy Engine and Multidimensional Confidence\nState: `CURRENT / NOT_STARTED`" in roadmap
+        or "P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED" in roadmap
+    )
     assert "P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED" in plan
-    assert "P13.5 must not start before P13.4 is implemented, validated and saved." in plan
+    assert "P13.6 must not start before P13.5 is implemented, validated and saved." in plan

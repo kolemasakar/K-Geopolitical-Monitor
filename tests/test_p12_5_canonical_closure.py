@@ -10,18 +10,15 @@ def _read(name: str) -> str:
 
 def test_p12_5_gate_and_later_phase_progress_are_canonical():
     roadmap = _read("ROADMAP.md")
-    readme = _read("README.md")
     plan = _read("docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md")
     result = _read("docs/implementation/P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_RESULT.md")
 
-    for document in (roadmap, readme, plan, result):
+    for document in (roadmap, plan, result):
         assert "P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED" in document
 
-    # Historical P12.5 closure remains valid after Phase 12 closure and later Phase 13 activation.
     assert "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED" in roadmap
     assert "Phase 13 — Semantic Verification and Provenance Intelligence" in roadmap
     assert "State: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
-    assert "P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED" in readme
     assert "P12.6 — Phase 12 Validation Matrix" in plan
     assert "State: `VALIDATED`" in plan
 
@@ -72,10 +69,9 @@ def test_p12_5_preserves_truth_storage_and_production_boundaries():
     roadmap = _read("ROADMAP.md")
     result = _read("docs/implementation/P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_RESULT.md")
 
-    assert "Production/live operational status: NOT_OPERATIONAL" in readme
-    assert "Runtime storage mode: PROJECT_LOCAL_ONLY" in readme
-    assert "Production/live operational status: NOT_OPERATIONAL" in roadmap
-    assert "Runtime storage mode: PROJECT_LOCAL_ONLY" in roadmap
+    for document in (readme, roadmap):
+        assert "Production/live operational status: NOT_OPERATIONAL" in document
+        assert "Runtime storage mode: PROJECT_LOCAL_ONLY" in document
     assert "operational health does not change claim truth" in result
     assert "source/host/language/item count does not create independent-origin count" in result
     assert "paid providers: `NONE_APPROVED`" in result

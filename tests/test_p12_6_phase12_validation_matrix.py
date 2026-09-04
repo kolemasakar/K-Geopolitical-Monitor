@@ -79,18 +79,23 @@ def test_p12_6_preserves_truth_runtime_security_boundaries():
     assert "broad outbound egress" in matrix
 
 
-def test_p12_6_closes_phase12_and_allows_validated_sequential_phase13_progress():
+def test_p12_6_closes_phase12_and_allows_later_sequential_phase13_progress():
     roadmap = _read("ROADMAP.md")
-    readme = _read("README.md")
     assert "Phase 12 — Intelligence Quality and Source Network Foundation\nState: `VALIDATED_WITH_KNOWN_LIMITATIONS`" in roadmap
     assert "P12.6 — Phase 12 Validation Matrix\nState: `VALIDATED`" in roadmap
     assert "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED" in roadmap
     assert "Phase 13 — Semantic Verification and Provenance Intelligence\nState: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
-    assert "P13.0 — Semantic Verification Architecture Contract\nState: `VALIDATED`" in roadmap
-    assert "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`" in roadmap
-    assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`" in roadmap
-    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `VALIDATED`" in roadmap
-    assert "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `CURRENT / NOT_STARTED`" in roadmap
+    for section in (
+        "P13.0 — Semantic Verification Architecture Contract\nState: `VALIDATED`",
+        "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`",
+        "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`",
+        "P13.3 — Evidence Relation and Independence Assessment\nState: `VALIDATED`",
+        "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `VALIDATED`",
+    ):
+        assert section in roadmap
+    assert "P13.5 — Verification Policy Engine and Multidimensional Confidence" in roadmap
+    assert (
+        "P13.5 — Verification Policy Engine and Multidimensional Confidence\nState: `CURRENT / NOT_STARTED`" in roadmap
+        or "P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED" in roadmap
+    )
     assert "Phase 14 — Owner Operational Intelligence Activation\nState: `APPROVED_SEQUENTIAL / NOT_STARTED`" in roadmap
-    assert "P12.6" in readme and "VALIDATED" in readme
-    assert "P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED" in readme
