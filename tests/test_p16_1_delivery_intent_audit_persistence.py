@@ -38,7 +38,7 @@ def _insert_report(connection: sqlite3.Connection, report_id: str = "REPORT-P16-
 def test_p16_1_gate_and_migration_are_explicit(tmp_path):
     connection = _connection(tmp_path)
     try:
-        assert P16_1_GATE == "P16_1_CANONICAL_DELIVERY_INTENT_AUDIT_PERSISTENCE_VALIDATED"
+        assert P16_1_GATE == "P16_1_DELIVERY_INTENT_AUDIT_PERSISTENCE_VALIDATED"
         migrations = {
             row[0] for row in connection.execute("SELECT version FROM schema_migrations")
         }
