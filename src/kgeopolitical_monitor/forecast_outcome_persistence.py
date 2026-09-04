@@ -10,7 +10,7 @@ import sqlite3
 from typing import Iterable
 
 from .database import initialize_database
-from .forecast_calibration_contract import OutcomeResolutionState
+from .forecast_calibration_contract import OUTCOME_RESOLVED, OUTCOME_STATES
 from .operational_monitoring import _normalize_time, utc_now
 
 
@@ -56,7 +56,7 @@ class ForecastOutcomeAssessment:
     assessment_id: str
     forecast_id: str
     assessment_sequence: int
-    resolution_state: OutcomeResolutionState | str
+    resolution_state: str
     evidence: tuple[OutcomeEvidenceReference, ...]
     explanation: str
     assessed_at: datetime
@@ -69,17 +69,11 @@ class ForecastOutcomeAssessment:
         forecast_id = _nonempty(self.forecast_id, "forecast_id")
         if int(self.assessment_sequence) <= 0:
             raise ValueError("assessment_sequence must be positive")
-        state_raw = (
-            self.resolution_state.value
-            if isinstance(self.resolution_state, OutcomeResolutionState)
-            else _nonempty(self.resolution_state, "resolution_state").upper()
-        )
-        try:
-            state = OutcomeResolutionState(state_raw)
-        except ValueError as exc:
-            raise ValueError(f"unsupported resolution_state: {state_raw}") from exc
+        state = _nonempty(self.resolution_state, "resolution_state").upper()
+        if state not in OUTCOME_STATES:
+            raise ValueError(f"unsupported resolution_state: {state}")
         evidence = tuple(self.evidence)
-        if state is OutcomeResolutionState.RESOLVED and not evidence:
+        if state == OUTCOME_RESOLVED and not evidence:
             raise ValueError("RESOLVED assessment requires outcome evidence")
         expected_id = _stable_id("foa", forecast_id, str(int(self.assessment_sequence)))
         if self.assessment_id != expected_id:
@@ -100,7 +94,7 @@ class ForecastOutcomeAssessment:
         cls,
         forecast_id: str,
         assessment_sequence: int,
-        resolution_state: OutcomeResolutionState | str,
+        resolution_state: str,
         *,
         evidence: Iterable[OutcomeEvidenceReference] = (),
         explanation: str,
@@ -165,7 +159,7 @@ class SQLiteForecastOutcomeAssessmentRepository:
             payload = (
                 assessment.forecast_id,
                 assessment.assessment_sequence,
-                assessment.resolution_state.value,
+                assessment.resolution_state,
                 assessment.legacy_outcome_id,
                 assessment.assessment_method,
                 assessment.assessment_method_version,
