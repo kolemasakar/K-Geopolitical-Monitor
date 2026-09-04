@@ -47,12 +47,15 @@ def test_p15_6_validation_matrix_covers_entire_phase_and_strategic_gate():
         assert token in matrix
 
 
-def test_p15_6_migration_scope_is_additive_and_stops_at_030():
+def test_p15_6_phase15_migration_scope_remains_028_through_030():
     migrations = {path.name for path in (ROOT / "migrations").glob("*.sql")}
-    assert "028_forecast_outcome_assessment_history.sql" in migrations
-    assert "029_forecast_calibration_observations.sql" in migrations
-    assert "030_forecast_performance_intelligence.sql" in migrations
-    assert not any(name.startswith("031_") for name in migrations)
+    phase15_migrations = {
+        "028_forecast_outcome_assessment_history.sql",
+        "029_forecast_calibration_observations.sql",
+        "030_forecast_performance_intelligence.sql",
+    }
+    assert phase15_migrations <= migrations
+    assert "031_delivery_intent_audit.sql" in migrations
 
 
 def test_p15_6_new_phase15_schema_does_not_create_factual_verification_fields():
@@ -105,11 +108,11 @@ def test_p15_6_phase14_activation_boundary_remains_unchanged():
     assert "PRODUCTION_LIVE = NOT_OPERATIONAL" in documents
 
 
-def test_p15_6_phase16_remains_sequential_and_unactivated():
+def test_p15_6_phase16_sequential_handoff_remains_declared():
     roadmap = _text("ROADMAP.md")
     assert "Phase 16 — Delivery, Operator Experience and Quality Feedback" in roadmap
     assert "PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED" in roadmap
-    assert "APPROVED_SEQUENTIAL / NOT_STARTED" in roadmap
+    assert "PRODUCTION_LIVE = NOT_OPERATIONAL" in roadmap
 
 
 def test_p15_6_does_not_add_owner_projection_to_public_backend_routes():
