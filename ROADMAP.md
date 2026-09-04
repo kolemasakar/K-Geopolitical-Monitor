@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.16
+Version: 4.17
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -219,7 +219,7 @@ Implementation validation:
 
 Evidence-save validation:
 - x64 run `33857629735`, job `100974493101`: `493 passed, 2 warnings / SUCCESS`;
-- native ARM64 run `33857629714`, job `100974493074`: native `aarch64`, `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+- native ARM64 run `33857629714`, job `100974493074`: `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Strategic closure validation:
 - x64 run `33861302915`, job `100986128743`: `497 passed, 2 warnings / SUCCESS`;
@@ -235,11 +235,40 @@ Validated compatibility behavior:
 - legacy and semantic rows remain readable and are not rewritten by the projection.
 
 ## Phase 14 — Owner Operational Intelligence Activation
-State: `APPROVED_SEQUENTIAL / NOT_STARTED`
+State: `CLOSURE_CANDIDATE / EXACT_HEAD_VALIDATION_PENDING`
 Required separate activation decision: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
-Gate: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY`
+Gate target: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY`
+Implementation HEAD: `695c5a0f82aa6c89f95032bfebaa90617065a100`.
+Implementation plan: `docs/implementation/PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_PLAN.md`
+Strategic result candidate: `docs/implementation/PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_RESULT.md`
+Checkpoint candidate: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY.md`
 
-Phase 13 closure does not activate Phase 14, production/live, public ingress, shared runtime or paid providers.
+Implementation validation:
+- x64 run `33872226847`, job `101020657369`: `506 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33872226777`, job `101020657023`: native `aarch64`, `506 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+### P14.0 — Operational Architecture Contract
+State: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`
+
+### P14.1 — Owner Intelligence Workspace
+State: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`
+
+### P14.2 — Watch and Priority Operational Queue
+State: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`
+
+### P14.3 — Canonical Alert Qualification Readiness
+State: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`
+
+### P14.4 — Operational Health and Auditability
+State: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`
+
+### P14.5 — Owner Briefing Layer
+State: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`
+
+### P14.6 — Phase 14 Validation Matrix / Closure
+State: `CLOSURE_CANDIDATE / EXACT_HEAD_VALIDATION_PENDING`
+
+Phase 14 readiness remains separate from operational activation. No owner execution, production/live transition, public ingress, shared runtime or paid provider is activated by the implementation or closure candidate.
 
 ## Phase 15 — Forecast Calibration and Performance Intelligence
 State: `APPROVED_SEQUENTIAL / NOT_STARTED`
@@ -260,7 +289,7 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.16`;
+- state synchronization: `v4.17`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -270,7 +299,9 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - P13.4: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`;
 - P13.5: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`;
 - P13.6: `VALIDATED`;
-- Phase 14: `APPROVED_SEQUENTIAL / NOT_STARTED / OWNER_DECISION_REQUIRED`;
+- Phase 14: `CLOSURE_CANDIDATE / EXACT_HEAD_VALIDATION_PENDING / OWNER_DECISION_REQUIRED`;
+- P14.0–P14.5: `VALIDATED_ON_IMPLEMENTATION_HEAD / CLOSURE_PENDING`;
+- P14.6: `CLOSURE_CANDIDATE / EXACT_HEAD_VALIDATION_PENDING`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared runtime storage: `BLOCKED`;
 - production/live operational status: `NOT_OPERATIONAL`;
@@ -280,4 +311,4 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - public sharing: `NOT_ACTIVE`;
 - paid providers: `NONE_APPROVED`.
 
-Next implementation gate is not activated automatically. Phase 14 requires the separate owner decision `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
+The Phase 14 readiness gate is not yet recorded as validated. Closure-candidate x64/native ARM64 validation is required first. Operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.

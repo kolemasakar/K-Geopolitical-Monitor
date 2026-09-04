@@ -2,9 +2,9 @@
 
 Date: 2026-09-04
 Project: K-Geopolitical Monitor
-Status: `IMPLEMENTED / VALIDATION_PENDING`
+Status: `IMPLEMENTATION_VALIDATED / STRATEGIC_CLOSURE_PENDING`
 Base HEAD: `9e6bb86b8827422f03989da38ec37d326516031e`
-Candidate branch: `phase14-owner-operational-intelligence`
+Implementation HEAD: `695c5a0f82aa6c89f95032bfebaa90617065a100`
 Expected gate: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY`
 Activation state: `OWNER_DECISION_REQUIRED`
 
@@ -16,7 +16,7 @@ Activation state: `OWNER_DECISION_REQUIRED`
 - P14.3 canonical semantic alert qualification dry-run;
 - P14.4 persisted operational health/auditability projection;
 - P14.5 structured owner briefing projection;
-- P14.6 deterministic validation tests prepared.
+- P14.6 deterministic validation tests.
 
 ## Semantic Safety Repair
 
@@ -28,7 +28,7 @@ Historical M9 alerts remain readable as historical persisted alert records. Thei
 
 ## Side-Effect Boundary
 
-The implementation candidate:
+The implementation:
 
 - does not create/update/delete monitoring watches;
 - does not create/update/invalidate/resolve strategic alerts;
@@ -41,6 +41,13 @@ The implementation candidate:
 
 `dry_run_alert_qualification()` explicitly reports `persisted_alert_created = false` and `activation_blocked = true`.
 
-## Validation Status
+## Validation Evidence
 
-Implementation validation evidence is not yet recorded here. The candidate must first pass full x64 CI. Native ARM64 and host/bootstrap/unattended/systemd evidence is required after merge to `main`, followed by exact-head closure regression.
+Pre-merge clean candidate:
+- x64 PR run `33872079350`, job `101020177627`: `506 passed, 2 warnings / SUCCESS`.
+
+Implementation HEAD `695c5a0f82aa6c89f95032bfebaa90617065a100`:
+- x64 run `33872226847`, job `101020657369`: `506 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33872226777`, job `101020657023`: native `aarch64`, `506 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Strategic closure remains pending until the synchronized closure candidate itself passes x64 and native ARM64 validation.
