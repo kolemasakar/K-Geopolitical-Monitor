@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.12
+Version: 4.13
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -32,6 +32,7 @@ No M14 engineering label is created by ROADMAP v4.
 - graph inference cannot promote factual verification or independent-origin count;
 - forecast probability/confidence cannot promote factual verification;
 - coverage confidence cannot promote factual verification confidence;
+- contradiction resolution is analytical reconciliation, not automatic factual truth selection;
 - `GLOBAL` is scope, not proof of exhaustive global coverage;
 - missing local-language evidence remains explicit;
 - reconstructed/uninstrumented tool history is never labeled exact;
@@ -111,7 +112,7 @@ P12.6 reconciles P12.0-P12.5 evidence and explicitly retains external-source deg
 
 ## Phase 13 — Semantic Verification and Provenance Intelligence
 State: `APPROVED / ACTIVE_ENGINEERING_PHASE`
-Current activity: `P13.4_TYPED_CONTRADICTION_MODEL`
+Current activity: `P13.5_VERIFICATION_POLICY_CONFIDENCE`
 Strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
 Implementation plan: `docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md`
 
@@ -159,8 +160,7 @@ Validated model:
 - `semantic_claim_links` links semantic versions to legacy claims, live-analysis claims and raw items without creating evidentiary meaning;
 - identical text does not automatically merge semantic identity;
 - Unicode/original-language data is preserved;
-- extraction confidence is explicitly non-factual and cannot promote truth state;
-- P13.2+ provenance, independence, contradiction and verification-policy fields are absent from the P13.1 schema.
+- extraction confidence is explicitly non-factual and cannot promote truth state.
 
 ### P13.2 — Provenance / Underlying-Origin Relation Model
 State: `VALIDATED`
@@ -179,8 +179,7 @@ Validated model:
 - official statements/documents, wire reports, datasets, social/user-provided and unresolved/mixed origins are representable;
 - citation, syndication, repost, translation and derivation relations remain provenance relationships, not independent corroboration;
 - source/raw references fail closed and URL credential leakage is rejected;
-- the legacy provenance API remains available for compatibility;
-- P13.3-P13.5 independence, contradiction and verification-policy semantics remain absent.
+- the legacy provenance API remains available for compatibility.
 
 ### P13.3 — Evidence Relation and Independence Assessment
 State: `VALIDATED`
@@ -188,27 +187,49 @@ Gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`
 Result: `docs/implementation/P13_3_EVIDENCE_RELATION_INDEPENDENCE_RESULT.md`
 Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-02_P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED.md`
 Validation anchor: `639d6b2e64d618edfbe742636cb2ac0f663c68ee`.
+Formal closure HEAD: `9023dc22d36525b4dc9babbf21d97d184a1c110e`.
 
-Validation:
+Implementation validation:
 - x64 run `33575533714`, job `100078564552`: `434 passed, 1 warning / SUCCESS`;
 - native ARM64 run `33575533657`, job `100078564729`: native `aarch64`, `434 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
 
+Formal closure validation:
+- x64 run `33594299961`, job `100134512548`: `438 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33594299979`, job `100134512479`: native `aarch64`, `438 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
 Validated model:
 - migration `025_semantic_evidence_relation_independence.sql` is additive and append-only;
-- evidence relations are explicitly typed as `SUPPORTS`, `CONTRADICTS`, `QUALIFIES`, `CONTEXT_ONLY`, `ATTRIBUTION_ONLY` or `DUPLICATE_OR_SAME_ORIGIN`;
+- evidence relations are explicitly typed;
 - independence is explicitly versioned as `INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN` or `MIXED`;
 - different publisher/source/host/domain/language never suffices for independence;
 - same-origin and current provenance derivation paths remain non-independent;
 - absence of a known derivation path remains `UNKNOWN`, not automatically independent;
-- current inference uses only latest provenance-relation versions, while superseded edges remain historical audit data;
-- P13.4 contradiction lifecycle, P13.5 verification/confidence and P13.6 live cutover remain absent.
+- current inference uses only latest provenance-relation versions while superseded edges remain history.
 
 ### P13.4 — Typed Contradiction Model and Resolution Lifecycle
-State: `CURRENT / NOT_STARTED`
-Expected gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`
+State: `VALIDATED`
+Gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`
+Result: `docs/implementation/P13_4_TYPED_CONTRADICTION_MODEL_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-02_P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED.md`
+Validation anchor: `d4dbb8a8098cef960194935bd94d4640fd719050`.
+
+Validation:
+- x64 run `33594740585`, job `100135812629`: `447 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33594740549`, job `100135812546`: native `aarch64`, `447 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Validated model:
+- migration `026_semantic_contradiction_model.sql` is additive and append-only;
+- contradiction identity binds two immutable semantic claim versions plus one typed dimension;
+- typed dimensions cover occurrence/existence, attribution/responsibility, actor identity, quantity/value, time, location, status/outcome, scope/extent and explicitly modeled causal interpretation;
+- lifecycle supports `DETECTED`, `UNRESOLVED`, `EVOLVING`, `RESOLVED` with historical disagreement preserved;
+- resolution requires explicit reconciliation metadata and does not select a factual winner;
+- evidence links are side-scoped and require current P13.3 evidence relation versions at link time;
+- P13.3 `CONTRADICTS` does not auto-create or resolve P13.4 contradiction objects;
+- legacy `contradictions.py` remains compatibility state;
+- P13.5 verification/confidence and P13.6 live cutover remain absent.
 
 ### P13.5 — Verification Policy Engine and Multidimensional Confidence
-State: `PLANNED / NOT_STARTED`
+State: `CURRENT / NOT_STARTED`
 Expected gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`
 
 ### P13.6 — Live Compatibility Cutover and Phase 13 Validation Matrix
@@ -239,7 +260,7 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.12`;
+- state synchronization: `v4.13`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - P12.0-P12.6 validated gates remain canonical;
 - Phase 13: `APPROVED / ACTIVE_ENGINEERING_PHASE`;
@@ -247,9 +268,10 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
 - P13.2: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
 - P13.3: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
-- current engineering activity: `P13.4_TYPED_CONTRADICTION_MODEL`;
-- P13.4: `CURRENT / NOT_STARTED`;
-- P13.5-P13.6: planned / not started;
+- P13.4: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`;
+- current engineering activity: `P13.5_VERIFICATION_POLICY_CONFIDENCE`;
+- P13.5: `CURRENT / NOT_STARTED`;
+- P13.6: planned / not started;
 - Phase 14+: not started;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared runtime storage: `BLOCKED`;
@@ -261,4 +283,4 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - paid providers: `NONE_APPROVED`.
 
 Next implementation gate to evaluate:
-`P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`
+`P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`

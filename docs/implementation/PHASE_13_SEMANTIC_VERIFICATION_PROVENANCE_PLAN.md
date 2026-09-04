@@ -1,66 +1,45 @@
 # Phase 13 — Semantic Verification and Provenance Intelligence
 
 Date: 2026-09-02
-Status: `ACTIVE_ENGINEERING_PHASE / P13.0_VALIDATED / P13.1_VALIDATED / P13.2_VALIDATED / P13.3_VALIDATED / P13.4_CURRENT`
+Status: `ACTIVE_ENGINEERING_PHASE / P13.0-P13.4_VALIDATED / P13.5_CURRENT`
 Project: K-Geopolitical Monitor
 Strategic phase gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
-Current activity: `P13.4_TYPED_CONTRADICTION_MODEL`
+Current activity: `P13.5_VERIFICATION_POLICY_CONFIDENCE`
 
 ## Objective
 
-Replace the current title/domain-count analytical shortcuts with a structured, provenance-bound and policy-controlled semantic verification layer while preserving backward compatibility with the validated Phase 12 acquisition/runtime stack.
+Replace historical title/domain-count analytical shortcuts with a structured, provenance-bound and policy-controlled semantic verification layer while preserving backward compatibility with the validated Phase 12 acquisition/runtime stack.
 
 Phase 13 improves analytical depth. It does not activate production/live operation, public ingress, shared runtime, paid providers or autonomous truth promotion.
 
-## Audited Baseline
+## Audited Compatibility Baseline
 
-The existing baseline is intentionally retained as historical compatibility state:
-
+The existing baseline remains historical compatibility state until P13.6:
 - `claims` / `evidence` from migration 002 are minimal legacy objects;
-- `live_analysis_claims` / `live_analysis_evidence` from migration 007 group evidence by normalized headline and store `origin_host` / `independent_origin_count`;
-- `verification.py` currently promotes to `PARTLY_VERIFIED` when `evidence_count >= 2`;
-- `live_end_to_end.py` currently uses two distinct origin hosts as the live `PARTLY_VERIFIED` threshold;
-- `confidence_engine.py` currently derives an independence term from distinct source IDs;
-- `contradictions.py` is a minimal container rather than a typed contradiction engine.
+- `live_analysis_claims` / `live_analysis_evidence` group evidence by normalized headline and store `origin_host` / `independent_origin_count`;
+- historical `verification.py` uses an evidence-count threshold;
+- historical live analysis uses distinct origin hosts for `PARTLY_VERIFIED` behavior;
+- historical confidence derives an independence term from source-ID count;
+- legacy `contradictions.py` is a small compatibility container.
 
-These behaviors remain supported until a later Phase 13 compatibility cutover. They are not the semantic rules for the new layer.
+These behaviors remain readable; they are not the canonical semantic rules for the additive Phase 13 layer.
 
 ## P13.0 Architecture Contract — VALIDATED
 
 Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`.
 Validation anchor: `4422fae5e2a4546585a43237d2124f466c457543`.
 
-Validation evidence:
-- x64 run `33554568574`, job `100012110127`: `399 passed, 1 warning / SUCCESS`;
-- native ARM64 run `33554568570`, job `100012110488`: native `aarch64`, `399 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+P13.0 creates **no database migration**. Phase 13 uses additive migrations only unless a later explicit architecture decision authorizes otherwise.
 
-P13.0 is documentation/test contract work only. It intentionally creates **no database migration** and does not mutate legacy analytical tables.
+Existing `claims`, `evidence`, `live_analysis_claims`, `live_analysis_evidence` remain readable. New semantic objects must link to legacy/live objects rather than silently overwrite their historical meaning.
 
 ### Semantic claim identity
 
-A semantic claim is not identified solely by a headline or normalized headline.
-
-The structured claim contract must be able to represent, where applicable:
-- claimant / attributed actor;
-- normalized proposition;
-- subject / object or theme;
-- event/action type;
-- polarity / negation;
-- modality and epistemic framing (`asserted`, `reported`, `alleged`, `denied`, `estimated`, etc.);
-- time scope;
-- location scope;
-- quantity/value/unit and range when materially relevant;
-- original language;
-- extraction method/version;
-- extraction confidence separated from factual verification confidence;
-- canonical version/supersession metadata;
-- linkage to legacy/live analytical objects and raw evidence.
-
-Semantically equivalent claims may have different wording. Similar wording may encode materially different claims. One publication may contain multiple claims.
+A semantic claim is not identified solely by a headline or normalized headline. One publication may contain multiple claims. Equivalent wording is not required for equivalent propositions, and similar wording may represent materially different propositions.
 
 ### Provenance / underlying-origin contract
 
-The new provenance model must distinguish at minimum:
+The model distinguishes:
 - publisher / publication;
 - immediate acquired source;
 - cited or quoted source;
@@ -72,13 +51,11 @@ The new provenance model must distinguish at minimum:
 - translation/repost/syndication/citation derivation;
 - unresolved or mixed origin.
 
-Publisher/domain identity is not automatically underlying-origin identity.
-
-A provenance relationship must be explicit and auditable. Unknown origin remains `UNKNOWN/UNRESOLVED`; it is never inferred merely from a different hostname, language or publisher.
+Publisher/domain identity is not automatically underlying-origin identity. Unknown origin remains explicit rather than inferred from hostname, language or publisher difference.
 
 ### Evidence relation contract
 
-Evidence-to-claim relations must become typed. Planned relation vocabulary includes:
+Typed evidence relation vocabulary includes:
 - `SUPPORTS`;
 - `CONTRADICTS`;
 - `QUALIFIES`;
@@ -86,36 +63,19 @@ Evidence-to-claim relations must become typed. Planned relation vocabulary inclu
 - `ATTRIBUTION_ONLY`;
 - `DUPLICATE_OR_SAME_ORIGIN`.
 
-The relation describes how a piece of evidence bears on a claim; it does not itself determine final verification state.
+Evidence relation does not itself determine final verification state.
 
 ### Independence contract
 
-Independence must be assessed from provenance/origin relationships, not from domain/source/media/language/adapter/item count.
+Independence states are `INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN`, `MIXED`.
 
-Planned independence states:
-- `INDEPENDENT`;
-- `NOT_INDEPENDENT`;
-- `UNKNOWN`;
-- `MIXED` where a record contains separable components with different origin relationships.
-
-Unknown independence cannot be promoted to independent merely to satisfy a verification threshold.
+Unknown independence cannot be promoted to independent to satisfy a verification threshold. Different source, host, domain, publisher or language is not sufficient proof of independence.
 
 ### Contradiction contract
 
-Contradictions become typed analytical objects. Planned contradiction dimensions include:
-- occurrence/existence;
-- attribution/responsibility;
-- actor identity;
-- quantity/value;
-- time;
-- location;
-- status/outcome;
-- scope/extent;
-- causal interpretation where explicitly modeled.
+Typed contradiction dimensions include occurrence/existence, attribution/responsibility, actor identity, quantity/value, time, location, status/outcome, scope/extent and explicitly modeled causal interpretation.
 
-Contradiction state must support unresolved/evolving information and later resolution without deleting the historical disagreement.
-
-A claim/denial pair is not automatically resolved by source reputation alone.
+Contradiction state must preserve unresolved/evolving/resolved history. A claim/denial pair is not automatically resolved by source reputation alone.
 
 ### Verification decision contract
 
@@ -127,132 +87,111 @@ The new engine must not promote a claim solely because:
 - two publishers are different;
 - the same statement appears in multiple languages;
 - an item is official, fresh, highly reputable or successfully parsed;
+- an independence assessment exists;
+- a contradiction object is reconciled;
 - a graph or forecast model assigns high probability.
-
-The existing states `DETECTED`, `PARTLY_VERIFIED`, `VERIFIED`, `DISPUTED`, `UNVERIFIABLE` remain the compatibility vocabulary unless a later explicit migration expands them.
 
 ### Confidence contract
 
-Confidence becomes multidimensional before any presentation scalar is calculated. Planned inspectable dimensions include:
-- evidence sufficiency;
-- provenance/independence confidence;
-- source proximity/authority for the specific proposition;
-- source reliability context;
-- contradiction severity;
-- temporal freshness;
-- extraction uncertainty;
-- translation uncertainty;
-- claim-specific uncertainty;
-- coverage limitation.
-
-Coverage confidence remains separate and cannot promote factual verification confidence.
-
-## Compatibility / Migration Rules
-
-- Phase 13 uses additive migrations only unless a later explicit architecture decision authorizes otherwise.
-- Existing `claims`, `evidence`, `live_analysis_claims`, `live_analysis_evidence` and their historical rows remain readable.
-- P13 semantic objects must link to legacy/live objects rather than silently overwrite their historical meaning.
-- Existing `independent_origin_count` and `origin_host` are retained as historical/observational fields, not accepted as sufficient semantic independence proof.
-- A later cutover may change live output wording and verification behavior only after deterministic compatibility tests and stored migration evidence.
-- No LLM/model extraction output may directly promote canonical factual truth state. Model output may propose structured objects; policy validates and records them.
+Semantic extraction confidence is not factual verification confidence. Coverage confidence remains separate and cannot promote factual verification confidence. Model output may propose structured objects; policy validates and records them.
 
 ## P13.1 Structured Semantic Claim Model — VALIDATED
 
 Gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
 Validation anchor: `69c3282077ad8dd90ef239c0594be56f9363bfe5`.
 
-Validation evidence:
-- x64 run `33555804493`, job `100016206225`: `408 passed, 1 warning / SUCCESS`;
-- native ARM64 run `33555804396`, job `100016205406`: native `aarch64`, `408 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
-
-P13.1 introduced additive migration `023_structured_semantic_claim_model.sql` with:
-- append-only `semantic_claim_versions`;
-- append-only `semantic_claim_links`;
-- explicit caller-controlled semantic identity and version/supersession;
-- structured proposition, actor/subject/object/action, polarity, modality, time/location/quantity, original-language and extraction metadata;
-- non-evidentiary links to legacy claims, live-analysis claims and raw items;
-- fail-closed validation of link targets and structured values;
-- explicit separation of extraction confidence from factual/coverage confidence.
-
-P13.1 intentionally contains no P13.2-P13.5 truth semantics: no underlying-origin field, independence state, evidence relation, contradiction state, verification state, factual confidence or coverage confidence.
+Migration `023_structured_semantic_claim_model.sql` introduced append-only `semantic_claim_versions` and `semantic_claim_links`, explicit caller-controlled semantic identity, structured proposition dimensions and non-evidentiary links to legacy/live/raw state.
 
 ## P13.2 Provenance / Underlying-Origin Relation Model — VALIDATED
 
 Gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
 Validation anchor: `6cd37a334b122ae5de2b4cb6272f9cc222f1f174`.
 
-Validation evidence:
-- x64 run `33558425194`, job `100024835794`: `420 passed, 1 warning / SUCCESS`;
-- native ARM64 run `33558425252`, job `100024836399`: native `aarch64`, `420 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
-
-P13.2 introduced additive migration `024_semantic_provenance_origin_relation_model.sql` with:
-- append-only `semantic_provenance_entity_versions`;
-- append-only `semantic_claim_provenance_role_versions`;
-- append-only `semantic_provenance_relation_versions`;
-- explicit separation of publication/publisher, immediate acquired source, cited/quoted source and underlying origin;
-- explicit official statement/document, wire, dataset, social/user-provided and unresolved/mixed origin representation;
-- citation/syndication/repost/translation/derivation relations without independence promotion;
-- source/raw traceability and URL credential-leak guards;
-- explicit `UNKNOWN/UNRESOLVED` and `MIXED` provenance states;
-- preservation of the legacy provenance API.
-
-P13.2 intentionally contains no evidentiary independence decision, evidence stance, contradiction lifecycle, verification promotion or factual-confidence engine.
+Migration `024_semantic_provenance_origin_relation_model.sql` introduced append-only provenance entities, semantic-claim provenance roles and provenance relations. Citation/syndication/repost/translation/derivation do not create independent corroboration.
 
 ## P13.3 Evidence Relation and Independence Assessment — VALIDATED
 
 Gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
-Validation anchor: `639d6b2e64d618edfbe742636cb2ac0f663c68ee`.
+Implementation anchor: `639d6b2e64d618edfbe742636cb2ac0f663c68ee`.
+Formal closure HEAD: `9023dc22d36525b4dc9babbf21d97d184a1c110e`.
+
+Formal closure evidence:
+- x64 run `33594299961`, job `100134512548`: `438 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33594299979`, job `100134512479`: native `aarch64`, `438 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Migration `025_semantic_evidence_relation_independence.sql` introduced append-only typed evidence relations and explicit pairwise independence assessments. Fail-closed inference does not infer `INDEPENDENT` merely from absence of a known derivation path.
+
+## P13.4 Typed Contradiction Model and Resolution Lifecycle — VALIDATED
+
+Gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
+Validation anchor: `d4dbb8a8098cef960194935bd94d4640fd719050`.
 
 Validation evidence:
-- x64 run `33575533714`, job `100078564552`: `434 passed, 1 warning / SUCCESS`;
-- native ARM64 run `33575533657`, job `100078564729`: native `aarch64`, `434 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+- x64 run `33594740585`, job `100135812629`: `447 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33594740549`, job `100135812546`: native `aarch64`, `447 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-P13.3 introduced additive migration `025_semantic_evidence_relation_independence.sql` with:
-- append-only `semantic_evidence_relation_versions`;
-- append-only `semantic_independence_assessment_versions`;
-- typed evidence relations `SUPPORTS`, `CONTRADICTS`, `QUALIFIES`, `CONTEXT_ONLY`, `ATTRIBUTION_ONLY`, `DUPLICATE_OR_SAME_ORIGIN`;
-- explicit independence states `INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN`, `MIXED`;
-- fail-closed provenance/origin inference that can establish non-independence or uncertainty but never infers `INDEPENDENT` merely from absence of a derivation path;
-- current-only provenance derivation traversal while superseded provenance edges remain historical audit data;
-- append-only evidence and independence histories;
-- explicit separation from final verification promotion.
+Migration `026_semantic_contradiction_model.sql` introduced append-only:
+- `semantic_contradiction_versions`;
+- `semantic_contradiction_evidence_links`.
 
-Different publisher, source, host, domain or language is not sufficient to establish independence. Same-origin, syndication, repost, translation, citation and current derivation paths do not create independent corroboration.
+Validated behavior:
+- contradiction identity binds two immutable semantic claim versions plus a typed dimension;
+- identity drift across claim versions or dimensions fails closed;
+- lifecycle is `DETECTED`, `UNRESOLVED`, `EVOLVING`, `RESOLVED` with preserved historical disagreement;
+- resolution requires explicit reconciliation metadata but does not select a factual winner;
+- evidence links are side-scoped and require current P13.3 evidence relation versions at link time;
+- P13.3 `CONTRADICTS` does not automatically create or resolve a P13.4 contradiction;
+- legacy `contradictions.py` remains compatibility state.
 
-P13.3 intentionally contains no typed contradiction lifecycle/resolution, verification-policy promotion, multidimensional factual confidence or live cutover.
+P13.4 intentionally contains no canonical verification promotion, factual confidence or coverage confidence.
 
-## P13.4 Current Work Package — Typed Contradiction Model and Resolution Lifecycle
+## P13.5 Current Work Package — Verification Policy Engine and Multidimensional Confidence
 
 State: `CURRENT / NOT_STARTED`.
-Expected gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
+Expected gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`.
 
-P13.4 is responsible for typed/versioned contradiction objects linked to P13.1 semantic claims and P13.3 evidence relations without duplicating provenance or deciding final verification state.
+P13.5 is responsible for a policy-controlled, versioned and auditable verification decision layer over P13.1-P13.4 semantic state.
 
 Required scope:
-- represent contradiction dimensions including occurrence/existence, attribution/responsibility, actor identity, quantity/value, time, location, status/outcome and scope/extent;
-- allow causal interpretation only where explicitly modeled rather than inferred as fact;
-- preserve unresolved/evolving/resolved lifecycle history through append-only versions or equivalent auditable supersession;
-- retain historical disagreement after later resolution;
-- support explicit linkage to contradictory/qualifying evidence relations;
-- fail closed on claim/evidence identity mismatch;
-- keep source reputation, official status and independence metadata as context rather than automatic contradiction resolution;
-- preserve legacy/live contradiction compatibility state without destructive rewrite.
+- preserve compatibility verification vocabulary unless an explicit migration changes it: `DETECTED`, `PARTLY_VERIFIED`, `VERIFIED`, `DISPUTED`, `UNVERIFIABLE`;
+- define explicit policy versions and decision records rather than hidden threshold logic;
+- consume typed evidence relations, explicit independence assessments and contradiction lifecycle state without treating any single metadata field as sufficient truth proof;
+- expose inspectable multidimensional confidence before any optional presentation scalar;
+- keep extraction confidence and translation uncertainty separate from factual confidence;
+- keep coverage limitation/confidence separate and non-promotional;
+- retain proposition-specific source authority/proximity as context rather than global source truth score;
+- fail closed when provenance/independence or contradiction state is unresolved;
+- make every verification promotion/demotion auditable and reproducible from stored policy inputs.
 
-P13.4 must not implement:
-- canonical verification promotion or multidimensional factual confidence — P13.5;
-- live analytical cutover — P13.6.
+Minimum confidence dimensions to model explicitly:
+- evidence sufficiency;
+- provenance/independence confidence;
+- proposition-specific source authority/proximity;
+- source reliability context;
+- contradiction severity/resolution state;
+- temporal freshness;
+- extraction uncertainty;
+- translation uncertainty;
+- claim-specific uncertainty;
+- coverage limitation.
 
-A claim/denial pair is not automatically resolved by source reputation alone. Independence metadata alone cannot determine substantive truth.
+P13.5 must not:
+- use `>=2` evidence/domains/hosts as a sufficient promotion rule;
+- equate different publishers or languages with independence;
+- let official status or source reputation alone establish event truth;
+- let graph inference or forecast probability promote verification;
+- let coverage confidence promote factual confidence;
+- perform the P13.6 live compatibility cutover.
 
 ## Internal Phase 13 Sequencing
 
-- `P13.0` — Semantic Verification Architecture Contract — **VALIDATED**;
-- `P13.1` — Structured Semantic Claim Model and additive persistence — **VALIDATED**;
-- `P13.2` — Provenance / Underlying-Origin Relation Model — **VALIDATED**;
-- `P13.3` — Evidence Relation and Independence Assessment — **VALIDATED**;
-- `P13.4` — Typed Contradiction Model and resolution lifecycle — **CURRENT / NOT_STARTED**;
-- `P13.5` — Verification Policy Engine and multidimensional confidence;
-- `P13.6` — Live compatibility cutover, reproducibility and Phase 13 validation matrix.
+- `P13.0` — architecture contract — **VALIDATED**;
+- `P13.1` — structured semantic claims — **VALIDATED**;
+- `P13.2` — provenance / underlying origin — **VALIDATED**;
+- `P13.3` — evidence relation / independence — **VALIDATED**;
+- `P13.4` — typed contradiction lifecycle — **VALIDATED**;
+- `P13.5` — verification policy / multidimensional confidence — **CURRENT / NOT_STARTED**;
+- `P13.6` — live compatibility cutover, reproducibility and Phase 13 validation matrix — **PLANNED / NOT_STARTED**.
 
 Each work package requires its own validation before the next package becomes current.
 
@@ -264,6 +203,7 @@ Each work package requires its own validation before the next package becomes cu
 - source reputation, portfolio approval, source health and freshness are not truth operators;
 - semantic extraction confidence is not factual verification confidence;
 - source/domain/media/language/adapter/item/host count is not independent-origin count;
+- contradiction reconciliation is not automatic truth selection;
 - graph inference and forecast probability cannot promote factual verification;
 - coverage confidence cannot promote factual verification confidence;
 - `GLOBAL` remains scope, not proof of exhaustive coverage;
@@ -279,6 +219,6 @@ Public KGM API/dashboard ingress remains not approved/deployed. Backend HTTPS re
 
 ## Current Gate
 
-Next gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
+Next gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`.
 
-P13.5 must not start before P13.4 is implemented, validated and saved.
+P13.6 must not start before P13.5 is implemented, validated and saved.

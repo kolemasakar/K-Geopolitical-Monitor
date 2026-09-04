@@ -2,8 +2,8 @@
 
 Chronological record of major approved K-Geopolitical Monitor milestones.
 
-Version: 4.9
-Status: ACTIVE / PHASE_13 / P13.3_VALIDATED / P13.4_CURRENT
+Version: 4.10
+Status: ACTIVE / PHASE_13 / P13.4_VALIDATED / P13.5_CURRENT
 
 ## Validated Historical Baseline
 
@@ -25,149 +25,108 @@ These gates established canonical convergence, immutable source governance and r
 
 ## 2026-09-01 — P12.3 Priority Authoritative Source Pack
 
-P12.3 validated European Commission, European Parliament, GOV.UK and OSCE governed source paths. European Parliament remained explicitly `DEGRADED` because its official RSS endpoint returned non-feed/anti-bot content to unattended acquisition. No bypass or third-party canonical mirror was introduced.
+P12.3 validated European Commission, European Parliament, GOV.UK and OSCE governed source paths. European Parliament remained explicitly `DEGRADED` for unattended acquisition; no bypass or third-party canonical mirror was introduced.
 
 Gate: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`.
 
 ## 2026-09-01 — P12.4 Local-Language and Media Discovery Pack
 
-Implemented the first explicit public/free local-language media-discovery slice:
-- Ukrainska Pravda (`uk`);
-- Meduza (`ru`);
-- RMF24 (`pl`);
-- Haberturk (`tr`).
+Validated initial public/free local-language discovery slice: Ukrainska Pravda (`uk`), Meduza (`ru`), RMF24 (`pl`), Haberturk (`tr`). This remained explicitly non-global and created no independent-origin inference from language/media counts.
 
-Implementation lineage:
-- initial module commit `5c44618fa2dbc5bcf2270001bf65fbb455a02110`;
-- full implementation candidate / validation anchor `595d7f0f0e6316e95aca518bb9309e615f239479`.
-
-Validation anchor evidence:
-- x64 CI `33531518780`, job `99935566406`: `370 passed, 1 warning / SUCCESS`;
-- native ARM64 `33531518525`, job `99935564828`: native `aarch64`, `370 passed, 1 warning / SUCCESS`, host-bootstrap/unattended/systemd PASS;
-- controlled-live `33531518652`, job `99935565895`: `4 SUCCESS / 0 FAILED`.
-
-P12.4 explicitly does not make `uk/ru/pl/tr` global language coverage, does not turn media/language counts into independent-origin counts, and does not translate inside acquisition adapters.
+Validation anchor `595d7f0f0e6316e95aca518bb9309e615f239479`:
+- x64 `33531518780 / 99935566406`: `370 passed, 1 warning / SUCCESS`;
+- ARM64 `33531518525 / 99935564828`: native `aarch64`, `370 passed, 1 warning / SUCCESS`, host-bootstrap/unattended/systemd PASS;
+- controlled-live `33531518652 / 99935565895`: `4 SUCCESS / 0 FAILED`.
 
 Gate: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`.
 
 ## 2026-09-01 — P12.5 Source Health, Freshness and Egress Inventory
 
-Implemented a read-only operational assessment layer over P12.1 governance and persisted source-collection/provenance state. P12.5 separates governed portfolio state, latest operational acquisition state, measurement freshness and observed publisher-content freshness.
+P12.5 separated governed portfolio state, measured acquisition state, measurement freshness and observed publisher-content freshness.
 
-Implementation lineage:
-- core assessment commit `19f6d1a57e695ab3720d0118b44349dcdfd9c706`;
-- full implementation candidate / validation anchor `92d0c0516351e2af7ba836d3ae711dd414d22023`.
+Validation anchor `92d0c0516351e2af7ba836d3ae711dd414d22023`:
+- x64 `33533313297 / 99941475948`: `382 passed, 1 warning / SUCCESS`;
+- ARM64 `33533313313 / 99941475266`: native `aarch64`, `382 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS;
+- controlled-live `33533313654 / 99941475574`: `10/10` measured, `8 SUCCESS / 2 FAILED`.
 
-Validation evidence:
-- x64 CI `33533313297`, job `99941475948`: `382 passed, 1 warning / SUCCESS`;
-- native ARM64 `33533313313`, job `99941475266`: native `aarch64`, `382 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS;
-- controlled-live `33533313654`, job `99941475574`: workflow `SUCCESS`, `10/10` source paths measured, `8 SUCCESS / 2 FAILED`, ten HTTPS egress entries.
-
-Measured findings:
-- European Parliament — measured `UNAVAILABLE / PARSER`; governed `DEGRADED` retained;
-- Haberturk — measured `UNAVAILABLE / UNKNOWN` because an item `original_url` failed HTTP/HTTPS validation; governed `ACTIVE` retained pending reconciliation;
-- OSCE — acquisition `HEALTHY`, observed publisher content `STALE`;
-- Consilium and European Commission — successful zero-match acquisitions, content freshness left `UNKNOWN` rather than inferred.
-
-P12.5 validates measurement completeness, not universal source health. It adds no schema migration, changes no verification state, and does not turn ten inventoried hosts into an outbound firewall allowlist.
+European Parliament parser degradation, Haberturk item-URL failure and stale observed OSCE content remained explicit measured limitations rather than truth/coverage conclusions.
 
 Gate: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`.
 
 ## 2026-09-01 — P12.6 Phase 12 Validation Matrix
 
-Phase 12 closed with `PASS_WITH_KNOWN_LIMITATIONS` and gate `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`.
+Phase 12 closed `PASS_WITH_KNOWN_LIMITATIONS` at gate `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`.
 
-Final Phase 12 closure HEAD: `3211994450c11698a553f5249e3ecec94079b5ad`.
-- x64 run `33552777066`, job `100006077954`: `391 passed, 1 warning / SUCCESS`;
-- native ARM64 run `33552776997`, job `100006077747`: native `aarch64`, `391 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
-
-Known limitations remained explicit: European Parliament parser degradation, Haberturk item-URL failure observation, stale OSCE content observation, limited `uk/ru/pl/tr` language slice, broad outbound egress and public SSH candidate exceptions. None of these observations were converted into truth or exhaustive coverage claims.
+Final closure HEAD `3211994450c11698a553f5249e3ecec94079b5ad`:
+- x64 `33552777066 / 100006077954`: `391 passed, 1 warning / SUCCESS`;
+- ARM64 `33552776997 / 100006077747`: native `aarch64`, `391 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 ## 2026-09-01 — P13.0 Semantic Verification Architecture Contract
 
-Phase 13 began with an architecture/test contract rather than a schema change.
-
 Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`.
-Validation anchor: `4422fae5e2a4546585a43237d2124f466c457543`.
-- x64 run `33554568574`, job `100012110127`: `399 passed, 1 warning / SUCCESS`;
-- native ARM64 run `33554568570`, job `100012110488`: native `aarch64`, `399 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+Validation anchor `4422fae5e2a4546585a43237d2124f466c457543`:
+- x64 `33554568574 / 100012110127`: `399 passed, 1 warning / SUCCESS`;
+- ARM64 `33554568570 / 100012110488`: native `aarch64`, `399 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-P13.0 established that semantic claim identity is not headline identity; publisher/publication is distinct from cited source and underlying origin; evidence relation, independence, contradiction and verification are separate layers; count-based domain/host shortcuts cannot become canonical truth rules; extraction, factual and coverage confidence remain separate.
+P13.0 established structured semantic identity, explicit provenance, typed evidence, explicit independence, typed contradiction and policy-controlled verification as separate layers. Count-based domain/host shortcuts cannot become canonical truth rules.
 
 ## 2026-09-01 — P13.1 Structured Semantic Claim Model
 
-P13.1 introduced the first additive Phase 13 semantic schema.
-
-Implementation/validation anchor: `69c3282077ad8dd90ef239c0594be56f9363bfe5`.
+Implementation/validation anchor `69c3282077ad8dd90ef239c0594be56f9363bfe5`:
 - migration `023_structured_semantic_claim_model.sql`;
-- module `src/kgeopolitical_monitor/semantic_claims.py`;
-- deterministic regression suite `tests/test_semantic_claims.py`;
-- canonical database migration guard updated for migration 023.
+- append-only semantic claims and links;
+- x64 `33555804493 / 100016206225`: `408 passed, 1 warning / SUCCESS`;
+- ARM64 `33555804396 / 100016205406`: native `aarch64`, `408 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Validation evidence:
-- x64 run `33555804493`, job `100016206225`: `408 passed, 1 warning / SUCCESS`;
-- native ARM64 run `33555804396`, job `100016205406`: native `aarch64`, `408 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
-
-Validated behavior:
-- explicit caller-controlled semantic claim identity;
-- append-only versioning and supersession;
-- structured proposition, actor/subject/object/action, polarity, modality, time/location/quantity, original-language and extraction metadata;
-- non-evidentiary links to legacy claims, live-analysis claims and raw items;
-- Unicode/original-language preservation;
-- extraction confidence remains separate from factual confidence;
-- no P13.2-P13.5 provenance/independence/contradiction/verification-policy fields were introduced.
-
-Gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
+Extraction confidence remained separate from factual confidence. Gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
 
 ## 2026-09-02 — P13.2 Provenance / Underlying-Origin Relation Model
 
-P13.2 introduced additive append-only provenance/origin persistence tied to P13.1 semantic claims and existing source/raw objects.
-
-Implementation/validation anchor: `6cd37a334b122ae5de2b4cb6272f9cc222f1f174`.
+Implementation/validation anchor `6cd37a334b122ae5de2b4cb6272f9cc222f1f174`:
 - migration `024_semantic_provenance_origin_relation_model.sql`;
-- module `src/kgeopolitical_monitor/semantic_provenance.py`;
-- legacy API compatibility preserved through `src/kgeopolitical_monitor/provenance.py`;
-- deterministic provenance regression coverage.
+- explicit publication/publisher, immediate/cited/quoted source and underlying-origin concepts;
+- x64 `33558425194 / 100024835794`: `420 passed, 1 warning / SUCCESS`;
+- ARM64 `33558425252 / 100024836399`: native `aarch64`, `420 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Validation evidence:
-- x64 run `33558425194`, job `100024835794`: `420 passed, 1 warning / SUCCESS`;
-- native ARM64 run `33558425252`, job `100024836399`: native `aarch64`, `420 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
-
-Validated behavior:
-- publication/publisher, immediate acquired source, cited/quoted source and underlying origin remain distinct;
-- official statement/document, wire, dataset, social/user-provided, unknown and mixed origins are explicit;
-- citation, syndication, repost, translation and derivation are provenance relationships, not independent corroboration;
-- unresolved/mixed origin remains explicit rather than inferred from publisher/domain/language differences;
-- source/raw traceability and URL credential-leak guards fail closed;
-- no P13.3 independence, P13.4 contradiction, P13.5 verification/confidence or P13.6 live cutover semantics were introduced.
-
-Gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
+Citation, syndication, repost, translation and derivation remained provenance relationships, not independent corroboration. Gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
 
 ## 2026-09-02 — P13.3 Evidence Relation and Independence Assessment
 
-P13.3 introduced additive append-only evidence-to-semantic-claim relations and separate pairwise evidentiary-independence assessments built on P13.1 semantic claims and P13.2 provenance.
+Implementation anchor `639d6b2e64d618edfbe742636cb2ac0f663c68ee` added migration `025_semantic_evidence_relation_independence.sql`, typed evidence relations and explicit pairwise independence assessments.
 
-Implementation/validation anchor: `639d6b2e64d618edfbe742636cb2ac0f663c68ee`.
-- migration `025_semantic_evidence_relation_independence.sql`;
-- module `src/kgeopolitical_monitor/semantic_evidence.py`;
-- deterministic regression suites `tests/test_semantic_evidence.py` and `tests/test_semantic_evidence_current_provenance.py`;
-- canonical database migration guard updated for migration 025.
+Implementation validation:
+- x64 `33575533714 / 100078564552`: `434 passed, 1 warning / SUCCESS`;
+- ARM64 `33575533657 / 100078564729`: native `aarch64`, `434 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Formal closure repair HEAD `9023dc22d36525b4dc9babbf21d97d184a1c110e`:
+- x64 `33594299961 / 100134512548`: `438 passed, 1 warning / SUCCESS`;
+- ARM64 `33594299979 / 100134512479`: native `aarch64`, `438 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Different publisher/source/host/domain/language never suffices for independence; absent derivation remains `UNKNOWN`, not automatically independent. Gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
+
+## 2026-09-02 — P13.4 Typed Contradiction Model and Resolution Lifecycle
+
+Implementation/validation anchor: `d4dbb8a8098cef960194935bd94d4640fd719050`.
+- migration `026_semantic_contradiction_model.sql`;
+- module `src/kgeopolitical_monitor/semantic_contradictions.py`;
+- append-only `semantic_contradiction_versions` and `semantic_contradiction_evidence_links`;
+- deterministic contradiction regression coverage;
+- legacy `src/kgeopolitical_monitor/contradictions.py` preserved unchanged.
 
 Validation evidence:
-- x64 run `33575533714`, job `100078564552`: `434 passed, 1 warning / SUCCESS`;
-- native ARM64 run `33575533657`, job `100078564729`: native `aarch64`, `434 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+- x64 run `33594740585`, job `100135812629`: `447 passed, 1 warning / SUCCESS`;
+- native ARM64 run `33594740549`, job `100135812546`: native `aarch64`, `447 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Validated behavior:
-- typed evidence relations: `SUPPORTS`, `CONTRADICTS`, `QUALIFIES`, `CONTEXT_ONLY`, `ATTRIBUTION_ONLY`, `DUPLICATE_OR_SAME_ORIGIN`;
-- explicit independence states: `INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN`, `MIXED`;
-- different publisher/source/host/domain/language never suffices to establish independence;
-- same-origin and current provenance derivation paths remain non-independent;
-- absence of a known derivation path remains `UNKNOWN`, not automatically independent;
-- superseded provenance edges remain auditable but do not permanently determine current independence;
-- evidence relation and independence metadata do not promote final verification state;
-- P13.4 contradiction lifecycle, P13.5 verification/confidence and P13.6 live cutover remain outside P13.3.
+- contradiction identity binds two immutable semantic claim versions plus one typed dimension;
+- dimensions include occurrence/existence, attribution/responsibility, actor identity, quantity/value, time, location, status/outcome, scope/extent and explicitly modeled causal interpretation;
+- lifecycle `DETECTED`, `UNRESOLVED`, `EVOLVING`, `RESOLVED` preserves disagreement history;
+- resolved state requires explicit reconciliation metadata and does not automatically select a factual winner;
+- evidence links require the correct claim side and current P13.3 evidence relation version;
+- P13.3 `CONTRADICTS`, source reputation, official status or independence metadata does not automatically resolve substantive truth;
+- P13.5 verification/confidence and P13.6 live cutover remain outside P13.4.
 
-Gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
+Gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
 
 ## Current State
 
@@ -178,8 +137,9 @@ Gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
 - P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
 - P13.2: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
 - P13.3: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
-- current activity: `P13.4_TYPED_CONTRADICTION_MODEL / CURRENT_NOT_STARTED`;
-- next gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`;
+- P13.4: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`;
+- current activity: `P13.5_VERIFICATION_POLICY_CONFIDENCE / CURRENT_NOT_STARTED`;
+- next gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`;
 - paid providers: none approved;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - broad outbound egress: retained explicit owner-approved candidate exception;

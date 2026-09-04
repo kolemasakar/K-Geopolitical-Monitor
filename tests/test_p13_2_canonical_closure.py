@@ -8,7 +8,7 @@ def _read(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
 
-def test_p13_2_gate_and_later_sequential_progress_are_canonical():
+def test_p13_2_historical_gate_survives_later_sequential_progress():
     roadmap = _read("ROADMAP.md")
     readme = _read("README.md")
     plan = _read("docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md")
@@ -19,17 +19,18 @@ def test_p13_2_gate_and_later_sequential_progress_are_canonical():
         assert "P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED" in document
 
     assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`" in roadmap
-    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `VALIDATED`" in roadmap
-    assert "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `CURRENT / NOT_STARTED`" in roadmap
-    assert "P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED" in readme
-    assert "P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED" in plan
+    for later_gate in (
+        "P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED",
+        "P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED",
+    ):
+        assert later_gate in roadmap
+        assert later_gate in readme
+        assert later_gate in plan
 
 
-def test_p13_2_saved_validation_evidence_is_exact():
+def test_p13_2_saved_validation_evidence_remains_exact_in_authoritative_records():
     documents = (
         _read("ROADMAP.md"),
-        _read("README.md"),
-        _read("docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md"),
         _read("docs/implementation/P13_2_PROVENANCE_ORIGIN_RELATION_MODEL.md"),
         _read("docs/implementation/P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_RESULT.md"),
         _read("docs/checkpoints/PROJECT_CHECKPOINT_2026-09-02_P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED.md"),
@@ -56,19 +57,19 @@ def test_p13_2_closure_preserves_epistemic_and_runtime_boundaries():
     assert "no live analytical cutover occurred" in result.lower()
 
 
-def test_p13_2_scope_stops_before_independence_contradiction_and_policy():
+def test_p13_2_scope_stops_before_later_semantic_packages():
     result = _read("docs/implementation/P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_RESULT.md")
     implementation = _read("docs/implementation/P13_2_PROVENANCE_ORIGIN_RELATION_MODEL.md")
+    combined = (result + implementation).lower()
 
     for token in (
         "evidentiary independence",
         "contradiction",
         "verification",
         "factual confidence",
+        "p13.3",
+        "p13.4",
+        "p13.5",
+        "p13.6",
     ):
-        assert token in result.lower() or token in implementation.lower()
-
-    assert "P13.3" in result
-    assert "P13.4" in result
-    assert "P13.5" in result
-    assert "P13.6" in result
+        assert token in combined
