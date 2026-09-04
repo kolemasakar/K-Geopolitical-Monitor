@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS forecast_calibration_observations (
     forecast_version_id TEXT NOT NULL,
     scenario_version_id TEXT NOT NULL,
     legacy_outcome_id TEXT NOT NULL,
-    horizon TEXT NOT NULL CHECK(horizon IN ('immediate', 'short_term', 'medium_term', 'long_term')),
+    horizon TEXT NOT NULL CHECK(horizon IN ('short_term', 'medium_term', 'long_term', 'global_evolutionary')),
     scenario_type TEXT NOT NULL CHECK(scenario_type IN ('baseline', 'positive', 'negative', 'alternative')),
     scenario_label TEXT NOT NULL,
     legacy_outcome_state TEXT NOT NULL CHECK(legacy_outcome_state IN ('OBSERVED', 'NOT_OBSERVED')),
