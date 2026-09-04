@@ -27,7 +27,10 @@ def test_p13_5_gate_and_transition_to_p13_6_are_canonical_or_later():
         or "State: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`" in roadmap
         or "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED" in roadmap
     )
-    assert "P13.6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX" in readme
+    assert (
+        "P13.6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX" in readme
+        or "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED" in readme
+    )
 
 
 def test_p13_5_validation_evidence_is_exact_and_saved():
