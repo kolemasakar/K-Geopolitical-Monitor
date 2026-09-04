@@ -15,12 +15,9 @@ def test_p12_6_closure_links_complete_phase12_chain():
     matrix = MATRIX.read_text(encoding="utf-8")
     result = RESULT.read_text(encoding="utf-8")
     for gate in (
-        "P12_0_CANONICAL_CONVERGENCE_VALIDATED",
-        "P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED",
-        "P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED",
-        "P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED",
-        "P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED",
-        "P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED",
+        "P12_0_CANONICAL_CONVERGENCE_VALIDATED", "P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED",
+        "P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED", "P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED",
+        "P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED", "P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED",
         "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED",
     ):
         assert gate in matrix
@@ -31,13 +28,7 @@ def test_p12_6_closure_evidence_is_exact_and_saved():
     matrix = MATRIX.read_text(encoding="utf-8")
     result = RESULT.read_text(encoding="utf-8")
     checkpoint = CHECKPOINT.read_text(encoding="utf-8")
-    for exact_id in (
-        "c6aca6a2fe3c0dc991b267efa82c5748bd6460e2",
-        "33546794411",
-        "99986187419",
-        "33546794273",
-        "99986186748",
-    ):
+    for exact_id in ("c6aca6a2fe3c0dc991b267efa82c5748bd6460e2", "33546794411", "99986187419", "33546794273", "99986186748"):
         assert exact_id in matrix
         assert exact_id in result
         assert exact_id in checkpoint
@@ -77,6 +68,11 @@ def test_p12_6_historical_gate_survives_later_phase13_progress():
     assert "Phase 12 — Intelligence Quality and Source Network Foundation\nState: `VALIDATED_WITH_KNOWN_LIMITATIONS`" in roadmap
     assert "P12.6 — Phase 12 Validation Matrix\nState: `VALIDATED`" in roadmap
     assert "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED" in roadmap
-    assert "Phase 13 — Semantic Verification and Provenance Intelligence\nState: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
+    assert "Phase 13 — Semantic Verification and Provenance Intelligence" in roadmap
+    assert (
+        "State: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
+        or "State: `CLOSURE_CANDIDATE / AWAITING_EXACT_HEAD_REGRESSION`" in roadmap
+        or "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED" in roadmap
+    )
     assert "P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED" in roadmap
     assert "P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED" in readme

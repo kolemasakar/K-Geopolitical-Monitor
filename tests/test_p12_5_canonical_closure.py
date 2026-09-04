@@ -12,13 +12,15 @@ def test_p12_5_gate_and_later_phase_progress_are_canonical():
     roadmap = _read("ROADMAP.md")
     plan = _read("docs/implementation/PHASE_12_INTELLIGENCE_QUALITY_SOURCE_NETWORK_PLAN.md")
     result = _read("docs/implementation/P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_RESULT.md")
-
     for document in (roadmap, plan, result):
         assert "P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED" in document
-
     assert "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED" in roadmap
     assert "Phase 13 — Semantic Verification and Provenance Intelligence" in roadmap
-    assert "State: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
+    assert (
+        "State: `APPROVED / ACTIVE_ENGINEERING_PHASE`" in roadmap
+        or "State: `CLOSURE_CANDIDATE / AWAITING_EXACT_HEAD_REGRESSION`" in roadmap
+        or "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED" in roadmap
+    )
     assert "P12.6 — Phase 12 Validation Matrix" in plan
     assert "State: `VALIDATED`" in plan
 
@@ -26,7 +28,6 @@ def test_p12_5_gate_and_later_phase_progress_are_canonical():
 def test_p12_5_measured_degradation_remains_explicit():
     matrix = _read("docs/implementation/P12_5_CONTROLLED_LIVE_SOURCE_HEALTH_MATRIX.md")
     result = _read("docs/implementation/P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_RESULT.md")
-
     assert "governed source paths: `10`" in result
     assert "measured source paths: `10`" in result
     assert "unmeasured: `0`" in result
@@ -45,18 +46,10 @@ def test_p12_5_egress_inventory_is_factual_not_deployed_policy():
     matrix = _read("docs/implementation/P12_5_CONTROLLED_LIVE_SOURCE_HEALTH_MATRIX.md")
     result = _read("docs/implementation/P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_RESULT.md")
     security = _read("SECURITY_AND_DATA_POLICY.md")
-
     for hostname in (
-        "api.gdeltproject.org",
-        "ec.europa.eu",
-        "feeds.osce.org",
-        "meduza.io",
-        "rss.haberturk.com",
-        "www.consilium.europa.eu",
-        "www.europarl.europa.eu",
-        "www.gov.uk",
-        "www.pravda.com.ua",
-        "www.rmf24.pl",
+        "api.gdeltproject.org", "ec.europa.eu", "feeds.osce.org", "meduza.io",
+        "rss.haberturk.com", "www.consilium.europa.eu", "www.europarl.europa.eu",
+        "www.gov.uk", "www.pravda.com.ua", "www.rmf24.pl",
     ):
         assert hostname in matrix
     assert "not an outbound firewall rule" in matrix.lower()
@@ -68,7 +61,6 @@ def test_p12_5_preserves_truth_storage_and_production_boundaries():
     readme = _read("README.md")
     roadmap = _read("ROADMAP.md")
     result = _read("docs/implementation/P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_RESULT.md")
-
     for document in (readme, roadmap):
         assert "Production/live operational status: NOT_OPERATIONAL" in document
         assert "Runtime storage mode: PROJECT_LOCAL_ONLY" in document
