@@ -67,6 +67,8 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "forecast_evaluations",
         "forecast_calibration_runs",
         "forecast_calibration_buckets",
+        "forecast_outcome_assessments",
+        "forecast_outcome_assessment_evidence",
         "report_snapshots",
         "report_sections",
         "report_references",
@@ -124,4 +126,5 @@ def test_database_initialization_applies_canonical_migrations(tmp_path):
         "025_semantic_evidence_relation_independence.sql",
         "026_semantic_contradiction_model.sql",
         "027_semantic_verification_policy_confidence.sql",
+        "028_forecast_outcome_assessment_history.sql",
     }
