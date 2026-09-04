@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.18
+Version: 4.19
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -278,8 +278,49 @@ State: `VALIDATED`
 Phase 14 readiness remains separate from operational activation. No owner execution, production/live transition, public ingress, shared runtime or paid provider is activated by readiness validation.
 
 ## Phase 15 — Forecast Calibration and Performance Intelligence
-State: `APPROVED_SEQUENTIAL / NOT_STARTED`
+State: `VALIDATED`
+Strategic gate: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`
+Closure validation anchor: `77b444e2c89f763e56acc22183c74634ea993573`.
+Implementation plan: `docs/implementation/PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_PLAN.md`
+Validation matrix: `docs/implementation/P15_6_VALIDATION_MATRIX.md`
+Final strategic result: `docs/implementation/PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_RESULT.md`
+Final checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED.md`
+
+Strategic closure validation:
+- x64 run `33906546408`, job `101132699703`: `576 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33906546431`, job `101132700003`: native `aarch64`, `576 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+### P15.0 — Forecast Calibration Architecture Contract
+State: `VALIDATED`
+Gate: `P15_0_FORECAST_CALIBRATION_ARCHITECTURE_CONTRACT_VALIDATED`
+
+### P15.1 — Forecast/Outcome Persistence Model
+State: `VALIDATED`
+Gate: `P15_1_FORECAST_OUTCOME_PERSISTENCE_MODEL_VALIDATED`
+
+### P15.2 — Provenance-Bound Outcome Resolution
+State: `VALIDATED`
+Gate: `P15_2_PROVENANCE_BOUND_OUTCOME_RESOLUTION_VALIDATED`
+
+### P15.3 — Calibration Engine
+State: `VALIDATED`
+Gate: `P15_3_CALIBRATION_ENGINE_VALIDATED`
+
+### P15.4 — Performance Intelligence and Drift/Bias Analysis
+State: `VALIDATED`
+Gate: `P15_4_PERFORMANCE_INTELLIGENCE_DRIFT_BIAS_VALIDATED`
+
+### P15.5 — Owner Read-Only Performance Projection
+State: `VALIDATED`
+Gate: `P15_5_OWNER_READ_ONLY_PERFORMANCE_PROJECTION_VALIDATED`
+
+### P15.6 — Phase 15 Validation Matrix / Closure
+State: `VALIDATED`
 Gate: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`
+
+Phase 15 validates provenance-bound outcome resolution, immutable calibration observations, exact-cohort performance evidence, descriptive drift/bias analysis and an owner read-only performance projection. Forecast probability/confidence, Brier/ECE/bias/drift metrics, sample size/qualification, coverage and legacy scalar/count metadata cannot promote factual verification. Canonical verification remains P13.5/P13.6 only.
+
+Phase 15 closure does not activate owner execution, production/live operation, public ingress, shared runtime or paid providers. Phase 14 remains `VALIDATED_READY / NOT_ACTIVATED` and operational activation remains `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
 
 ## Phase 16 — Delivery, Operator Experience and Quality Feedback
 State: `APPROVED_SEQUENTIAL / NOT_STARTED`
@@ -296,7 +337,7 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.18`;
+- state synchronization: `v4.19`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -308,6 +349,9 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - P13.6: `VALIDATED`;
 - Phase 14: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED / OWNER_DECISION_REQUIRED`;
 - P14.0–P14.6: `VALIDATED`;
+- Phase 15: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`;
+- P15.0–P15.6: `VALIDATED`;
+- Phase 16: `APPROVED_SEQUENTIAL / NOT_STARTED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared runtime storage: `BLOCKED`;
 - production/live operational status: `NOT_OPERATIONAL`;
@@ -317,4 +361,4 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - public sharing: `NOT_ACTIVE`;
 - paid providers: `NONE_APPROVED`.
 
-Phase 14 is strategically closed at `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY`. Operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 15 remains the next approved sequential engineering phase.
+Phase 15 is strategically closed at `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`. Phase 16 is the next approved sequential engineering phase. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`; no production/live transition is implied.
