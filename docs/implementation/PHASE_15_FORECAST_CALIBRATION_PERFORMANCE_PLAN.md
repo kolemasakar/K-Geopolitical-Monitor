@@ -25,8 +25,17 @@ No parallel forecast store or truth store is authorized.
 
 ## P15.0 — Forecast Calibration Architecture Contract
 
-State: `IMPLEMENTED_PENDING_VALIDATION`
-Target gate: `P15_0_FORECAST_CALIBRATION_ARCHITECTURE_CONTRACT_VALIDATED`
+State: `VALIDATED`
+Gate: `P15_0_FORECAST_CALIBRATION_ARCHITECTURE_CONTRACT_VALIDATED`
+Validation anchor: `3019884590dfdc2aec8230a33f0521330575b08e`
+
+Validation evidence:
+
+- x64 CI run `33897654496`, job `101103985520`: `518 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33897654494`, job `101103985599`: native `aarch64`, `518 passed, 2 warnings / SUCCESS`;
+- ARM64 host bootstrap: PASS;
+- ARM64 unattended one-tick: PASS;
+- ARM64 systemd contract: PASS.
 
 P15.0 introduces the machine-readable contract `KGM_FORECAST_CALIBRATION_PERFORMANCE_ARCHITECTURE_V1` in `src/kgeopolitical_monitor/forecast_calibration_contract.py`.
 
@@ -108,7 +117,7 @@ P15.0 does not activate Phase 14 operations or any external forecasting provider
 
 ## Planned Phase 15 sequence
 
-- P15.0 — Forecast Calibration Architecture Contract — `IMPLEMENTED_PENDING_VALIDATION`;
+- P15.0 — Forecast Calibration Architecture Contract — `VALIDATED`;
 - P15.1 — Forecast/Outcome Persistence Model — `NOT_STARTED`;
 - P15.2 — Provenance-Bound Outcome Resolution — `NOT_STARTED`;
 - P15.3 — Calibration Engine — `NOT_STARTED`;
@@ -116,4 +125,4 @@ P15.0 does not activate Phase 14 operations or any external forecasting provider
 - P15.5 — Owner Read-Only Performance Projection — `NOT_STARTED`;
 - P15.6 — Phase 15 Validation Matrix / Closure — `NOT_STARTED`.
 
-P15.0 must pass repository regression validation before its state is promoted to `VALIDATED`.
+P15.0 is validated. The next sequential engineering task is P15.1 — Forecast/Outcome Persistence Model.
