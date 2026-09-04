@@ -1,10 +1,10 @@
 # Phase 13 — Semantic Verification and Provenance Intelligence
 
-Date: 2026-09-02
-Status: `ACTIVE_ENGINEERING_PHASE / P13.0-P13.4_VALIDATED / P13.5_CURRENT`
+Date: 2026-09-04
+Status: `ACTIVE_ENGINEERING_PHASE / P13.0-P13.5_VALIDATED / P13.6_CURRENT`
 Project: K-Geopolitical Monitor
 Strategic phase gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
-Current activity: `P13.5_VERIFICATION_POLICY_CONFIDENCE`
+Current activity: `P13.6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX`
 
 ## Objective
 
@@ -19,7 +19,7 @@ The existing baseline remains historical compatibility state until P13.6:
 - `live_analysis_claims` / `live_analysis_evidence` group evidence by normalized headline and store `origin_host` / `independent_origin_count`;
 - historical `verification.py` uses an evidence-count threshold;
 - historical live analysis uses distinct origin hosts for `PARTLY_VERIFIED` behavior;
-- historical confidence derives an independence term from source-ID count;
+- historical `confidence_engine.py` derives an independence term from source-ID count;
 - legacy `contradictions.py` is a small compatibility container.
 
 These behaviors remain readable; they are not the canonical semantic rules for the additive Phase 13 layer.
@@ -75,13 +75,13 @@ Unknown independence cannot be promoted to independent to satisfy a verification
 
 Typed contradiction dimensions include occurrence/existence, attribution/responsibility, actor identity, quantity/value, time, location, status/outcome, scope/extent and explicitly modeled causal interpretation.
 
-Contradiction state must preserve unresolved/evolving/resolved history. A claim/denial pair is not automatically resolved by source reputation alone.
+Contradiction state preserves unresolved/evolving/resolved history. A claim/denial pair is not automatically resolved by source reputation alone.
 
 ### Verification decision contract
 
-Canonical semantic verification promotion must be policy-controlled and auditable.
+Canonical semantic verification promotion is policy-controlled and auditable.
 
-The new engine must not promote a claim solely because:
+The engine must not promote a claim solely because:
 - evidence count is `>= 2`;
 - two domains/hosts are different;
 - two publishers are different;
@@ -125,63 +125,70 @@ Migration `025_semantic_evidence_relation_independence.sql` introduced append-on
 
 Gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
 Validation anchor: `d4dbb8a8098cef960194935bd94d4640fd719050`.
+Formal closure repair HEAD: `f771ce0154e24b2218b309d8b3e6b880b408a146`.
+
+Implementation evidence:
+- x64 `33594740585 / 100135812629`: `447 passed, 1 warning / SUCCESS`;
+- native ARM64 `33594740549 / 100135812546`: `447 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Formal closure evidence:
+- x64 `33848458616 / 100945599309`: `463 passed, 2 warnings / SUCCESS`;
+- native ARM64 `33848458681 / 100945599390`: `463 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Migration `026_semantic_contradiction_model.sql` introduced append-only typed contradiction versions/evidence links. Resolution requires explicit reconciliation metadata but does not select a factual winner.
+
+## P13.5 Verification Policy Engine and Multidimensional Confidence — VALIDATED
+
+Gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`.
+Validation anchor: `0f0d746c538dc5ce8f010fb80f8afbe00685414a`.
 
 Validation evidence:
-- x64 run `33594740585`, job `100135812629`: `447 passed, 1 warning / SUCCESS`;
-- native ARM64 run `33594740549`, job `100135812546`: native `aarch64`, `447 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+- x64 run `33849149736`, job `100947736040`: `475 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33849149742`, job `100947736318`: native `aarch64`, `475 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Migration `026_semantic_contradiction_model.sql` introduced append-only:
-- `semantic_contradiction_versions`;
-- `semantic_contradiction_evidence_links`.
+Migration `027_semantic_verification_policy_confidence.sql` introduced append-only verification policy versions, multidimensional factual-confidence versions and auditable semantic verification decisions.
 
-Validated behavior:
-- contradiction identity binds two immutable semantic claim versions plus a typed dimension;
-- identity drift across claim versions or dimensions fails closed;
-- lifecycle is `DETECTED`, `UNRESOLVED`, `EVOLVING`, `RESOLVED` with preserved historical disagreement;
-- resolution requires explicit reconciliation metadata but does not select a factual winner;
-- evidence links are side-scoped and require current P13.3 evidence relation versions at link time;
-- P13.3 `CONTRADICTS` does not automatically create or resolve a P13.4 contradiction;
-- legacy `contradictions.py` remains compatibility state.
+Validated policy semantics:
+- count-only, official-status-only, source-reputation-only and coverage-only promotion remain forbidden;
+- `VERIFIED` requires an explicit current independent pair of current `SUPPORTS` evidence;
+- current `CONTRADICTS` evidence or active P13.4 contradiction blocks `VERIFIED`;
+- factual confidence is multidimensional before any optional presentation scalar and no canonical scalar is stored;
+- coverage limitation remains separate and non-promotional;
+- global-latest P13.3/P13.4 snapshots prevent stale/superseded evidence, independence or contradiction versions from acting as current inputs;
+- legacy count-based verification and scalar confidence APIs remain compatibility state, not canonical P13.5 policy.
 
-P13.4 intentionally contains no canonical verification promotion, factual confidence or coverage confidence.
+Minimum modeled factual-confidence dimensions:
+- evidence sufficiency;
+- provenance independence;
+- proposition-specific authority/proximity;
+- contradiction resolution;
+- temporal freshness;
+- extraction certainty;
+- translation certainty;
+- claim-specific certainty;
+- coverage limitation remains separate.
 
-## P13.5 Current Work Package — Verification Policy Engine and Multidimensional Confidence
+## P13.6 Current Work Package — Live Compatibility Cutover and Phase 13 Validation Matrix
 
 State: `CURRENT / NOT_STARTED`.
-Expected gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`.
-
-P13.5 is responsible for a policy-controlled, versioned and auditable verification decision layer over P13.1-P13.4 semantic state.
+Expected strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
 
 Required scope:
-- preserve compatibility verification vocabulary unless an explicit migration changes it: `DETECTED`, `PARTLY_VERIFIED`, `VERIFIED`, `DISPUTED`, `UNVERIFIABLE`;
-- define explicit policy versions and decision records rather than hidden threshold logic;
-- consume typed evidence relations, explicit independence assessments and contradiction lifecycle state without treating any single metadata field as sufficient truth proof;
-- expose inspectable multidimensional confidence before any optional presentation scalar;
-- keep extraction confidence and translation uncertainty separate from factual confidence;
-- keep coverage limitation/confidence separate and non-promotional;
-- retain proposition-specific source authority/proximity as context rather than global source truth score;
-- fail closed when provenance/independence or contradiction state is unresolved;
-- make every verification promotion/demotion auditable and reproducible from stored policy inputs.
+- define a non-destructive compatibility/cutover path between historical `live_analysis_claims` / `live_analysis_evidence` and P13.1-P13.5 semantic state;
+- preserve historical live rows and legacy read APIs;
+- prevent historical `origin_host`, distinct-host counts, `independent_origin_count`, evidence-count thresholds or scalar confidence from being reinterpreted as canonical semantic independence/truth;
+- bind semantic decisions to reproducibility/traceability records where instrumented evidence exists;
+- prove deterministic restart/read compatibility and migration idempotence;
+- validate that P13.5 decisions can be consumed without rewriting legacy records;
+- produce a Phase 13 validation matrix covering P13.0-P13.6 boundaries and exact validation evidence;
+- retain `PROJECT_LOCAL_ONLY` and `NOT_OPERATIONAL` runtime status.
 
-Minimum confidence dimensions to model explicitly:
-- evidence sufficiency;
-- provenance/independence confidence;
-- proposition-specific source authority/proximity;
-- source reliability context;
-- contradiction severity/resolution state;
-- temporal freshness;
-- extraction uncertainty;
-- translation uncertainty;
-- claim-specific uncertainty;
-- coverage limitation.
-
-P13.5 must not:
-- use `>=2` evidence/domains/hosts as a sufficient promotion rule;
-- equate different publishers or languages with independence;
-- let official status or source reputation alone establish event truth;
-- let graph inference or forecast probability promote verification;
-- let coverage confidence promote factual confidence;
-- perform the P13.6 live compatibility cutover.
+P13.6 must not:
+- silently promote old `PARTLY_VERIFIED`/`VERIFIED` values into P13.5 decisions;
+- invent exact provenance or tool history that was not instrumented;
+- use a compatibility view as proof of independent origin;
+- activate production/live, public ingress, shared runtime or paid providers;
+- advance Phase 14 without closing the Phase 13 strategic gate.
 
 ## Internal Phase 13 Sequencing
 
@@ -190,8 +197,8 @@ P13.5 must not:
 - `P13.2` — provenance / underlying origin — **VALIDATED**;
 - `P13.3` — evidence relation / independence — **VALIDATED**;
 - `P13.4` — typed contradiction lifecycle — **VALIDATED**;
-- `P13.5` — verification policy / multidimensional confidence — **CURRENT / NOT_STARTED**;
-- `P13.6` — live compatibility cutover, reproducibility and Phase 13 validation matrix — **PLANNED / NOT_STARTED**.
+- `P13.5` — verification policy / multidimensional confidence — **VALIDATED**;
+- `P13.6` — live compatibility cutover, reproducibility and Phase 13 validation matrix — **CURRENT / NOT_STARTED**.
 
 Each work package requires its own validation before the next package becomes current.
 
@@ -219,6 +226,6 @@ Public KGM API/dashboard ingress remains not approved/deployed. Backend HTTPS re
 
 ## Current Gate
 
-Next gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`.
+Next gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
 
-P13.6 must not start before P13.5 is implemented, validated and saved.
+P13.6 must be implemented, validated and saved before Phase 13 is closed or Phase 14 engineering becomes current.

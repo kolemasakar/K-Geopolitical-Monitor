@@ -1,8 +1,9 @@
 # P13.5 Verification Policy Engine and Multidimensional Confidence
 
 Date: 2026-09-04
-Status: `IMPLEMENTED_PENDING_VALIDATION`
-Expected gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`
+Status: `VALIDATED`
+Gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`
+Implementation / validation anchor: `0f0d746c538dc5ce8f010fb80f8afbe00685414a`
 Parent canonical closure HEAD: `f771ce0154e24b2218b309d8b3e6b880b408a146`
 
 ## Purpose
@@ -23,7 +24,7 @@ No legacy `claims`, `evidence`, `live_analysis_claims`, `live_analysis_evidence`
 
 ## Policy Contract
 
-Canonical policy versions explicitly preserve permanent fail-closed invariants:
+Canonical policy versions preserve permanent fail-closed invariants:
 
 - evidence count alone cannot promote verification;
 - different source/host/domain/publisher/language count cannot establish semantic independence;
@@ -50,7 +51,7 @@ Canonical policy versions explicitly preserve permanent fail-closed invariants:
 
 Each factual dimension is `UNKNOWN`, `LOW`, `MEDIUM` or `HIGH`.
 
-Coverage is recorded separately as the limitation state `UNKNOWN`, `LIMITED` or `ADEQUATE`. The P13.5 model stores no `coverage_confidence` field and no single factual-confidence scalar. The Python model deliberately exposes `presentation_scalar = None` and `coverage_confidence = None`.
+Coverage is recorded separately as `coverage_limitation = UNKNOWN | LIMITED | ADEQUATE`. The P13.5 model stores no `coverage_confidence` field and no single canonical factual-confidence scalar. The Python model deliberately exposes `presentation_scalar = None` and `coverage_confidence = None`.
 
 A high authority/proximity assessment is contextual input, not proof of substantive truth. An official statement still establishes that the actor made the statement, not automatically that the underlying event claim is true.
 
@@ -68,7 +69,7 @@ This prevents a caller from omitting a current contradiction, selecting supersed
 
 ## Verification States
 
-P13.5 initially retains the compatibility vocabulary:
+P13.5 retains the compatibility vocabulary:
 
 - `DETECTED`;
 - `PARTLY_VERIFIED`;
@@ -76,7 +77,7 @@ P13.5 initially retains the compatibility vocabulary:
 - `DISPUTED`;
 - `UNVERIFIABLE`.
 
-The vocabulary is retained for compatibility; the promotion semantics are new and policy-controlled.
+The vocabulary is retained for compatibility; promotion semantics are policy-controlled.
 
 `PARTLY_VERIFIED` requires current supporting semantic evidence plus minimum multidimensional confidence and is blocked by current disputed semantic state.
 
@@ -90,11 +91,23 @@ The vocabulary is retained for compatibility; the promotion semantics are new an
 
 Legacy `src/kgeopolitical_monitor/verification.py` remains readable, including its historical `evidence_count >= 2` behavior. Legacy `src/kgeopolitical_monitor/confidence_engine.py` also remains readable, including its historical scalar/source-ID-count calculation. Neither module is modified or imported by the P13.5 canonical semantic verification service.
 
-Deterministic compatibility tests explicitly prove that those legacy APIs still work while the new P13.5 schema contains no legacy scalar confidence, `source_reliability` or `independent_origin_count` field.
+Deterministic compatibility tests prove those legacy APIs still work while the P13.5 schema contains no legacy scalar confidence, `source_reliability` or `independent_origin_count` shortcut column.
 
 ## Append-Only / Audit Boundary
 
 Policies, factual-confidence profiles and decisions reject SQL UPDATE/DELETE. Decision transition codes (`INITIAL`, `HOLD`, `PROMOTE`, `DEMOTE`, `DISPUTE`, `MARK_UNVERIFIABLE`) are audit metadata and must match the requested transition.
+
+## Validation Evidence
+
+Exact implementation / validation anchor: `0f0d746c538dc5ce8f010fb80f8afbe00685414a`.
+
+- x64 run `33849149736`, job `100947736040`: `475 passed, 2 warnings / SUCCESS`.
+- native ARM64 run `33849149742`, job `100947736318`: native `aarch64`, `475 passed, 2 warnings / SUCCESS`.
+- ARM64 bootstrap shell validation: PASS.
+- unattended one-tick smoke: PASS.
+- systemd unit contract validation: PASS.
+
+The warnings are dependency deprecations in FastAPI/Starlette TestClient and the Starlette/anyio `BlockingPortal` alias; neither is a P13.5 semantic/runtime failure.
 
 ## Scope Exclusions
 
@@ -110,20 +123,8 @@ P13.5 intentionally does not implement:
 Production/live operational status: NOT_OPERATIONAL
 Runtime storage mode: PROJECT_LOCAL_ONLY
 
-## Validation Requirements
+## Next Package
 
-Before gate closure the implementation must pass:
+`P13.6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX` becomes `CURRENT / NOT_STARTED` after this gate is saved.
 
-- deterministic canonical x64 regression;
-- native ARM64 full regression;
-- ARM64 bootstrap shell validation;
-- unattended one-tick smoke;
-- systemd unit contract validation;
-- append-only persistence tests;
-- count-only/source-ID-count shortcut rejection tests;
-- explicit-independence and current-version tests;
-- unresolved contradiction and current contradicting-evidence blockers;
-- multidimensional confidence and coverage-separation tests;
-- legacy compatibility tests.
-
-P13.6 must not start before P13.5 is implemented, validated and saved.
+P13.6 must validate compatibility/cutover and close the Phase 13 strategic gate without treating old count-based live fields as canonical semantic truth.

@@ -134,14 +134,24 @@ def test_p13_0_validation_evidence_is_saved_exactly():
 def test_p13_0_closure_allows_validated_sequential_phase13_progress():
     roadmap = _read("ROADMAP.md")
     plan = PLAN.read_text(encoding="utf-8")
-    assert "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`" in roadmap
-    assert "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`" in roadmap
-    assert "P13.3 — Evidence Relation and Independence Assessment\nState: `VALIDATED`" in roadmap
-    assert "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `VALIDATED`" in roadmap
-    assert "current engineering activity: `P13.5_VERIFICATION_POLICY_CONFIDENCE`" in roadmap
+    for section in (
+        "P13.1 — Structured Semantic Claim Model\nState: `VALIDATED`",
+        "P13.2 — Provenance / Underlying-Origin Relation Model\nState: `VALIDATED`",
+        "P13.3 — Evidence Relation and Independence Assessment\nState: `VALIDATED`",
+        "P13.4 — Typed Contradiction Model and Resolution Lifecycle\nState: `VALIDATED`",
+    ):
+        assert section in roadmap
     assert (
         "P13.5 — Verification Policy Engine and Multidimensional Confidence\nState: `CURRENT / NOT_STARTED`" in roadmap
         or "P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED" in roadmap
     )
+    assert "P13.6 — Live Compatibility Cutover and Phase 13 Validation Matrix" in roadmap
+    assert (
+        "current engineering activity: `P13.5_VERIFICATION_POLICY_CONFIDENCE`" in roadmap
+        or "current engineering activity: `P13.6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX`" in roadmap
+    )
     assert "P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED" in plan
-    assert "P13.6 must not start before P13.5 is implemented, validated and saved." in plan
+    assert (
+        "P13.6 must not start before P13.5 is implemented, validated and saved." in plan
+        or "P13.6 must be implemented, validated and saved before Phase 13 is closed" in plan
+    )

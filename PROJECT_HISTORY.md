@@ -2,8 +2,8 @@
 
 Chronological record of major approved K-Geopolitical Monitor milestones.
 
-Version: 4.10
-Status: ACTIVE / PHASE_13 / P13.4_VALIDATED / P13.5_CURRENT
+Version: 4.11
+Status: ACTIVE / PHASE_13 / P13.5_VALIDATED / P13.6_CURRENT
 
 ## Validated Historical Baseline
 
@@ -104,29 +104,39 @@ Formal closure repair HEAD `9023dc22d36525b4dc9babbf21d97d184a1c110e`:
 
 Different publisher/source/host/domain/language never suffices for independence; absent derivation remains `UNKNOWN`, not automatically independent. Gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
 
-## 2026-09-02 — P13.4 Typed Contradiction Model and Resolution Lifecycle
+## 2026-09-04 — P13.4 Typed Contradiction Model and Resolution Lifecycle
 
-Implementation/validation anchor: `d4dbb8a8098cef960194935bd94d4640fd719050`.
-- migration `026_semantic_contradiction_model.sql`;
-- module `src/kgeopolitical_monitor/semantic_contradictions.py`;
-- append-only `semantic_contradiction_versions` and `semantic_contradiction_evidence_links`;
-- deterministic contradiction regression coverage;
-- legacy `src/kgeopolitical_monitor/contradictions.py` preserved unchanged.
+Implementation/validation anchor `d4dbb8a8098cef960194935bd94d4640fd719050` added migration `026_semantic_contradiction_model.sql`, `semantic_contradictions.py`, append-only contradiction versions/evidence links and deterministic contradiction coverage.
 
-Validation evidence:
-- x64 run `33594740585`, job `100135812629`: `447 passed, 1 warning / SUCCESS`;
-- native ARM64 run `33594740549`, job `100135812546`: native `aarch64`, `447 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+Implementation validation:
+- x64 `33594740585 / 100135812629`: `447 passed, 1 warning / SUCCESS`;
+- ARM64 `33594740549 / 100135812546`: native `aarch64`, `447 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Validated behavior:
-- contradiction identity binds two immutable semantic claim versions plus one typed dimension;
-- dimensions include occurrence/existence, attribution/responsibility, actor identity, quantity/value, time, location, status/outcome, scope/extent and explicitly modeled causal interpretation;
-- lifecycle `DETECTED`, `UNRESOLVED`, `EVOLVING`, `RESOLVED` preserves disagreement history;
-- resolved state requires explicit reconciliation metadata and does not automatically select a factual winner;
-- evidence links require the correct claim side and current P13.3 evidence relation version;
-- P13.3 `CONTRADICTS`, source reputation, official status or independence metadata does not automatically resolve substantive truth;
-- P13.5 verification/confidence and P13.6 live cutover remain outside P13.4.
+Formal closure repair HEAD `f771ce0154e24b2218b309d8b3e6b880b408a146`:
+- x64 `33848458616 / 100945599309`: `463 passed, 2 warnings / SUCCESS`;
+- ARM64 `33848458681 / 100945599390`: native `aarch64`, `463 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
+Contradiction identity binds two immutable semantic claims plus one typed dimension; lifecycle preserves disagreement history; resolution requires explicit reconciliation metadata and does not automatically select a factual winner. Gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
+
+## 2026-09-04 — P13.5 Verification Policy Engine and Multidimensional Confidence
+
+Implementation/validation anchor `0f0d746c538dc5ce8f010fb80f8afbe00685414a` added migration `027_semantic_verification_policy_confidence.sql`, `semantic_verification.py`, versioned verification policies, multidimensional factual-confidence profiles and append-only auditable semantic verification decisions.
+
+Validation:
+- x64 `33849149736 / 100947736040`: `475 passed, 2 warnings / SUCCESS`;
+- ARM64 `33849149742 / 100947736318`: native `aarch64`, `475 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Validated policy semantics:
+- count-only evidence/source/domain/host/publisher/language promotion is forbidden;
+- official status, source reputation and coverage metadata are not standalone truth operators;
+- `VERIFIED` requires an explicit current independent pair of current `SUPPORTS` evidence plus policy confidence floors;
+- current `CONTRADICTS` evidence or active P13.4 contradiction blocks `VERIFIED`;
+- factual confidence remains multidimensional and stores no canonical scalar;
+- coverage limitation remains separate and non-promotional;
+- global-latest semantic snapshots prevent superseded evidence/independence/contradiction records from acting as current inputs;
+- legacy `verification.py` and `confidence_engine.py` remain readable compatibility APIs and are not the canonical P13.5 engine.
+
+Gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`.
 
 ## Current State
 
@@ -138,8 +148,9 @@ Gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
 - P13.2: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
 - P13.3: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
 - P13.4: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`;
-- current activity: `P13.5_VERIFICATION_POLICY_CONFIDENCE / CURRENT_NOT_STARTED`;
-- next gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`;
+- P13.5: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`;
+- current activity: `P13.6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX / CURRENT_NOT_STARTED`;
+- next gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - paid providers: none approved;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - broad outbound egress: retained explicit owner-approved candidate exception;
