@@ -76,3 +76,19 @@ def test_p13_5_preserves_legacy_runtime_and_cutover_boundaries():
     assert "compatibility" in combined
     assert "p13.6" in combined and "cutover" in combined
     assert "paid providers" in combined
+
+
+def test_p13_5_state_sync_preserves_prior_semantic_schema_boundaries():
+    data_models = _read("DATA_MODELS.md")
+    assert "Phase 13 semantic model v2 architecture: `P13.0_VALIDATED`" in data_models
+    for token in (
+        "underlying_origin",
+        "independence_state",
+        "evidence_relation",
+        "contradiction_state",
+        "verification_state",
+        "factual_confidence",
+        "coverage_confidence",
+    ):
+        assert token in data_models
+    assert "P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED" in data_models
