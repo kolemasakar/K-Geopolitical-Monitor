@@ -8,7 +8,7 @@ def _read(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
 
-def test_phase13_canonical_closure_candidate_is_synchronized_and_fail_closed():
+def test_phase13_closure_candidate_evidence_is_preserved_after_final_gate():
     roadmap = _read("ROADMAP.md")
     readme = _read("README.md")
     data_models = _read("DATA_MODELS.md")
@@ -16,61 +16,51 @@ def test_phase13_canonical_closure_candidate_is_synchronized_and_fail_closed():
     history = _read("PROJECT_HISTORY.md")
     matrix = _read("docs/implementation/P13_6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX.md")
     result = _read("docs/implementation/P13_6_LIVE_COMPATIBILITY_CUTOVER_RESULT.md")
-    checkpoint = _read("docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_P13_6_IMPLEMENTATION_VALIDATED.md")
+    candidate_checkpoint = _read("docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_P13_6_IMPLEMENTATION_VALIDATED.md")
 
-    canonical = (roadmap, readme, data_models, plan, history, matrix, result, checkpoint)
-    for document in canonical:
+    for document in (roadmap, readme, data_models, plan, history, matrix, result):
         assert "3b8d75d05168561898ba3fa592d0d7bdad5a5dd4" in document
-        assert "PENDING_EXACT_HEAD_CLOSURE_REGRESSION" in document
+        assert "7e49f790a36f596cdb8ed3d7d6e17f5ace2787be" in document
         assert "Production/live operational status: NOT_OPERATIONAL" in document
         assert "Runtime storage mode: PROJECT_LOCAL_ONLY" in document
 
-    assert "State: `CLOSURE_CANDIDATE / AWAITING_EXACT_HEAD_REGRESSION`" in roadmap
-    assert "P13.6 — Live Compatibility Cutover and Phase 13 Validation Matrix\nState: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`" in roadmap
-    assert "NOT_YET_GRANTED" in checkpoint
+    # The P13.6 checkpoint intentionally remains historical candidate evidence.
+    assert "NOT_YET_GRANTED" in candidate_checkpoint
+    assert "2a482eb85b118fa5ea46396fa92707733dad5159" in candidate_checkpoint
+    assert "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED" in roadmap
+    assert "P13.6 — Live Compatibility Cutover and Phase 13 Validation Matrix\nState: `VALIDATED`" in roadmap
 
 
 def test_phase13_candidate_preserves_exact_p13_6_and_p13_5_closure_evidence():
     combined = "\n".join(
         _read(path)
         for path in (
-            "ROADMAP.md",
-            "README.md",
-            "DATA_MODELS.md",
+            "ROADMAP.md", "README.md", "DATA_MODELS.md",
             "docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md",
-            "PROJECT_HISTORY.md",
-            "docs/implementation/P13_6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX.md",
+            "PROJECT_HISTORY.md", "docs/implementation/P13_6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX.md",
         )
     )
     for token in (
         "d2e80fe8a1bd998ca422be1e1001744be0e9e6e3",
-        "33856550956",
-        "100971101911",
-        "33856550913",
-        "100971101835",
+        "33856550956", "100971101911", "33856550913", "100971101835",
         "480 passed, 2 warnings / SUCCESS",
-        "33857212159",
-        "100973174656",
-        "33857212157",
-        "100973174256",
+        "33857212159", "100973174656", "33857212157", "100973174256",
         "489 passed, 2 warnings / SUCCESS",
         "2a482eb85b118fa5ea46396fa92707733dad5159",
-        "33857629735",
-        "100974493101",
-        "33857629714",
-        "100974493074",
+        "33857629735", "100974493101", "33857629714", "100974493074",
         "493 passed, 2 warnings / SUCCESS",
+        "7e49f790a36f596cdb8ed3d7d6e17f5ace2787be",
+        "33861302915", "100986128743", "33861302926", "100986128780",
+        "497 passed, 2 warnings / SUCCESS",
     ):
         assert token in combined
 
 
-def test_phase13_candidate_keeps_legacy_truth_and_reproducibility_boundaries():
+def test_phase13_final_state_keeps_legacy_truth_and_reproducibility_boundaries():
     combined = "\n".join(
         _read(path)
         for path in (
-            "ROADMAP.md",
-            "README.md",
-            "DATA_MODELS.md",
+            "ROADMAP.md", "README.md", "DATA_MODELS.md",
             "docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md",
             "docs/implementation/P13_6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX.md",
         )
@@ -86,7 +76,7 @@ def test_phase13_candidate_keeps_legacy_truth_and_reproducibility_boundaries():
     assert "publisher/publication is not automatically the underlying origin" in combined
 
 
-def test_phase14_remains_sequential_and_requires_owner_activation_after_phase13_candidate():
+def test_phase14_remains_sequential_and_requires_owner_activation_after_phase13_validation():
     roadmap = _read("ROADMAP.md")
     readme = _read("README.md")
     plan = _read("docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md")

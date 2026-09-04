@@ -1,8 +1,8 @@
 # DATA_MODELS
 Canonical data concepts for K-Geopolitical Monitor.
 
-Version: 2.13
-Status: APPROVED / PHASE_12_VALIDATED / P13.0-P13.6_IMPLEMENTATION_VALIDATED / PHASE_13_CLOSURE_CANDIDATE
+Version: 2.14
+Status: APPROVED / PHASE_12_VALIDATED / PHASE_13_VALIDATED
 
 ## Principle
 
@@ -128,14 +128,15 @@ Each factual dimension is `UNKNOWN`, `LOW`, `MEDIUM` or `HIGH`. Coverage remains
 
 Verification decisions snapshot global-latest P13.3 evidence identities, global-latest independence-assessment identities, current P13.4 contradiction identities, the current policy version and current confidence version. Superseded records therefore cannot silently act as current inputs.
 
-Compatibility vocabulary remains `DETECTED`, `PARTLY_VERIFIED`, `VERIFIED`, `DISPUTED`, `UNVERIFIABLE`, but canonical promotion semantics are now policy-controlled rather than count-controlled.
+Compatibility vocabulary remains `DETECTED`, `PARTLY_VERIFIED`, `VERIFIED`, `DISPUTED`, `UNVERIFIABLE`, but canonical promotion semantics are policy-controlled rather than count-controlled.
 
 ## P13.6 Live Compatibility / Validation Matrix Contract
 
-State: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`.
+State: `VALIDATED`.
+Gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
 Implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`.
 Evidence-save HEAD: `2a482eb85b118fa5ea46396fa92707733dad5159`.
-Expected gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
+Strategic closure validation anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`.
 
 Implementation validation:
 - x64 run `33857212159`, job `100973174656`: `489 passed, 2 warnings / SUCCESS`;
@@ -143,6 +144,9 @@ Implementation validation:
 Evidence-save validation:
 - x64 run `33857629735`, job `100974493101`: `493 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33857629714`, job `100974493074`: native `aarch64`, `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+Strategic closure validation:
+- x64 run `33861302915`, job `100986128743`: `497 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33861302926`, job `100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 P13.6 introduces no database migration. Migration 028: `NONE`. The canonical migration set remains through `027_semantic_verification_policy_confidence.sql`.
 
@@ -160,7 +164,7 @@ If a semantic/live link is stale or ambiguous, the projection fails closed. If a
 - P13.5 references current P13.3/P13.4 state and stores auditable snapshots rather than mutating them;
 - P13.6 adds no persistence path and reads existing explicit links/decisions/reproducibility state;
 - legacy `origin_host`, `independent_origin_count`, scalar confidence and count-based verification remain historical fields, not sufficient proof of semantic independence or factual truth;
-- live compatibility projection is implemented, but production/live activation has not occurred.
+- live compatibility projection is validated, but production/live activation has not occurred.
 
 ## Runtime Storage Boundary
 
@@ -173,14 +177,14 @@ Shared/mixed canonical runtime storage remains not approved.
 
 - migrations 022-027: validated through P13.5; migration 028: `NONE`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`;
+- Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - Phase 13 P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
 - Phase 13 P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
 - Phase 13 P13.2: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
 - Phase 13 P13.3: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
 - Phase 13 P13.4: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`;
 - Phase 13 P13.5: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`;
-- P13.6: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`;
-- Phase 13 strategic gate: `PENDING_EXACT_HEAD_CLOSURE_REGRESSION`;
+- P13.6: `VALIDATED`;
 - Phase 14: `APPROVED_SEQUENTIAL / NOT_STARTED / OWNER_DECISION_REQUIRED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.

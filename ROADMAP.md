@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.15
+Version: 4.16
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -109,10 +109,16 @@ Decision: `PASS_WITH_KNOWN_LIMITATIONS`
 P12.6 closed Phase 12 without converting source availability into truth, coverage completeness or production acceptance.
 
 ## Phase 13 — Semantic Verification and Provenance Intelligence
-State: `CLOSURE_CANDIDATE / AWAITING_EXACT_HEAD_REGRESSION`
-Current activity: `PHASE_13_CANONICAL_CLOSURE_VALIDATION`
-Strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` — `PENDING_EXACT_HEAD_CLOSURE_REGRESSION`
+State: `VALIDATED`
+Strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
+Strategic closure validation anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`.
 Implementation plan: `docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md`
+Final strategic result: `docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_RESULT.md`
+Final checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED.md`
+
+Strategic closure validation:
+- x64 run `33861302915`, job `100986128743`: `497 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33861302926`, job `100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Phase 13 replaces analytical shortcuts with structured, provenance-bound, policy-controlled semantic verification while preserving backward compatibility with the validated Phase 12 acquisition/runtime stack.
 
@@ -201,10 +207,11 @@ Validated model:
 - legacy count/scalar APIs remain readable compatibility state and are not the canonical policy engine.
 
 ### P13.6 — Live Compatibility Cutover and Phase 13 Validation Matrix
-State: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`
+State: `VALIDATED`
+Gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
 Implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`.
 Evidence-save HEAD: `2a482eb85b118fa5ea46396fa92707733dad5159`.
-Expected strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
+Closure-candidate HEAD: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`.
 
 Implementation validation:
 - x64 run `33857212159`, job `100973174656`: `489 passed, 2 warnings / SUCCESS`;
@@ -214,6 +221,10 @@ Evidence-save validation:
 - x64 run `33857629735`, job `100974493101`: `493 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33857629714`, job `100974493074`: native `aarch64`, `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
+Strategic closure validation:
+- x64 run `33861302915`, job `100986128743`: `497 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33861302926`, job `100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
 Validated compatibility behavior:
 - `semantic_live_compatibility.py` is a read-only projection; migration 028 is `NONE`;
 - explicit P13.1 `LIVE_ANALYSIS_CLAIM` links are the semantic/live bridge;
@@ -222,8 +233,6 @@ Validated compatibility behavior:
 - stale and ambiguous current links fail closed;
 - E6 reproducibility metadata is exposed only when persisted; uninstrumented history remains `NOT_INSTRUMENTED` and is not reconstructed;
 - legacy and semantic rows remain readable and are not rewritten by the projection.
-
-Strategic Phase-13 closure is still pending the exact-head regression of this canonical synchronized candidate.
 
 ## Phase 14 — Owner Operational Intelligence Activation
 State: `APPROVED_SEQUENTIAL / NOT_STARTED`
@@ -251,18 +260,16 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.15`;
+- state synchronization: `v4.16`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
-- Phase 13: `CLOSURE_CANDIDATE / AWAITING_EXACT_HEAD_REGRESSION`;
+- Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
 - P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
 - P13.2: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
 - P13.3: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
 - P13.4: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`;
 - P13.5: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`;
-- P13.6: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`;
-- current engineering activity: `PHASE_13_CANONICAL_CLOSURE_VALIDATION`;
-- strategic Phase-13 gate: `PENDING_EXACT_HEAD_CLOSURE_REGRESSION`;
+- P13.6: `VALIDATED`;
 - Phase 14: `APPROVED_SEQUENTIAL / NOT_STARTED / OWNER_DECISION_REQUIRED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared runtime storage: `BLOCKED`;
@@ -273,5 +280,4 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - public sharing: `NOT_ACTIVE`;
 - paid providers: `NONE_APPROVED`.
 
-Next gate to evaluate after exact-head x64/native-ARM64 closure regression:
-`PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
+Next implementation gate is not activated automatically. Phase 14 requires the separate owner decision `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.

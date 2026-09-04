@@ -1,16 +1,21 @@
 # Phase 13 — Semantic Verification and Provenance Intelligence
 
 Date: 2026-09-04
-Status: `P13.0-P13.6_IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`
+Status: `VALIDATED`
 Project: K-Geopolitical Monitor
-Strategic phase gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` — `PENDING_EXACT_HEAD_CLOSURE_REGRESSION`
-Current activity: `PHASE_13_CANONICAL_CLOSURE_VALIDATION`
+Strategic phase gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`
+Strategic closure validation anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`
 
 ## Objective
 
 Replace historical title/domain-count analytical shortcuts with a structured, provenance-bound and policy-controlled semantic verification layer while preserving backward compatibility with the validated Phase 12 acquisition/runtime stack.
 
 Phase 13 improves analytical depth. It does not activate production/live operation, public ingress, shared runtime, paid providers or autonomous truth promotion.
+
+## Strategic Closure Evidence
+
+- x64 run `33861302915`, job `100986128743`: `497 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33861302926`, job `100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 ## Audited Compatibility Baseline
 
@@ -20,7 +25,7 @@ The existing baseline remains historical compatibility state:
 - historical `verification.py` uses an evidence-count threshold;
 - historical live analysis uses distinct origin hosts for `PARTLY_VERIFIED` behavior;
 - historical `confidence_engine.py` derives an independence term from source-ID count;
-- legacy `contradictions.py` is a small compatibility container.
+- legacy `contradictions.py` remains a compatibility container.
 
 These behaviors remain readable; they are not the canonical semantic rules for the additive Phase 13 layer.
 
@@ -99,14 +104,12 @@ Semantic extraction confidence is not factual verification confidence. Coverage 
 
 Gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
 Validation anchor: `69c3282077ad8dd90ef239c0594be56f9363bfe5`.
-
 Migration `023_structured_semantic_claim_model.sql` introduced append-only `semantic_claim_versions` and `semantic_claim_links`, explicit caller-controlled semantic identity, structured proposition dimensions and non-evidentiary links to legacy/live/raw state.
 
 ## P13.2 Provenance / Underlying-Origin Relation Model — VALIDATED
 
 Gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
 Validation anchor: `6cd37a334b122ae5de2b4cb6272f9cc222f1f174`.
-
 Migration `024_semantic_provenance_origin_relation_model.sql` introduced append-only provenance entities, semantic-claim provenance roles and provenance relations. Citation/syndication/repost/translation/derivation do not create independent corroboration.
 
 ## P13.3 Evidence Relation and Independence Assessment — VALIDATED
@@ -129,11 +132,11 @@ Formal closure repair HEAD: `f771ce0154e24b2218b309d8b3e6b880b408a146`.
 
 Implementation evidence:
 - x64 `33594740585 / 100135812629`: `447 passed, 1 warning / SUCCESS`;
-- native ARM64 `33594740549 / 100135812546`: `447 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+- native ARM64 `33594740549 / 100135812546`: native `aarch64`, `447 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Formal closure evidence:
 - x64 `33848458616 / 100945599309`: `463 passed, 2 warnings / SUCCESS`;
-- native ARM64 `33848458681 / 100945599390`: `463 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+- native ARM64 `33848458681 / 100945599390`: native `aarch64`, `463 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Migration `026_semantic_contradiction_model.sql` introduced append-only typed contradiction versions/evidence links. Resolution requires explicit reconciliation metadata but does not select a factual winner.
 
@@ -141,12 +144,12 @@ Migration `026_semantic_contradiction_model.sql` introduced append-only typed co
 
 Gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`.
 Validation anchor: `0f0d746c538dc5ce8f010fb80f8afbe00685414a`.
+Formal closure HEAD: `d2e80fe8a1bd998ca422be1e1001744be0e9e6e3`.
 
 Implementation validation evidence:
 - x64 run `33849149736`, job `100947736040`: `475 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33849149742`, job `100947736318`: native `aarch64`, `475 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Formal closure HEAD: `d2e80fe8a1bd998ca422be1e1001744be0e9e6e3`.
 Formal closure evidence:
 - x64 run `33856550956`, job `100971101911`: `480 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33856550913`, job `100971101835`: native `aarch64`, `480 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
@@ -162,31 +165,24 @@ Validated policy semantics:
 - global-latest P13.3/P13.4 snapshots prevent stale/superseded evidence, independence or contradiction versions from acting as current inputs;
 - legacy count-based verification and scalar confidence APIs remain compatibility state, not canonical P13.5 policy.
 
-Minimum modeled factual-confidence dimensions:
-- evidence sufficiency;
-- provenance independence;
-- proposition-specific authority/proximity;
-- contradiction resolution;
-- temporal freshness;
-- extraction certainty;
-- translation certainty;
-- claim-specific certainty;
-- coverage limitation remains separate.
+## P13.6 Live Compatibility Cutover and Phase 13 Validation Matrix — VALIDATED
 
-## P13.6 Live Compatibility Cutover and Phase 13 Validation Matrix — IMPLEMENTATION VALIDATED
-
-State: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`.
+Gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
 Implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`.
 Evidence-save HEAD: `2a482eb85b118fa5ea46396fa92707733dad5159`.
-Expected strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
+Strategic closure validation anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`.
 
 Implementation evidence:
 - x64 run `33857212159`, job `100973174656`: `489 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33857212157`, job `100973174256`: native `aarch64`, `489 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Evidence-save exact-head validation:
+Evidence-save validation:
 - x64 run `33857629735`, job `100974493101`: `493 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33857629714`, job `100974493074`: native `aarch64`, `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Strategic closure validation:
+- x64 run `33861302915`, job `100986128743`: `497 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33861302926`, job `100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Validated scope:
 - non-destructive compatibility/cutover path between historical `live_analysis_claims` / `live_analysis_evidence` and P13.1-P13.5 semantic state;
@@ -198,12 +194,11 @@ Validated scope:
 - deterministic restart/read compatibility validated;
 - migration 028: `NONE`.
 
-P13.6 must not and does not:
+P13.6 does not:
 - silently promote old `PARTLY_VERIFIED`/`VERIFIED` values into P13.5 decisions;
 - invent exact provenance or tool history that was not instrumented;
 - use a compatibility view as proof of independent origin;
-- activate production/live, public ingress, shared runtime or paid providers;
-- advance Phase 14 operational activation without an explicit owner decision.
+- activate production/live, public ingress, shared runtime or paid providers.
 
 ## Internal Phase 13 Sequencing
 
@@ -213,9 +208,9 @@ P13.6 must not and does not:
 - `P13.3` — evidence relation / independence — **VALIDATED**;
 - `P13.4` — typed contradiction lifecycle — **VALIDATED**;
 - `P13.5` — verification policy / multidimensional confidence — **VALIDATED**;
-- `P13.6` — live compatibility cutover, reproducibility and Phase 13 validation matrix — **IMPLEMENTATION VALIDATED / CLOSURE CANDIDATE**.
+- `P13.6` — live compatibility cutover, reproducibility and Phase 13 validation matrix — **VALIDATED**.
 
-P13.6 must be implemented, validated and saved before Phase 13 is closed. That condition is now satisfied; strategic closure still requires exact-head regression of the synchronized canonical closure candidate.
+P13.6 must be implemented, validated and saved before Phase 13 is closed. This requirement is satisfied. Phase 13 is closed at `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
 
 ## Permanent Boundaries
 
@@ -239,9 +234,7 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 
 Public KGM API/dashboard ingress remains not approved/deployed. Backend HTTPS remains not deployed. Private GPT backend Action remains not connected. Paid providers remain `NONE_APPROVED`. Public SSH TCP/22 from `0.0.0.0/0` and broad outbound egress remain explicit owner-approved candidate exceptions.
 
-## Current Gate
+## Next Phase Boundary
 
-Strategic gate candidate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
-State: `PENDING_EXACT_HEAD_CLOSURE_REGRESSION`.
-
-Phase 14 remains `APPROVED_SEQUENTIAL / NOT_STARTED`. Operational activation requires `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
+Phase 14 remains `APPROVED_SEQUENTIAL / NOT_STARTED`.
+Operational activation is not granted by Phase 13 closure and requires the separate owner decision `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.

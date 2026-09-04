@@ -1,11 +1,12 @@
 # P13.6 — Live Compatibility Cutover Result
 
 Date: 2026-09-04
-Status: `IMPLEMENTATION_VALIDATED / CANONICAL_CLOSURE_CANDIDATE / AWAITING_EXACT_HEAD_REGRESSION`
+Status: `VALIDATED`
 Package: `P13.6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX`
 Implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`
 Evidence-save HEAD: `2a482eb85b118fa5ea46396fa92707733dad5159`
-Strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` — `PENDING_EXACT_HEAD_CLOSURE_REGRESSION`
+Strategic closure validation anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`
+Strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` — `VALIDATED`
 
 ## Validation Evidence
 
@@ -13,9 +14,13 @@ Implementation validation:
 - x64 run `33857212159`, job `100973174656`: `489 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33857212157`, job `100973174256`: native `aarch64`, `489 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Evidence-save exact-head validation:
+Evidence-save validation:
 - x64 run `33857629735`, job `100974493101`: `493 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33857629714`, job `100974493074`: native `aarch64`, `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Strategic closure validation:
+- x64 run `33861302915`, job `100986128743`: `497 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33861302926`, job `100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 The warnings are dependency deprecation warnings in the FastAPI/Starlette/anyio test stack, not a P13.6 functional failure.
 
@@ -61,6 +66,6 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 
 ## Gate Decision
 
-P13.6 implementation and evidence-save state are validated. Canonical documents are now synchronized as a closure candidate. The strategic gate `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` remains pending until full x64 and native ARM64 regression complete successfully on the exact synchronized closure-candidate HEAD and the final gate evidence is saved.
+P13.6 is validated and Phase 13 closes at `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` using the green synchronized closure candidate `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be` as the strategic validation anchor.
 
 Phase 14 operational activation is not implied and still requires `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.

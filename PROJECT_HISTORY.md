@@ -2,8 +2,8 @@
 
 Chronological record of major approved K-Geopolitical Monitor milestones.
 
-Version: 4.12
-Status: ACTIVE / PHASE_13_CLOSURE_CANDIDATE / P13.6_IMPLEMENTATION_VALIDATED
+Version: 4.13
+Status: ACTIVE / PHASE_13_VALIDATED / PHASE_14_NOT_STARTED
 
 ## Validated Historical Baseline
 
@@ -11,55 +11,15 @@ Phases 0-11, owner-only private GPT pilot, E1-E7 and E9A remain validated as rec
 
 E9A final state remains `OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`; `PRODUCTION_LIVE = NOT_OPERATIONAL`.
 
-## 2026-09-01 — ROADMAP v4 / Phase 12
+## 2026-09-01 — Phase 12
 
-Owner approved the sequential intelligence-quality/source-expansion/owner-value development line through Phases 12-16. Phase 17 remains conditional and Phase 18 requires new architecture approval.
+ROADMAP v4 owner-approved the sequential intelligence-quality/source-expansion/owner-value development line. Phase 12 closed at `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`.
 
-## P12.0–P12.2
-
-- P12.0 gate `P12_0_CANONICAL_CONVERGENCE_VALIDATED`;
-- P12.1 gate `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`;
-- P12.2 gate `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`.
-
-These gates established canonical convergence, immutable source governance and reusable governed public adapters.
-
-## 2026-09-01 — P12.3 Priority Authoritative Source Pack
-
-P12.3 validated European Commission, European Parliament, GOV.UK and OSCE governed source paths. European Parliament remained explicitly `DEGRADED` for unattended acquisition; no bypass or third-party canonical mirror was introduced.
-
-Gate: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`.
-
-## 2026-09-01 — P12.4 Local-Language and Media Discovery Pack
-
-Validated initial public/free local-language discovery slice: Ukrainska Pravda (`uk`), Meduza (`ru`), RMF24 (`pl`), Haberturk (`tr`). This remained explicitly non-global and created no independent-origin inference from language/media counts.
-
-Validation anchor `595d7f0f0e6316e95aca518bb9309e615f239479`:
-- x64 `33531518780 / 99935566406`: `370 passed, 1 warning / SUCCESS`;
-- ARM64 `33531518525 / 99935564828`: native `aarch64`, `370 passed, 1 warning / SUCCESS`, host-bootstrap/unattended/systemd PASS;
-- controlled-live `33531518652 / 99935565895`: `4 SUCCESS / 0 FAILED`.
-
-Gate: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`.
-
-## 2026-09-01 — P12.5 Source Health, Freshness and Egress Inventory
-
-P12.5 separated governed portfolio state, measured acquisition state, measurement freshness and observed publisher-content freshness.
-
-Validation anchor `92d0c0516351e2af7ba836d3ae711dd414d22023`:
-- x64 `33533313297 / 99941475948`: `382 passed, 1 warning / SUCCESS`;
-- ARM64 `33533313313 / 99941475266`: native `aarch64`, `382 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS;
-- controlled-live `33533313654 / 99941475574`: `10/10` measured, `8 SUCCESS / 2 FAILED`.
-
-European Parliament parser degradation, Haberturk item-URL failure and stale observed OSCE content remained explicit measured limitations rather than truth/coverage conclusions.
-
-Gate: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`.
-
-## 2026-09-01 — P12.6 Phase 12 Validation Matrix
-
-Phase 12 closed `PASS_WITH_KNOWN_LIMITATIONS` at gate `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`.
-
-Final closure HEAD `3211994450c11698a553f5249e3ecec94079b5ad`:
+Final Phase-12 closure HEAD `3211994450c11698a553f5249e3ecec94079b5ad`:
 - x64 `33552777066 / 100006077954`: `391 passed, 1 warning / SUCCESS`;
 - ARM64 `33552776997 / 100006077747`: native `aarch64`, `391 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+P12.0-P12.6 gates remain historical validated state, including explicit European Parliament/Haberturk/OSCE source limitations and the non-global `uk/ru/pl/tr` initial local-language slice.
 
 ## 2026-09-01 — P13.0 Semantic Verification Architecture Contract
 
@@ -94,11 +54,7 @@ Citation, syndication, repost, translation and derivation remained provenance re
 
 Implementation anchor `639d6b2e64d618edfbe742636cb2ac0f663c68ee` added migration `025_semantic_evidence_relation_independence.sql`, typed evidence relations and explicit pairwise independence assessments.
 
-Implementation validation:
-- x64 `33575533714 / 100078564552`: `434 passed, 1 warning / SUCCESS`;
-- ARM64 `33575533657 / 100078564729`: native `aarch64`, `434 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
-
-Formal closure repair HEAD `9023dc22d36525b4dc9babbf21d97d184a1c110e`:
+Formal closure HEAD `9023dc22d36525b4dc9babbf21d97d184a1c110e`:
 - x64 `33594299961 / 100134512548`: `438 passed, 1 warning / SUCCESS`;
 - ARM64 `33594299979 / 100134512479`: native `aarch64`, `438 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
 
@@ -106,21 +62,17 @@ Different publisher/source/host/domain/language never suffices for independence;
 
 ## 2026-09-04 — P13.4 Typed Contradiction Model and Resolution Lifecycle
 
-Implementation/validation anchor `d4dbb8a8098cef960194935bd94d4640fd719050` added migration `026_semantic_contradiction_model.sql`, `semantic_contradictions.py`, append-only contradiction versions/evidence links and deterministic contradiction coverage.
-
-Implementation validation:
-- x64 `33594740585 / 100135812629`: `447 passed, 1 warning / SUCCESS`;
-- ARM64 `33594740549 / 100135812546`: native `aarch64`, `447 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
+Implementation/validation anchor `d4dbb8a8098cef960194935bd94d4640fd719050` added migration `026_semantic_contradiction_model.sql`.
 
 Formal closure repair HEAD `f771ce0154e24b2218b309d8b3e6b880b408a146`:
 - x64 `33848458616 / 100945599309`: `463 passed, 2 warnings / SUCCESS`;
 - ARM64 `33848458681 / 100945599390`: native `aarch64`, `463 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Contradiction identity binds two immutable semantic claims plus one typed dimension; lifecycle preserves disagreement history; resolution requires explicit reconciliation metadata and does not automatically select a factual winner. Gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
+Contradiction lifecycle preserves disagreement history; resolution requires explicit reconciliation metadata and does not automatically select a factual winner. Gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
 
 ## 2026-09-04 — P13.5 Verification Policy Engine and Multidimensional Confidence
 
-Implementation/validation anchor `0f0d746c538dc5ce8f010fb80f8afbe00685414a` added migration `027_semantic_verification_policy_confidence.sql`, `semantic_verification.py`, versioned verification policies, multidimensional factual-confidence profiles and append-only auditable semantic verification decisions.
+Implementation/validation anchor `0f0d746c538dc5ce8f010fb80f8afbe00685414a` added migration `027_semantic_verification_policy_confidence.sql`, versioned verification policies, multidimensional factual-confidence profiles and append-only auditable semantic verification decisions.
 
 Implementation validation:
 - x64 `33849149736 / 100947736040`: `475 passed, 2 warnings / SUCCESS`;
@@ -137,45 +89,50 @@ Validated policy semantics:
 - current `CONTRADICTS` evidence or active P13.4 contradiction blocks `VERIFIED`;
 - factual confidence remains multidimensional and stores no canonical scalar;
 - coverage limitation remains separate and non-promotional;
-- global-latest semantic snapshots prevent superseded evidence/independence/contradiction records from acting as current inputs;
 - legacy `verification.py` and `confidence_engine.py` remain readable compatibility APIs and are not the canonical P13.5 engine.
 
 Gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`.
 
 ## 2026-09-04 — P13.6 Live Compatibility Cutover and Validation Matrix
 
-Implementation anchor `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4` added read-only `semantic_live_compatibility.py` and deterministic compatibility coverage. No migration 028 was introduced.
+Implementation anchor `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4` added read-only `semantic_live_compatibility.py`. No migration 028 was introduced.
 
 Implementation validation:
 - x64 `33857212159 / 100973174656`: `489 passed, 2 warnings / SUCCESS`;
 - ARM64 `33857212157 / 100973174256`: native `aarch64`, `489 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Evidence-save HEAD `2a482eb85b118fa5ea46396fa92707733dad5159` saved the Phase-13 validation matrix/result/checkpoint without prematurely granting the strategic gate:
+Evidence-save HEAD `2a482eb85b118fa5ea46396fa92707733dad5159`:
 - x64 `33857629735 / 100974493101`: `493 passed, 2 warnings / SUCCESS`;
 - ARM64 `33857629714 / 100974493074`: native `aarch64`, `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 P13.6 validated a non-destructive bridge from explicit P13.1 `LIVE_ANALYSIS_CLAIM` links to current P13.5 semantic decisions. Legacy `PARTLY_VERIFIED`, scalar confidence, URL-host counts and `independent_origin_count` remain historical compatibility metadata. Stale/ambiguous links fail closed. E6 reproducibility metadata appears only when actually persisted; `NOT_INSTRUMENTED` history is never reconstructed. Legacy and semantic rows are not rewritten by the projection.
 
-State: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`.
-Strategic gate `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` remains pending exact-head regression of the synchronized canonical closure candidate.
+## 2026-09-04 — Phase 13 Strategic Closure
+
+Strategic closure validation anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`.
+Validation:
+- x64 `33861302915 / 100986128743`: `497 passed, 2 warnings / SUCCESS`;
+- ARM64 `33861302926 / 100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Gate granted: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
+
+The closure preserves all Phase-13 permanent boundaries, retains migration 028 as `NONE`, and does not activate production/live or Phase 14.
 
 ## Current State
 
 - strategic ROADMAP: `APPROVED / v4`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
-- Phase 13: `CLOSURE_CANDIDATE / AWAITING_EXACT_HEAD_REGRESSION`;
+- Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
 - P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
 - P13.2: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
 - P13.3: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
 - P13.4: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`;
 - P13.5: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`;
-- P13.6: `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE`;
-- current activity: `PHASE_13_CANONICAL_CLOSURE_VALIDATION`;
-- strategic gate: `PENDING_EXACT_HEAD_CLOSURE_REGRESSION`;
+- P13.6: `VALIDATED`;
 - Phase 14: `APPROVED_SEQUENTIAL / NOT_STARTED`;
 - operational activation: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`;
-- paid providers: none approved / `NONE_APPROVED`;
+- paid providers: `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - broad outbound egress: retained explicit owner-approved candidate exception;
 - public API/dashboard ingress: not approved/deployed;

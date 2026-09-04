@@ -1,11 +1,12 @@
 # P13.6 — Live Compatibility Cutover / Phase 13 Validation Matrix
 
 Date: 2026-09-04
-Status: `IMPLEMENTATION_VALIDATED / CANONICAL_CLOSURE_CANDIDATE / AWAITING_EXACT_HEAD_REGRESSION`
+Status: `VALIDATED`
 Package: `P13.6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX`
 Implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`
 Evidence-save HEAD: `2a482eb85b118fa5ea46396fa92707733dad5159`
-Strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` — `PENDING_EXACT_HEAD_CLOSURE_REGRESSION`
+Strategic closure validation anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`
+Strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` — `VALIDATED`
 
 ## P13.6 Validation Evidence
 
@@ -13,9 +14,13 @@ Implementation validation:
 - x64 run `33857212159`, job `100973174656`: `489 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33857212157`, job `100973174256`: native `aarch64`, `489 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Evidence-save exact-head validation:
+Evidence-save validation:
 - x64 run `33857629735`, job `100974493101`: `493 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33857629714`, job `100974493074`: native `aarch64`, `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Strategic closure validation:
+- x64 run `33861302915`, job `100986128743`: `497 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33861302926`, job `100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 ## Phase 13 Validation Chain
 
@@ -27,7 +32,7 @@ Evidence-save exact-head validation:
 | P13.3 | `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED` | implementation `639d6b2e64d618edfbe742636cb2ac0f663c68ee`; closure `9023dc22d36525b4dc9babbf21d97d184a1c110e`; `438 passed, 1 warning / SUCCESS` | different host/source/language != independence |
 | P13.4 | `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED` | implementation `d4dbb8a8098cef960194935bd94d4640fd719050`; closure `f771ce0154e24b2218b309d8b3e6b880b408a146`; `463 passed, 2 warnings / SUCCESS` | reconciliation != factual winner |
 | P13.5 | `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED` | implementation `0f0d746c538dc5ce8f010fb80f8afbe00685414a`; formal closure `d2e80fe8a1bd998ca422be1e1001744be0e9e6e3`; x64 `33856550956/100971101911`; ARM64 `33856550913/100971101835`; `480 passed, 2 warnings / SUCCESS` | explicit current independent SUPPORTS + multidimensional policy; no canonical scalar |
-| P13.6 | `IMPLEMENTATION_VALIDATED / CLOSURE_CANDIDATE` | `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`; x64 `33857212159/100973174656`; ARM64 `33857212157/100973174256`; `489 passed, 2 warnings / SUCCESS`; evidence-save `2a482eb85b118fa5ea46396fa92707733dad5159`, `493 passed, 2 warnings / SUCCESS` | read-only bridge; no legacy truth promotion; exact history only if instrumented |
+| P13.6 | `VALIDATED` | implementation `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`; evidence-save `2a482eb85b118fa5ea46396fa92707733dad5159`; closure `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`; `497 passed, 2 warnings / SUCCESS` | read-only bridge; no legacy truth promotion; exact history only if instrumented |
 
 ## Validated P13.6 Compatibility Contract
 
@@ -65,6 +70,8 @@ Validated rules:
 - unavailable persisted state is not replaced by ad hoc web research;
 - reconstructed/uninstrumented history is not labeled exact.
 
+A failed source does not prove an event did not occur. A successful probe does not prove exhaustive coverage.
+
 ## Runtime / Security Matrix Boundary
 
 Production/live operational status: NOT_OPERATIONAL
@@ -78,15 +85,8 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 - public SSH TCP/22 from `0.0.0.0/0`: retained owner-approved candidate exception;
 - broad outbound egress: retained owner-approved candidate exception.
 
-## Strategic Closure Candidate Decision
+## Strategic Closure Decision
 
-P13.0-P13.6 implementation and saved evidence are complete. Canonical synchronization is represented by this closure candidate, but the strategic gate is intentionally not yet granted.
-
-Required final proof before `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`:
-1. exact synchronized closure-candidate HEAD;
-2. full x64 regression success on that exact HEAD;
-3. full native ARM64 regression success on that exact HEAD, including bootstrap/unattended/systemd checks;
-4. saved final strategic result/checkpoint referencing that exact evidence;
-5. final exact-head closure guard regression.
+P13.0-P13.6 are validated and the strategic gate `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED` is granted using the green synchronized closure candidate `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be` as validation anchor.
 
 Phase 14 remains `APPROVED_SEQUENTIAL / NOT_STARTED` and requires `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
