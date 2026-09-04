@@ -55,6 +55,7 @@ def test_p15_6_phase15_migration_scope_remains_028_through_030():
         "030_forecast_performance_intelligence.sql",
     }
     assert phase15_migrations <= migrations
+    # Later validated phases may add migrations without changing Phase 15's historical scope.
     assert "031_delivery_intent_audit.sql" in migrations
 
 
@@ -108,7 +109,7 @@ def test_p15_6_phase14_activation_boundary_remains_unchanged():
     assert "PRODUCTION_LIVE = NOT_OPERATIONAL" in documents
 
 
-def test_p15_6_phase16_sequential_handoff_remains_declared():
+def test_p15_6_phase16_handoff_or_later_validated_state_remains_declared():
     roadmap = _text("ROADMAP.md")
     assert "Phase 16 — Delivery, Operator Experience and Quality Feedback" in roadmap
     assert "PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED" in roadmap
@@ -121,7 +122,7 @@ def test_p15_6_does_not_add_owner_projection_to_public_backend_routes():
     assert "OwnerForecastPerformanceProjection" not in backend
 
 
-def test_phase15_canonical_closure_state_is_synchronized_to_v4_19():
+def test_phase15_canonical_closure_evidence_remains_preserved_after_later_roadmap_syncs():
     roadmap = _text("ROADMAP.md")
     readme = _text("README.md")
     plan = _text("docs/implementation/PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_PLAN.md")
@@ -131,9 +132,10 @@ def test_phase15_canonical_closure_state_is_synchronized_to_v4_19():
         "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED.md"
     )
 
-    assert "Version: 4.19" in roadmap
-    assert "state synchronization: `v4.19`" in roadmap
-    assert "Version: 4.19" in readme
+    # Current ROADMAP version is allowed to advance after Phase 15. Historical closure
+    # evidence itself must remain exact and readable.
+    assert "Version: 4." in roadmap
+    assert "PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED" in roadmap
     assert "PHASE_15_VALIDATED" in readme
 
     for document in (roadmap, readme, plan, matrix, result, checkpoint):

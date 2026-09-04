@@ -17,10 +17,11 @@ def test_phase16_plan_identity_and_strategic_gate_are_explicit():
     text = _plan_text()
 
     assert "# Phase 16 — Delivery, Operator Experience and Quality Feedback" in text
-    assert "Plan status: `IN_PROGRESS`" in text
-    assert "ROADMAP basis: `v4.19`" in text
-    assert "Strategic phase state: `APPROVED_SEQUENTIAL / NOT_STARTED`" in text
+    assert "Plan status: `COMPLETE / VALIDATED`" in text
+    assert "ROADMAP basis: `v4.20`" in text
+    assert "Strategic phase state: `VALIDATED`" in text
     assert "Strategic phase gate: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`" in text
+    assert "Closure validation anchor: `18c2d5eed4145500bf72bbeeb0b6bbc92e8c7553`" in text
 
 
 def test_phase16_p16_0_validated_gate_and_evidence_are_recorded():
@@ -30,11 +31,8 @@ def test_phase16_p16_0_validated_gate_and_evidence_are_recorded():
     assert "State: `VALIDATED`" in text
     assert "Gate: `P16_0_DELIVERY_OPERATOR_QUALITY_ARCHITECTURE_CONTRACT_VALIDATED`" in text
     assert "Validation anchor: `bab44c76abdcf5da198b007aeda90e3e30ab4796`" in text
-    assert "x64 CI run `33915893936`, job `101162849016`: `594 passed, 2 warnings / SUCCESS`" in text
-    assert "native ARM64 run `33915893917`, job `101162848853`: native `aarch64`, `594 passed, 2 warnings / SUCCESS`" in text
-    assert "ARM64 host bootstrap: PASS" in text
-    assert "ARM64 unattended one-tick: PASS" in text
-    assert "ARM64 systemd contract: PASS" in text
+    assert "x64 run `33915893936`, job `101162849016`: `594 passed, 2 warnings / SUCCESS`" in text
+    assert "native ARM64 run `33915893917`, job `101162848853`: `594 passed, 2 warnings / SUCCESS`, native `aarch64`, bootstrap/unattended/systemd PASS" in text
 
 
 def test_phase16_plan_sequence_is_complete_and_ordered():
@@ -52,6 +50,9 @@ def test_phase16_plan_sequence_is_complete_and_ordered():
 
     positions = [text.index(heading) for heading in headings]
     assert positions == sorted(positions)
+    for heading in headings:
+        section = text[text.index(heading) :]
+        assert "State: `VALIDATED`" in section
 
 
 def test_phase16_plan_preserves_runtime_security_and_activation_boundaries():
@@ -62,7 +63,7 @@ def test_phase16_plan_preserves_runtime_security_and_activation_boundaries():
         "mixed/shared canonical runtime remains `BLOCKED`",
         "`PRODUCTION_LIVE = NOT_OPERATIONAL`",
         "paid providers remain `NONE_APPROVED`",
-        "owner execution remains disabled",
+        "owner execution remains disabled/separately gated",
         "public ingress remains not deployed",
         "no public route, shared runtime or paid provider is introduced by Phase 16",
     )
@@ -75,9 +76,9 @@ def test_phase16_plan_keeps_delivery_and_feedback_non_promotional_to_truth():
 
     required = (
         "delivery state is not factual-verification state",
-        "operator feedback measures usefulness, correctness perception, workflow quality or required correction; it is not independent event evidence by itself",
+        "operator feedback is workflow/quality evidence, not independent event evidence by itself",
         "feedback cannot directly mutate factual verification",
-        "quality metrics remain descriptive/advisory",
+        "quality analysis is descriptive/advisory until a separate policy-change decision",
         "no self-modifying verification, alert, source, forecast or delivery policy is authorized in Phase 16",
         "replacement of P13.5/P13.6 factual verification",
     )
@@ -89,30 +90,32 @@ def test_phase16_plan_requires_redaction_dedup_and_failure_isolation_before_real
     text = _plan_text()
 
     required = (
-        "redaction and data minimization occur before any external-transport boundary",
-        "deduplication and retry must be deterministic and auditable",
+        "redaction and data minimization occur before the transport boundary",
+        "deduplication and retry are deterministic and auditable",
         "provider failure is isolated from monitoring and canonical analytical persistence",
-        "local/in-memory/test sink for canonical automated tests",
+        "canonical deterministic validation sink is `InMemoryDeliverySink`",
         "no real external provider enabled by default",
     )
     for phrase in required:
         assert phrase in text
 
 
-def test_phase16_plan_does_not_pre_authorize_new_schema_or_provider_activation():
+def test_phase16_plan_records_schema_and_provider_activation_boundaries_after_validation():
     text = _plan_text()
 
-    assert "migration `031`: `NONE_FOR_P16_0`" in text
-    assert "Its exact schema is not pre-authorized by this plan" in text
-    assert "exact schema remains subject to P16.5 review" in text
-    assert "Paid providers remain forbidden unless separately approved" in text
+    assert "No migration. No provider, public ingress, owner execution or production/live activation." in text
+    assert "Migration: `031_delivery_intent_audit.sql`." in text
+    assert "Migration: `032_operator_quality_feedback.sql`." in text
+    assert "Telegram, email, Slack, SMS, push, webhook and other external channels remain outside the validated Phase-16 activation scope." in text
     assert "private GPT Action activation" in text
+    assert "paid/external provider use" in text
 
 
-def test_phase16_closure_requires_dual_architecture_validation():
+def test_phase16_closure_records_dual_architecture_validation():
     text = _plan_text()
 
-    assert "full x64 repository regression passes on the exact closure anchor" in text
-    assert "full native ARM64 regression passes on the same exact closure anchor" in text
-    assert "ARM64 host bootstrap, unattended one-tick smoke and systemd contract remain PASS" in text
-    assert "No P16 subphase is promoted from implemented to validated solely because code exists" in text
+    assert "Closure validation anchor: `18c2d5eed4145500bf72bbeeb0b6bbc92e8c7553`" in text
+    assert "x64 run `33920882676`, job `101178676207`: `638 passed, 2 warnings / SUCCESS`" in text
+    assert "native ARM64 run `33920882682`, job `101178676586`: `638 passed, 2 warnings / SUCCESS`, native `aarch64`, bootstrap/unattended/systemd PASS" in text
+    assert "Every implementation gate was validated on an exact repository anchor with full x64 and native ARM64 regression" in text
+    assert "Strategic decision: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`" in text
