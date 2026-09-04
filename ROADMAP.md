@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.19
+Version: 4.20
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -323,8 +323,53 @@ Phase 15 validates provenance-bound outcome resolution, immutable calibration ob
 Phase 15 closure does not activate owner execution, production/live operation, public ingress, shared runtime or paid providers. Phase 14 remains `VALIDATED_READY / NOT_ACTIVATED` and operational activation remains `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
 
 ## Phase 16 — Delivery, Operator Experience and Quality Feedback
-State: `APPROVED_SEQUENTIAL / NOT_STARTED`
+State: `VALIDATED`
+Strategic gate: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`
+Closure validation anchor: `18c2d5eed4145500bf72bbeeb0b6bbc92e8c7553`.
+Implementation plan: `docs/implementation/PHASE_16_DELIVERY_OPERATOR_QUALITY_FEEDBACK_PLAN.md`
+Validation matrix: `docs/implementation/P16_7_VALIDATION_MATRIX.md`
+Final strategic result: `docs/implementation/PHASE_16_DELIVERY_OPERATOR_QUALITY_FEEDBACK_RESULT.md`
+Final checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-05_PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED.md`
+
+Strategic closure validation:
+- x64 run `33920882676`, job `101178676207`: `638 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33920882682`, job `101178676586`: native `aarch64`, `638 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+### P16.0 — Delivery / Operator / Quality Architecture Contract
+State: `VALIDATED`
+Gate: `P16_0_DELIVERY_OPERATOR_QUALITY_ARCHITECTURE_CONTRACT_VALIDATED`
+
+### P16.1 — Canonical Delivery Intent and Audit Persistence
+State: `VALIDATED`
+Gate: `P16_1_DELIVERY_INTENT_AUDIT_PERSISTENCE_VALIDATED`
+
+### P16.2 — Delivery Policy, Redaction and Data-Minimized Payload Projection
+State: `VALIDATED`
+Gate: `P16_2_DELIVERY_POLICY_REDACTION_VALIDATED`
+
+### P16.3 — Provider-Neutral Delivery Transport and Retry Isolation
+State: `VALIDATED`
+Gate: `P16_3_PROVIDER_NEUTRAL_DELIVERY_TRANSPORT_VALIDATED`
+
+### P16.4 — Owner Delivery and Operator-Experience Read Model
+State: `VALIDATED`
+Gate: `P16_4_OWNER_OPERATOR_EXPERIENCE_PROJECTION_VALIDATED`
+
+### P16.5 — Operator Quality Feedback Persistence
+State: `VALIDATED`
+Gate: `P16_5_OPERATOR_QUALITY_FEEDBACK_PERSISTENCE_VALIDATED`
+
+### P16.6 — Deterministic Quality Metrics and Advisory Feedback Loop
+State: `VALIDATED`
+Gate: `P16_6_ADVISORY_QUALITY_FEEDBACK_LOOP_VALIDATED`
+
+### P16.7 — Phase 16 Validation Matrix / Strategic Closure
+State: `VALIDATED`
 Gate: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`
+
+Phase 16 validates a project-local auditable delivery/operator/quality-feedback loop with deterministic idempotency, redaction before transport, bounded retry/failure isolation, owner read-only delivery projection, append-only feedback and exact-cohort advisory quality observations. Delivery state, receipts, operator feedback and quality metrics cannot promote factual verification; canonical verification remains P13.5/P13.6 only.
+
+Phase 16 introduced additive migrations `031_delivery_intent_audit.sql` and `032_operator_quality_feedback.sql`. No real external delivery provider, owner execution, production/live operation, public ingress, shared runtime or paid provider is activated by Phase 16 closure.
 
 ## Phase 17 — Controlled External Publication Readiness
 State: `CONDITIONAL / NOT_ACTIVATED`
@@ -337,7 +382,7 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.19`;
+- state synchronization: `v4.20`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -351,7 +396,9 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - P14.0–P14.6: `VALIDATED`;
 - Phase 15: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`;
 - P15.0–P15.6: `VALIDATED`;
-- Phase 16: `APPROVED_SEQUENTIAL / NOT_STARTED`;
+- Phase 16: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`;
+- P16.0–P16.7: `VALIDATED`;
+- Phase 17: `CONDITIONAL / NOT_ACTIVATED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared runtime storage: `BLOCKED`;
 - production/live operational status: `NOT_OPERATIONAL`;
@@ -361,4 +408,4 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - public sharing: `NOT_ACTIVE`;
 - paid providers: `NONE_APPROVED`.
 
-Phase 15 is strategically closed at `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`. Phase 16 is the next approved sequential engineering phase. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`; no production/live transition is implied.
+Phase 16 is strategically closed at `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`. Phase 17 remains conditional and requires an explicit owner decision before controlled external publication readiness can be activated. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`; no production/live transition is implied.
