@@ -118,18 +118,30 @@ Validated boundaries:
 
 ### P17.1 — Deterministic Publication Eligibility Policy
 
-State: `NOT_STARTED`
-Target gate: `P17_1_PUBLICATION_ELIGIBILITY_POLICY_VALIDATED`
+State: `VALIDATED`
+Gate: `P17_1_PUBLICATION_ELIGIBILITY_POLICY_VALIDATED`
+Validation anchor: `3b26863f622b5db3cc07cda156f4ea7b2be9d889`
 
-Required behavior:
+Validation evidence:
 
-- explicit candidate identity and canonical references;
-- typed eligible/blocked reasons;
-- fail-closed handling of missing, stale or ambiguous canonical state;
-- explicit handling of verification, contradiction, provenance, uncertainty and coverage limitations;
-- publication eligibility cannot promote factual verification;
-- no policy decision rewrites upstream semantic state;
-- publication policy version is exposed in derived output.
+- x64 CI run `33932722553`, job `101214469518`: `673 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33932722586`, job `101214469696`: native `aarch64`, `673 passed, 2 warnings / SUCCESS`;
+- ARM64 host bootstrap: PASS;
+- ARM64 unattended one-tick: PASS;
+- ARM64 systemd contract: PASS.
+
+Validated policy: `KGM_PUBLICATION_ELIGIBILITY_POLICY_V1` in `src/kgeopolitical_monitor/publication_eligibility.py`.
+
+Validated behavior:
+
+- `ELIGIBLE` requires an unambiguous current P13.6 link, current P13.5 `VERIFIED` decision, exact referenced factual-confidence row and explicit public-safety state `ALLOWED`;
+- `UNLINKED`, `STALE_LINK`, `AMBIGUOUS_CURRENT_LINKS`, missing current decision or missing exact confidence reference fail closed;
+- legacy verification status, scalar confidence, publisher/host/source counts and legacy independent-origin counts cannot bypass the canonical semantic path;
+- `LIMITED` or `UNKNOWN` coverage and persisted reproducibility limitations remain explicit limitation labels and do not become hidden truth-promotion rules;
+- eligibility cannot promote factual verification or rewrite upstream semantic state;
+- candidate identity is deterministic and bound to the canonical semantic decision plus public-safety state;
+- migration: `NONE`;
+- no public route, target, provider, external credential or network publication is activated.
 
 ### P17.2 — Public-Safe Projection and Redaction
 
@@ -229,6 +241,6 @@ Phase 17 engineering readiness does not authorize actual external publication or
 
 Plan decision: `IN_PROGRESS`.
 
-P17.0 is validated on exact implementation anchor `e7281428cc226c4f68223f3b89503a3aa47a92fa` with matching successful x64 and native ARM64 regressions. Strategic Phase 17 remains `CONDITIONAL / NOT_ACTIVATED`; no publication activation is implied.
+P17.0 and P17.1 are validated on exact implementation anchors with matching successful x64 and native ARM64 regressions. Strategic Phase 17 remains `CONDITIONAL / NOT_ACTIVATED`; no publication activation is implied.
 
-Next sequential engineering task: P17.1 — Deterministic Publication Eligibility Policy.
+Next sequential engineering task: P17.2 — Public-Safe Projection and Redaction.
