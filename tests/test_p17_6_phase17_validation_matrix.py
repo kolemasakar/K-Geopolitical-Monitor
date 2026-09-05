@@ -132,3 +132,14 @@ def test_p17_6_closure_records_dual_architecture_and_arm_host_checks():
     assert "ARM64 systemd contract: PASS" in text
     assert "33937240088" in text and "101227433133" in text
     assert "33937240097" in text and "101227433249" in text
+
+def test_p17_6_current_account_capability_blocker_is_canonical_and_non_promotional():
+    decision = ROOT / "docs" / "decisions" / "PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md"
+    result = ROOT / "docs" / "implementation" / "PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_RESULT.md"
+    checkpoint = ROOT / "docs" / "checkpoints" / "PROJECT_CHECKPOINT_2026-09-05_PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED_READY.md"
+    for path in (PLAN, MATRIX, decision, result, checkpoint):
+        text = path.read_text(encoding="utf-8")
+        assert "PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY" in text
+    matrix_text = MATRIX.read_text(encoding="utf-8")
+    assert "Current account external-publication capability is `UNAVAILABLE`" in matrix_text
+    assert "blocks real publication independently of owner approval" in matrix_text

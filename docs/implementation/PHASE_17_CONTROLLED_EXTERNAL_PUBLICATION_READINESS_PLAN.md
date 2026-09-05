@@ -7,7 +7,10 @@ Project: K-Geopolitical Monitor
 ROADMAP basis: `v4.20`
 Strategic phase state: `VALIDATED_READY / NOT_ACTIVATED`
 Readiness gate: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
+Current external publication capability: `UNAVAILABLE`
+Capability gate: `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`
 Activation gate: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`
+Capability decision: `docs/decisions/PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md`
 Planning gate: `P17_CONTROLLED_PUBLICATION_READINESS_PLAN_VALIDATED`
 Base repository control point: `544eda6267fef8c146c155178809154b6c15c2ae`
 Strategic readiness closure anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`
@@ -16,7 +19,7 @@ Strategic readiness closure anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`
 
 Validate a controlled, public-safe publication-readiness layer over canonical KGM intelligence without activating publication, public ingress, a public GPT Action, shared runtime, owner execution or paid providers.
 
-Phase 17 engineering reached `VALIDATED_READY / NOT_ACTIVATED`. Actual publication remains a separate owner decision under `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`.
+Phase 17 engineering reached `VALIDATED_READY / NOT_ACTIVATED`. For the current account, actual external publication is unavailable and blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`. If that account/platform capability changes later, actual publication still remains a separate owner decision under `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` and requires fresh launch-time validation.
 
 ## Plan Validation
 
@@ -34,6 +37,12 @@ Phase 17 does not reinterpret E8 as an active external/public system.
 - `E8_PUBLIC_GPT = NOT_PUBLISHED`;
 - the owner E3 Action API and E5 admin dashboard are not public contracts and must not be exposed directly;
 - Any actual launch gate must revalidate then-current platform eligibility and publication requirements.
+
+## Current Account Capability Boundary
+
+The project owner has established that real external publication is unavailable for the current account. This is an account/platform capability constraint, not a Phase 17 engineering-readiness failure. While it remains active, no workflow may attempt a real publication target, and owner approval alone is insufficient to bypass the constraint.
+
+Reopening the publication path requires a future account/platform state in which the needed capability exists. Even then, activation remains separately owner-gated by `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` and requires fresh launch-time platform, security, privacy, exposure and rollback validation. No account upgrade, paid plan, provider purchase or alternative external publication channel is implied or authorized by this state record.
 
 ## Authoritative Runtime / Security Boundary
 
@@ -120,7 +129,7 @@ Implementation is a provider-neutral interface with a deterministic local/in-mem
 - target failure is isolated from canonical analytical persistence;
 - duplicate release effects are deterministically suppressed;
 - target receipts are publication evidence only;
-- any real target/provider requires a separate explicit owner activation decision.
+- any real target/provider requires both available account/platform publication capability and a separate explicit owner activation decision.
 
 ### P17.5 — Owner Publication Readiness Projection and Approval Gate
 State: `VALIDATED`
@@ -143,7 +152,7 @@ Closure validation anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`
 
 P17.6 confirms publication/truth separation, publisher/publication ≠ underlying-origin proof, receipts/engagement ≠ truth operators, no eligibility truth promotion, redaction before export, owner/admin isolation, preserved provenance/uncertainty/limitations, no reconstructed exact history, deterministic local/test target only, target-failure isolation, no unexpected migration/shadow truth store, `PROJECT_LOCAL_ONLY`, mixed/shared runtime `BLOCKED`, `PRODUCTION_LIVE = NOT_OPERATIONAL`, owner activation separately gated, backend HTTPS/public ingress not deployed, public GPT Action not connected/approved, public sharing inactive, paid providers `NONE_APPROVED`, Phase 18 not activated, exact-head x64 + native ARM64 regression, and ARM64 bootstrap/unattended/systemd PASS.
 
-Phase 17 is therefore `VALIDATED_READY / NOT_ACTIVATED`. It must not set publication/sharing to active. Actual publication requires a later explicit owner decision plus then-current platform/security/privacy/exposure/rollback validation.
+Phase 17 is therefore `VALIDATED_READY / NOT_ACTIVATED`. It must not set publication/sharing to active. For the current account, actual external publication is blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`. If that capability changes later, actual publication requires a later explicit owner decision plus then-current platform/security/privacy/exposure/rollback validation.
 
 ## Validation Strategy Per Gate
 
@@ -161,5 +170,5 @@ No actual external publication/public sharing, GPT Store publication, public GPT
 
 ## Current Decision
 
-Plan decision: `COMPLETE / VALIDATED_READY / NOT_ACTIVATED`.
-P17.0 through P17.6 are validated. Strategic readiness gate `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED` is satisfied on closure anchor `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`. Publication remains `NOT_ACTIVATED`; the next Phase 17 action is owner-only and requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`.
+Plan decision: `COMPLETE / VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`.
+P17.0 through P17.6 are validated. Strategic readiness gate `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED` is satisfied on closure anchor `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`. Publication remains `NOT_ACTIVATED`. For the current account, no real external publication action is available while `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY` remains active. If the account/platform capability changes later, activation still requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` and fresh launch-time validation.

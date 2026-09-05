@@ -4,8 +4,10 @@ Date: 2026-09-05
 Project: K-Geopolitical Monitor
 Candidate basis / parent: `69010a348cd35fd0b2361c9b32c5baa9428c5816`
 Phase readiness gate: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
+Capability gate: `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`
 Activation gate: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`
-Final decision: `VALIDATED_READY / NOT_ACTIVATED`
+Capability decision: `docs/decisions/PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md`
+Final decision: `VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`
 Closure validation anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`
 
 ## Validated Subphase Evidence
@@ -46,7 +48,8 @@ Closure validation anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`
 | Public sharing remains `NOT_ACTIVE` | PASS |
 | Paid providers remain `NONE_APPROVED` | PASS |
 | Phase 18 shared/team runtime is not activated or pre-approved | PASS |
-| Actual external publication remains separately owner-gated | PASS |
+| Current account external-publication capability is `UNAVAILABLE` and blocks real publication independently of owner approval | PASS |
+| If account/platform capability changes later, actual external publication remains separately owner-gated and requires fresh launch-time validation | PASS |
 
 ## Exact-Head Strategic Closure Validation
 
@@ -63,4 +66,4 @@ Exact closure anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`.
 
 `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
 
-Phase 17 is `VALIDATED_READY / NOT_ACTIVATED`. This readiness decision does not activate publication, public ingress, public GPT Action, backend HTTPS, owner execution, shared runtime or paid providers. Actual publication requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus then-current security, privacy, exposure, platform and rollback validation.
+Phase 17 is `VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`. This readiness decision does not activate publication, public ingress, public GPT Action, backend HTTPS, owner execution, shared runtime or paid providers. For the current account, real external publication is unavailable and blocked independently of owner approval. If the account/platform capability changes later, actual publication still requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus then-current security, privacy, exposure, platform and rollback validation.
