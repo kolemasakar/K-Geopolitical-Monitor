@@ -170,6 +170,7 @@ Validated behavior:
 - bounded public semantic text redacts authentication material, secret values and private filesystem paths;
 - projection identity is deterministic and content-sensitive;
 - migration: `NONE`;
+- no public HTTP route is required or authorized by this gate;
 - no public HTTP route, target, provider, external credential or network publication is activated.
 
 ### P17.3 — Release Manifest, Provenance and Reproducibility
