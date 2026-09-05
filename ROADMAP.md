@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.20
+Version: 4.21
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -372,8 +372,50 @@ Phase 16 validates a project-local auditable delivery/operator/quality-feedback 
 Phase 16 introduced additive migrations `031_delivery_intent_audit.sql` and `032_operator_quality_feedback.sql`. No real external delivery provider, owner execution, production/live operation, public ingress, shared runtime or paid provider is activated by Phase 16 closure.
 
 ## Phase 17 — Controlled External Publication Readiness
-State: `CONDITIONAL / NOT_ACTIVATED`
-Gate: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`
+State: `VALIDATED_READY / NOT_ACTIVATED`
+Readiness gate: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
+Activation gate: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`
+Closure validation anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`.
+Implementation plan: `docs/implementation/PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_PLAN.md`
+Validation matrix: `docs/implementation/P17_6_VALIDATION_MATRIX.md`
+Final strategic result: `docs/implementation/PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_RESULT.md`
+Final checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-05_PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED_READY.md`
+
+Strategic readiness closure validation:
+- x64 run `33937240088`, job `101227433133`: `716 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33937240097`, job `101227433249`: native `aarch64`, `716 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+### P17.0 — Controlled Publication Architecture and Safety Contract
+State: `VALIDATED`
+Gate: `P17_0_CONTROLLED_PUBLICATION_ARCHITECTURE_CONTRACT_VALIDATED`
+
+### P17.1 — Deterministic Publication Eligibility Policy
+State: `VALIDATED`
+Gate: `P17_1_PUBLICATION_ELIGIBILITY_POLICY_VALIDATED`
+
+### P17.2 — Public-Safe Projection and Redaction
+State: `VALIDATED`
+Gate: `P17_2_PUBLIC_SAFE_PROJECTION_REDACTION_VALIDATED`
+
+### P17.3 — Release Manifest, Provenance and Reproducibility
+State: `VALIDATED`
+Gate: `P17_3_RELEASE_MANIFEST_PROVENANCE_VALIDATED`
+
+### P17.4 — Provider-Neutral Local/Test Publication Target
+State: `VALIDATED`
+Gate: `P17_4_PROVIDER_NEUTRAL_PUBLICATION_TARGET_VALIDATED`
+
+### P17.5 — Owner Publication Readiness Projection and Approval Gate
+State: `VALIDATED`
+Gate: `P17_5_OWNER_PUBLICATION_READINESS_PROJECTION_VALIDATED`
+
+### P17.6 — Phase 17 Validation Matrix / Strategic Readiness Closure
+State: `VALIDATED`
+Gate: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
+
+Phase 17 validates publication eligibility, public-safe projection/redaction, deterministic release manifests/packages, a provider-neutral local/test target and an owner read-only readiness projection without changing canonical factual-verification authority. Publication lifecycle state, eligibility, receipts and engagement cannot promote factual verification; publisher/publication identity is not underlying-origin proof; canonical verification remains P13.5/P13.6 only.
+
+Phase 17 introduced no database migration; migration `033` remains uncreated/not pre-authorized. No real external publication target, owner execution, production/live operation, public ingress, public GPT Action, backend HTTPS, shared runtime or paid provider is activated by readiness closure. Actual publication remains separately gated by `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`.
 
 ## Phase 18 — Shared / Team Runtime
 State: `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`
@@ -382,7 +424,7 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.20`;
+- state synchronization: `v4.21`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -398,7 +440,9 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - P15.0–P15.6: `VALIDATED`;
 - Phase 16: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`;
 - P16.0–P16.7: `VALIDATED`;
-- Phase 17: `CONDITIONAL / NOT_ACTIVATED`;
+- Phase 17: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED / OWNER_DECISION_REQUIRED`;
+- P17.0–P17.6: `VALIDATED`;
+- Phase 18: `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared runtime storage: `BLOCKED`;
 - production/live operational status: `NOT_OPERATIONAL`;
@@ -408,4 +452,4 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - public sharing: `NOT_ACTIVE`;
 - paid providers: `NONE_APPROVED`.
 
-Phase 16 is strategically closed at `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`. Phase 17 remains conditional and requires an explicit owner decision before controlled external publication readiness can be activated. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`; no production/live transition is implied.
+Phase 17 readiness is strategically closed at `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`. External publication remains inactive and requires the explicit owner gate `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 remains conditional and requires new architecture approval; no production/live transition is implied.

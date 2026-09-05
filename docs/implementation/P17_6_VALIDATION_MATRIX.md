@@ -5,7 +5,8 @@ Project: K-Geopolitical Monitor
 Candidate basis / parent: `69010a348cd35fd0b2361c9b32c5baa9428c5816`
 Phase readiness gate: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
 Activation gate: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`
-Decision before exact-head closure validation: `CLOSURE_CANDIDATE / NOT_ACTIVATED`
+Final decision: `VALIDATED_READY / NOT_ACTIVATED`
+Closure validation anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`
 
 ## Validated Subphase Evidence
 
@@ -17,10 +18,11 @@ Decision before exact-head closure validation: `CLOSURE_CANDIDATE / NOT_ACTIVATE
 | P17.3 | VALIDATED | `P17_3_RELEASE_MANIFEST_PROVENANCE_VALIDATED` | `85453a38bacfcb64c69be4d1b671152f6a54849c` | run `33936315228`, job `101224837960`, `694 passed, 2 warnings / SUCCESS` | run `33936315269`, job `101224838054`, `694 passed, 2 warnings / SUCCESS`, `aarch64`, host checks PASS |
 | P17.4 | VALIDATED | `P17_4_PROVIDER_NEUTRAL_PUBLICATION_TARGET_VALIDATED` | `36548f79cf254621646fa2e2bf863b70944754d2` | run `33936443430`, job `101225195013`, `701 passed, 2 warnings / SUCCESS` | run `33936443416`, job `101225194956`, `701 passed, 2 warnings / SUCCESS`, `aarch64`, host checks PASS |
 | P17.5 | VALIDATED | `P17_5_OWNER_PUBLICATION_READINESS_PROJECTION_VALIDATED` | `69010a348cd35fd0b2361c9b32c5baa9428c5816` | run `33936731551`, job `101226007216`, `707 passed, 2 warnings / SUCCESS` | run `33936731537`, job `101226007176`, `707 passed, 2 warnings / SUCCESS`, `aarch64`, bootstrap/unattended/systemd PASS |
+| P17.6 | VALIDATED | `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED` | `daca1240cb1f99267795b39ddf7da32eb4fa9ec0` | run `33937240088`, job `101227433133`, `716 passed, 2 warnings / SUCCESS` | run `33937240097`, job `101227433249`, `716 passed, 2 warnings / SUCCESS`, `aarch64`, bootstrap/unattended/systemd PASS |
 
 ## Strategic Readiness Assertions
 
-| Assertion | Candidate result |
+| Assertion | Result |
 |---|---|
 | Publication lifecycle is separate from canonical factual-verification lifecycle | PASS |
 | Publisher/publication identity is not underlying-origin proof | PASS |
@@ -46,15 +48,19 @@ Decision before exact-head closure validation: `CLOSURE_CANDIDATE / NOT_ACTIVATE
 | Phase 18 shared/team runtime is not activated or pre-approved | PASS |
 | Actual external publication remains separately owner-gated | PASS |
 
-## Closure-Candidate Exact-Head Validation
+## Exact-Head Strategic Closure Validation
 
-The strategic readiness gate is **not promoted by this document alone**. The exact closure-candidate commit containing this matrix and its guards must pass:
+Exact closure anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`.
 
-- full x64 repository regression: `PENDING EXACT-HEAD VALIDATION`;
-- full native ARM64 repository regression on the same exact commit: `PENDING EXACT-HEAD VALIDATION`;
-- native architecture check `aarch64`: `PENDING EXACT-HEAD VALIDATION`;
-- ARM64 host bootstrap: `PENDING EXACT-HEAD VALIDATION`;
-- ARM64 unattended one-tick smoke with no execution side effect: `PENDING EXACT-HEAD VALIDATION`;
-- ARM64 systemd contract: `PENDING EXACT-HEAD VALIDATION`.
+- full x64 repository regression: run `33937240088`, job `101227433133`, `716 passed, 2 warnings / SUCCESS`;
+- full native ARM64 repository regression on the same exact commit: run `33937240097`, job `101227433249`, `716 passed, 2 warnings / SUCCESS`;
+- native architecture check `aarch64`: PASS;
+- ARM64 host bootstrap: PASS;
+- ARM64 unattended one-tick smoke with no execution side effect: PASS;
+- ARM64 systemd contract: PASS.
 
-Only after those checks succeed may P17.6 be promoted to `VALIDATED` and Phase 17 to `VALIDATED_READY / NOT_ACTIVATED`. Actual publication still requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus then-current security, privacy, exposure, platform and rollback validation.
+## Final Decision
+
+`PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
+
+Phase 17 is `VALIDATED_READY / NOT_ACTIVATED`. This readiness decision does not activate publication, public ingress, public GPT Action, backend HTTPS, owner execution, shared runtime or paid providers. Actual publication requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus then-current security, privacy, exposure, platform and rollback validation.

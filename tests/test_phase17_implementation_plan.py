@@ -15,15 +15,18 @@ def test_phase17_plan_identity_baseline_and_activation_gate_are_explicit():
     roadmap = _text(ROADMAP_PATH)
 
     assert "# Phase 17 — Controlled External Publication Readiness" in plan
+    # v4.20 is the historical planning basis; the current synchronized roadmap may advance.
     assert "ROADMAP basis: `v4.20`" in plan
-    assert "Strategic phase state: `CONDITIONAL / NOT_ACTIVATED`" in plan
+    assert "Strategic phase state: `VALIDATED_READY / NOT_ACTIVATED`" in plan
+    assert "PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED" in plan
     assert "PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION" in plan
     assert "P17_CONTROLLED_PUBLICATION_READINESS_PLAN_VALIDATED" in plan
     assert "DEFINED -> VALIDATED_PLAN -> IN_PROGRESS -> COMPLETE / VALIDATED_READY / NOT_ACTIVATED" in plan
 
-    assert "Version: 4.20" in roadmap
+    assert "Version: 4.21" in roadmap
     assert "Phase 17 — Controlled External Publication Readiness" in roadmap
-    assert "CONDITIONAL / NOT_ACTIVATED" in roadmap
+    assert "VALIDATED_READY / NOT_ACTIVATED" in roadmap
+    assert "PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED" in roadmap
     assert "PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION" in roadmap
 
 
@@ -53,6 +56,9 @@ def test_phase17_plan_sequence_is_complete_and_ordered():
     ]
     positions = [plan.index(heading) for heading in headings]
     assert positions == sorted(positions)
+    for heading in headings:
+        section = plan.split(heading, 1)[1].split("### P17.", 1)[0]
+        assert "State: `VALIDATED`" in section
 
 
 def test_phase17_plan_separates_publication_from_truth_and_origin():
@@ -117,9 +123,13 @@ def test_phase17_readiness_closure_remains_distinct_from_publication_activation(
     assert "Actual publication requires a later explicit owner decision" in plan
 
 
-def test_phase17_plan_requires_exact_dual_architecture_validation():
+def test_phase17_plan_records_exact_dual_architecture_closure_validation():
     plan = _text(PLAN_PATH)
     assert "full x64 repository regression passes on the exact readiness closure anchor" in plan
     assert "full native ARM64 regression passes on the same exact readiness closure anchor" in plan
     assert "ARM64 host bootstrap, unattended one-tick smoke and systemd contract remain PASS" in plan
     assert "No P17 subphase is promoted from implemented to validated solely because code exists" in plan
+    assert "daca1240cb1f99267795b39ddf7da32eb4fa9ec0" in plan
+    assert "33937240088" in plan and "101227433133" in plan
+    assert "33937240097" in plan and "101227433249" in plan
+    assert "716 passed, 2 warnings / SUCCESS" in plan

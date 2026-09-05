@@ -20,28 +20,29 @@ MIGRATIONS = ROOT / "migrations"
 BACKEND_API = ROOT / "src" / "kgeopolitical_monitor" / "backend_action_api.py"
 
 
-def test_p17_6_matrix_defines_readiness_gate_and_separate_activation_gate():
+def test_p17_6_matrix_defines_validated_readiness_gate_and_separate_activation_gate():
     text = MATRIX.read_text(encoding="utf-8")
     assert "PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED" in text
     assert "PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION" in text
-    assert "CLOSURE_CANDIDATE / NOT_ACTIVATED" in text
-    assert "PENDING EXACT-HEAD VALIDATION" in text
+    assert "VALIDATED_READY / NOT_ACTIVATED" in text
+    assert "daca1240cb1f99267795b39ddf7da32eb4fa9ec0" in text
+    assert "716 passed, 2 warnings / SUCCESS" in text
 
 
-def test_p17_6_plan_has_p17_0_through_p17_5_validated_and_p17_6_candidate():
+def test_p17_6_plan_has_p17_0_through_p17_6_validated():
     text = PLAN.read_text(encoding="utf-8")
-    for heading in (
+    headings = (
         "### P17.0 — Controlled Publication Architecture and Safety Contract",
         "### P17.1 — Deterministic Publication Eligibility Policy",
         "### P17.2 — Public-Safe Projection and Redaction",
         "### P17.3 — Release Manifest, Provenance and Reproducibility",
         "### P17.4 — Provider-Neutral Local/Test Publication Target",
         "### P17.5 — Owner Publication Readiness Projection and Approval Gate",
-    ):
+        "### P17.6 — Phase 17 Validation Matrix / Strategic Readiness Closure",
+    )
+    for heading in headings:
         section = text.split(heading, 1)[1].split("### P17.", 1)[0]
         assert "State: `VALIDATED`" in section
-    p176 = text.split("### P17.6 — Phase 17 Validation Matrix / Strategic Readiness Closure", 1)[1]
-    assert "State: `CLOSURE_CANDIDATE`" in p176
 
 
 def test_p17_6_prior_gate_constants_and_no_migration_contracts_are_exact():
@@ -109,6 +110,7 @@ def test_p17_6_matrix_preserves_exact_subphase_validation_anchors():
         "85453a38bacfcb64c69be4d1b671152f6a54849c",
         "36548f79cf254621646fa2e2bf863b70944754d2",
         "69010a348cd35fd0b2361c9b32c5baa9428c5816",
+        "daca1240cb1f99267795b39ddf7da32eb4fa9ec0",
     ):
         assert anchor in text
 
@@ -120,11 +122,13 @@ def test_p17_6_owner_readiness_projection_is_not_exposed_by_existing_backend_act
         assert "publication_target" not in source
 
 
-def test_p17_6_candidate_requires_dual_architecture_and_arm_host_checks():
+def test_p17_6_closure_records_dual_architecture_and_arm_host_checks():
     text = MATRIX.read_text(encoding="utf-8")
     assert "full x64 repository regression" in text
     assert "full native ARM64 repository regression on the same exact commit" in text
-    assert "native architecture check `aarch64`" in text
-    assert "ARM64 host bootstrap" in text
-    assert "ARM64 unattended one-tick smoke with no execution side effect" in text
-    assert "ARM64 systemd contract" in text
+    assert "native architecture check `aarch64`: PASS" in text
+    assert "ARM64 host bootstrap: PASS" in text
+    assert "ARM64 unattended one-tick smoke with no execution side effect: PASS" in text
+    assert "ARM64 systemd contract: PASS" in text
+    assert "33937240088" in text and "101227433133" in text
+    assert "33937240097" in text and "101227433249" in text

@@ -1,20 +1,22 @@
 # Phase 17 — Controlled External Publication Readiness
 
 Date: 2026-09-05
-Plan status: `IN_PROGRESS / CLOSURE_CANDIDATE`
+Plan status: `COMPLETE / VALIDATED_READY / NOT_ACTIVATED`
 Plan lifecycle: `DEFINED -> VALIDATED_PLAN -> IN_PROGRESS -> COMPLETE / VALIDATED_READY / NOT_ACTIVATED`
 Project: K-Geopolitical Monitor
 ROADMAP basis: `v4.20`
-Strategic phase state: `CONDITIONAL / NOT_ACTIVATED`
+Strategic phase state: `VALIDATED_READY / NOT_ACTIVATED`
+Readiness gate: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
 Activation gate: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`
 Planning gate: `P17_CONTROLLED_PUBLICATION_READINESS_PLAN_VALIDATED`
 Base repository control point: `544eda6267fef8c146c155178809154b6c15c2ae`
+Strategic readiness closure anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`
 
 ## Objective
 
 Validate a controlled, public-safe publication-readiness layer over canonical KGM intelligence without activating publication, public ingress, a public GPT Action, shared runtime, owner execution or paid providers.
 
-Successful Phase 17 engineering may reach `VALIDATED_READY / NOT_ACTIVATED`. Actual publication remains a separate owner decision under `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`.
+Phase 17 engineering reached `VALIDATED_READY / NOT_ACTIVATED`. Actual publication remains a separate owner decision under `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`.
 
 ## Plan Validation
 
@@ -72,7 +74,7 @@ Phase 17 does not reinterpret E8 as an active external/public system.
 
 A release receipt proves only publication-target handling. It is publication evidence, not event evidence.
 
-## Planned Phase 17 Sequence
+## Phase 17 Sequence
 
 ### P17.0 — Controlled Publication Architecture and Safety Contract
 State: `VALIDATED`
@@ -129,20 +131,26 @@ Validation anchor: `69010a348cd35fd0b2361c9b32c5baa9428c5816`
 The owner projection is project-local/read-only. Even a complete local-test pipeline yields only `ENGINEERING_READY_NOT_ACTIVATED`; approval and publication effects are `NONE`.
 
 ### P17.6 — Phase 17 Validation Matrix / Strategic Readiness Closure
-State: `CLOSURE_CANDIDATE`
+State: `VALIDATED`
 Readiness gate: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
 Activation gate remains: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`
+Closure validation anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`
+- x64 run `33937240088`, job `101227433133`: `716 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33937240097`, job `101227433249`: `716 passed, 2 warnings / SUCCESS`, native `aarch64`;
+- ARM64 host bootstrap: PASS;
+- ARM64 unattended one-tick smoke with no execution side effect: PASS;
+- ARM64 systemd contract: PASS.
 
-Closure must confirm publication/truth separation, publisher/publication ≠ underlying-origin proof, receipts/engagement ≠ truth operators, no eligibility truth promotion, redaction before export, owner/admin isolation, preserved provenance/uncertainty/limitations, no reconstructed exact history, deterministic local/test target only, target-failure isolation, no unexpected migration/shadow truth store, `PROJECT_LOCAL_ONLY`, mixed/shared runtime `BLOCKED`, `PRODUCTION_LIVE = NOT_OPERATIONAL`, owner activation separately gated, backend HTTPS/public ingress not deployed, public GPT Action not connected/approved, public sharing inactive, paid providers `NONE_APPROVED`, Phase 18 not activated, exact-head x64 + native ARM64 regression, and ARM64 bootstrap/unattended/systemd PASS.
+P17.6 confirms publication/truth separation, publisher/publication ≠ underlying-origin proof, receipts/engagement ≠ truth operators, no eligibility truth promotion, redaction before export, owner/admin isolation, preserved provenance/uncertainty/limitations, no reconstructed exact history, deterministic local/test target only, target-failure isolation, no unexpected migration/shadow truth store, `PROJECT_LOCAL_ONLY`, mixed/shared runtime `BLOCKED`, `PRODUCTION_LIVE = NOT_OPERATIONAL`, owner activation separately gated, backend HTTPS/public ingress not deployed, public GPT Action not connected/approved, public sharing inactive, paid providers `NONE_APPROVED`, Phase 18 not activated, exact-head x64 + native ARM64 regression, and ARM64 bootstrap/unattended/systemd PASS.
 
-Successful P17.6 may advance Phase 17 to `VALIDATED_READY / NOT_ACTIVATED`. It must not set publication/sharing to active. Actual publication requires a later explicit owner decision plus then-current platform/security/privacy/exposure/rollback validation.
+Phase 17 is therefore `VALIDATED_READY / NOT_ACTIVATED`. It must not set publication/sharing to active. Actual publication requires a later explicit owner decision plus then-current platform/security/privacy/exposure/rollback validation.
 
 ## Validation Strategy Per Gate
 
-No P17 subphase is promoted from implemented to validated solely because code exists. Validation evidence must reference the exact repository commit tested.
+No P17 subphase is promoted from implemented to validated solely because code exists. Validation evidence references the exact repository commit tested.
 The Phase 17 strategic readiness closure requires both exact-head x64 and native ARM64 validation.
 
-Closure acceptance requires:
+Closure acceptance is satisfied:
 - full x64 repository regression passes on the exact readiness closure anchor;
 - full native ARM64 regression passes on the same exact readiness closure anchor;
 - ARM64 host bootstrap, unattended one-tick smoke and systemd contract remain PASS.
@@ -153,5 +161,5 @@ No actual external publication/public sharing, GPT Store publication, public GPT
 
 ## Current Decision
 
-Plan decision: `IN_PROGRESS / CLOSURE_CANDIDATE`.
-P17.0 through P17.5 are validated on exact implementation anchors. P17.6 now requires exact-head x64 and native ARM64 closure-candidate validation. Strategic Phase 17 remains `CONDITIONAL / NOT_ACTIVATED`; no publication activation is implied.
+Plan decision: `COMPLETE / VALIDATED_READY / NOT_ACTIVATED`.
+P17.0 through P17.6 are validated. Strategic readiness gate `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED` is satisfied on closure anchor `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`. Publication remains `NOT_ACTIVATED`; the next Phase 17 action is owner-only and requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`.
