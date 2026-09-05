@@ -2,10 +2,12 @@
 
 Date: 2026-09-05
 Project: K-Geopolitical Monitor
-Checkpoint state: `VALIDATED_READY / NOT_ACTIVATED`
+Checkpoint state: `VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`
 Readiness gate: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
+Capability gate: `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`
 Activation gate: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`
 Closure validation anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`
+Capability decision: `docs/decisions/PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md`
 
 ## Validated State
 
@@ -17,6 +19,17 @@ Exact strategic closure evidence:
 - ARM64 bootstrap: PASS;
 - ARM64 unattended one-tick smoke with no execution side effect: PASS;
 - ARM64 systemd contract: PASS.
+
+## Current Account Capability Constraint
+
+The project owner has established that actual external publication is unavailable for the current account.
+
+Operational consequence:
+
+- no real publication attempt is allowed while that capability remains unavailable;
+- owner approval alone cannot bypass this capability boundary;
+- no account upgrade, paid plan, provider purchase or alternative external channel is implied or authorized;
+- if capability becomes available later, a separate explicit owner activation decision and fresh launch-time platform/security/privacy/exposure/rollback validation are still required.
 
 ## Preserved Boundaries
 
@@ -38,4 +51,6 @@ Exact strategic closure evidence:
 
 ## Handoff
 
-All Phase 17 work that does not require owner activation is complete. The next Phase 17 transition is not an engineering-default action: it requires explicit owner decision under `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` and fresh launch-time security/privacy/exposure/platform/rollback validation.
+All Phase 17 engineering/readiness work is complete. The current-account capability boundary blocks actual external publication independently of owner approval.
+
+The publication path may be reconsidered only if the relevant account/platform capability changes. Even then, activation remains separately owner-gated by `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` and requires fresh launch-time validation.
