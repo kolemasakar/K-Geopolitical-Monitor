@@ -43,6 +43,15 @@ Unchanged:
 
 No account upgrade, paid plan, provider purchase or alternative publication channel is implied or approved by this decision.
 
+## Documentation Synchronization
+
+The account/platform capability boundary has been synchronized across the canonical Phase 17 documentation set.
+
+- ROADMAP state synchronization: `v4.22`;
+- synchronized documentation predecessor: `e29ba235b99ff52c268e96ccf950a5070dce9df9`;
+- synchronized surfaces: `ROADMAP.md`, Phase 17 implementation plan, P17.6 validation matrix, Phase 17 result, Phase 17 checkpoint and Phase 17 regression guards;
+- this synchronization changes documentation/governance state only and does not activate any publication target, public ingress, provider, credential, paid service, shared runtime or production/live operation.
+
 ## Reopen Condition
 
 This boundary may be reconsidered only after the owner establishes that the relevant account/platform publication capability has changed. Until then, the project state is:
