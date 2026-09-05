@@ -42,17 +42,23 @@ Phase 17 does not reinterpret E8 as an active external/public system.
 - backend HTTPS remains `NOT_DEPLOYED`;
 - public sharing remains `NOT_ACTIVE`;
 - paid providers remain `NONE_APPROVED`;
-- Phase 18 remains separate and is not activated or preapproved.
+- Phase 18 shared/team runtime is not activated or pre-approved by Phase 17.
 
 ## Permanent Phase 17 Boundaries
 
 - publication is a derived presentation layer, not canonical truth state;
 - publisher/publication identity is not automatically the underlying origin;
+- publication lifecycle state is not factual-verification state;
+- publication eligibility is not factual-verification status;
 - publication lifecycle state, release receipt, views, clicks, downloads or engagement counts are not truth operators;
 - publication eligibility cannot promote factual verification;
+- P13.5/P13.6 remains the canonical factual-verification path;
+- release receipt proves only that a publication target accepted or recorded a package;
 - public projection references canonical intelligence identifiers and creates no shadow truth store;
 - provenance, verification, uncertainty, contradictions and coverage limitations are preserved rather than silently strengthened;
 - public-safe redaction and data minimization occur before any export or publication-target boundary;
+- public field allowlist rather than owner/admin response pass-through is required;
+- no public HTTP route is required or authorized by this gate;
 - secrets, authentication material, owner/admin tokens, private database paths, raw operator feedback and non-public diagnostics are forbidden in public payloads;
 - missing, stale, ambiguous or non-public-safe canonical references fail closed;
 - exact reproducibility/history claims are emitted only from persisted instrumentation; reconstructed/uninstrumented history is never labeled exact;
@@ -135,6 +141,11 @@ Successful P17.6 may advance Phase 17 to `VALIDATED_READY / NOT_ACTIVATED`. It m
 
 No P17 subphase is promoted from implemented to validated solely because code exists. Validation evidence must reference the exact repository commit tested.
 The Phase 17 strategic readiness closure requires both exact-head x64 and native ARM64 validation.
+
+Closure acceptance requires:
+- full x64 repository regression passes on the exact readiness closure anchor;
+- full native ARM64 regression passes on the same exact readiness closure anchor;
+- ARM64 host bootstrap, unattended one-tick smoke and systemd contract remain PASS.
 
 ## Non-Goals
 
