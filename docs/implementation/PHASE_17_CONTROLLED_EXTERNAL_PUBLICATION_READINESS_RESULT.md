@@ -2,10 +2,12 @@
 
 Date: 2026-09-05
 Project: K-Geopolitical Monitor
-Status: `VALIDATED_READY / NOT_ACTIVATED`
+Status: `VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`
 Readiness gate: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
+Capability gate: `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`
 Activation gate: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`
 Closure validation anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`
+Account capability decision: `docs/decisions/PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md`
 
 ## Result Summary
 
@@ -16,6 +18,14 @@ Validated chain:
 `CANONICAL INTELLIGENCE STATE -> PUBLICATION ELIGIBILITY -> PUBLIC-SAFE PROJECTION -> RELEASE MANIFEST -> PUBLICATION PACKAGE -> LOCAL/TEST PUBLICATION TARGET -> RELEASE RECEIPT`
 
 Publication state and receipt evidence remain presentation/transport evidence and cannot change canonical factual-verification meaning.
+
+## Current Account Capability Boundary
+
+The project owner has established that actual external publication is not available for the current account.
+
+This is an account/platform capability constraint, not a failure of Phase 17 engineering readiness. While the constraint remains active, no Phase 17 workflow may attempt real external publication.
+
+An owner approval alone is insufficient under the current constraint. Real publication would require both a future account/platform state in which the necessary publication capability exists and a separate explicit owner activation decision under `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`, followed by fresh launch-time validation.
 
 ## Validated Subphases
 
@@ -86,4 +96,6 @@ Unchanged:
 
 `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
 
-Phase 17 is complete as `VALIDATED_READY / NOT_ACTIVATED`. No further Phase 17 engineering action that is independent of owner activation is required. Actual external publication requires the explicit owner gate `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` and then-current platform/security/privacy/exposure/rollback validation.
+Phase 17 is complete as `VALIDATED_READY / NOT_ACTIVATED`, with actual external publication additionally blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY` for the current account. No account upgrade, paid plan, provider purchase or alternative publication channel is implied or approved.
+
+If the relevant account/platform capability changes in the future, publication still requires the explicit owner gate `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` and then-current platform/security/privacy/exposure/rollback validation.
