@@ -145,18 +145,32 @@ Validated behavior:
 
 ### P17.2 — Public-Safe Projection and Redaction
 
-State: `NOT_STARTED`
-Target gate: `P17_2_PUBLIC_SAFE_PROJECTION_REDACTION_VALIDATED`
+State: `VALIDATED`
+Gate: `P17_2_PUBLIC_SAFE_PROJECTION_REDACTION_VALIDATED`
+Validation anchor: `8f2e920fd727597286ec691d49c74dd600df35bd`
 
-Required behavior:
+Validation evidence:
 
-- public field allowlist rather than owner/admin response pass-through;
-- redaction/data minimization before export;
-- no watch queries/cadence, internal retry/error diagnostics, private DB paths, credentials or owner-only metadata;
-- raw operator feedback remains non-public;
-- provenance, verification/uncertainty labels and known limitations remain explicit where needed to prevent misleading presentation;
-- third-party source content is summarized/referenced rather than copied wholesale;
-- no public HTTP route is required or authorized by this gate.
+- x64 CI run `33935188072`, job `101221628767`: `685 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33935188051`, job `101221628733`: native `aarch64`, `685 passed, 2 warnings / SUCCESS`;
+- ARM64 host bootstrap: PASS;
+- ARM64 unattended one-tick: PASS with `execution_count=0`, `executions=[]`, `recovered_runs=0`;
+- ARM64 systemd contract: PASS.
+
+Validated projection: `KGM_PUBLIC_SAFE_PROJECTION_V1` in `src/kgeopolitical_monitor/public_safe_projection.py`.
+
+Validated behavior:
+
+- strict public field allowlist rather than owner/admin response pass-through;
+- redaction/data minimization occurs before any export boundary;
+- exact P17.1 `ELIGIBLE`, public-safety `ALLOWED` and canonical P13.5 `VERIFIED` are required and fail closed otherwise;
+- canonical semantic, verification, factual-confidence, coverage and reproducibility references/limitations are preserved without truth promotion;
+- publication, publisher and underlying-origin provenance roles remain distinct;
+- raw item content/identifiers, internal source IDs, provenance metadata JSON, owner/admin/watch state, exact query snapshots, delivery internals, raw operator feedback, private paths and credentials are omitted;
+- bounded public semantic text redacts authentication material, secret values and private filesystem paths;
+- projection identity is deterministic and content-sensitive;
+- migration: `NONE`;
+- no public HTTP route, target, provider, external credential or network publication is activated.
 
 ### P17.3 — Release Manifest, Provenance and Reproducibility
 
@@ -241,6 +255,6 @@ Phase 17 engineering readiness does not authorize actual external publication or
 
 Plan decision: `IN_PROGRESS`.
 
-P17.0 and P17.1 are validated on exact implementation anchors with matching successful x64 and native ARM64 regressions. Strategic Phase 17 remains `CONDITIONAL / NOT_ACTIVATED`; no publication activation is implied.
+P17.0, P17.1 and P17.2 are validated on exact implementation anchors with matching successful x64 and native ARM64 regressions. Strategic Phase 17 remains `CONDITIONAL / NOT_ACTIVATED`; no publication activation is implied.
 
-Next sequential engineering task: P17.2 — Public-Safe Projection and Redaction.
+Next sequential engineering task: P17.3 — Release Manifest, Provenance and Reproducibility.
