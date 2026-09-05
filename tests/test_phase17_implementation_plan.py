@@ -95,7 +95,7 @@ def test_phase17_plan_does_not_pre_authorize_migration_or_real_public_target():
     assert "Migration `033` is not pre-authorized by this plan" in plan
     assert "local/in-memory/test sink only" in plan
     assert "canonical automated tests perform no real network publication" in plan
-    assert "any real target/provider requires a separate explicit owner activation decision" in plan
+    assert "any real target/provider requires both available account/platform publication capability and a separate explicit owner activation decision" in plan
     assert "paid providers remain forbidden unless separately approved" in plan
 
 
@@ -120,7 +120,7 @@ def test_phase17_readiness_closure_remains_distinct_from_publication_activation(
     assert "Activation gate remains: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`" in plan
     assert "VALIDATED_READY / NOT_ACTIVATED" in plan
     assert "It must not set publication/sharing to active" in plan
-    assert "Actual publication requires a later explicit owner decision" in plan
+    assert "actual publication requires a later explicit owner decision" in plan.lower()
 
 
 def test_phase17_plan_records_exact_dual_architecture_closure_validation():
@@ -134,12 +134,12 @@ def test_phase17_plan_records_exact_dual_architecture_closure_validation():
     assert "33937240097" in plan and "101227433249" in plan
     assert "716 passed, 2 warnings / SUCCESS" in plan
 
+
 def test_phase17_current_account_capability_boundary_is_synchronized():
     decision = ROOT / "docs" / "decisions" / "PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md"
     result = ROOT / "docs" / "implementation" / "PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_RESULT.md"
     checkpoint = ROOT / "docs" / "checkpoints" / "PROJECT_CHECKPOINT_2026-09-05_PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED_READY.md"
-    corpus = "
-".join(_text(path) for path in (PLAN_PATH, ROADMAP_PATH, decision, result, checkpoint))
+    corpus = chr(10).join(_text(path) for path in (PLAN_PATH, ROADMAP_PATH, decision, result, checkpoint))
     assert "PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY" in corpus
     assert "Current account publication capability: `UNAVAILABLE`" in _text(decision)
     assert "owner approval alone" in corpus.lower() or "owner approval by itself" in corpus.lower()
