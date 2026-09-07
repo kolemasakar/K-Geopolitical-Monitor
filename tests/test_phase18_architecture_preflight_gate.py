@@ -24,14 +24,16 @@ def _state() -> dict:
 
 def test_phase18_remains_conditional_and_unapproved():
     state = _state()
-    phase18 = state["phases"]["18"]
 
-    assert phase18["state"] == "CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED"
+    assert state["phases"]["18"] == "CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED"
     assert (
         state["activation_gates"]["phase18"]
         == "PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL"
     )
-    assert state["current_position"] == "POST_PHASE_17_PRE_PHASE_18_ARCHITECTURE_GATE"
+    assert (
+        state["roadmap"]["current_position"]
+        == "POST_PHASE_17_PRE_PHASE_18_ARCHITECTURE_GATE"
+    )
 
 
 def test_preflight_is_not_implementation_authorization():
@@ -55,8 +57,8 @@ def test_existing_project_local_runtime_boundary_remains_authoritative():
     runtime = state["runtime"]
     preflight = PREFLIGHT_PATH.read_text(encoding="utf-8")
 
-    assert runtime["storage_scope"] == "PROJECT_LOCAL_ONLY"
-    assert runtime["mixed_shared_canonical_runtime"] == "BLOCKED"
+    assert runtime["storage"] == "PROJECT_LOCAL_ONLY"
+    assert runtime["mixed_shared_runtime"] == "BLOCKED"
     assert runtime["production_live"] == "NOT_OPERATIONAL"
     assert runtime["paid_providers"] == "NONE_APPROVED"
 
