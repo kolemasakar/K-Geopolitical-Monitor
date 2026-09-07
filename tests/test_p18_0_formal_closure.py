@@ -14,14 +14,20 @@ def _state() -> dict:
     return json.loads(STATE_PATH.read_text(encoding="utf-8"))
 
 
-def test_p18_0_machine_state_is_formally_validated_and_p18_1_ready():
+def _version_tuple(value: str) -> tuple[int, ...]:
+    return tuple(int(part) for part in value.split("."))
+
+
+def test_p18_0_machine_state_remains_formally_validated_after_later_progression():
     state = _state()
 
-    assert state["roadmap"]["state_sync_version"] == "4.25"
-    assert state["roadmap"]["current_position"] == "PHASE_18_P18_0_VALIDATED_P18_1_READY_GATE"
+    assert _version_tuple(state["roadmap"]["state_sync_version"]) >= (4, 25)
+    assert state["roadmap"]["current_position"].startswith("PHASE_18_")
     assert "P18_0_VALIDATED" in state["phases"]["18"]
-    assert "P18_1_READY" in state["phases"]["18"]
+    assert state["phases"]["18"].endswith("/ NOT_ACTIVATED")
 
+    # phase18_p18_0 is historical closure evidence and must not be rewritten
+    # merely because later P18.x gates progress.
     p18_0 = state["phase18_p18_0"]
     assert p18_0["state"] == "VALIDATED"
     assert p18_0["gate"] == "P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED"
@@ -29,6 +35,7 @@ def test_p18_0_machine_state_is_formally_validated_and_p18_1_ready():
     assert p18_0["x64_run_id"] == 34118505375
     assert p18_0["arm64_run_id"] == 34118505353
     assert p18_0["test_count"] == 749
+    assert p18_0["next_gate"] == "P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED"
     assert p18_0["p18_1_state"] == "READY_TO_BEGIN"
 
 
@@ -60,12 +67,14 @@ def test_p18_0_result_and_checkpoint_record_exact_validation_evidence():
         assert "NONE_APPROVED" in text
 
 
-def test_roadmap_records_p18_0_validation_and_p18_1_ready_gate():
+def test_roadmap_keeps_p18_0_validation_while_later_phase18_gates_advance():
     roadmap = ROADMAP_PATH.read_text(encoding="utf-8")
+    version_line = next(
+        line for line in roadmap.splitlines() if line.startswith("Version: ")
+    )
 
-    assert "Version: 4.25" in roadmap
+    assert _version_tuple(version_line.removeprefix("Version: ")) >= (4, 25)
     assert "P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED" in roadmap
     assert "P18.0: `VALIDATED`" in roadmap
-    assert "P18.1: `READY_TO_BEGIN`" in roadmap
     assert "PHASE_18_SHARED_RUNTIME_ACTIVE = NO" in roadmap
     assert "migration `033`" in roadmap.lower() or "Migration `033`" in roadmap
