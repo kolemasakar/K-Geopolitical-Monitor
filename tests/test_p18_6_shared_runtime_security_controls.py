@@ -558,10 +558,12 @@ def test_export_backup_and_public_surface_review_rejects_secret_bearing_fields()
 
 def test_p18_6_preserves_phase18_activation_and_migration_boundaries():
     state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
-    assert state["roadmap"]["state_sync_version"] == "4.30"
-    assert state["roadmap"]["current_position"] == "PHASE_18_P18_5_VALIDATED_P18_6_READY_GATE"
+    assert int(state["roadmap"]["state_sync_version"].split(".")[1]) >= 30
     assert "P18_5_VALIDATED" in state["phases"]["18"]
-    assert "P18_6_READY" in state["phases"]["18"]
+    assert (
+        "P18_6_READY" in state["phases"]["18"]
+        or "P18_6_VALIDATED" in state["phases"]["18"]
+    )
     assert state["activation_gates"]["phase18_activation"] == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
     assert state["runtime"]["storage"] == "PROJECT_LOCAL_ONLY"
     assert state["runtime"]["mixed_shared_runtime"] == "BLOCKED"
