@@ -10,6 +10,13 @@ def _text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def _roadmap_v4_sync_minor(roadmap: str) -> int:
+    version = roadmap.split("Version: ", 1)[1].splitlines()[0]
+    major, minor = version.split(".", 1)
+    assert major == "4"
+    return int(minor)
+
+
 def test_phase17_plan_identity_baseline_and_activation_gate_are_explicit():
     plan = _text(PLAN_PATH)
     roadmap = _text(ROADMAP_PATH)
@@ -23,7 +30,7 @@ def test_phase17_plan_identity_baseline_and_activation_gate_are_explicit():
     assert "P17_CONTROLLED_PUBLICATION_READINESS_PLAN_VALIDATED" in plan
     assert "DEFINED -> VALIDATED_PLAN -> IN_PROGRESS -> COMPLETE / VALIDATED_READY / NOT_ACTIVATED" in plan
 
-    assert "Version: 4.22" in roadmap
+    assert _roadmap_v4_sync_minor(roadmap) >= 22
     assert "Phase 17 — Controlled External Publication Readiness" in roadmap
     assert "VALIDATED_READY / NOT_ACTIVATED" in roadmap
     assert "PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED" in roadmap
@@ -144,4 +151,4 @@ def test_phase17_current_account_capability_boundary_is_synchronized():
     assert "Current account publication capability: `UNAVAILABLE`" in _text(decision)
     assert "owner approval alone" in corpus.lower() or "owner approval by itself" in corpus.lower()
     assert "No account upgrade, paid plan, provider purchase or alternative publication channel is implied" in _text(decision)
-    assert "Version: 4.22" in _text(ROADMAP_PATH)
+    assert _roadmap_v4_sync_minor(_text(ROADMAP_PATH)) >= 22
