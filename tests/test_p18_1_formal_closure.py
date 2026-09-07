@@ -13,11 +13,16 @@ def _state():
     return json.loads(STATE_PATH.read_text(encoding="utf-8"))
 
 
-def test_p18_1_current_state_converges_to_p18_2_ready_gate():
+def _version_tuple(value: str) -> tuple[int, ...]:
+    return tuple(int(part) for part in value.split("."))
+
+
+def test_p18_1_validation_remains_true_after_forward_phase18_progress():
     state = _state()
-    assert state["roadmap"]["state_sync_version"] == "4.26"
-    assert state["roadmap"]["current_position"] == "PHASE_18_P18_1_VALIDATED_P18_2_READY_GATE"
-    assert state["phases"]["18"] == "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_READY / NOT_ACTIVATED"
+    assert _version_tuple(state["roadmap"]["state_sync_version"]) >= (4, 26)
+    assert state["phase18_p18_1"]["state"] == "VALIDATED"
+    assert state["phase18_p18_1"]["gate"] == "P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED"
+    assert "P18_1_VALIDATED" in state["phases"]["18"]
     assert state["activation_gates"]["phase18_activation"] == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
 
 
@@ -37,15 +42,13 @@ def test_p18_1_exact_engineering_evidence_is_recorded():
     }
 
 
-def test_p18_1_roadmap_and_plan_converge_without_activation():
+def test_p18_1_roadmap_and_plan_preserve_validated_boundary_without_activation():
     roadmap = ROADMAP_PATH.read_text(encoding="utf-8")
     plan = PLAN_PATH.read_text(encoding="utf-8")
-    assert "Version: 4.26" in roadmap
     assert "P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED" in roadmap
     assert "P18.1: `VALIDATED`" in roadmap
-    assert "P18.2: `READY_TO_BEGIN`" in roadmap
-    assert "P18_1_VALIDATED / P18_2_READY / NOT_ACTIVATED" in roadmap
-    assert "State: `VALIDATED`" in plan
+    assert "P18_1_VALIDATED" in roadmap
+    assert "P18.1" in plan
     assert "P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED" in plan
     assert "Shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`" in plan
 
