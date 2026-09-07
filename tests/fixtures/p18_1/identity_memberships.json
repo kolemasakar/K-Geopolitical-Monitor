@@ -1,0 +1,15 @@
+{
+  "human": {
+    "principal_id": "user-alpha",
+    "workspaces": [
+      {"workspace_id": "workspace-alpha", "projects": ["project-red", "project-blue"]},
+      {"workspace_id": "workspace-beta", "projects": ["project-red"]}
+    ]
+  },
+  "service": {
+    "principal_id": "service-ingest",
+    "workspaces": [
+      {"workspace_id": "workspace-alpha", "projects": ["project-red"]}
+    ]
+  }
+}
