@@ -1,6 +1,6 @@
 # Phase 18 — Shared / Team Runtime Implementation Plan
 
-Status: `IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_READY`
+Status: `IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_READY`
 Date: 2026-09-07
 Project: K-Geopolitical Monitor
 Architecture approval: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`
@@ -15,7 +15,7 @@ Architecture preflight: `docs/implementation/PHASE_18_SHARED_TEAM_RUNTIME_ARCHIT
 
 This document converts the owner-approved Phase 18 architecture into an implementation sequence with explicit validation gates.
 
-The plan itself did not authorize implementation. A separate explicit owner decision on 2026-09-07 subsequently set `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`. P18.0 has since been implemented and validated. P18.1 is now the next permitted engineering step, but shared-runtime activation, canonical cutover, paid providers and production/live operation remain separately gated.
+The plan itself did not authorize implementation. A separate explicit owner decision on 2026-09-07 subsequently set `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`. P18.0 and P18.1 have since been implemented and validated. P18.2 is now the next permitted engineering step, but shared-runtime activation, canonical cutover, paid providers and production/live operation remain separately gated.
 
 The active canonical runtime remains:
 
@@ -50,7 +50,7 @@ The recorded decision is:
 
 `docs/decisions/PHASE_18_IMPLEMENTATION_AUTHORIZATION_GATE_2026-09-07.md`
 
-P18.0 is formally validated at `P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`; P18.1 is `READY_TO_BEGIN`.
+P18.0 is formally validated at `P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`; P18.1 is formally validated at `P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED`; P18.2 is `READY_TO_BEGIN`.
 
 ## 3. Engineering Principles
 
@@ -100,28 +100,31 @@ Validation evidence:
 
 ### P18.1 — Identity and Authenticated Tenant Context Foundation
 
-State: `READY_TO_BEGIN`
+State: `VALIDATED`
 Gate: `P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED`
+Implementation anchor: `01abc4f6be77c856e24497ad77c58ab052bb89e2`
+Result: `docs/implementation/P18_1_IDENTITY_TENANT_CONTEXT_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-07_P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED.md`
 
-Scope after implementation authorization:
+Validated scope:
 
-- define standards-based identity adapter contract (OIDC/OAuth2-class or equivalent);
-- separate human and service identities;
-- bind stable subject identity to explicit workspace membership;
-- derive tenant context server-side from authenticated identity and authorized request scope;
-- implement short-lived session/token validation interfaces and revocation-aware behavior;
-- keep concrete external identity provider selection behind a separate provider gate.
+- provider-neutral identity-validation adapter contract;
+- explicit human/service identity and credential separation;
+- short-lived temporal validation with mandatory fail-closed revocation status;
+- server-side workspace/project membership resolution;
+- authenticated tenant context derived only after identity, temporal, revocation and membership checks;
+- forged, unauthorized and ambiguous tenant scope rejected;
+- service identities cannot satisfy human/owner authority requirements;
+- no concrete external identity provider selected.
 
-Acceptance:
+Validation evidence:
 
-- unauthenticated access fails closed;
-- forged/ambiguous workspace context is rejected;
-- service identity cannot impersonate human owner authority;
-- no shared owner bearer token is introduced as team authentication.
+- x64 run `34124491945`, job `101749841571`: `776 passed in 124.31s / SUCCESS`;
+- native ARM64 run `34124491899`, job `101749841305`: native `aarch64`, `776 passed in 99.81s / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 ### P18.2 — RBAC and Owner-Only Strategic Gate Enforcement
 
-State: `PLANNED / NOT_STARTED`
+State: `READY_TO_BEGIN`
 Gate: `P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED`
 
 Planned roles:

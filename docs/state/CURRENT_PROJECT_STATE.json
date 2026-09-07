@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.25",
+    "state_sync_version": "4.26",
     "status": "APPROVED",
-    "current_position": "PHASE_18_P18_0_VALIDATED_P18_1_READY_GATE"
+    "current_position": "PHASE_18_P18_1_VALIDATED_P18_2_READY_GATE"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -14,7 +14,7 @@
     "15": "PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED",
     "16": "PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED",
     "17": "PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY",
-    "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_READY / NOT_ACTIVATED"
+    "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_READY / NOT_ACTIVATED"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -63,5 +63,17 @@
     "test_count": 749,
     "next_gate": "P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED",
     "p18_1_state": "READY_TO_BEGIN"
+  },
+  "phase18_p18_1": {
+    "state": "VALIDATED",
+    "gate": "P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED",
+    "implementation_anchor": "01abc4f6be77c856e24497ad77c58ab052bb89e2",
+    "x64_run_id": 34124491945,
+    "x64_job_id": 101749841571,
+    "arm64_run_id": 34124491899,
+    "arm64_job_id": 101749841305,
+    "test_count": 776,
+    "next_gate": "P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED",
+    "p18_2_state": "READY_TO_BEGIN"
   }
 }
