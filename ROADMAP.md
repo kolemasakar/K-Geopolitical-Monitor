@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.26
+Version: 4.27
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -420,7 +420,7 @@ Phase 17 validates publication eligibility, public-safe projection/redaction, de
 Phase 17 introduced no database migration; migration `033` remains uncreated/not pre-authorized. No real external publication target, owner execution, production/live operation, public ingress, public GPT Action, backend HTTPS, shared runtime or paid provider is activated by readiness closure. For the current account, actual external publication is additionally blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`; owner approval alone cannot bypass this account/platform capability boundary. If the capability becomes available later, activation remains separately gated by `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` and fresh launch-time validation.
 
 ## Phase 18 — Shared / Team Runtime
-State: `ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_READY / NOT_ACTIVATED`
+State: `ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_READY / NOT_ACTIVATED`
 Architecture gate: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`
 Planning gate: `PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES`
 Implementation gate: `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`
@@ -460,15 +460,30 @@ Validated foundation: credential validation is provider-neutral; human and servi
 P18.1 did not select an external identity provider, activate shared runtime, create migration `033`, expose public/shared ingress, commit paid-provider spending or perform production/live cutover.
 
 ### P18.2 — RBAC and Owner-Only Strategic Gate Enforcement
-State: `READY_TO_BEGIN`
+State: `VALIDATED`
 Gate: `P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED`
+Implementation anchor: `eb9e51082320858be14aebafafd4746a16674ec7`.
+Result: `docs/implementation/P18_2_RBAC_OWNER_GATE_ENFORCEMENT_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-07_P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED.md`
 
-P18.2 is the next permitted engineering step. It may introduce deny-by-default role enforcement and owner-only action gates, but it must not activate shared runtime, select a paid provider, authorize migration `033`, or expose production/shared ingress.
+Exact implementation validation:
+- x64 run `34131110962`, job `101771189130`: `820 passed in 125.92s / SUCCESS`;
+- native ARM64 run `34131110956`, job `101771189222`: native `aarch64`, `820 passed in 173.68s / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Validated authorization foundation: authorization is deny-by-default; role bindings are resolved server-side against authenticated identity and tenant context; `OWNER / ADMIN / ANALYST / VIEWER / SERVICE` permissions remain separated; services have no implicit authority; `ADMIN` does not inherit owner-only strategic authority; strategic activation/provider/cutover/migration gates require an authenticated human with workspace-wide `OWNER` authority; cross-tenant and escalation attempts fail closed.
+
+P18.2 did not activate shared runtime, select or purchase a provider, create or preauthorize migration `033`, expose shared/public ingress, switch canonical storage or perform production/live cutover.
+
+### P18.3 — Shared Datastore, Schema and Migration Contract
+State: `READY_TO_BEGIN`
+Gate: `P18_3_SHARED_DATASTORE_SCHEMA_MIGRATION_CONTRACT_VALIDATED`
+
+P18.3 is the next permitted engineering step. It may define a provider-neutral shared datastore/schema/migration contract and non-production validation harness, but readiness does not allocate, create or preauthorize migration `033`, select a paid provider, deploy shared storage, switch canonical storage, or activate shared runtime.
 
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.26`;
+- state synchronization: `v4.27`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -488,14 +503,16 @@ P18.2 is the next permitted engineering step. It may introduce deny-by-default r
 - Phase 17 current account publication capability: `UNAVAILABLE`;
 - Phase 17 capability decision: `docs/decisions/PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md`;
 - P17.0–P17.6: `VALIDATED`;
-- Phase 18: `ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_READY / NOT_ACTIVATED`;
+- Phase 18: `ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_READY / NOT_ACTIVATED`;
 - Phase 18 architecture approval: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`;
 - Phase 18 implementation planning: `PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES`;
 - Phase 18 implementation authorization: `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`;
 - P18.0: `VALIDATED`;
 - P18.1: `VALIDATED`;
-- P18.2: `READY_TO_BEGIN`;
+- P18.2: `VALIDATED`;
+- P18.3: `READY_TO_BEGIN`;
 - Phase 18 shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
+- migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared runtime storage: `BLOCKED`;
 - production/live operational status: `NOT_OPERATIONAL`;
@@ -505,4 +522,4 @@ P18.2 is the next permitted engineering step. It may introduce deny-by-default r
 - public sharing: `NOT_ACTIVE`;
 - paid providers: `NONE_APPROVED`.
 
-Phase 17 readiness is strategically closed at `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`. For the current account, real external publication is unavailable and blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`; an owner decision alone is insufficient while that capability boundary remains active. If the account/platform capability changes later, publication still requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus fresh launch-time validation. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 architecture and implementation are owner-authorized; P18.0 and P18.1 are validated and P18.2 is ready to begin, while shared-runtime activation/cutover, paid-provider commitments, migration `033` and production/live transition remain explicitly unauthorized.
+Phase 17 readiness is strategically closed at `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`. For the current account, real external publication is unavailable and blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`; an owner decision alone is insufficient while that capability boundary remains active. If the account/platform capability changes later, publication still requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus fresh launch-time validation. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 architecture and implementation are owner-authorized; P18.0, P18.1 and P18.2 are validated and P18.3 is ready to begin. P18.3 readiness does not authorize migration `033`, provider spending/selection, shared datastore deployment, shared-runtime activation/cutover or production/live transition.
