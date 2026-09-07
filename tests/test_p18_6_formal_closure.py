@@ -20,15 +20,12 @@ def _roadmap_minor_version(roadmap: str) -> int:
     return int(match.group(1))
 
 
-def test_p18_6_current_state_converges_to_p18_7_ready_gate():
+def test_p18_6_historical_closure_remains_recorded_after_later_phase_advances():
     state = _state()
-    assert state["roadmap"]["state_sync_version"] == "4.31"
-    assert state["roadmap"]["current_position"] == "PHASE_18_P18_6_VALIDATED_P18_7_READY_GATE"
-    assert state["phases"]["18"] == (
-        "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / "
-        "P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / "
-        "P18_5_VALIDATED / P18_6_VALIDATED / P18_7_READY / NOT_ACTIVATED"
-    )
+    assert float(state["roadmap"]["state_sync_version"]) >= 4.31
+    assert state["phase18_p18_6"]["state"] == "VALIDATED"
+    assert state["phase18_p18_6"]["gate"] == "P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_VALIDATED"
+    assert "P18_6_VALIDATED" in state["phases"]["18"]
     assert state["activation_gates"]["phase18_activation"] == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
 
 
@@ -47,17 +44,16 @@ def test_p18_6_exact_engineering_evidence_is_recorded():
     }
 
 
-def test_p18_6_roadmap_and_plan_converge_without_activation_or_migration():
+def test_p18_6_roadmap_and_plan_preserve_validated_gate_without_pinning_current_phase():
     roadmap = ROADMAP_PATH.read_text(encoding="utf-8")
     plan = PLAN_PATH.read_text(encoding="utf-8")
-    assert _roadmap_minor_version(roadmap) == 31
+    assert _roadmap_minor_version(roadmap) >= 31
     assert "P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_VALIDATED" in roadmap
-    assert "P18_6_VALIDATED / P18_7_READY / NOT_ACTIVATED" in roadmap
+    assert "P18_6_VALIDATED" in roadmap
     assert "### P18.7 — Backup, Disaster Recovery and Rollback" in roadmap
     assert "P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_VALIDATED" in plan
     assert "P18_7_SHARED_RUNTIME_BACKUP_DR_ROLLBACK_VALIDATED" in plan
     assert "P18_6 = VALIDATED" in plan
-    assert "P18_7 = READY_TO_BEGIN" in plan
     assert "Shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`" in plan
     assert "MIGRATION_033 = NOT_CREATED / NOT_PREAUTHORIZED" in plan
 
@@ -77,7 +73,7 @@ def test_p18_6_result_and_checkpoint_preserve_security_safety_and_truth_boundari
         assert "P13.5/P13.6" in text
 
 
-def test_p18_6_closure_keeps_p18_7_ready_only_and_no_migration_033():
+def test_p18_6_historical_closure_keeps_safety_boundaries_after_later_advances():
     state = _state()
     assert state["phase18_p18_6"]["p18_7_state"] == "READY_TO_BEGIN"
     assert state["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
