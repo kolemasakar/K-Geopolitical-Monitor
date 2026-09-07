@@ -1,6 +1,6 @@
 # Phase 18 — Shared / Team Runtime Implementation Plan
 
-Status: `IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_READY`
+Status: `IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_READY`
 Date: 2026-09-07
 Project: K-Geopolitical Monitor
 Architecture approval: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`
@@ -15,7 +15,7 @@ Architecture preflight: `docs/implementation/PHASE_18_SHARED_TEAM_RUNTIME_ARCHIT
 
 This document converts the owner-approved Phase 18 architecture into an implementation sequence with explicit validation gates.
 
-The plan itself did not authorize implementation. A separate explicit owner decision on 2026-09-07 subsequently set `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`. P18.0 through P18.6 have since been implemented and validated. P18.7 is now the next permitted engineering step, but shared-runtime activation, canonical cutover, paid providers, migration `033` and production/live operation remain separately gated.
+The plan itself did not authorize implementation. A separate explicit owner decision on 2026-09-07 subsequently set `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`. P18.0 through P18.7 have since been implemented and validated. P18.8 is now the next permitted engineering step, but shared-runtime activation, canonical cutover, paid providers, migration `033` and production/live operation remain separately gated.
 
 The active canonical runtime remains:
 
@@ -50,7 +50,7 @@ The recorded decision is:
 
 `docs/decisions/PHASE_18_IMPLEMENTATION_AUTHORIZATION_GATE_2026-09-07.md`
 
-P18.0 is formally validated at `P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`; P18.1 is formally validated at `P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED`; P18.2 is formally validated at `P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED`; P18.3 is formally validated at `P18_3_SHARED_DATASTORE_SCHEMA_MIGRATION_CONTRACT_VALIDATED`; P18.4 is formally validated at `P18_4_TENANT_REPOSITORY_CONCURRENCY_VALIDATED`; P18.5 is formally validated at `P18_5_AUDIT_OUTBOX_SIDE_EFFECT_ISOLATION_VALIDATED`; P18.6 is formally validated at `P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_VALIDATED`; P18.7 is `READY_TO_BEGIN`.
+P18.0 is formally validated at `P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`; P18.1 is formally validated at `P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED`; P18.2 is formally validated at `P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED`; P18.3 is formally validated at `P18_3_SHARED_DATASTORE_SCHEMA_MIGRATION_CONTRACT_VALIDATED`; P18.4 is formally validated at `P18_4_TENANT_REPOSITORY_CONCURRENCY_VALIDATED`; P18.5 is formally validated at `P18_5_AUDIT_OUTBOX_SIDE_EFFECT_ISOLATION_VALIDATED`; P18.6 is formally validated at `P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_VALIDATED`; P18.7 is formally validated at `P18_7_SHARED_RUNTIME_BACKUP_DR_ROLLBACK_VALIDATED`; P18.8 is `READY_TO_BEGIN`.
 
 ## 3. Engineering Principles
 
@@ -283,29 +283,43 @@ Acceptance boundary:
 
 ### P18.7 — Backup, Disaster Recovery and Rollback
 
-State: `READY_TO_BEGIN`
+State: `VALIDATED`
 Gate: `P18_7_SHARED_RUNTIME_BACKUP_DR_ROLLBACK_VALIDATED`
+Implementation anchor: `cdd23c945cccdc27a43fa14d18ebeb6309b991f1`
+Contract: `docs/implementation/P18_7_SHARED_RUNTIME_BACKUP_DR_ROLLBACK_CONTRACT.md`
+Artifact hardening: `docs/implementation/P18_7_SHARED_RUNTIME_RECOVERY_ARTIFACT_HARDENING.md`
+Result: `docs/implementation/P18_7_SHARED_RUNTIME_BACKUP_DR_ROLLBACK_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-07_P18_7_SHARED_RUNTIME_BACKUP_DR_ROLLBACK_VALIDATED.md`
 
-Scope after implementation authorization:
+Validated scope:
 
-- encrypted shared-runtime backups;
-- schema/migration version capture;
-- tenant-safe restore procedures;
-- clean-environment restore drill;
-- point-in-time recovery or equivalent where supported;
-- rollback from failed shared candidate to unchanged owner-only runtime;
-- measured RPO/RTO evidence before any service-level claim.
+- tenant-scoped backup manifests capture schema/checkpoint/content identity and external P18.6 secret references without embedding secret material;
+- encrypted-artifact envelopes require explicit encrypted-payload semantics plus independent ciphertext SHA-256 integrity;
+- deterministic decoded tenant snapshots reject mixed tenants/duplicate identities and bind content SHA-256 plus row counts to the backup manifest;
+- clean-target provider-free restore reconciles actual record snapshots, refuses overwrite and fails closed on tenant/schema mismatch;
+- deterministic logical recovery-point selection chooses the latest durable point at or before the requested time;
+- measured RPO is failure time minus the latest durable recovery point;
+- measured RTO is failure time through restore completion, including pre-restore delay;
+- failed shared candidates remain discardable while owner-local canonical SQLite remains unchanged and independently operable;
+- backup/restore/rollback evidence is truth-neutral and cannot promote factual verification.
 
-Acceptance:
+Validation evidence:
 
-- clean-environment restore succeeds;
-- restore cannot cross tenant/project ownership boundaries;
-- failed shared candidate can be discarded without corrupting owner-only canonical data;
-- RPO/RTO values are measured, not inherited from planning assumptions.
+- PR #30 CI run `34159435003`, job `101857964148`: `1034 passed in 112.58s / SUCCESS`; dependency check PASS;
+- exact-main x64 run `34159594021`, job `101858434798`: exact `cdd23c945cccdc27a43fa14d18ebeb6309b991f1`, `1034 passed in 116.27s / SUCCESS`; dependency check PASS;
+- exact-main native ARM64 run `34159594044`, job `101858434830`: exact `cdd23c945cccdc27a43fa14d18ebeb6309b991f1`, native `aarch64`, `1034 passed in 112.01s / SUCCESS`; dependency check, bootstrap, unattended one-tick and systemd contract PASS;
+- unattended smoke: `execution_count: 0`, `recovered_runs: 0`.
+
+Acceptance boundary:
+
+- P18.7 validates provider-neutral recovery contracts and clean-target harness evidence;
+- `encrypted=True` and `off_host_copy=True` are required contract semantics, not observed provider infrastructure;
+- concrete cryptographic adapter, real off-host storage, provider PITR/WAL-equivalent and deployed shared-datastore restore remain P18.8/P18.9 evidence;
+- P18.7 did not deploy shared storage, select or purchase a provider, allocate migration `033`, expose shared/public ingress, switch canonical storage, authorize canonical cutover, activate shared runtime or change production/live status.
 
 ### P18.8 — Non-Production Shadow, Provider/Cost Gate and Canary Readiness
 
-State: `PLANNED / NOT_STARTED`
+State: `READY_TO_BEGIN`
 Gate: `P18_8_NONPROD_SHADOW_CANARY_READINESS_VALIDATED`
 
 Scope after implementation authorization:
@@ -464,7 +478,9 @@ Until then, owner-only project-local SQLite remains canonical.
 
 `P18_6 = VALIDATED`
 
-`P18_7 = READY_TO_BEGIN`
+`P18_7 = VALIDATED`
+
+`P18_8 = READY_TO_BEGIN`
 
 `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`
 
@@ -478,10 +494,10 @@ Until then, owner-only project-local SQLite remains canonical.
 
 The next permitted engineering step is:
 
-`P18.7 — Backup, Disaster Recovery and Rollback`
+`P18.8 — Non-Production Shadow, Provider/Cost Gate and Canary Readiness`
 
 Target validation gate:
 
-`P18_7_SHARED_RUNTIME_BACKUP_DR_ROLLBACK_VALIDATED`
+`P18_8_NONPROD_SHADOW_CANARY_READINESS_VALIDATED`
 
-P18.7 readiness authorizes only the next provider-neutral engineering step. It does not allocate/create/preauthorize migration `033`, select or purchase a provider, deploy shared storage, expose shared/public ingress, activate shared runtime, switch canonical storage or authorize production/shared cutover.
+P18.8 readiness authorizes only the next non-production/shadow engineering step. It does not allocate/create/preauthorize migration `033`, approve or purchase a paid provider, activate shared/public ingress, activate shared runtime, switch canonical storage, authorize canonical cutover or authorize production/live transition.
