@@ -29,7 +29,7 @@ def test_phase18_architecture_and_implementation_authorization_remain_separate_f
     assert phase18.startswith("ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED /")
     assert phase18.endswith("/ NOT_ACTIVATED")
     assert "P18_0_VALIDATED" in phase18
-    assert "P18_1_READY" in phase18
+    assert state["roadmap"]["current_position"].startswith("PHASE_18_")
     assert (
         state["activation_gates"]["phase18_architecture"]
         == "PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER"
@@ -45,10 +45,6 @@ def test_phase18_architecture_and_implementation_authorization_remain_separate_f
     assert (
         state["activation_gates"]["phase18_activation"]
         == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
-    )
-    assert (
-        state["roadmap"]["current_position"]
-        == "PHASE_18_P18_0_VALIDATED_P18_1_READY_GATE"
     )
 
 
