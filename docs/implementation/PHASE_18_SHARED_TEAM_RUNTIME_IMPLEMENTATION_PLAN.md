@@ -1,6 +1,6 @@
 # Phase 18 — Shared / Team Runtime Implementation Plan
 
-Status: `IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_READY`
+Status: `IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_READY`
 Date: 2026-09-07
 Project: K-Geopolitical Monitor
 Architecture approval: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`
@@ -15,7 +15,7 @@ Architecture preflight: `docs/implementation/PHASE_18_SHARED_TEAM_RUNTIME_ARCHIT
 
 This document converts the owner-approved Phase 18 architecture into an implementation sequence with explicit validation gates.
 
-The plan itself did not authorize implementation. A separate explicit owner decision on 2026-09-07 subsequently set `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`. P18.0, P18.1 and P18.2 have since been implemented and validated. P18.3 is now the next permitted engineering step, but shared-runtime activation, canonical cutover, paid providers, migration `033` and production/live operation remain separately gated.
+The plan itself did not authorize implementation. A separate explicit owner decision on 2026-09-07 subsequently set `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`. P18.0, P18.1, P18.2 and P18.3 have since been implemented and validated. P18.4 is now the next permitted engineering step, but shared-runtime activation, canonical cutover, paid providers, migration `033` and production/live operation remain separately gated.
 
 The active canonical runtime remains:
 
@@ -50,7 +50,7 @@ The recorded decision is:
 
 `docs/decisions/PHASE_18_IMPLEMENTATION_AUTHORIZATION_GATE_2026-09-07.md`
 
-P18.0 is formally validated at `P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`; P18.1 is formally validated at `P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED`; P18.2 is formally validated at `P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED`; P18.3 is `READY_TO_BEGIN`.
+P18.0 is formally validated at `P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`; P18.1 is formally validated at `P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED`; P18.2 is formally validated at `P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED`; P18.3 is formally validated at `P18_3_SHARED_DATASTORE_SCHEMA_MIGRATION_CONTRACT_VALIDATED`; P18.4 is `READY_TO_BEGIN`.
 
 ## 3. Engineering Principles
 
@@ -157,34 +157,40 @@ Validation evidence:
 
 ### P18.3 — Shared Datastore Schema and Migration Contract
 
-State: `READY_TO_BEGIN`
+State: `VALIDATED`
 Gate: `P18_3_SHARED_DATASTORE_SCHEMA_MIGRATION_CONTRACT_VALIDATED`
+Implementation anchor: `7cf09298ee385a0ed7d5a5797f3a096f4cd04bf7`
+Contract: `docs/implementation/P18_3_SHARED_DATASTORE_SCHEMA_MIGRATION_CONTRACT.md`
+Result: `docs/implementation/P18_3_SHARED_DATASTORE_SCHEMA_MIGRATION_CONTRACT_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-07_P18_3_SHARED_DATASTORE_SCHEMA_MIGRATION_CONTRACT_VALIDATED.md`
 
-Scope after implementation authorization:
+Validated scope:
 
-- design PostgreSQL-compatible transactional schema or demonstrably equivalent relational contract;
-- tenant-scope every canonical shared object;
-- define referential integrity and tenant-consistency constraints;
-- define migration versioning, forward/rollback expectations and schema compatibility rules;
-- define row-level security or equivalent database-policy evaluation where appropriate;
-- design controlled export/import from owner-only SQLite with provenance and reconciliation.
+- provider-neutral PostgreSQL-compatible transactional relational capability contract without selecting or provisioning a provider;
+- mandatory non-null `workspace_id` and `project_id` on modeled shared canonical tables;
+- composite primary-key and foreign-key rules that preserve full tenant scope below the UI/request layer;
+- fail-closed database-policy/RLS-equivalent scope descriptors using both tenant-key columns;
+- representative shared contracts for event, semantic claim, forecast, delivery intent and publication release state;
+- explicit logical schema-version advance, forward operations, rollback operations and compatibility rules;
+- hard rejection of allocated repository migration numbers, destructive migration semantics and canonical-cutover authorization inside P18.3;
+- provenance-bound owner-local SQLite export manifest with source database SHA-256, row counts and per-table checksums;
+- import reconciliation that can establish shadow-readiness only and never authorizes canonical cutover.
+
+Validation evidence:
+
+- x64 run `34141047205`, job `101802889133`: `858 passed in 111.18s / SUCCESS`;
+- native ARM64 run `34141047066`, job `101802888555`: native `aarch64`, `858 passed in 95.67s / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Migration boundary:
 
-- this plan does **not** allocate, create or preauthorize migration `033`;
-- the first Phase 18 migration number/name is chosen only after a separate migration review inside authorized implementation;
-- no migration may rewrite the current owner-only SQLite canonical store in place.
-
-Acceptance:
-
-- schema review demonstrates tenant isolation at more than the UI layer;
-- cross-tenant foreign-key/ownership inconsistencies fail;
-- forward/rollback migration tests exist before migration validation;
-- owner-only SQLite remains unchanged and independently restorable.
+- P18.3 allocated no repository migration number;
+- migration `033` remains `NOT_CREATED / NOT_PREAUTHORIZED`;
+- no migration may rewrite the current owner-only SQLite canonical store in place;
+- no datastore, provider, DDL execution or canonical cutover was activated by P18.3.
 
 ### P18.4 — Tenant-Scoped Repository, Write, Idempotency and Concurrency Layer
 
-State: `PLANNED / NOT_STARTED`
+State: `READY_TO_BEGIN`
 Gate: `P18_4_TENANT_REPOSITORY_CONCURRENCY_VALIDATED`
 
 Scope after implementation authorization:
@@ -421,7 +427,9 @@ Until then, owner-only project-local SQLite remains canonical.
 
 `P18_2 = VALIDATED`
 
-`P18_3 = READY_TO_BEGIN`
+`P18_3 = VALIDATED`
+
+`P18_4 = READY_TO_BEGIN`
 
 `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`
 
@@ -435,10 +443,10 @@ Until then, owner-only project-local SQLite remains canonical.
 
 The next permitted engineering step is:
 
-`P18.3 — Shared Datastore Schema and Migration Contract`
+`P18.4 — Tenant-Scoped Repository, Write, Idempotency and Concurrency Layer`
 
 Target validation gate:
 
-`P18_3_SHARED_DATASTORE_SCHEMA_MIGRATION_CONTRACT_VALIDATED`
+`P18_4_TENANT_REPOSITORY_CONCURRENCY_VALIDATED`
 
-P18.3 readiness authorizes only the next provider-neutral engineering step. It does not allocate/create/preauthorize migration `033`, select or purchase a provider, deploy shared storage, expose shared/public ingress, activate shared runtime, switch canonical storage or authorize production/shared cutover.
+P18.4 readiness authorizes only the next provider-neutral engineering step. It does not allocate/create/preauthorize migration `033`, select or purchase a provider, deploy shared storage, expose shared/public ingress, activate shared runtime, switch canonical storage or authorize production/shared cutover.
