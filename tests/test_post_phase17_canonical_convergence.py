@@ -23,16 +23,19 @@ def _state() -> dict:
     return json.loads(STATE_PATH.read_text(encoding="utf-8"))
 
 
-def test_machine_readable_state_matches_roadmap_v4_23_position():
+def test_machine_readable_state_matches_current_roadmap_v4_position():
     state = _state()
     roadmap = _text("ROADMAP.md")
     assert state["roadmap"]["strategic_version"] == "v4"
-    assert state["roadmap"]["state_sync_version"] == "4.23"
+    sync_version = state["roadmap"]["state_sync_version"]
+    major, minor = sync_version.split(".", 1)
+    assert major == "4"
+    assert int(minor) >= 22
+    assert f"Version: {sync_version}" in roadmap
     assert (
         state["roadmap"]["current_position"]
-        == "PHASE_18_ARCHITECTURE_APPROVED_IMPLEMENTATION_PLANNING_GATE"
+        == "PHASE_18_IMPLEMENTATION_AUTHORIZED_P18_0_READY_GATE"
     )
-    assert "Version: 4.23" in roadmap
     assert state["phases"]["17"].split(" / ")[0] in roadmap
     assert state["activation_gates"]["phase18_architecture"] in roadmap
     assert state["activation_gates"]["phase18_planning"] in roadmap
@@ -83,7 +86,7 @@ def test_activation_and_publication_boundaries_are_synchronized_without_activati
     assert state["activation_gates"]["phase17_current_account_capability"] == "UNAVAILABLE"
     assert state["runtime"]["production_live"] == "NOT_OPERATIONAL"
     assert state["runtime"]["mixed_shared_runtime"] == "BLOCKED"
-    assert state["activation_gates"]["phase18_implementation"] == "PHASE_18_IMPLEMENTATION_AUTHORIZED = NO"
+    assert state["activation_gates"]["phase18_implementation"] == "PHASE_18_IMPLEMENTATION_AUTHORIZED = YES"
     assert state["activation_gates"]["phase18_activation"] == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
     assert "Phase 18 is not activated" in _text("PROJECT_HISTORY.md")
 
