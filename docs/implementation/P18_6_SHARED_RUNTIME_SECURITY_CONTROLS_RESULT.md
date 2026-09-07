@@ -1,11 +1,13 @@
 # P18.6 — Shared Runtime Security and Secrets Controls Result
 
-Status: `IMPLEMENTATION_VALIDATED / FORMAL_CLOSURE_PENDING`
+Status: `VALIDATED`
 Date: 2026-09-07
 Project: K-Geopolitical Monitor
-Target gate: `P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_VALIDATED`
+Gate: `P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_VALIDATED`
 Implementation anchor: `8d3e8679db3e722186f04dc0fff32fdb8e13e703`
 Contract: `docs/implementation/P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_CONTRACT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-07_P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_VALIDATED.md`
+Next gate: `P18_7_SHARED_RUNTIME_BACKUP_DR_ROLLBACK_VALIDATED`
 
 ## Exact Implementation Validation
 
@@ -54,4 +56,8 @@ Observed firewall/private-network/TLS/reachability proof is intentionally deferr
 
 ## Closure State
 
-Exact implementation validation is complete and green. Formal P18.6 closure requires the dedicated ROADMAP/state-sync closure change and its own regression evidence before the canonical gate is advanced to P18.7 readiness.
+P18.6 is formally closed at:
+
+`P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_VALIDATED`
+
+The next permitted engineering step is P18.7 backup, disaster-recovery and rollback contract implementation. P18.7 readiness does not authorize migration `033`, provider spending/selection, shared datastore deployment, shared/public ingress, canonical cutover, shared-runtime activation or production/live transition.
