@@ -1,6 +1,6 @@
 # P18.7 — Shared Runtime Backup, Disaster Recovery and Rollback Result
 
-Status: `IMPLEMENTATION_VALIDATED / FORMAL_CLOSURE_CANDIDATE`
+Status: `VALIDATED / P18_8_READY`
 Date: 2026-09-07
 Project: K-Geopolitical Monitor
 Gate: `P18_7_SHARED_RUNTIME_BACKUP_DR_ROLLBACK_VALIDATED`
@@ -165,7 +165,8 @@ Canonical boundaries remain:
 
 ## Closure State
 
-Exact implementation validation is complete and green at `cdd23c...`.
-Formal P18.7 gate closure requires the dedicated ROADMAP/state synchronization
-change and its own regression evidence before the canonical engineering position
-advances to P18.8 readiness.
+P18.7 is formally synchronized as `VALIDATED`, with P18.8 advanced only to
+`READY_TO_BEGIN`. This closure records the validated provider-neutral recovery
+contract and exact implementation evidence; it does not claim deployed recovery
+infrastructure, provider approval, shared-runtime activation, canonical cutover
+or production/live operation.
