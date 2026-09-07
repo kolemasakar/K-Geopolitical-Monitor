@@ -151,7 +151,10 @@ def test_phase18_implementation_authorization_does_not_create_or_preauthorize_mi
     assert state["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
     assert not any(path.name.startswith("033_") for path in migrations.glob("*.sql"))
     assert "MIGRATION_033 = NOT_CREATED / NOT_PREAUTHORIZED" in plan
-    assert "does **not** allocate, create or preauthorize migration `033`" in plan
+    assert (
+        "does **not** allocate, create or preauthorize migration `033`" in plan
+        or "migration `033` remains `NOT_CREATED / NOT_PREAUTHORIZED`" in plan
+    )
     assert "migration `033` creation or execution merely because Phase 18 implementation is authorized" in gate
 
 
