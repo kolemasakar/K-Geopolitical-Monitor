@@ -1,6 +1,6 @@
 # Phase 18 — Shared / Team Runtime Implementation Plan
 
-Status: `IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_READY`
+Status: `IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_READY`
 Date: 2026-09-07
 Project: K-Geopolitical Monitor
 Architecture approval: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`
@@ -15,7 +15,7 @@ Architecture preflight: `docs/implementation/PHASE_18_SHARED_TEAM_RUNTIME_ARCHIT
 
 This document converts the owner-approved Phase 18 architecture into an implementation sequence with explicit validation gates.
 
-The plan itself did not authorize implementation. A separate explicit owner decision on 2026-09-07 subsequently set `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`. P18.0, P18.1, P18.2 and P18.3 have since been implemented and validated. P18.4 is now the next permitted engineering step, but shared-runtime activation, canonical cutover, paid providers, migration `033` and production/live operation remain separately gated.
+The plan itself did not authorize implementation. A separate explicit owner decision on 2026-09-07 subsequently set `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`. P18.0 through P18.4 have since been implemented and validated. P18.5 is now the next permitted engineering step, but shared-runtime activation, canonical cutover, paid providers, migration `033` and production/live operation remain separately gated.
 
 The active canonical runtime remains:
 
@@ -50,7 +50,7 @@ The recorded decision is:
 
 `docs/decisions/PHASE_18_IMPLEMENTATION_AUTHORIZATION_GATE_2026-09-07.md`
 
-P18.0 is formally validated at `P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`; P18.1 is formally validated at `P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED`; P18.2 is formally validated at `P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED`; P18.3 is formally validated at `P18_3_SHARED_DATASTORE_SCHEMA_MIGRATION_CONTRACT_VALIDATED`; P18.4 is `READY_TO_BEGIN`.
+P18.0 is formally validated at `P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`; P18.1 is formally validated at `P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED`; P18.2 is formally validated at `P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED`; P18.3 is formally validated at `P18_3_SHARED_DATASTORE_SCHEMA_MIGRATION_CONTRACT_VALIDATED`; P18.4 is formally validated at `P18_4_TENANT_REPOSITORY_CONCURRENCY_VALIDATED`; P18.5 is `READY_TO_BEGIN`.
 
 ## 3. Engineering Principles
 
@@ -190,28 +190,37 @@ Migration boundary:
 
 ### P18.4 — Tenant-Scoped Repository, Write, Idempotency and Concurrency Layer
 
-State: `READY_TO_BEGIN`
+State: `VALIDATED`
 Gate: `P18_4_TENANT_REPOSITORY_CONCURRENCY_VALIDATED`
+Implementation anchor: `17888993263b1ae7ceda65cd46e7540f1ff17add`
+Contract: `docs/implementation/P18_4_TENANT_REPOSITORY_CONCURRENCY_CONTRACT.md`
+Result: `docs/implementation/P18_4_TENANT_REPOSITORY_CONCURRENCY_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-07_P18_4_TENANT_REPOSITORY_CONCURRENCY_VALIDATED.md`
 
-Scope after implementation authorization:
+Validated scope:
 
-- tenant-scoped repositories/services for shared canonical reads and writes;
-- mandatory authenticated scope in every shared canonical repository method;
-- idempotency keys for retryable commands where duplicate execution matters;
-- object version/optimistic concurrency tokens where conflicting edits are unsafe;
-- deterministic conflict responses;
-- concurrent writer tests.
+- every shared canonical repository read/write requires authenticated principal, explicit `TenantContext` and server-side RBAC resolution;
+- stored object keys include `workspace_id` and `project_id`, so object identifiers alone never establish authorization scope;
+- retryable writes require tenant-scoped idempotency keys and deterministic SHA-256 command fingerprints;
+- command payloads are snapshotted to immutable canonical JSON at command construction, preventing external mutation from changing retry identity or stored payload;
+- exact retries replay the original result without duplicating canonical mutation;
+- idempotency-key reuse for a different command fails deterministically;
+- optimistic concurrency uses explicit expected/current versions and rejects stale writers;
+- concurrent writers have deterministic one-winner/conflict semantics;
+- identifier guessing cannot cross workspace/project boundaries;
+- implementation is a provider-neutral in-memory contract harness only, not a deployed shared datastore adapter.
 
-Acceptance:
+Validation evidence:
 
-- repository methods cannot issue unscoped canonical shared queries;
-- duplicate command retries do not duplicate effects;
-- conflicting writes are deterministic and observable;
-- one workspace cannot read/write another workspace through identifier guessing.
+- PR #22 final CI run `34144837471`, job `101814489463`: `895 passed in 144.80s / SUCCESS`;
+- exact-main x64 run `34145082756`, job `101815247999`: `895 passed in 203.00s / SUCCESS`; dependency check PASS;
+- exact-main native ARM64 run `34145082744`, job `101815247894`: native `aarch64`, `895 passed in 122.97s / SUCCESS`; dependency check, bootstrap, unattended one-tick and systemd contract PASS.
+
+P18.4 did not deploy shared storage, activate shared runtime, allocate migration `033`, select or purchase a provider, expose shared/public ingress, switch canonical storage, authorize canonical cutover or change production/live status.
 
 ### P18.5 — Audit, Transactional Outbox and Side-Effect Isolation
 
-State: `PLANNED / NOT_STARTED`
+State: `READY_TO_BEGIN`
 Gate: `P18_5_AUDIT_OUTBOX_SIDE_EFFECT_ISOLATION_VALIDATED`
 
 Scope after implementation authorization:
@@ -429,7 +438,9 @@ Until then, owner-only project-local SQLite remains canonical.
 
 `P18_3 = VALIDATED`
 
-`P18_4 = READY_TO_BEGIN`
+`P18_4 = VALIDATED`
+
+`P18_5 = READY_TO_BEGIN`
 
 `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`
 
@@ -443,10 +454,10 @@ Until then, owner-only project-local SQLite remains canonical.
 
 The next permitted engineering step is:
 
-`P18.4 — Tenant-Scoped Repository, Write, Idempotency and Concurrency Layer`
+`P18.5 — Audit, Transactional Outbox and Side-Effect Isolation`
 
 Target validation gate:
 
-`P18_4_TENANT_REPOSITORY_CONCURRENCY_VALIDATED`
+`P18_5_AUDIT_OUTBOX_SIDE_EFFECT_ISOLATION_VALIDATED`
 
-P18.4 readiness authorizes only the next provider-neutral engineering step. It does not allocate/create/preauthorize migration `033`, select or purchase a provider, deploy shared storage, expose shared/public ingress, activate shared runtime, switch canonical storage or authorize production/shared cutover.
+P18.5 readiness authorizes only the next provider-neutral engineering step. It does not allocate/create/preauthorize migration `033`, select or purchase a provider, deploy shared storage, expose shared/public ingress, activate shared runtime, switch canonical storage or authorize production/shared cutover.
