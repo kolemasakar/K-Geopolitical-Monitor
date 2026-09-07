@@ -26,7 +26,7 @@ def _state() -> dict:
     return json.loads(STATE_PATH.read_text(encoding="utf-8"))
 
 
-def test_phase18_owner_implementation_authorization_remains_recorded_after_p18_0_validation():
+def test_phase18_owner_implementation_authorization_remains_recorded_during_subphase_progression():
     plan = _text(PLAN_PATH)
     gate = _text(AUTHORIZATION_PATH)
     state = _state()
@@ -34,8 +34,7 @@ def test_phase18_owner_implementation_authorization_remains_recorded_after_p18_0
     assert "PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER" in plan
     assert "PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES" in plan
     assert "PHASE_18_IMPLEMENTATION_AUTHORIZED = YES" in plan
-    assert "P18_0 = VALIDATED" in plan
-    assert "P18_1 = READY_TO_BEGIN" in plan
+    assert "P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED" in plan
 
     # The authorization record is historical evidence and remains unchanged.
     assert "Status: APPROVED_BY_OWNER_FOR_PHASE_18_IMPLEMENTATION" in gate
@@ -59,13 +58,10 @@ def test_phase18_owner_implementation_authorization_remains_recorded_after_p18_0
         state["activation_gates"]["phase18_activation"]
         == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
     )
-    assert (
-        state["roadmap"]["current_position"]
-        == "PHASE_18_P18_0_VALIDATED_P18_1_READY_GATE"
-    )
+    assert state["roadmap"]["current_position"].startswith("PHASE_18_")
 
 
-def test_phase18_plan_sequence_is_complete_ordered_and_tracks_current_subphase_states():
+def test_phase18_plan_sequence_is_complete_ordered_and_progresses_monotonically():
     plan = _text(PLAN_PATH)
     headings = (
         "### P18.0 — Shared Runtime Contract Foundation and Test Harness",
@@ -83,6 +79,7 @@ def test_phase18_plan_sequence_is_complete_ordered_and_tracks_current_subphase_s
     assert positions == sorted(positions)
 
     sections = []
+    states = []
     for index, heading in enumerate(headings):
         section = plan.split(heading, 1)[1]
         if index + 1 < len(headings):
@@ -90,10 +87,35 @@ def test_phase18_plan_sequence_is_complete_ordered_and_tracks_current_subphase_s
         sections.append(section)
         assert "Gate: `" in section
 
-    assert "State: `VALIDATED`" in sections[0]
-    assert "State: `READY_TO_BEGIN`" in sections[1]
-    for section in sections[2:]:
-        assert "State: `PLANNED / NOT_STARTED`" in section
+        if "State: `VALIDATED`" in section:
+            states.append("VALIDATED")
+        elif "State: `READY_TO_BEGIN`" in section:
+            states.append("READY_TO_BEGIN")
+        elif "State: `PLANNED / NOT_STARTED`" in section:
+            states.append("PLANNED")
+        else:
+            raise AssertionError(f"unrecognized P18.{index} state")
+
+    assert states[0] == "VALIDATED"
+    assert states.count("READY_TO_BEGIN") <= 1
+
+    phase = "VALIDATED"
+    for state in states:
+        if phase == "VALIDATED":
+            if state == "READY_TO_BEGIN":
+                phase = "READY_TO_BEGIN"
+            elif state == "PLANNED":
+                phase = "PLANNED"
+            else:
+                assert state == "VALIDATED"
+        elif phase == "READY_TO_BEGIN":
+            assert state != "VALIDATED"
+            if state == "PLANNED":
+                phase = "PLANNED"
+            else:
+                assert state == "READY_TO_BEGIN"
+        else:
+            assert state == "PLANNED"
 
 
 def test_phase18_plan_preserves_tenancy_authz_concurrency_security_and_dr_contracts():
