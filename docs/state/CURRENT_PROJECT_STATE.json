@@ -60,7 +60,9 @@
     "x64_job_id": 101730823343,
     "arm64_run_id": 34118505353,
     "arm64_job_id": 101730823137,
-    "test_count": 749
+    "test_count": 749,
+    "next_gate": "P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED",
+    "p18_1_state": "READY_TO_BEGIN"
   },
   "phase18_p18_1": {
     "state": "VALIDATED",
