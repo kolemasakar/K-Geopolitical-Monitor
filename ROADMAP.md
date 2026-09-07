@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.22
+Version: 4.23
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -219,7 +219,7 @@ Implementation validation:
 
 Evidence-save validation:
 - x64 run `33857629735`, job `100974493101`: `493 passed, 2 warnings / SUCCESS`;
-- native ARM64 run `33857629714`, job `100974493074`: `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+- native ARM64 run `33857629714`, job `100974493074`: native `aarch64`, `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Strategic closure validation:
 - x64 run `33861302915`, job `100986128743`: `497 passed, 2 warnings / SUCCESS`;
@@ -420,13 +420,19 @@ Phase 17 validates publication eligibility, public-safe projection/redaction, de
 Phase 17 introduced no database migration; migration `033` remains uncreated/not pre-authorized. No real external publication target, owner execution, production/live operation, public ingress, public GPT Action, backend HTTPS, shared runtime or paid provider is activated by readiness closure. For the current account, actual external publication is additionally blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`; owner approval alone cannot bypass this account/platform capability boundary. If the capability becomes available later, activation remains separately gated by `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` and fresh launch-time validation.
 
 ## Phase 18 — Shared / Team Runtime
-State: `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`
-Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
+State: `ARCHITECTURE_APPROVED / IMPLEMENTATION_PLANNING_AUTHORIZED / NOT_IMPLEMENTED / NOT_ACTIVATED`
+Architecture gate: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`
+Planning gate: `PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES`
+Implementation gate: `PHASE_18_IMPLEMENTATION_AUTHORIZED = NO`
+Activation gate: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`
+Decision: `docs/decisions/PHASE_18_ARCHITECTURE_APPROVAL_GATE_2026-09-07.md`
+
+Owner architecture approval authorizes implementation planning only. It does not authorize code/schema implementation, migration `033`, provider activation, public ingress, shared canonical cutover, production/live operation or shared-runtime activation. The existing owner-only `PROJECT_LOCAL_ONLY` SQLite runtime remains canonical and the rollback/compatibility profile until later separately validated and explicitly authorized gates are satisfied.
 
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.22`;
+- state synchronization: `v4.23`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -446,7 +452,11 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - Phase 17 current account publication capability: `UNAVAILABLE`;
 - Phase 17 capability decision: `docs/decisions/PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md`;
 - P17.0–P17.6: `VALIDATED`;
-- Phase 18: `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`;
+- Phase 18: `ARCHITECTURE_APPROVED / IMPLEMENTATION_PLANNING_AUTHORIZED / NOT_IMPLEMENTED / NOT_ACTIVATED`;
+- Phase 18 architecture approval: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`;
+- Phase 18 implementation planning: `PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES`;
+- Phase 18 implementation authorization: `PHASE_18_IMPLEMENTATION_AUTHORIZED = NO`;
+- Phase 18 shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared runtime storage: `BLOCKED`;
 - production/live operational status: `NOT_OPERATIONAL`;
@@ -456,4 +466,4 @@ Gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`
 - public sharing: `NOT_ACTIVE`;
 - paid providers: `NONE_APPROVED`.
 
-Phase 17 readiness is strategically closed at `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`. For the current account, real external publication is unavailable and blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`; an owner decision alone is insufficient while that capability boundary remains active. If the account/platform capability changes later, publication still requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus fresh launch-time validation. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 remains conditional and requires new architecture approval; no production/live transition is implied.
+Phase 17 readiness is strategically closed at `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`. For the current account, real external publication is unavailable and blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`; an owner decision alone is insufficient while that capability boundary remains active. If the account/platform capability changes later, publication still requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus fresh launch-time validation. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 architecture is owner-approved and implementation planning is authorized, but implementation and shared-runtime activation remain explicitly unauthorized; no production/live transition is implied.
