@@ -1,97 +1,80 @@
 # EXTERNAL_INTEGRATIONS
 
-Version: 1.1
-Status: APPROVED / P12_5_VALIDATED
+Version: 2.0
+Status: APPROVED / ROADMAP_V4_22_SYNCHRONIZED / PHASE_17_CURRENT
+Canonical state contract: `docs/state/CURRENT_PROJECT_STATE.json`
 
 ## Purpose
 
-Define governance rules for public sources, external services, cross-project resources and non-canonical operator tools.
+Define governance rules for public sources, external services, cross-project resources, delivery/publication targets and non-canonical operator tools.
 
-## P12.1 / P12.2 Foundation
+## Source Integration Baseline
 
+Phase 12 source-governance and adapter framework remains validated:
 - immutable `source_portfolio_versions` govern source identity/access/adapter/outbound requirements;
-- portfolio approval does not activate collection or establish evidence independence;
-- P12.2 provides bounded read-only HTTPS, deterministic RSS/Atom/JSON parsing, exact adapter identity/version and governed outbound-host enforcement;
-- deterministic CI remains independent of live source availability;
+- portfolio approval does not establish evidence independence or factual truth;
+- bounded read-only HTTPS acquisition and deterministic parsing remain the public-anonymous integration default;
+- deterministic CI does not depend on live source availability;
 - one source failure remains isolated and visible.
 
-## Validated Starting Integrations
+Validated source starting integrations include Consilium Press Releases RSS and GDELT DOC 2.0. GDELT indexing/discovery is not independent factual corroboration.
 
-- Consilium Press Releases RSS — official public read-only RSS/HTTPS;
-- GDELT DOC 2.0 — public structured discovery/index metadata.
+Retained Phase 12 gates:
+- `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`;
+- `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
+- `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`;
+- `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`.
 
-GDELT indexing/discovery is not independent factual corroboration.
+Historical source observations remain visible: European Parliament `UNAVAILABLE / PARSER` with governed `DEGRADED`; Haberturk `UNAVAILABLE / UNKNOWN` in the P12.5 probe; OSCE acquisition healthy with observed content stale. The `uk/ru/pl/tr` slice is not global language coverage.
 
-## P12.3 Priority Authoritative Source Pack
+## Integration Truth Boundary
 
-Gate: `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`.
-
-Governed source states:
-- European Commission Press Corner — `ACTIVE`;
-- European Parliament Press Releases — `DEGRADED` for unattended RSS acquisition;
-- UK Government News and Communications — `ACTIVE`;
-- OSCE Latest News — `ACTIVE`.
-
-The European Parliament official endpoint remains canonical. No anti-bot bypass or third-party mirror substitution is approved.
-
-## P12.4 Local-Language and Media Discovery Pack
-
-Gate: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`.
-
-Governed first public/free media-discovery slice:
-- Ukrainska Pravda — `uk` — `ACTIVE`;
-- Meduza — `ru` — `ACTIVE`;
-- RMF24 — `pl` — `ACTIVE`;
-- Haberturk — `tr` — `ACTIVE`.
-
-P12.4 controlled-live validation: run `33531518652`, job `99935565895`, `4 SUCCESS / 0 FAILED`.
-
-The pack preserves original-language Unicode and source URL. Translation remains a separate derived representation. `uk/ru/pl/tr` is a prioritized first slice, not global language coverage.
-
-## P12.5 Health / Freshness / Egress Inventory
-
-Gate: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`.
-Validation anchor: `92d0c0516351e2af7ba836d3ae711dd414d22023`.
-
-Controlled-live run `33533313654`, job `99941475574` measured all ten governed paths: `8 SUCCESS / 2 FAILED`.
-
-Measured observations:
-- European Parliament — `UNAVAILABLE / PARSER`; governed `DEGRADED` remains unchanged;
-- Haberturk — `UNAVAILABLE / UNKNOWN` due an invalid item `original_url`; governed `ACTIVE` remains unchanged pending P12.6 reconciliation;
-- OSCE — acquisition healthy, observed publisher content stale.
-
-P12.5 inventoried these HTTPS destinations:
-`api.gdeltproject.org`, `ec.europa.eu`, `feeds.osce.org`, `meduza.io`, `rss.haberturk.com`, `www.consilium.europa.eu`, `www.europarl.europa.eu`, `www.gov.uk`, `www.pravda.com.ua`, `www.rmf24.pl`.
-
-This inventory is not an outbound allowlist and does not itself authorize or deploy egress restriction.
-
-## Phase 12 Integration Policy
-
-- prefer public/free sources first;
-- no paid provider is approved by Phase 12 alone;
-- source/domain/adapter/item count is not underlying-origin count;
-- media/domain/language/adapter/item count is not independent-origin count;
+- publisher/publication is not automatically the underlying origin;
 - repost/syndication/translation/citation does not create independent corroboration;
 - official-source status confirms institutional publication/statement, not automatically the underlying event;
-- media publication confirms publisher publication, not automatically the underlying origin or event;
-- deterministic CI must not depend on live source availability;
-- live failures/degradation/staleness remain isolated and visible;
-- governed availability and latest measured operational state are separate;
-- exact outbound host/protocol requirements must be recorded before a restriction decision.
+- source/domain/adapter/item/language/host counts are not independent-origin count;
+- availability/freshness are operational properties, not truth operators;
+- P13.5/P13.6 remains canonical factual-verification authority.
+
+## Phase 15 External Data Boundary
+
+Forecast outcome/calibration/performance layers may reference persisted provenance-bound evidence, but probability, calibration and performance metrics are not factual-verification operators. No paid outcome-data provider is activated by Phase 15.
+
+## Phase 16 Delivery Integration Boundary
+
+Phase 16 is `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`.
+
+- provider-neutral transport contract is validated with deterministic local/in-memory sinks;
+- Telegram, email, Slack, SMS, push, webhook and other real external delivery channels remain outside validated activation scope;
+- no real external delivery provider is activated;
+- credentials are not persisted in canonical delivery records;
+- redaction/data minimization precedes transport;
+- delivery receipts and operator feedback are not event evidence or truth operators.
+
+## Phase 17 Publication Integration Boundary
+
+Phase 17 is `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED`.
+
+- validated target is provider-neutral local/in-memory/test only;
+- current account external-publication capability: `UNAVAILABLE`;
+- `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY` is active;
+- any future real publication requires both available platform capability and `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus fresh launch-time validation;
+- public API/dashboard ingress remains not approved/deployed;
+- public GPT Action remains not connected/approved;
+- public sharing remains `NOT_ACTIVE`;
+- migration `033` is `NOT_CREATED / NOT_PREAUTHORIZED`.
 
 ## Cross-Project Boundary
 
-- architecture: HYBRID;
-- runtime storage: `PROJECT_LOCAL_ONLY`;
+- architecture remains hybrid in the historical infrastructure sense, but canonical runtime storage is `PROJECT_LOCAL_ONLY`;
 - no shared runtime database;
 - no implicit mixed canonical storage;
 - no direct writes to another project's canonical store;
-- shared/team runtime requires a new architecture approval.
+- Phase 18 shared/team runtime is `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED` and requires `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`.
 
 ## Credentials / Paid Providers
 
-Credentialed sources require explicit approval and external secret handling. APPROVED paid-provider state requires separate explicit owner approval.
-
+Credentialed sources/targets require explicit approval and external secret handling.
 Paid providers: `NONE_APPROVED`.
 
 ## Start.me
@@ -101,12 +84,15 @@ Start.me is non-canonical and limited to public, non-sensitive navigation/source
 
 ## Current State
 
-- P12.1 source-portfolio governance: `VALIDATED`;
-- P12.2 adapter framework: `VALIDATED`;
-- P12.3 authoritative source pack: `VALIDATED`;
-- P12.4 local-language/media discovery pack: `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
-- P12.5 health/freshness/egress inventory: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`;
-- P12.6: `NEXT / NOT_STARTED`;
+- Phase 12 source portfolio/adapters: validated with recorded limitations;
+- Phase 13 verification/provenance: validated;
+- Phase 16 delivery integration architecture: validated, real providers not activated;
+- Phase 17 publication readiness: validated, real publication not activated and current account capability unavailable;
+- Phase 18 shared/team integrations: conditional, new architecture approval required;
 - paid providers: `NONE_APPROVED`;
 - public KGM ingress: `NOT_APPROVED / NOT_DEPLOYED`;
+- runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.
+
+Production/live operational status: NOT_OPERATIONAL
+Runtime storage mode: PROJECT_LOCAL_ONLY

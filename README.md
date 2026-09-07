@@ -1,38 +1,36 @@
 # K-Geopolitical Monitor
 Global geopolitical monitoring and intelligence platform.
 
-Version: 4.19
-Status: ACTIVE / ROADMAP_V4 / PHASE_15_VALIDATED / PHASE_14_NOT_ACTIVATED / OWNER_ACTIVATION_REQUIRED
+Version: 4.20
+Status: ACTIVE / ROADMAP_V4_22 / PHASE_15_VALIDATED / PHASE_17_VALIDATED_READY / PHASE_14_NOT_ACTIVATED / OWNER_ACTIVATION_REQUIRED
+Canonical state contract: `docs/state/CURRENT_PROJECT_STATE.json`
 
 ## Purpose
 
-K-Geopolitical Monitor supports discovery, provenance-aware verification, geopolitical analysis, forecasting, reporting, operational monitoring and explicit coverage assessment of significant developments.
+K-Geopolitical Monitor supports discovery, provenance-aware verification, geopolitical analysis, forecasting, reporting, operational monitoring, delivery/quality feedback and controlled publication readiness while preserving explicit truth, storage, security and activation boundaries.
 
 ## Canonical Documentation
 
-- `ROADMAP.md` — ROADMAP v4 and current phase state;
+- `ROADMAP.md` — strategic sequence and authoritative phase state;
+- `docs/state/CURRENT_PROJECT_STATE.json` — machine-readable current-state contract;
 - `ARCHITECTURE.md` — architecture/truth/storage/runtime boundaries;
 - `SECURITY_AND_DATA_POLICY.md` — security/data policy;
-- `EXTERNAL_INTEGRATIONS.md` — integration/source rules;
+- `EXTERNAL_INTEGRATIONS.md` — integration/source/delivery/publication rules;
 - `SOURCE_POLICY.md` — source/provenance governance;
-- `DATA_MODELS.md` — canonical data-model summary;
+- `DATA_MODELS.md` — canonical data-model and migration summary;
 - `PROJECT_HISTORY.md` — chronological project record;
-- `docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md` — Phase 13 implementation plan/closure record;
-- `docs/implementation/P13_6_LIVE_COMPATIBILITY_CUTOVER_VALIDATION_MATRIX.md` — P13.6 / Phase-13 validation matrix;
-- `docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_RESULT.md` — final Phase-13 strategic result;
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED.md` — final saved Phase-13 checkpoint;
-- `docs/implementation/PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_PLAN.md` — Phase 14 validated pre-activation architecture and closure record;
-- `docs/implementation/P14_6_VALIDATION_MATRIX.md` — Phase 14 validation matrix;
-- `docs/implementation/PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_RESULT.md` — Phase 14 final strategic result;
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY.md` — Phase 14 final readiness checkpoint;
-- `docs/implementation/PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_PLAN.md` — Phase 15 implementation and validation record;
-- `docs/implementation/P15_6_VALIDATION_MATRIX.md` — Phase 15 validation matrix;
-- `docs/implementation/PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_RESULT.md` — final Phase 15 strategic result;
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-04_PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED.md` — final saved Phase 15 checkpoint.
+- `docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md` — Phase 13 plan/closure record;
+- `docs/implementation/PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_PLAN.md` — Phase 14 validated readiness record;
+- `docs/implementation/PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_PLAN.md` — Phase 15 validated record;
+- `docs/implementation/PHASE_16_DELIVERY_OPERATOR_QUALITY_FEEDBACK_PLAN.md` — Phase 16 validated record;
+- `docs/implementation/PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_PLAN.md` — Phase 17 validated readiness record;
+- `docs/implementation/PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_RESULT.md` — Phase 17 final result;
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-05_PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED_READY.md` — Phase 17 checkpoint;
+- `docs/decisions/PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md` — current account publication capability constraint.
 
 ## Current State
 
-- strategic ROADMAP: `APPROVED / v4`;
+- strategic ROADMAP: `APPROVED / v4`, state synchronization `4.22`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -46,9 +44,18 @@ K-Geopolitical Monitor supports discovery, provenance-aware verification, geopol
 - P14.0–P14.6: `VALIDATED`;
 - Phase 15: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`;
 - P15.0–P15.6: `VALIDATED`;
-- Phase 16: `APPROVED_SEQUENTIAL / NOT_STARTED`;
+- Phase 16: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`;
+- P16.0–P16.7: `VALIDATED`;
+- Phase 17: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`;
+- P17.0–P17.6: `VALIDATED`;
+- Phase 17 current account publication capability: `UNAVAILABLE`;
+- Phase 17 activation: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`;
+- Phase 18: `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`;
+- Phase 18 gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`;
 - operational activation: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`;
+- paid providers: `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
+- mixed/shared runtime storage: `BLOCKED`;
 - production/live: `NOT_OPERATIONAL`.
 
 Production/live operational status: NOT_OPERATIONAL
@@ -57,174 +64,87 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 ## Phase 13 Strategic Closure
 
 Gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
+P13.6 implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`.
 Strategic closure validation anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`.
-
-Strategic closure validation:
 - x64 run `33861302915`, job `100986128743`: `497 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33861302926`, job `100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-### P13.0 — Architecture Contract
-Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`.
-Semantic claim identity is not headline identity; provenance, evidence relation, independence, contradiction and verification policy are distinct layers. Count-based host/domain/source/language shortcuts cannot become canonical truth rules.
+Historical Phase-13 package evidence retained for regression/audit:
+- P13.3 formal closure HEAD `9023dc22d36525b4dc9babbf21d97d184a1c110e`: `438 passed, 1 warning / SUCCESS`;
+- P13.4 validation anchor `d4dbb8a8098cef960194935bd94d4640fd719050`: `447 passed, 1 warning / SUCCESS`;
+- P13.5 validation anchor `0f0d746c538dc5ce8f010fb80f8afbe00685414a`: `475 passed, 2 warnings / SUCCESS`.
 
-### P13.1 — Structured Semantic Claims
-Gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
-Validation anchor: `69c3282077ad8dd90ef239c0594be56f9363bfe5`.
-Migration `023_structured_semantic_claim_model.sql` provides append-only structured semantic claim versions and non-evidentiary links to legacy/live/raw objects. Extraction confidence remains extraction-only.
-
-### P13.2 — Provenance / Underlying Origin
-Gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
-Validation anchor: `6cd37a334b122ae5de2b4cb6272f9cc222f1f174`.
-Migration `024_semantic_provenance_origin_relation_model.sql` separates publication/publisher, immediate source, cited/quoted source and underlying origin. Citation/syndication/repost/translation/derivation do not create independent corroboration.
-
-### P13.3 — Evidence Relation / Independence
-Gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
-Implementation anchor: `639d6b2e64d618edfbe742636cb2ac0f663c68ee`.
-Formal closure HEAD: `9023dc22d36525b4dc9babbf21d97d184a1c110e`.
-Final closure validation:
-- x64 run `33594299961`, job `100134512548`: `438 passed, 1 warning / SUCCESS`;
-- native ARM64 run `33594299979`, job `100134512479`: native `aarch64`, `438 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
-Migration `025_semantic_evidence_relation_independence.sql` provides typed evidence relations and explicit pairwise independence states. Different publisher/source/host/domain/language is never sufficient proof of independence; absent known derivation remains `UNKNOWN` rather than automatically independent.
-
-### P13.4 — Typed Contradictions
-Gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
-Validation anchor: `d4dbb8a8098cef960194935bd94d4640fd719050`.
-Implementation validation:
-- x64 `33594740585 / 100135812629`: `447 passed, 1 warning / SUCCESS`;
-- native ARM64 `33594740549 / 100135812546`: native `aarch64`, `447 passed, 1 warning / SUCCESS`, bootstrap/unattended/systemd PASS.
-Formal closure repair HEAD: `f771ce0154e24b2218b309d8b3e6b880b408a146`.
-Formal closure validation:
-- x64 `33848458616 / 100945599309`: `463 passed, 2 warnings / SUCCESS`;
-- native ARM64 `33848458681 / 100945599390`: native `aarch64`, `463 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
-Migration `026_semantic_contradiction_model.sql` adds append-only typed contradiction versions and side-scoped links to current P13.3 evidence relation versions. Reconciliation does not automatically determine which semantic claim is factually true. Legacy `src/kgeopolitical_monitor/contradictions.py` remains compatibility state.
-
-### P13.5 — Verification Policy / Multidimensional Confidence
-Gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`.
-Validation anchor: `0f0d746c538dc5ce8f010fb80f8afbe00685414a`.
-Implementation validation:
-- x64 run `33849149736`, job `100947736040`: `475 passed, 2 warnings / SUCCESS`;
-- native ARM64 run `33849149742`, job `100947736318`: native `aarch64`, `475 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
-Formal closure HEAD: `d2e80fe8a1bd998ca422be1e1001744be0e9e6e3`.
-Formal closure validation:
-- x64 run `33856550956`, job `100971101911`: `480 passed, 2 warnings / SUCCESS`;
-- native ARM64 run `33856550913`, job `100971101835`: native `aarch64`, `480 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
-Migration `027_semantic_verification_policy_confidence.sql` adds append-only policy versions, multidimensional factual-confidence versions and auditable decision versions.
-Canonical P13.5 rules reject historical shortcuts as sufficient truth rules:
-- evidence/source/domain/host/publisher/language count alone cannot promote verification;
-- official status and source reputation alone cannot establish substantive event truth;
-- coverage limitation/confidence cannot promote factual verification;
-- `VERIFIED` requires an explicit current `INDEPENDENT` pair of current `SUPPORTS` evidence, policy confidence floors, no current `CONTRADICTS` evidence and no active contradiction;
-- factual confidence is multidimensional and stores no canonical presentation scalar;
-- global-latest semantic snapshots prevent superseded evidence/independence/contradiction records from acting as current inputs.
-Legacy `verification.py` and `confidence_engine.py` remain readable compatibility APIs. Their historical count/scalar behavior is not imported into the canonical P13.5 service.
-
-### P13.6 — Live Compatibility Cutover / Validation Matrix
-Gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
-State: `VALIDATED`.
-Implementation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`.
-Evidence-save HEAD: `2a482eb85b118fa5ea46396fa92707733dad5159`.
-Strategic closure anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`.
-Implementation validation:
-- x64 `33857212159 / 100973174656`: `489 passed, 2 warnings / SUCCESS`;
-- native ARM64 `33857212157 / 100973174256`: `489 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
-Evidence-save validation:
-- x64 `33857629735 / 100974493101`: `493 passed, 2 warnings / SUCCESS`;
-- native ARM64 `33857629714 / 100974493074`: `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
-Strategic closure validation:
-- x64 `33861302915 / 100986128743`: `497 passed, 2 warnings / SUCCESS`;
-- native ARM64 `33861302926 / 100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
-P13.6 implements a read-only semantic/live projection with no migration 028. Explicit P13.1 `LIVE_ANALYSIS_CLAIM` links are the only bridge; current P13.5 decisions are the only semantic verification source. Historical `origin_host`, `independent_origin_count`, legacy status and scalar confidence remain compatibility metadata and cannot silently become canonical semantic truth or independence. Missing E6 instrumentation remains `NOT_INSTRUMENTED`; exact history is never reconstructed.
+Canonical P13.5/P13.6 factual verification remains policy-controlled, provenance-bound and multidimensional. Legacy `verification.py`, `confidence_engine.py`, scalar confidence, host/source counts and `independent_origin_count` remain compatibility state, not canonical truth. P13.6 is a read-only live compatibility cutover/projection; missing instrumentation remains `NOT_INSTRUMENTED`.
 
 ## Phase 14 Strategic Closure
 
 Gate: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY`.
 State: `VALIDATED_READY / NOT_ACTIVATED`.
-Implementation HEAD: `695c5a0f82aa6c89f95032bfebaa90617065a100`.
 Closure validation anchor: `43a26aee7ed677dafd46eb91c510d0e724d558c2`.
-
-Implementation validation:
-- x64 run `33872226847`, job `101020657369`: `506 passed, 2 warnings / SUCCESS`;
-- native ARM64 run `33872226777`, job `101020657023`: native `aarch64`, `506 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
-
-Strategic closure validation:
 - x64 run `33873131265`, job `101023637949`: `510 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33873131300`, job `101023638027`: native `aarch64`, `510 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Validated Phase 14 readiness includes:
-- P14.0 — operational architecture / activation boundary;
-- P14.1 — read-only owner intelligence workspace;
-- P14.2 — persisted watch and priority operational queue;
-- P14.3 — P13.5/P13.6 canonical semantic alert qualification dry-run;
-- P14.4 — persisted operational health and auditability;
-- P14.5 — structured owner briefing layer;
-- P14.6 — canonical closure and validation matrix.
-
-Phase 14 owner intelligence does not treat legacy live verification status, scalar confidence, host/source counts or `independent_origin_count` as canonical truth. Canonical verification is supplied only by an explicit current P13.5 decision through the P13.6 semantic/live bridge; missing, stale or ambiguous state fails closed. Dry-run alert qualification creates no strategic-alert side effect.
-
-The readiness gate does not grant operational activation. Owner execution remains disabled and `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
+Phase 14 is readiness only. `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED` and owner execution remains disabled.
 
 ## Phase 15 Strategic Closure
 
 Gate: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`.
-State: `VALIDATED`.
 Closure validation anchor: `77b444e2c89f763e56acc22183c74634ea993573`.
-
-Strategic closure validation:
 - x64 run `33906546408`, job `101132699703`: `576 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33906546431`, job `101132700003`: native `aarch64`, `576 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-Validated Phase 15 includes:
-- P15.0 — architecture contract separating forecast, outcome, calibration and performance roles;
-- P15.1 — append-only provenance-bound outcome-assessment persistence;
-- P15.2 — fail-closed provenance-bound outcome resolution;
-- P15.3 — immutable calibration observations with separate raw/calibrated Brier and reliability evidence;
-- P15.4 — exact-cohort performance aggregates and descriptive drift/bias intelligence;
-- P15.5 — owner read-only persisted performance projection using SQLite `mode=ro` and `query_only`;
-- P15.6 — canonical validation matrix and closure guards.
+Phase 15 adds provenance-bound outcome resolution, calibration observations and exact-cohort performance intelligence. Forecast probability, Brier/ECE, bias/drift and sample metrics cannot promote factual verification.
 
-Forecast probability, scenario confidence, calibration/performance metrics, sample size, drift/bias, coverage confidence and legacy scalar/count metadata remain non-truth operators. Canonical factual verification remains P13.5/P13.6 only.
+## Phase 16 Strategic Closure
 
-Phase 15 closure does not activate owner execution, public ingress, shared runtime or production/live operation. Phase 14 remains `VALIDATED_READY / NOT_ACTIVATED`, and operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
+Gate: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`.
+Closure validation anchor: `18c2d5eed4145500bf72bbeeb0b6bbc92e8c7553`.
+- x64 run `33920882676`, job `101178676207`: `638 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33920882682`, job `101178676586`: native `aarch64`, `638 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Phase 16 validates deterministic delivery intent/audit, redaction, provider-neutral local/test transport, delivery receipts, operator feedback and advisory quality observations. No real external provider is activated. Delivery/feedback state cannot promote factual verification.
+
+## Phase 17 Strategic Readiness Closure
+
+Readiness gate: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`.
+State: `VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`.
+Closure validation anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`.
+- x64 run `33937240088`, job `101227433133`: `716 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33937240097`, job `101227433249`: native `aarch64`, `716 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Phase 17 validates publication eligibility, public-safe projection/redaction, deterministic release manifests/packages and a provider-neutral local/test target only. Real publication is not activated. The current account capability is `UNAVAILABLE`; owner approval alone cannot bypass `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`. If capability becomes available later, publication still requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` and fresh launch-time validation. Migration `033` is `NOT_CREATED / NOT_PREAUTHORIZED`.
 
 ## Truth / Epistemic Boundaries
 
 - publisher/publication is not automatically the underlying origin;
 - repost/syndication/translation/citation does not create independent corroboration;
 - official-source status proves the source made a statement, not automatically the underlying event claim;
-- source reputation/status, portfolio metadata, source health and freshness are not truth operators;
+- source reputation/status, source health and freshness are not truth operators;
 - semantic extraction confidence is not factual verification confidence;
-- source/domain/media/language/adapter/item/host count is not independent-origin count;
-- contradiction resolution is analytical reconciliation, not automatic truth selection;
-- count-only verification promotion is forbidden in the canonical semantic path;
+- count-only verification promotion is forbidden;
 - graph inference is analytical context, not source evidence;
 - forecast probability/confidence cannot promote factual verification;
 - coverage confidence cannot promote factual verification confidence;
+- delivery state, receipts and feedback cannot promote factual verification;
+- publication eligibility, receipts and engagement cannot promote factual verification;
 - `GLOBAL` is scope, not proof of exhaustive world coverage;
 - missing/uninstrumented tool history is never reconstructed and labeled exact;
 - public-web research is not a substitute for unavailable persisted backend/runtime state.
 
 ## Runtime / Security State
 
-- owner-only OCI Ubuntu 24.04 ARM64 runtime remains candidate-ready;
+- owner-only OCI Ubuntu 24.04 ARM64 runtime remains the validated runtime line;
 - public KGM HTTP/HTTPS/database/API/dashboard ingress: not approved/not deployed;
 - backend HTTPS: not deployed;
 - private GPT backend Action: not connected;
-- dashboard: `LOCAL_PROTECTED / READ_ONLY / NOT_DEPLOYED`;
-- public GPT sharing: user-deferred;
+- public sharing: not active;
 - production/live: not operational;
-- paid providers: `NONE_APPROVED`.
-Remaining explicit owner-approved candidate networking exceptions:
-- public SSH TCP/22 from `0.0.0.0/0`;
-- broad outbound egress.
+- paid providers: `NONE_APPROVED`;
+- runtime storage: `PROJECT_LOCAL_ONLY`;
+- mixed/shared canonical runtime: `BLOCKED`.
 
-## ROADMAP v4
+## ROADMAP Position
 
-- Phase 12 — validated with known limitations.
-- Phase 13 — `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
-- Phase 14 — `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED`; operational activation remains `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
-- Phase 15 — `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`.
-- Phase 16 — approved sequential / not started.
-- Phase 17 — conditional / not activated.
-- Phase 18 — conditional / new architecture approval required.
+Phase 17 engineering/readiness is closed. The next strategic boundary is Phase 18 — Shared / Team Runtime — `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`.
 
-No production launch, public sharing, public backend exposure, shared runtime transition or paid-provider activation is implied by Phase 13 validation, Phase 14 readiness validation or Phase 15 validation.
+No Phase 18 implementation, shared runtime transition, production launch, public publication, owner operational activation or paid-provider activation is implied by this state. `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL` remains the next architecture gate.

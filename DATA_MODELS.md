@@ -1,190 +1,150 @@
 # DATA_MODELS
 Canonical data concepts for K-Geopolitical Monitor.
 
-Version: 2.14
-Status: APPROVED / PHASE_12_VALIDATED / PHASE_13_VALIDATED
+Version: 3.0
+Status: APPROVED / PHASE_13_VALIDATED / PHASE_15_VALIDATED / PHASE_16_VALIDATED / PHASE_17_SYNCHRONIZED
+Canonical state contract: `docs/state/CURRENT_PROJECT_STATE.json`
 
 ## Principle
 
-Data provenance must be preserved from acquisition through analytical and operational outputs. Governance, adapter, language, health, freshness, extraction, independence, contradiction, confidence or other analytical metadata must not silently become source evidence or factual verification.
+Data provenance must be preserved from acquisition through analytical, forecast, delivery and publication-readiness outputs. Governance, adapter, language, health, freshness, extraction, independence, contradiction, confidence, forecast, delivery, feedback or publication metadata must not silently become source evidence or factual verification.
 
-## Implemented Canonical Domains
+## Canonical Domain Summary
 
-The project-local model includes source identity/raw items, immutable source-portfolio versions, collection attempts/provenance, reproducibility audit metadata, translations, source reputation/status, legacy claims/evidence/events, live-analysis claims/evidence, additive semantic claim versions/links, semantic provenance/origin entities and relations, typed semantic evidence relations, pairwise independence assessments, typed contradiction versions/evidence links, versioned verification policies, multidimensional factual-confidence profiles, versioned semantic verification decisions, a read-only semantic/live compatibility projection, monitoring/alerts, region-language coverage, graph, forecasts/calibration, reporting and owner-only runtime-health state.
+The project-local schema contains source identity/raw items, immutable source-portfolio versions, collection attempts/provenance, reproducibility metadata, translations, source reputation/status, legacy claims/evidence/events, live-analysis claims/evidence, semantic claim/provenance/evidence/independence/contradiction/verification histories, monitoring/alerts, coverage, graph, forecasts/outcomes/calibration/performance, reports, delivery audit, operator feedback and owner/runtime-health state.
 
-## Phase 12 Validated Boundary
+Canonical factual-verification authority remains P13.5/P13.6. Phase 15 forecast metrics, Phase 16 delivery/feedback state and Phase 17 publication readiness do not create a second truth store.
 
-Phase 12 source-governance/acquisition/health layers are validated at `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`. Health/freshness does not modify truth. Translation is derived. Source/domain/language/adapter/item/host counts are not semantic independence.
+## Phase 13 Semantic Model — Validated Historical Foundation
 
-## Phase 13 Baseline Compatibility
-
-Historical compatibility persistence remains readable:
-- migration 002 `claims(id,event_id,text,confidence)` and `evidence`;
-- migration 007 `live_analysis_claims`, including normalized `claim_key`, verification status, scalar confidence and historical `independent_origin_count`;
-- migration 007 `live_analysis_evidence`, including `original_url` and `origin_host`;
-- legacy `verification.py`, `confidence_engine.py` and `contradictions.py` remain compatibility APIs.
-
-These historical fields are not promoted into the canonical Phase 13 semantic truth model.
-
-## P13.0 Semantic Verification Architecture Contract
-
-State: `VALIDATED`.
-Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`.
 Phase 13 semantic model v2 architecture: `P13.0_VALIDATED`.
+Gate: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`.
 
-Semantic claim identity is not headline identity. Publisher/publication, cited source and underlying origin are distinct. Evidence relation, independence, contradiction and final verification remain separate layers.
+Historical compatibility persistence remains readable (`claims`, `evidence`, `live_analysis_claims`, `live_analysis_evidence`) but is not promoted into canonical semantic truth.
 
-## P13.1 Structured Semantic Claim Model
+### P13.1 Structured Semantic Claim Model
 
 State: `VALIDATED`.
 Gate: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`.
 Migration: `023_structured_semantic_claim_model.sql`.
-Validation anchor: `69c3282077ad8dd90ef239c0594be56f9363bfe5`.
-- x64: `408 passed, 1 warning / SUCCESS`;
-- native ARM64: `408 passed, 1 warning / SUCCESS`.
 
-P13.1 adds append-only `semantic_claim_versions` and `semantic_claim_links`. Semantic identity is explicit/caller-controlled; association links carry no evidentiary meaning. `extraction_confidence` is extraction-only.
+P13.1 adds append-only `semantic_claim_versions` and `semantic_claim_links`. The schema boundary explicitly keeps `underlying_origin`, `independence_state`, `evidence_relation`, `contradiction_state`, `verification_state`, `factual_confidence` and `coverage_confidence` out of claim-identity persistence; those concepts belong to later semantic layers.
 
-The P13.1 schema boundary remains explicit: it does not add `underlying_origin`, `independence_state`, `evidence_relation`, `contradiction_state`, `verification_state`, `factual_confidence` or `coverage_confidence` fields to semantic claim versions; those concepts belong to later Phase 13 layers.
-
-## P13.2 Provenance / Underlying-Origin Relation Model
+### P13.2 Provenance / Underlying-Origin Relation Model
 
 State: `VALIDATED`.
 Gate: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`.
 Migration: `024_semantic_provenance_origin_relation_model.sql`.
-Validation anchor: `6cd37a334b122ae5de2b4cb6272f9cc222f1f174`.
-- x64: `420 passed, 1 warning / SUCCESS`;
-- native ARM64: `420 passed, 1 warning / SUCCESS`.
 
-P13.2 adds append-only provenance entity, claim-role and provenance-relation versions. Publication, publisher, immediate acquired source, cited/quoted source and underlying origin are explicit separate concepts. Citation, syndication, repost, translation and derivation remain provenance relationships, not independent corroboration.
+Publisher/publication, immediate source, cited/quoted source and underlying origin remain separate. Citation, syndication, repost, translation and derivation are provenance relations, not independent corroboration.
 
-## P13.3 Evidence Relation and Independence Assessment
+### P13.3 Evidence Relation and Independence Assessment
 
 State: `VALIDATED`.
 Gate: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`.
 Migration: `025_semantic_evidence_relation_independence.sql`.
 Formal closure HEAD: `9023dc22d36525b4dc9babbf21d97d184a1c110e`.
-- x64 closure: `438 passed, 1 warning / SUCCESS`;
-- native ARM64 closure: `438 passed, 1 warning / SUCCESS`.
+Formal closure validation: `438 passed, 1 warning / SUCCESS` on x64 and native ARM64.
 
-P13.3 adds append-only `semantic_evidence_relation_versions` and `semantic_independence_assessment_versions`.
+P13.3 adds append-only `semantic_evidence_relation_versions` and `semantic_independence_assessment_versions`. Evidence relation vocabulary includes `SUPPORTS`, `CONTRADICTS`, `QUALIFIES`, `CONTEXT_ONLY`, `ATTRIBUTION_ONLY`, `DUPLICATE_OR_SAME_ORIGIN`; independence states include `INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN`, `MIXED`.
 
-Evidence relation vocabulary:
-`SUPPORTS`, `CONTRADICTS`, `QUALIFIES`, `CONTEXT_ONLY`, `ATTRIBUTION_ONLY`, `DUPLICATE_OR_SAME_ORIGIN`.
-
-Independence vocabulary:
-`INDEPENDENT`, `NOT_INDEPENDENT`, `UNKNOWN`, `MIXED`.
-
-Different publisher/source/host/domain/language never suffices for independence. Absence of a known derivation path remains `UNKNOWN` rather than automatically independent.
-
-## P13.4 Typed Contradiction Model and Resolution Lifecycle
+### P13.4 Typed Contradiction Model
 
 State: `VALIDATED`.
 Gate: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`.
 Migration: `026_semantic_contradiction_model.sql`.
 Validation anchor: `d4dbb8a8098cef960194935bd94d4640fd719050`.
-Formal closure repair HEAD: `f771ce0154e24b2218b309d8b3e6b880b408a146`.
-- implementation x64/native ARM64: `447 passed, 1 warning / SUCCESS`;
-- formal closure x64/native ARM64: `463 passed, 2 warnings / SUCCESS`.
+Implementation validation: `447 passed, 1 warning / SUCCESS`.
 
-P13.4 adds append-only `semantic_contradiction_versions` and `semantic_contradiction_evidence_links`.
+P13.4 adds append-only `semantic_contradiction_versions` and `semantic_contradiction_evidence_links`. Dimensions include `OCCURRENCE_EXISTENCE`, `ATTRIBUTION_RESPONSIBILITY`, `ACTOR_IDENTITY`, `QUANTITY_VALUE`, `TIME`, `LOCATION`, `STATUS_OUTCOME`, `SCOPE_EXTENT`, `CAUSAL_INTERPRETATION`; lifecycle states include `DETECTED`, `UNRESOLVED`, `EVOLVING`, `RESOLVED`. Evidence links require a current P13.3 evidence relation version. Contradiction resolution is not automatic factual truth selection.
 
-Dimensions include `OCCURRENCE_EXISTENCE`, `ATTRIBUTION_RESPONSIBILITY`, `ACTOR_IDENTITY`, `QUANTITY_VALUE`, `TIME`, `LOCATION`, `STATUS_OUTCOME`, `SCOPE_EXTENT`, `CAUSAL_INTERPRETATION`, `OTHER`.
-
-Lifecycle states are `DETECTED`, `UNRESOLVED`, `EVOLVING`, `RESOLVED`. Reconciliation is not equivalent to selecting which claim is factually true. Evidence links are side-scoped and require a current P13.3 evidence relation version at link time.
-
-## P13.5 Verification Policy and Multidimensional Confidence
+### P13.5 Verification Policy and Multidimensional Confidence
 
 State: `VALIDATED`.
 Gate: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`.
 Migration: `027_semantic_verification_policy_confidence.sql`.
 Validation anchor: `0f0d746c538dc5ce8f010fb80f8afbe00685414a`.
-- x64 run `33849149736`, job `100947736040`: `475 passed, 2 warnings / SUCCESS`;
-- native ARM64 run `33849149742`, job `100947736318`: native `aarch64`, `475 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
-Formal closure HEAD: `d2e80fe8a1bd998ca422be1e1001744be0e9e6e3`.
-- x64 run `33856550956`, job `100971101911`: `480 passed, 2 warnings / SUCCESS`;
-- native ARM64 run `33856550913`, job `100971101835`: native `aarch64`, `480 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+Implementation validation: `475 passed, 2 warnings / SUCCESS`.
 
-P13.5 adds append-only:
-- `semantic_verification_policy_versions`;
-- `semantic_factual_confidence_versions`;
-- `semantic_verification_decision_versions`.
+P13.5 adds append-only `semantic_verification_policy_versions`, `semantic_factual_confidence_versions` and `semantic_verification_decision_versions`. Count-only, official-status-only, source-reputation-only and coverage-only promotion are forbidden. `VERIFIED` requires current independent `SUPPORTS` evidence plus policy floors and no blocking contradiction/current `CONTRADICTS` state. Confidence is multidimensional; there is no canonical scalar. Coverage cannot promote factual verification.
 
-Policy versions preserve permanent fail-closed invariants against count-only, official-status-only, source-reputation-only and coverage-only truth promotion.
-
-Factual confidence is multidimensional:
-- evidence sufficiency;
-- provenance independence;
-- authority/proximity;
-- contradiction resolution;
-- temporal freshness;
-- extraction certainty;
-- translation certainty;
-- claim-specific certainty.
-
-Each factual dimension is `UNKNOWN`, `LOW`, `MEDIUM` or `HIGH`. Coverage remains separate as `coverage_limitation = UNKNOWN | LIMITED | ADEQUATE`. There is no canonical factual-confidence scalar and no `coverage_confidence` field in the P13.5 confidence model.
-
-`VERIFIED` requires an explicit current `INDEPENDENT` pair of current `SUPPORTS` evidence plus policy confidence floors; current `CONTRADICTS` evidence and any active P13.4 contradiction block `VERIFIED`.
-
-Verification decisions snapshot global-latest P13.3 evidence identities, global-latest independence-assessment identities, current P13.4 contradiction identities, the current policy version and current confidence version. Superseded records therefore cannot silently act as current inputs.
-
-Compatibility vocabulary remains `DETECTED`, `PARTLY_VERIFIED`, `VERIFIED`, `DISPUTED`, `UNVERIFIABLE`, but canonical promotion semantics are policy-controlled rather than count-controlled.
-
-## P13.6 Live Compatibility / Validation Matrix Contract
+### P13.6 Live Compatibility
 
 State: `VALIDATED`.
-Gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
+Strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
 Implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`.
-Evidence-save HEAD: `2a482eb85b118fa5ea46396fa92707733dad5159`.
-Strategic closure validation anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`.
+Strategic closure anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`.
+Strategic validation: `497 passed, 2 warnings / SUCCESS` on x64 and native ARM64.
 
-Implementation validation:
-- x64 run `33857212159`, job `100973174656`: `489 passed, 2 warnings / SUCCESS`;
-- native ARM64 run `33857212157`, job `100973174256`: native `aarch64`, `489 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
-Evidence-save validation:
-- x64 run `33857629735`, job `100974493101`: `493 passed, 2 warnings / SUCCESS`;
-- native ARM64 run `33857629714`, job `100974493074`: native `aarch64`, `493 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
-Strategic closure validation:
-- x64 run `33861302915`, job `100986128743`: `497 passed, 2 warnings / SUCCESS`;
-- native ARM64 run `33861302926`, job `100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+P13.6 introduced no database migration. Historical Phase-13 statement: migration 028 = `NONE` for Phase 13. `semantic_live_compatibility.py` is read-only and uses explicit links/current P13.5 decisions only. Missing E6 instrumentation remains `NOT_INSTRUMENTED`.
 
-P13.6 introduces no database migration. Migration 028: `NONE`. The canonical migration set remains through `027_semantic_verification_policy_confidence.sql`.
+## Phase 14 Read Model
 
-`semantic_live_compatibility.py` is a read-only projection over existing validated tables. It uses explicit P13.1 `LIVE_ANALYSIS_CLAIM` links and exposes semantic verification only from an unambiguous current P13.5 decision. Historical `verification_status`, scalar confidence, `origin_host`, distinct-host counts and `independent_origin_count` remain legacy compatibility metadata and never establish semantic independence or truth by fallback.
+Phase 14 is `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED` and introduced no migration `028`. It projects existing canonical monitoring/alert/semantic state read-only. `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
 
-If a semantic/live link is stale or ambiguous, the projection fails closed. If an E6 reproducibility bundle does not exist, state remains `NOT_INSTRUMENTED`; exact query/run metadata is not reconstructed. Projection/restart does not rewrite legacy or semantic rows.
+## Phase 15 Forecast Outcome / Calibration / Performance Models
 
-## Migration / Compatibility Boundary
+State: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`.
 
-- Phase 13 uses additive migrations unless a later explicit architecture decision authorizes otherwise;
-- existing `claims`, `evidence`, `live_analysis_claims`, `live_analysis_evidence` rows are not destructively rewritten;
-- P13.1 semantic objects link to historical/raw objects rather than replacing them;
-- P13.2 provenance is referenced rather than duplicated by P13.3;
-- P13.4 references P13.3 evidence instead of duplicating evidence/provenance state;
-- P13.5 references current P13.3/P13.4 state and stores auditable snapshots rather than mutating them;
-- P13.6 adds no persistence path and reads existing explicit links/decisions/reproducibility state;
-- legacy `origin_host`, `independent_origin_count`, scalar confidence and count-based verification remain historical fields, not sufficient proof of semantic independence or factual truth;
-- live compatibility projection is validated, but production/live activation has not occurred.
+Actual additive migration chain after Phase 14:
+- `028_forecast_outcome_assessment_history.sql` — append-only provenance-bound forecast outcome assessment history;
+- `029_forecast_calibration_observations.sql` — immutable calibration observations with separate raw/calibrated evidence;
+- `030_forecast_performance_intelligence.sql` — exact-cohort aggregate membership and descriptive performance/drift intelligence.
 
-## Runtime Storage Boundary
+This later Phase-15 migration `028` does not contradict the historical Phase-13/14 statement that those phases introduced no migration 028. Forecast probability, Brier/ECE, bias/drift, sample size and qualification remain non-truth operators.
+
+## Phase 16 Delivery / Operator Feedback Models
+
+State: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`.
+
+Additive migrations:
+- `031_delivery_intent_audit.sql` — stable delivery intents, append-only transport attempts/receipts and idempotency/audit state;
+- `032_operator_quality_feedback.sql` — append-only typed operator quality feedback.
+
+Delivery state, receipts, acknowledgements, ratings, feedback and quality metrics cannot write or promote P13 factual-verification state.
+
+## Phase 17 Publication Readiness Model Boundary
+
+State: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED`.
+
+Phase 17 introduced no database migration. Migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`. Publication eligibility, public-safe projections, manifests/packages and local/test receipts are derived/readiness layers rather than a canonical truth store. Real external publication remains unactivated and current account capability is `UNAVAILABLE`.
+
+## Migration Chain — Current
+
+Canonical created migration sequence currently extends through `032_operator_quality_feedback.sql`.
+
+- 023 — structured semantic claims;
+- 024 — semantic provenance/origin relations;
+- 025 — semantic evidence relation/independence;
+- 026 — semantic contradiction model;
+- 027 — semantic verification policy/confidence;
+- 028 — forecast outcome assessment history;
+- 029 — forecast calibration observations;
+- 030 — forecast performance intelligence;
+- 031 — delivery intent/audit;
+- 032 — operator quality feedback;
+- 033 — `NOT_CREATED / NOT_PREAUTHORIZED`.
+
+## Runtime / Storage Boundary
 
 Production/live operational status: NOT_OPERATIONAL
 Runtime storage mode: PROJECT_LOCAL_ONLY
 
-Shared/mixed canonical runtime storage remains not approved.
+- mixed/shared canonical runtime: `BLOCKED`;
+- Phase 18 shared/team runtime: `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`;
+- direct cross-project canonical-store mutation remains prohibited without a new architecture approval.
 
 ## Current State
 
-- migrations 022-027: validated through P13.5; migration 028: `NONE`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
-- Phase 13 P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
-- Phase 13 P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
-- Phase 13 P13.2: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
-- Phase 13 P13.3: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
-- Phase 13 P13.4: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`;
-- Phase 13 P13.5: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`;
-- P13.6: `VALIDATED`;
-- Phase 14: `APPROVED_SEQUENTIAL / NOT_STARTED / OWNER_DECISION_REQUIRED`;
+- P13.0–P13.6: `VALIDATED`;
+- Phase 14: `VALIDATED_READY / NOT_ACTIVATED / OWNER_DECISION_REQUIRED`;
+- Phase 15: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`;
+- Phase 16: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`;
+- Phase 17: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED`;
+- Phase 18: `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`;
+- migration latest created: `032`;
+- migration 033: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.

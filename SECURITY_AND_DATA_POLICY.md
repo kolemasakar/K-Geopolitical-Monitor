@@ -1,7 +1,8 @@
 # SECURITY_AND_DATA_POLICY
 
-Version: 0.9
-Status: APPROVED / P12_5_VALIDATED
+Version: 1.0
+Status: APPROVED / ROADMAP_V4_22_SYNCHRONIZED / PHASE_17_BOUNDARIES_CURRENT
+Canonical state contract: `docs/state/CURRENT_PROJECT_STATE.json`
 
 ## Principles
 
@@ -9,21 +10,24 @@ Status: APPROVED / P12_5_VALIDATED
 - Use least privilege unless an explicit owner-approved exception exists.
 - Keep credentials/secrets out of repository state and routine logs.
 - Security/operational claims require reproducible evidence.
-- Governance, adapter, language, availability or freshness metadata cannot be promoted into truth or production acceptance.
+- Governance, adapter, language, availability, freshness, forecast, delivery or publication metadata cannot be promoted into factual truth or production acceptance.
 
 ## Canonical Storage
 
 - runtime storage: `PROJECT_LOCAL_ONLY`;
-- shared/mixed canonical runtime storage: not approved;
-- direct cross-project canonical mutation: prohibited without a new architecture approval.
+- shared/mixed canonical runtime storage: `BLOCKED`;
+- direct cross-project canonical mutation is prohibited without a new architecture approval;
+- Phase 18 shared/team runtime remains `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`.
 
 Runtime storage mode: PROJECT_LOCAL_ONLY
+Production/live operational status: NOT_OPERATIONAL
 
 ## Secret / Logging Policy
 
 - credentials, tokens and private keys are not stored in repository files;
 - credentialed integrations require explicit approval and platform secret handling;
-- secret-bearing URLs/commands and authorization headers must not enter routine logs.
+- secret-bearing URLs/commands and authorization headers must not enter routine logs;
+- Phase 16/17 redaction and data minimization occur before transport/export boundaries.
 
 ## Owner-Only Runtime
 
@@ -33,55 +37,52 @@ Remaining explicit owner-approved candidate networking exceptions:
 - public SSH TCP/22 from `0.0.0.0/0`;
 - broad outbound egress.
 
-Production/live operational status: NOT_OPERATIONAL
+Phase 14 is `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED` and `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
 
 ## Source / Adapter Security Rules
 
-P12.1/P12.2 rules remain mandatory:
+Historical Phase 12 rules remain mandatory:
 - public-anonymous sources cannot require credentials;
-- operational sources require approved governance;
-- approved sources require exact adapter identity/version and outbound host;
+- approved sources require governed adapter identity/version and outbound host;
 - public-anonymous acquisition is read-only HTTPS GET;
 - non-HTTPS URLs, URL credentials and credential-bearing headers fail closed;
 - timeout, response-size and record-count bounds apply;
 - source failures remain isolated and visible;
 - paid provider approval requires separate explicit owner approval.
 
-## P12.3 Retained Security State
+European Parliament remains a retained historical governed `DEGRADED` source where unattended acquisition was measured `UNAVAILABLE / PARSER`; no anti-bot bypass is authorized. Historical P12.5 observations for Haberturk and OSCE remain explicit and non-promotional to truth.
 
-European Parliament remains governed `DEGRADED` because its official RSS endpoint returns non-feed/anti-bot content to the unattended runner. No bypass is authorized and no third-party mirror is promoted to canonical status.
+## Semantic / Forecast / Delivery Security Boundary
 
-## P12.4 Security / Data Result
+- P13.5/P13.6 is the canonical factual-verification authority;
+- legacy scalar/count verification metadata cannot bypass it;
+- Phase 15 forecast probability/calibration/performance state cannot promote factual verification;
+- Phase 16 delivery receipts, acknowledgements and operator feedback cannot promote factual verification;
+- real external delivery providers remain `NOT_ACTIVATED` unless separately approved;
+- provider failures are isolated from canonical intelligence persistence.
 
-The local-language/media discovery pack uses public anonymous HTTPS only and introduces no credentials, paid provider or new canonical database schema.
+## Phase 17 Public-Safety Boundary
 
-P12.4 validation observed successful bounded acquisition/parser paths for Ukrainska Pravda, Meduza, RMF24 and Haberturk. Original-language public content is preserved. Translation remains a separate derived representation. Language/source count does not change data sensitivity, factual verification or independent-origin count.
+Phase 17 is `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED`.
 
-## P12.5 Security / Egress Result
-
-Gate: `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`.
-
-P12.5 measured all ten governed source paths and inventoried ten exact HTTPS host requirements without deploying any network-policy change.
-
-Controlled-live findings remain visible:
-- European Parliament — measured `UNAVAILABLE / PARSER`, governed `DEGRADED` retained;
-- Haberturk — measured `UNAVAILABLE / UNKNOWN` from invalid item URL validation, governed `ACTIVE` retained pending review;
-- OSCE — acquisition healthy while observed content is stale.
-
-No measured failure or freshness result changes truth, verification, independent-origin credit, coverage confidence or production state.
-
-P12.5 did **not** deploy an outbound allowlist. Broad outbound egress remains the explicit owner-approved candidate exception until a separate validated restriction decision changes it.
-
-Measured HTTPS hosts are documented in `docs/implementation/P12_5_CONTROLLED_LIVE_SOURCE_HEALTH_MATRIX.md`.
+- current account publication capability: `UNAVAILABLE`;
+- capability gate: `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`;
+- activation gate: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`;
+- owner approval alone cannot bypass unavailable platform/account capability;
+- strict public allowlists, redaction and data minimization precede export;
+- owner/admin tokens, credentials, private DB paths, raw operator feedback and non-public diagnostics are forbidden in public payloads;
+- release receipts/engagement are not truth operators;
+- migration `033` is `NOT_CREATED / NOT_PREAUTHORIZED`;
+- external publication targets remain `NOT_ACTIVATED`.
 
 ## Public Exposure Boundary
 
-- public KGM HTTP/HTTPS/API/dashboard ingress: not approved/deployed;
-- backend HTTPS: not deployed;
-- private GPT Action: not connected;
-- public GPT sharing: user-deferred;
-- shared/team runtime: not approved;
-- production/live: `NOT_OPERATIONAL`.
+- public KGM HTTP/HTTPS/API/dashboard ingress: `NOT_APPROVED / NOT_DEPLOYED`;
+- backend HTTPS: `NOT_DEPLOYED`;
+- private GPT Action: `NOT_CONNECTED`;
+- public GPT sharing: `NOT_ACTIVE`;
+- production/live: `NOT_OPERATIONAL`;
+- paid providers: `NONE_APPROVED`.
 
 ## Start.me
 
@@ -90,10 +91,13 @@ Start.me must not store credentials, private endpoints, canonical monitoring/run
 
 ## Current State
 
-- P12.0-P12.5: `VALIDATED`;
-- P12.6: `NEXT / NOT_STARTED`;
+- Phase 12 source/security baseline: `VALIDATED_WITH_KNOWN_LIMITATIONS`;
+- Phase 13 semantic verification: `VALIDATED`;
+- Phase 14: `VALIDATED_READY / NOT_ACTIVATED / OWNER_DECISION_REQUIRED`;
+- Phase 15: `VALIDATED`;
+- Phase 16: `VALIDATED`;
+- Phase 17: `VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`;
+- Phase 18: `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`;
 - paid providers: `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
-- broad outbound egress: `OWNER_APPROVED_CANDIDATE_EXCEPTION / NOT_RESTRICTED_BY_P12_5`;
-- public API/dashboard: `NOT_APPROVED / NOT_DEPLOYED`;
 - production/live: `NOT_OPERATIONAL`.
