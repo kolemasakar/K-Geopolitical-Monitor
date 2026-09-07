@@ -1,20 +1,21 @@
 # Phase 18 — Shared / Team Runtime Implementation Plan
 
-Status: `PLANNED / AWAITING_EXPLICIT_IMPLEMENTATION_AUTHORIZATION`
+Status: `IMPLEMENTATION_AUTHORIZED / P18_0_NOT_STARTED`
 Date: 2026-09-07
 Project: K-Geopolitical Monitor
 Architecture approval: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`
 Planning authorization: `PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES`
-Implementation authorization: `PHASE_18_IMPLEMENTATION_AUTHORIZED = NO`
+Implementation authorization: `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`
 Shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`
 Architecture decision: `docs/decisions/PHASE_18_ARCHITECTURE_APPROVAL_GATE_2026-09-07.md`
+Implementation authorization decision: `docs/decisions/PHASE_18_IMPLEMENTATION_AUTHORIZATION_GATE_2026-09-07.md`
 Architecture preflight: `docs/implementation/PHASE_18_SHARED_TEAM_RUNTIME_ARCHITECTURE_PREFLIGHT.md`
 
 ## 1. Purpose
 
 This document converts the owner-approved Phase 18 architecture into an implementation sequence with explicit validation gates.
 
-It is an implementation **plan**, not implementation authorization. No Phase 18 runtime code, shared schema migration, external provider activation, public ingress, canonical cutover or shared-runtime activation is authorized by the existence or validation of this plan.
+The plan itself did not authorize implementation. A separate explicit owner decision on 2026-09-07 subsequently set `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`. That authorization permits sequential engineering work beginning with P18.0, but does not by itself start, complete or validate any P18.x subphase and does not authorize shared-runtime activation, canonical cutover, paid providers or production/live operation.
 
 The active canonical runtime remains:
 
@@ -25,25 +26,31 @@ The active canonical runtime remains:
 - paid providers `NONE_APPROVED`;
 - migration `033` `NOT_CREATED / NOT_PREAUTHORIZED`.
 
-## 2. Mandatory Gate Before Any Implementation
+## 2. Recorded Implementation Authorization
 
-Before any `P18.x` implementation code or schema work begins, an explicit owner decision must set:
+The explicit owner decision has set:
 
 `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`
 
-Until that decision is recorded:
+This authorizes P18.0 to begin in a subsequent engineering step and later P18.x work only in the approved sequence and subject to each subphase's prerequisites and validation gate.
 
-- no `src/` Phase 18 implementation;
-- no shared-runtime schema migration;
-- no migration `033` creation or execution;
-- no external identity/database/provider activation;
-- no public/shared ingress;
-- no canonical cutover;
-- no production/live transition.
+Implementation authorization does **not** by itself authorize:
 
-The pending decision is recorded in:
+- shared-runtime activation;
+- canonical cutover;
+- production/live transition;
+- public/shared ingress activation;
+- paid provider purchase, spending or provider activation;
+- migration `033` creation or execution merely because implementation is authorized;
+- destructive conversion of the owner-only project-local SQLite store;
+- direct cross-project canonical-store mutation;
+- bypass of any P18.x validation, migration, security, DR, provider or activation gate.
+
+The recorded decision is:
 
 `docs/decisions/PHASE_18_IMPLEMENTATION_AUTHORIZATION_GATE_2026-09-07.md`
+
+P18.0 remains `PLANNED / NOT_STARTED` until implementation begins after this gate-recording step.
 
 ## 3. Engineering Principles
 
@@ -357,7 +364,7 @@ Every implemented P18.x change must satisfy relevant sections below.
 
 Architecture approval did not select a provider.
 
-Implementation authorization, if later granted, may permit provider-neutral code and local/non-production test infrastructure, but **does not automatically approve paid infrastructure**.
+The recorded implementation authorization permits provider-neutral code and local/non-production test infrastructure under the approved P18.x sequence, but **does not automatically approve paid infrastructure**.
 
 Before any paid provider or managed external service is activated, a separate owner decision must evaluate:
 
@@ -375,7 +382,7 @@ Before any paid provider or managed external service is activated, a separate ow
 
 `MIGRATION_033 = NOT_CREATED / NOT_PREAUTHORIZED`
 
-No migration number is reserved by this plan.
+No migration number is reserved by this plan or by implementation authorization.
 
 Canonical cutover from owner-only SQLite to a shared datastore is not part of implementation authorization alone. It requires:
 
@@ -397,7 +404,9 @@ Until then, owner-only project-local SQLite remains canonical.
 
 `PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES`
 
-`PHASE_18_IMPLEMENTATION_AUTHORIZED = NO`
+`PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`
+
+`P18_0 = PLANNED / NOT_STARTED`
 
 `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`
 
@@ -407,10 +416,14 @@ Until then, owner-only project-local SQLite remains canonical.
 
 `PRODUCTION_LIVE = NOT_OPERATIONAL`
 
-## 9. Next Decision
+## 9. Next Engineering Step
 
-Once this plan and its regression guards are validated, the next strategic decision is:
+The next permitted engineering step is:
 
-`PHASE_18_IMPLEMENTATION_AUTHORIZATION = OWNER_DECISION_REQUIRED`
+`P18.0 — Shared Runtime Contract Foundation and Test Harness`
 
-Only an explicit owner approval of that gate may allow P18.0 implementation work to begin.
+Target validation gate:
+
+`P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`
+
+Implementation authorization makes P18.0 authorized to begin. It does not mark P18.0 started, complete or validated, and it does not activate shared runtime.

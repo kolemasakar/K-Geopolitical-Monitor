@@ -22,12 +22,12 @@ def _state() -> dict:
     return json.loads(STATE_PATH.read_text(encoding="utf-8"))
 
 
-def test_phase18_architecture_is_approved_for_planning_only():
+def test_phase18_architecture_is_approved_and_implementation_is_separately_authorized():
     state = _state()
 
     assert (
         state["phases"]["18"]
-        == "ARCHITECTURE_APPROVED / IMPLEMENTATION_PLANNING_AUTHORIZED / NOT_IMPLEMENTED / NOT_ACTIVATED"
+        == "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_NOT_STARTED / NOT_ACTIVATED"
     )
     assert (
         state["activation_gates"]["phase18_architecture"]
@@ -39,7 +39,7 @@ def test_phase18_architecture_is_approved_for_planning_only():
     )
     assert (
         state["activation_gates"]["phase18_implementation"]
-        == "PHASE_18_IMPLEMENTATION_AUTHORIZED = NO"
+        == "PHASE_18_IMPLEMENTATION_AUTHORIZED = YES"
     )
     assert (
         state["activation_gates"]["phase18_activation"]
@@ -47,11 +47,11 @@ def test_phase18_architecture_is_approved_for_planning_only():
     )
     assert (
         state["roadmap"]["current_position"]
-        == "PHASE_18_ARCHITECTURE_APPROVED_IMPLEMENTATION_PLANNING_GATE"
+        == "PHASE_18_IMPLEMENTATION_AUTHORIZED_P18_0_READY_GATE"
     )
 
 
-def test_preflight_history_and_owner_decision_are_not_implementation_authorization():
+def test_preflight_history_and_architecture_decision_preserve_their_original_gate_state():
     preflight = PREFLIGHT_PATH.read_text(encoding="utf-8")
     decision = DECISION_PATH.read_text(encoding="utf-8")
 
@@ -89,7 +89,7 @@ def test_existing_project_local_runtime_boundary_remains_authoritative():
     assert "existing local canonical SQLite store in place" in preflight
 
 
-def test_phase18_approval_does_not_create_or_preauthorize_migration_033():
+def test_phase18_implementation_authorization_does_not_create_or_preauthorize_migration_033():
     state = _state()
     migration_state = state["migrations"]["033"]
     migrations = ROOT / "migrations"
