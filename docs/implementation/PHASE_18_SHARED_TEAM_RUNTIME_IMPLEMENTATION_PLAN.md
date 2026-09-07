@@ -1,6 +1,6 @@
 # Phase 18 — Shared / Team Runtime Implementation Plan
 
-Status: `IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_READY`
+Status: `IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_READY`
 Date: 2026-09-07
 Project: K-Geopolitical Monitor
 Architecture approval: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`
@@ -15,7 +15,7 @@ Architecture preflight: `docs/implementation/PHASE_18_SHARED_TEAM_RUNTIME_ARCHIT
 
 This document converts the owner-approved Phase 18 architecture into an implementation sequence with explicit validation gates.
 
-The plan itself did not authorize implementation. A separate explicit owner decision on 2026-09-07 subsequently set `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`. P18.0 and P18.1 have since been implemented and validated. P18.2 is now the next permitted engineering step, but shared-runtime activation, canonical cutover, paid providers and production/live operation remain separately gated.
+The plan itself did not authorize implementation. A separate explicit owner decision on 2026-09-07 subsequently set `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`. P18.0, P18.1 and P18.2 have since been implemented and validated. P18.3 is now the next permitted engineering step, but shared-runtime activation, canonical cutover, paid providers, migration `033` and production/live operation remain separately gated.
 
 The active canonical runtime remains:
 
@@ -50,7 +50,7 @@ The recorded decision is:
 
 `docs/decisions/PHASE_18_IMPLEMENTATION_AUTHORIZATION_GATE_2026-09-07.md`
 
-P18.0 is formally validated at `P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`; P18.1 is formally validated at `P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED`; P18.2 is `READY_TO_BEGIN`.
+P18.0 is formally validated at `P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`; P18.1 is formally validated at `P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED`; P18.2 is formally validated at `P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED`; P18.3 is `READY_TO_BEGIN`.
 
 ## 3. Engineering Principles
 
@@ -124,10 +124,13 @@ Validation evidence:
 
 ### P18.2 — RBAC and Owner-Only Strategic Gate Enforcement
 
-State: `READY_TO_BEGIN`
+State: `VALIDATED`
 Gate: `P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED`
+Implementation anchor: `eb9e51082320858be14aebafafd4746a16674ec7`
+Result: `docs/implementation/P18_2_RBAC_OWNER_GATE_ENFORCEMENT_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-07_P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED.md`
 
-Planned roles:
+Validated roles:
 
 - `OWNER`;
 - `ADMIN`;
@@ -135,25 +138,26 @@ Planned roles:
 - `VIEWER`;
 - `SERVICE`.
 
-Scope after implementation authorization:
+Validated scope:
 
-- permission matrix by action and canonical object family;
-- deny-by-default service-layer authorization;
-- workspace/project membership enforcement;
-- explicit owner-only permissions for irreversible/strategic gates;
-- negative authorization tests for every role boundary.
+- provider-neutral permission matrix and deny-by-default authorization;
+- server-side workspace/project role bindings;
+- `VIEWER` read-only boundary;
+- `ANALYST` derived-analysis mutation without canonical-state mutation;
+- `ADMIN` canonical/administrative permissions without owner-only strategic authority;
+- `SERVICE` with no implicit authority and explicit allowlisted service scopes only;
+- owner-only strategic permissions for Phase 14 activation, Phase 17 publication activation, Phase 18 shared-runtime activation, provider approval, canonical cutover and migration authorization;
+- authenticated human plus workspace-wide `OWNER` required for owner-only strategic gates;
+- cross-workspace/project access, inactive/wrong-principal bindings, escalation and service impersonation fail closed.
 
-Acceptance:
+Validation evidence:
 
-- `VIEWER` cannot mutate canonical state;
-- `ANALYST` cannot perform owner-only strategic actions;
-- `ADMIN` cannot bypass owner-only roadmap gates;
-- cross-workspace access is denied even with valid object identifiers;
-- service identities cannot exceed enumerated scopes.
+- x64 run `34131110962`, job `101771189130`: `820 passed in 125.92s / SUCCESS`;
+- native ARM64 run `34131110956`, job `101771189222`: native `aarch64`, `820 passed in 173.68s / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 ### P18.3 — Shared Datastore Schema and Migration Contract
 
-State: `PLANNED / NOT_STARTED`
+State: `READY_TO_BEGIN`
 Gate: `P18_3_SHARED_DATASTORE_SCHEMA_MIGRATION_CONTRACT_VALIDATED`
 
 Scope after implementation authorization:
@@ -413,7 +417,11 @@ Until then, owner-only project-local SQLite remains canonical.
 
 `P18_0 = VALIDATED`
 
-`P18_1 = READY_TO_BEGIN`
+`P18_1 = VALIDATED`
+
+`P18_2 = VALIDATED`
+
+`P18_3 = READY_TO_BEGIN`
 
 `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`
 
@@ -427,10 +435,10 @@ Until then, owner-only project-local SQLite remains canonical.
 
 The next permitted engineering step is:
 
-`P18.1 — Identity and Authenticated Tenant Context Foundation`
+`P18.3 — Shared Datastore Schema and Migration Contract`
 
 Target validation gate:
 
-`P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED`
+`P18_3_SHARED_DATASTORE_SCHEMA_MIGRATION_CONTRACT_VALIDATED`
 
-P18.1 readiness does not select a concrete identity provider, approve paid infrastructure, activate shared runtime, create migration `033`, or authorize production/shared cutover.
+P18.3 readiness authorizes only the next provider-neutral engineering step. It does not allocate/create/preauthorize migration `033`, select or purchase a provider, deploy shared storage, expose shared/public ingress, activate shared runtime, switch canonical storage or authorize production/shared cutover.
