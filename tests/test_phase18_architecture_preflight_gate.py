@@ -22,34 +22,55 @@ def _state() -> dict:
     return json.loads(STATE_PATH.read_text(encoding="utf-8"))
 
 
-def test_phase18_remains_conditional_and_unapproved():
+def test_phase18_architecture_is_approved_for_planning_only():
     state = _state()
 
-    assert state["phases"]["18"] == "CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED"
     assert (
-        state["activation_gates"]["phase18"]
-        == "PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL"
+        state["phases"]["18"]
+        == "ARCHITECTURE_APPROVED / IMPLEMENTATION_PLANNING_AUTHORIZED / NOT_IMPLEMENTED / NOT_ACTIVATED"
+    )
+    assert (
+        state["activation_gates"]["phase18_architecture"]
+        == "PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER"
+    )
+    assert (
+        state["activation_gates"]["phase18_planning"]
+        == "PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES"
+    )
+    assert (
+        state["activation_gates"]["phase18_implementation"]
+        == "PHASE_18_IMPLEMENTATION_AUTHORIZED = NO"
+    )
+    assert (
+        state["activation_gates"]["phase18_activation"]
+        == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
     )
     assert (
         state["roadmap"]["current_position"]
-        == "POST_PHASE_17_PRE_PHASE_18_ARCHITECTURE_GATE"
+        == "PHASE_18_ARCHITECTURE_APPROVED_IMPLEMENTATION_PLANNING_GATE"
     )
 
 
-def test_preflight_is_not_implementation_authorization():
+def test_preflight_history_and_owner_decision_are_not_implementation_authorization():
     preflight = PREFLIGHT_PATH.read_text(encoding="utf-8")
     decision = DECISION_PATH.read_text(encoding="utf-8")
 
+    assert "PHASE_18_ARCHITECTURE_PREFLIGHT = COMPLETE" in preflight
+    assert "PHASE_18_NEW_ARCHITECTURE_APPROVAL = PENDING_OWNER_DECISION" in preflight
+    assert "PHASE_18_IMPLEMENTATION_AUTHORIZED = NO" in preflight
+    assert "PHASE_18_SHARED_RUNTIME_ACTIVE = NO" in preflight
+
+    assert "Status: APPROVED_BY_OWNER_FOR_IMPLEMENTATION_PLANNING" in decision
+    assert "PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER" in decision
+    assert "PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES" in decision
+    assert "PHASE_18_IMPLEMENTATION_AUTHORIZED = NO" in decision
+    assert "PHASE_18_SHARED_RUNTIME_ACTIVE = NO" in decision
+    assert "DECISION = APPROVED_BY_OWNER_FOR_IMPLEMENTATION_PLANNING" in decision
+
     for text in (preflight, decision):
-        assert "PHASE_18_NEW_ARCHITECTURE_APPROVAL = PENDING_OWNER_DECISION" in text
-        assert "PHASE_18_IMPLEMENTATION_AUTHORIZED = NO" in text
-        assert "PHASE_18_SHARED_RUNTIME_ACTIVE = NO" in text
         assert "MIGRATION_033" in text or "migration `033`" in text
         assert "NONE_APPROVED" in text
         assert "NOT_OPERATIONAL" in text
-
-    assert "PHASE_18_ARCHITECTURE_PREFLIGHT = COMPLETE" in preflight
-    assert "DECISION = PENDING_OWNER_APPROVAL" in decision
 
 
 def test_existing_project_local_runtime_boundary_remains_authoritative():
@@ -68,7 +89,7 @@ def test_existing_project_local_runtime_boundary_remains_authoritative():
     assert "existing local canonical SQLite store in place" in preflight
 
 
-def test_phase18_preflight_does_not_create_or_preauthorize_migration_033():
+def test_phase18_approval_does_not_create_or_preauthorize_migration_033():
     state = _state()
     migration_state = state["migrations"]["033"]
     migrations = ROOT / "migrations"
