@@ -1,32 +1,30 @@
 # Phase 18 Architecture Approval Gate
 
-Status: PENDING_OWNER_APPROVAL
+Status: APPROVED_BY_OWNER_FOR_IMPLEMENTATION_PLANNING
 Date: 2026-09-07
 Project: K-Geopolitical Monitor
 Architecture preflight: `docs/implementation/PHASE_18_SHARED_TEAM_RUNTIME_ARCHITECTURE_PREFLIGHT.md`
 
-## Decision Required
+## Owner Decision
 
-Phase 18 requires a new architecture approval before any shared/team runtime implementation or activation.
+The owner explicitly approved the Phase 18 architecture contract presented after successful architecture-preflight validation.
 
-This record intentionally does **not** approve that architecture.
-
-Current gate state:
+Recorded decision:
 
 - `PHASE_18_ARCHITECTURE_PREFLIGHT = COMPLETE`;
-- `PHASE_18_NEW_ARCHITECTURE_APPROVAL = PENDING_OWNER_DECISION`;
+- `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`;
+- `PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES`;
 - `PHASE_18_IMPLEMENTATION_AUTHORIZED = NO`;
 - `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
-- `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL` remains in force;
 - migration `033` remains `NOT_CREATED / NOT_PREAUTHORIZED`;
-- `PROJECT_LOCAL_ONLY` remains the canonical runtime storage mode;
-- mixed/shared canonical runtime remains `BLOCKED`;
+- `PROJECT_LOCAL_ONLY` remains the canonical active runtime storage mode;
+- mixed/shared canonical runtime remains `BLOCKED` until separately implemented, validated and activated;
 - paid providers remain `NONE_APPROVED`;
 - production/live remains `NOT_OPERATIONAL`.
 
-## Architecture Proposed for Approval
+## Approved Architecture Contract
 
-The preflight recommends:
+The approved planning baseline is:
 
 - preserve the existing owner-only project-local SQLite runtime unchanged as the validated compatibility/rollback profile;
 - create a separate shared/team runtime profile rather than converting the current SQLite database in place;
@@ -38,37 +36,51 @@ The preflight recommends:
 - prohibit direct cross-project canonical-store mutation;
 - require HTTPS, non-public datastore ingress, secrets isolation, threat-model validation, backup/restore and rollback evidence;
 - perform staged shadow/canary migration with the current project-local store remaining canonical until explicit cutover approval;
-- select no provider and incur no paid-provider commitment as part of this architecture decision alone.
+- select no provider and incur no paid-provider commitment from architecture approval alone.
 
-## Owner Approval Must Resolve
+## What This Approval Authorizes
 
-An explicit approval should confirm or amend at least these architecture choices:
+This decision authorizes **implementation planning only**. Planning may define:
 
-- separate shared/team runtime profile versus any alternative;
-- transactional shared datastore class;
-- `workspace_id` / `project_id` tenancy boundary;
-- RBAC role model and owner-only permissions;
-- identity/authentication approach;
-- cross-project sharing contract;
-- concurrency/idempotency/audit model;
-- migration and rollback approach;
-- backup/DR requirements;
-- acceptable cost envelope and provider-selection process.
+- Phase 18 work breakdown and engineering gates;
+- service and repository boundaries;
+- shared-schema and tenancy design;
+- AuthN/RBAC permission matrices;
+- concurrency, idempotency and audit contracts;
+- migration/shadow/canary/rollback design;
+- threat-model and security validation plans;
+- backup/DR test plans;
+- provider-neutral deployment requirements;
+- cost/provider comparison criteria;
+- exact validation and acceptance matrices.
 
-## What Approval Will Not Automatically Authorize
+Planning artifacts may be created and reviewed without activating or implementing the shared runtime.
 
-Even an owner approval of this architecture will not by itself mean:
+## What This Approval Does Not Authorize
 
+Architecture approval does **not** by itself authorize:
+
+- shared/team runtime implementation;
 - production/live activation;
 - public sharing or Phase 17 publication activation;
-- a specific paid provider purchase;
+- a specific paid provider purchase or external-provider activation;
 - deployment to a public endpoint;
-- migration `033` execution;
+- migration `033` creation or execution;
 - destructive conversion of the current SQLite store;
+- cross-project canonical-store mutation;
+- canonical cutover from the current owner-only project-local runtime;
 - bypass of subsequent implementation, security, migration, regression, DR or activation gates.
+
+## Next Gate
+
+The next permitted strategic activity is Phase 18 implementation planning.
+
+Before code, schema migration, shared runtime deployment or provider activation begins, the plan must define a separate explicit implementation authorization gate.
 
 ## Current Decision
 
-`DECISION = PENDING_OWNER_APPROVAL`
+`DECISION = APPROVED_BY_OWNER_FOR_IMPLEMENTATION_PLANNING`
 
-Until an explicit owner architecture approval is recorded, Phase 18 implementation is **NO-GO**.
+`PHASE_18_IMPLEMENTATION_AUTHORIZED = NO`
+
+`PHASE_18_SHARED_RUNTIME_ACTIVE = NO`
