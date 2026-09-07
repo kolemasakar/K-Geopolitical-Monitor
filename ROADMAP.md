@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.30
+Version: 4.31
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -420,7 +420,7 @@ Phase 17 validates publication eligibility, public-safe projection/redaction, de
 Phase 17 introduced no database migration; migration `033` remains uncreated/not pre-authorized. No real external publication target, owner execution, production/live operation, public ingress, public GPT Action, backend HTTPS, shared runtime or paid provider is activated by readiness closure. For the current account, actual external publication is additionally blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`; owner approval alone cannot bypass this account/platform capability boundary. If the capability becomes available later, activation remains separately gated by `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` and fresh launch-time validation.
 
 ## Phase 18 — Shared / Team Runtime
-State: `ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_READY / NOT_ACTIVATED`
+State: `ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_READY / NOT_ACTIVATED`
 Architecture gate: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`
 Planning gate: `PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES`
 Implementation gate: `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`
@@ -525,15 +525,32 @@ Validated audit/outbox contract: successful security-sensitive canonical mutatio
 P18.5 did not deploy shared storage or a provider/queue, activate shared runtime, allocate migration `033`, select or purchase a provider, expose shared/public ingress, switch canonical storage, authorize canonical cutover or change production/live status.
 
 ### P18.6 — Shared Runtime Security and Secrets Controls
-State: `READY_TO_BEGIN`
+State: `VALIDATED`
 Gate: `P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_VALIDATED`
+Implementation anchor: `8d3e8679db3e722186f04dc0fff32fdb8e13e703`.
+Contract: `docs/implementation/P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_CONTRACT.md`
+Result: `docs/implementation/P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-07_P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_VALIDATED.md`
 
-P18.6 is the next permitted engineering step. It may implement provider-neutral shared-runtime security/secrets controls and negative threat-model tests, but readiness does not deploy shared storage, allocate migration `033`, select a paid provider, expose shared/public ingress, switch canonical storage or activate shared runtime.
+Exact implementation validation:
+- PR #26 CI run `34154201285`, job `101842505507`: `963 passed in 90.80s / SUCCESS`;
+- exact-main x64 run `34154397826`, job `101843094272`: `963 passed in 143.97s / SUCCESS`;
+- exact-main native ARM64 run `34154397829`, job `101843094702`: native `aarch64`, `963 passed in 162.34s / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Validated security contract: shared application configuration is HTTPS-only; shared datastore configuration forbids public ingress and requires encrypted transport; secret references, recursive redaction and fail-closed surface review prevent private secret material from ordinary public/non-sensitive/log/export/backup metadata surfaces; shared identity is issuer-scoped and membership/RBAC/retry identity are issuer-aware; session credential rebinding fails closed; IDOR, structured-query/injection, SSRF, CSRF-where-applicable, privilege-escalation and tenant resource-abuse controls are explicitly negative-tested; security-event audit evidence remains tenant-scoped, redacted and truth-neutral.
+
+P18.6 validates a provider-neutral security/configuration contract only. Because no shared datastore/application ingress exists yet, observed provider/network/TLS reachability remains P18.8/P18.9 evidence. P18.6 did not deploy shared storage, activate shared runtime, allocate migration `033`, select or purchase a provider, expose shared/public ingress, switch canonical storage, authorize canonical cutover or change production/live status.
+
+### P18.7 — Backup, Disaster Recovery and Rollback
+State: `READY_TO_BEGIN`
+Gate: `P18_7_SHARED_RUNTIME_BACKUP_DR_ROLLBACK_VALIDATED`
+
+P18.7 is the next permitted engineering step. It may implement provider-neutral backup/restore/rollback contracts and clean-environment recovery evidence while preserving owner-local canonical independence. Readiness does not deploy shared storage, allocate migration `033`, select a paid provider, expose shared/public ingress, switch canonical storage or activate shared runtime.
 
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.30`;
+- state synchronization: `v4.31`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -553,7 +570,7 @@ P18.6 is the next permitted engineering step. It may implement provider-neutral 
 - Phase 17 current account publication capability: `UNAVAILABLE`;
 - Phase 17 capability decision: `docs/decisions/PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md`;
 - P17.0–P17.6: `VALIDATED`;
-- Phase 18: `ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_READY / NOT_ACTIVATED`;
+- Phase 18: `ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_READY / NOT_ACTIVATED`;
 - Phase 18 architecture approval: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`;
 - Phase 18 implementation planning: `PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES`;
 - Phase 18 implementation authorization: `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`;
@@ -563,7 +580,8 @@ P18.6 is the next permitted engineering step. It may implement provider-neutral 
 - P18.3: `VALIDATED`;
 - P18.4: `VALIDATED`;
 - P18.5: `VALIDATED`;
-- P18.6: `READY_TO_BEGIN`;
+- P18.6: `VALIDATED`;
+- P18.7: `READY_TO_BEGIN`;
 - Phase 18 shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
 - migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
@@ -575,4 +593,4 @@ P18.6 is the next permitted engineering step. It may implement provider-neutral 
 - public sharing: `NOT_ACTIVE`;
 - paid providers: `NONE_APPROVED`.
 
-Phase 17 readiness is strategically closed at `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`. For the current account, real external publication is unavailable and blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`; an owner decision alone is insufficient while that capability boundary remains active. If the account/platform capability changes later, publication still requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus fresh launch-time validation. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 architecture and implementation are owner-authorized; P18.0 through P18.5 are validated and P18.6 is ready to begin. P18.6 readiness does not authorize migration `033`, provider spending/selection, shared datastore deployment, shared-runtime activation/cutover or production/live transition.
+Phase 17 readiness is strategically closed at `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`. For the current account, real external publication is unavailable and blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`; an owner decision alone is insufficient while that capability boundary remains active. If the account/platform capability changes later, publication still requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus fresh launch-time validation. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 architecture and implementation are owner-authorized; P18.0 through P18.6 are validated and P18.7 is ready to begin. P18.7 readiness does not authorize migration `033`, provider spending/selection, shared datastore deployment, shared-runtime activation/cutover or production/live transition.
