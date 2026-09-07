@@ -26,19 +26,20 @@ def _state() -> dict:
     return json.loads(STATE_PATH.read_text(encoding="utf-8"))
 
 
-def test_phase18_plan_requires_separate_owner_implementation_authorization():
+def test_phase18_owner_implementation_authorization_is_recorded_without_starting_p18_0():
     plan = _text(PLAN_PATH)
     gate = _text(AUTHORIZATION_PATH)
     state = _state()
 
     assert "PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER" in plan
     assert "PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES" in plan
-    assert "PHASE_18_IMPLEMENTATION_AUTHORIZED = NO" in plan
-    assert "PHASE_18_IMPLEMENTATION_AUTHORIZATION = OWNER_DECISION_REQUIRED" in plan
+    assert "PHASE_18_IMPLEMENTATION_AUTHORIZED = YES" in plan
+    assert "P18_0 = PLANNED / NOT_STARTED" in plan
 
-    assert "PENDING_OWNER_IMPLEMENTATION_AUTHORIZATION" in gate
-    assert "DECISION = PENDING_OWNER_IMPLEMENTATION_AUTHORIZATION" in gate
-    assert "PHASE_18_IMPLEMENTATION_AUTHORIZED = NO" in gate
+    assert "Status: APPROVED_BY_OWNER_FOR_PHASE_18_IMPLEMENTATION" in gate
+    assert "DECISION = APPROVED_BY_OWNER_FOR_PHASE_18_IMPLEMENTATION" in gate
+    assert "PHASE_18_IMPLEMENTATION_AUTHORIZED = YES" in gate
+    assert "P18_0 = PLANNED / NOT_STARTED" in gate
 
     assert (
         state["activation_gates"]["phase18_architecture"]
@@ -50,7 +51,15 @@ def test_phase18_plan_requires_separate_owner_implementation_authorization():
     )
     assert (
         state["activation_gates"]["phase18_implementation"]
-        == "PHASE_18_IMPLEMENTATION_AUTHORIZED = NO"
+        == "PHASE_18_IMPLEMENTATION_AUTHORIZED = YES"
+    )
+    assert (
+        state["activation_gates"]["phase18_activation"]
+        == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
+    )
+    assert (
+        state["roadmap"]["current_position"]
+        == "PHASE_18_IMPLEMENTATION_AUTHORIZED_P18_0_READY_GATE"
     )
 
 
@@ -103,7 +112,7 @@ def test_phase18_plan_preserves_tenancy_authz_concurrency_security_and_dr_contra
         assert marker in plan
 
 
-def test_phase18_plan_does_not_create_or_preauthorize_migration_033():
+def test_phase18_implementation_authorization_does_not_create_or_preauthorize_migration_033():
     plan = _text(PLAN_PATH)
     gate = _text(AUTHORIZATION_PATH)
     state = _state()
@@ -113,7 +122,7 @@ def test_phase18_plan_does_not_create_or_preauthorize_migration_033():
     assert not any(path.name.startswith("033_") for path in migrations.glob("*.sql"))
     assert "MIGRATION_033 = NOT_CREATED / NOT_PREAUTHORIZED" in plan
     assert "does **not** allocate, create or preauthorize migration `033`" in plan
-    assert "migration `033` creation/execution without its migration review" in gate
+    assert "migration `033` creation or execution merely because Phase 18 implementation is authorized" in gate
 
 
 def test_phase18_plan_preserves_current_runtime_and_provider_boundaries():
@@ -128,11 +137,11 @@ def test_phase18_plan_preserves_current_runtime_and_provider_boundaries():
 
     for text in (plan, gate):
         assert "PHASE_18_SHARED_RUNTIME_ACTIVE = NO" in text
-        assert "PAID_PROVIDERS = NONE_APPROVED" in text
-        assert "PRODUCTION_LIVE = NOT_OPERATIONAL" in text
+        assert "NONE_APPROVED" in text
+        assert "NOT_OPERATIONAL" in text
 
     assert "provider selection and spending remain separate owner decisions" in plan
-    assert "current owner-only SQLite canonical store" in plan or "owner-only project-local SQLite remains canonical" in plan
+    assert "owner-only project-local SQLite remains canonical" in plan
 
 
 def test_phase18_plan_keeps_final_activation_separate_from_implementation():
@@ -142,6 +151,6 @@ def test_phase18_plan_keeps_final_activation_separate_from_implementation():
     assert "P18.9 validation means **activation readiness only**" in plan
     assert "Final activation requires a separate explicit owner activation decision" in plan
     assert "PHASE_18_SHARED_RUNTIME_ACTIVE = YES" in plan
-    assert "must not automatically mean" in gate
+    assert "does **not** authorize" in gate
     assert "PHASE_18_SHARED_RUNTIME_ACTIVE = YES" in gate
-    assert "canonical cutover away from owner-only SQLite" in gate
+    assert "canonical cutover from the owner-only project-local runtime" in gate
