@@ -1,0 +1,10 @@
+# Reproducible CI compatibility constraints.
+# This is intentionally a focused constraints set, not a full transitive lockfile.
+fastapi==0.141.1
+uvicorn==0.52.4
+pytest==9.1.1
+httpx2==2.12.0
+starlette==1.6.0
+anyio==4.14.2
+pydantic==2.13.5
+pydantic-core==2.46.5

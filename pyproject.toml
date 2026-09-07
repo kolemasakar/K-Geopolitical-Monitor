@@ -1,22 +1,22 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "k-geopolitical-monitor"
 version = "0.1.0"
 description = "Global geopolitical monitoring system"
-readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "fastapi>=0.116,<1",
-    "uvicorn>=0.35,<1",
+  "fastapi>=0.116,<1",
+  "uvicorn>=0.35,<1",
 ]
 
 [project.optional-dependencies]
 test = [
-    "pytest>=8.0",
-    "httpx>=0.28,<1",
+  "pytest>=8.0,<10",
+  "httpx2>=2.12,<3",
+  "anyio>=4.14.2,<4.15",
 ]
 
 [tool.setuptools]
@@ -27,4 +27,8 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src", "."]
+pythonpath = ["src"]
+filterwarnings = [
+  "error::DeprecationWarning",
+  "error::starlette.exceptions.StarletteDeprecationWarning",
+]
