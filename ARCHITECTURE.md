@@ -1,127 +1,89 @@
 # ARCHITECTURE
 Technical architecture definition for K-Geopolitical Monitor.
 
-Version: 3.6
-Status: APPROVED / ROADMAP_V4_SYNCHRONIZED / P12_5_VALIDATED
+Version: 4.0
+Status: APPROVED / ROADMAP_V4_22_SYNCHRONIZED / PHASE_17_VALIDATED_READY
+Canonical state contract: `docs/state/CURRENT_PROJECT_STATE.json`
 
-## Architecture Principle
+## Current Architecture Position
 
-Preserve the validated engineering spine while improving intelligence quality and public-source breadth.
+Current strategic position: `POST_PHASE_17_PRE_PHASE_18_ARCHITECTURE_GATE`.
 
-Current numbered phase: `Phase 12 — Intelligence Quality and Source Network Foundation`.
+Validated line:
+- Phase 12 — `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
+- Phase 13 — `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
+- Phase 14 — `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED`;
+- Phase 15 — `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`;
+- Phase 16 — `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`;
+- Phase 17 — `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED`;
+- Phase 18 — `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED` under `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`.
 
-Validated gates:
+Phase 18 is not activated or pre-approved by Phase 17 closure.
+
+## Logical Architecture
+
+`Public Sources -> Governed Acquisition -> Provenance / Semantic Claims -> P13.5 Verification Policy -> P13.6 Live Compatibility -> Analysis / Graph -> Forecasting -> P15 Calibration / Performance -> Monitoring / Alerts -> P14 Owner Read Model -> P16 Delivery / Feedback -> P17 Public-Safe Publication Readiness`
+
+The private GPT is an interaction/orchestration surface, not the unattended runtime or canonical state store.
+
+## Canonical Truth / Provenance Boundary
+
+- publisher/publication is not automatically underlying origin;
+- publisher/publication is not automatically the underlying origin;
+- repost/syndication/translation/citation does not create independent corroboration;
+- official statements establish what was stated, not automatically the underlying event;
+- source reputation, portfolio state, availability and freshness are not truth operators;
+- semantic extraction confidence is not factual verification confidence;
+- graph inference cannot promote factual verification;
+- forecast probability/confidence, Brier/calibration/performance metrics and drift/bias cannot promote factual verification;
+- delivery state, receipts, operator feedback and quality metrics cannot promote factual verification;
+- publication eligibility, receipts and engagement cannot promote factual verification;
+- count-only verification promotion is forbidden;
+- `GLOBAL` is scope, not proof of exhaustive world coverage;
+- canonical factual verification authority remains P13.5/P13.6 only.
+
+## Source / Governance Historical Baseline
+
+Phase 12 remains validated with known limitations. Historical gates remain:
 - `P12_0_CANONICAL_CONVERGENCE_VALIDATED`;
 - `P12_1_SOURCE_PORTFOLIO_CONTRACT_VALIDATED`;
 - `P12_2_ADAPTER_FRAMEWORK_V2_VALIDATED`;
 - `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`;
 - `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
-- `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`.
+- `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`;
+- `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`.
 
-Next activity: `P12.6_PHASE_12_VALIDATION_MATRIX / NEXT_NOT_STARTED`.
+Known retained observations include European Parliament `UNAVAILABLE / PARSER` with governed `DEGRADED`, Haberturk `UNAVAILABLE / UNKNOWN` in the P12.5 probe, OSCE acquisition `HEALTHY` with observed content `STALE`, and the initial `uk/ru/pl/tr` slice as not global language coverage. These are historical/operational observations, not truth operators.
 
-## Logical Architecture
+## Semantic / Forecast / Delivery / Publication Layers
 
-`Public Sources -> Source Portfolio -> Governed Adapter Framework -> Acquisition -> Ingestion -> Translation Representation -> Normalization -> Claims / Evidence / Events -> Verification -> Analysis / Graph -> Forecasting -> Reporting -> Monitoring / Coverage / Alerts -> Owner Interaction`
-
-The private GPT is an interaction/orchestration surface, not the unattended runtime or canonical state store.
-
-## Source / Governance Boundary
-
-- `sources` remains canonical source identity;
-- immutable `source_portfolio_versions` carries P12.1 governance;
-- P12.2 governed adapters enforce approved access, adapter identity/version and outbound host;
-- P12.3 authoritative and P12.4 media-discovery packs use the same existing layers;
-- P12.5 is a read-only assessment layer over portfolio, collection attempts and provenance;
-- pack membership does not create a parallel truth/evidence store;
-- portfolio approval, language identity, acquisition availability or freshness does not establish evidence independence or factual truth.
-
-## P12.3 Retained Authoritative Pack State
-
-Governed portfolio state:
-- European Commission Press Corner — `ACTIVE`;
-- European Parliament Press Releases — `DEGRADED` for unattended RSS acquisition because the official endpoint returns non-feed/anti-bot content;
-- UK Government News and Communications — `ACTIVE`;
-- OSCE Latest News — `ACTIVE`.
-
-The European Parliament official endpoint is retained; no bypass or third-party canonical mirror is introduced.
-
-## P12.4 Local-Language Discovery Boundary
-
-P12.4 adds a governed first media/discovery slice:
-- `uk` / Ukrainska Pravda;
-- `ru` / Meduza;
-- `pl` / RMF24;
-- `tr` / Haberturk.
-
-All four acquisition/parser paths succeeded in the bounded P12.4 validation probe and were governed `ACTIVE`. This remains historical validation evidence, not continuous-health proof.
-
-P12.4 adapters preserve original Unicode and source URLs. They do not translate. Translation remains a separate derived representation and does not create another source or independent origin.
-
-The initial `uk/ru/pl/tr` slice is not global language coverage. Missing languages, publishers, inaccessible/removed/closed sources and not-yet-indexed material remain explicit gaps.
-
-## P12.5 Health / Freshness / Egress Layer
-
-P12.5 separates:
-- governed portfolio availability;
-- latest acquisition/adapter operational state;
-- measurement freshness;
-- observed publisher-content freshness;
-- exact governed outbound hostname/protocol requirements.
-
-Validation anchor `92d0c0516351e2af7ba836d3ae711dd414d22023` measured all ten governed paths. Current controlled-live findings included:
-- European Parliament: `UNAVAILABLE / PARSER`, governed `DEGRADED` retained;
-- Haberturk: `UNAVAILABLE / UNKNOWN` because an item URL failed HTTP/HTTPS validation, governed `ACTIVE` retained pending review;
-- OSCE: acquisition `HEALTHY`, observed content `STALE`.
-
-A single observation does not silently mutate portfolio governance. Operational state and content freshness remain separate from truth and evidence independence.
-
-P12.5 inventories ten HTTPS host requirements. The inventory is not a deployed firewall policy.
+- Phase 13 adds structured semantic claims, provenance/origin relations, typed evidence/independence, contradictions and policy-controlled multidimensional verification.
+- Phase 14 projects persisted owner intelligence read-only and remains `NOT_ACTIVATED`; `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
+- Phase 15 adds provenance-bound forecast outcome, calibration and performance intelligence without changing factual truth authority.
+- Phase 16 adds auditable delivery intents, redaction, provider-neutral local/test transport, receipts and operator quality feedback; no real provider is activated.
+- Phase 17 adds deterministic publication eligibility, public-safe redaction/projection, release manifests/packages and a local/test target only. Real publication is `NOT_ACTIVATED` and current account publication capability is `UNAVAILABLE`.
 
 ## Runtime / Storage Boundary
 
 - runtime storage: `PROJECT_LOCAL_ONLY`;
-- no implicit mixed storage;
-- no shared runtime database;
+- mixed/shared canonical runtime: `BLOCKED`;
 - no direct cross-project canonical-store mutation;
-- shared/mixed canonical runtime storage requires new architecture approval.
+- shared/team runtime requires a new architecture approval under Phase 18;
+- owner-only OCI remains the validated runtime line;
+- `PRODUCTION_LIVE = NOT_OPERATIONAL`.
 
 Runtime storage mode: PROJECT_LOCAL_ONLY
-E9 Shared Production Runtime: `NOT_APPROVED`.
-
-## Owner-Only Runtime Boundary
-
-E9A remains `OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`.
-
-Explicit owner-approved candidate networking exceptions:
-- public SSH TCP/22 from `0.0.0.0/0`;
-- broad outbound egress.
-
 Production/live operational status: NOT_OPERATIONAL
 
-P12.5 measured outbound requirements but did not deploy egress restriction. Any restriction requires a separate validated decision.
+## Security / Exposure Boundary
 
-## Truth Boundary
-
-- publisher/publication is not automatically underlying origin;
-- repost/syndication/translation/citation does not create independent corroboration;
-- official statements prove what was stated, not automatically the underlying event;
-- official sources are authoritative for their own statements, not automatically for the underlying event;
-- source reputation, portfolio approval, language identity, adapter availability and freshness do not determine truth;
-- adapter/source/domain/item count is not independent-origin count;
-- media/domain/language/adapter/item count is not independent-origin count;
-- graph inference cannot promote verification;
-- forecast probability/confidence cannot promote factual verification;
-- coverage metrics cannot promote factual confidence;
-- `GLOBAL` is scope, not proof of exhaustive world coverage.
-
-## Backend / Dashboard / GPT Boundary
-
-- E3 backend API foundation: `BASELINE_VALIDATED / HTTPS_NOT_DEPLOYED`;
+- E9A remains `OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`;
+- explicit historical candidate networking exceptions remain public SSH TCP/22 from `0.0.0.0/0` and broad outbound egress;
+- backend HTTPS: `NOT_DEPLOYED`;
 - private GPT backend Action: `NOT_CONNECTED`;
-- E5 dashboard: `LOCAL_PROTECTED / READ_ONLY / NOT_DEPLOYED`;
 - public Action/API/dashboard ingress: `NOT_APPROVED / NOT_DEPLOYED`;
-- public GPT sharing: `USER_DEFERRED`.
+- public sharing: `NOT_ACTIVE`;
+- paid providers: `NONE_APPROVED`.
 
 ## Start.me Boundary
 
@@ -130,9 +92,11 @@ Start.me remains non-canonical.
 
 ## Current State
 
-- ROADMAP: `APPROVED / v4`;
-- P12.0-P12.5: `VALIDATED`;
-- P12.6: `NEXT / NOT_STARTED`;
-- paid providers: `NONE_APPROVED`;
+- ROADMAP: `APPROVED / v4`, synchronization `4.22`;
+- Phase 12–16 strategic engineering gates: validated as recorded above;
+- Phase 17: `VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`;
+- Phase 18: `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`;
+- owner operational activation: `OWNER_DECISION_REQUIRED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
+- mixed/shared runtime: `BLOCKED`;
 - production/live: `NOT_OPERATIONAL`.
