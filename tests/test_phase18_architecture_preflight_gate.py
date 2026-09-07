@@ -22,13 +22,14 @@ def _state() -> dict:
     return json.loads(STATE_PATH.read_text(encoding="utf-8"))
 
 
-def test_phase18_architecture_is_approved_and_implementation_is_separately_authorized():
+def test_phase18_architecture_and_implementation_authorization_remain_separate_from_activation():
     state = _state()
+    phase18 = state["phases"]["18"]
 
-    assert (
-        state["phases"]["18"]
-        == "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_NOT_STARTED / NOT_ACTIVATED"
-    )
+    assert phase18.startswith("ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED /")
+    assert phase18.endswith("/ NOT_ACTIVATED")
+    assert "P18_0_VALIDATED" in phase18
+    assert "P18_1_READY" in phase18
     assert (
         state["activation_gates"]["phase18_architecture"]
         == "PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER"
@@ -47,7 +48,7 @@ def test_phase18_architecture_is_approved_and_implementation_is_separately_autho
     )
     assert (
         state["roadmap"]["current_position"]
-        == "PHASE_18_IMPLEMENTATION_AUTHORIZED_P18_0_READY_GATE"
+        == "PHASE_18_P18_0_VALIDATED_P18_1_READY_GATE"
     )
 
 
