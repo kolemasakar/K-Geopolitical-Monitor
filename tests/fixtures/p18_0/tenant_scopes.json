@@ -1,0 +1,12 @@
+{
+  "workspaces": [
+    {
+      "workspace_id": "workspace-alpha",
+      "projects": ["project-red", "project-blue"]
+    },
+    {
+      "workspace_id": "workspace-beta",
+      "projects": ["project-green"]
+    }
+  ]
+}
