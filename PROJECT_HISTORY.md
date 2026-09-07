@@ -18,6 +18,7 @@ Phase 12 closed at `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / 
 
 P13.0–P13.6 were validated sequentially. The phase introduced structured semantic claim identity, explicit provenance/origin relations, typed evidence and independence, typed contradictions, versioned verification policy/multidimensional confidence and read-only live compatibility.
 
+P13.6 implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`.
 Strategic closure anchor `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`:
 - x64 `33861302915 / 100986128743`: `497 passed, 2 warnings / SUCCESS`;
 - ARM64 `33861302926 / 100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.

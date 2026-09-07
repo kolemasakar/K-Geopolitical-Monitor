@@ -29,6 +29,11 @@ Known historical Phase 12 observations remain visible:
 - OSCE — acquisition `HEALTHY`, observed publisher content `STALE`;
 - `uk/ru/pl/tr` — initial language slice, not global coverage.
 
+Permanent retained source semantics:
+- official sources are authoritative for their own statements, not automatically for the underlying event;
+- media/domain/language/adapter/item count is not independent-origin count;
+- translation remains a separate derived representation and creates no independent origin.
+
 ## Provenance / Independence — Phase 13 Validated Model
 
 P13.0 semantic verification architecture contract: `VALIDATED`.

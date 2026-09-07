@@ -72,6 +72,7 @@ P13.5 adds append-only `semantic_verification_policy_versions`, `semantic_factua
 
 State: `VALIDATED`.
 Strategic gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
+Implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`.
 Strategic closure anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`.
 Strategic validation: `497 passed, 2 warnings / SUCCESS` on x64 and native ARM64.
 

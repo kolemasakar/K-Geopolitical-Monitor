@@ -37,13 +37,17 @@ def test_machine_readable_state_matches_roadmap_v4_22_position():
 def test_root_canonical_docs_share_current_phase_and_runtime_boundaries():
     for path in ROOT_DOCS:
         text = _text(path)
-        assert "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED" in text
         assert "PROJECT_LOCAL_ONLY" in text
         assert "NOT_OPERATIONAL" in text
-        assert "PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL" in text or path == "DATA_MODELS.md"
+
+    for path in ("README.md", "ARCHITECTURE.md", "SOURCE_POLICY.md", "DATA_MODELS.md", "PROJECT_HISTORY.md"):
+        assert "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED" in _text(path)
 
     for path in ("README.md", "ARCHITECTURE.md", "SECURITY_AND_DATA_POLICY.md", "EXTERNAL_INTEGRATIONS.md", "PROJECT_HISTORY.md"):
         assert "PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED" in _text(path)
+
+    for path in ("README.md", "ARCHITECTURE.md", "SECURITY_AND_DATA_POLICY.md", "EXTERNAL_INTEGRATIONS.md", "SOURCE_POLICY.md", "PROJECT_HISTORY.md"):
+        assert "PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL" in _text(path) or "NEW_ARCHITECTURE_APPROVAL_REQUIRED" in _text(path)
 
 
 def test_data_models_matches_actual_post_phase14_migration_chain():

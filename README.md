@@ -2,7 +2,7 @@
 Global geopolitical monitoring and intelligence platform.
 
 Version: 4.20
-Status: ACTIVE / ROADMAP_V4_22 / PHASE_17_VALIDATED_READY / PHASE_14_NOT_ACTIVATED / OWNER_ACTIVATION_REQUIRED
+Status: ACTIVE / ROADMAP_V4_22 / PHASE_15_VALIDATED / PHASE_17_VALIDATED_READY / PHASE_14_NOT_ACTIVATED / OWNER_ACTIVATION_REQUIRED
 Canonical state contract: `docs/state/CURRENT_PROJECT_STATE.json`
 
 ## Purpose
@@ -64,6 +64,7 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 ## Phase 13 Strategic Closure
 
 Gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
+P13.6 implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`.
 Strategic closure validation anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`.
 - x64 run `33861302915`, job `100986128743`: `497 passed, 2 warnings / SUCCESS`;
 - native ARM64 run `33861302926`, job `100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
