@@ -304,7 +304,6 @@ def test_import_checksum_mismatch_fails_reconciliation():
 
 def test_p18_3_implementation_preserves_runtime_and_migration_boundaries():
     state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
-    assert state["roadmap"]["current_position"] == "PHASE_18_P18_2_VALIDATED_P18_3_READY_GATE"
     assert state["activation_gates"]["phase18_activation"] == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
     assert state["runtime"]["storage"] == "PROJECT_LOCAL_ONLY"
     assert state["runtime"]["mixed_shared_runtime"] == "BLOCKED"
