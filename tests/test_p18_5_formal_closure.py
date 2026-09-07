@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,15 +14,18 @@ def _state():
     return json.loads(STATE_PATH.read_text(encoding="utf-8"))
 
 
-def test_p18_5_current_state_converges_to_p18_6_ready_gate():
+def _roadmap_minor_version(roadmap: str) -> int:
+    match = re.search(r"^Version: 4\.(\d+)$", roadmap, flags=re.MULTILINE)
+    assert match is not None
+    return int(match.group(1))
+
+
+def test_p18_5_current_state_preserves_validated_gate_after_later_progress():
     state = _state()
-    assert state["roadmap"]["state_sync_version"] == "4.30"
-    assert state["roadmap"]["current_position"] == "PHASE_18_P18_5_VALIDATED_P18_6_READY_GATE"
-    assert state["phases"]["18"] == (
-        "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / "
-        "P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / "
-        "P18_5_VALIDATED / P18_6_READY / NOT_ACTIVATED"
-    )
+    assert int(state["roadmap"]["state_sync_version"].split(".")[1]) >= 30
+    assert state["phase18_p18_5"]["state"] == "VALIDATED"
+    assert state["phase18_p18_5"]["gate"] == "P18_5_AUDIT_OUTBOX_SIDE_EFFECT_ISOLATION_VALIDATED"
+    assert "P18_5_VALIDATED" in state["phases"]["18"]
     assert state["activation_gates"]["phase18_activation"] == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
 
 
@@ -40,14 +44,12 @@ def test_p18_5_exact_engineering_evidence_is_recorded():
     }
 
 
-def test_p18_5_roadmap_and_plan_converge_without_activation_or_migration():
+def test_p18_5_roadmap_and_plan_preserve_gate_without_activation_or_migration():
     roadmap = ROADMAP_PATH.read_text(encoding="utf-8")
     plan = PLAN_PATH.read_text(encoding="utf-8")
-    assert "Version: 4.30" in roadmap
+    assert _roadmap_minor_version(roadmap) >= 30
     assert "P18_5_AUDIT_OUTBOX_SIDE_EFFECT_ISOLATION_VALIDATED" in roadmap
-    assert "P18.5: `VALIDATED`" in roadmap
-    assert "P18.6: `READY_TO_BEGIN`" in roadmap
-    assert "P18_5_VALIDATED / P18_6_READY / NOT_ACTIVATED" in roadmap
+    assert "### P18.5 — Audit, Transactional Outbox and Side-Effect Isolation" in roadmap
     assert "P18_5_AUDIT_OUTBOX_SIDE_EFFECT_ISOLATION_VALIDATED" in plan
     assert "P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_VALIDATED" in plan
     assert "Shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`" in plan
@@ -68,9 +70,10 @@ def test_p18_5_result_and_checkpoint_preserve_safety_and_truth_boundaries():
         assert "P13.5/P13.6" in text
 
 
-def test_p18_5_closure_keeps_p18_6_ready_only_and_no_migration_033():
+def test_p18_5_historical_next_gate_evidence_remains_and_no_migration_033_exists():
     state = _state()
     assert state["phase18_p18_5"]["p18_6_state"] == "READY_TO_BEGIN"
+    assert state["phase18_p18_5"]["next_gate"] == "P18_6_SHARED_RUNTIME_SECURITY_CONTROLS_VALIDATED"
     assert state["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
     assert state["runtime"]["storage"] == "PROJECT_LOCAL_ONLY"
     assert state["runtime"]["mixed_shared_runtime"] == "BLOCKED"
