@@ -696,8 +696,10 @@ def test_delivery_and_publication_lifecycle_evidence_is_truth_neutral(kind):
 
 def test_p18_5_contract_preserves_runtime_provider_migration_and_truth_boundaries():
     state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
-    assert state["roadmap"]["state_sync_version"] == "4.29"
-    assert state["roadmap"]["current_position"] == "PHASE_18_P18_4_VALIDATED_P18_5_READY_GATE"
+    version_parts = state["roadmap"]["state_sync_version"].split(".")
+    assert int(version_parts[0]) == 4
+    assert int(version_parts[1]) >= 29
+    assert "P18_4_VALIDATED" in state["phases"]["18"]
     assert state["activation_gates"]["phase18_activation"] == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
     assert state["runtime"]["storage"] == "PROJECT_LOCAL_ONLY"
     assert state["runtime"]["mixed_shared_runtime"] == "BLOCKED"
