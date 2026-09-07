@@ -1,6 +1,6 @@
 # Phase 18 — Shared / Team Runtime Implementation Plan
 
-Status: `IMPLEMENTATION_AUTHORIZED / P18_0_NOT_STARTED`
+Status: `IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_READY`
 Date: 2026-09-07
 Project: K-Geopolitical Monitor
 Architecture approval: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`
@@ -15,7 +15,7 @@ Architecture preflight: `docs/implementation/PHASE_18_SHARED_TEAM_RUNTIME_ARCHIT
 
 This document converts the owner-approved Phase 18 architecture into an implementation sequence with explicit validation gates.
 
-The plan itself did not authorize implementation. A separate explicit owner decision on 2026-09-07 subsequently set `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`. That authorization permits sequential engineering work beginning with P18.0, but does not by itself start, complete or validate any P18.x subphase and does not authorize shared-runtime activation, canonical cutover, paid providers or production/live operation.
+The plan itself did not authorize implementation. A separate explicit owner decision on 2026-09-07 subsequently set `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`. P18.0 has since been implemented and validated. P18.1 is now the next permitted engineering step, but shared-runtime activation, canonical cutover, paid providers and production/live operation remain separately gated.
 
 The active canonical runtime remains:
 
@@ -32,7 +32,7 @@ The explicit owner decision has set:
 
 `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`
 
-This authorizes P18.0 to begin in a subsequent engineering step and later P18.x work only in the approved sequence and subject to each subphase's prerequisites and validation gate.
+This authorizes sequential P18.x engineering work subject to each subphase's prerequisites and validation gate.
 
 Implementation authorization does **not** by itself authorize:
 
@@ -50,7 +50,7 @@ The recorded decision is:
 
 `docs/decisions/PHASE_18_IMPLEMENTATION_AUTHORIZATION_GATE_2026-09-07.md`
 
-P18.0 remains `PLANNED / NOT_STARTED` until implementation begins after this gate-recording step.
+P18.0 is formally validated at `P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`; P18.1 is `READY_TO_BEGIN`.
 
 ## 3. Engineering Principles
 
@@ -73,32 +73,34 @@ Every Phase 18 implementation step must preserve these invariants:
 
 ## 4. Planned Phase 18 Sequence
 
-All subphases start as `PLANNED / NOT_STARTED`. Validation requires evidence; implementation alone is never enough.
+Validation requires evidence; implementation alone is never enough.
 
 ### P18.0 — Shared Runtime Contract Foundation and Test Harness
 
-State: `PLANNED / NOT_STARTED`
+State: `VALIDATED`
 Gate: `P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`
+Implementation anchor: `6a932c1572fc8136a372bbef35be926adf5248fd`
+Result: `docs/implementation/P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-07_P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED.md`
 
-Scope after implementation authorization:
+Validated scope:
 
-- introduce provider-neutral shared-runtime interfaces and configuration boundaries;
-- define explicit local-profile versus shared-profile selection without changing the default owner-only profile;
-- add tenant-context value objects/contracts with mandatory `workspace_id` and `project_id` semantics;
-- add negative test harnesses for absent/ambiguous tenant context;
-- establish test fixtures for multiple workspaces/projects without external provider dependencies;
-- keep shared runtime disabled by default.
+- provider-neutral shared-runtime interfaces and configuration boundaries;
+- explicit owner-local versus shared-team profile selection without changing the default owner-only profile;
+- tenant-context value objects/contracts with mandatory `workspace_id` and `project_id` semantics;
+- negative test harnesses for absent/ambiguous tenant context;
+- test fixtures for multiple workspaces/projects without external provider dependencies;
+- shared runtime disabled by default;
+- shared-profile binding cannot use project-local SQLite.
 
-Acceptance:
+Validation evidence:
 
-- owner-only runtime regression remains green;
-- shared-profile selection cannot silently fall back to or co-own local SQLite canonical state;
-- missing tenant context fails closed;
-- no migration or provider activation is required for P18.0 validation.
+- x64 run `34118505375`, job `101730823343`: `749 passed in 117.36s / SUCCESS`;
+- native ARM64 run `34118505353`, job `101730823137`: native `aarch64`, `749 passed in 111.25s / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 ### P18.1 — Identity and Authenticated Tenant Context Foundation
 
-State: `PLANNED / NOT_STARTED`
+State: `READY_TO_BEGIN`
 Gate: `P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED`
 
 Scope after implementation authorization:
@@ -406,7 +408,9 @@ Until then, owner-only project-local SQLite remains canonical.
 
 `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`
 
-`P18_0 = PLANNED / NOT_STARTED`
+`P18_0 = VALIDATED`
+
+`P18_1 = READY_TO_BEGIN`
 
 `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`
 
@@ -420,10 +424,10 @@ Until then, owner-only project-local SQLite remains canonical.
 
 The next permitted engineering step is:
 
-`P18.0 — Shared Runtime Contract Foundation and Test Harness`
+`P18.1 — Identity and Authenticated Tenant Context Foundation`
 
 Target validation gate:
 
-`P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED`
+`P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED`
 
-Implementation authorization makes P18.0 authorized to begin. It does not mark P18.0 started, complete or validated, and it does not activate shared runtime.
+P18.1 readiness does not select a concrete identity provider, approve paid infrastructure, activate shared runtime, create migration `033`, or authorize production/shared cutover.

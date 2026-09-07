@@ -26,7 +26,7 @@ def _state() -> dict:
     return json.loads(STATE_PATH.read_text(encoding="utf-8"))
 
 
-def test_phase18_owner_implementation_authorization_is_recorded_without_starting_p18_0():
+def test_phase18_owner_implementation_authorization_remains_recorded_after_p18_0_validation():
     plan = _text(PLAN_PATH)
     gate = _text(AUTHORIZATION_PATH)
     state = _state()
@@ -34,8 +34,10 @@ def test_phase18_owner_implementation_authorization_is_recorded_without_starting
     assert "PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER" in plan
     assert "PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES" in plan
     assert "PHASE_18_IMPLEMENTATION_AUTHORIZED = YES" in plan
-    assert "P18_0 = PLANNED / NOT_STARTED" in plan
+    assert "P18_0 = VALIDATED" in plan
+    assert "P18_1 = READY_TO_BEGIN" in plan
 
+    # The authorization record is historical evidence and remains unchanged.
     assert "Status: APPROVED_BY_OWNER_FOR_PHASE_18_IMPLEMENTATION" in gate
     assert "DECISION = APPROVED_BY_OWNER_FOR_PHASE_18_IMPLEMENTATION" in gate
     assert "PHASE_18_IMPLEMENTATION_AUTHORIZED = YES" in gate
@@ -59,11 +61,11 @@ def test_phase18_owner_implementation_authorization_is_recorded_without_starting
     )
     assert (
         state["roadmap"]["current_position"]
-        == "PHASE_18_IMPLEMENTATION_AUTHORIZED_P18_0_READY_GATE"
+        == "PHASE_18_P18_0_VALIDATED_P18_1_READY_GATE"
     )
 
 
-def test_phase18_plan_sequence_is_complete_ordered_and_not_started():
+def test_phase18_plan_sequence_is_complete_ordered_and_tracks_current_subphase_states():
     plan = _text(PLAN_PATH)
     headings = (
         "### P18.0 — Shared Runtime Contract Foundation and Test Harness",
@@ -80,12 +82,18 @@ def test_phase18_plan_sequence_is_complete_ordered_and_not_started():
     positions = [plan.index(heading) for heading in headings]
     assert positions == sorted(positions)
 
+    sections = []
     for index, heading in enumerate(headings):
         section = plan.split(heading, 1)[1]
         if index + 1 < len(headings):
             section = section.split(headings[index + 1], 1)[0]
-        assert "State: `PLANNED / NOT_STARTED`" in section
+        sections.append(section)
         assert "Gate: `" in section
+
+    assert "State: `VALIDATED`" in sections[0]
+    assert "State: `READY_TO_BEGIN`" in sections[1]
+    for section in sections[2:]:
+        assert "State: `PLANNED / NOT_STARTED`" in section
 
 
 def test_phase18_plan_preserves_tenancy_authz_concurrency_security_and_dr_contracts():
