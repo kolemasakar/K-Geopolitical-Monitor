@@ -134,12 +134,17 @@ def test_phase18_plan_preserves_tenancy_authz_concurrency_security_and_dr_contra
         "transactional outbox",
         "HTTPS-only",
         "non-public canonical datastore ingress",
-        "clean-environment restore",
         "rollback",
         "owner-only SQLite runtime remains independently operable",
     )
     for marker in required:
         assert marker in plan
+
+    # P18.7 closure uses the more precise clean-target provider-free wording.
+    assert (
+        "clean-environment restore" in plan
+        or "clean-target provider-free restore" in plan
+    )
 
 
 def test_phase18_implementation_authorization_does_not_create_or_preauthorize_migration_033():
