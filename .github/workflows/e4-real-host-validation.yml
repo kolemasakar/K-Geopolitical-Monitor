@@ -37,7 +37,7 @@ jobs:
           test -n "$E4_SSH_KNOWN_HOSTS"
 
       - name: Checkout deployment ref
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ inputs.deploy_ref || github.sha }}
           fetch-depth: 1
