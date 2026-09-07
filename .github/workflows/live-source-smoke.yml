@@ -10,14 +10,18 @@ jobs:
   smoke:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
+    env:
+      PIP_CONSTRAINT: constraints/ci.txt
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
       - name: Install project
-        run: python -m pip install -e .
+        run: |
+          python -m pip install -e .
+          python -m pip check
       - name: Run approved live-source smoke
         run: python scripts/live_source_smoke.py
