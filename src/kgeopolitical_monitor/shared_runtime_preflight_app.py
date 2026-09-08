@@ -5,12 +5,10 @@ contains no owner-local SQLite integration and exposes no provider credentials,
 private endpoints or secret material.
 """
 
-from __future__ import annotations
-
 from contextlib import asynccontextmanager
 import os
 import secrets
-from typing import Annotated, Callable
+from typing import Callable
 
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -80,10 +78,7 @@ def create_preflight_app(
     bearer = HTTPBearer(auto_error=False)
 
     def authorize(
-        credentials: Annotated[
-            HTTPAuthorizationCredentials | None,
-            Depends(bearer),
-        ],
+        credentials: HTTPAuthorizationCredentials | None = Depends(bearer),
     ) -> str:
         if credentials is None or credentials.scheme.casefold() != "bearer":
             raise HTTPException(
@@ -102,8 +97,6 @@ def create_preflight_app(
             )
         return credentials.credentials
 
-    PreflightAuth = Annotated[str, Depends(authorize)]
-
     @app.get("/health", operation_id="getSharedRuntimePreflightHealth")
     def health() -> dict[str, object]:
         return {"status": "ok", "api_version": API_VERSION, **settings.safe_metadata}
@@ -113,7 +106,10 @@ def create_preflight_app(
         response_model=ProbeResponse,
         operation_id="writeSharedRuntimeSyntheticProbe",
     )
-    def write_probe(request: ProbeRequest, _: PreflightAuth) -> dict[str, str]:
+    def write_probe(
+        request: ProbeRequest,
+        _: str = Depends(authorize),
+    ) -> dict[str, str]:
         try:
             return adapter.write_probe(probe_id=request.probe_id, payload=request.payload)
         except PreflightCandidateError as exc:
@@ -123,7 +119,7 @@ def create_preflight_app(
             ) from exc
 
     @app.get("/preflight/probes", operation_id="listSharedRuntimeSyntheticProbes")
-    def list_probes(_: PreflightAuth) -> dict[str, object]:
+    def list_probes(_: str = Depends(authorize)) -> dict[str, object]:
         try:
             probes = adapter.list_probes()
         except PreflightCandidateError as exc:
@@ -134,7 +130,7 @@ def create_preflight_app(
         return {"count": len(probes), "probes": list(probes)}
 
     @app.get("/preflight/rls-isolation", operation_id="observeSharedRuntimeRLSIsolation")
-    def rls_isolation(_: PreflightAuth) -> dict[str, object]:
+    def rls_isolation(_: str = Depends(authorize)) -> dict[str, object]:
         try:
             return adapter.observe_rls_isolation()
         except PreflightCandidateError as exc:
