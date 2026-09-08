@@ -152,7 +152,7 @@ def test_a0_amendment_selects_only_free_disposable_railway_preflight():
     assert "Owner choice: `3 — AMEND A0`" in amendment
     assert "RAILWAY_PAID_UPGRADE = NOT_AUTHORIZED" in amendment
     assert "SPEND_APPROVAL = NOT_GRANTED" in amendment
-    assert "no TCP proxy" in amendment.casefold()
+    assert "no tcp proxy" in amendment.casefold()
     assert "DATABASE_PUBLIC_URL" in amendment
     assert "RENDER_TO_RAILWAY_SPLIT_TOPOLOGY = NOT_AUTHORIZED" in amendment
 
@@ -168,7 +168,7 @@ def test_railway_a1_is_ready_only_after_connection_inventory_and_no_charge_check
 
     assert A1_GATE in plan
     assert "PostgreSQL remains private by default" in plan
-    assert "no TCP proxy" in plan.casefold()
+    assert "no tcp proxy" in plan.casefold()
     assert "private `DATABASE_URL`" in plan
     assert "never `DATABASE_PUBLIC_URL`" in plan
     assert "no paid plan or paid minimum is required" in plan
