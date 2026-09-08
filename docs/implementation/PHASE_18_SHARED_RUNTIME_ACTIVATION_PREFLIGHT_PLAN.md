@@ -1,10 +1,11 @@
 # Phase 18 — Shared Runtime Activation Preflight Plan
 
-Status: `ACTIVATION_PREFLIGHT_AUTHORIZED / A0_VALIDATED / A1_1_ADAPTER_IN_PROGRESS / NOT_ACTIVATED`
+Status: `ACTIVATION_PREFLIGHT_AUTHORIZED / A0_VALIDATED / A1_BLOCKED_ON_RENDER_FREE_DB_QUOTA / NOT_ACTIVATED`
 Date: 2026-09-08
 Project: K-Geopolitical Monitor
 Authorization: `docs/decisions/PHASE_18_SHARED_RUNTIME_ACTIVATION_PREFLIGHT_AUTHORIZATION_2026-09-08.md`
 A0 decision: `docs/decisions/PHASE_18_ACTIVATION_A0_RENDER_DISPOSABLE_PROVIDER_DECISION_2026-09-08.md`
+Current A1 checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-08_PHASE_18_ACTIVATION_A1_BLOCKED_RENDER_FREE_DB_QUOTA.md`
 Readiness gate: `PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED`
 Readiness closure anchor: `8ce8e78eaf88996f1588b280265fb66ca62479f9`
 
@@ -59,7 +60,7 @@ A0 closure records Render Frankfurt as approved **only** for a new free disposab
 
 ### A1 — Concrete Non-Production Launch Candidate
 
-State: `IN_PROGRESS / A1_1_POSTGRES_CANDIDATE_ADAPTER`
+State: `BLOCKED_ON_RENDER_FREE_DB_QUOTA`
 Target gate: `PHASE_18_SHARED_RUNTIME_NONPROD_CANDIDATE_CREATED`
 
 Required evidence:
@@ -74,7 +75,44 @@ Required evidence:
 - public ingress is HTTPS-only and limited to the candidate API surface;
 - candidate can be destroyed without affecting owner-local operation.
 
-A1.1 adds the concrete disposable PostgreSQL adapter and protected preflight API required before Render resources are created. The adapter is limited to the `kgm_preflight` schema and synthetic probe data, uses forced RLS and transaction-local tenant context, and is not a canonical repository implementation.
+A1.1 concrete adapter state:
+
+`A1_1 = POSTGRES_CANDIDATE_ADAPTER_VALIDATED`
+
+The adapter is limited to the `kgm_preflight` schema and synthetic probe data, uses forced RLS and transaction-local tenant context, and is not a canonical repository implementation.
+
+Exact-main validation anchor: `570e710d3e7750c2d7b0f975202f70691c2c84b4`.
+
+- x64 dependency check PASS;
+- x64 full regression: `1131 passed`;
+- native ARM64: `aarch64`;
+- ARM64 dependency check PASS;
+- ARM64 full regression: `1131 passed`;
+- bootstrap PASS;
+- unattended one-tick PASS with `execution_count=0`, `recovered_runs=0`;
+- systemd contract PASS.
+
+A dedicated free Frankfurt web-service shell named `kgm-shared-runtime-preflight` was created with auto-deploy disabled and synthetic-only settings. It is not operational. A non-resolving placeholder PostgreSQL DSN intentionally causes startup to fail closed until a dedicated datastore exists. Runtime was pinned to Python `3.11.16`, matching validated CI. Observed failure logs did not expose the bearer secret or database credentials.
+
+Creating the required dedicated free KGM PostgreSQL instance was attempted after exact-main validation. Render rejected the request because the confirmed workspace already contains one active free-tier PostgreSQL database belonging to another project and the workspace cannot have a second active free-tier database.
+
+The existing non-KGM database is excluded from reuse or mutation.
+
+Therefore:
+
+`A1 = BLOCKED_ON_RENDER_FREE_DB_QUOTA`
+
+`RENDER_FREE_DB_QUOTA = EXHAUSTED_BY_EXISTING_NON_KGM_RESOURCE`
+
+`KGM_POSTGRES_CREATED = NO`
+
+`EXISTING_NON_KGM_DATABASE_REUSE = FORBIDDEN`
+
+`PAID_RENDER_DATABASE = NOT_AUTHORIZED`
+
+`PROVIDER_PIVOT = NOT_AUTHORIZED`
+
+The A1 target gate is not satisfied.
 
 ### A2 — Live Security / Network / Recovery Observation
 
@@ -93,6 +131,8 @@ Required direct observations:
 - backup/recovery capability observed on the concrete provider;
 - clean restore exercise or provider-appropriate disposable equivalent;
 - rollback to owner-only canonical runtime remains viable.
+
+The failed A1 web-service shell is not sufficient evidence for A2 and must not be treated as an operational shared-runtime endpoint.
 
 ### A3 — Migration / Reconciliation / Shadow / Canary Evidence
 
@@ -143,17 +183,14 @@ Topology:
 
 `Internet client -> Render HTTPS web service -> Render private network -> Render Postgres`
 
-Current characteristics:
+Current characteristics at A0 research time:
 
-- Hobby workspace: `$0/month + compute`;
 - free web service available for disposable validation, with free-tier limitations and idle spin-down;
-- smallest paid web compute currently about `$7/month`;
-- free Postgres: `256 MB`, `1 GB`, expires after 30 days;
-- smallest paid Postgres compute currently about `$6/month` (`0.1c-256mb`), plus storage where applicable;
+- free Postgres intended only for disposable preflight and subject to provider free-tier limits;
 - same-region services can communicate over Render private networking;
-- Render Postgres exposes an internal URL specifically for private-network use;
+- Render Postgres exposes an internal URL for private-network use;
 - automatic TLS/HTTPS is available for public web services;
-- paid Postgres instances receive backup/PITR support;
+- paid Postgres instances provide capabilities unavailable to the disposable free candidate;
 - environment variables/secret files are supported;
 - Frankfurt is available for app and Postgres.
 
@@ -161,28 +198,25 @@ Assessment:
 
 - strongest fit for an inexpensive disposable A1/A2 candidate;
 - low operational burden;
-- cleanest path for observing app-to-database private networking with the current connected toolset;
-- free Postgres is **preflight-only**, not a durable launch target because it expires after 30 days;
-- a stable smallest paid topology is approximately `$13/month` before storage/egress, and therefore requires separate owner spend approval before use;
-- datastore public-access controls must be directly inspected and tested during A2 rather than inferred from provider documentation.
+- clean path for observing app-to-database private networking;
+- free Postgres is preflight-only, not a durable launch target;
+- paid Render use requires separate owner spend approval;
+- datastore public-access controls must be directly inspected and tested during A2 rather than inferred.
 
 Current A0 disposition:
 
 `APPROVED_FOR_FREE_DISPOSABLE_NONPROD_PREFLIGHT_ONLY`
 
+Current execution constraint discovered after A0:
+
+`ONE_ACTIVE_FREE_POSTGRES_LIMIT_IN_CONFIRMED_WORKSPACE / QUOTA_ALREADY_OCCUPIED_BY_NON_KGM_RESOURCE`
+
 ### Candidate N — Render app + Neon Postgres
 
-Current characteristics:
-
-- Neon Free: `$0`, no time limit, 0.5 GB/project and 100 CU-hours/project monthly;
-- Launch is usage-based, typical low-load spend around `$15/month`;
-- Private Networking/IP Allow rules are on Neon Scale; Free/Launch traffic normally uses the public network path;
-- Scale private networking is AWS PrivateLink based.
-
-Assessment:
+Assessment at A0:
 
 - attractive database economics and branching;
-- does not satisfy the project's strict non-public datastore-path preference on Free/Launch without upgrading to a private-network-capable tier;
+- the free/low-cost topology did not satisfy the project's strict non-public datastore-path preference without additional capability;
 - split-provider topology increases security, egress and operational complexity.
 
 Current A0 disposition:
@@ -195,19 +229,11 @@ Topology:
 
 `Internet client -> HTTPS reverse proxy/API on OCI VM -> local/private PostgreSQL on same VM or private VCN`
 
-Current characteristics:
+Assessment at A0:
 
-- current Oracle Always Free documentation provides the equivalent of up to `2 OCPU / 12 GB RAM` for A1 within the revised monthly allowance;
-- full control over firewall, TLS, database listen addresses and backup design;
-- potentially `$0/month` within Always Free limits;
+- strong raw cost/control option;
 - materially higher patching, database, backup/PITR, monitoring and recovery burden;
-- recent 2026 Always Free allocation changes increase capacity/operational uncertainty.
-
-Assessment:
-
-- best raw cost/control option;
-- weaker fit for rapid activation evidence because the project would need to own more security and DR implementation itself;
-- useful fallback if managed-provider cost or public-datastore constraints become unacceptable.
+- useful fallback only after a separate provider/topology amendment.
 
 Current A0 disposition:
 
@@ -215,25 +241,18 @@ Current A0 disposition:
 
 ### Candidate W — Railway app + PostgreSQL
 
-Current characteristics:
+Assessment at A0:
 
-- database services are private by default and public access is optional;
-- private networking is supported;
-- Free plan starts with a 30-day trial and then a low monthly charge; Hobby has a `$5` minimum usage commitment;
-- no current project connector is available in this execution environment.
-
-Assessment:
-
-- technically viable and cost-competitive;
-- weaker operational fit for this activation pass because current connected tooling cannot directly create/inspect the candidate.
+- technically viable;
+- weaker operational fit because current connected tooling cannot directly manage the candidate in this execution environment.
 
 Current A0 disposition:
 
 `VIABLE_ALTERNATE / NOT_PREFERRED_FOR_AUTOMATED_PREFLIGHT`.
 
-## 5. A0 Decision and A1 Target
+## 5. Approved A0 Target
 
-Approved initial launch-preflight candidate:
+Approved initial launch-preflight candidate remains:
 
 `RENDER_FRANKFURT_DISPOSABLE_NONPROD`
 
@@ -241,43 +260,44 @@ Owner-confirmed Render workspace:
 
 `My Workspace`
 
-Approved first resources after green exact-head A1.1 adapter validation:
+The A0 authorization remains narrow:
 
-- one **free** Render Postgres instance in Frankfurt, used only for disposable validation;
-- one **free** Render FastAPI web service in Frankfurt with auto-deploy disabled during initial configuration/review;
-- app database connection via Render internal/private URL only;
+- free resources only;
+- dedicated KGM resources only;
+- no reuse or mutation of other-project resources;
 - no canonical data copy;
 - synthetic test tenant/project data only;
 - no migration `033`;
 - no paid plan upgrade;
 - no production/live claim.
 
-The purpose of the free candidate is to observe network/security/integration behavior. It is not a production recommendation.
-
-If A1/A2 succeed, the later stable-cost decision should compare at minimum:
-
-- Render smallest paid app + paid Postgres;
-- OCI Always Free/self-managed option;
-- Railway Hobby/usage-based option;
-- any additional provider only if it materially improves private networking, PITR, cost or operational risk.
+The free-database quota blocker does not silently expand A0 authorization.
 
 ## 6. A1 Current Blocker
 
-The owner explicitly confirmed Render workspace `My Workspace`, and workspace inventory was inspected. No existing non-KGM resource is authorized for reuse or mutation.
-
-The repository then showed that P18.3/P18.4 remained provider-neutral in-memory contracts without a concrete PostgreSQL adapter. Creating a database before implementing that adapter would not produce a meaningful application candidate.
-
-Therefore:
+Current factual state:
 
 `RENDER_WORKSPACE_SELECTION = OWNER_CONFIRMED_MY_WORKSPACE`
 
 `A0 = VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY`
 
-`A1_1 = POSTGRES_CANDIDATE_ADAPTER_IN_PROGRESS`
+`A1_1 = POSTGRES_CANDIDATE_ADAPTER_VALIDATED`
 
-`A1_RESOURCE_CREATION = BLOCKED_UNTIL_GREEN_EXACT_HEAD_ADAPTER_CI`
+`A1 = BLOCKED_ON_RENDER_FREE_DB_QUOTA`
 
-No KGM Render service or KGM Render PostgreSQL database has been created yet.
+`RENDER_FREE_DB_QUOTA = EXHAUSTED_BY_EXISTING_NON_KGM_RESOURCE`
+
+`KGM_WEB_SERVICE_SHELL = CREATED_BUT_NOT_OPERATIONAL`
+
+`KGM_POSTGRES_CREATED = NO`
+
+`EXISTING_NON_KGM_DATABASE_REUSE = FORBIDDEN`
+
+`PAID_RENDER_DATABASE = NOT_AUTHORIZED`
+
+`PROVIDER_PIVOT = NOT_AUTHORIZED`
+
+The required next step is an explicit owner-controlled resolution of the provider/cost constraint. A1 cannot advance by silently reusing another project's database, creating a paid database, or changing providers.
 
 ## 7. Current State
 
@@ -293,9 +313,9 @@ No KGM Render service or KGM Render PostgreSQL database has been created yet.
 
 `RENDER_WORKSPACE_SELECTION = OWNER_CONFIRMED_MY_WORKSPACE`
 
-`A1 = IN_PROGRESS`
+`A1_1 = POSTGRES_CANDIDATE_ADAPTER_VALIDATED`
 
-`A1_1 = POSTGRES_CANDIDATE_ADAPTER_IN_PROGRESS`
+`A1 = BLOCKED_ON_RENDER_FREE_DB_QUOTA`
 
 `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`
 
