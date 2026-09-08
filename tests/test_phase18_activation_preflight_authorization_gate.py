@@ -10,6 +10,12 @@ DECISION_PATH = (
     / "decisions"
     / "PHASE_18_SHARED_RUNTIME_ACTIVATION_PREFLIGHT_AUTHORIZATION_2026-09-08.md"
 )
+A0_DECISION_PATH = (
+    ROOT
+    / "docs"
+    / "decisions"
+    / "PHASE_18_ACTIVATION_A0_RENDER_DISPOSABLE_PROVIDER_DECISION_2026-09-08.md"
+)
 PLAN_PATH = (
     ROOT
     / "docs"
@@ -21,6 +27,12 @@ CHECKPOINT_PATH = (
     / "docs"
     / "checkpoints"
     / "PROJECT_CHECKPOINT_2026-09-08_PHASE_18_ACTIVATION_PREFLIGHT_A0_IN_PROGRESS.md"
+)
+A0_VALIDATED_CHECKPOINT_PATH = (
+    ROOT
+    / "docs"
+    / "checkpoints"
+    / "PROJECT_CHECKPOINT_2026-09-08_PHASE_18_ACTIVATION_A0_VALIDATED_A1_ADAPTER_IN_PROGRESS.md"
 )
 MIGRATIONS_PATH = ROOT / "migrations"
 
@@ -64,7 +76,7 @@ def test_activation_preflight_is_separate_from_phase18_readiness_and_activation(
 def test_preflight_authorization_never_implies_launch_or_cutover_authorization():
     decision = _text(DECISION_PATH)
     plan = _text(PLAN_PATH)
-    checkpoint = _text(CHECKPOINT_PATH)
+    checkpoint = _text(A0_VALIDATED_CHECKPOINT_PATH)
 
     for text in (decision, plan, checkpoint):
         assert ACTIVE_NO in text
@@ -75,25 +87,32 @@ def test_preflight_authorization_never_implies_launch_or_cutover_authorization()
 
     assert "does **not** authorize" in decision
     assert "A5 — Explicit Owner Activation / Cutover Decision" in plan
-    assert "A5 =" not in checkpoint or "A5 = NOT_AUTHORIZED" in checkpoint
 
 
-def test_a0_is_provider_decision_only_and_render_candidate_remains_uncreated():
-    decision = _text(DECISION_PATH)
+def test_a0_history_and_validated_free_render_decision_are_consistent():
+    authorization = _text(DECISION_PATH)
+    original_checkpoint = _text(CHECKPOINT_PATH)
+    a0_decision = _text(A0_DECISION_PATH)
     plan = _text(PLAN_PATH)
-    checkpoint = _text(CHECKPOINT_PATH)
+    current_checkpoint = _text(A0_VALIDATED_CHECKPOINT_PATH)
 
-    assert "A0 — Provider / Topology / Cost Decision" in decision
+    assert "A0 — Provider / Topology / Cost Decision" in authorization
     assert "A0 — Provider / Topology / Cost Decision" in plan
-    assert A0_GATE in decision
+    assert A0_GATE in authorization
     assert A0_GATE in plan
-    assert A0_GATE in checkpoint
+    assert A0_GATE in original_checkpoint
 
-    assert "RENDER_FRANKFURT_DISPOSABLE_NONPROD" in plan
-    assert "RENDER_WORKSPACE_SELECTION = PENDING_EXPLICIT_OWNER_CONFIRMATION" in plan
-    assert "RENDER_WORKSPACE_SELECTION = PENDING_EXPLICIT_OWNER_CONFIRMATION" in checkpoint
-    assert "No Render resource has been created" in plan
-    assert "no Render resource has been created" in checkpoint
+    # Historical authorization/checkpoint preserve the pre-confirmation state.
+    assert "RENDER_WORKSPACE_SELECTION = PENDING_EXPLICIT_OWNER_CONFIRMATION" in original_checkpoint
+
+    # Current A0 state records the later explicit workspace confirmation and
+    # approves only a new free disposable non-production candidate.
+    assert "A0 = VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY" in a0_decision
+    assert "A0 = VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY" in plan
+    assert "A0 = VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY" in current_checkpoint
+    assert "RENDER_WORKSPACE_SELECTION = OWNER_CONFIRMED_MY_WORKSPACE" in plan
+    assert "PAID_PROVIDERS = NONE_APPROVED" in a0_decision
+    assert "No KGM Render service or KGM Render PostgreSQL database has been created yet" in plan
 
 
 def test_canonical_runtime_provider_and_migration_boundaries_remain_fail_closed():

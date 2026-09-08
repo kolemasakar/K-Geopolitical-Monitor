@@ -21,6 +21,8 @@ def test_ci_constraints_pin_compatibility_critical_stack():
     expected = {
         "fastapi==0.141.1",
         "uvicorn==0.52.4",
+        "psycopg==3.3.5",
+        "psycopg-binary==3.3.5",
         "pytest==9.1.1",
         "httpx2==2.12.0",
         "starlette==1.6.0",

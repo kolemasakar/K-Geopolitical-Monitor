@@ -1,9 +1,10 @@
 # Phase 18 — Shared Runtime Activation Preflight Plan
 
-Status: `ACTIVATION_PREFLIGHT_AUTHORIZED / A0_IN_PROGRESS / NOT_ACTIVATED`
+Status: `ACTIVATION_PREFLIGHT_AUTHORIZED / A0_VALIDATED / A1_1_ADAPTER_IN_PROGRESS / NOT_ACTIVATED`
 Date: 2026-09-08
 Project: K-Geopolitical Monitor
 Authorization: `docs/decisions/PHASE_18_SHARED_RUNTIME_ACTIVATION_PREFLIGHT_AUTHORIZATION_2026-09-08.md`
+A0 decision: `docs/decisions/PHASE_18_ACTIVATION_A0_RENDER_DISPOSABLE_PROVIDER_DECISION_2026-09-08.md`
 Readiness gate: `PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED`
 Readiness closure anchor: `8ce8e78eaf88996f1588b280265fb66ca62479f9`
 
@@ -35,7 +36,7 @@ Throughout A0–A4 unless separately and explicitly changed at A5:
 
 ### A0 — Provider / Topology / Cost Decision
 
-State: `IN_PROGRESS`
+State: `VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY`
 Target gate: `PHASE_18_SHARED_RUNTIME_PROVIDER_TOPOLOGY_DECISION_READY`
 
 Required evidence:
@@ -54,9 +55,11 @@ Required evidence:
 
 A0 does not create infrastructure unless the provider/workspace/account is explicitly selected.
 
+A0 closure records Render Frankfurt as approved **only** for a new free disposable non-production candidate in the owner-confirmed `My Workspace`. It does not approve any paid Render plan, durable provider selection, production use or A5 activation.
+
 ### A1 — Concrete Non-Production Launch Candidate
 
-State: `BLOCKED_ON_A0`
+State: `IN_PROGRESS / A1_1_POSTGRES_CANDIDATE_ADAPTER`
 Target gate: `PHASE_18_SHARED_RUNTIME_NONPROD_CANDIDATE_CREATED`
 
 Required evidence:
@@ -70,6 +73,8 @@ Required evidence:
 - database path used by the app is private/non-public or otherwise satisfies the approved non-public ingress control;
 - public ingress is HTTPS-only and limited to the candidate API surface;
 - candidate can be destroyed without affecting owner-local operation.
+
+A1.1 adds the concrete disposable PostgreSQL adapter and protected preflight API required before Render resources are created. The adapter is limited to the `kgm_preflight` schema and synthetic probe data, uses forced RLS and transaction-local tenant context, and is not a canonical repository implementation.
 
 ### A2 — Live Security / Network / Recovery Observation
 
@@ -128,7 +133,7 @@ Target gate: `PHASE_18_SHARED_RUNTIME_ACTIVE = YES` only after an explicit owner
 
 A5 must be a separate decision artifact. A0–A4 success does not imply A5 approval.
 
-## 4. A0 Current Provider / Topology Evaluation
+## 4. A0 Provider / Topology Evaluation
 
 Research date: 2026-09-08.
 
@@ -163,7 +168,7 @@ Assessment:
 
 Current A0 disposition:
 
-`RECOMMENDED_FOR_DISPOSABLE_NONPROD_PREFLIGHT / NOT_YET_PROVIDER_APPROVED`
+`APPROVED_FOR_FREE_DISPOSABLE_NONPROD_PREFLIGHT_ONLY`
 
 ### Candidate N — Render app + Neon Postgres
 
@@ -226,16 +231,20 @@ Current A0 disposition:
 
 `VIABLE_ALTERNATE / NOT_PREFERRED_FOR_AUTOMATED_PREFLIGHT`.
 
-## 5. A0 Recommendation
+## 5. A0 Decision and A1 Target
 
-Recommended initial launch-preflight candidate:
+Approved initial launch-preflight candidate:
 
 `RENDER_FRANKFURT_DISPOSABLE_NONPROD`
 
-Recommended first resources after explicit Render workspace selection:
+Owner-confirmed Render workspace:
+
+`My Workspace`
+
+Approved first resources after green exact-head A1.1 adapter validation:
 
 - one **free** Render Postgres instance in Frankfurt, used only for disposable validation;
-- one **free** Render FastAPI web service in Frankfurt with auto-deploy disabled where possible until configuration is reviewed;
+- one **free** Render FastAPI web service in Frankfurt with auto-deploy disabled during initial configuration/review;
 - app database connection via Render internal/private URL only;
 - no canonical data copy;
 - synthetic test tenant/project data only;
@@ -247,30 +256,46 @@ The purpose of the free candidate is to observe network/security/integration beh
 
 If A1/A2 succeed, the later stable-cost decision should compare at minimum:
 
-- Render smallest paid app + paid Postgres (currently about `$13/month` before storage/egress);
+- Render smallest paid app + paid Postgres;
 - OCI Always Free/self-managed option;
 - Railway Hobby/usage-based option;
 - any additional provider only if it materially improves private networking, PITR, cost or operational risk.
 
-## 6. Current Blocker
+## 6. A1 Current Blocker
 
-The connected Render account exposes a workspace named `My Workspace`, but Render's tool contract requires the owner to explicitly confirm which workspace may be used before any service/database read or write action is performed.
+The owner explicitly confirmed Render workspace `My Workspace`, and workspace inventory was inspected. No existing non-KGM resource is authorized for reuse or mutation.
+
+The repository then showed that P18.3/P18.4 remained provider-neutral in-memory contracts without a concrete PostgreSQL adapter. Creating a database before implementing that adapter would not produce a meaningful application candidate.
 
 Therefore:
 
-`RENDER_WORKSPACE_SELECTION = PENDING_EXPLICIT_OWNER_CONFIRMATION`
+`RENDER_WORKSPACE_SELECTION = OWNER_CONFIRMED_MY_WORKSPACE`
 
-No Render resource has been created, modified or inspected beyond listing available workspaces.
+`A0 = VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY`
+
+`A1_1 = POSTGRES_CANDIDATE_ADAPTER_IN_PROGRESS`
+
+`A1_RESOURCE_CREATION = BLOCKED_UNTIL_GREEN_EXACT_HEAD_ADAPTER_CI`
+
+No KGM Render service or KGM Render PostgreSQL database has been created yet.
 
 ## 7. Current State
 
 `PHASE_18_SHARED_RUNTIME_ACTIVATION_PREFLIGHT_AUTHORIZED = YES`
 
-`A0 = IN_PROGRESS`
+`A0 = VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY`
+
+`A0_PROVIDER = RENDER`
+
+`A0_REGION = FRANKFURT`
 
 `A0_RECOMMENDATION = RENDER_FRANKFURT_DISPOSABLE_NONPROD`
 
-`RENDER_WORKSPACE_SELECTION = PENDING_EXPLICIT_OWNER_CONFIRMATION`
+`RENDER_WORKSPACE_SELECTION = OWNER_CONFIRMED_MY_WORKSPACE`
+
+`A1 = IN_PROGRESS`
+
+`A1_1 = POSTGRES_CANDIDATE_ADAPTER_IN_PROGRESS`
 
 `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`
 
