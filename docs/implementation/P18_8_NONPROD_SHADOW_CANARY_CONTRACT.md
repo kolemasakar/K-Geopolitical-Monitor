@@ -40,6 +40,10 @@ The source uses the validated P18.3 `ExportManifestContract`:
 snapshots and to the provider-neutral PostgreSQL-compatible target schema
 contract.
 
+The package fails closed if any imported record or snapshot table is outside the
+approved target-schema table set. A provenance-consistent but unapproved table
+cannot enter the shadow candidate.
+
 ### Immutable record snapshots
 
 Every `ShadowRecord`:
@@ -67,7 +71,8 @@ Mixed-tenant snapshots and duplicate object identities fail closed.
 - unable to authorize shared-runtime activation.
 
 The candidate accepts only one controlled package for the exact tenant and exact
-target schema. A second import/overwrite fails closed.
+target schema. A second import/overwrite fails closed. Reads of table names
+outside the approved target schema also fail closed.
 
 This harness is not a shared SQLite implementation and does not bind the
 existing owner-local SQLite database as shared storage.
@@ -84,14 +89,29 @@ P18.8 compares expected and observed shadow evidence across:
 - explicit invariant failures.
 
 Every mismatch is typed and preserved as evidence. `ShadowMismatchBudget`
-defines the permitted upper bound. The default budget is zero.
+defines an upper bound only for non-fatal analytical drift. The default budget
+is zero.
 
-A non-zero explicit budget may classify mismatches as bounded for analytical
-shadow work, but it does not make them an exact match and cannot authorize
-canonical promotion or shared-runtime activation.
+Budgetable mismatch classes are:
 
-Tenant mismatch never becomes canary-ready even if a numeric mismatch budget is
-large enough.
+- `ROW_COUNT`;
+- `TABLE_CONTENT`;
+- `SEMANTIC_PROJECTION`.
+
+The following classes are always fatal and are never made acceptable by a large
+numeric budget:
+
+- `TENANT`;
+- `SCHEMA`;
+- `INVARIANT`.
+
+Any declared invariant failure is fatal even when the same failure appears in
+both source and shadow snapshots. This prevents an already-invalid source
+snapshot from being treated as an exact safe comparison.
+
+A non-zero explicit budget may classify only the budgetable mismatch classes as
+bounded for analytical shadow work. It does not make them an exact match and
+cannot authorize canonical promotion or shared-runtime activation.
 
 Semantic comparison remains an analytical consistency check only. It does not
 change or supplement P13.5/P13.6 factual-verification authority.
@@ -168,7 +188,9 @@ Every P18.8 canary stage must remain:
 
 `P18_8ReadinessEvidence` can be constructed only when:
 
-- shadow mismatches are within the explicit budget;
+- there is no fatal tenant/schema/invariant mismatch;
+- any row/content/semantic mismatches are within the explicit budget;
+- the reconciliation report is explicitly safe for read-only canary design;
 - P18.4/P18.6/P18.7 contract evidence is present;
 - provider/cost comparison obligations are satisfied for the current mode;
 - a valid non-promoting canary design exists;
@@ -191,8 +213,10 @@ Therefore the P18.8 implementation must keep the following distinction:
 
 - controlled provenance-bound copy semantics;
 - exact tenant isolation;
+- approved target-schema table allowlisting;
 - row-count/content/semantic/invariant reconciliation;
-- explicit bounded mismatch reporting;
+- fatal-vs-budgetable mismatch separation;
+- explicit bounded non-fatal mismatch reporting;
 - read-only non-production candidate behavior;
 - P18.4/P18.6/P18.7 evidence composition;
 - provider/cost owner-decision gate;
