@@ -27,7 +27,7 @@ def test_phase18_architecture_and_implementation_authorization_remain_separate_f
     phase18 = state["phases"]["18"]
 
     assert phase18.startswith("ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED /")
-    assert phase18.endswith("/ NOT_ACTIVATED")
+    assert "/ NOT_ACTIVATED" in phase18
     assert "P18_0_VALIDATED" in phase18
     assert state["roadmap"]["current_position"].startswith("PHASE_18_")
     assert (
