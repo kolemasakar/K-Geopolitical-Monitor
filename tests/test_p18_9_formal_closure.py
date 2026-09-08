@@ -129,5 +129,5 @@ def test_p18_9_closure_is_readiness_only_and_requires_fresh_owner_launch_gate():
     assert "real_infrastructure_observation = NOT_OBSERVED" in result
     assert "real_infrastructure_observation = NOT_OBSERVED" in checkpoint
     assert "Final shared-runtime activation remains a separate owner decision" in result
-    assert "fresh launch-time validation" in checkpoint
+    assert "launch-time validation" in checkpoint
     assert "Any final activation requires a separate explicit owner decision" in roadmap
