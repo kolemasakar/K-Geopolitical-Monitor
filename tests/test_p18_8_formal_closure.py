@@ -126,5 +126,6 @@ def test_p18_8_closure_advances_only_to_p18_9_readiness_not_activation():
 
     assert "real_infrastructure_observation = NOT_OBSERVED" in result
     assert "real_infrastructure_observation = NOT_OBSERVED" in checkpoint
-    assert "Final activation requires a separate explicit owner" in result
+    assert "Final shared-runtime activation still" in result
+    assert "requires a separate explicit owner decision plus fresh launch-time validation" in result
     assert "Final activation remains a separate explicit owner decision" in plan
