@@ -1,12 +1,12 @@
 """P18.8 provider-neutral non-production shadow and canary-readiness contracts.
 
-This module intentionally models an isolated, read-only shared-runtime candidate
-without provisioning a datastore, selecting a provider, creating migration 033,
+This module models an isolated, read-only shared-runtime candidate without
+provisioning a datastore, selecting a provider, creating migration 033,
 activating shared runtime, or changing the owner-local SQLite canonical runtime.
 
-Real provider/network/TLS/PITR/off-host observations are not synthesized here.
-They remain explicit external evidence for a later approved infrastructure step
-and the Phase 18 final readiness matrix.
+Real provider/network/TLS/PITR/off-host observations are never synthesized here.
+They remain explicit external evidence for a separately approved infrastructure
+step and the Phase 18 final readiness matrix.
 """
 
 from __future__ import annotations
@@ -20,7 +20,6 @@ from typing import Any, Iterable, Mapping
 
 from .shared_datastore_schema import (
     ExportManifestContract,
-    ReconciliationContractError,
     SharedSchemaContract,
     validate_shared_schema_contract,
 )
@@ -66,6 +65,18 @@ class MismatchKind(str, Enum):
 class InfrastructureObservationState(str, Enum):
     NOT_OBSERVED = "not_observed"
     OBSERVED = "observed"
+
+
+_FATAL_MISMATCH_KINDS = frozenset(
+    {MismatchKind.TENANT, MismatchKind.SCHEMA, MismatchKind.INVARIANT}
+)
+_BUDGETABLE_MISMATCH_KINDS = frozenset(
+    {
+        MismatchKind.ROW_COUNT,
+        MismatchKind.TABLE_CONTENT,
+        MismatchKind.SEMANTIC_PROJECTION,
+    }
+)
 
 
 def _required_text(value: str, *, field_name: str, error_type=ShadowContractError) -> str:
@@ -202,11 +213,23 @@ class ShadowSnapshotEvidence:
     def __post_init__(self) -> None:
         if not isinstance(self.tenant_context, TenantContext):
             raise ShadowComparisonError("snapshot evidence requires TenantContext")
-        if not isinstance(self.schema_version, int) or isinstance(self.schema_version, bool) or self.schema_version <= 0:
+        if (
+            not isinstance(self.schema_version, int)
+            or isinstance(self.schema_version, bool)
+            or self.schema_version <= 0
+        ):
             raise ShadowComparisonError("schema_version must be a positive integer")
         object.__setattr__(self, "row_counts", _normalized_counts(self.row_counts))
-        object.__setattr__(self, "table_checksums", _normalized_digests(self.table_checksums, "table_checksums"))
-        object.__setattr__(self, "semantic_checksums", _normalized_digests(self.semantic_checksums, "semantic_checksums"))
+        object.__setattr__(
+            self,
+            "table_checksums",
+            _normalized_digests(self.table_checksums, "table_checksums"),
+        )
+        object.__setattr__(
+            self,
+            "semantic_checksums",
+            _normalized_digests(self.semantic_checksums, "semantic_checksums"),
+        )
         names = {name for name, _ in self.row_counts}
         if names != {name for name, _ in self.table_checksums}:
             raise ShadowComparisonError("row counts and table checksums must cover identical tables")
@@ -218,7 +241,7 @@ class ShadowSnapshotEvidence:
         )
         if len(set(failures)) != len(failures):
             raise ShadowComparisonError("invariant failures cannot contain duplicates")
-        object.__setattr__(self, "invariant_failures", failures)
+        object.__setattr__(self, "invariant_failures", tuple(sorted(failures)))
 
 
 def _normalized_counts(values: tuple[tuple[str, int], ...]) -> tuple[tuple[str, int], ...]:
@@ -261,6 +284,8 @@ def snapshot_from_records(
     records: tuple[ShadowRecord, ...],
     invariant_failures: tuple[str, ...] = (),
 ) -> ShadowSnapshotEvidence:
+    if not isinstance(tenant_context, TenantContext):
+        raise ShadowImportError("shadow snapshot requires explicit TenantContext")
     if not records:
         raise ShadowImportError("shadow snapshot requires at least one record")
     identities: set[tuple[str, str]] = set()
@@ -320,6 +345,17 @@ class ControlledShadowPackage:
             raise ShadowImportError("source snapshot checksums do not match export manifest")
         if not self.records:
             raise ShadowImportError("controlled shadow package requires records")
+
+        allowed_tables = {table.name for table in self.target_schema.tables}
+        record_tables = {record.table_name for record in self.records}
+        snapshot_tables = {name for name, _ in self.source_snapshot.row_counts}
+        unknown_tables = (record_tables | snapshot_tables) - allowed_tables
+        if unknown_tables:
+            raise ShadowImportError(
+                "shadow package contains tables outside the approved target schema: "
+                + ", ".join(sorted(unknown_tables))
+            )
+
         rebuilt = snapshot_from_records(
             tenant_context=self.manifest.tenant_context,
             schema_version=self.manifest.source_schema_version,
@@ -346,7 +382,12 @@ class NonProductionShadowCandidate:
     def __init__(self, *, tenant_context: TenantContext, target_schema: SharedSchemaContract) -> None:
         if not isinstance(tenant_context, TenantContext):
             raise ShadowImportError("candidate requires explicit TenantContext")
-        validate_shared_schema_contract(target_schema)
+        try:
+            validate_shared_schema_contract(target_schema)
+        except Exception as exc:
+            raise ShadowImportError("candidate target schema is invalid") from exc
+        if target_schema.provider_id is not None:
+            raise ShadowImportError("candidate must remain provider-neutral")
         self._tenant_context = tenant_context
         self._target_schema = target_schema
         self._records: tuple[ShadowRecord, ...] = ()
@@ -386,6 +427,11 @@ class NonProductionShadowCandidate:
         if not self._loaded:
             raise ShadowComparisonError("shadow candidate has not been loaded")
         name = _required_text(table_name, field_name="table_name", error_type=ShadowComparisonError)
+        allowed_tables = {table.name for table in self._target_schema.tables}
+        if name not in allowed_tables:
+            raise ShadowComparisonError(
+                "read request references a table outside the approved target schema"
+            )
         return tuple(record for record in self._records if record.table_name == name)
 
 
@@ -413,6 +459,11 @@ class ShadowMismatch:
 
 @dataclass(frozen=True)
 class ShadowMismatchBudget:
+    """Explicit allowance for non-fatal comparison drift only.
+
+    Tenant, schema and invariant mismatches are never budgetable.
+    """
+
     max_total_mismatches: int = 0
 
     def __post_init__(self) -> None:
@@ -430,6 +481,8 @@ class ShadowReconciliationReport:
     within_budget: bool
     exact_match: bool
     ready_for_read_only_canary_design: bool
+    fatal_mismatch_present: bool
+    budgetable_mismatch_count: int
     canonical_cutover_authorized: bool = field(default=False, init=False)
     shared_runtime_activation_authorized: bool = field(default=False, init=False)
     factual_verification_authority: bool = field(default=False, init=False)
@@ -445,6 +498,7 @@ def compare_shadow_snapshots(
         raise ShadowComparisonError("expected and observed snapshot evidence are required")
     if not isinstance(budget, ShadowMismatchBudget):
         raise ShadowComparisonError("ShadowMismatchBudget is required")
+
     mismatches: list[ShadowMismatch] = []
     if expected.tenant_context != observed.tenant_context:
         mismatches.append(
@@ -464,6 +518,7 @@ def compare_shadow_snapshots(
                 str(observed.schema_version),
             )
         )
+
     _compare_mapping(
         kind=MismatchKind.ROW_COUNT,
         expected=dict(expected.row_counts),
@@ -482,28 +537,47 @@ def compare_shadow_snapshots(
         observed=dict(observed.semantic_checksums),
         mismatches=mismatches,
     )
-    expected_failures = set(expected.invariant_failures)
-    observed_failures = set(observed.invariant_failures)
-    for failure in sorted(expected_failures | observed_failures):
-        if (failure in expected_failures) != (failure in observed_failures):
-            mismatches.append(
-                ShadowMismatch(
-                    MismatchKind.INVARIANT,
-                    failure,
-                    str(failure in expected_failures).lower(),
-                    str(failure in observed_failures).lower(),
-                )
+
+    for failure in sorted(set(expected.invariant_failures) | set(observed.invariant_failures)):
+        mismatches.append(
+            ShadowMismatch(
+                MismatchKind.INVARIANT,
+                failure,
+                "clear",
+                (
+                    f"source={'present' if failure in expected.invariant_failures else 'absent'},"
+                    f"shadow={'present' if failure in observed.invariant_failures else 'absent'}"
+                ),
             )
+        )
+
     mismatch_tuple = tuple(mismatches)
-    within_budget = len(mismatch_tuple) <= budget.max_total_mismatches
+    fatal_mismatch_present = any(item.kind in _FATAL_MISMATCH_KINDS for item in mismatch_tuple)
+    budgetable_mismatch_count = sum(
+        item.kind in _BUDGETABLE_MISMATCH_KINDS for item in mismatch_tuple
+    )
+    within_budget = (
+        not fatal_mismatch_present
+        and budgetable_mismatch_count <= budget.max_total_mismatches
+    )
     exact_match = not mismatch_tuple
+    ready = (
+        within_budget
+        and not fatal_mismatch_present
+        and expected.tenant_context == observed.tenant_context
+        and expected.schema_version == observed.schema_version
+        and not expected.invariant_failures
+        and not observed.invariant_failures
+    )
     return ShadowReconciliationReport(
         tenant_context=expected.tenant_context,
         mismatches=mismatch_tuple,
         mismatch_budget=budget,
         within_budget=within_budget,
         exact_match=exact_match,
-        ready_for_read_only_canary_design=within_budget and expected.tenant_context == observed.tenant_context,
+        ready_for_read_only_canary_design=ready,
+        fatal_mismatch_present=fatal_mismatch_present,
+        budgetable_mismatch_count=budgetable_mismatch_count,
     )
 
 
@@ -523,7 +597,7 @@ def _compare_mapping(
 
 @dataclass(frozen=True)
 class Phase18ContractEvidence:
-    """References already validated P18 controls without claiming infrastructure probes."""
+    """References validated P18 controls without claiming infrastructure probes."""
 
     concurrency_gate: str = P18_4_GATE
     security_gate: str = P18_6_GATE
@@ -570,22 +644,29 @@ class ProviderCostOption:
     exit_path: str
 
     def __post_init__(self) -> None:
-        object.__setattr__(self, "option_id", _required_text(self.option_id, field_name="option_id", error_type=ProviderDecisionError))
-        if not isinstance(self.monthly_fixed_cost, (int, float)) or isinstance(self.monthly_fixed_cost, bool) or self.monthly_fixed_cost < 0:
+        object.__setattr__(
+            self,
+            "option_id",
+            _required_text(self.option_id, field_name="option_id", error_type=ProviderDecisionError),
+        )
+        if (
+            not isinstance(self.monthly_fixed_cost, (int, float))
+            or isinstance(self.monthly_fixed_cost, bool)
+            or self.monthly_fixed_cost < 0
+        ):
             raise ProviderDecisionError("monthly_fixed_cost must be non-negative")
         object.__setattr__(self, "monthly_fixed_cost", float(self.monthly_fixed_cost))
         for name in ("variable_cost_basis", "security_summary", "exit_path"):
-            object.__setattr__(self, name, _required_text(getattr(self, name), field_name=name, error_type=ProviderDecisionError))
+            object.__setattr__(
+                self,
+                name,
+                _required_text(getattr(self, name), field_name=name, error_type=ProviderDecisionError),
+            )
 
 
 @dataclass(frozen=True)
 class ProviderCostGate:
-    """Separate provider/spend decision boundary.
-
-    P18.8 can remain provider-neutral. If external infrastructure becomes required,
-    comparison evidence can be attached, but selection/spending remains blocked
-    until a separate explicit owner approval identifier is supplied.
-    """
+    """Separate provider/spend decision boundary."""
 
     external_infrastructure_required: bool = False
     options: tuple[ProviderCostOption, ...] = ()
@@ -594,17 +675,24 @@ class ProviderCostGate:
     paid_provider_commitment_authorized: bool = False
 
     def __post_init__(self) -> None:
+        if any(not isinstance(option, ProviderCostOption) for option in self.options):
+            raise ProviderDecisionError("provider options must be ProviderCostOption instances")
         if len({option.option_id for option in self.options}) != len(self.options):
             raise ProviderDecisionError("provider option ids must be unique")
         if self.external_infrastructure_required and len(self.options) < 2:
             raise ProviderDecisionError("external infrastructure requires comparison of at least two options")
         if self.selected_option_id is not None:
-            selected = _required_text(self.selected_option_id, field_name="selected_option_id", error_type=ProviderDecisionError)
+            selected = _required_text(
+                self.selected_option_id,
+                field_name="selected_option_id",
+                error_type=ProviderDecisionError,
+            )
             if selected not in {option.option_id for option in self.options}:
                 raise ProviderDecisionError("selected provider option was not evaluated")
             if not self.owner_approval_id or not str(self.owner_approval_id).strip():
                 raise ProviderDecisionError("provider selection requires separate explicit owner approval")
             object.__setattr__(self, "selected_option_id", selected)
+            object.__setattr__(self, "owner_approval_id", str(self.owner_approval_id).strip())
         if self.paid_provider_commitment_authorized:
             if self.selected_option_id is None or not self.owner_approval_id:
                 raise ProviderDecisionError("paid commitment requires approved provider selection")
@@ -644,6 +732,8 @@ class CanaryReadinessPlan:
     def __post_init__(self) -> None:
         if not self.stages:
             raise CanaryBoundaryError("canary design requires at least one stage")
+        if any(not isinstance(stage, CanaryStage) for stage in self.stages):
+            raise CanaryBoundaryError("canary stages must be CanaryStage instances")
         percentages = tuple(stage.observation_percent for stage in self.stages)
         if percentages != tuple(sorted(set(percentages))):
             raise CanaryBoundaryError("canary observation stages must be unique and increasing")
@@ -659,12 +749,7 @@ class CanaryReadinessPlan:
 
 def build_default_read_only_canary_plan() -> CanaryReadinessPlan:
     return CanaryReadinessPlan(
-        stages=(
-            CanaryStage(1),
-            CanaryStage(5),
-            CanaryStage(25),
-            CanaryStage(100),
-        )
+        stages=(CanaryStage(1), CanaryStage(5), CanaryStage(25), CanaryStage(100))
     )
 
 
@@ -698,7 +783,11 @@ class P18_8ReadinessEvidence:
         if self.production_live:
             raise ShadowContractError("P18.8 cannot authorize production/live")
         if not self.reconciliation.within_budget:
-            raise ShadowContractError("shadow mismatches exceed the explicit acceptance budget")
+            raise ShadowContractError(
+                "shadow mismatches exceed the explicit acceptance budget or include a fatal tenant/schema/invariant mismatch"
+            )
+        if not self.reconciliation.ready_for_read_only_canary_design:
+            raise ShadowContractError("shadow reconciliation is not safe for read-only canary design")
         if not self.controls.contract_evidence_complete:
             raise ShadowContractError("required prior Phase 18 control evidence is incomplete")
         if not self.provider_gate.comparison_complete:
