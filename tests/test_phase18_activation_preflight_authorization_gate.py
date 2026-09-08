@@ -34,6 +34,12 @@ A0_VALIDATED_CHECKPOINT_PATH = (
     / "checkpoints"
     / "PROJECT_CHECKPOINT_2026-09-08_PHASE_18_ACTIVATION_A0_VALIDATED_A1_ADAPTER_IN_PROGRESS.md"
 )
+A1_BLOCKER_CHECKPOINT_PATH = (
+    ROOT
+    / "docs"
+    / "checkpoints"
+    / "PROJECT_CHECKPOINT_2026-09-08_PHASE_18_ACTIVATION_A1_BLOCKED_RENDER_FREE_DB_QUOTA.md"
+)
 MIGRATIONS_PATH = ROOT / "migrations"
 
 
@@ -41,6 +47,7 @@ READINESS_GATE = "PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED"
 PREFLIGHT_AUTH = "PHASE_18_SHARED_RUNTIME_ACTIVATION_PREFLIGHT_AUTHORIZED = YES"
 ACTIVE_NO = "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
 A0_GATE = "PHASE_18_SHARED_RUNTIME_PROVIDER_TOPOLOGY_DECISION_READY"
+A1_GATE = "PHASE_18_SHARED_RUNTIME_NONPROD_CANDIDATE_CREATED"
 
 
 def _text(path: Path) -> str:
@@ -76,7 +83,7 @@ def test_activation_preflight_is_separate_from_phase18_readiness_and_activation(
 def test_preflight_authorization_never_implies_launch_or_cutover_authorization():
     decision = _text(DECISION_PATH)
     plan = _text(PLAN_PATH)
-    checkpoint = _text(A0_VALIDATED_CHECKPOINT_PATH)
+    checkpoint = _text(A1_BLOCKER_CHECKPOINT_PATH)
 
     for text in (decision, plan, checkpoint):
         assert ACTIVE_NO in text
@@ -94,7 +101,7 @@ def test_a0_history_and_validated_free_render_decision_are_consistent():
     original_checkpoint = _text(CHECKPOINT_PATH)
     a0_decision = _text(A0_DECISION_PATH)
     plan = _text(PLAN_PATH)
-    current_checkpoint = _text(A0_VALIDATED_CHECKPOINT_PATH)
+    a0_checkpoint = _text(A0_VALIDATED_CHECKPOINT_PATH)
 
     assert "A0 — Provider / Topology / Cost Decision" in authorization
     assert "A0 — Provider / Topology / Cost Decision" in plan
@@ -105,14 +112,44 @@ def test_a0_history_and_validated_free_render_decision_are_consistent():
     # Historical authorization/checkpoint preserve the pre-confirmation state.
     assert "RENDER_WORKSPACE_SELECTION = PENDING_EXPLICIT_OWNER_CONFIRMATION" in original_checkpoint
 
-    # Current A0 state records the later explicit workspace confirmation and
-    # approves only a new free disposable non-production candidate.
+    # The later A0 decision remains narrow: only a free disposable Render candidate.
     assert "A0 = VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY" in a0_decision
     assert "A0 = VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY" in plan
-    assert "A0 = VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY" in current_checkpoint
+    assert "A0 = VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY" in a0_checkpoint
     assert "RENDER_WORKSPACE_SELECTION = OWNER_CONFIRMED_MY_WORKSPACE" in plan
     assert "PAID_PROVIDERS = NONE_APPROVED" in a0_decision
-    assert "No KGM Render service or KGM Render PostgreSQL database has been created yet" in plan
+
+
+def test_a1_records_real_render_free_database_quota_blocker_without_claiming_gate():
+    plan = _text(PLAN_PATH)
+    checkpoint = _text(A1_BLOCKER_CHECKPOINT_PATH)
+
+    for text in (plan, checkpoint):
+        assert "A1 = BLOCKED_ON_RENDER_FREE_DB_QUOTA" in text
+        assert "A1_1 = POSTGRES_CANDIDATE_ADAPTER_VALIDATED" in text
+        assert "RENDER_FREE_DB_QUOTA = EXHAUSTED_BY_EXISTING_NON_KGM_RESOURCE" in text
+        assert "KGM_POSTGRES_CREATED = NO" in text
+        assert "EXISTING_NON_KGM_DATABASE_REUSE = FORBIDDEN" in text
+        assert "PAID_RENDER_DATABASE = NOT_AUTHORIZED" in text
+        assert "PROVIDER_PIVOT = NOT_AUTHORIZED" in text
+
+    assert A1_GATE in plan
+    assert "PHASE_18_SHARED_RUNTIME_NONPROD_CANDIDATE_CREATED = NO" in checkpoint
+    assert "A1_TARGET_GATE = NOT_SATISFIED" in checkpoint
+    assert "kgm-shared-runtime-preflight" in checkpoint
+    assert "placeholder" in checkpoint.casefold()
+    assert "1131 passed" in checkpoint
+    assert "aarch64" in checkpoint
+
+
+def test_a1_failed_shell_is_not_a_backend_https_or_production_activation_claim():
+    state = _state()
+    checkpoint = _text(A1_BLOCKER_CHECKPOINT_PATH)
+
+    assert state["runtime"]["backend_https"] == "NOT_DEPLOYED"
+    assert state["runtime"]["production_live"] == "NOT_OPERATIONAL"
+    assert "The shell is **not operational**" in checkpoint
+    assert "No A2 live-security/network/recovery claims" in checkpoint
 
 
 def test_canonical_runtime_provider_and_migration_boundaries_remain_fail_closed():
