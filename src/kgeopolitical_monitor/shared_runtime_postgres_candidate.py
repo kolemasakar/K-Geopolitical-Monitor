@@ -21,6 +21,7 @@ PREFLIGHT_TABLE = "tenant_probe"
 PREFLIGHT_PROFILE = "shared_runtime_nonprod_candidate"
 PREFLIGHT_MODE = "synthetic_nonprod"
 PRIVATE_NETWORK_MARKER = "render_private"
+RLS_ISOLATION_PROBE_ID = "rls-isolation-marker"
 
 _TEXT_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$")
 
@@ -154,6 +155,11 @@ _LIST_SQL = f"""
     FROM {PREFLIGHT_SCHEMA}.{PREFLIGHT_TABLE}
     ORDER BY probe_id
 """.strip()
+_READ_PROBE_SQL = f"""
+    SELECT probe_id
+    FROM {PREFLIGHT_SCHEMA}.{PREFLIGHT_TABLE}
+    WHERE probe_id = %s
+""".strip()
 
 
 ConnectFunction = Callable[..., object]
@@ -251,12 +257,14 @@ class PostgreSQLPreflightCandidate:
         )
 
     def observe_rls_isolation(self) -> dict[str, object]:
-        """Directly observe that another transaction-local tenant sees no rows.
+        """Prove a known configured-tenant marker is hidden from another tenant."""
 
-        The alternate tenant identifiers are synthetic constants.  This method
-        does not accept caller-controlled tenant identifiers and cannot mutate
-        canonical data.
-        """
+        # Establish a known-positive row first; otherwise an empty table could
+        # make a broken RLS configuration look isolated.
+        self.write_probe(
+            probe_id=RLS_ISOLATION_PROBE_ID,
+            payload="kgm synthetic rls isolation marker",
+        )
 
         alternate_workspace = "kgm-preflight-isolation"
         alternate_project = "other-project"
@@ -268,7 +276,7 @@ class PostgreSQLPreflightCandidate:
                         workspace_id=alternate_workspace,
                         project_id=alternate_project,
                     )
-                    cursor.execute(_LIST_SQL)
+                    cursor.execute(_READ_PROBE_SQL, (RLS_ISOLATION_PROBE_ID,))
                     rows = cursor.fetchall()
         except Exception as exc:
             raise PreflightDatabaseError("candidate RLS isolation probe failed") from exc
