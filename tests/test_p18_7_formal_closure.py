@@ -20,15 +20,12 @@ def _roadmap_minor_version(roadmap: str) -> int:
     return int(match.group(1))
 
 
-def test_p18_7_current_state_converges_to_p18_8_ready_gate():
+def test_p18_7_historical_closure_remains_recorded_after_later_phase_advances():
     state = _state()
-    assert state["roadmap"]["state_sync_version"] == "4.32"
-    assert state["roadmap"]["current_position"] == "PHASE_18_P18_7_VALIDATED_P18_8_READY_GATE"
-    assert state["phases"]["18"] == (
-        "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / "
-        "P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / "
-        "P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_READY / NOT_ACTIVATED"
-    )
+    assert float(state["roadmap"]["state_sync_version"]) >= 4.32
+    assert state["phase18_p18_7"]["state"] == "VALIDATED"
+    assert state["phase18_p18_7"]["gate"] == "P18_7_SHARED_RUNTIME_BACKUP_DR_ROLLBACK_VALIDATED"
+    assert "P18_7_VALIDATED" in state["phases"]["18"]
     assert state["activation_gates"]["phase18_activation"] == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
 
 
@@ -47,17 +44,17 @@ def test_p18_7_exact_engineering_evidence_is_recorded():
     }
 
 
-def test_p18_7_roadmap_and_plan_converge_without_activation_provider_or_migration():
+def test_p18_7_roadmap_and_plan_preserve_validated_gate_without_pinning_current_phase():
     roadmap = ROADMAP_PATH.read_text(encoding="utf-8")
     plan = PLAN_PATH.read_text(encoding="utf-8")
-    assert _roadmap_minor_version(roadmap) == 32
+    assert _roadmap_minor_version(roadmap) >= 32
     assert "P18_7_SHARED_RUNTIME_BACKUP_DR_ROLLBACK_VALIDATED" in roadmap
-    assert "P18_7_VALIDATED / P18_8_READY / NOT_ACTIVATED" in roadmap
+    assert "P18_7_VALIDATED" in roadmap
     assert "### P18.8 — Non-Production Shadow, Provider/Cost Gate and Canary Readiness" in roadmap
     assert "P18_7_SHARED_RUNTIME_BACKUP_DR_ROLLBACK_VALIDATED" in plan
     assert "P18_8_NONPROD_SHADOW_CANARY_READINESS_VALIDATED" in plan
     assert "P18_7 = VALIDATED" in plan
-    assert "P18_8 = READY_TO_BEGIN" in plan
+    assert "P18_8 = VALIDATED" in plan
     assert "Shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`" in plan
     assert "MIGRATION_033 = NOT_CREATED / NOT_PREAUTHORIZED" in plan
     assert "PAID_PROVIDERS = NONE_APPROVED" in plan
