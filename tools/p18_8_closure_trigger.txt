@@ -1,0 +1,1 @@
+trigger guarded P18.8 closure synchronization
