@@ -186,9 +186,10 @@ def test_phase18_plan_keeps_final_activation_separate_from_implementation():
     plan = _text(PLAN_PATH)
     gate = _text(AUTHORIZATION_PATH)
 
-    assert "P18.9 validation means **activation readiness only**" in plan
-    assert "Final activation requires a separate explicit owner activation decision" in plan
-    assert "PHASE_18_SHARED_RUNTIME_ACTIVE = YES" in plan
+    assert "P18.9 validates Phase 18 activation readiness only" in plan
+    assert "final activation remains a separate explicit owner activation/cutover decision" in plan
+    assert "PHASE_18_SHARED_RUNTIME_ACTIVE = NO" in plan
+    assert "There is no automatic P18.10 implementation step" in plan
     assert "does **not** authorize" in gate
     assert "PHASE_18_SHARED_RUNTIME_ACTIVE = YES" in gate
     assert "canonical cutover from the owner-only project-local runtime" in gate
