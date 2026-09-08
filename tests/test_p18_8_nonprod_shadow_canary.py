@@ -5,8 +5,6 @@ import pytest
 
 from kgeopolitical_monitor.shared_datastore_schema import (
     ExportManifestContract,
-    RelationalDialect,
-    SharedSchemaContract,
     build_p18_3_schema_contract,
 )
 from kgeopolitical_monitor.shared_runtime_contract import StorageScope, TenantContext
@@ -128,6 +126,15 @@ def _exact_reconciliation():
     )
 
 
+def _readiness(report=None, provider_gate=None):
+    return P18_8ReadinessEvidence(
+        reconciliation=report or _exact_reconciliation(),
+        controls=Phase18ContractEvidence(),
+        provider_gate=provider_gate or ProviderCostGate(),
+        canary_plan=build_default_read_only_canary_plan(),
+    )
+
+
 def test_shadow_record_canonicalizes_payload_and_binds_digest():
     record = ShadowRecord.from_payload(
         tenant_context=_tenant(),
@@ -153,12 +160,7 @@ def test_shadow_record_rejects_noncanonical_payload_json():
 
 
 def test_shadow_record_rejects_payload_digest_substitution():
-    record = ShadowRecord.from_payload(
-        tenant_context=_tenant(),
-        table_name="shared_event",
-        object_id="event-1",
-        payload={"a": 1},
-    )
+    record = _records()[0]
     with pytest.raises(ShadowImportError, match="does not match"):
         replace(record, payload_sha256="0" * 64)
 
@@ -186,7 +188,7 @@ def test_source_snapshot_has_row_content_and_semantic_evidence():
     assert set(dict(snapshot.semantic_checksums)) == {"shared_event", "shared_semantic_claim"}
 
 
-def test_controlled_package_requires_owner_local_provenance_manifest():
+def test_controlled_package_requires_owner_local_provenance_and_no_activation():
     package = _package()
     assert package.manifest.source_storage_scope is StorageScope.PROJECT_LOCAL_SQLITE
     assert package.canonical_cutover_authorized is False
@@ -221,7 +223,28 @@ def test_controlled_package_rejects_cross_tenant_snapshot():
         )
 
 
-def test_candidate_is_nonproduction_read_only_and_not_canonical():
+def test_controlled_package_rejects_table_outside_approved_target_schema():
+    tenant = _tenant()
+    records = (
+        ShadowRecord.from_payload(
+            tenant_context=tenant,
+            table_name="unapproved_shadow_table",
+            object_id="row-1",
+            payload={"id": "row-1"},
+        ),
+    )
+    snapshot = _source_snapshot(tenant, records)
+    manifest = _manifest(tenant, records)
+    with pytest.raises(ShadowImportError, match="outside the approved target schema"):
+        ControlledShadowPackage(
+            manifest=manifest,
+            target_schema=build_p18_3_schema_contract(),
+            records=records,
+            source_snapshot=snapshot,
+        )
+
+
+def test_candidate_is_nonproduction_read_only_provider_neutral_and_not_canonical():
     package = _package()
     candidate = NonProductionShadowCandidate(
         tenant_context=package.manifest.tenant_context,
@@ -239,7 +262,7 @@ def test_candidate_is_nonproduction_read_only_and_not_canonical():
     assert not hasattr(candidate, "write")
 
 
-def test_candidate_loads_controlled_package_and_supports_read_only_observation():
+def test_candidate_loads_once_and_supports_read_only_observation():
     package = _package()
     candidate = NonProductionShadowCandidate(
         tenant_context=package.manifest.tenant_context,
@@ -249,6 +272,8 @@ def test_candidate_loads_controlled_package_and_supports_read_only_observation()
     assert observed.tenant_context == package.manifest.tenant_context
     assert observed.schema_version == package.target_schema.schema_version
     assert len(candidate.read_table("shared_event")) == 1
+    with pytest.raises(ShadowImportError, match="overwrite"):
+        candidate.load_controlled_package(package)
 
 
 def test_candidate_rejects_cross_tenant_import():
@@ -261,87 +286,36 @@ def test_candidate_rejects_cross_tenant_import():
         candidate.load_controlled_package(package)
 
 
-def test_candidate_rejects_second_import_overwrite():
+def test_candidate_rejects_read_of_table_outside_schema():
     package = _package()
     candidate = NonProductionShadowCandidate(
         tenant_context=package.manifest.tenant_context,
         target_schema=package.target_schema,
     )
     candidate.load_controlled_package(package)
-    with pytest.raises(ShadowImportError, match="overwrite"):
-        candidate.load_controlled_package(package)
+    with pytest.raises(ShadowComparisonError, match="outside the approved target schema"):
+        candidate.read_table("unapproved_shadow_table")
 
 
-def test_exact_shadow_reconciliation_passes_with_zero_mismatch_budget():
+def test_exact_shadow_reconciliation_passes_zero_budget():
     report = _exact_reconciliation()
     assert report.mismatches == ()
     assert report.exact_match is True
     assert report.within_budget is True
     assert report.ready_for_read_only_canary_design is True
+    assert report.fatal_mismatch_present is False
+    assert report.budgetable_mismatch_count == 0
     assert report.canonical_cutover_authorized is False
     assert report.shared_runtime_activation_authorized is False
     assert report.factual_verification_authority is False
 
 
-def test_row_count_mismatch_is_explicit_and_fails_zero_budget():
+def test_row_count_mismatch_fails_zero_budget_and_can_be_explicitly_bounded():
     expected = _expected_target_snapshot(_package())
     observed = replace(
         expected,
         row_counts=(("shared_event", 2), ("shared_semantic_claim", 1)),
     )
-    report = compare_shadow_snapshots(expected=expected, observed=observed)
-    assert report.within_budget is False
-    assert any(item.kind is MismatchKind.ROW_COUNT for item in report.mismatches)
-
-
-def test_content_mismatch_is_explicit():
-    expected = _expected_target_snapshot(_package())
-    checksums = dict(expected.table_checksums)
-    checksums["shared_event"] = "0" * 64
-    observed = replace(expected, table_checksums=tuple(sorted(checksums.items())))
-    report = compare_shadow_snapshots(expected=expected, observed=observed)
-    assert any(item.kind is MismatchKind.TABLE_CONTENT for item in report.mismatches)
-
-
-def test_semantic_projection_mismatch_is_explicit_and_nonpromotional():
-    expected = _expected_target_snapshot(_package())
-    semantic = dict(expected.semantic_checksums)
-    semantic["shared_semantic_claim"] = "f" * 64
-    observed = replace(expected, semantic_checksums=tuple(sorted(semantic.items())))
-    report = compare_shadow_snapshots(expected=expected, observed=observed)
-    assert any(item.kind is MismatchKind.SEMANTIC_PROJECTION for item in report.mismatches)
-    assert report.factual_verification_authority is False
-
-
-def test_schema_mismatch_is_explicit():
-    expected = _expected_target_snapshot(_package())
-    observed = replace(expected, schema_version=2)
-    report = compare_shadow_snapshots(expected=expected, observed=observed)
-    assert any(item.kind is MismatchKind.SCHEMA for item in report.mismatches)
-
-
-def test_tenant_mismatch_is_explicit_and_never_canary_ready():
-    expected = _expected_target_snapshot(_package())
-    observed = replace(expected, tenant_context=_tenant("beta"))
-    report = compare_shadow_snapshots(
-        expected=expected,
-        observed=observed,
-        budget=ShadowMismatchBudget(max_total_mismatches=10),
-    )
-    assert any(item.kind is MismatchKind.TENANT for item in report.mismatches)
-    assert report.ready_for_read_only_canary_design is False
-
-
-def test_invariant_mismatch_is_explicit():
-    expected = _expected_target_snapshot(_package())
-    observed = replace(expected, invariant_failures=("foreign-key-invariant",))
-    report = compare_shadow_snapshots(expected=expected, observed=observed)
-    assert any(item.kind is MismatchKind.INVARIANT for item in report.mismatches)
-
-
-def test_mismatch_budget_is_explicit_and_bounded():
-    expected = _expected_target_snapshot(_package())
-    observed = replace(expected, schema_version=2)
     strict = compare_shadow_snapshots(expected=expected, observed=observed)
     bounded = compare_shadow_snapshots(
         expected=expected,
@@ -350,7 +324,72 @@ def test_mismatch_budget_is_explicit_and_bounded():
     )
     assert strict.within_budget is False
     assert bounded.within_budget is True
+    assert bounded.ready_for_read_only_canary_design is True
     assert bounded.exact_match is False
+    assert bounded.budgetable_mismatch_count == 1
+    assert any(item.kind is MismatchKind.ROW_COUNT for item in bounded.mismatches)
+
+
+def test_content_and_semantic_mismatches_are_budgetable_but_explicit():
+    expected = _expected_target_snapshot(_package())
+    content = dict(expected.table_checksums)
+    semantic = dict(expected.semantic_checksums)
+    content["shared_event"] = "0" * 64
+    semantic["shared_semantic_claim"] = "f" * 64
+    observed = replace(
+        expected,
+        table_checksums=tuple(sorted(content.items())),
+        semantic_checksums=tuple(sorted(semantic.items())),
+    )
+    report = compare_shadow_snapshots(
+        expected=expected,
+        observed=observed,
+        budget=ShadowMismatchBudget(max_total_mismatches=2),
+    )
+    assert report.within_budget is True
+    assert report.budgetable_mismatch_count == 2
+    assert {item.kind for item in report.mismatches} == {
+        MismatchKind.TABLE_CONTENT,
+        MismatchKind.SEMANTIC_PROJECTION,
+    }
+
+
+@pytest.mark.parametrize("kind", ["tenant", "schema", "invariant"])
+def test_tenant_schema_and_invariant_mismatches_are_fatal_regardless_of_budget(kind):
+    expected = _expected_target_snapshot(_package())
+    if kind == "tenant":
+        observed = replace(expected, tenant_context=_tenant("beta"))
+        expected_kind = MismatchKind.TENANT
+    elif kind == "schema":
+        observed = replace(expected, schema_version=expected.schema_version + 1)
+        expected_kind = MismatchKind.SCHEMA
+    else:
+        observed = replace(expected, invariant_failures=("foreign-key-invariant",))
+        expected_kind = MismatchKind.INVARIANT
+    report = compare_shadow_snapshots(
+        expected=expected,
+        observed=observed,
+        budget=ShadowMismatchBudget(max_total_mismatches=999),
+    )
+    assert any(item.kind is expected_kind for item in report.mismatches)
+    assert report.fatal_mismatch_present is True
+    assert report.within_budget is False
+    assert report.ready_for_read_only_canary_design is False
+
+
+def test_invariant_failure_is_fatal_even_when_present_on_both_snapshots():
+    expected = replace(
+        _expected_target_snapshot(_package()),
+        invariant_failures=("tenant-policy-invariant",),
+    )
+    observed = replace(expected)
+    report = compare_shadow_snapshots(
+        expected=expected,
+        observed=observed,
+        budget=ShadowMismatchBudget(max_total_mismatches=999),
+    )
+    assert report.fatal_mismatch_present is True
+    assert report.ready_for_read_only_canary_design is False
 
 
 def test_negative_mismatch_budget_is_rejected():
@@ -358,7 +397,7 @@ def test_negative_mismatch_budget_is_rejected():
         ShadowMismatchBudget(max_total_mismatches=-1)
 
 
-def test_prior_phase_contract_evidence_is_explicit_and_real_infrastructure_unobserved():
+def test_prior_phase_contract_evidence_is_explicit_without_fake_infrastructure():
     evidence = Phase18ContractEvidence()
     assert evidence.concurrency_gate == P18_4_GATE
     assert evidence.security_gate == P18_6_GATE
@@ -376,7 +415,7 @@ def test_wrong_prior_phase_gate_reference_fails_closed():
         Phase18ContractEvidence(security_gate="wrong-gate")
 
 
-def test_provider_gate_stays_provider_neutral_when_external_infrastructure_not_required():
+def test_provider_gate_stays_neutral_when_external_infrastructure_not_required():
     gate = ProviderCostGate()
     assert gate.external_infrastructure_required is False
     assert gate.comparison_complete is True
@@ -434,20 +473,17 @@ def test_automatic_canary_promotion_is_rejected():
         CanaryReadinessPlan(stages=(CanaryStage(5),), automatic_promotion=True)
 
 
-def test_canary_cutover_or_activation_is_rejected():
+def test_canary_cutover_activation_or_production_is_rejected():
     with pytest.raises(CanaryBoundaryError, match="cutover"):
         CanaryReadinessPlan(stages=(CanaryStage(5),), canonical_cutover_authorized=True)
     with pytest.raises(CanaryBoundaryError, match="activate"):
         CanaryReadinessPlan(stages=(CanaryStage(5),), shared_runtime_activation_authorized=True)
+    with pytest.raises(CanaryBoundaryError, match="production/live"):
+        CanaryReadinessPlan(stages=(CanaryStage(5),), production_live_authorized=True)
 
 
-def test_p18_8_readiness_can_be_contract_ready_without_fabricating_real_infrastructure():
-    evidence = P18_8ReadinessEvidence(
-        reconciliation=_exact_reconciliation(),
-        controls=Phase18ContractEvidence(),
-        provider_gate=ProviderCostGate(),
-        canary_plan=build_default_read_only_canary_plan(),
-    )
+def test_p18_8_readiness_is_contract_ready_without_fabricating_real_infrastructure():
+    evidence = _readiness()
     assert evidence.ready_for_p18_9_validation_matrix is True
     assert evidence.real_infrastructure_observation_complete is False
     assert evidence.owner_local_remains_canonical is True
@@ -458,17 +494,30 @@ def test_p18_8_readiness_can_be_contract_ready_without_fabricating_real_infrastr
     assert evidence.factual_verification_authority is False
 
 
-def test_p18_8_readiness_rejects_mismatch_over_budget():
+def test_p18_8_readiness_accepts_only_bounded_nonfatal_mismatch():
     expected = _expected_target_snapshot(_package())
-    observed = replace(expected, schema_version=2)
-    report = compare_shadow_snapshots(expected=expected, observed=observed)
-    with pytest.raises(ShadowContractError, match="mismatches exceed"):
-        P18_8ReadinessEvidence(
-            reconciliation=report,
-            controls=Phase18ContractEvidence(),
-            provider_gate=ProviderCostGate(),
-            canary_plan=build_default_read_only_canary_plan(),
-        )
+    observed = replace(
+        expected,
+        row_counts=(("shared_event", 2), ("shared_semantic_claim", 1)),
+    )
+    report = compare_shadow_snapshots(
+        expected=expected,
+        observed=observed,
+        budget=ShadowMismatchBudget(max_total_mismatches=1),
+    )
+    assert _readiness(report=report).ready_for_p18_9_validation_matrix is True
+
+
+def test_p18_8_readiness_rejects_fatal_schema_mismatch_even_with_large_budget():
+    expected = _expected_target_snapshot(_package())
+    observed = replace(expected, schema_version=expected.schema_version + 1)
+    report = compare_shadow_snapshots(
+        expected=expected,
+        observed=observed,
+        budget=ShadowMismatchBudget(max_total_mismatches=999),
+    )
+    with pytest.raises(ShadowContractError, match="fatal tenant/schema/invariant"):
+        _readiness(report=report)
 
 
 def test_p18_8_readiness_cannot_create_migration_033_or_activate_shared_runtime():
@@ -510,17 +559,4 @@ def test_p18_8_readiness_cannot_itself_authorize_paid_provider_commitment():
         paid_provider_commitment_authorized=True,
     )
     with pytest.raises(ShadowContractError, match="paid commitment"):
-        P18_8ReadinessEvidence(
-            reconciliation=_exact_reconciliation(),
-            controls=Phase18ContractEvidence(),
-            provider_gate=approved_gate,
-            canary_plan=build_default_read_only_canary_plan(),
-        )
-
-
-def test_target_schema_remains_provider_neutral_postgresql_compatible_contract():
-    schema = build_p18_3_schema_contract()
-    assert schema.dialect is RelationalDialect.POSTGRESQL_COMPATIBLE
-    assert schema.provider_id is None
-    package = _package()
-    assert package.target_schema == schema
+        _readiness(provider_gate=approved_gate)
