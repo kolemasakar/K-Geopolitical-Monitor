@@ -16,6 +16,12 @@ A0_DECISION_PATH = (
     / "decisions"
     / "PHASE_18_ACTIVATION_A0_RENDER_DISPOSABLE_PROVIDER_DECISION_2026-09-08.md"
 )
+A0_AMENDMENT_PATH = (
+    ROOT
+    / "docs"
+    / "decisions"
+    / "PHASE_18_ACTIVATION_A0_AMENDMENT_RAILWAY_FREE_PREFLIGHT_2026-09-08.md"
+)
 PLAN_PATH = (
     ROOT
     / "docs"
@@ -39,6 +45,12 @@ A1_BLOCKER_CHECKPOINT_PATH = (
     / "docs"
     / "checkpoints"
     / "PROJECT_CHECKPOINT_2026-09-08_PHASE_18_ACTIVATION_A1_BLOCKED_RENDER_FREE_DB_QUOTA.md"
+)
+A0_AMENDED_CHECKPOINT_PATH = (
+    ROOT
+    / "docs"
+    / "checkpoints"
+    / "PROJECT_CHECKPOINT_2026-09-08_PHASE_18_ACTIVATION_A0_AMENDED_RAILWAY_A1_READY.md"
 )
 MIGRATIONS_PATH = ROOT / "migrations"
 
@@ -83,7 +95,7 @@ def test_activation_preflight_is_separate_from_phase18_readiness_and_activation(
 def test_preflight_authorization_never_implies_launch_or_cutover_authorization():
     decision = _text(DECISION_PATH)
     plan = _text(PLAN_PATH)
-    checkpoint = _text(A1_BLOCKER_CHECKPOINT_PATH)
+    checkpoint = _text(A0_AMENDED_CHECKPOINT_PATH)
 
     for text in (decision, plan, checkpoint):
         assert ACTIVE_NO in text
@@ -96,60 +108,83 @@ def test_preflight_authorization_never_implies_launch_or_cutover_authorization()
     assert "A5 — Explicit Owner Activation / Cutover Decision" in plan
 
 
-def test_a0_history_and_validated_free_render_decision_are_consistent():
+def test_a0_history_preserves_original_render_decision_and_blocker():
     authorization = _text(DECISION_PATH)
     original_checkpoint = _text(CHECKPOINT_PATH)
     a0_decision = _text(A0_DECISION_PATH)
-    plan = _text(PLAN_PATH)
     a0_checkpoint = _text(A0_VALIDATED_CHECKPOINT_PATH)
+    blocker = _text(A1_BLOCKER_CHECKPOINT_PATH)
 
     assert "A0 — Provider / Topology / Cost Decision" in authorization
-    assert "A0 — Provider / Topology / Cost Decision" in plan
     assert A0_GATE in authorization
-    assert A0_GATE in plan
     assert A0_GATE in original_checkpoint
-
-    # Historical authorization/checkpoint preserve the pre-confirmation state.
     assert "RENDER_WORKSPACE_SELECTION = PENDING_EXPLICIT_OWNER_CONFIRMATION" in original_checkpoint
 
-    # The later A0 decision remains narrow: only a free disposable Render candidate.
     assert "A0 = VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY" in a0_decision
-    assert "A0 = VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY" in plan
     assert "A0 = VALIDATED_FOR_FREE_DISPOSABLE_NONPRODUCTION_PREFLIGHT_ONLY" in a0_checkpoint
-    assert "RENDER_WORKSPACE_SELECTION = OWNER_CONFIRMED_MY_WORKSPACE" in plan
     assert "PAID_PROVIDERS = NONE_APPROVED" in a0_decision
 
+    assert "A1 = BLOCKED_ON_RENDER_FREE_DB_QUOTA" in blocker
+    assert "RENDER_FREE_DB_QUOTA = EXHAUSTED_BY_EXISTING_NON_KGM_RESOURCE" in blocker
+    assert "KGM_POSTGRES_CREATED = NO" in blocker
+    assert "EXISTING_NON_KGM_DATABASE_REUSE = FORBIDDEN" in blocker
+    assert "PAID_RENDER_DATABASE = NOT_AUTHORIZED" in blocker
+    assert "PROVIDER_PIVOT = NOT_AUTHORIZED" in blocker
+    assert "PHASE_18_SHARED_RUNTIME_NONPROD_CANDIDATE_CREATED = NO" in blocker
+    assert "A1_TARGET_GATE = NOT_SATISFIED" in blocker
+    assert "1131 passed" in blocker
+    assert "aarch64" in blocker
 
-def test_a1_records_real_render_free_database_quota_blocker_without_claiming_gate():
+
+def test_a0_amendment_selects_only_free_disposable_railway_preflight():
+    amendment = _text(A0_AMENDMENT_PATH)
     plan = _text(PLAN_PATH)
-    checkpoint = _text(A1_BLOCKER_CHECKPOINT_PATH)
+    checkpoint = _text(A0_AMENDED_CHECKPOINT_PATH)
+
+    for text in (amendment, plan, checkpoint):
+        assert "A0_AMENDMENT = APPROVED" in text
+        assert "A0_PROVIDER = RAILWAY" in text
+        assert "A0_TARGET = RAILWAY_FREE_OR_FREE_TRIAL_DISPOSABLE_NONPROD" in text
+        assert "PROVIDER_PIVOT = AUTHORIZED_FOR_FREE_DISPOSABLE_NONPROD_PREFLIGHT_ONLY" in text
+        assert "PAID_PROVIDERS = NONE_APPROVED" in text
+        assert "PHASE_18_SHARED_RUNTIME_NONPROD_CANDIDATE_CREATED = NO" in text
+
+    assert "Owner choice: `3 — AMEND A0`" in amendment
+    assert "RAILWAY_PAID_UPGRADE = NOT_AUTHORIZED" in amendment
+    assert "SPEND_APPROVAL = NOT_GRANTED" in amendment
+    assert "no TCP proxy" in amendment.casefold()
+    assert "DATABASE_PUBLIC_URL" in amendment
+    assert "RENDER_TO_RAILWAY_SPLIT_TOPOLOGY = NOT_AUTHORIZED" in amendment
+
+
+def test_railway_a1_is_ready_only_after_connection_inventory_and_no_charge_check():
+    plan = _text(PLAN_PATH)
+    checkpoint = _text(A0_AMENDED_CHECKPOINT_PATH)
 
     for text in (plan, checkpoint):
-        assert "A1 = BLOCKED_ON_RENDER_FREE_DB_QUOTA" in text
-        assert "A1_1 = POSTGRES_CANDIDATE_ADAPTER_VALIDATED" in text
-        assert "RENDER_FREE_DB_QUOTA = EXHAUSTED_BY_EXISTING_NON_KGM_RESOURCE" in text
-        assert "KGM_POSTGRES_CREATED = NO" in text
-        assert "EXISTING_NON_KGM_DATABASE_REUSE = FORBIDDEN" in text
-        assert "PAID_RENDER_DATABASE = NOT_AUTHORIZED" in text
-        assert "PROVIDER_PIVOT = NOT_AUTHORIZED" in text
+        assert "A1 = READY_TO_RESUME_AFTER_RAILWAY_ACCOUNT_CONNECTION_AND_INVENTORY" in text
+        assert "RAILWAY_ACCOUNT_CONNECTION_AND_INVENTORY" in text
+        assert "A1_TARGET_GATE = NOT_SATISFIED" in checkpoint
 
     assert A1_GATE in plan
-    assert "PHASE_18_SHARED_RUNTIME_NONPROD_CANDIDATE_CREATED = NO" in checkpoint
-    assert "A1_TARGET_GATE = NOT_SATISFIED" in checkpoint
-    assert "kgm-shared-runtime-preflight" in checkpoint
-    assert "placeholder" in checkpoint.casefold()
-    assert "1131 passed" in checkpoint
-    assert "aarch64" in checkpoint
+    assert "PostgreSQL remains private by default" in plan
+    assert "no TCP proxy" in plan.casefold()
+    assert "private `DATABASE_URL`" in plan
+    assert "never `DATABASE_PUBLIC_URL`" in plan
+    assert "no paid plan or paid minimum is required" in plan
 
 
-def test_a1_failed_shell_is_not_a_backend_https_or_production_activation_claim():
+def test_render_failed_shell_remains_nonoperational_and_cannot_be_split_to_railway():
     state = _state()
-    checkpoint = _text(A1_BLOCKER_CHECKPOINT_PATH)
+    amendment = _text(A0_AMENDMENT_PATH)
+    checkpoint = _text(A0_AMENDED_CHECKPOINT_PATH)
 
     assert state["runtime"]["backend_https"] == "NOT_DEPLOYED"
     assert state["runtime"]["production_live"] == "NOT_OPERATIONAL"
-    assert "The shell is **not operational**" in checkpoint
-    assert "No A2 live-security/network/recovery claims" in checkpoint
+    assert "RENDER_WEB_SHELL = HISTORICAL_FAIL_CLOSED_NONOPERATIONAL" in amendment
+    assert "RENDER_WEB_SHELL = HISTORICAL_FAIL_CLOSED_NONOPERATIONAL" in checkpoint
+    assert "RENDER_TO_RAILWAY_SPLIT_TOPOLOGY = NOT_AUTHORIZED" in amendment
+    assert "RENDER_TO_RAILWAY_SPLIT_TOPOLOGY = NOT_AUTHORIZED" in checkpoint
 
 
 def test_canonical_runtime_provider_and_migration_boundaries_remain_fail_closed():
