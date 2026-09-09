@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 
@@ -19,14 +20,22 @@ def test_a2_3_recovery_script_is_disposable_and_provider_credential_free() -> No
     assert "_drop_database(SOURCE_DB)" in text
     assert "dump_path.unlink(missing_ok=True)" in text
 
+    # The synthetic adapter legitimately accepts a field named database_url.
+    # What A2.3 must never embed is a Railway endpoint, provider secret name, or
+    # live preflight credential/configuration surface.
     for forbidden in (
         "railway.internal",
         "railway_public_domain",
-        "database_url",
         "probe_bearer_token",
         "kgm-preflight-postgres",
+        "kgm_preflight_database_url",
+        "kgm_preflight_bearer_token",
+        "railway_token",
     ):
         assert forbidden not in folded
+
+    for required_synthetic_env in ("PGHOST", "PGPORT", "PGUSER", "PGPASSWORD"):
+        assert f'_required_env("{required_synthetic_env}")' in text
 
 
 def test_a2_3_recovery_proof_preserves_rls_and_role_contract() -> None:
@@ -54,8 +63,15 @@ def test_a2_3_workflow_uses_ephemeral_postgres_and_owner_local_runtime() -> None
 
 
 def test_a2_3_does_not_relax_activation_or_migration_033_gates() -> None:
-    text = STATE.read_text(encoding="utf-8")
+    state = json.loads(STATE.read_text(encoding="utf-8"))
 
-    assert '"PHASE_18_SHARED_RUNTIME_ACTIVE": "NO"' in text
-    assert '"PRODUCTION_LIVE": "NOT_OPERATIONAL"' in text
-    assert '"migration_033": "NOT_CREATED / NOT_PREAUTHORIZED"' in text
+    assert state["roadmap"]["state_sync_version"] == "4.34"
+    assert state["activation_gates"]["phase18_activation"] == (
+        "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
+    )
+    assert state["runtime"]["storage"] == "PROJECT_LOCAL_ONLY"
+    assert state["runtime"]["production_live"] == "NOT_OPERATIONAL"
+    assert state["runtime"]["paid_providers"] == "NONE_APPROVED"
+    assert state["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
+    assert state["phase18_p18_9"]["launch_eligible"] is False
+    assert state["phase18_p18_9"]["activation_state"] == "NOT_AUTHORIZED"
