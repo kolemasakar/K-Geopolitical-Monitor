@@ -1,0 +1,29 @@
+name: A2.2 Live Security Negative Matrix
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/a2-2-live-security-negative-matrix.yml"
+      - "scripts/a2_2_live_security_negative_matrix.py"
+      - "tests/test_a2_2_security_negative_matrix.py"
+      - "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A2_2_SECURITY_NEGATIVE_MATRIX_VALIDATED.md"
+      - "docs/implementation/PHASE_18_ACTIVATION_A2_2_SECURITY_NEGATIVE_MATRIX_RESULT.md"
+      - "docs/implementation/PHASE_18_ACTIVATION_A2_A5_APPROVED_PLAN.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-negative-matrix:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Run credential-free live A2.2 security negative matrix
+        run: python scripts/a2_2_live_security_negative_matrix.py
