@@ -3,29 +3,74 @@
 Date: 2026-09-09
 Project: K-Geopolitical Monitor
 Gate: `PHASE_18_SHARED_RUNTIME_SHADOW_CANARY_EVIDENCE_VALIDATED`
-Status: `VALIDATED / CANONICAL_MERGE_PENDING`
+Status: `VALIDATED / CLOSED`
 Strategic state sync: `4.34` unchanged
+Implementation closure SHA: `496c43367a96a73839bb58ac26b1d12729f7fac4`
 
 ## Scope
 
 A3 validates bounded non-production shadow/reconciliation/canary evidence while
 preserving owner-local canonical authority and all beta restrictions.
 
-## Accepted Evidence
+## Final PR Evidence
 
-PR #55 initial evidence head: `1c5f9bd3e161dda52cbae8fcc1fda9ef4441a23f`.
+PR #55 final head:
+`2f449a09b0484ea4c7a9ff3bf46a1d1eb7003625`.
 
-A3 workflow run `34379541994`:
+Final-head A3 run `34380601564`:
 
-- shadow-reconciliation job `102560691267`: SUCCESS;
-- live-noncanonical-canary job `102560691011`: SUCCESS.
+- shadow-reconciliation job `102564223817`: SUCCESS;
+- live-noncanonical-canary job `102564224517`: SUCCESS.
 
-Full PR regression run `34379541997`, job `102560691416`:
+Final-head full regression run `34380601640`, job `102564224089`:
 
-- Ubuntu 24.04.5;
+- Ubuntu 24.04.4;
 - Python 3.11.16 x64;
-- `1164 passed in 98.42s`;
+- `1164 passed in 119.47s`;
 - SUCCESS.
+
+PR #55 was then guarded-merged using the exact final head SHA.
+
+## Canonical Closure Evidence
+
+Canonical implementation closure SHA:
+`496c43367a96a73839bb58ac26b1d12729f7fac4`.
+
+The merge commit is GitHub-verified.
+
+A concurrent docs-only PR #56 changed only
+`docs/ops/KGM_TAILSCALE_ANSIBLE_CONTROL_PLANE.md` and was preserved as the first
+parent of the A3 merge. No A3 path was overwritten or conflicted.
+
+Exact-main A3 run `34381042333`:
+
+- live-noncanonical-canary job `102565674500`: SUCCESS;
+- shadow-reconciliation job `102565675011`: SUCCESS.
+
+Exact-main x64 CI run `34381042340`, job `102565674820`:
+
+- exact SHA: `496c43367a96a73839bb58ac26b1d12729f7fac4`;
+- Ubuntu 24.04.4;
+- Python 3.11.16 x64;
+- `1164 passed in 118.07s`;
+- SUCCESS.
+
+Exact-main native ARM64 run `34381042372`, job `102565674719`:
+
+- exact SHA: `496c43367a96a73839bb58ac26b1d12729f7fac4`;
+- Ubuntu 24.04.5 ARM image;
+- architecture: `aarch64`;
+- Python 3.11.16 arm64;
+- `1164 passed in 100.93s`;
+- bootstrap shell validation: PASS;
+- unattended one-tick smoke: PASS (`execution_count=0`, `recovered_runs=0`);
+- systemd unit contract: PASS;
+- SUCCESS.
+
+Exact-main recovery guard run `34381042304`:
+
+- logical-recovery job `102565674608`: SUCCESS;
+- owner-local-rollback job `102565674779`: SUCCESS.
 
 ## PostgreSQL Shadow Evidence
 
@@ -35,11 +80,10 @@ validated:
 - owner-local SQLite remains source of truth;
 - PostgreSQL candidate remains non-canonical;
 - exact deterministic reconciliation: PASS;
-- primary tenant observation: two expected rows;
-- alternate tenant has its own synthetic row while cross-tenant visibility is denied;
-- forced RLS and NOBYPASSRLS runtime role: PASS;
 - retry/idempotency: PASS;
 - persistent outbox evidence: PASS;
+- forced RLS and NOBYPASSRLS runtime role: PASS;
+- cross-tenant isolation: PASS;
 - read-only shadow observation: PASS;
 - deterministic mismatch classes: `ROW_COUNT`, `TABLE_CONTENT`, `SEMANTIC_PROJECTION`;
 - deliberate mismatch count `3` against budget `2`: outside budget / fail-closed PASS;
@@ -89,15 +133,11 @@ reproducible on an ephemeral PostgreSQL service.
 - existing Railway staged changes remain untouched;
 - strategic machine state remains `4.34`.
 
-## Closure Procedure
+## Next Gate
 
-The evidence above validates the A3 contract on the PR head. Formal canonical
-closure requires, in order:
+A3 is formally closed. A4 is `READY_TO_BEGIN` at:
 
-- fresh CI on the final documentation head;
-- guarded merge of PR #55 using the exact final head SHA;
-- successful exact-main regression on the resulting canonical merge SHA;
-- successful exact-main A3 shadow/canary workflow on that SHA.
+`PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY`
 
-After those checks, A4 becomes the next executable stage:
-`PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY`.
+A4 is a fresh launch-candidate validation gate only and does not authorize shared
+runtime activation.
