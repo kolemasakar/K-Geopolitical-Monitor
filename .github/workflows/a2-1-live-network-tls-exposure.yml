@@ -1,0 +1,25 @@
+name: A2.1 Live Network TLS Exposure Probe
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/a2-1-live-network-tls-exposure.yml"
+      - "scripts/a2_1_live_network_tls_probe.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  external-probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Run credential-free external A2.1 probe
+        run: python scripts/a2_1_live_network_tls_probe.py
