@@ -71,7 +71,7 @@ def _assert_safe_unauthorized(
     if decoded != {"detail": "unauthorized"}:
         raise RuntimeError(f"{label}: unsafe or unexpected unauthorized body")
 
-    lowered = payload.casefold()
+    lowered = payload.lower()
     for forbidden in (
         b"postgres",
         b"railway.internal",
@@ -183,7 +183,7 @@ def _assert_idor_and_ssrf_surface_boundaries() -> None:
         status, _, payload = _request("GET", path)
         if status != 404:
             raise RuntimeError(f"unexpected IDOR/SSRF-like route {path!r}: {status}")
-        lowered = payload.casefold()
+        lowered = payload.lower()
         if b"railway.internal" in lowered or b"postgres" in lowered:
             raise RuntimeError("404 surface leaked private endpoint material")
 
