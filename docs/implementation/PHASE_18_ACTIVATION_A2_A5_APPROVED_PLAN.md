@@ -2,7 +2,7 @@
 
 Date: 2026-09-09
 Project: K-Geopolitical Monitor
-Status: `APPROVED / A2_VALIDATED / A3_NEXT / NOT_ACTIVATED`
+Status: `APPROVED / A2_VALIDATED / A3_VALIDATED_MERGE_PENDING / NOT_ACTIVATED`
 Decision: `docs/decisions/PHASE_18_ACTIVATION_STRATEGY_BETA_SINGLE_OWNER_BOUNDARY_2026-09-09.md`
 A1 checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED.md`
 Canonical base at approval: `445070a270cfd7a9b926291a02caff2ed06c29ad`
@@ -29,7 +29,8 @@ Until beta completion:
 - A2.2 tenant/RBAC/security negative matrix: validated;
 - A2.3 backup/restore/rollback: validated;
 - parent A2 gate `PHASE_18_SHARED_RUNTIME_LIVE_CONTROLS_OBSERVED`: validated;
-- next executable stage: A3 shadow/reconciliation/canary evidence.
+- A3 shadow/reconciliation/canary evidence: validated on PR evidence, guarded merge pending;
+- A4 remains next only after A3 canonical closure.
 
 ## 3. A2 — Live Security / Network / Recovery Observation
 
@@ -112,18 +113,36 @@ The current beta result does not claim production-grade Railway physical snapsho
 
 Target gate: `PHASE_18_SHARED_RUNTIME_SHADOW_CANARY_EVIDENCE_VALIDATED`
 
-Status: `NEXT`.
+Status: `VALIDATED / MERGE_PENDING`.
 
-After A2 passes:
+Validated evidence includes:
 
-- use synthetic/non-sensitive datasets only unless separately authorized;
-- compare owner-local expected state with candidate PostgreSQL deterministically;
-- validate tenant isolation under real datastore behavior;
-- validate retry/idempotency/outbox behavior against candidate persistence;
-- perform read-only shadow comparison;
-- classify mismatches deterministically;
-- define bounded mismatch thresholds;
-- keep automatic promotion/cutover disabled.
+- synthetic/non-sensitive owner-local SQLite source only;
+- disposable PostgreSQL 16.15 shadow;
+- exact deterministic owner-local -> PostgreSQL reconciliation;
+- tenant RLS isolation with NOBYPASSRLS runtime role;
+- retry/idempotency behavior;
+- outbox persistence;
+- read-only shadow observation;
+- deterministic mismatch classification;
+- bounded mismatch threshold with deliberate `3 > 2` fail-closed case;
+- read-only canary stages `1% -> 5% -> 25% -> 100%`;
+- automatic promotion/cutover disabled;
+- live Railway non-canonical health/RLS startup canary.
+
+Accepted initial evidence:
+
+- A3 workflow run `34379541994`;
+- shadow-reconciliation job `102560691267`;
+- live-noncanonical-canary job `102560691011`;
+- full regression run `34379541997`, job `102560691416`;
+- `1164 passed in 98.42s`.
+
+Explicit limitation:
+
+`LIVE_RAILWAY_DATA_PLANE_RECONCILIATION = NOT_EVIDENCED`.
+
+This limitation is intentional and bounded: `/health` is not treated as a substitute for direct private PostgreSQL data-plane execution.
 
 Migration `033` remains absent unless separately authorized later and shown to be genuinely required.
 
@@ -131,7 +150,7 @@ Migration `033` remains absent unless separately authorized later and shown to b
 
 Target gate: `PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY`
 
-After A3 passes, freeze one launch-candidate SHA and validate:
+After A3 canonical closure, freeze one launch-candidate SHA and validate:
 
 - full exact-head x64 regression;
 - supported native ARM64 regression;
@@ -180,13 +199,12 @@ Until a separate explicit activation decision:
 
 ## 8. Execution Status Addendum — 2026-09-09
 
-The approved plan above remains authoritative. A2 is now complete:
+The approved plan above remains authoritative. A2 is complete:
 
 - `A2.1 — Network / TLS / Exposure = VALIDATED`;
 - `A2.2 — Tenant / RBAC / Security Negative Matrix = VALIDATED`;
 - `A2.3 — Backup / Restore / Rollback = VALIDATED`;
-- parent gate `PHASE_18_SHARED_RUNTIME_LIVE_CONTROLS_OBSERVED = PASS`;
-- next executable stage: `A3 — Shadow / Reconciliation / Canary Evidence`.
+- parent gate `PHASE_18_SHARED_RUNTIME_LIVE_CONTROLS_OBSERVED = PASS`.
 
 A2.3 accepted recovery evidence:
 
@@ -198,4 +216,22 @@ A2.3 accepted recovery evidence:
 - ephemeral cleanup: PASS;
 - owner-local SQLite integrity and independent startup: PASS.
 
-This execution addendum does not change strategic machine state `4.34`, activate shared runtime, authorize paid resources, or create/authorize migration `033`.
+## 9. A3 Execution Status Addendum — 2026-09-09
+
+A3 validation evidence is complete on PR #55 and is awaiting guarded merge plus post-merge exact-main verification.
+
+- target gate: `PHASE_18_SHARED_RUNTIME_SHADOW_CANARY_EVIDENCE_VALIDATED`;
+- initial evidence head: `1c5f9bd3e161dda52cbae8fcc1fda9ef4441a23f`;
+- A3 workflow run `34379541994`: PASS;
+- shadow reconciliation job `102560691267`: PASS;
+- live non-canonical canary job `102560691011`: PASS;
+- regression run `34379541997`, job `102560691416`: `1164 passed in 98.42s`;
+- exact reconciliation: PASS;
+- retry/idempotency: PASS;
+- outbox persistence: PASS;
+- tenant isolation: PASS;
+- mismatch threshold `3 > 2`: fail-closed PASS;
+- automatic promotion/cutover: disabled;
+- live Railway direct data-plane reconciliation: `NOT_EVIDENCED`.
+
+This addendum does not change strategic machine state `4.34`, activate shared runtime, authorize paid resources, create/authorize migration `033`, or accept/apply Railway staged changes.

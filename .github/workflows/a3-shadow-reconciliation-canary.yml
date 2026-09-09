@@ -1,0 +1,72 @@
+name: A3 Shadow Reconciliation Canary
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/a3_*'
+      - 'tests/test_a3_shadow_reconciliation_canary.py'
+      - '.github/workflows/a3-shadow-reconciliation-canary.yml'
+      - 'docs/implementation/PHASE_18_ACTIVATION_A3_SHADOW_RECONCILIATION_RESULT.md'
+      - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A3_SHADOW_CANARY_EVIDENCE_VALIDATED.md'
+      - 'docs/implementation/PHASE_18_ACTIVATION_A2_A5_APPROVED_PLAN.md'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/a3_*'
+      - 'tests/test_a3_shadow_reconciliation_canary.py'
+      - '.github/workflows/a3-shadow-reconciliation-canary.yml'
+      - 'docs/implementation/PHASE_18_ACTIVATION_A3_SHADOW_RECONCILIATION_RESULT.md'
+      - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A3_SHADOW_CANARY_EVIDENCE_VALIDATED.md'
+      - 'docs/implementation/PHASE_18_ACTIVATION_A2_A5_APPROVED_PLAN.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shadow-reconciliation:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: '5432'
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: postgres
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            constraints/ci.txt
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test]"
+          python -m pip check
+      - name: Run synthetic owner-local to PostgreSQL shadow reconciliation
+        run: python scripts/a3_shadow_reconciliation_proof.py
+
+  live-noncanonical-canary:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Run credential-free live Railway canary
+        run: python scripts/a3_live_railway_canary.py
