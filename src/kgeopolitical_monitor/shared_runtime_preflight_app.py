@@ -18,6 +18,7 @@ from .shared_runtime_postgres_candidate import (
     PostgreSQLPreflightCandidate,
     PreflightCandidateError,
     PreflightCandidateSettings,
+    PreflightDatabaseError,
 )
 
 
@@ -58,10 +59,27 @@ def create_preflight_app(
     """Create the protected non-production preflight app."""
 
     adapter = adapter_factory(settings)
+    startup_evidence: dict[str, object] = {
+        "database_initialized": False,
+        "rls_isolation_observed": False,
+        "alternate_tenant_visible_rows": None,
+    }
 
     @asynccontextmanager
     async def lifespan(_: FastAPI):
         adapter.initialize()
+        isolation = adapter.observe_rls_isolation()
+        observed = isolation.get("rls_isolation_observed") is True
+        alternate_rows = isolation.get("alternate_tenant_visible_rows")
+        if not observed or alternate_rows != 0:
+            raise PreflightDatabaseError("candidate RLS startup self-check failed")
+        startup_evidence.update(
+            {
+                "database_initialized": True,
+                "rls_isolation_observed": True,
+                "alternate_tenant_visible_rows": 0,
+            }
+        )
         yield
 
     app = FastAPI(
@@ -99,7 +117,12 @@ def create_preflight_app(
 
     @app.get("/health", operation_id="getSharedRuntimePreflightHealth")
     def health() -> dict[str, object]:
-        return {"status": "ok", "api_version": API_VERSION, **settings.safe_metadata}
+        return {
+            "status": "ok",
+            "api_version": API_VERSION,
+            **settings.safe_metadata,
+            **startup_evidence,
+        }
 
     @app.post(
         "/preflight/probe",
@@ -143,6 +166,6 @@ def create_preflight_app(
 
 
 def create_app_from_env() -> FastAPI:
-    """Uvicorn ``--factory`` entrypoint for the disposable Render service."""
+    """Uvicorn ``--factory`` entrypoint for the disposable preflight service."""
 
     return create_preflight_app(settings_from_environment())
