@@ -1,0 +1,108 @@
+name: KGM Tailscale Ansible Control
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: Bounded KGM operation
+        required: true
+        type: choice
+        default: health
+        options:
+          - health
+          - restart
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: kgm-tailscale-control
+  cancel-in-progress: false
+
+jobs:
+  control:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout exact repository revision
+        uses: actions/checkout@v4
+
+      - name: Validate Tailscale workload-identity inputs
+        env:
+          TS_OAUTH_CLIENT_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          TS_AUDIENCE: ${{ secrets.TS_AUDIENCE }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$TS_OAUTH_CLIENT_ID"
+          test -n "$TS_AUDIENCE"
+
+      - name: Connect ephemeral GitHub runner to tailnet
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          audience: ${{ secrets.TS_AUDIENCE }}
+          tags: tag:github-actions
+
+      - name: Resolve and verify tagged KGM peer
+        id: kgm
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          for attempt in $(seq 1 20); do
+            status="$(tailscale status --json)"
+            ip="$(printf '%s' "$status" | jq -r '[.Peer[] | select(.HostName == "kgm-e4-owner-pilot") | .TailscaleIPs[] | select(test("^[0-9.]+$"))][0] // empty')"
+            if [ -n "$ip" ]; then
+              echo "ip=$ip" >> "$GITHUB_OUTPUT"
+              tailscale ping --timeout=3s "$ip"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo 'KGM tagged peer was not discovered in tailnet' >&2
+          exit 41
+
+      - name: Install pinned Ansible control runtime
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 -m pip install --disable-pip-version-check --quiet 'ansible-core==2.20.9'
+          ansible-playbook --version
+
+      - name: Build ephemeral inventory
+        env:
+          KGM_TS_IP: ${{ steps.kgm.outputs.ip }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$KGM_TS_IP"
+          cat > /tmp/kgm-inventory.ini <<EOF
+          [kgm]
+          kgm-e4-owner-pilot ansible_host=$KGM_TS_IP ansible_user=kgmops ansible_connection=ssh ansible_python_interpreter=/usr/bin/python3 ansible_ssh_common_args='-o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=10'
+          EOF
+
+      - name: Execute bounded KGM Ansible operation
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: 'False'
+          KGM_OPERATION: ${{ inputs.operation }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          case "$KGM_OPERATION" in
+            health|restart) ;;
+            *) echo 'Unsupported operation' >&2; exit 42 ;;
+          esac
+          ansible-playbook \
+            -i /tmp/kgm-inventory.ini \
+            ops/ansible/kgm_control.yml \
+            -e "operation=$KGM_OPERATION"
+
+      - name: Record control-plane result
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          echo "KGM_TAILSCALE_ANSIBLE_CONTROL=PASS"
+          echo "operation=${{ inputs.operation }}"
+          echo "repository_sha=$GITHUB_SHA"
