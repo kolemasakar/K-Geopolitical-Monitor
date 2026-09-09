@@ -3,118 +3,105 @@
 Date: 2026-09-09
 Project: K-Geopolitical Monitor
 Target gate: `PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY`
-Status: `TECHNICAL_EVIDENCE_PASS / BLOCKED_COST_VERIFICATION_REQUIRED / NOT_ACTIVATED`
+Status: `VALIDATED / ACTIVATION_READY_NOT_ACTIVATED`
 Frozen launch candidate: `44761d58fd0e0421131cda5059bc955c35bafb6f`
 Strategic state sync: `4.34` unchanged
 
-## Scope
+## Final Determination
 
-A4 freezes one exact launch-candidate SHA and revalidates the technical launch-readiness evidence without changing canonical authority, accepting Railway staged changes, authorizing paid resources, or activating shared runtime.
+A4 is formally validated.
 
-All technical A4 jobs explicitly checkout the frozen candidate SHA rather than the PR merge ref. The A4 workflow itself is control-plane evidence only; it does not redeploy Railway or mutate provider state.
+`PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY = PASS`
 
-## Accepted Technical Evidence
+`A4_TECHNICAL_EVIDENCE = PASS`
 
-Final A4 workflow run: `34383486940`.
+`A4_COST_STATUS = NO_CHARGE_VERIFIED`
 
-- frozen x64 job `102573817917`: SUCCESS;
-  - Ubuntu 24.04.5;
-  - Python 3.11.16 x64;
-  - dependency check: PASS;
-  - exact frozen SHA assertion: PASS;
-  - `1164 passed in 289.96s`.
-- frozen native ARM64 job `102573817916`: SUCCESS;
-  - Ubuntu 24.04.4 ARM image;
-  - architecture: `aarch64`;
-  - Python 3.11.16 arm64;
-  - dependency check: PASS;
-  - exact frozen SHA assertion: PASS;
-  - `1164 passed in 103.70s`;
-  - bootstrap shell validation: PASS;
-  - unattended one-tick smoke: PASS;
-  - systemd unit contract: PASS.
+`A4_ACTIVATION_STATE = ACTIVATION_READY_NOT_ACTIVATED`
+
+This does **not** activate shared runtime, authorize canonical cutover, authorize paid resources, create migration `033`, or change strategic machine state `4.34`.
+
+## Frozen Technical Evidence
+
+Frozen candidate: `44761d58fd0e0421131cda5059bc955c35bafb6f`.
+
+Accepted A4 evidence includes:
+
+- exact frozen-SHA x64 regression: PASS;
+- exact frozen-SHA native ARM64/aarch64 regression: PASS;
+- dependency integrity: PASS;
+- ARM64 bootstrap/unattended/systemd contracts: PASS;
+- A3 deterministic shadow reconciliation: PASS;
+- A2.3 logical recovery and owner-local rollback: PASS;
+- live Railway non-canonical controls: PASS;
+- automatic promotion/cutover: disabled.
+
+Primary accepted A4 workflow run `34383486940`:
+
+- frozen x64 job `102573817917`: `1164 passed in 289.96s`;
+- frozen ARM64 job `102573817916`: `aarch64`, `1164 passed in 103.70s`;
 - frozen shadow reconciliation job `102573817854`: SUCCESS;
-  - PostgreSQL 16.15 disposable service;
-  - exact reconciliation: PASS;
-  - retry/idempotency: PASS;
-  - outbox persistence: PASS;
-  - forced tenant isolation: PASS;
-  - read-only shadow observation: PASS;
-  - deliberate mismatch classes: `ROW_COUNT`, `TABLE_CONTENT`, `SEMANTIC_PROJECTION`;
-  - mismatch budget behavior: `3 > 2`, fail-closed PASS;
-  - automatic promotion: false;
-  - canonical cutover authorized: false.
 - frozen recovery job `102573817601`: SUCCESS;
-  - PostgreSQL client 16.15;
-  - logical `pg_dump -> pg_restore`: PASS;
-  - source rows: 3;
-  - restored RLS contract: PASS;
-  - ephemeral cleanup: PASS;
-  - owner-local independent rollback/startup: PASS.
 - live candidate controls job `102573817880`: SUCCESS;
-  - existing Railway candidate remains observable and non-canonical;
-  - credential-free live canary: PASS;
-  - no Railway mutation performed.
-- readiness gate job `102575682072`: SUCCESS as a fail-closed state composer.
+- readiness composer job `102575682072`: SUCCESS.
 
-Final PR-head CI run `34383486586`, job `102573816190`:
+PR-head regression run `34383486586`, job `102573816190`: `1164 passed in 93.74s`.
 
-- Ubuntu 24.04.5;
-- Python 3.11.16 x64;
-- `1164 passed in 93.74s`;
-- SUCCESS.
+PR #58 then merged the A4 harness and blocked-state evidence into canonical `main` at `74e2aeb103ced874a3dd47a0600bf31536802090`.
 
-## Readiness Gate Output
+Post-merge validation on that canonical merge confirmed:
 
-The final readiness job produced:
+- exact-main CI run `34384871798`, job `102578501178`: `1164 passed in 113.94s`;
+- A4 frozen x64: `1164 passed in 95.73s`;
+- A4 frozen native ARM64/aarch64: `1164 passed in 92.00s`;
+- ARM64 bootstrap/unattended/systemd: PASS;
+- A3 shadow/live-canary: PASS;
+- A2.3 recovery/owner-local rollback: PASS.
 
-```text
-A4_LAUNCH_CANDIDATE_SHA=44761d58fd0e0421131cda5059bc955c35bafb6f
-A4_TECHNICAL_EVIDENCE=PASS
-A4_COST_STATUS=NOT_OBSERVABLE
-A4_GATE=BLOCKED_COST_VERIFICATION_REQUIRED
-A4_ACTIVATION_STATE=NOT_READY_COST_STATUS_UNVERIFIED
-PHASE_18_SHARED_RUNTIME_ACTIVE=NO
-CANONICAL_CUTOVER_AUTHORIZED=NO
-MIGRATION_033=NOT_CREATED_NOT_PREAUTHORIZED
-PRODUCTION_LIVE=NOT_OPERATIONAL
-```
+## Cost Evidence Closure
 
-Therefore the technical A4 evidence is complete, but the target gate `PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY` is **not satisfied**.
+The automated Railway integration could not observe account-specific subscription/waiver/trial state and therefore correctly remained fail-closed at `NOT_OBSERVABLE`.
 
-## Provider / Topology / Cost Snapshot
+The owner subsequently supplied direct Railway account UI evidence from `Settings -> Billing` and `Settings -> Plans`.
 
-Read-only Railway inspection observed:
+Observed account-level facts:
+
+- active plan: `Trial Workspace` / `Trial Plan`;
+- included free resource usage: `$5`;
+- no payment method on file;
+- no billing history found;
+- Hobby is offered as a separate `Unlock Hobby plan` action and is not the active plan;
+- UI showed approximately `29 days or $4.98 left` at observation time;
+- Railway states deployments are shut down when trial credits run out.
+
+Evidence record:
+
+`docs/evidence/PHASE_18_A4_RAILWAY_TRIAL_NO_CHARGE_EVIDENCE_2026-09-09.md`
+
+Therefore, for the current A4 point-in-time validation:
+
+`A4_COST_STATUS = NO_CHARGE_VERIFIED`
+
+The earlier integration-only value `NOT_OBSERVABLE` remains historically correct as an **automated-observation limitation**, but it is no longer an unresolved overall A4 blocker because direct owner account evidence now satisfies the external cost-verification condition.
+
+## Time-Bounded Cost Validity
+
+The no-charge classification is not permanent. It is valid only while the observed Trial Workspace remains active and free trial capacity remains available.
+
+Before any future A5 activation decision, cost status must be revalidated if the trial expires, credits are exhausted, the active plan changes, a payment method is added, paid resources are proposed, or Railway pricing/account status changes.
+
+This prevents a point-in-time trial proof from silently becoming a later paid-resource authorization.
+
+## Provider / Topology Snapshot
+
+The disposable Railway candidate remains non-canonical:
 
 - project: `kgm-shared-runtime-preflight`;
-- environment provider-name: `production`, while KGM classification remains disposable non-production preflight;
 - canonical candidate service: `kgm-preflight-api-v3`;
-- deployed source remains `8ac2c92c9351ac1bcea8818e52a819f81868ed92`;
-- API has the intended Railway service domain;
-- PostgreSQL has no public service domain;
-- 31 existing staged Railway changes remain untouched;
-- effective plan tier: `HOBBY`;
-- included usage credit reported: `$5`;
-- account-specific subscription-fee / waiver / trial / no-charge status: `NOT_OBSERVABLE` through the available read-only integration.
-
-Railway documentation states that the standard Hobby plan has a monthly subscription fee, while a fee waiver may exist for eligible accounts. Since the current account-specific waiver/no-charge state is not programmatically observable, A4 cannot classify this provider candidate as no-charge under the binding beta policy.
-
-No payment, upgrade, new paid resource, staged-change acceptance, redeploy, or provider mutation was performed to resolve this limitation.
-
-## Harness Correction Record
-
-Initial A4 workflow run `34383326462` had one infrastructure-only harness failure in frozen-recovery job `102573277195` before the recovery proof ran.
-
-Cause: a transient `Hash Sum mismatch` in the GitHub-hosted runner's third-party Google Chrome APT repository during `apt-get update`.
-
-Correction:
-
-- runtime/candidate code was unchanged;
-- frozen candidate SHA was unchanged;
-- the disposable runner now removes only Google APT list files before the PostgreSQL client refresh and uses APT retries;
-- final run `34383486940` then completed the real logical recovery proof successfully.
-
-This was not a KGM candidate failure and is retained as transparent harness history.
+- deployed source remains the prior A1 implementation anchor;
+- PostgreSQL remains private/non-public;
+- no provider mutation was required for A4 closure;
+- no payment, upgrade, credit purchase, redeploy, or staged-change acceptance was performed by this closure.
 
 ## Explicit Boundaries
 
@@ -124,16 +111,13 @@ This was not a KGM candidate failure and is retained as transparent harness hist
 - `PRODUCTION_LIVE = NOT_OPERATIONAL`;
 - migration `033 = NOT_CREATED / NOT_PREAUTHORIZED`;
 - `BETA_PAID_RESOURCES = NOT_CONSIDERED / NOT_AUTHORIZED`;
-- Railway staged changes remain untouched;
 - strategic machine state remains `4.34`;
-- A5 is not opened by technical A4 success.
+- A5 remains a separate explicit owner decision and is **not authorized by A4 validation**.
 
-## Blocking Condition
+## Gate Closure
 
-To satisfy the A4 target gate under the approved beta policy, direct account-level evidence must establish that the currently used Railway resources are no-charge for this account, for example an authoritative Billing/dashboard indication of an active fee waiver or equivalent no-charge state.
+`PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY = PASS`
 
-Until that evidence exists:
+Current operational state:
 
-`PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY = NOT_SATISFIED`
-
-`A4_GATE = BLOCKED_COST_VERIFICATION_REQUIRED`
+`ACTIVATION_READY / NOT_ACTIVATED`

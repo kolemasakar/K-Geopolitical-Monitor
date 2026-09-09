@@ -6,6 +6,8 @@ on:
       - '.github/workflows/a4-fresh-launch-evidence.yml'
       - 'docs/implementation/PHASE_18_ACTIVATION_A4_LAUNCH_EVIDENCE_RESULT.md'
       - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A4_LAUNCH_EVIDENCE_IN_PROGRESS.md'
+      - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A4_LAUNCH_EVIDENCE_VALIDATED.md'
+      - 'docs/evidence/PHASE_18_A4_RAILWAY_TRIAL_NO_CHARGE_EVIDENCE_2026-09-09.md'
       - 'docs/implementation/PHASE_18_ACTIVATION_A2_A5_APPROVED_PLAN.md'
   push:
     branches: [main]
@@ -13,6 +15,8 @@ on:
       - '.github/workflows/a4-fresh-launch-evidence.yml'
       - 'docs/implementation/PHASE_18_ACTIVATION_A4_LAUNCH_EVIDENCE_RESULT.md'
       - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A4_LAUNCH_EVIDENCE_IN_PROGRESS.md'
+      - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A4_LAUNCH_EVIDENCE_VALIDATED.md'
+      - 'docs/evidence/PHASE_18_A4_RAILWAY_TRIAL_NO_CHARGE_EVIDENCE_2026-09-09.md'
       - 'docs/implementation/PHASE_18_ACTIVATION_A2_A5_APPROVED_PLAN.md'
   workflow_dispatch:
 
@@ -21,7 +25,7 @@ permissions:
 
 env:
   A4_LAUNCH_CANDIDATE_SHA: '44761d58fd0e0421131cda5059bc955c35bafb6f'
-  A4_COST_STATUS: 'NOT_OBSERVABLE'
+  A4_AUTOMATED_COST_STATUS: 'NOT_OBSERVABLE'
 
 jobs:
   frozen-x64:
@@ -177,9 +181,6 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e ".[test]"
           python -m pip check
-          # GitHub-hosted runners can transiently carry stale third-party APT indexes.
-          # PostgreSQL client installation does not depend on Google's repository, so
-          # remove only Google list files in this disposable runner before refreshing.
           sudo find /etc/apt/sources.list.d -maxdepth 1 -type f -iname '*google*' -delete
           sudo apt-get -o Acquire::Retries=3 update -qq
           sudo apt-get -o Acquire::Retries=3 install -y postgresql-client-16
@@ -228,7 +229,7 @@ jobs:
       - live-candidate-controls
     runs-on: ubuntu-24.04
     steps:
-      - name: Compose fail-closed A4 readiness state
+      - name: Compose automated A4 evidence state
         env:
           X64_RESULT: ${{ needs.frozen-x64.result }}
           ARM64_RESULT: ${{ needs.frozen-arm64.result }}
@@ -242,14 +243,9 @@ jobs:
           done
           echo "A4_LAUNCH_CANDIDATE_SHA=$A4_LAUNCH_CANDIDATE_SHA"
           echo "A4_TECHNICAL_EVIDENCE=PASS"
-          echo "A4_COST_STATUS=$A4_COST_STATUS"
-          if [ "$A4_COST_STATUS" = "NO_CHARGE_VERIFIED" ]; then
-            echo "A4_GATE=PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY"
-            echo "A4_ACTIVATION_STATE=ACTIVATION_READY_NOT_ACTIVATED"
-          else
-            echo "A4_GATE=BLOCKED_COST_VERIFICATION_REQUIRED"
-            echo "A4_ACTIVATION_STATE=NOT_READY_COST_STATUS_UNVERIFIED"
-          fi
+          echo "A4_AUTOMATED_COST_STATUS=$A4_AUTOMATED_COST_STATUS"
+          echo "A4_AUTOMATED_COST_SUBGATE=EXTERNAL_ACCOUNT_EVIDENCE_REQUIRED"
+          echo "A4_OVERALL_COST_STATUS=DETERMINED_OUTSIDE_AUTOMATION"
           echo "PHASE_18_SHARED_RUNTIME_ACTIVE=NO"
           echo "CANONICAL_CUTOVER_AUTHORIZED=NO"
           echo "MIGRATION_033=NOT_CREATED_NOT_PREAUTHORIZED"
