@@ -148,3 +148,21 @@ Runtime storage mode: PROJECT_LOCAL_ONLY
 - migration 033: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.
+
+## Current-State Addendum — Phase 18 A1 (2026-09-09)
+
+The historical Phase 18 model-boundary wording above is retained verbatim for regression/audit continuity. Phase 18 architecture and provider-neutral datastore contracts P18.0–P18.9 are now validated, but no canonical shared-store migration has been authorized.
+
+A1 concrete Railway/PostgreSQL preflight adds infrastructure evidence only:
+
+- exact implementation anchor: `8ac2c92c9351ac1bcea8818e52a819f81868ed92`;
+- restricted non-BYPASSRLS runtime role and transaction-local role switching validated;
+- live startup RLS isolation passed with alternate-tenant visible rows `0`;
+- no canonical owner data cutover occurred;
+- no shared canonical datastore was activated;
+- migration `033` remains `NOT_CREATED / NOT_PREAUTHORIZED`;
+- canonical runtime storage remains `PROJECT_LOCAL_ONLY`;
+- `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
+- `PRODUCTION_LIVE = NOT_OPERATIONAL`.
+
+Strategic machine state remains synchronization `4.34` until a separate formal activation synchronization gate; A1 evidence is recorded separately in its checkpoint/result/decision documents.
