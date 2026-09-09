@@ -186,9 +186,10 @@ def test_candidate_probe_uses_parameterized_tenant_context_and_payload_digest():
     executions = connection.cursor_instance.executions
 
     assert result == {"probe_id": "probe-a", "payload_sha256": "a" * 64}
-    assert executions[0][1] == (_settings().workspace_id,)
-    assert executions[1][1] == (_settings().project_id,)
-    insert_sql, insert_params = executions[2]
+    assert executions[0] == ("SET LOCAL ROLE kgm_preflight_runtime", None)
+    assert executions[1][1] == (_settings().workspace_id,)
+    assert executions[2][1] == (_settings().project_id,)
+    insert_sql, insert_params = executions[3]
     assert "%s" in insert_sql
     assert insert_params[:3] == (
         _settings().workspace_id,
