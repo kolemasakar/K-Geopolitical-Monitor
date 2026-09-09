@@ -2,7 +2,7 @@
 
 Date: 2026-09-09
 Project: K-Geopolitical Monitor
-Status: `APPROVED / A2_VALIDATED / A3_VALIDATED_MERGE_PENDING / NOT_ACTIVATED`
+Status: `APPROVED / A2_VALIDATED / A3_VALIDATED / A4_NEXT / NOT_ACTIVATED`
 Decision: `docs/decisions/PHASE_18_ACTIVATION_STRATEGY_BETA_SINGLE_OWNER_BOUNDARY_2026-09-09.md`
 A1 checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED.md`
 Canonical base at approval: `445070a270cfd7a9b926291a02caff2ed06c29ad`
@@ -29,8 +29,8 @@ Until beta completion:
 - A2.2 tenant/RBAC/security negative matrix: validated;
 - A2.3 backup/restore/rollback: validated;
 - parent A2 gate `PHASE_18_SHARED_RUNTIME_LIVE_CONTROLS_OBSERVED`: validated;
-- A3 shadow/reconciliation/canary evidence: validated on PR evidence, guarded merge pending;
-- A4 remains next only after A3 canonical closure.
+- A3 shadow/reconciliation/canary evidence: validated and canonically closed;
+- next executable stage: A4 fresh exact-head launch validation.
 
 ## 3. A2 — Live Security / Network / Recovery Observation
 
@@ -113,7 +113,7 @@ The current beta result does not claim production-grade Railway physical snapsho
 
 Target gate: `PHASE_18_SHARED_RUNTIME_SHADOW_CANARY_EVIDENCE_VALIDATED`
 
-Status: `VALIDATED / MERGE_PENDING`.
+Status: `VALIDATED / CLOSED`.
 
 Validated evidence includes:
 
@@ -130,13 +130,19 @@ Validated evidence includes:
 - automatic promotion/cutover disabled;
 - live Railway non-canonical health/RLS startup canary.
 
-Accepted initial evidence:
+Canonical implementation closure:
 
-- A3 workflow run `34379541994`;
-- shadow-reconciliation job `102560691267`;
-- live-noncanonical-canary job `102560691011`;
-- full regression run `34379541997`, job `102560691416`;
-- `1164 passed in 98.42s`.
+- PR #55 final head `2f449a09b0484ea4c7a9ff3bf46a1d1eb7003625`;
+- guarded merge SHA `496c43367a96a73839bb58ac26b1d12729f7fac4`, GitHub-verified;
+- final-head A3 run `34380601564`: PASS;
+- final-head regression run `34380601640`, job `102564224089`: `1164 passed in 119.47s`;
+- exact-main A3 run `34381042333`: PASS;
+- exact-main x64 run `34381042340`, job `102565674820`: `1164 passed in 118.07s`;
+- exact-main native ARM64 run `34381042372`, job `102565674719`: `aarch64`, `1164 passed in 100.93s`;
+- ARM64 bootstrap/unattended/systemd validation: PASS;
+- exact-main A2.3 recovery run `34381042304`: PASS.
+
+A concurrent docs-only PR #56 was safely composed into the A3 merge; it changed only `docs/ops/KGM_TAILSCALE_ANSIBLE_CONTROL_PLANE.md` and did not overlap A3 paths.
 
 Explicit limitation:
 
@@ -150,7 +156,9 @@ Migration `033` remains absent unless separately authorized later and shown to b
 
 Target gate: `PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY`
 
-After A3 canonical closure, freeze one launch-candidate SHA and validate:
+Status: `NEXT / READY_TO_BEGIN`.
+
+Freeze one launch-candidate SHA and validate:
 
 - full exact-head x64 regression;
 - supported native ARM64 regression;
@@ -216,22 +224,24 @@ A2.3 accepted recovery evidence:
 - ephemeral cleanup: PASS;
 - owner-local SQLite integrity and independent startup: PASS.
 
-## 9. A3 Execution Status Addendum — 2026-09-09
+## 9. A3 Canonical Closure Addendum — 2026-09-09
 
-A3 validation evidence is complete on PR #55 and is awaiting guarded merge plus post-merge exact-main verification.
+A3 is formally closed at `PHASE_18_SHARED_RUNTIME_SHADOW_CANARY_EVIDENCE_VALIDATED`.
 
-- target gate: `PHASE_18_SHARED_RUNTIME_SHADOW_CANARY_EVIDENCE_VALIDATED`;
-- initial evidence head: `1c5f9bd3e161dda52cbae8fcc1fda9ef4441a23f`;
-- A3 workflow run `34379541994`: PASS;
-- shadow reconciliation job `102560691267`: PASS;
-- live non-canonical canary job `102560691011`: PASS;
-- regression run `34379541997`, job `102560691416`: `1164 passed in 98.42s`;
+- PR #55 final head: `2f449a09b0484ea4c7a9ff3bf46a1d1eb7003625`;
+- implementation closure SHA: `496c43367a96a73839bb58ac26b1d12729f7fac4`;
+- merge commit verification: PASS;
+- exact-main x64 regression: `1164 passed in 118.07s`;
+- exact-main native ARM64 regression: `1164 passed in 100.93s`;
+- exact-main A3 shadow/live-canary workflow: PASS;
+- exact-main recovery guard: PASS;
 - exact reconciliation: PASS;
 - retry/idempotency: PASS;
 - outbox persistence: PASS;
 - tenant isolation: PASS;
 - mismatch threshold `3 > 2`: fail-closed PASS;
 - automatic promotion/cutover: disabled;
-- live Railway direct data-plane reconciliation: `NOT_EVIDENCED`.
+- live Railway direct data-plane reconciliation: `NOT_EVIDENCED`;
+- next executable stage: `A4 — Fresh Exact-Head Launch Validation`.
 
 This addendum does not change strategic machine state `4.34`, activate shared runtime, authorize paid resources, create/authorize migration `033`, or accept/apply Railway staged changes.
