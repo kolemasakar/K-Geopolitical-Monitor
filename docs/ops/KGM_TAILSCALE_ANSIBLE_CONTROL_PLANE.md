@@ -136,19 +136,32 @@ kgmops_arbitrary_root=DENIED
 
 SentinelX hub inventory after cleanup shows only the operational K-Trader host; KGM is no longer connected/parked.
 
+## Credential hygiene — COMPLETE
+
+Owner-verified in the GitHub repository secrets UI on 2026-09-09:
+
+Removed obsolete secrets:
+
+- `SENTINELX_ENROLL_TOKEN`
+- `TS_KGM_AUTH_KEY`
+
+Retained operational/recovery secrets:
+
+- `TS_OAUTH_CLIENT_ID`
+- `TS_AUDIENCE`
+- `E4_HOST`
+- `E4_SSH_PRIVATE_KEY`
+- `E4_SSH_KNOWN_HOSTS`
+
+No retained KGM workflow depends on either removed secret.
+
 ## Current decision
 
 The KGM Tailscale + GitHub Actions OIDC + Tailscale SSH + Ansible control plane is accepted for normal remote operational control.
 
-KGM SentinelX is retired. K-Trader remains the sole SentinelX-managed dominant host.
+KGM SentinelX is retired and its obsolete repository credentials are removed. K-Trader remains the sole SentinelX-managed dominant host.
 
 KRC-Cobalt remains outside this acceptance and on implementation HOLD until separately reviewed and approved.
-
-## Remaining credential hygiene
-
-The obsolete GitHub repository secret `SENTINELX_ENROLL_TOKEN` should be deleted manually from `kolemasakar/K-Geopolitical-Monitor`. The GitHub connector cannot read or delete Actions secrets. This token is no longer used by any retained KGM workflow.
-
-The one-time `TS_KGM_AUTH_KEY` is also no longer required for normal operation after enrollment and can be removed from GitHub repository secrets. Keep `TS_OAUTH_CLIENT_ID` and `TS_AUDIENCE` for the operational control workflow.
 
 ## Version baselines
 
