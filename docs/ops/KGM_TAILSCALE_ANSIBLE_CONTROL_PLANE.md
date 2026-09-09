@@ -45,9 +45,21 @@ GitHub-hosted runner
 
 The following values must be created in the owner's Tailscale account; they cannot be generated from the repository alone.
 
-### 1. Tailnet policy
+### 1. Whole-tailnet policy review — mandatory before applying KGM rules
 
-Merge `ops/tailscale/kgm-tailnet-policy.hujson` into the existing tailnet policy. If the tailnet already has `tagOwners`, `grants`, or `ssh` sections, merge entries rather than replacing unrelated rules.
+Do **not** paste the KGM fragment into an unreviewed tailnet policy.
+
+Tailscale access rules are additive. A pre-existing allow-all or otherwise broad ACL/grant can continue to authorize traffic even when the narrow KGM grant is present. A fresh/default tailnet can therefore be too permissive for this control-plane design until the complete policy is reviewed.
+
+Required procedure:
+
+1. Open the current whole tailnet policy in Tailscale Access controls.
+2. Review every existing `acls`, `grants`, `ssh`, `groups`, and `tagOwners` entry that can overlap `tag:kgm` or `tag:github-actions`.
+3. Remove or narrow any rule that permits broader access than the intended GitHub-Actions -> KGM TCP/22 path.
+4. Merge the entries from `ops/tailscale/kgm-tailnet-policy.hujson` only after that review.
+5. Use Tailscale policy validation/preview before saving.
+
+Do not replace unrelated production rules blindly; equally, do not preserve a broad rule merely because it already exists.
 
 Required tags:
 
@@ -86,17 +98,18 @@ The control workflow requests GitHub OIDC with `id-token: write`; it does not re
 
 1. Merge this control-plane implementation to `main`.
 2. Bootstrap workflow prepares `kgmops` and narrow sudoers. If `TS_KGM_AUTH_KEY` is absent, it stops successfully at `PREPARED_AWAITING_TS_KGM_AUTH_KEY`.
-3. After tailnet policy and `TS_KGM_AUTH_KEY` are configured, re-run bootstrap and require:
+3. Review and validate the **complete** tailnet policy; do not rely on the KGM fragment to override a broad pre-existing allow rule.
+4. After the reviewed policy and `TS_KGM_AUTH_KEY` are configured, re-run bootstrap and require:
    - Tailscale online;
    - `tag:kgm` present;
    - KGM service still active;
    - runtime DB unreadable to `kgmops`;
    - arbitrary root escalation denied.
-4. Configure workload identity secrets.
-5. Manually run `KGM Tailscale Ansible Control` with `operation=health`.
-6. Require full Ansible health PASS.
-7. Only after health PASS, test `operation=restart` once and verify KGM service returns active.
-8. Only after both PASS, assess retirement/disablement of parked KGM SentinelX. Do not remove the existing SSH recovery channel in the same change.
+5. Configure workload identity secrets.
+6. Manually run `KGM Tailscale Ansible Control` with `operation=health`.
+7. Require full Ansible health PASS.
+8. Only after health PASS, test `operation=restart` once and verify KGM service returns active.
+9. Only after both PASS, assess retirement/disablement of parked KGM SentinelX. Do not remove the existing SSH recovery channel in the same change.
 
 ## Version baselines at implementation
 
