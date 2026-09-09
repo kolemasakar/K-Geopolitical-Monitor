@@ -1,5 +1,6 @@
 from hashlib import sha256
 import inspect
+import re
 
 import pytest
 
@@ -146,6 +147,7 @@ def test_runtime_role_and_rls_contract_blocks_privilege_escalation_paths() -> No
     assert "nobypassrls" in ddl
     assert "force row level security" in ddl
     assert "grant select, insert, update" in ddl
+    assert re.search(r"(?<!no)\bbypassrls\b", ddl) is None
 
     for forbidden in (
         "grant all",
@@ -153,6 +155,5 @@ def test_runtime_role_and_rls_contract_blocks_privilege_escalation_paths() -> No
         "grant truncate",
         "grant create on",
         "create role kgm_preflight_runtime login",
-        "bypassrls;",
     ):
         assert forbidden not in ddl
