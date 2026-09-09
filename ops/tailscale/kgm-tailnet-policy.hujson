@@ -1,6 +1,15 @@
 // KGM Sentinel-Remote control-plane policy fragment.
-// Merge these sections into the existing Tailscale tailnet policy; do not
-// replace unrelated existing rules without review.
+//
+// SECURITY PRECONDITION — DO NOT APPLY BLINDLY:
+// Tailscale allow rules are additive. A default or pre-existing permissive
+// rule (for example an allow-all ACL/grant) can make the narrow KGM rule below
+// ineffective as a restriction. Before applying this fragment, review the
+// complete current tailnet policy and remove/replace any broader rule that
+// already permits tag:github-actions (or an overlapping source) to reach
+// tag:kgm beyond the intended TCP/22 path.
+//
+// Merge only after whole-policy review. Preserve unrelated rules only when
+// they do not broaden access to tag:kgm or tag:github-actions.
 {
   "tagOwners": {
     "tag:kgm": ["autogroup:admin"],
@@ -9,7 +18,7 @@
 
   "grants": [
     {
-      // Ephemeral GitHub Actions runner may reach only SSH on KGM.
+      // Ephemeral GitHub Actions runner may reach KGM only on SSH/TCP 22.
       "src": ["tag:github-actions"],
       "dst": ["tag:kgm"],
       "ip": ["tcp:22"]
