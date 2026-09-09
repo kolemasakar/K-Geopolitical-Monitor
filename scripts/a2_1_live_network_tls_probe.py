@@ -105,7 +105,7 @@ def _assert_public_surface() -> None:
         )
     if protected_headers.get("www-authenticate", "").casefold() != "bearer":
         raise RuntimeError("protected endpoint missing Bearer challenge")
-    lowered = protected_body.casefold()
+    lowered = protected_body.lower()
     if b"postgres" in lowered or b"railway.internal" in lowered:
         raise RuntimeError("protected error body exposed private endpoint material")
     print("PUBLIC_SURFACE_PASS docs_disabled=PASS protected_unauthenticated=401")
