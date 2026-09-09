@@ -2,7 +2,7 @@
 
 Date: 2026-09-09
 Project: K-Geopolitical Monitor
-Status: `APPROVED / A1_VALIDATED / A2_IN_PROGRESS / NOT_ACTIVATED`
+Status: `APPROVED / A2_VALIDATED / A3_NEXT / NOT_ACTIVATED`
 Decision: `docs/decisions/PHASE_18_ACTIVATION_STRATEGY_BETA_SINGLE_OWNER_BOUNDARY_2026-09-09.md`
 A1 checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED.md`
 Canonical base at approval: `445070a270cfd7a9b926291a02caff2ed06c29ad`
@@ -27,15 +27,19 @@ Until beta completion:
 - A1 concrete Railway non-production candidate and live RLS preflight: validated;
 - A2.1 network/TLS/exposure: validated;
 - A2.2 tenant/RBAC/security negative matrix: validated;
-- next executable stage: A2.3 backup/restore/rollback.
+- A2.3 backup/restore/rollback: validated;
+- parent A2 gate `PHASE_18_SHARED_RUNTIME_LIVE_CONTROLS_OBSERVED`: validated;
+- next executable stage: A3 shadow/reconciliation/canary evidence.
 
 ## 3. A2 — Live Security / Network / Recovery Observation
 
 Target gate: `PHASE_18_SHARED_RUNTIME_LIVE_CONTROLS_OBSERVED`
 
+Status: `VALIDATED`.
+
 ### A2.1 — Network / TLS / Exposure
 
-Validate directly on the existing disposable candidate:
+Validated directly on the existing disposable candidate:
 
 - public API uses HTTPS/TLS as expected;
 - database has no public service domain or public TCP proxy;
@@ -46,39 +50,69 @@ Validate directly on the existing disposable candidate:
 
 Status: `VALIDATED` via `PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_VALIDATED`.
 
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_VALIDATED.md`.
+
 ### A2.2 — Tenant / RBAC / Security Negative Matrix
 
-Validate negative and isolation behavior, including where applicable:
+Validated negative and isolation behavior, including:
 
 - cross-tenant access rejection;
-- owner/RBAC authorization boundaries;
-- IDOR attempts;
-- injection attempts;
-- SSRF-relevant boundaries;
+- authorization boundaries;
+- IDOR/SSRF-relevant public-surface negatives;
+- injection-style inputs;
 - privilege-escalation attempts;
 - non-BYPASSRLS runtime-role behavior;
 - fail-closed startup/security behavior.
 
 Status: `VALIDATED` via `PHASE_18_ACTIVATION_A2_2_SECURITY_NEGATIVE_MATRIX_VALIDATED`.
 
-Accepted live workflow: run `34373579763`, job `102540600589`.
+Final-head accepted live workflow: run `34374111299`, job `102542430156`.
+
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A2_2_SECURITY_NEGATIVE_MATRIX_VALIDATED.md`.
 
 ### A2.3 — Backup / Restore / Rollback
 
-Validate the strongest recovery path available without paid-resource activation:
+Validated the strongest recovery path available without paid-resource activation.
 
-- directly observe free/no-charge backup/recovery capabilities and limitations;
-- perform a disposable restore/recovery exercise where supported without spend;
-- otherwise record the provider limitation explicitly and validate an equivalent no-charge disposable recovery path if possible;
-- verify owner-local canonical rollback remains independently operable.
+Direct Railway observation established:
 
-Status: `NEXT`.
+- existing PostgreSQL candidate has no persistent Railway volume;
+- snapshot backups are not configured;
+- PITR is not enabled/available under the observed current boundary;
+- observed HOBBY plan effective limit reports `maxBackupsCount = 0`;
+- the connector cannot execute `pg_dump/pg_restore` inside the private Postgres container without changing the approved boundary.
 
-If any required A2 proof is impossible without paid resources, the corresponding gate remains blocked rather than authorizing spend.
+No paid upgrade, public DB exposure or provider mutation was used to bypass that limitation.
+
+Equivalent no-charge proof:
+
+- ephemeral PostgreSQL 16.15;
+- exact `kgm_preflight` DDL/RLS/runtime-role contract;
+- `pg_dump -> pg_restore` into a separate ephemeral database;
+- deterministic row/hash comparison;
+- RLS/policy/runtime-role verification after restore;
+- restored cross-tenant isolation validation;
+- full ephemeral cleanup;
+- independent owner-local `unattended_runner --once` with SQLite integrity verification.
+
+Status: `VALIDATED` via `PHASE_18_ACTIVATION_A2_3_BACKUP_RESTORE_ROLLBACK_VALIDATED`.
+
+Accepted workflow: run `34376107585`:
+
+- logical-recovery job `102549196019`;
+- owner-local-rollback job `102549196325`.
+
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A2_3_BACKUP_RESTORE_ROLLBACK_VALIDATED.md`.
+
+Result: `docs/implementation/PHASE_18_ACTIVATION_A2_3_BACKUP_RESTORE_ROLLBACK_RESULT.md`.
+
+The current beta result does not claim production-grade Railway physical snapshot/PITR readiness. If shared PostgreSQL later becomes a post-beta activation candidate, physical backup/PITR must be re-evaluated before canonical cutover.
 
 ## 4. A3 — Shadow / Reconciliation / Canary Evidence
 
 Target gate: `PHASE_18_SHARED_RUNTIME_SHADOW_CANARY_EVIDENCE_VALIDATED`
+
+Status: `NEXT`.
 
 After A2 passes:
 
@@ -146,18 +180,22 @@ Until a separate explicit activation decision:
 
 ## 8. Execution Status Addendum — 2026-09-09
 
-The approved plan above remains authoritative. Execution has advanced within A2:
+The approved plan above remains authoritative. A2 is now complete:
 
 - `A2.1 — Network / TLS / Exposure = VALIDATED`;
-- gate: `PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_VALIDATED`;
-- checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_VALIDATED.md`;
-- result: `docs/implementation/PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_RESULT.md`;
 - `A2.2 — Tenant / RBAC / Security Negative Matrix = VALIDATED`;
-- gate: `PHASE_18_ACTIVATION_A2_2_SECURITY_NEGATIVE_MATRIX_VALIDATED`;
-- accepted live probe: workflow run `34373579763`, job `102540600589`;
-- checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A2_2_SECURITY_NEGATIVE_MATRIX_VALIDATED.md`;
-- result: `docs/implementation/PHASE_18_ACTIVATION_A2_2_SECURITY_NEGATIVE_MATRIX_RESULT.md`;
-- next executable stage: `A2.3 — Backup / Restore / Rollback`;
-- parent A2 gate remains unsatisfied until A2.3 is validated.
+- `A2.3 — Backup / Restore / Rollback = VALIDATED`;
+- parent gate `PHASE_18_SHARED_RUNTIME_LIVE_CONTROLS_OBSERVED = PASS`;
+- next executable stage: `A3 — Shadow / Reconciliation / Canary Evidence`.
+
+A2.3 accepted recovery evidence:
+
+- run `34376107585`;
+- logical recovery job `102549196019`;
+- owner-local rollback job `102549196325`;
+- PostgreSQL logical restore: PASS;
+- restored RLS/role/tenant isolation: PASS;
+- ephemeral cleanup: PASS;
+- owner-local SQLite integrity and independent startup: PASS.
 
 This execution addendum does not change strategic machine state `4.34`, activate shared runtime, authorize paid resources, or create/authorize migration `033`.
