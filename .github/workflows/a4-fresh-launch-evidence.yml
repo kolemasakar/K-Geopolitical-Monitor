@@ -1,0 +1,250 @@
+name: A4 Fresh Launch Evidence
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/a4-fresh-launch-evidence.yml'
+      - 'docs/implementation/PHASE_18_ACTIVATION_A4_LAUNCH_EVIDENCE_RESULT.md'
+      - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A4_LAUNCH_EVIDENCE_IN_PROGRESS.md'
+      - 'docs/implementation/PHASE_18_ACTIVATION_A2_A5_APPROVED_PLAN.md'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/a4-fresh-launch-evidence.yml'
+      - 'docs/implementation/PHASE_18_ACTIVATION_A4_LAUNCH_EVIDENCE_RESULT.md'
+      - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A4_LAUNCH_EVIDENCE_IN_PROGRESS.md'
+      - 'docs/implementation/PHASE_18_ACTIVATION_A2_A5_APPROVED_PLAN.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  A4_LAUNCH_CANDIDATE_SHA: '44761d58fd0e0421131cda5059bc955c35bafb6f'
+  A4_COST_STATUS: 'NOT_OBSERVABLE'
+
+jobs:
+  frozen-x64:
+    runs-on: ubuntu-24.04
+    env:
+      PIP_CONSTRAINT: constraints/ci.txt
+    steps:
+      - name: Checkout frozen launch candidate
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ env.A4_LAUNCH_CANDIDATE_SHA }}
+      - name: Assert exact candidate SHA
+        run: test "$(git rev-parse HEAD)" = "$A4_LAUNCH_CANDIDATE_SHA"
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            constraints/ci.txt
+      - name: Install and dependency check
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test]"
+          python -m pip check
+      - name: Run frozen x64 regression
+        run: python -m pytest -q
+
+  frozen-arm64:
+    runs-on: ubuntu-24.04-arm
+    env:
+      PIP_CONSTRAINT: constraints/ci.txt
+    steps:
+      - name: Checkout frozen launch candidate
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ env.A4_LAUNCH_CANDIDATE_SHA }}
+      - name: Assert exact candidate SHA and native ARM64
+        run: |
+          test "$(git rev-parse HEAD)" = "$A4_LAUNCH_CANDIDATE_SHA"
+          test "$(uname -m)" = "aarch64"
+          echo "A4_ARM64_ARCH=$(uname -m)"
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            constraints/ci.txt
+      - name: Install and dependency check
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test]"
+          python -m pip check
+      - name: Run frozen ARM64 regression
+        run: python -m pytest -q
+      - name: Validate bootstrap and unattended runtime contracts
+        run: |
+          bash -n deployment/scripts/e4_bootstrap_ubuntu_arm64.sh
+          python -m kgeopolitical_monitor.e4_host_validation --help >/dev/null
+          ROOT="$RUNNER_TEMP/kgm-a4-arm64-smoke"
+          python -m kgeopolitical_monitor.unattended_runner --project-root "$ROOT" --once
+          test -f "$ROOT/data/kgeopolitical_monitor.db"
+      - name: Verify systemd unit contract
+        run: |
+          sudo useradd --system --user-group --home-dir /opt/k-geopolitical-monitor --shell /usr/sbin/nologin kgm || true
+          sudo mkdir -p /opt/k-geopolitical-monitor/.venv/bin /opt/k-geopolitical-monitor/data
+          sudo ln -sf "$(command -v python)" /opt/k-geopolitical-monitor/.venv/bin/python
+          sudo chown -R kgm:kgm /opt/k-geopolitical-monitor
+          systemd-analyze verify deployment/systemd/kgm-monitor.service
+
+  frozen-shadow-reconciliation:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: '5432'
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: postgres
+      PIP_CONSTRAINT: constraints/ci.txt
+    steps:
+      - name: Checkout frozen launch candidate
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ env.A4_LAUNCH_CANDIDATE_SHA }}
+      - name: Assert exact candidate SHA
+        run: test "$(git rev-parse HEAD)" = "$A4_LAUNCH_CANDIDATE_SHA"
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            constraints/ci.txt
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test]"
+          python -m pip check
+      - name: Run frozen A3 reconciliation proof
+        run: python scripts/a3_shadow_reconciliation_proof.py
+
+  frozen-recovery:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: synthetic-a4-password
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: '5432'
+      PGUSER: postgres
+      PGPASSWORD: synthetic-a4-password
+      PIP_CONSTRAINT: constraints/ci.txt
+    steps:
+      - name: Checkout frozen launch candidate
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ env.A4_LAUNCH_CANDIDATE_SHA }}
+      - name: Assert exact candidate SHA
+        run: test "$(git rev-parse HEAD)" = "$A4_LAUNCH_CANDIDATE_SHA"
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            constraints/ci.txt
+      - name: Install project and PostgreSQL client
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test]"
+          python -m pip check
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client-16
+      - name: Run frozen A2.3 logical recovery proof
+        run: python scripts/a2_3_logical_recovery_proof.py
+      - name: Prove owner-local rollback remains independent
+        run: |
+          ROOT="$RUNNER_TEMP/kgm-a4-owner-local"
+          python -m kgeopolitical_monitor.unattended_runner --project-root "$ROOT" --once
+          test -f "$ROOT/data/kgeopolitical_monitor.db"
+          python - "$ROOT/data/kgeopolitical_monitor.db" <<'PY'
+          import sqlite3
+          import sys
+          connection = sqlite3.connect(sys.argv[1])
+          try:
+              assert connection.execute("PRAGMA integrity_check").fetchone()[0] == "ok"
+              print("A4_OWNER_LOCAL_ROLLBACK=PASS")
+          finally:
+              connection.close()
+          PY
+
+  live-candidate-controls:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout frozen launch candidate
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ env.A4_LAUNCH_CANDIDATE_SHA }}
+      - name: Assert exact candidate SHA
+        run: test "$(git rev-parse HEAD)" = "$A4_LAUNCH_CANDIDATE_SHA"
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Run credential-free live Railway control probe
+        run: python scripts/a3_live_railway_canary.py
+
+  readiness-gate:
+    if: always()
+    needs:
+      - frozen-x64
+      - frozen-arm64
+      - frozen-shadow-reconciliation
+      - frozen-recovery
+      - live-candidate-controls
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Compose fail-closed A4 readiness state
+        env:
+          X64_RESULT: ${{ needs.frozen-x64.result }}
+          ARM64_RESULT: ${{ needs.frozen-arm64.result }}
+          SHADOW_RESULT: ${{ needs.frozen-shadow-reconciliation.result }}
+          RECOVERY_RESULT: ${{ needs.frozen-recovery.result }}
+          LIVE_RESULT: ${{ needs.live-candidate-controls.result }}
+        run: |
+          set -eu
+          for value in "$X64_RESULT" "$ARM64_RESULT" "$SHADOW_RESULT" "$RECOVERY_RESULT" "$LIVE_RESULT"; do
+            test "$value" = "success"
+          done
+          echo "A4_LAUNCH_CANDIDATE_SHA=$A4_LAUNCH_CANDIDATE_SHA"
+          echo "A4_TECHNICAL_EVIDENCE=PASS"
+          echo "A4_COST_STATUS=$A4_COST_STATUS"
+          if [ "$A4_COST_STATUS" = "NO_CHARGE_VERIFIED" ]; then
+            echo "A4_GATE=PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY"
+            echo "A4_ACTIVATION_STATE=ACTIVATION_READY_NOT_ACTIVATED"
+          else
+            echo "A4_GATE=BLOCKED_COST_VERIFICATION_REQUIRED"
+            echo "A4_ACTIVATION_STATE=NOT_READY_COST_STATUS_UNVERIFIED"
+          fi
+          echo "PHASE_18_SHARED_RUNTIME_ACTIVE=NO"
+          echo "CANONICAL_CUTOVER_AUTHORIZED=NO"
+          echo "MIGRATION_033=NOT_CREATED_NOT_PREAUTHORIZED"
+          echo "PRODUCTION_LIVE=NOT_OPERATIONAL"
