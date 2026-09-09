@@ -1,0 +1,48 @@
+name: P19 Beta Operational Stability
+
+on:
+  pull_request:
+    paths:
+      - "src/kgeopolitical_monitor/operational_stability.py"
+      - "scripts/p19_operational_stability_proof.py"
+      - "scripts/p19_operational_status.py"
+      - "tests/test_p19_beta_operational_stability.py"
+      - "docs/implementation/PHASE_19_BETA_OPERATIONAL_STABILITY_RESULT.md"
+      - ".github/workflows/p19-beta-operational-stability.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/kgeopolitical_monitor/operational_stability.py"
+      - "scripts/p19_operational_stability_proof.py"
+      - "scripts/p19_operational_status.py"
+      - "tests/test_p19_beta_operational_stability.py"
+      - "docs/implementation/PHASE_19_BETA_OPERATIONAL_STABILITY_RESULT.md"
+      - ".github/workflows/p19-beta-operational-stability.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  accelerated-stability:
+    runs-on: ubuntu-24.04
+    env:
+      PIP_CONSTRAINT: constraints/ci.txt
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            constraints/ci.txt
+      - name: Install project and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test]"
+          python -m pip check
+      - name: Run focused Phase 19 tests
+        run: python -m pytest -q tests/test_p19_beta_operational_stability.py
+      - name: Run accelerated deterministic proof
+        run: python scripts/p19_operational_stability_proof.py
