@@ -2,7 +2,7 @@
 
 Date: 2026-09-09
 Project: K-Geopolitical Monitor
-Status: `APPROVED / A1_VALIDATED / A2_NEXT / NOT_ACTIVATED`
+Status: `APPROVED / A1_VALIDATED / A2_IN_PROGRESS / NOT_ACTIVATED`
 Decision: `docs/decisions/PHASE_18_ACTIVATION_STRATEGY_BETA_SINGLE_OWNER_BOUNDARY_2026-09-09.md`
 A1 checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED.md`
 Canonical base at approval: `445070a270cfd7a9b926291a02caff2ed06c29ad`
@@ -25,7 +25,9 @@ Until beta completion:
 - P18.0–P18.9: validated;
 - A0 provider/topology preflight decision: completed;
 - A1 concrete Railway non-production candidate and live RLS preflight: validated;
-- next executable stage: A2.
+- A2.1 network/TLS/exposure: validated;
+- A2.2 tenant/RBAC/security negative matrix: validated;
+- next executable stage: A2.3 backup/restore/rollback.
 
 ## 3. A2 — Live Security / Network / Recovery Observation
 
@@ -42,6 +44,8 @@ Validate directly on the existing disposable candidate:
 - only intended API ingress is externally reachable;
 - secrets are absent from repo, public artifacts and logs.
 
+Status: `VALIDATED` via `PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_VALIDATED`.
+
 ### A2.2 — Tenant / RBAC / Security Negative Matrix
 
 Validate negative and isolation behavior, including where applicable:
@@ -55,6 +59,10 @@ Validate negative and isolation behavior, including where applicable:
 - non-BYPASSRLS runtime-role behavior;
 - fail-closed startup/security behavior.
 
+Status: `VALIDATED` via `PHASE_18_ACTIVATION_A2_2_SECURITY_NEGATIVE_MATRIX_VALIDATED`.
+
+Accepted live workflow: run `34373579763`, job `102540600589`.
+
 ### A2.3 — Backup / Restore / Rollback
 
 Validate the strongest recovery path available without paid-resource activation:
@@ -63,6 +71,8 @@ Validate the strongest recovery path available without paid-resource activation:
 - perform a disposable restore/recovery exercise where supported without spend;
 - otherwise record the provider limitation explicitly and validate an equivalent no-charge disposable recovery path if possible;
 - verify owner-local canonical rollback remains independently operable.
+
+Status: `NEXT`.
 
 If any required A2 proof is impossible without paid resources, the corresponding gate remains blocked rather than authorizing spend.
 
@@ -136,14 +146,18 @@ Until a separate explicit activation decision:
 
 ## 8. Execution Status Addendum — 2026-09-09
 
-The approved plan above remains authoritative. Execution has now advanced within A2:
+The approved plan above remains authoritative. Execution has advanced within A2:
 
 - `A2.1 — Network / TLS / Exposure = VALIDATED`;
 - gate: `PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_VALIDATED`;
-- accepted external probe: workflow run `34368911806`, job `102524751017`;
 - checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_VALIDATED.md`;
 - result: `docs/implementation/PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_RESULT.md`;
-- next executable stage: `A2.2 — Tenant / RBAC / Security Negative Matrix`;
-- parent A2 gate remains unsatisfied until A2.2 and A2.3 are validated.
+- `A2.2 — Tenant / RBAC / Security Negative Matrix = VALIDATED`;
+- gate: `PHASE_18_ACTIVATION_A2_2_SECURITY_NEGATIVE_MATRIX_VALIDATED`;
+- accepted live probe: workflow run `34373579763`, job `102540600589`;
+- checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A2_2_SECURITY_NEGATIVE_MATRIX_VALIDATED.md`;
+- result: `docs/implementation/PHASE_18_ACTIVATION_A2_2_SECURITY_NEGATIVE_MATRIX_RESULT.md`;
+- next executable stage: `A2.3 — Backup / Restore / Rollback`;
+- parent A2 gate remains unsatisfied until A2.3 is validated.
 
 This execution addendum does not change strategic machine state `4.34`, activate shared runtime, authorize paid resources, or create/authorize migration `033`.
