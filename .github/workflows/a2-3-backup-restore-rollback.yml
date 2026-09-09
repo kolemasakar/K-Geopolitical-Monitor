@@ -1,0 +1,122 @@
+name: A2.3 Backup Restore Rollback
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/a2-3-backup-restore-rollback.yml"
+      - "scripts/a2_3_logical_recovery_proof.py"
+      - "tests/test_a2_3_backup_restore_rollback.py"
+      - "src/kgeopolitical_monitor/shared_runtime_postgres_candidate.py"
+      - "src/kgeopolitical_monitor/unattended_runner.py"
+      - "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A2_3_BACKUP_RESTORE_ROLLBACK_VALIDATED.md"
+      - "docs/implementation/PHASE_18_ACTIVATION_A2_3_BACKUP_RESTORE_ROLLBACK_RESULT.md"
+      - "docs/implementation/PHASE_18_ACTIVATION_A2_A5_APPROVED_PLAN.md"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/a2-3-backup-restore-rollback.yml"
+      - "scripts/a2_3_logical_recovery_proof.py"
+      - "tests/test_a2_3_backup_restore_rollback.py"
+      - "src/kgeopolitical_monitor/shared_runtime_postgres_candidate.py"
+      - "src/kgeopolitical_monitor/unattended_runner.py"
+      - "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A2_3_BACKUP_RESTORE_ROLLBACK_VALIDATED.md"
+      - "docs/implementation/PHASE_18_ACTIVATION_A2_3_BACKUP_RESTORE_ROLLBACK_RESULT.md"
+      - "docs/implementation/PHASE_18_ACTIVATION_A2_A5_APPROVED_PLAN.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  logical-recovery:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: synthetic-a2-3-password
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGUSER: postgres
+      PGPASSWORD: synthetic-a2-3-password
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            constraints/ci.txt
+      - name: Install project and PostgreSQL client
+        env:
+          PIP_CONSTRAINT: constraints/ci.txt
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test]"
+          python -m pip check
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client-16
+          pg_dump --version
+          pg_restore --version
+      - name: Run disposable logical dump restore proof
+        run: python scripts/a2_3_logical_recovery_proof.py
+
+  owner-local-rollback:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            constraints/ci.txt
+      - name: Install project
+        env:
+          PIP_CONSTRAINT: constraints/ci.txt
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test]"
+          python -m pip check
+      - name: Prove owner-local runtime remains independently operable
+        run: |
+          ROOT="$RUNNER_TEMP/kgm-a2-3-owner-local"
+          python -m kgeopolitical_monitor.unattended_runner --project-root "$ROOT" --once
+          test -f "$ROOT/data/kgeopolitical_monitor.db"
+          python - "$ROOT/data/kgeopolitical_monitor.db" <<'PY'
+          import sqlite3
+          import sys
+          from pathlib import Path
+
+          path = Path(sys.argv[1])
+          connection = sqlite3.connect(path)
+          try:
+              integrity = connection.execute("PRAGMA integrity_check").fetchone()[0]
+              if integrity != "ok":
+                  raise SystemExit(f"SQLite integrity failed: {integrity}")
+              tables = tuple(
+                  row[0]
+                  for row in connection.execute(
+                      "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+                  )
+              )
+              if not tables:
+                  raise SystemExit("owner-local database has no tables")
+              print(f"A2_3_OWNER_LOCAL_SQLITE_TABLES={len(tables)}")
+              print("A2_3_OWNER_LOCAL_INTEGRITY=PASS")
+              print("A2_3_OWNER_LOCAL_ROLLBACK=PASS")
+          finally:
+              connection.close()
+          PY
