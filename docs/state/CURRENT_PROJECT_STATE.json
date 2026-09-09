@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.35",
+    "state_sync_version": "4.34",
     "status": "APPROVED",
-    "current_position": "PHASE_18_ACTIVATION_A1_VALIDATED_OWNER_ACTIVATION_GATE"
+    "current_position": "PHASE_18_P18_9_VALIDATED_ACTIVATION_OWNER_GATE"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -14,7 +14,7 @@
     "15": "PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED",
     "16": "PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED",
     "17": "PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY",
-    "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / A1_PREFLIGHT_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED"
+    "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -24,7 +24,6 @@
     "phase18_planning": "PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES",
     "phase18_implementation": "PHASE_18_IMPLEMENTATION_AUTHORIZED = YES",
     "phase18_readiness": "PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED",
-    "phase18_a1_preflight": "PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED",
     "phase18_activation": "PHASE_18_SHARED_RUNTIME_ACTIVE = NO",
     "phase18_launch": "EXPLICIT_OWNER_DECISION_PLUS_FRESH_LAUNCH_TIME_VALIDATION_REQUIRED"
   },
@@ -36,48 +35,6 @@
     "backend_https": "NOT_DEPLOYED",
     "public_sharing": "NOT_ACTIVE",
     "paid_providers": "NONE_APPROVED"
-  },
-  "activation_preflight": {
-    "state": "VALIDATED",
-    "gate": "PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED",
-    "classification": "DISPOSABLE_NONPRODUCTION_PREFLIGHT",
-    "canonical_implementation_anchor": "8ac2c92c9351ac1bcea8818e52a819f81868ed92",
-    "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED.md",
-    "github": {
-      "pr": 45,
-      "pr_ci_run_id": 34356839990,
-      "arm64_run_id": 34357091433,
-      "arm64_job_id": 102484414159,
-      "x64_exact_sha_run_id": 34358136924,
-      "x64_exact_sha_job_id": 102487942139,
-      "test_count": 1149
-    },
-    "railway": {
-      "project": "kgm-shared-runtime-preflight",
-      "candidate_service": "kgm-preflight-api-v3",
-      "candidate_service_id": "987c9ab8-4642-4bbb-b0c2-aa86f236790c",
-      "postgres_service": "kgm-preflight-postgres",
-      "postgres_service_id": "7710abe9-942c-4e72-9eff-6a6ae26344cd",
-      "deployment_id": "52c39935-9e89-4f12-82e3-82345c606426",
-      "deployment_status": "SUCCESS",
-      "source_commit_sha": "8ac2c92c9351ac1bcea8818e52a819f81868ed92",
-      "healthcheck": "PASS_HTTP_200",
-      "database_public_tcp_proxy": false,
-      "database_public_domain": false,
-      "database_network": "PRIVATE_ONLY"
-    },
-    "rls": {
-      "runtime_role": "kgm_preflight_runtime",
-      "runtime_role_login": false,
-      "runtime_role_superuser": false,
-      "runtime_role_bypassrls": false,
-      "rls_isolation_observed": true,
-      "alternate_tenant_visible_rows": 0,
-      "startup_acceptance": "PASS"
-    },
-    "new_runtime_role_secret_introduced": false,
-    "canonical_cutover": false,
-    "shared_runtime_active": false
   },
   "verification_authority": "P13.5/P13.6",
   "migrations": {
@@ -204,7 +161,7 @@
     "test_count": 1077,
     "next_gate": "PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED",
     "p18_9_state": "VALIDATED",
-    "real_infrastructure_observation": "NOT_OBSERVED_AT_P18_8_CLOSURE"
+    "real_infrastructure_observation": "NOT_OBSERVED"
   },
   "phase18_p18_9": {
     "state": "VALIDATED",
@@ -215,7 +172,7 @@
     "arm64_run_id": 34176050242,
     "arm64_job_id": 101905532775,
     "test_count": 1106,
-    "real_infrastructure_observation": "NOT_OBSERVED_AT_P18_9_CLOSURE",
+    "real_infrastructure_observation": "NOT_OBSERVED",
     "launch_eligible": false,
     "activation_state": "NOT_AUTHORIZED",
     "next_gate": "EXPLICIT_OWNER_DECISION_PLUS_FRESH_LAUNCH_TIME_VALIDATION_REQUIRED"

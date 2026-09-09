@@ -1,7 +1,7 @@
 # PROJECT_DOCUMENTATION_GOVERNANCE
 
-Version: 1.1
-Status: APPROVED / CURRENT_STATE_SYNCHRONIZED_4_35
+Version: 1.0
+Status: APPROVED
 Project: K-Geopolitical Monitor
 
 ## Purpose
@@ -10,7 +10,7 @@ Defines project-specific documentation governance.
 
 It supplements the canonical file standard:
 
-`AI_general/docs/PROJECT_FILE_STANDARD.md`
+AI_general/docs/PROJECT_FILE_STANDARD.md
 
 ## Documentation principles
 
@@ -28,30 +28,27 @@ These states are not interchangeable.
 
 Primary documents:
 
-- `PROJECT_CONCEPT_FOUNDATION.md` — approved product intent;
-- `ROADMAP.md` — development phases and gates;
-- `docs/state/CURRENT_PROJECT_STATE.json` — machine-readable current-state contract;
-- `PROJECT_DOCUMENTATION_GOVERNANCE.md` — documentation rules;
-- `ARCHITECTURE.md` — system architecture;
-- `DATA_MODELS.md` — data structures;
-- `SOURCE_POLICY.md` — information sources;
-- `VERIFICATION_MODEL.md` — verification rules;
-- `FORECASTING_MODEL.md` — forecast rules;
-- `REPORTING_MODEL.md` — output formats;
-- `TEST_PLAN.md` — validation criteria.
+- PROJECT_CONCEPT_FOUNDATION.md - approved product intent;
+- ROADMAP.md - development phases and gates;
+- PROJECT_DOCUMENTATION_GOVERNANCE.md - documentation rules;
+- ARCHITECTURE.md - system architecture;
+- DATA_MODELS.md - data structures;
+- SOURCE_POLICY.md - information sources;
+- VERIFICATION_MODEL.md - verification rules;
+- FORECASTING_MODEL.md - forecast rules;
+- REPORTING_MODEL.md - output formats;
+- TEST_PLAN.md - validation criteria.
 
 ## Precedence
 
 When conflicts exist:
 
 1. explicit approved owner decision;
-2. canonical source-of-truth document;
-3. approved ADR/decision record;
-4. validated implementation and validation evidence;
+2. canonical source of truth document;
+3. approved ADR;
+4. validated implementation;
 5. non-validated implementation;
-6. historical/recovery materials.
-
-For current machine-readable project position, `docs/state/CURRENT_PROJECT_STATE.json` is authoritative unless superseded by a newer explicit approved owner decision.
+6. historical materials.
 
 ## Document lifecycle
 
@@ -75,13 +72,11 @@ Material changes require:
 5. implementation;
 6. validation.
 
-A validation result does not silently authorize activation, production/live operation, provider spend, canonical migration or cutover.
-
 ## Architecture Decision Records
 
-Major architectural decisions require ADR/decision records.
+Major architectural decisions require ADR records.
 
-Accepted decision records preserve decision history and are not rewritten after acceptance; later changes are recorded in new decisions/checkpoints.
+ADR records preserve decision history and are not rewritten after acceptance.
 
 ## Recovery principle
 
@@ -95,22 +90,8 @@ No implementation should silently redefine approved product intent.
 
 No documentation should claim validated behavior without validation evidence.
 
-Provider/environment labels must not be promoted into KGM operational status. In particular, Railway's environment label `production` does not make the disposable Phase 18 A1 candidate KGM production/live.
-
 ## Current state
 
-- Product Concept: `APPROVED`;
-- Strategic Roadmap: `APPROVED / v4`, roadmap document `4.34`;
-- State synchronization: `4.35`;
-- Implementation: `ACTIVE / PHASES_0_18_IMPLEMENTED_TO_VALIDATED_GATES`;
-- Phase 18 P18.0–P18.9: `VALIDATED`;
-- Phase 18 A1 Railway/PostgreSQL RLS preflight: `VALIDATED`;
-- current position: `PHASE_18_ACTIVATION_A1_VALIDATED_OWNER_ACTIVATION_GATE`;
-- Phase 18 activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
-- canonical runtime storage: `PROJECT_LOCAL_ONLY`;
-- migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
-- production/live: `NOT_OPERATIONAL`;
-- paid providers: `NONE_APPROVED`.
-
-Latest evidence checkpoint:
-`docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED.md`
+Product Concept: APPROVED
+Roadmap: APPROVED
+Implementation: NOT STARTED

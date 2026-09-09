@@ -1,105 +1,150 @@
 # K-Geopolitical Monitor
-
 Global geopolitical monitoring and intelligence platform.
 
-Version: 4.35
-Status: ACTIVE / ROADMAP_V4_34 / PHASE_18_P18_9_VALIDATED / A1_PREFLIGHT_VALIDATED / PHASE_18_NOT_ACTIVATED / OWNER_DECISION_REQUIRED
+Version: 4.20
+Status: ACTIVE / ROADMAP_V4_22 / PHASE_15_VALIDATED / PHASE_17_VALIDATED_READY / PHASE_14_NOT_ACTIVATED / OWNER_ACTIVATION_REQUIRED
 Canonical state contract: `docs/state/CURRENT_PROJECT_STATE.json`
 
 ## Purpose
 
-K-Geopolitical Monitor is a geopolitical decision-support system for discovery, provenance-aware verification, causal and strategic analysis, probabilistic forecasting, reporting, operational monitoring and controlled delivery/publication readiness. It is not a generic news feed, scraper or dashboard.
+K-Geopolitical Monitor supports discovery, provenance-aware verification, geopolitical analysis, forecasting, reporting, operational monitoring, delivery/quality feedback and controlled publication readiness while preserving explicit truth, storage, security and activation boundaries.
 
-Canonical processing line:
+## Canonical Documentation
 
-`Discovery -> Verification -> Analysis -> Relationships -> Forecasting -> Reports`
-
-The project preserves explicit separation between implementation, validation, activation and production/live operation.
-
-## Canonical documentation
-
-- `PROJECT_CONCEPT_FOUNDATION.md` — approved product/mission foundation;
-- `ROADMAP.md` — strategic sequence and validated phase line;
+- `ROADMAP.md` — strategic sequence and authoritative phase state;
 - `docs/state/CURRENT_PROJECT_STATE.json` — machine-readable current-state contract;
 - `ARCHITECTURE.md` — architecture/truth/storage/runtime boundaries;
 - `SECURITY_AND_DATA_POLICY.md` — security/data policy;
-- `EXTERNAL_INTEGRATIONS.md` — integration/source/delivery/publication boundaries;
+- `EXTERNAL_INTEGRATIONS.md` — integration/source/delivery/publication rules;
 - `SOURCE_POLICY.md` — source/provenance governance;
-- `DATA_MODELS.md` — canonical data-model/migration summary;
+- `DATA_MODELS.md` — canonical data-model and migration summary;
 - `PROJECT_HISTORY.md` — chronological project record;
-- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED.md` — latest concrete A1 preflight evidence.
+- `docs/implementation/PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_PLAN.md` — Phase 13 plan/closure record;
+- `docs/implementation/PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_PLAN.md` — Phase 14 validated readiness record;
+- `docs/implementation/PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_PLAN.md` — Phase 15 validated record;
+- `docs/implementation/PHASE_16_DELIVERY_OPERATOR_QUALITY_FEEDBACK_PLAN.md` — Phase 16 validated record;
+- `docs/implementation/PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_PLAN.md` — Phase 17 validated readiness record;
+- `docs/implementation/PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_RESULT.md` — Phase 17 final result;
+- `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-05_PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED_READY.md` — Phase 17 checkpoint;
+- `docs/decisions/PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md` — current account publication capability constraint.
 
-## Current strategic position
+## Current State
 
-Strategic ROADMAP: `APPROVED / v4`, roadmap document version `4.34`.
-State synchronization: `4.35`.
-Current position: `PHASE_18_ACTIVATION_A1_VALIDATED_OWNER_ACTIVATION_GATE`.
-
-Validated development line:
-
-- Phases 0–11: validated historical engineering baseline;
+- strategic ROADMAP: `APPROVED / v4`, state synchronization `4.22`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
-- Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`; P13.5/P13.6 remains the factual-verification authority;
-- Phase 14: `VALIDATED_READY / NOT_ACTIVATED / OWNER_DECISION_REQUIRED`;
+- Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
+- P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
+- P13.1: `P13_1_STRUCTURED_SEMANTIC_CLAIM_MODEL_VALIDATED`;
+- P13.2: `P13_2_PROVENANCE_ORIGIN_RELATION_MODEL_VALIDATED`;
+- P13.3: `P13_3_EVIDENCE_RELATION_INDEPENDENCE_VALIDATED`;
+- P13.4: `P13_4_TYPED_CONTRADICTION_MODEL_VALIDATED`;
+- P13.5: `P13_5_VERIFICATION_POLICY_CONFIDENCE_VALIDATED`;
+- P13.6: `VALIDATED`;
+- Phase 14: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED`;
+- P14.0–P14.6: `VALIDATED`;
 - Phase 15: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`;
+- P15.0–P15.6: `VALIDATED`;
 - Phase 16: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`;
-- Phase 17: `VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`;
-- Phase 18: architecture approved, implementation authorized, P18.0–P18.9 validated at `PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED`;
-- Phase 18 A1: concrete Railway/PostgreSQL non-production RLS preflight validated at `PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED`.
+- P16.0–P16.7: `VALIDATED`;
+- Phase 17: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`;
+- P17.0–P17.6: `VALIDATED`;
+- Phase 17 current account publication capability: `UNAVAILABLE`;
+- Phase 17 activation: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`;
+- Phase 18: `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`;
+- Phase 18 gate: `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`;
+- operational activation: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`;
+- paid providers: `NONE_APPROVED`;
+- runtime storage: `PROJECT_LOCAL_ONLY`;
+- mixed/shared runtime storage: `BLOCKED`;
+- production/live: `NOT_OPERATIONAL`.
 
-## Phase 18 A1 concrete evidence
+Production/live operational status: NOT_OPERATIONAL
+Runtime storage mode: PROJECT_LOCAL_ONLY
 
-Canonical implementation anchor: `8ac2c92c9351ac1bcea8818e52a819f81868ed92`.
+## Phase 13 Strategic Closure
 
-Validation evidence:
+Gate: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`.
+P13.6 implementation / validation anchor: `3b8d75d05168561898ba3fa592d0d7bdad5a5dd4`.
+Strategic closure validation anchor: `7e49f790a36f596cdb8ed3d7d6e17f5ace2787be`.
+- x64 run `33861302915`, job `100986128743`: `497 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33861302926`, job `100986128780`: native `aarch64`, `497 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-- PR #45 CI: `1149 passed / SUCCESS`;
-- exact-SHA native ARM64: run `34357091433`, job `102484414159`, native `aarch64`, `1149 passed in 100.03s / SUCCESS`, bootstrap/unattended/systemd PASS;
-- independent exact-SHA x64: run `34358136924`, job `102487942139`, exact `8ac2c92c9351ac1bcea8818e52a819f81868ed92`, `1149 passed in 202.48s / SUCCESS`;
-- Railway candidate `kgm-preflight-api-v3` repinned to exact canonical SHA;
-- Railway deployment `52c39935-9e89-4f12-82e3-82345c606426`: `SUCCESS`;
-- application startup complete and `/health` returned HTTP 200;
-- startup RLS acceptance: `rls_isolation_observed = true`, `alternate_tenant_visible_rows = 0`;
-- PostgreSQL candidate has no public service domain and no public TCP proxy;
-- runtime role `kgm_preflight_runtime` is non-login, non-superuser and non-BYPASSRLS;
-- no new runtime-role password/DSN/secret was introduced.
+Historical Phase-13 package evidence retained for regression/audit:
+- P13.3 formal closure HEAD `9023dc22d36525b4dc9babbf21d97d184a1c110e`: `438 passed, 1 warning / SUCCESS`;
+- P13.4 validation anchor `d4dbb8a8098cef960194935bd94d4640fd719050`: `447 passed, 1 warning / SUCCESS`;
+- P13.5 validation anchor `0f0d746c538dc5ce8f010fb80f8afbe00685414a`: `475 passed, 2 warnings / SUCCESS`.
 
-Railway's provider environment is named `production`, but under the KGM architecture contract this remains a disposable **non-production preflight candidate**. That provider label does not make KGM production/live.
+Canonical P13.5/P13.6 factual verification remains policy-controlled, provenance-bound and multidimensional. Legacy `verification.py`, `confidence_engine.py`, scalar confidence, host/source counts and `independent_origin_count` remain compatibility state, not canonical truth. P13.6 is a read-only live compatibility cutover/projection; missing instrumentation remains `NOT_INSTRUMENTED`.
 
-## Activation and runtime boundaries
+## Phase 14 Strategic Closure
 
-The A1 PASS does not activate Phase 18.
+Gate: `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY`.
+State: `VALIDATED_READY / NOT_ACTIVATED`.
+Closure validation anchor: `43a26aee7ed677dafd46eb91c510d0e724d558c2`.
+- x64 run `33873131265`, job `101023637949`: `510 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33873131300`, job `101023638027`: native `aarch64`, `510 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
-- `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
-- P18.9 historical launch eligibility remains `FALSE`;
-- migration `033 = NOT_CREATED / NOT_PREAUTHORIZED`;
-- runtime storage = `PROJECT_LOCAL_ONLY`;
-- mixed/shared canonical runtime = `BLOCKED`;
-- `PRODUCTION_LIVE = NOT_OPERATIONAL`;
-- public production KGM API/dashboard ingress = not approved/deployed;
-- database public TCP proxy = none;
-- paid providers = `NONE_APPROVED`;
-- no canonical shared-store cutover has occurred;
-- no real external publication is activated;
-- Phase 14 owner operation remains separately owner-gated.
+Phase 14 is readiness only. `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED` and owner execution remains disabled.
 
-Any transition beyond A1 requires a separate explicit owner decision and fresh launch-time validation. No validation gate auto-promotes into production/live operation.
+## Phase 15 Strategic Closure
 
-## Permanent truth / epistemic boundaries
+Gate: `PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED`.
+Closure validation anchor: `77b444e2c89f763e56acc22183c74634ea993573`.
+- x64 run `33906546408`, job `101132699703`: `576 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33906546431`, job `101132700003`: native `aarch64`, `576 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Phase 15 adds provenance-bound outcome resolution, calibration observations and exact-cohort performance intelligence. Forecast probability, Brier/ECE, bias/drift and sample metrics cannot promote factual verification.
+
+## Phase 16 Strategic Closure
+
+Gate: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`.
+Closure validation anchor: `18c2d5eed4145500bf72bbeeb0b6bbc92e8c7553`.
+- x64 run `33920882676`, job `101178676207`: `638 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33920882682`, job `101178676586`: native `aarch64`, `638 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Phase 16 validates deterministic delivery intent/audit, redaction, provider-neutral local/test transport, delivery receipts, operator feedback and advisory quality observations. No real external provider is activated. Delivery/feedback state cannot promote factual verification.
+
+## Phase 17 Strategic Readiness Closure
+
+Readiness gate: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`.
+State: `VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`.
+Closure validation anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`.
+- x64 run `33937240088`, job `101227433133`: `716 passed, 2 warnings / SUCCESS`;
+- native ARM64 run `33937240097`, job `101227433249`: native `aarch64`, `716 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+
+Phase 17 validates publication eligibility, public-safe projection/redaction, deterministic release manifests/packages and a provider-neutral local/test target only. Real publication is not activated. The current account capability is `UNAVAILABLE`; owner approval alone cannot bypass `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`. If capability becomes available later, publication still requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` and fresh launch-time validation. Migration `033` is `NOT_CREATED / NOT_PREAUTHORIZED`.
+
+## Truth / Epistemic Boundaries
 
 - publisher/publication is not automatically the underlying origin;
 - repost/syndication/translation/citation does not create independent corroboration;
-- official-source status proves that a source made a statement, not automatically that the underlying event occurred;
-- source reputation, health, freshness, coverage and adapter/domain/item counts are not truth operators;
+- official-source status proves the source made a statement, not automatically the underlying event claim;
+- source reputation/status, source health and freshness are not truth operators;
 - semantic extraction confidence is not factual verification confidence;
 - count-only verification promotion is forbidden;
 - graph inference is analytical context, not source evidence;
 - forecast probability/confidence cannot promote factual verification;
-- delivery state, receipts, publication eligibility and engagement cannot promote factual verification;
+- coverage confidence cannot promote factual verification confidence;
+- delivery state, receipts and feedback cannot promote factual verification;
+- publication eligibility, receipts and engagement cannot promote factual verification;
 - `GLOBAL` is scope, not proof of exhaustive world coverage;
-- missing/uninstrumented evidence remains explicit and is never reconstructed as exact;
+- missing/uninstrumented tool history is never reconstructed and labeled exact;
 - public-web research is not a substitute for unavailable persisted backend/runtime state.
 
-## Latest checkpoint
+## Runtime / Security State
 
-`docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED.md`
+- owner-only OCI Ubuntu 24.04 ARM64 runtime remains the validated runtime line;
+- public KGM HTTP/HTTPS/database/API/dashboard ingress: not approved/not deployed;
+- backend HTTPS: not deployed;
+- private GPT backend Action: not connected;
+- public sharing: not active;
+- production/live: not operational;
+- paid providers: `NONE_APPROVED`;
+- runtime storage: `PROJECT_LOCAL_ONLY`;
+- mixed/shared canonical runtime: `BLOCKED`.
+
+## ROADMAP Position
+
+Phase 17 engineering/readiness is closed. The next strategic boundary is Phase 18 — Shared / Team Runtime — `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`.
+
+No Phase 18 implementation, shared runtime transition, production launch, public publication, owner operational activation or paid-provider activation is implied by this state. `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL` remains the next architecture gate.
