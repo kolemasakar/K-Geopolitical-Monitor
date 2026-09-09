@@ -1,6 +1,6 @@
 # KGM Tailscale + Ansible Control Plane
 
-Status: **ACCEPTED / OPERATIONAL**
+Status: **ACCEPTED / OPERATIONAL / SENTINELX RETIRED**
 
 Date: 2026-09-09
 
@@ -23,6 +23,7 @@ GitHub workflow_dispatch
 ## Security invariants
 
 - K-Trader SentinelX is unchanged.
+- KGM SentinelX has been removed from the KGM host after replacement acceptance.
 - `kgmops` is a dedicated unprivileged account.
 - `kgmops` is not in `docker`, `kgm`, or other application groups.
 - No unrestricted sudo.
@@ -42,6 +43,9 @@ GitHub workflow_dispatch
 - `ops/tailscale/kgm-tailnet-policy.hujson`
 - `ops/ansible/kgm_control.yml`
 - `docs/ops/KGM_TAILSCALE_ANSIBLE_CONTROL_PLANE_ACCEPTANCE_2026_09_09.md`
+- `docs/ops/KGM_SENTINELX_RETIREMENT_2026_09_09.md`
+
+The former `.github/workflows/sentinelx-kgm-bootstrap.yml` and the one-shot `.github/workflows/sentinelx-kgm-cleanup.yml` were removed after successful retirement to prevent accidental reinstallation or rerun.
 
 ## Tailnet policy state
 
@@ -97,13 +101,54 @@ Run: `34385726741`
 - recap: `ok=11 changed=1 unreachable=0 failed=0 skipped=0`
 - terminal gate: `KGM_TAILSCALE_ANSIBLE_CONTROL=PASS`
 
+## KGM SentinelX retirement — PASS
+
+Cleanup run: `34388121721`
+
+Pre-removal audit confirmed the exact retired KGM SentinelX footprint:
+
+- host ID: `host_a2767ee5915c4cfe`
+- core SHA: `e1be3162b22a4b0c744e0443c9f9b62f8fdb21a4`
+- KGM Tailscale address: `100.102.136.23`
+- KGM service active and enabled
+- Tailscale active, enabled, online, and tagged `tag:kgm`
+- `kgmops` least-privilege gates intact
+
+The cleanup then removed only the KGM SentinelX footprint:
+
+- `sentinelx-cloud-core.service`
+- `/etc/sentinelx`
+- `/opt/sentinelx-cloud-core`
+- `/etc/sudoers.d/sentinelx-kgm`
+- `/usr/local/sbin/sentinelx-kgm-journal`
+- `/var/lib/sentinelx/uploads`
+- local `sentinelx` user/group
+
+Post-removal validation:
+
+```text
+KGM_SENTINELX_CLEANUP=PASS
+kgm_service=active
+kgm_tailscale_ip=100.102.136.23
+runtime_db_read=DENIED
+kgmops_arbitrary_root=DENIED
+```
+
+SentinelX hub inventory after cleanup shows only the operational K-Trader host; KGM is no longer connected/parked.
+
 ## Current decision
 
 The KGM Tailscale + GitHub Actions OIDC + Tailscale SSH + Ansible control plane is accepted for normal remote operational control.
 
-KGM SentinelX is still enrolled but parked and is no longer required for normal KGM operations. Any retirement/removal of that parked SentinelX enrollment is a separate cleanup decision.
+KGM SentinelX is retired. K-Trader remains the sole SentinelX-managed dominant host.
 
 KRC-Cobalt remains outside this acceptance and on implementation HOLD until separately reviewed and approved.
+
+## Remaining credential hygiene
+
+The obsolete GitHub repository secret `SENTINELX_ENROLL_TOKEN` should be deleted manually from `kolemasakar/K-Geopolitical-Monitor`. The GitHub connector cannot read or delete Actions secrets. This token is no longer used by any retained KGM workflow.
+
+The one-time `TS_KGM_AUTH_KEY` is also no longer required for normal operation after enrollment and can be removed from GitHub repository secrets. Keep `TS_OAUTH_CLIENT_ID` and `TS_AUDIENCE` for the operational control workflow.
 
 ## Version baselines
 
