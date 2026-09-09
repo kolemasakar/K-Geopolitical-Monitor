@@ -96,3 +96,23 @@ Start.me is non-canonical and limited to public, non-sensitive navigation/source
 
 Production/live operational status: NOT_OPERATIONAL
 Runtime storage mode: PROJECT_LOCAL_ONLY
+
+## Current-State Addendum — Phase 18 A1 (2026-09-09)
+
+The historical pre-Phase-18 integration wording above is retained verbatim for regression/audit continuity. Phase 18 architecture has since been explicitly approved, P18.0–P18.9 have been validated, and the bounded A1 Railway/PostgreSQL non-production candidate has produced concrete preflight evidence.
+
+- Railway project: `kgm-shared-runtime-preflight`;
+- canonical A1 application candidate: `kgm-preflight-api-v3`;
+- candidate source pin: `8ac2c92c9351ac1bcea8818e52a819f81868ed92`;
+- deployment: `52c39935-9e89-4f12-82e3-82345c606426 / SUCCESS`;
+- PostgreSQL candidate: `kgm-preflight-postgres`, private-only, no public service domain, no public TCP proxy;
+- startup RLS isolation: PASS (`rls_isolation_observed=true`, `alternate_tenant_visible_rows=0`);
+- no new runtime-role secret was introduced;
+- free/free-trial preflight use does not approve Railway as the future canonical shared-runtime provider and does not authorize paid use;
+- `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
+- migration `033 = NOT_CREATED / NOT_PREAUTHORIZED`;
+- `PAID_PROVIDERS = NONE_APPROVED`;
+- canonical storage remains `PROJECT_LOCAL_ONLY`;
+- `PRODUCTION_LIVE = NOT_OPERATIONAL`.
+
+Strategic machine state remains at synchronization `4.34` until a separate formal activation synchronization gate.
