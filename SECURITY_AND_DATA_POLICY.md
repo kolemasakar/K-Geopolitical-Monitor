@@ -1,7 +1,7 @@
 # SECURITY_AND_DATA_POLICY
 
-Version: 1.0
-Status: APPROVED / ROADMAP_V4_22_SYNCHRONIZED / PHASE_17_BOUNDARIES_CURRENT
+Version: 1.1
+Status: APPROVED / ROADMAP_V4_34_SYNCHRONIZED / PHASE_18_A1_PREFLIGHT_VALIDATED / NOT_ACTIVATED
 Canonical state contract: `docs/state/CURRENT_PROJECT_STATE.json`
 
 ## Principles
@@ -10,14 +10,19 @@ Canonical state contract: `docs/state/CURRENT_PROJECT_STATE.json`
 - Use least privilege unless an explicit owner-approved exception exists.
 - Keep credentials/secrets out of repository state and routine logs.
 - Security/operational claims require reproducible evidence.
-- Governance, adapter, language, availability, freshness, forecast, delivery or publication metadata cannot be promoted into factual truth or production acceptance.
+- Governance, adapter, language, availability, freshness, forecast, delivery, publication or provider metadata cannot be promoted into factual truth or production acceptance.
+- `IMPLEMENTED != VALIDATED != ACTIVATED != PRODUCTION_LIVE`.
 
 ## Canonical Storage
 
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - shared/mixed canonical runtime storage: `BLOCKED`;
-- direct cross-project canonical mutation is prohibited without a new architecture approval;
-- Phase 18 shared/team runtime remains `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`.
+- direct cross-project canonical mutation remains prohibited;
+- Phase 18 P18.0–P18.9 are validated architecture/readiness contracts;
+- A1 is a disposable non-production infrastructure preflight only;
+- `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
+- migration `033 = NOT_CREATED / NOT_PREAUTHORIZED`;
+- no canonical shared-store cutover has occurred.
 
 Runtime storage mode: PROJECT_LOCAL_ONLY
 Production/live operational status: NOT_OPERATIONAL
@@ -27,58 +32,73 @@ Production/live operational status: NOT_OPERATIONAL
 - credentials, tokens and private keys are not stored in repository files;
 - credentialed integrations require explicit approval and platform secret handling;
 - secret-bearing URLs/commands and authorization headers must not enter routine logs;
-- Phase 16/17 redaction and data minimization occur before transport/export boundaries.
+- redaction and data minimization occur before transport/export boundaries;
+- A1 introduced no new runtime-role password, DSN or secret;
+- documented Railway variable names are configuration metadata only; secret values remain excluded.
+
+## Phase 18 A1 Security Evidence
+
+Canonical implementation anchor: `8ac2c92c9351ac1bcea8818e52a819f81868ed92`.
+
+Validated A1 controls:
+
+- runtime execution role: `kgm_preflight_runtime`;
+- `NOLOGIN`, `NOSUPERUSER`, `NOBYPASSRLS`, `NOCREATEDB`, `NOCREATEROLE`, `NOINHERIT`;
+- minimal schema/table grants;
+- tenant operations use transaction-local role switching;
+- startup fails closed unless RLS isolation is observed and alternate-tenant visible rows equal zero;
+- live accepted result: `rls_isolation_observed=true`, `alternate_tenant_visible_rows=0`;
+- Railway deployment `52c39935-9e89-4f12-82e3-82345c606426`: `SUCCESS`;
+- application health: HTTP 200;
+- PostgreSQL public service domain: none;
+- PostgreSQL public TCP proxy: none;
+- database network exposure: private-only provider internal network.
+
+Railway's environment name `production` is provider metadata and must not be interpreted as KGM production/live status.
 
 ## Owner-Only Runtime
 
-E9A remains `OWNER_ONLY_PRODUCTION_CANDIDATE_READY / COMPLETE`.
+E9A remains the validated owner-only OCI runtime line. Phase 14 remains `VALIDATED_READY / NOT_ACTIVATED` and `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
 
-Remaining explicit owner-approved candidate networking exceptions:
-- public SSH TCP/22 from `0.0.0.0/0`;
-- broad outbound egress.
-
-Phase 14 is `PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED` and `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`.
+Historical owner-approved candidate networking exceptions remain documented separately and do not authorize new shared/public KGM ingress.
 
 ## Source / Adapter Security Rules
 
 Historical Phase 12 rules remain mandatory:
+
 - public-anonymous sources cannot require credentials;
 - approved sources require governed adapter identity/version and outbound host;
 - public-anonymous acquisition is read-only HTTPS GET;
 - non-HTTPS URLs, URL credentials and credential-bearing headers fail closed;
 - timeout, response-size and record-count bounds apply;
 - source failures remain isolated and visible;
-- paid provider approval requires separate explicit owner approval.
-
-European Parliament remains a retained historical governed `DEGRADED` source where unattended acquisition was measured `UNAVAILABLE / PARSER`; no anti-bot bypass is authorized. Historical P12.5 observations for Haberturk and OSCE remain explicit and non-promotional to truth.
+- paid-provider approval requires separate explicit owner approval.
 
 ## Semantic / Forecast / Delivery Security Boundary
 
 - P13.5/P13.6 is the canonical factual-verification authority;
 - legacy scalar/count verification metadata cannot bypass it;
-- Phase 15 forecast probability/calibration/performance state cannot promote factual verification;
-- Phase 16 delivery receipts, acknowledgements and operator feedback cannot promote factual verification;
-- real external delivery providers remain `NOT_ACTIVATED` unless separately approved;
+- forecast probability/calibration/performance cannot promote factual verification;
+- delivery receipts, acknowledgements and operator feedback cannot promote factual verification;
+- real external delivery/publication providers remain `NOT_ACTIVATED` unless separately approved;
 - provider failures are isolated from canonical intelligence persistence.
 
 ## Phase 17 Public-Safety Boundary
 
-Phase 17 is `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED`.
+Phase 17 remains `VALIDATED_READY / NOT_ACTIVATED`.
 
 - current account publication capability: `UNAVAILABLE`;
-- capability gate: `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`;
-- activation gate: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`;
-- owner approval alone cannot bypass unavailable platform/account capability;
+- owner approval alone cannot bypass unavailable account/platform capability;
 - strict public allowlists, redaction and data minimization precede export;
 - owner/admin tokens, credentials, private DB paths, raw operator feedback and non-public diagnostics are forbidden in public payloads;
 - release receipts/engagement are not truth operators;
-- migration `033` is `NOT_CREATED / NOT_PREAUTHORIZED`;
 - external publication targets remain `NOT_ACTIVATED`.
 
 ## Public Exposure Boundary
 
-- public KGM HTTP/HTTPS/API/dashboard ingress: `NOT_APPROVED / NOT_DEPLOYED`;
-- backend HTTPS: `NOT_DEPLOYED`;
+- production KGM HTTP/HTTPS/API/dashboard ingress: `NOT_APPROVED / NOT_DEPLOYED`;
+- disposable A1 API provider-generated HTTPS endpoint is permitted solely as non-production preflight surface;
+- A1 PostgreSQL public ingress: none;
 - private GPT Action: `NOT_CONNECTED`;
 - public GPT sharing: `NOT_ACTIVE`;
 - production/live: `NOT_OPERATIONAL`;
@@ -91,13 +111,14 @@ Start.me must not store credentials, private endpoints, canonical monitoring/run
 
 ## Current State
 
-- Phase 12 source/security baseline: `VALIDATED_WITH_KNOWN_LIMITATIONS`;
-- Phase 13 semantic verification: `VALIDATED`;
-- Phase 14: `VALIDATED_READY / NOT_ACTIVATED / OWNER_DECISION_REQUIRED`;
-- Phase 15: `VALIDATED`;
-- Phase 16: `VALIDATED`;
-- Phase 17: `VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`;
-- Phase 18: `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`;
+- state synchronization: `4.35`;
+- Phase 12–18 validated gates remain as recorded in `ROADMAP.md` and `CURRENT_PROJECT_STATE.json`;
+- Phase 18 A1 live non-production RLS preflight: `VALIDATED`;
+- Phase 18 shared runtime: `NOT_ACTIVATED`;
 - paid providers: `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
+- migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - production/live: `NOT_OPERATIONAL`.
+
+Latest A1 evidence:
+`docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED.md`
