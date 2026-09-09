@@ -100,3 +100,22 @@ Start.me remains non-canonical.
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared runtime: `BLOCKED`;
 - production/live: `NOT_OPERATIONAL`.
+
+## Current-State Addendum — Phase 18 A1 (2026-09-09)
+
+The pre-Phase-18 architecture-position text above is retained verbatim as historical regression evidence. It is superseded for current interpretation by the approved Phase 18 architecture and the additive A1 preflight record.
+
+- Phase 18 architecture: approved by owner; implementation authorized;
+- P18.0–P18.9: validated through `PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED`;
+- A1 live preflight gate: `PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED`;
+- exact implementation anchor: `8ac2c92c9351ac1bcea8818e52a819f81868ed92`;
+- restricted `kgm_preflight_runtime` role is non-login, non-superuser and non-BYPASSRLS with transaction-local role switching;
+- live RLS isolation accepted with `rls_isolation_observed=true` and `alternate_tenant_visible_rows=0`;
+- Railway API candidate deployed successfully; PostgreSQL remains private-only with no public TCP proxy;
+- A1 is disposable non-production preflight, not canonical shared runtime;
+- machine-readable strategic state deliberately remains at synchronization `4.34` / `PHASE_18_P18_9_VALIDATED_ACTIVATION_OWNER_GATE` until a formal activation synchronization gate;
+- `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
+- canonical runtime storage remains `PROJECT_LOCAL_ONLY`;
+- migration `033 = NOT_CREATED / NOT_PREAUTHORIZED`;
+- `PAID_PROVIDERS = NONE_APPROVED`;
+- `PRODUCTION_LIVE = NOT_OPERATIONAL`.

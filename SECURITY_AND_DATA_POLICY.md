@@ -101,3 +101,22 @@ Start.me must not store credentials, private endpoints, canonical monitoring/run
 - paid providers: `NONE_APPROVED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.
+
+## Current-State Addendum — Phase 18 A1 (2026-09-09)
+
+The historical Phase 18 wording above is retained verbatim for regression/audit continuity. Current approved architecture has progressed through P18.0–P18.9 validation, and A1 concrete non-production security preflight is now validated.
+
+- A1 exact implementation anchor: `8ac2c92c9351ac1bcea8818e52a819f81868ed92`;
+- runtime execution role: `kgm_preflight_runtime` with `NOLOGIN / NOSUPERUSER / NOBYPASSRLS / NOCREATEDB / NOCREATEROLE / NOINHERIT` and minimal grants;
+- tenant operations use transaction-local role switching;
+- live startup acceptance: `rls_isolation_observed = true`, `alternate_tenant_visible_rows = 0`;
+- Railway deployment `52c39935-9e89-4f12-82e3-82345c606426`: `SUCCESS`; `/health` HTTP 200;
+- A1 PostgreSQL public service domain: none; public TCP proxy: none; database network private-only;
+- no new runtime-role password, DSN or secret was introduced;
+- provider environment label `production` does not change the KGM classification: disposable non-production preflight;
+- `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
+- migration `033 = NOT_CREATED / NOT_PREAUTHORIZED`;
+- `PAID_PROVIDERS = NONE_APPROVED`;
+- `PRODUCTION_LIVE = NOT_OPERATIONAL`.
+
+Strategic machine state remains intentionally frozen at synchronization `4.34` until a separate formal activation synchronization gate.

@@ -148,3 +148,28 @@ Phase 17 validates publication eligibility, public-safe projection/redaction, de
 Phase 17 engineering/readiness is closed. The next strategic boundary is Phase 18 — Shared / Team Runtime — `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED`.
 
 No Phase 18 implementation, shared runtime transition, production launch, public publication, owner operational activation or paid-provider activation is implied by this state. `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL` remains the next architecture gate.
+
+## Current-State Addendum — Phase 18 A1 (2026-09-09)
+
+The historical summary above is retained verbatim because canonical regression tests bind earlier gate evidence to this file. For current interpretation, the later validated Phase 18 records and this additive A1 preflight evidence take precedence.
+
+- Phase 18 architecture: owner-approved; implementation authorized;
+- P18.0–P18.9: validated through `PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED`;
+- A1 live preflight: `PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED`;
+- exact implementation anchor: `8ac2c92c9351ac1bcea8818e52a819f81868ed92`;
+- exact-SHA validation: x64 `1149 passed`, native ARM64 `1149 passed`;
+- Railway deployment `52c39935-9e89-4f12-82e3-82345c606426`: `SUCCESS`, health check HTTP 200;
+- restricted runtime role `kgm_preflight_runtime`: `NOLOGIN / NOSUPERUSER / NOBYPASSRLS`;
+- live RLS isolation accepted with `rls_isolation_observed=true` and `alternate_tenant_visible_rows=0`;
+- PostgreSQL remains private-only; no public database TCP proxy/domain;
+- no new runtime-role password, DSN or secret was introduced;
+- A1 remains disposable non-production preflight only;
+- strategic machine state intentionally remains at synchronization `4.34` / `PHASE_18_P18_9_VALIDATED_ACTIVATION_OWNER_GATE` until a separate formal synchronization gate;
+- `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
+- `P18_9_LAUNCH_ELIGIBLE = FALSE`;
+- migration `033 = NOT_CREATED / NOT_PREAUTHORIZED`;
+- runtime storage remains `PROJECT_LOCAL_ONLY`; mixed/shared canonical runtime remains `BLOCKED`;
+- `PAID_PROVIDERS = NONE_APPROVED`;
+- `PRODUCTION_LIVE = NOT_OPERATIONAL`.
+
+A1 evidence checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED.md`.
