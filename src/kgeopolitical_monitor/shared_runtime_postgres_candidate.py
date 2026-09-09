@@ -20,7 +20,15 @@ PREFLIGHT_SCHEMA = "kgm_preflight"
 PREFLIGHT_TABLE = "tenant_probe"
 PREFLIGHT_PROFILE = "shared_runtime_nonprod_candidate"
 PREFLIGHT_MODE = "synthetic_nonprod"
-PRIVATE_NETWORK_MARKER = "render_private"
+RENDER_PRIVATE_NETWORK_MARKER = "render_private"
+RAILWAY_PRIVATE_NETWORK_MARKER = "railway_private"
+APPROVED_PRIVATE_NETWORK_MARKERS = frozenset(
+    {RENDER_PRIVATE_NETWORK_MARKER, RAILWAY_PRIVATE_NETWORK_MARKER}
+)
+# Preserve the historical Render default for backward-compatible tests and
+# previously recorded Render evidence. Concrete deployments should set the
+# provider-accurate marker explicitly.
+PRIVATE_NETWORK_MARKER = RENDER_PRIVATE_NETWORK_MARKER
 RLS_ISOLATION_PROBE_ID = "rls-isolation-marker"
 
 _TEXT_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$")
@@ -88,9 +96,9 @@ class PreflightCandidateSettings:
             raise PreflightConfigurationError(
                 "candidate mode must be synthetic_nonprod"
             )
-        if self.database_network != PRIVATE_NETWORK_MARKER:
+        if self.database_network not in APPROVED_PRIVATE_NETWORK_MARKERS:
             raise PreflightConfigurationError(
-                "candidate database network must be render_private"
+                "candidate database network must use an approved private-network marker"
             )
 
     @property
