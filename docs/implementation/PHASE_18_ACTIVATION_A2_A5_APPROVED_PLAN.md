@@ -133,3 +133,17 @@ Until a separate explicit activation decision:
 - `MIGRATION_033 = NOT_CREATED / NOT_PREAUTHORIZED`;
 - `BETA_PAID_RESOURCES = NOT_CONSIDERED / NOT_AUTHORIZED`;
 - `PRODUCTION_LIVE = NOT_OPERATIONAL`.
+
+## 8. Execution Status Addendum — 2026-09-09
+
+The approved plan above remains authoritative. Execution has now advanced within A2:
+
+- `A2.1 — Network / TLS / Exposure = VALIDATED`;
+- gate: `PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_VALIDATED`;
+- accepted external probe: workflow run `34368911806`, job `102524751017`;
+- checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_VALIDATED.md`;
+- result: `docs/implementation/PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_RESULT.md`;
+- next executable stage: `A2.2 — Tenant / RBAC / Security Negative Matrix`;
+- parent A2 gate remains unsatisfied until A2.2 and A2.3 are validated.
+
+This execution addendum does not change strategic machine state `4.34`, activate shared runtime, authorize paid resources, or create/authorize migration `033`.
