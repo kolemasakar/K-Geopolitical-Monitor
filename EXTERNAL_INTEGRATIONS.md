@@ -1,12 +1,12 @@
 # EXTERNAL_INTEGRATIONS
 
-Version: 2.0
-Status: APPROVED / ROADMAP_V4_22_SYNCHRONIZED / PHASE_17_CURRENT
+Version: 2.1
+Status: APPROVED / ROADMAP_V4_34_SYNCHRONIZED / PHASE_18_A1_PREFLIGHT_VALIDATED / NOT_ACTIVATED
 Canonical state contract: `docs/state/CURRENT_PROJECT_STATE.json`
 
 ## Purpose
 
-Define governance rules for public sources, external services, cross-project resources, delivery/publication targets and non-canonical operator tools.
+Define governance rules for public sources, external services, cross-project resources, delivery/publication targets, shared-runtime candidates and non-canonical operator tools.
 
 ## Source Integration Baseline
 
@@ -19,13 +19,7 @@ Phase 12 source-governance and adapter framework remains validated:
 
 Validated source starting integrations include Consilium Press Releases RSS and GDELT DOC 2.0. GDELT indexing/discovery is not independent factual corroboration.
 
-Retained Phase 12 gates:
-- `P12_3_AUTHORITATIVE_SOURCE_PACK_VALIDATED`;
-- `P12_4_LOCAL_LANGUAGE_DISCOVERY_VALIDATED`;
-- `P12_5_SOURCE_HEALTH_EGRESS_INVENTORY_VALIDATED`;
-- `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED`.
-
-Historical source observations remain visible: European Parliament `UNAVAILABLE / PARSER` with governed `DEGRADED`; Haberturk `UNAVAILABLE / UNKNOWN` in the P12.5 probe; OSCE acquisition healthy with observed content stale. The `uk/ru/pl/tr` slice is not global language coverage.
+Historical source observations remain visible and truth-neutral, including European Parliament `UNAVAILABLE / PARSER` with governed degradation and other recorded Phase 12 availability/freshness limitations.
 
 ## Integration Truth Boundary
 
@@ -45,7 +39,7 @@ Forecast outcome/calibration/performance layers may reference persisted provenan
 Phase 16 is `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`.
 
 - provider-neutral transport contract is validated with deterministic local/in-memory sinks;
-- Telegram, email, Slack, SMS, push, webhook and other real external delivery channels remain outside validated activation scope;
+- Telegram, email, Slack, SMS, push, webhook and other real external delivery channels remain outside validated activation scope unless separately approved;
 - no real external delivery provider is activated;
 - credentials are not persisted in canonical delivery records;
 - redaction/data minimization precedes transport;
@@ -53,29 +47,52 @@ Phase 16 is `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`.
 
 ## Phase 17 Publication Integration Boundary
 
-Phase 17 is `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED`.
+Phase 17 is `VALIDATED_READY / NOT_ACTIVATED`.
 
-- validated target is provider-neutral local/in-memory/test only;
+- validated target remains provider-neutral local/in-memory/test only;
 - current account external-publication capability: `UNAVAILABLE`;
-- `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY` is active;
-- any future real publication requires both available platform capability and `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus fresh launch-time validation;
-- public API/dashboard ingress remains not approved/deployed;
+- any future real publication requires available platform capability plus explicit owner activation and fresh launch-time validation;
+- production public API/dashboard ingress remains not approved/deployed;
 - public GPT Action remains not connected/approved;
-- public sharing remains `NOT_ACTIVE`;
-- migration `033` is `NOT_CREATED / NOT_PREAUTHORIZED`.
+- public sharing remains `NOT_ACTIVE`.
+
+## Phase 18 Shared-Runtime Integration Boundary
+
+Phase 18 architecture is approved and implementation is authorized. P18.0–P18.9 are validated. This supersedes the former `NEW_ARCHITECTURE_APPROVAL_REQUIRED` wording.
+
+A1 now provides concrete disposable non-production candidate evidence:
+
+- Railway project: `kgm-shared-runtime-preflight`;
+- canonical A1 application service: `kgm-preflight-api-v3`;
+- PostgreSQL candidate: `kgm-preflight-postgres`;
+- exact source pin: `8ac2c92c9351ac1bcea8818e52a819f81868ed92`;
+- deployment `52c39935-9e89-4f12-82e3-82345c606426`: `SUCCESS`;
+- healthcheck `/health`: HTTP 200;
+- live startup RLS isolation: PASS;
+- database public service domain: none;
+- database public TCP proxy: none;
+- database network: provider-private internal network;
+- no new runtime-role password/DSN/secret was introduced.
+
+This integration remains a **non-production preflight**. Railway's environment name `production` is provider metadata only and does not change KGM operational state.
+
+The generated A1 API HTTPS endpoint is permitted only as a disposable preflight surface. It is not canonical production KGM API/dashboard ingress.
 
 ## Cross-Project Boundary
 
-- architecture remains hybrid in the historical infrastructure sense, but canonical runtime storage is `PROJECT_LOCAL_ONLY`;
-- no shared runtime database;
+- historical infrastructure may be hybrid, but canonical runtime storage is `PROJECT_LOCAL_ONLY`;
+- no shared canonical runtime database is active;
 - no implicit mixed canonical storage;
 - no direct writes to another project's canonical store;
-- Phase 18 shared/team runtime is `CONDITIONAL / NEW_ARCHITECTURE_APPROVAL_REQUIRED` and requires `PHASE_18_REQUIRES_NEW_ARCHITECTURE_APPROVAL`.
+- A1 does not authorize canonical data migration or cross-project canonical mutation;
+- `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`.
 
 ## Credentials / Paid Providers
 
 Credentialed sources/targets require explicit approval and external secret handling.
 Paid providers: `NONE_APPROVED`.
+
+A free/free-trial disposable preflight candidate is not equivalent to approval of a paid provider or future shared-runtime provider selection.
 
 ## Start.me
 
@@ -84,13 +101,17 @@ Start.me is non-canonical and limited to public, non-sensitive navigation/source
 
 ## Current State
 
+- state synchronization: `4.35`;
 - Phase 12 source portfolio/adapters: validated with recorded limitations;
 - Phase 13 verification/provenance: validated;
 - Phase 16 delivery integration architecture: validated, real providers not activated;
-- Phase 17 publication readiness: validated, real publication not activated and current account capability unavailable;
-- Phase 18 shared/team integrations: conditional, new architecture approval required;
+- Phase 17 publication readiness: validated, real publication not activated;
+- Phase 18 P18.0–P18.9: validated;
+- Phase 18 A1 concrete Railway/PostgreSQL RLS preflight: validated;
+- Phase 18 shared runtime: `NOT_ACTIVATED`;
+- migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - paid providers: `NONE_APPROVED`;
-- public KGM ingress: `NOT_APPROVED / NOT_DEPLOYED`;
+- production KGM public ingress: `NOT_APPROVED / NOT_DEPLOYED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - production/live: `NOT_OPERATIONAL`.
 
