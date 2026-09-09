@@ -24,10 +24,12 @@
         that:
           - remote_identity.stdout == 'kgmops'
 
-    - name: Read deployed repository SHA
+    - name: Read deployed repository SHA without persisting Git trust
       ansible.builtin.command:
         argv:
           - /usr/bin/git
+          - -c
+          - "safe.directory={{ project_root }}"
           - -C
           - "{{ project_root }}"
           - rev-parse
