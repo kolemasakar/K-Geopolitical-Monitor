@@ -1,0 +1,173 @@
+name: KGM Tailscale Control-Plane Bootstrap
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/tailscale-kgm-bootstrap.yml
+      - ops/tailscale/**
+      - ops/ansible/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kgm-tailscale-bootstrap
+  cancel-in-progress: false
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      E4_HOST: ${{ secrets.E4_HOST }}
+      E4_SSH_PRIVATE_KEY: ${{ secrets.E4_SSH_PRIVATE_KEY }}
+      E4_SSH_KNOWN_HOSTS: ${{ secrets.E4_SSH_KNOWN_HOSTS }}
+      TS_KGM_AUTH_KEY: ${{ secrets.TS_KGM_AUTH_KEY }}
+      TAILSCALE_MIN_VERSION: 1.102.1
+
+    steps:
+      - name: Validate existing recovery/bootstrap SSH channel
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$E4_HOST"
+          test -n "$E4_SSH_PRIVATE_KEY"
+          test -n "$E4_SSH_KNOWN_HOSTS"
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$E4_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_kgm_bootstrap"
+          chmod 0600 "$HOME/.ssh/id_kgm_bootstrap"
+          printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 0600 "$HOME/.ssh/known_hosts"
+
+      - name: Prepare dedicated least-privilege operations identity
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_kgm_bootstrap" \
+            -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 \
+            "ubuntu@$E4_HOST" 'sudo -n bash -s' <<'REMOTE'
+          set -Eeuo pipefail
+
+          test "$(uname -m)" = aarch64
+          . /etc/os-release
+          test "$ID" = ubuntu
+          test "$VERSION_ID" = 24.04
+          test "$(systemctl is-active kgm-monitor.service)" = active
+          test "$(systemctl is-enabled kgm-monitor.service)" = enabled
+
+          if ! id kgmops >/dev/null 2>&1; then
+            useradd --create-home --shell /bin/bash kgmops
+            passwd -l kgmops >/dev/null 2>&1 || true
+          fi
+
+          id -nG kgmops | tr ' ' '\n' | grep -Fx docker >/dev/null && {
+            echo 'kgmops must not be in docker group' >&2; exit 41; }
+          id -nG kgmops | tr ' ' '\n' | grep -Fx kgm >/dev/null && {
+            echo 'kgmops must not be in kgm group' >&2; exit 42; }
+
+          cat > /usr/local/sbin/kgmops-journal <<'HELPER'
+          #!/usr/bin/env bash
+          set -Eeuo pipefail
+          test "$#" -le 1
+          n="${1:-100}"
+          case "$n" in ''|*[!0-9]*) exit 2 ;; esac
+          test "$n" -ge 1
+          test "$n" -le 500
+          exec /usr/bin/journalctl -u kgm-monitor.service -n "$n" --no-pager
+          HELPER
+          chown root:root /usr/local/sbin/kgmops-journal
+          chmod 0755 /usr/local/sbin/kgmops-journal
+
+          cat > /etc/sudoers.d/kgmops-control <<'SUDOERS'
+          Cmnd_Alias KGMOPS_SYSTEMD = /usr/bin/systemctl status kgm-monitor.service, /usr/bin/systemctl restart kgm-monitor.service, /usr/bin/systemctl is-active kgm-monitor.service, /usr/bin/systemctl is-enabled kgm-monitor.service
+          Cmnd_Alias KGMOPS_LOG = /usr/local/sbin/kgmops-journal *
+          kgmops ALL=(root) NOPASSWD: KGMOPS_SYSTEMD, KGMOPS_LOG
+          SUDOERS
+          chown root:root /etc/sudoers.d/kgmops-control
+          chmod 0440 /etc/sudoers.d/kgmops-control
+          visudo -cf /etc/sudoers.d/kgmops-control >/dev/null
+
+          if sudo -u kgmops sudo -n /bin/bash -c 'id -u' >/dev/null 2>&1; then
+            echo 'arbitrary root escalation unexpectedly allowed' >&2
+            exit 43
+          fi
+          sudo -u kgmops sudo -n /usr/bin/systemctl is-active kgm-monitor.service >/dev/null
+          sudo -u kgmops sudo -n /usr/local/sbin/kgmops-journal 5 >/dev/null
+
+          db=/opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db
+          if [ -e "$db" ] && sudo -u kgmops test -r "$db"; then
+            echo 'KGM runtime database unexpectedly readable by kgmops' >&2
+            exit 44
+          fi
+
+          echo 'KGMOPS_PREPARE=PASS'
+          REMOTE
+
+      - name: Enroll KGM into Tailscale when auth key is available
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          if [ -z "${TS_KGM_AUTH_KEY:-}" ]; then
+            echo 'TAILSCALE_KGM_STATUS=PREPARED_AWAITING_TS_KGM_AUTH_KEY'
+            echo 'Repository secret TS_KGM_AUTH_KEY is required to enroll this tagged server.'
+            exit 0
+          fi
+
+          ssh -i "$HOME/.ssh/id_kgm_bootstrap" \
+            -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 \
+            "ubuntu@$E4_HOST" \
+            "TS_KGM_AUTH_KEY='$TS_KGM_AUTH_KEY' TAILSCALE_MIN_VERSION='$TAILSCALE_MIN_VERSION' sudo -n -E bash -s" <<'REMOTE'
+          set -Eeuo pipefail
+
+          if ! command -v tailscale >/dev/null 2>&1; then
+            curl -fsSL https://tailscale.com/install.sh | sh
+          fi
+
+          systemctl enable --now tailscaled
+          test "$(systemctl is-active tailscaled)" = active
+
+          installed="$(tailscale version | head -n1 | tr -d 'v')"
+          if ! dpkg --compare-versions "$installed" ge "$TAILSCALE_MIN_VERSION"; then
+            apt-get update -qq
+            DEBIAN_FRONTEND=noninteractive apt-get install -y tailscale
+            installed="$(tailscale version | head -n1 | tr -d 'v')"
+            dpkg --compare-versions "$installed" ge "$TAILSCALE_MIN_VERSION"
+          fi
+
+          if tailscale status --json 2>/dev/null | jq -e '.BackendState == "Running" and .Self.Online == true' >/dev/null; then
+            tailscale set --advertise-tags=tag:kgm --ssh --accept-dns=false
+          else
+            tailscale up \
+              --auth-key="$TS_KGM_AUTH_KEY" \
+              --hostname=kgm-e4-owner-pilot \
+              --advertise-tags=tag:kgm \
+              --ssh \
+              --accept-dns=false
+          fi
+
+          status_json="$(tailscale status --json)"
+          printf '%s' "$status_json" | jq -e '.BackendState == "Running" and .Self.Online == true' >/dev/null
+          printf '%s' "$status_json" | jq -e '.Self.Tags | index("tag:kgm") != null' >/dev/null
+
+          echo "TAILSCALE_KGM_ENROLL=PASS"
+          echo "TAILSCALE_VERSION=$(tailscale version | head -n1)"
+          echo "TAILSCALE_IPV4=$(printf '%s' "$status_json" | jq -r '.Self.TailscaleIPs[] | select(test("^[0-9.]+$"))' | head -n1)"
+          REMOTE
+
+      - name: Final host security validation
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_kgm_bootstrap" \
+            -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 \
+            "ubuntu@$E4_HOST" 'set -Eeuo pipefail
+              test "$(sudo -n systemctl is-active kgm-monitor.service)" = active
+              test "$(id -nG kgmops | tr " " "\n" | grep -Fxc docker || true)" -eq 0
+              test "$(id -nG kgmops | tr " " "\n" | grep -Fxc kgm || true)" -eq 0
+              if sudo -u kgmops sudo -n /bin/bash -c "id -u" >/dev/null 2>&1; then exit 51; fi
+              sudo -u kgmops sudo -n /usr/bin/systemctl is-active kgm-monitor.service >/dev/null
+              db=/opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db
+              test ! -e "$db" || ! sudo -u kgmops test -r "$db"
+              echo KGM_TAILSCALE_SECURITY_GATES=PASS'

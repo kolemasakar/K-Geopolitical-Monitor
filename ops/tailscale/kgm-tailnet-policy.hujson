@@ -1,0 +1,28 @@
+// KGM Sentinel-Remote control-plane policy fragment.
+// Merge these sections into the existing Tailscale tailnet policy; do not
+// replace unrelated existing rules without review.
+{
+  "tagOwners": {
+    "tag:kgm": ["autogroup:admin"],
+    "tag:github-actions": ["autogroup:admin"]
+  },
+
+  "grants": [
+    {
+      // Ephemeral GitHub Actions runner may reach only SSH on KGM.
+      "src": ["tag:github-actions"],
+      "dst": ["tag:kgm"],
+      "ip": ["tcp:22"]
+    }
+  ],
+
+  "ssh": [
+    {
+      // Tagged CI node -> tagged KGM node, exact unprivileged OS user only.
+      "action": "accept",
+      "src": ["tag:github-actions"],
+      "dst": ["tag:kgm"],
+      "users": ["kgmops"]
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+---
+- name: KGM bounded remote control
+  hosts: kgm
+  gather_facts: false
+  vars:
+    kgm_operation: "{{ operation | default('health') }}"
+    project_root: /opt/k-geopolitical-monitor
+    runtime_db: /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db
+
+  tasks:
+    - name: Validate requested operation
+      ansible.builtin.assert:
+        that:
+          - kgm_operation in ['health', 'restart']
+        fail_msg: "Unsupported operation"
+
+    - name: Verify remote identity
+      ansible.builtin.command: /usr/bin/whoami
+      register: remote_identity
+      changed_when: false
+
+    - name: Require dedicated KGM operations user
+      ansible.builtin.assert:
+        that:
+          - remote_identity.stdout == 'kgmops'
+
+    - name: Read deployed repository SHA
+      ansible.builtin.command:
+        argv:
+          - /usr/bin/git
+          - -C
+          - "{{ project_root }}"
+          - rev-parse
+          - HEAD
+      register: deployed_sha
+      changed_when: false
+
+    - name: Verify KGM service is active before operation
+      ansible.builtin.command:
+        argv:
+          - /usr/bin/sudo
+          - -n
+          - /usr/bin/systemctl
+          - is-active
+          - kgm-monitor.service
+      register: service_before
+      changed_when: false
+
+    - name: Verify runtime database remains unreadable to kgmops
+      ansible.builtin.shell: |
+        set -eu
+        if [ -r "{{ runtime_db }}" ]; then
+          echo "runtime_db_unexpectedly_readable" >&2
+          exit 41
+        fi
+        echo "runtime_db_read=DENIED"
+      args:
+        executable: /bin/bash
+      changed_when: false
+
+    - name: Verify arbitrary root escalation is denied
+      ansible.builtin.shell: |
+        set -eu
+        if /usr/bin/sudo -n /bin/bash -c 'id -u' >/dev/null 2>&1; then
+          echo "arbitrary_root_escalation=UNEXPECTED_ALLOWED" >&2
+          exit 42
+        fi
+        echo "arbitrary_root_escalation=DENIED"
+      args:
+        executable: /bin/bash
+      changed_when: false
+
+    - name: Read bounded KGM journal tail
+      ansible.builtin.command:
+        argv:
+          - /usr/bin/sudo
+          - -n
+          - /usr/local/sbin/kgmops-journal
+          - "20"
+      changed_when: false
+
+    - name: Restart KGM service only when explicitly requested
+      ansible.builtin.command:
+        argv:
+          - /usr/bin/sudo
+          - -n
+          - /usr/bin/systemctl
+          - restart
+          - kgm-monitor.service
+      when: kgm_operation == 'restart'
+      changed_when: true
+
+    - name: Verify KGM service is active after operation
+      ansible.builtin.command:
+        argv:
+          - /usr/bin/sudo
+          - -n
+          - /usr/bin/systemctl
+          - is-active
+          - kgm-monitor.service
+      register: service_after
+      changed_when: false
+
+    - name: Report bounded control result
+      ansible.builtin.debug:
+        msg:
+          operation: "{{ kgm_operation }}"
+          deployed_sha: "{{ deployed_sha.stdout }}"
+          service_before: "{{ service_before.stdout }}"
+          service_after: "{{ service_after.stdout }}"
+          runtime_db_read: denied
+          arbitrary_root_escalation: denied
