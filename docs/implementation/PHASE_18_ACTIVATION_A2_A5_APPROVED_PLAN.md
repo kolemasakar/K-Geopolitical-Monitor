@@ -2,7 +2,7 @@
 
 Date: 2026-09-09
 Project: K-Geopolitical Monitor
-Status: `APPROVED / A2_VALIDATED / A3_VALIDATED / A4_NEXT / NOT_ACTIVATED`
+Status: `APPROVED / A2_VALIDATED / A3_VALIDATED / A4_TECHNICAL_PASS_BLOCKED_COST_VERIFICATION_REQUIRED / NOT_ACTIVATED`
 Decision: `docs/decisions/PHASE_18_ACTIVATION_STRATEGY_BETA_SINGLE_OWNER_BOUNDARY_2026-09-09.md`
 A1 checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED.md`
 Canonical base at approval: `445070a270cfd7a9b926291a02caff2ed06c29ad`
@@ -30,7 +30,10 @@ Until beta completion:
 - A2.3 backup/restore/rollback: validated;
 - parent A2 gate `PHASE_18_SHARED_RUNTIME_LIVE_CONTROLS_OBSERVED`: validated;
 - A3 shadow/reconciliation/canary evidence: validated and canonically closed;
-- next executable stage: A4 fresh exact-head launch validation.
+- A4 fresh exact-head technical evidence: PASS on frozen candidate `44761d58fd0e0421131cda5059bc955c35bafb6f`;
+- A4 target gate remains unsatisfied because account-specific Railway no-charge/waiver status is `NOT_OBSERVABLE`;
+- current A4 state: `BLOCKED_COST_VERIFICATION_REQUIRED`;
+- A5 remains unopened and unauthorized.
 
 ## 3. A2 — Live Security / Network / Recovery Observation
 
@@ -50,6 +53,8 @@ Validated directly on the existing disposable candidate:
 - secrets are absent from repo, public artifacts and logs.
 
 Status: `VALIDATED` via `PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_VALIDATED`.
+
+Final-head accepted live workflow: run `34374111299`, job `102542430156`.
 
 Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A2_1_NETWORK_TLS_EXPOSURE_VALIDATED.md`.
 
@@ -156,24 +161,55 @@ Migration `033` remains absent unless separately authorized later and shown to b
 
 Target gate: `PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY`
 
-Status: `NEXT / READY_TO_BEGIN`.
+Status: `TECHNICAL_PASS / BLOCKED_COST_VERIFICATION_REQUIRED / NOT_ACTIVATED`.
 
-Freeze one launch-candidate SHA and validate:
+Frozen launch candidate:
 
-- full exact-head x64 regression;
-- supported native ARM64 regression;
-- dependency check;
-- bootstrap/unattended/systemd contracts where applicable;
-- live candidate health;
-- live RLS/security evidence;
-- A2 recovery evidence;
-- A3 reconciliation/shadow evidence;
-- exact provider/topology/cost snapshot;
-- rollback path.
+`44761d58fd0e0421131cda5059bc955c35bafb6f`
 
-A4 may establish `ACTIVATION_READY / NOT_ACTIVATED`. It does not activate shared runtime.
+Technical validation is complete:
 
-During beta, readiness may remain in this state until beta completion.
+- exact frozen-SHA x64 regression: `1164 passed in 289.96s`;
+- exact frozen-SHA native ARM64 regression: `aarch64`, `1164 passed in 103.70s`;
+- dependency checks: PASS;
+- ARM64 bootstrap/unattended/systemd contracts: PASS;
+- live candidate health/non-canonical controls: PASS;
+- A2 recovery evidence: PASS;
+- A3 reconciliation/shadow evidence: PASS;
+- owner-local rollback: PASS;
+- automatic promotion/cutover: disabled.
+
+Accepted A4 workflow run: `34383486940`:
+
+- frozen x64 job `102573817917`;
+- frozen ARM64 job `102573817916`;
+- frozen shadow reconciliation job `102573817854`;
+- frozen recovery job `102573817601`;
+- live candidate controls job `102573817880`;
+- readiness gate job `102575682072`.
+
+Final PR-head regression run `34383486586`, job `102573816190`: `1164 passed in 93.74s`.
+
+Cost classification remains fail-closed:
+
+- Railway effective plan tier: `HOBBY`;
+- included usage credit: `$5`;
+- account-specific subscription fee / waiver / trial / no-charge state: `NOT_OBSERVABLE` through the available read-only integration;
+- ordinary Railway Hobby pricing cannot be treated as no-charge without direct account-specific evidence.
+
+Therefore:
+
+- `A4_TECHNICAL_EVIDENCE = PASS`;
+- `A4_COST_STATUS = NOT_OBSERVABLE`;
+- `A4_GATE = BLOCKED_COST_VERIFICATION_REQUIRED`;
+- `PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY = NOT_SATISFIED`;
+- `ACTIVATION_READY = FALSE` under the current beta no-paid-resource policy.
+
+A4 may establish `ACTIVATION_READY / NOT_ACTIVATED` only if the no-charge requirement is independently satisfied. It does not activate shared runtime.
+
+Result: `docs/implementation/PHASE_18_ACTIVATION_A4_LAUNCH_EVIDENCE_RESULT.md`.
+
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-09_PHASE_18_ACTIVATION_A4_LAUNCH_EVIDENCE_IN_PROGRESS.md`.
 
 ## 6. A5 — Explicit Owner Activation / Cutover Decision
 
@@ -245,3 +281,26 @@ A3 is formally closed at `PHASE_18_SHARED_RUNTIME_SHADOW_CANARY_EVIDENCE_VALIDAT
 - next executable stage: `A4 — Fresh Exact-Head Launch Validation`.
 
 This addendum does not change strategic machine state `4.34`, activate shared runtime, authorize paid resources, create/authorize migration `033`, or accept/apply Railway staged changes.
+
+## 10. A4 Execution Status Addendum — 2026-09-09
+
+A4 has completed all currently executable technical validation on frozen launch candidate `44761d58fd0e0421131cda5059bc955c35bafb6f`.
+
+- technical evidence: PASS;
+- exact frozen-SHA x64: `1164 passed in 289.96s`;
+- exact frozen-SHA native ARM64/aarch64: `1164 passed in 103.70s`;
+- dependency integrity: PASS;
+- bootstrap/unattended/systemd: PASS;
+- shadow reconciliation: PASS;
+- logical recovery and owner-local rollback: PASS;
+- live Railway non-canonical controls: PASS;
+- PR-head regression: `1164 passed in 93.74s`;
+- cost status: `NOT_OBSERVABLE`;
+- gate: `BLOCKED_COST_VERIFICATION_REQUIRED`;
+- target gate `PHASE_18_SHARED_RUNTIME_LAUNCH_EVIDENCE_READY`: NOT SATISFIED.
+
+Initial run `34383326462` encountered a transient third-party Google Chrome APT index hash mismatch before the recovery proof. The A4 disposable-runner harness was hardened without changing runtime code or the frozen candidate; final run `34383486940` then passed recovery.
+
+Direct account-level Railway Billing evidence of an active fee waiver or equivalent no-charge status is required before the A4 cost condition can pass under the beta policy.
+
+This addendum does not change strategic machine state `4.34`, activate shared runtime, authorize cutover or payment, create/authorize migration `033`, or accept/apply Railway staged changes.
