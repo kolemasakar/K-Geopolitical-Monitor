@@ -104,3 +104,22 @@ Production/live operational status: NOT_OPERATIONAL
 Runtime storage mode: PROJECT_LOCAL_ONLY
 
 Phase 18 is not activated. A new architecture approval is required before any shared/team runtime engineering transition.
+
+## 2026-09-07–09 — Phase 18 and Activation A1 Addendum
+
+The preceding historical strategic-position text is retained unchanged for regression/audit continuity. Subsequent approved milestones are:
+
+- 2026-09-07: owner approved Phase 18 architecture and authorized implementation;
+- P18.0–P18.9 were implemented and validated sequentially, closing at `PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED`;
+- the P18.9 machine-state closure remained deliberately non-launching: `launch_eligible = false`, `activation_state = NOT_AUTHORIZED`;
+- 2026-09-08: bounded free/free-trial Railway disposable preflight path approved without provider selection, spend approval, canonical migration or production activation;
+- 2026-09-09: A1 exact implementation `8ac2c92c9351ac1bcea8818e52a819f81868ed92` validated on x64 and native ARM64 and deployed as the disposable Railway candidate;
+- Railway deployment `52c39935-9e89-4f12-82e3-82345c606426` completed `SUCCESS`; health HTTP 200;
+- fail-closed startup RLS acceptance passed with `rls_isolation_observed=true` and `alternate_tenant_visible_rows=0`;
+- PostgreSQL remained private-only with no public service domain/TCP proxy and no new runtime-role credential.
+
+A1 gate: `PHASE_18_ACTIVATION_A1_RAILWAY_RLS_PREFLIGHT_VALIDATED`.
+
+The strategic machine-state contract remains synchronization `4.34` / `PHASE_18_P18_9_VALIDATED_ACTIVATION_OWNER_GATE` until the separate activation workstream reaches a formal synchronization gate. A1 therefore does not rewrite the historical P18.9 object or authorize launch.
+
+Preserved boundaries: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`; migration `033 = NOT_CREATED / NOT_PREAUTHORIZED`; runtime storage `PROJECT_LOCAL_ONLY`; `PAID_PROVIDERS = NONE_APPROVED`; `PRODUCTION_LIVE = NOT_OPERATIONAL`.
