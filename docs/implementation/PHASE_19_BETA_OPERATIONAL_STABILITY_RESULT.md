@@ -2,42 +2,44 @@
 
 Date: 2026-09-09  
 Project: K-Geopolitical Monitor  
-Status: `IMPLEMENTATION_CANDIDATE / VALIDATION_PENDING / REAL_ELAPSED_SOAK_PENDING`  
-Target gate: `PHASE_19_BETA_OPERATIONAL_STABILITY_VALIDATED`
+Status: `HARNESS_VALIDATED / REAL_ELAPSED_SOAK_PENDING / FULL_GATE_OPEN`  
+Harness subgate: `PHASE_19_OPERATIONAL_STABILITY_HARNESS_VALIDATED = PASS`  
+Target full gate: `PHASE_19_BETA_OPERATIONAL_STABILITY_VALIDATED`
 
-## 1. Purpose
+## 1. Purpose and evidence boundary
 
 Phase 19 proves that the owner-local canonical beta runtime can operate unattended for extended periods while making failures visible, classified, recoverable and non-corrupting.
 
-This change establishes the deterministic evaluator and evidence harness. It does **not** claim that a real 24-hour, 72-hour or 7-day soak has already elapsed.
+The deterministic stability harness is now validated. This does **not** claim that a real 24-hour, 72-hour or 7-day owner-local soak has elapsed.
 
-## 2. Implemented operational controls
+```text
+P19_REAL_24H_SOAK = NOT_EVIDENCED
+P19_REAL_72H_SOAK = NOT_EVIDENCED
+P19_REAL_7D_SOAK = NOT_EVIDENCED
+PHASE_19_BETA_OPERATIONAL_STABILITY_VALIDATED = NOT_YET_CLOSED
+```
 
-### Deterministic health classification
+## 2. Validated operational controls
 
-`src/kgeopolitical_monitor/operational_stability.py` evaluates existing persisted owner-local facts without adding a new canonical schema migration.
+`src/kgeopolitical_monitor/operational_stability.py` evaluates existing persisted owner-local facts without adding a canonical schema migration.
 
-It classifies:
+Deterministic findings cover:
 
-- missing or stale supervisor health;
-- late watches / missed expected cycles;
+- missing/stale supervisor health;
+- late watches and historical missed-cycle gaps;
 - stalled `RUNNING` executions;
-- expected sources that have never been observed;
-- stale source collection attempts;
-- repeated failed executions;
+- expected sources never observed or stale;
+- repeated execution failures;
 - retry recurrence;
-- SQLite integrity failures;
-- SQLite foreign-key violations.
+- SQLite integrity and foreign-key violations.
 
-Status is fail-closed:
+Fail-closed status:
 
 - `HEALTHY`
 - `DEGRADED`
 - `CRITICAL`
 
-### Beta operational SLO thresholds
-
-Default detection thresholds:
+Default beta detection thresholds:
 
 - supervisor stale: `180 seconds`;
 - watch lateness grace: `15 minutes`;
@@ -46,11 +48,11 @@ Default detection thresholds:
 - repeated failure threshold: `3`;
 - retry recurrence threshold: `3`.
 
-These are beta health-detection thresholds, not a contractual uptime SLA.
+These thresholds are beta operational health controls, not contractual uptime/SLA claims.
 
-### Structured failure classes
+## 3. Structured error distribution
 
-Persisted free-form errors are mapped deterministically into operator classes:
+Persisted free-form failures are mapped into deterministic classes:
 
 - `RECOVERED_INTERRUPTION`
 - `TIMEOUT`
@@ -62,50 +64,75 @@ Persisted free-form errors are mapped deterministically into operator classes:
 - `SOURCE`
 - `OTHER`
 
-This permits recurrence/distribution analysis without treating raw log text as the operational interface.
+Both snapshot and soak-window evidence expose structured error-class distributions.
 
-### Historical soak-window evaluator
+## 4. Historical soak-window evaluator
 
-`evaluate_soak_window(...)` evaluates a bounded persisted execution window and reports:
+`evaluate_soak_window(...)` reports, for a bounded persisted execution window:
 
-- elapsed window;
+- start/end and duration;
 - completed/failed/running/recovered run counts;
-- historical cadence-gap / missed-cycle count;
+- cadence-gap / missed-cycle count;
 - error-class distribution;
 - SQLite integrity;
-- whether the evaluated window is clean.
+- clean/non-clean result.
 
-The evaluator does not infer that timestamps represent real elapsed wall-clock evidence. The caller/evidence record must distinguish simulated time from real elapsed time.
+The evaluator never infers whether timestamps represent real elapsed wall-clock evidence. Simulated and real elapsed evidence must be labelled separately.
 
-### Operator-facing status
+## 5. Operator-facing status
 
-`scripts/p19_operational_status.py` prints a machine-readable summary for the project-local canonical database and can additionally evaluate a preceding `--window-hours` history window.
+`scripts/p19_operational_status.py` evaluates the project-local canonical database and can evaluate a preceding `--window-hours` interval.
 
 Exit semantics:
 
-- `0`: healthy/clean;
+- `0`: healthy and requested window clean;
 - `2`: degraded;
-- `3`: critical or non-clean requested soak window.
+- `3`: critical or requested soak window non-clean.
 
-The command uses `RuntimeStoragePolicy`, so the database remains constrained to the project-local `data/` boundary.
+`RuntimeStoragePolicy` continues to constrain the database to project-local `data/`.
 
-## 3. Accelerated deterministic proof
+## 6. Accelerated deterministic proof — PASS
 
-`scripts/p19_operational_stability_proof.py` exercises, using synthetic/non-sensitive fixtures only:
+Validated branch evidence anchor before this documentation-only closure update:
 
-- a logically simulated 24-hour sequence with 25 hourly executions;
-- healthy deterministic schedule evaluation;
-- historical soak-window gap detection;
-- interrupted-run recovery after runtime reconstruction;
-- retry-count progression;
-- duplicate collection/idempotent raw-item persistence;
-- injected repeated failures;
-- stalled-run detection;
-- stale and never-observed source detection;
-- structured failure classification;
-- SQLite integrity and foreign-key integrity after repeated/faulted operations.
+- branch head: `6365bdd4a5b7efb5876c03377601f3f1ea6f8908`;
+- P19 workflow run: `34398358219`;
+- P19 job: `102623755465`;
+- focused tests: `8 passed in 2.01s`.
 
-Expected proof markers:
+Proof result:
+
+- logical window: `24h / 86400s`;
+- logical executions: `25`;
+- completed: `25`;
+- failed: `0`;
+- running: `0`;
+- recovered: `0`;
+- missed-cycle count: `0`;
+- simulated soak-window status: `clean = true`;
+- SQLite `integrity_check = ok`;
+- foreign-key violations: `0`.
+
+Injected fault scenario deterministically detected:
+
+- `REPEATED_FAILURE`
+- `RETRY_RECURRENCE`
+- `RUN_STALLED`
+- `SOURCE_NEVER_OBSERVED`
+- `SOURCE_STALE`
+- `SUPERVISOR_STALE`
+- `WATCH_LATE`
+
+The fault scenario produced `CRITICAL` while preserving SQLite integrity.
+
+Restart/retry/idempotency evidence:
+
+- interrupted runs recovered: `1`;
+- retry progression: `retry_count = 1`;
+- duplicate collection canonical raw-item count: `1`;
+- post-fault integrity: `ok`.
+
+Proof markers:
 
 ```text
 P19_ACCELERATED_STABILITY_PROOF=PASS
@@ -116,33 +143,19 @@ P19_OPERATOR_DIAGNOSTICS=PASS
 P19_REAL_24H_SOAK=NOT_EVIDENCED
 ```
 
-## 4. Evidence boundary
+## 7. Full repository regression — PASS
 
-The accelerated harness is **not** elapsed soak evidence.
+Validation anchor:
 
-Current long-window state remains:
+- CI run: `34398358188`;
+- CI job: `102623755396`;
+- result: `1172 passed in 197.01s`.
 
-```text
-P19_REAL_24H_SOAK = NOT_EVIDENCED
-P19_REAL_72H_SOAK = NOT_EVIDENCED
-P19_REAL_7D_SOAK = NOT_EVIDENCED
-PHASE_19_BETA_OPERATIONAL_STABILITY_VALIDATED = NOT_YET_CLOSED
-```
+The final PR head must still pass both standard CI and the P19 workflow after this documentation-only closure update before guarded merge.
 
-The final Phase 19 gate must not close until required real owner-local elapsed evidence is collected and evaluated.
+## 8. Preserved strategic and beta boundaries
 
-## 5. No migration / activation / provider mutation
-
-This work does not authorize or perform:
-
-- Railway upgrade or paid-resource use;
-- shared-runtime activation;
-- canonical cutover;
-- migration `033`;
-- provider deployment mutation;
-- strategic machine-state synchronization.
-
-Preserved state:
+No migration, activation, provider or billing mutation is authorized or performed by this slice.
 
 ```text
 OWNER_LOCAL_RUNTIME = CANONICAL
@@ -154,19 +167,15 @@ PRODUCTION_LIVE = NOT_OPERATIONAL
 STRATEGIC_MACHINE_STATE = 4.34
 ```
 
-## 6. Validation plan
+## 9. Next Phase 19 evidence sequence
 
-Before this implementation slice is considered validated:
+The harness subgate is validated; the full P19 gate remains open.
 
-- focused Phase 19 tests must pass;
-- accelerated proof must pass;
-- full repository CI must remain green;
-- exact branch/head evidence must be recorded.
+Next evidence sequence:
 
-After harness validation, Phase 19 continues with real elapsed owner-local soak evidence:
+1. real owner-local 24-hour short soak;
+2. real owner-local 72-hour extended soak after the short window is acceptable;
+3. real 7-day candidate stability window once shorter windows are consistently clean;
+4. only then consider `PHASE_19_BETA_OPERATIONAL_STABILITY_VALIDATED` for closure.
 
-- 24-hour short soak;
-- 72-hour extended soak;
-- 7-day candidate stability window once the shorter windows are consistently clean.
-
-Only then may the target gate `PHASE_19_BETA_OPERATIONAL_STABILITY_VALIDATED` be considered for closure.
+No simulated-time proof may substitute for those real elapsed windows.
