@@ -1,0 +1,293 @@
+name: SentinelX KGM Hardened Bootstrap
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/sentinelx-kgm-bootstrap.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sentinelx-kgm-bootstrap
+  cancel-in-progress: false
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      E4_HOST: ${{ secrets.E4_HOST }}
+      E4_SSH_PRIVATE_KEY: ${{ secrets.E4_SSH_PRIVATE_KEY }}
+      E4_SSH_KNOWN_HOSTS: ${{ secrets.E4_SSH_KNOWN_HOSTS }}
+      SENTINELX_ENROLL_TOKEN: ${{ secrets.SENTINELX_ENROLL_TOKEN }}
+      SENTINELX_CORE_SHA: e1be3162b22a4b0c744e0443c9f9b62f8fdb21a4
+      SENTINELX_INSTALLER_SHA: b67d78144fae56ccf666ecc79521203a284854ac
+
+    steps:
+      - name: Validate pinned SSH connection inputs
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$E4_HOST"
+          test -n "$E4_SSH_PRIVATE_KEY"
+          test -n "$E4_SSH_KNOWN_HOSTS"
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$E4_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_kgm_sentinelx"
+          chmod 0600 "$HOME/.ssh/id_kgm_sentinelx"
+          printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 0600 "$HOME/.ssh/known_hosts"
+
+      - name: Prepare hardened SentinelX runtime without starting agent
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_kgm_sentinelx" \
+            -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 \
+            "ubuntu@$E4_HOST" \
+            "CORE_SHA='$SENTINELX_CORE_SHA' INSTALLER_SHA='$SENTINELX_INSTALLER_SHA' sudo -n -E bash -s" <<'REMOTE'
+          set -Eeuo pipefail
+          PROJECT_ROOT=/opt/k-geopolitical-monitor
+          INSTALL_DIR=/opt/sentinelx-cloud-core
+          ETC_DIR=/etc/sentinelx
+          UPLOAD_DIR=/var/lib/sentinelx/uploads
+          HUB=https://mcp.sentinelx.app
+
+          test "$(uname -m)" = aarch64
+          . /etc/os-release
+          test "$ID" = ubuntu
+          test "$VERSION_ID" = 24.04
+          test -d "$PROJECT_ROOT/.git"
+          test "$(systemctl is-active kgm-monitor.service)" = active
+          test "$(systemctl is-enabled kgm-monitor.service)" = enabled
+          command -v git >/dev/null
+          command -v curl >/dev/null
+          command -v python3 >/dev/null
+          python3 -c 'import sys,venv; assert sys.version_info >= (3,11)'
+
+          if ! id sentinelx >/dev/null 2>&1; then
+            useradd --system --home-dir "$INSTALL_DIR" --shell /usr/sbin/nologin sentinelx
+          fi
+          id -nG sentinelx | tr ' ' '\n' | grep -Fx docker >/dev/null && {
+            echo 'sentinelx must not be in docker group' >&2; exit 1; }
+          id -nG sentinelx | tr ' ' '\n' | grep -Fx kgm >/dev/null && {
+            echo 'sentinelx must not be in kgm group' >&2; exit 1; }
+
+          mkdir -p "$INSTALL_DIR" "$ETC_DIR" "$UPLOAD_DIR"
+          chown sentinelx:sentinelx "$INSTALL_DIR" "$UPLOAD_DIR"
+          chmod 0700 "$UPLOAD_DIR"
+
+          if [ ! -d "$INSTALL_DIR/.git" ]; then
+            test -z "$(find "$INSTALL_DIR" -mindepth 1 -maxdepth 1 -print -quit)"
+            sudo -u sentinelx git -C "$INSTALL_DIR" init -q
+            sudo -u sentinelx git -C "$INSTALL_DIR" remote add origin \
+              https://github.com/pensados/sentinelx-cloud-core.git
+          else
+            test "$(sudo -u sentinelx git -C "$INSTALL_DIR" remote get-url origin)" = \
+              https://github.com/pensados/sentinelx-cloud-core.git
+          fi
+          sudo -u sentinelx git -C "$INSTALL_DIR" fetch -q --depth=1 origin "$CORE_SHA"
+          sudo -u sentinelx git -C "$INSTALL_DIR" checkout -q --detach FETCH_HEAD
+          test "$(sudo -u sentinelx git -C "$INSTALL_DIR" rev-parse HEAD)" = "$CORE_SHA"
+
+          if [ ! -x "$INSTALL_DIR/.venv/bin/python" ]; then
+            sudo -u sentinelx python3 -m venv "$INSTALL_DIR/.venv"
+          fi
+          sudo -u sentinelx "$INSTALL_DIR/.venv/bin/pip" install --quiet --upgrade pip
+          sudo -u sentinelx "$INSTALL_DIR/.venv/bin/pip" install --quiet -e "$INSTALL_DIR"
+
+          if [ ! -s "$ETC_DIR/host_id" ]; then
+            printf 'host_%s\n' "$(tr -d '-' </proc/sys/kernel/random/uuid | head -c 16)" > "$ETC_DIR/host_id"
+          fi
+          chmod 0644 "$ETC_DIR/host_id"
+          chown root:root "$ETC_DIR/host_id"
+
+          curl -fsSL \
+            "https://raw.githubusercontent.com/pensados/sentinelx-cloud-installer/$INSTALLER_SHA/enroll.py" \
+            -o "$ETC_DIR/sentinelx-enroll.py"
+          chmod 0755 "$ETC_DIR/sentinelx-enroll.py"
+          chown root:root "$ETC_DIR/sentinelx-enroll.py"
+
+          cat > "$ETC_DIR/config.yaml" <<'CFG'
+          allowed_commands:
+            - uptime
+            - pwd
+            - whoami
+            - id
+            - df
+            - free
+            - ip a
+            - ip route
+            - "ss "
+            - git -C /opt/k-geopolitical-monitor status
+            - git -C /opt/k-geopolitical-monitor rev-parse
+            - git -C /opt/k-geopolitical-monitor log
+            - sudo /usr/local/sbin/sentinelx-kgm-journal
+
+          services:
+            kgm-monitor:
+              unit: kgm-monitor.service
+              actions: [status, restart, is-active, is-enabled]
+              requires_sudo: true
+            sentinelx-cloud-core:
+              unit: sentinelx-cloud-core.service
+              actions: [status, restart, is-active, is-enabled]
+              requires_sudo: true
+
+          security:
+            trusted_fetch_hosts: []
+            file_url_timeout_seconds: 15
+
+          file_ops:
+            paths:
+              - path: /opt/k-geopolitical-monitor
+                access: r
+
+          upload_base: /var/lib/sentinelx/uploads
+          CFG
+          chown root:sentinelx "$ETC_DIR/config.yaml"
+          chmod 0640 "$ETC_DIR/config.yaml"
+
+          cat > /usr/local/sbin/sentinelx-kgm-journal <<'HELPER'
+          #!/usr/bin/env bash
+          set -Eeuo pipefail
+          test "$#" -le 1
+          n="${1:-100}"
+          case "$n" in ''|*[!0-9]*) exit 2 ;; esac
+          test "$n" -ge 1
+          test "$n" -le 500
+          exec /usr/bin/journalctl -u kgm-monitor.service -n "$n" --no-pager
+          HELPER
+          chmod 0755 /usr/local/sbin/sentinelx-kgm-journal
+          chown root:root /usr/local/sbin/sentinelx-kgm-journal
+
+          cat > /etc/sudoers.d/sentinelx-kgm <<'SUDOERS'
+          Cmnd_Alias SENTINELX_KGM_SYSTEMD = /usr/bin/systemctl status kgm-monitor.service, /usr/bin/systemctl restart kgm-monitor.service, /usr/bin/systemctl is-active kgm-monitor.service, /usr/bin/systemctl is-enabled kgm-monitor.service, /usr/bin/systemctl status sentinelx-cloud-core.service, /usr/bin/systemctl restart sentinelx-cloud-core.service, /usr/bin/systemctl is-active sentinelx-cloud-core.service, /usr/bin/systemctl is-enabled sentinelx-cloud-core.service
+          Cmnd_Alias SENTINELX_KGM_LOG = /usr/local/sbin/sentinelx-kgm-journal *
+          sentinelx ALL=(root) NOPASSWD: SENTINELX_KGM_SYSTEMD, SENTINELX_KGM_LOG
+          SUDOERS
+          chmod 0440 /etc/sudoers.d/sentinelx-kgm
+          chown root:root /etc/sudoers.d/sentinelx-kgm
+          visudo -cf /etc/sudoers.d/sentinelx-kgm >/dev/null
+
+          cat > /etc/systemd/system/sentinelx-cloud-core.service <<UNIT
+          [Unit]
+          Description=SentinelX Cloud Agent — KGM least-privilege profile
+          Wants=network-online.target
+          After=network-online.target
+
+          [Service]
+          Type=simple
+          User=sentinelx
+          Group=sentinelx
+          Environment=PYTHONDONTWRITEBYTECODE=1
+          ExecStart=$INSTALL_DIR/.venv/bin/sentinelx-cloud-core --hub $HUB --identity $ETC_DIR/identity.json --config $ETC_DIR/config.yaml
+          Restart=always
+          RestartSec=5
+          UMask=0077
+          PrivateTmp=true
+          PrivateDevices=true
+          ProtectSystem=strict
+          ProtectHome=true
+          ProtectKernelTunables=true
+          ProtectKernelModules=true
+          ProtectKernelLogs=true
+          ProtectControlGroups=true
+          ProtectClock=true
+          ProtectHostname=true
+          LockPersonality=true
+          RestrictRealtime=true
+          RestrictSUIDSGID=true
+          RestrictNamespaces=true
+          SystemCallArchitectures=native
+          RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+          CapabilityBoundingSet=
+          AmbientCapabilities=
+          ReadWritePaths=$UPLOAD_DIR
+
+          [Install]
+          WantedBy=multi-user.target
+          UNIT
+          chmod 0644 /etc/systemd/system/sentinelx-cloud-core.service
+          chown root:root /etc/systemd/system/sentinelx-cloud-core.service
+          systemd-analyze verify /etc/systemd/system/sentinelx-cloud-core.service
+          systemctl daemon-reload
+
+          bad=0
+          while IFS= read -r -d '' candidate; do
+            base="$(basename "$candidate")"
+            [ "$base" = '.env.example' ] && continue
+            if sudo -u sentinelx test -r "$candidate"; then
+              echo "readable_sensitive_candidate=$candidate" >&2
+              bad=1
+            fi
+          done < <(find "$PROJECT_ROOT" -xdev \
+            \( -path "$PROJECT_ROOT/.git" -o -path "$PROJECT_ROOT/.venv" \) -prune -o \
+            -type f \( -name '.env' -o -name '.env.*' -o -name '*.pem' -o -name '*.key' \
+              -o -name '*.p12' -o -name '*.pfx' -o -name 'id_rsa' -o -name 'id_ed25519' \
+              -o -name '.credentials' -o -name '.credentials_rsaparams' \) -print0)
+          test "$bad" -eq 0
+          test ! -e "$PROJECT_ROOT/data/kgeopolitical_monitor.db" || \
+            ! sudo -u sentinelx test -r "$PROJECT_ROOT/data/kgeopolitical_monitor.db"
+          ! sudo -u sentinelx test -w "$ETC_DIR/config.yaml"
+
+          if [ ! -s "$ETC_DIR/identity.json" ]; then
+            systemctl disable --now sentinelx-cloud-core.service >/dev/null 2>&1 || true
+          fi
+
+          echo "sentinelx_prepare=PASS"
+          echo "sentinelx_host_id=$(cat "$ETC_DIR/host_id")"
+          echo "sentinelx_core_sha=$(sudo -u sentinelx git -C "$INSTALL_DIR" rev-parse HEAD)"
+          REMOTE
+
+      - name: Enroll when token is available
+        id: enroll
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          SSH=(ssh -i "$HOME/.ssh/id_kgm_sentinelx" -o BatchMode=yes -o StrictHostKeyChecking=yes "ubuntu@$E4_HOST")
+          HOST_ID="$("${SSH[@]}" 'sudo -n cat /etc/sentinelx/host_id')"
+          ENROLL_URL="https://mcp.sentinelx.app/auth/dashboard/enroll?host_id=$HOST_ID"
+          echo "host_id=$HOST_ID" >> "$GITHUB_OUTPUT"
+          echo "enroll_url=$ENROLL_URL" >> "$GITHUB_OUTPUT"
+          echo "SentinelX host id: $HOST_ID"
+          echo "Enrollment URL: $ENROLL_URL"
+
+          if "${SSH[@]}" 'sudo -n test -s /etc/sentinelx/identity.json'; then
+            echo 'Identity already present; enrollment is idempotently skipped.'
+          elif [ -z "${SENTINELX_ENROLL_TOKEN:-}" ]; then
+            echo 'SENTINELX_ENROLLMENT_REQUIRED=1'
+            echo 'Add repository secret SENTINELX_ENROLL_TOKEN from the displayed enrollment URL, then re-run this job.'
+            exit 0
+          else
+            printf '%s\n' "$SENTINELX_ENROLL_TOKEN" | "${SSH[@]}" \
+              "sudo -n /usr/bin/python3 /etc/sentinelx/sentinelx-enroll.py --hub https://mcp.sentinelx.app --host-id '$HOST_ID' --output /etc/sentinelx/identity.json --mode paste"
+            "${SSH[@]}" 'sudo -n chown sentinelx:sentinelx /etc/sentinelx/identity.json && sudo -n chmod 0600 /etc/sentinelx/identity.json'
+          fi
+
+      - name: Start and validate enrolled agent
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          SSH=(ssh -i "$HOME/.ssh/id_kgm_sentinelx" -o BatchMode=yes -o StrictHostKeyChecking=yes "ubuntu@$E4_HOST")
+          if ! "${SSH[@]}" 'sudo -n test -s /etc/sentinelx/identity.json'; then
+            echo 'SENTINELX_KGM_STATUS=PREPARED_AWAITING_ENROLLMENT'
+            exit 0
+          fi
+          "${SSH[@]}" 'sudo -n systemctl enable --now sentinelx-cloud-core.service'
+          "${SSH[@]}" 'set -Eeuo pipefail
+            test "$(sudo -n systemctl is-active sentinelx-cloud-core.service)" = active
+            test "$(sudo -n systemctl is-enabled sentinelx-cloud-core.service)" = enabled
+            test "$(id -nG sentinelx | tr " " "\n" | grep -Fxc docker || true)" -eq 0
+            test "$(id -nG sentinelx | tr " " "\n" | grep -Fxc kgm || true)" -eq 0
+            if sudo -u sentinelx sudo -n /bin/bash -c "id -u" >/dev/null 2>&1; then exit 41; fi
+            if command -v docker >/dev/null 2>&1 && sudo -u sentinelx docker ps >/dev/null 2>&1; then exit 42; fi
+            test ! -r /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db || ! sudo -u sentinelx test -r /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db
+            ! sudo -u sentinelx test -w /etc/sentinelx/config.yaml
+            sudo -u sentinelx sudo -n /usr/bin/systemctl is-active kgm-monitor.service >/dev/null
+            sudo -u sentinelx sudo -n /usr/local/sbin/sentinelx-kgm-journal 5 >/dev/null
+            echo SENTINELX_KGM_BOOTSTRAP=PASS
+            echo SENTINELX_KGM_AGENT_VERSION=$(sudo -u sentinelx /opt/sentinelx-cloud-core/.venv/bin/python -c "import importlib.metadata as m; print(m.version('"'"'sentinelx-cloud-core'"'"'))")
+            echo SENTINELX_KGM_CORE_SHA=$(sudo -u sentinelx git -C /opt/sentinelx-cloud-core rev-parse HEAD)'
