@@ -18,6 +18,7 @@ import psycopg
 
 PREFLIGHT_SCHEMA = "kgm_preflight"
 PREFLIGHT_TABLE = "tenant_probe"
+PREFLIGHT_RUNTIME_ROLE = "kgm_preflight_runtime"
 PREFLIGHT_PROFILE = "shared_runtime_nonprod_candidate"
 PREFLIGHT_MODE = "synthetic_nonprod"
 RENDER_PRIVATE_NETWORK_MARKER = "render_private"
@@ -116,9 +117,24 @@ class PreflightCandidateSettings:
         }
 
 
-# DDL is intentionally confined to an isolated disposable schema.  The policy
-# uses transaction-local custom settings and fails closed when they are absent.
+# Bootstrap may use a provider-created privileged principal, but tenant DML must
+# never execute with that principal because PostgreSQL superusers/BYPASSRLS roles
+# bypass row-level security even when FORCE ROW LEVEL SECURITY is enabled.  The
+# dedicated NOLOGIN role is intentionally non-owner and NOBYPASSRLS; every tenant
+# transaction switches to it before setting tenant context or touching rows.
 PREFLIGHT_DDL: tuple[str, ...] = (
+    f"""
+    DO $$
+    BEGIN
+        IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '{PREFLIGHT_RUNTIME_ROLE}') THEN
+            CREATE ROLE {PREFLIGHT_RUNTIME_ROLE}
+                NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOBYPASSRLS;
+        END IF;
+    END
+    $$
+    """.strip(),
+    f"ALTER ROLE {PREFLIGHT_RUNTIME_ROLE} NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOBYPASSRLS",
+    f"GRANT {PREFLIGHT_RUNTIME_ROLE} TO CURRENT_USER",
     f"CREATE SCHEMA IF NOT EXISTS {PREFLIGHT_SCHEMA}",
     f"""
     CREATE TABLE IF NOT EXISTS {PREFLIGHT_SCHEMA}.{PREFLIGHT_TABLE} (
@@ -145,8 +161,11 @@ PREFLIGHT_DDL: tuple[str, ...] = (
         AND project_id = current_setting('kgm.project_id', true)
     )
     """.strip(),
+    f"GRANT USAGE ON SCHEMA {PREFLIGHT_SCHEMA} TO {PREFLIGHT_RUNTIME_ROLE}",
+    f"GRANT SELECT, INSERT, UPDATE ON {PREFLIGHT_SCHEMA}.{PREFLIGHT_TABLE} TO {PREFLIGHT_RUNTIME_ROLE}",
 )
 
+_SET_RUNTIME_ROLE_SQL = f"SET LOCAL ROLE {PREFLIGHT_RUNTIME_ROLE}"
 _SET_WORKSPACE_SQL = "SELECT set_config('kgm.workspace_id', %s, true)"
 _SET_PROJECT_SQL = "SELECT set_config('kgm.project_id', %s, true)"
 _INSERT_SQL = f"""
@@ -197,11 +216,12 @@ class PostgreSQLPreflightCandidate:
 
     @staticmethod
     def _set_tenant(cursor, *, workspace_id: str, project_id: str) -> None:
+        cursor.execute(_SET_RUNTIME_ROLE_SQL)
         cursor.execute(_SET_WORKSPACE_SQL, (workspace_id,))
         cursor.execute(_SET_PROJECT_SQL, (project_id,))
 
     def initialize(self) -> None:
-        """Create only the disposable preflight schema and force RLS."""
+        """Bootstrap only the disposable schema and constrained runtime role."""
 
         try:
             with self._connection() as connection:
