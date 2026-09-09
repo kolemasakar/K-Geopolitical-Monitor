@@ -1,6 +1,6 @@
 # KGM SentinelX Retirement — 2026-09-09
 
-Status: **COMPLETE / VERIFIED**
+Status: **COMPLETE / VERIFIED / CREDENTIAL CLEANUP COMPLETE**
 
 ## Decision
 
@@ -81,15 +81,21 @@ KGM is no longer connected or parked.
 
 The retired KGM SentinelX bootstrap workflow and the one-shot cleanup workflow are removed after successful cleanup so normal repository activity cannot reinstall or rerun the retired path accidentally.
 
-## Manual credential hygiene
+## Credential hygiene — COMPLETE
 
-Delete these obsolete KGM GitHub Actions secrets manually:
+Owner-verified in the GitHub repository secrets UI on 2026-09-09.
+
+Deleted obsolete secrets:
 
 - `SENTINELX_ENROLL_TOKEN`
 - `TS_KGM_AUTH_KEY`
 
-Retain:
+Retained:
 
 - `TS_OAUTH_CLIENT_ID`
 - `TS_AUDIENCE`
-- existing owner SSH recovery secrets while that recovery channel remains part of the design.
+- `E4_HOST`
+- `E4_SSH_PRIVATE_KEY`
+- `E4_SSH_KNOWN_HOSTS`
+
+The KGM SentinelX retirement cleanup gate is therefore fully closed.
