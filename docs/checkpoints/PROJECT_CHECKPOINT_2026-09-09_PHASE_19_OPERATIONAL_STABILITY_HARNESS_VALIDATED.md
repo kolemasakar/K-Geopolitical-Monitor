@@ -2,7 +2,7 @@
 
 Date: 2026-09-09  
 Project: K-Geopolitical Monitor  
-Checkpoint state: `P19_HARNESS_VALIDATED / REAL_ELAPSED_SOAK_PENDING`  
+Checkpoint state: `P19_HARNESS_VALIDATED / REAL_ELAPSED_SOAK_ACTIVE`  
 Subgate: `PHASE_19_OPERATIONAL_STABILITY_HARNESS_VALIDATED = PASS`
 
 ## Validation anchor
@@ -41,14 +41,21 @@ P19_REAL_24H_SOAK=NOT_EVIDENCED
 
 This checkpoint validates the **harness**, not the full Phase 19 long-run gate.
 
+The real owner-local soak was subsequently opened on the retained KGM VM `kgm-e4-owner-pilot` after fresh live access revalidation. Canonical forward state is recorded in:
+
+`docs/checkpoints/PROJECT_CHECKPOINT_2026-09-10_PHASE_19_OWNER_LOCAL_REAL_SOAK_IN_PROGRESS.md`
+
+Current progression:
+
 ```text
-P19_REAL_24H_SOAK = NOT_EVIDENCED
-P19_REAL_72H_SOAK = NOT_EVIDENCED
-P19_REAL_7D_SOAK = NOT_EVIDENCED
+P19_OWNER_LOCAL_ACCESS = REVALIDATED
+P19_REAL_24H_SOAK = IN_PROGRESS
+P19_REAL_72H_SOAK = PENDING
+P19_REAL_7D_SOAK = PENDING
 PHASE_19_BETA_OPERATIONAL_STABILITY_VALIDATED = NOT_YET_CLOSED
 ```
 
-Final PR-head CI and P19 workflow are required after this checkpoint commit before guarded merge.
+The simulated/accelerated proof remains test evidence only and is not retroactively treated as elapsed soak evidence.
 
 ## Preserved boundaries
 
@@ -66,4 +73,4 @@ No Railway upgrade, paid resource, shared-runtime activation, canonical cutover,
 
 ## Next action
 
-Collect real elapsed owner-local evidence in sequence: `24h -> 72h -> 7d`. Only after those windows meet the accepted criteria may the full Phase 19 gate be considered for closure.
+Continue the active real elapsed owner-local evidence sequence: `24h -> 72h -> 7d`. Only after those windows meet the accepted criteria may the full Phase 19 gate be considered for closure.
