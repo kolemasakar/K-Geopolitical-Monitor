@@ -4,6 +4,7 @@ Date: 2026-09-10
 Status: `IN_PROGRESS / REAL_ELAPSED_SOAK_ACTIVE`
 Parent gate: `PHASE_19_BETA_OPERATIONAL_STABILITY_VALIDATED`
 Harness gate: `PHASE_19_OPERATIONAL_STABILITY_HARNESS_VALIDATED = PASS`
+Explicit evidence chain: `P19_EXPLICIT_CONTROL_TO_AUDIT_CHAIN = PASS`
 
 ## Canonical owner-local target
 
@@ -20,89 +21,19 @@ control plane = GitHub OIDC -> ephemeral Tailscale -> Tailscale SSH -> bounded A
 
 The VM was not deleted during Sentinel-Remote reorganization. KGM SentinelX was intentionally retired; the VM and accepted Tailscale/Ansible control plane were preserved.
 
-## Fresh live access revalidation
-
-Fresh read-only revalidation was completed before opening the elapsed-time window.
-
-Evidence:
-
-- parent workflow run: `34385314619`
-- latest rerun health job: `102695438882`
-- result: `SUCCESS`
-- observation completed: `2026-09-10T00:19:31Z`
-- tagged peer: `kgm-e4-owner-pilot`
-- Tailscale IPv4: `100.102.136.23`
-- tagged peer online: true
-- Tailscale ping: PASS
-- bounded Ansible operation: `health`
-- `kgm-monitor.service` before: active
-- `kgm-monitor.service` after: active
-- runtime DB read as `kgmops`: DENIED
-- arbitrary root escalation as `kgmops`: DENIED
-- Ansible recap: `ok=10 changed=0 unreachable=0 failed=0`
-
-This successful health observation is the conservative start anchor for the real elapsed soak. The host runtime is the object under observation; repository regression state remains independently covered by canonical GitHub CI.
-
-## OIDC trust boundary discovered and preserved
-
-Two fail-closed observations established that the Tailscale trust is narrower than repository/path authorization alone:
-
-1. A second workflow path (`p19-owner-local-real-soak.yml`) was rejected with HTTP 403 before host access.
-2. After moving live logic into the accepted `tailscale-kgm-control.yml` path, a `push` event on exact-main run `34422415082`, job `102700511669`, was also rejected with HTTP 403 before host access.
-
-The accepted historical health proof used `workflow_dispatch`. The evidence therefore supports an event-bound workload-identity constraint: the control workflow must enter Tailscale through the existing `workflow_dispatch` path. No Tailscale trust expansion is authorized or required.
-
-Remediation:
-
-- `.github/workflows/tailscale-kgm-control.yml` is `workflow_dispatch`-only live control;
-- `.github/workflows/p19-owner-local-real-soak-dispatch.yml` owns the six-hour schedule and never touches Tailscale;
-- the dispatcher uses the repository `GITHUB_TOKEN` with `actions: write` only to issue a `workflow_dispatch` request to `tailscale-kgm-control.yml` with `operation=health`;
-- the dispatched control run then uses the already accepted GitHub OIDC -> Tailscale identity;
-- `.github/workflows/p19-owner-local-real-soak.yml` is a static PR contract check and has no live Tailscale credentials.
-
-Failed 403 runs are infrastructure-control evidence only. In both cases:
-
-```text
-remote Ansible operation = NOT STARTED
-runtime mutation = NONE
-service restart = NONE
-runtime DB write = NONE
-```
-
-## Accepted dispatch chain revalidation
-
-The remediated two-stage chain was validated on canonical `main` after PR #69.
-
-Evidence:
-
-- dispatcher run `34424713708`, job `102707370204`: `SUCCESS`;
-- dispatched control run `34424721121`, job `102707397216`: `SUCCESS`;
-- control event: `workflow_dispatch`;
-- operation: `health`;
-- Tailscale OIDC: PASS on first attempt;
-- exact peer: `kgm-e4-owner-pilot` / `100.102.136.23`;
-- service before/after: `active / active`;
-- runtime DB read as `kgmops`: DENIED;
-- arbitrary root escalation: DENIED;
-- restart: SKIPPED;
-- Ansible recap: `ok=10 changed=0 unreachable=0 failed=0 skipped=1`;
-- P19 observation marker: PASS;
-- observation completed: `2026-09-10T01:16:03Z`;
-- exact-main CI run `34424713709`: `1172 passed in 123.13s`.
-
-This validates the live observation mechanism. It does not substitute for elapsed time.
-
 ## Real elapsed soak baseline
+
+The successful bounded health observation at `2026-09-10T00:19:31Z` remains the conservative real-time start anchor.
 
 ```text
 P19_REAL_SOAK_BASELINE_UTC = 2026-09-10T00:19:31Z
 P19_REAL_24H_SOAK = IN_PROGRESS
-P19_REAL_72H_SOAK = PENDING
-P19_REAL_7D_SOAK = PENDING
+P19_REAL_72H_SOAK = IN_PROGRESS
+P19_REAL_7D_SOAK = IN_PROGRESS
 PHASE_19_BETA_OPERATIONAL_STABILITY_VALIDATED = NOT_YET_CLOSED
 ```
 
-Earliest temporal eligibility, subject to clean observations through the interval and a fresh terminal observation at/after each boundary:
+Earliest temporal eligibility, subject to clean observations through each interval and a fresh terminal observation at or after the boundary:
 
 ```text
 24h earliest = 2026-09-11T00:19:31Z
@@ -112,9 +43,31 @@ Earliest temporal eligibility, subject to clean observations through the interva
 
 No gate may be closed from simulated time, accelerated test execution, a failed observation, or wall-clock arithmetic alone. Actual elapsed operation plus clean observable evidence is required.
 
-## Observation mechanism
+## Preserved OIDC trust boundary
 
-Live P19 observation remains a two-stage chain:
+Fail-closed validation established that the Tailscale identity is narrower than repository/path authorization alone:
+
+- a second workflow path attempting direct Tailscale entry was rejected with HTTP 403 before host access;
+- a `push` event attempting direct entry through the accepted control workflow was also rejected with HTTP 403 before host access;
+- the accepted live control path is therefore kept `workflow_dispatch`-only.
+
+No Tailscale trust expansion was performed.
+
+The accepted runtime control workflow is:
+
+```text
+.github/workflows/tailscale-kgm-control.yml
+  event = workflow_dispatch only
+  operation = health | restart
+  exact host = kgm-e4-owner-pilot
+  exact Tailscale IPv4 = 100.102.136.23
+```
+
+P19 automation always requests `operation=health`; it does not automate restart.
+
+## Canonical real-soak evidence chain
+
+The validated canonical six-hour chain is now explicit:
 
 ```text
 p19-owner-local-real-soak-dispatch.yml
@@ -125,45 +78,149 @@ p19-owner-local-real-soak-dispatch.yml
   -> Tailscale
   -> kgmops / bounded Ansible
   -> kgm-e4-owner-pilot
+  -> dispatcher waits for completed / success
+  -> GitHub workflow_dispatch
+  -> p19-owner-local-soak-gate-audit.yml
+  -> read-only Actions history
+  -> scripts/p19_soak_gate.py
 ```
 
-The dispatcher schedule is intentionally aligned to minute `27`. The baseline is at `00:19:31Z`, so the `00:27` cycle is unambiguously after the 24h, 72h, and 7d temporal boundaries and can provide the required fresh terminal observation rather than relying on a run that may complete just before the boundary.
+The dispatcher has `actions: write` only for workflow dispatch. It does not log into Tailscale, SSH to the host, read or write the runtime database, or control systemd directly.
 
-The dispatcher:
+The control workflow remains the only Tailscale trust entry point. It verifies:
 
-- schedules one health dispatch every six hours;
-- can be manually dispatched for validation;
-- performs no Tailscale login, SSH, service mutation, or database access;
-- always requests `operation=health`.
+- exact peer identity and IP;
+- peer online state and Tailscale reachability;
+- dedicated `kgmops` identity;
+- `kgm-monitor.service` active before and after the operation;
+- runtime database unreadable to `kgmops`;
+- arbitrary root escalation denied;
+- bounded journal access;
+- restart skipped unless explicitly requested.
 
-The accepted control workflow:
+The dispatcher fails closed unless the dispatched control run reaches `completed / success`. Only then does it dispatch the elapsed-soak audit.
 
-- is live only for `workflow_dispatch`;
-- requires exactly `kgm-e4-owner-pilot` at `100.102.136.23` and online;
-- pings the host over Tailscale;
-- invokes bounded Ansible with the requested `health|restart` operation;
-- records a P19 observation only when the operation is `health`;
-- verifies DB-read and arbitrary-root denial boundaries through `ops/ansible/kgm_control.yml`.
+## GitHub event behavior and hardening
 
-The P19 automated dispatcher cannot request `restart`. A single successful workflow run is only one observation and never substitutes for elapsed soak duration.
+An intermediate implementation expected GitHub `workflow_run` to fire the audit automatically after a control run created by the repository `GITHUB_TOKEN`. A real execution showed that the expected downstream audit did not fire in that path.
+
+The canonical implementation therefore does not rely on that propagation. The dispatcher explicitly performs:
+
+```text
+health control -> wait for success -> audit dispatch
+```
+
+The audit workflow still retains:
+
+- `workflow_dispatch` for explicit canonical dispatch;
+- `workflow_run` as supplemental compatibility;
+- dead-man schedule `47 */6 * * * UTC`;
+- `actions: read` only.
+
+A first exact-main dispatcher execution after that hardening exposed a fail-closed Bash parsing bug: while the control run was in progress, the empty `conclusion` field collapsed during whitespace-delimited parsing. The dispatcher stopped before audit dispatch while the separately created health control itself completed successfully.
+
+PR #72 corrected this by using:
+
+```text
+conclusion sentinel = NONE
+state delimiter = |
+IFS = |
+```
+
+This preserves field positions for queued/in-progress control runs.
+
+## Exact-main end-to-end validation
+
+Canonical revision:
+
+```text
+main = 3b6ae49872ed4d88e3ba2e53ffecfdfdda51f4a0
+GitHub verified = true
+```
+
+Repository regression:
+
+```text
+CI run = 34428832117
+job = 102719738764
+result = SUCCESS
+1178 passed in 91.90s
+```
+
+Dispatcher:
+
+```text
+run = 34428832137
+job = 102719739208
+result = SUCCESS
+P19_CONTROL_RUN_ID = 34428839423
+P19_CONTROL_RESULT = PASS
+P19_CONTROL_HEAD_SHA = 3b6ae49872ed4d88e3ba2e53ffecfdfdda51f4a0
+P19_SOAK_AUDIT_DISPATCH = PASS
+P19_AUDIT_TRIGGER_CONTROL_RUN_ID = 34428839423
+P19_SOAK_DISPATCH_CHAIN = PASS
+```
+
+Dispatched owner-local health control:
+
+```text
+run = 34428839423
+job = 102719764577
+result = SUCCESS
+operation = health
+observation_utc = 2026-09-10T02:17:44Z
+Tailscale connectivity = PASS
+service before/after = active / active
+runtime DB read as kgmops = denied
+arbitrary root escalation = denied
+restart = skipped
+Ansible recap = ok=10 changed=0 unreachable=0 failed=0 skipped=1
+P19_REAL_SOAK_OBSERVATION = PASS
+```
+
+The host-side deployed repository SHA reported by the bounded playbook remains:
+
+```text
+b31b2136b5fe982d0b63b0135479b1549041906c
+```
+
+This is host deployment evidence and is intentionally not conflated with the GitHub workflow repository SHA.
+
+Explicit read-only elapsed audit:
+
+```text
+run = 34428891033
+job = 102719925025
+result = SUCCESS
+P19_CONTROL_COMPLETED_RUNS = 4
+P19_CONTROL_FAILED_RUNS = 0
+P19_QUALIFYING_HEALTH_OBSERVATIONS = 4
+P19_SOAK_AUDIT = PASS
+P19_CONTINUITY_STATUS = PASS
+latest_observation_utc = 2026-09-10T02:17:44Z
+current_max_gap_hours = 0.9422222222222222
+max_allowed_gap_hours = 7.0
+```
+
+Preserved audit artifact:
+
+```text
+artifact = p19-owner-local-soak-gate-audit-34428891033
+artifact ID = 10133694818
+zip SHA256 = a9e2913866552aa471acdedbdc552eb79e9f22bf7ce6601b7460fcbdcca3c0fd
+size = 1153 bytes
+retention = 30 days
+```
+
+Detailed evidence record:
+
+```text
+docs/evidence/PHASE_19_EXPLICIT_CONTROL_AUDIT_CHAIN_VALIDATION_2026-09-10.md
+```
 
 ## Deterministic elapsed-soak gate audit
 
-P19 also uses a separate read-only evidence audit:
-
-```text
-p19-owner-local-soak-gate-audit.yml
-  workflow_run after KGM control completion
-  + dead-man schedule: 47 */6 * * * UTC
-  -> GitHub Actions read-only history
-  -> qualifying successful health observations
-  -> scripts/p19_soak_gate.py
-  -> 24h / 72h / 7d evidence state
-```
-
-The audit does not log into Tailscale and cannot control the VM. It has `actions: read` only.
-
-Qualifying evidence is a completed `workflow_dispatch` control run where the `Record P19 owner-local soak observation` step completed successfully. Manual `restart` runs do not qualify as health observations because that observation step is skipped.
+Qualifying evidence is a completed successful `workflow_dispatch` control run where the `Record P19 owner-local soak observation` step completed successfully. Manual `restart` runs do not qualify because that observation step is skipped.
 
 The evaluator enforces:
 
@@ -176,7 +233,7 @@ simulated or accelerated time = NOT ACCEPTED
 
 The seven-hour value is an evidence-continuity tolerance around the intended six-hour cadence; it is not a runtime availability SLA. A gap greater than seven hours means `FAIL_CONTINUITY` for the current soak evidence and must not be silently converted into a pass. It does not by itself prove that the KGM host failed; it proves that continuous health was not adequately evidenced.
 
-The audit emits states such as:
+The audit emits states including:
 
 ```text
 IN_PROGRESS
@@ -185,7 +242,7 @@ PASS
 FAIL_CONTINUITY
 ```
 
-It preserves a JSON evidence artifact for each audit execution. The audit may identify milestone eligibility, but it does not automatically close the parent P19 gate or modify canonical runtime state.
+Each audit preserves JSON/log/observation evidence as a GitHub artifact. The audit may identify milestone eligibility, but it does not automatically close the parent P19 gate or modify canonical runtime state.
 
 ## Binding boundaries
 
@@ -206,11 +263,15 @@ STRATEGIC_MACHINE_STATE = 4.34
 P19_ACCELERATED_DETERMINISTIC_HARNESS = PASS
 P19_OWNER_LOCAL_ACCESS = REVALIDATED
 P19_SCHEDULED_DISPATCH_CHAIN = PASS
+P19_EXPLICIT_CONTROL_TO_AUDIT_CHAIN = PASS
+P19_FAIL_CLOSED_CONTROL_WAIT = PASS
+P19_READ_ONLY_ELAPSED_AUDIT = PASS
+P19_CONTINUITY_STATUS = PASS
 P19_OWNER_LOCAL_REAL_SOAK = IN_PROGRESS
 P19_REAL_24H_SOAK = IN_PROGRESS
-P19_REAL_72H_SOAK = PENDING
-P19_REAL_7D_SOAK = PENDING
+P19_REAL_72H_SOAK = IN_PROGRESS
+P19_REAL_7D_SOAK = IN_PROGRESS
 P19_FULL_GATE = OPEN
 ```
 
-Next evidence milestone: a clean observation at or after the 24-hour boundary, together with the deterministic audit of the intervening observation history.
+Next evidence milestone: a clean observation at or after the 24-hour boundary (`2026-09-11T00:19:31Z`) together with deterministic audit confirmation that the intervening evidence chain remained continuous.
