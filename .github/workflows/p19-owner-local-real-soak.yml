@@ -4,11 +4,15 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '17 */6 * * *'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/p19-owner-local-real-soak.yml'
+      - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-10_PHASE_19_OWNER_LOCAL_REAL_SOAK_IN_PROGRESS.md'
   pull_request:
     branches: [main]
     paths:
       - '.github/workflows/p19-owner-local-real-soak.yml'
-      - 'docs/implementation/POST_PHASE_18_DEVELOPMENT_ROADMAP_P19_P28.md'
       - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-10_PHASE_19_OWNER_LOCAL_REAL_SOAK_IN_PROGRESS.md'
 
 permissions:
@@ -16,11 +20,35 @@ permissions:
   id-token: write
 
 concurrency:
-  group: p19-owner-local-real-soak
+  group: p19-owner-local-real-soak-${{ github.event_name }}
   cancel-in-progress: false
 
 jobs:
+  contract-check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout PR revision
+        uses: actions/checkout@v5
+
+      - name: Verify fail-closed soak contract
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          file='.github/workflows/p19-owner-local-real-soak.yml'
+          grep -F "expected_host='kgm-e4-owner-pilot'" "$file"
+          grep -F "expected_ip='100.102.136.23'" "$file"
+          grep -F "-e 'operation=health'" "$file"
+          if grep -Fq "-e 'operation=restart'" "$file"; then
+            echo 'Restart must never be present in the soak observer' >&2
+            exit 41
+          fi
+          grep -F 'P19_REAL_SOAK_ELAPSED_GATE=NOT_INFERRED_FROM_SINGLE_OBSERVATION' "$file"
+          grep -F 'BETA_PAID_RESOURCES_AUTHORIZED=NO' "$file"
+          echo 'P19_SOAK_WORKFLOW_CONTRACT=PASS'
+
   observe-owner-local:
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
 
@@ -71,7 +99,7 @@ jobs:
           done
 
           echo 'Canonical KGM owner-local peer did not satisfy exact host/IP/online contract' >&2
-          exit 41
+          exit 42
 
       - name: Install pinned Ansible control runtime
         shell: bash
