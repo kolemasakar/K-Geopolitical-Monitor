@@ -1,0 +1,160 @@
+name: P19 Owner-Local Real Soak
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/p19-owner-local-real-soak.yml'
+      - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-10_PHASE_19_OWNER_LOCAL_REAL_SOAK_IN_PROGRESS.md'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/p19-owner-local-real-soak.yml'
+      - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-10_PHASE_19_OWNER_LOCAL_REAL_SOAK_IN_PROGRESS.md'
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: p19-owner-local-real-soak-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  contract-check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout PR revision
+        uses: actions/checkout@v5
+
+      - name: Verify fail-closed soak contract
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          text = Path('.github/workflows/p19-owner-local-real-soak.yml').read_text(encoding='utf-8')
+          marker = '  observe-owner-local:\n'
+          if marker not in text:
+              raise SystemExit('observe-owner-local job missing')
+          observer = text.split(marker, 1)[1]
+
+          required = (
+              "expected_host='kgm-e4-owner-pilot'",
+              "expected_ip='100.102.136.23'",
+              "-e 'operation=health'",
+              'P19_REAL_SOAK_ELAPSED_GATE=NOT_INFERRED_FROM_SINGLE_OBSERVATION',
+              'BETA_PAID_RESOURCES_AUTHORIZED=NO',
+          )
+          missing = [value for value in required if value not in observer]
+          if missing:
+              raise SystemExit(f'missing observer invariants: {missing}')
+          if "-e 'operation=restart'" in observer:
+              raise SystemExit('restart must never be present in the soak observer')
+          print('P19_SOAK_WORKFLOW_CONTRACT=PASS')
+          PY
+
+  observe-owner-local:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout exact repository revision
+        uses: actions/checkout@v5
+
+      - name: Validate P19 workload-identity inputs
+        env:
+          TS_OAUTH_CLIENT_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          TS_AUDIENCE: ${{ secrets.TS_AUDIENCE }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$TS_OAUTH_CLIENT_ID"
+          test -n "$TS_AUDIENCE"
+
+      - name: Connect ephemeral GitHub runner to tailnet
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          audience: ${{ secrets.TS_AUDIENCE }}
+          tags: tag:github-actions
+
+      - name: Resolve and verify canonical owner-local KGM peer
+        id: kgm
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          expected_host='kgm-e4-owner-pilot'
+          expected_ip='100.102.136.23'
+
+          for attempt in $(seq 1 20); do
+            status="$(tailscale status --json)"
+            host_count="$(printf '%s' "$status" | jq -r --arg h "$expected_host" '[.Peer[] | select(.HostName == $h)] | length')"
+            ip="$(printf '%s' "$status" | jq -r --arg h "$expected_host" '[.Peer[] | select(.HostName == $h) | .TailscaleIPs[] | select(test("^[0-9.]+$"))][0] // empty')"
+            online="$(printf '%s' "$status" | jq -r --arg h "$expected_host" '[.Peer[] | select(.HostName == $h) | .Online][0] // false')"
+
+            if [ "$host_count" = '1' ] && [ "$ip" = "$expected_ip" ] && [ "$online" = 'true' ]; then
+              echo "ip=$ip" >> "$GITHUB_OUTPUT"
+              echo "P19_OWNER_LOCAL_TARGET=$expected_host"
+              echo "P19_OWNER_LOCAL_TAILSCALE_IP=$ip"
+              tailscale ping --timeout=3s "$ip"
+              echo 'P19_TAILSCALE_CONNECTIVITY=PASS'
+              exit 0
+            fi
+            sleep 2
+          done
+
+          echo 'Canonical KGM owner-local peer did not satisfy exact host/IP/online contract' >&2
+          exit 42
+
+      - name: Install pinned Ansible control runtime
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 -m pip install --disable-pip-version-check --quiet 'ansible-core==2.20.9'
+          ansible-playbook --version
+
+      - name: Build ephemeral owner-local inventory
+        env:
+          KGM_TS_IP: ${{ steps.kgm.outputs.ip }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test "$KGM_TS_IP" = '100.102.136.23'
+          cat > /tmp/kgm-inventory.ini <<EOF
+          [kgm]
+          kgm-e4-owner-pilot ansible_host=$KGM_TS_IP ansible_user=kgmops ansible_connection=ssh ansible_python_interpreter=/usr/bin/python3 ansible_ssh_common_args='-o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=10'
+          EOF
+
+      - name: Execute bounded read-only health observation
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: 'False'
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ansible-playbook \
+            -i /tmp/kgm-inventory.ini \
+            ops/ansible/kgm_control.yml \
+            -e 'operation=health'
+          echo 'P19_BOUNDED_HEALTH=PASS'
+
+      - name: Record P19 real-soak observation boundary
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          echo 'P19_REAL_SOAK_OBSERVATION=PASS'
+          echo 'P19_REAL_SOAK_ELAPSED_GATE=NOT_INFERRED_FROM_SINGLE_OBSERVATION'
+          echo 'P19_REAL_SOAK_BASELINE_UTC=2026-09-10T00:31:24Z'
+          echo 'OWNER_LOCAL_CANONICAL=YES'
+          echo 'PHASE_18_SHARED_RUNTIME_ACTIVE=NO'
+          echo 'CANONICAL_CUTOVER_AUTHORIZED=NO'
+          echo 'MIGRATION_033=NOT_CREATED_NOT_PREAUTHORIZED'
+          echo 'BETA_PAID_RESOURCES_AUTHORIZED=NO'
+          echo "observation_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "repository_sha=$GITHUB_SHA"
