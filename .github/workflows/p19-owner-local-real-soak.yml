@@ -58,6 +58,9 @@ jobs:
               'gh workflow run tailscale-kgm-control.yml',
               '--ref main',
               '-f operation=health',
+              '(.conclusion // "NONE")',
+              'join("|")',
+              "IFS='|' read -r status conclusion head_sha event",
               'P19_CONTROL_RESULT=PASS',
               'gh workflow run p19-owner-local-soak-gate-audit.yml',
               'P19_SOAK_AUDIT_DISPATCH=PASS',
@@ -115,4 +118,5 @@ jobs:
           print('P19_AUTHORIZED_SOAK_DISPATCH_CHAIN=PASS')
           print('P19_ELAPSED_SOAK_GATE_AUDIT_CONTRACT=PASS')
           print('P19_CONTROL_THEN_AUDIT_ORDERING=PASS')
+          print('P19_CONTROL_STATE_PARSE_CONTRACT=PASS')
           PY
