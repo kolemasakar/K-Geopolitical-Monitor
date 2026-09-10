@@ -54,7 +54,7 @@ The accepted historical health proof used `workflow_dispatch`. The evidence ther
 
 Remediation:
 
-- `.github/workflows/tailscale-kgm-control.yml` is returned to `workflow_dispatch`-only live control;
+- `.github/workflows/tailscale-kgm-control.yml` is `workflow_dispatch`-only live control;
 - `.github/workflows/p19-owner-local-real-soak-dispatch.yml` owns the six-hour schedule and never touches Tailscale;
 - the dispatcher uses the repository `GITHUB_TOKEN` with `actions: write` only to issue a `workflow_dispatch` request to `tailscale-kgm-control.yml` with `operation=health`;
 - the dispatched control run then uses the already accepted GitHub OIDC -> Tailscale identity;
@@ -68,6 +68,29 @@ runtime mutation = NONE
 service restart = NONE
 runtime DB write = NONE
 ```
+
+## Accepted dispatch chain revalidation
+
+The remediated two-stage chain was validated on canonical `main` after PR #69.
+
+Evidence:
+
+- dispatcher run `34424713708`, job `102707370204`: `SUCCESS`;
+- dispatched control run `34424721121`, job `102707397216`: `SUCCESS`;
+- control event: `workflow_dispatch`;
+- operation: `health`;
+- Tailscale OIDC: PASS on first attempt;
+- exact peer: `kgm-e4-owner-pilot` / `100.102.136.23`;
+- service before/after: `active / active`;
+- runtime DB read as `kgmops`: DENIED;
+- arbitrary root escalation: DENIED;
+- restart: SKIPPED;
+- Ansible recap: `ok=10 changed=0 unreachable=0 failed=0 skipped=1`;
+- P19 observation marker: PASS;
+- observation completed: `2026-09-10T01:16:03Z`;
+- exact-main CI run `34424713709`: `1172 passed in 123.13s`.
+
+This validates the live observation mechanism. It does not substitute for elapsed time.
 
 ## Real elapsed soak baseline
 
@@ -91,11 +114,11 @@ No gate may be closed from simulated time, accelerated test execution, a failed 
 
 ## Observation mechanism
 
-Live P19 observation is a two-stage chain:
+Live P19 observation remains a two-stage chain:
 
 ```text
 p19-owner-local-real-soak-dispatch.yml
-  schedule: 17 */6 * * * UTC
+  schedule: 27 */6 * * * UTC
   -> GitHub workflow_dispatch(operation=health)
   -> tailscale-kgm-control.yml
   -> GitHub OIDC
@@ -103,6 +126,8 @@ p19-owner-local-real-soak-dispatch.yml
   -> kgmops / bounded Ansible
   -> kgm-e4-owner-pilot
 ```
+
+The dispatcher schedule is intentionally aligned to minute `27`. The baseline is at `00:19:31Z`, so the `00:27` cycle is unambiguously after the 24h, 72h, and 7d temporal boundaries and can provide the required fresh terminal observation rather than relying on a run that may complete just before the boundary.
 
 The dispatcher:
 
@@ -122,6 +147,46 @@ The accepted control workflow:
 
 The P19 automated dispatcher cannot request `restart`. A single successful workflow run is only one observation and never substitutes for elapsed soak duration.
 
+## Deterministic elapsed-soak gate audit
+
+P19 also uses a separate read-only evidence audit:
+
+```text
+p19-owner-local-soak-gate-audit.yml
+  workflow_run after KGM control completion
+  + dead-man schedule: 47 */6 * * * UTC
+  -> GitHub Actions read-only history
+  -> qualifying successful health observations
+  -> scripts/p19_soak_gate.py
+  -> 24h / 72h / 7d evidence state
+```
+
+The audit does not log into Tailscale and cannot control the VM. It has `actions: read` only.
+
+Qualifying evidence is a completed `workflow_dispatch` control run where the `Record P19 owner-local soak observation` step completed successfully. Manual `restart` runs do not qualify as health observations because that observation step is skipped.
+
+The evaluator enforces:
+
+```text
+milestones = 24h / 72h / 168h
+fresh terminal observation at or after each boundary = REQUIRED
+maximum gap between verified observations = 7h
+simulated or accelerated time = NOT ACCEPTED
+```
+
+The seven-hour value is an evidence-continuity tolerance around the intended six-hour cadence; it is not a runtime availability SLA. A gap greater than seven hours means `FAIL_CONTINUITY` for the current soak evidence and must not be silently converted into a pass. It does not by itself prove that the KGM host failed; it proves that continuous health was not adequately evidenced.
+
+The audit emits states such as:
+
+```text
+IN_PROGRESS
+WAITING_TERMINAL_OBSERVATION
+PASS
+FAIL_CONTINUITY
+```
+
+It preserves a JSON evidence artifact for each audit execution. The audit may identify milestone eligibility, but it does not automatically close the parent P19 gate or modify canonical runtime state.
+
 ## Binding boundaries
 
 ```text
@@ -140,6 +205,7 @@ STRATEGIC_MACHINE_STATE = 4.34
 ```text
 P19_ACCELERATED_DETERMINISTIC_HARNESS = PASS
 P19_OWNER_LOCAL_ACCESS = REVALIDATED
+P19_SCHEDULED_DISPATCH_CHAIN = PASS
 P19_OWNER_LOCAL_REAL_SOAK = IN_PROGRESS
 P19_REAL_24H_SOAK = IN_PROGRESS
 P19_REAL_72H_SOAK = PENDING
@@ -147,4 +213,4 @@ P19_REAL_7D_SOAK = PENDING
 P19_FULL_GATE = OPEN
 ```
 
-Next evidence milestone: a clean observation at or after the 24-hour boundary, together with review of the intervening scheduled observation history.
+Next evidence milestone: a clean observation at or after the 24-hour boundary, together with the deterministic audit of the intervening observation history.
