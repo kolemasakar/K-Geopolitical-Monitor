@@ -39,30 +39,35 @@ Evidence:
 - `kgm-monitor.service` after: active
 - runtime DB read as `kgmops`: DENIED
 - arbitrary root escalation as `kgmops`: DENIED
-- Ansible recap: `ok=10 changed=0 unreachable=0 failed=0 skipped=1`
+- Ansible recap: `ok=10 changed=0 unreachable=0 failed=0`
 
 This successful health observation is the conservative start anchor for the real elapsed soak. The host runtime is the object under observation; repository regression state remains independently covered by canonical GitHub CI.
 
 ## OIDC trust boundary discovered and preserved
 
-The first implementation attempted to create a second live Tailscale path in `.github/workflows/p19-owner-local-real-soak.yml`.
+Two fail-closed observations established that the Tailscale trust is narrower than repository/path authorization alone:
 
-Canonical push run `34421645389`, job `102698156654`, failed closed before reaching the host:
+1. A second workflow path (`p19-owner-local-real-soak.yml`) was rejected with HTTP 403 before host access.
+2. After moving live logic into the accepted `tailscale-kgm-control.yml` path, a `push` event on exact-main run `34422415082`, job `102700511669`, was also rejected with HTTP 403 before host access.
+
+The accepted historical health proof used `workflow_dispatch`. The evidence therefore supports an event-bound workload-identity constraint: the control workflow must enter Tailscale through the existing `workflow_dispatch` path. No Tailscale trust expansion is authorized or required.
+
+Remediation:
+
+- `.github/workflows/tailscale-kgm-control.yml` is returned to `workflow_dispatch`-only live control;
+- `.github/workflows/p19-owner-local-real-soak-dispatch.yml` owns the six-hour schedule and never touches Tailscale;
+- the dispatcher uses the repository `GITHUB_TOKEN` with `actions: write` only to issue a `workflow_dispatch` request to `tailscale-kgm-control.yml` with `operation=health`;
+- the dispatched control run then uses the already accepted GitHub OIDC -> Tailscale identity;
+- `.github/workflows/p19-owner-local-real-soak.yml` is a static PR contract check and has no live Tailscale credentials.
+
+Failed 403 runs are infrastructure-control evidence only. In both cases:
 
 ```text
-Tailscale token exchange = HTTP 403 Unauthorized
 remote Ansible operation = NOT STARTED
 runtime mutation = NONE
+service restart = NONE
+runtime DB write = NONE
 ```
-
-This was not a KGM host/access outage. The accepted `.github/workflows/tailscale-kgm-control.yml` path had passed minutes earlier. The 403 demonstrated that the Tailscale workload-identity trust is intentionally bounded and does not automatically authorize a new workflow path.
-
-Remediation preserves that boundary rather than broadening Tailscale trust:
-
-- scheduled P19 observations are executed by the already accepted `tailscale-kgm-control.yml` workflow;
-- scheduled and push-triggered executions are forced to `operation=health`;
-- manual `workflow_dispatch` retains the pre-existing bounded `health|restart` choice;
-- `.github/workflows/p19-owner-local-real-soak.yml` is now a static PR contract check only and creates no second OIDC/Tailscale path.
 
 ## Real elapsed soak baseline
 
@@ -86,24 +91,36 @@ No gate may be closed from simulated time, accelerated test execution, a failed 
 
 ## Observation mechanism
 
-`.github/workflows/tailscale-kgm-control.yml` is the live observer because it is the already accepted and Tailscale-authorized workflow identity.
+Live P19 observation is a two-stage chain:
 
-For P19 it:
+```text
+p19-owner-local-real-soak-dispatch.yml
+  schedule: 17 */6 * * * UTC
+  -> GitHub workflow_dispatch(operation=health)
+  -> tailscale-kgm-control.yml
+  -> GitHub OIDC
+  -> Tailscale
+  -> kgmops / bounded Ansible
+  -> kgm-e4-owner-pilot
+```
 
-- runs a health observation every six hours (`17 */6 * * *` UTC);
-- performs an immediate health observation when the observer definition itself is merged to `main`;
+The dispatcher:
+
+- schedules one health dispatch every six hours;
+- can be manually dispatched for validation;
+- performs no Tailscale login, SSH, service mutation, or database access;
+- always requests `operation=health`.
+
+The accepted control workflow:
+
+- is live only for `workflow_dispatch`;
 - requires exactly `kgm-e4-owner-pilot` at `100.102.136.23` and online;
 - pings the host over Tailscale;
-- invokes bounded Ansible with `operation=health` for scheduled/push observations;
-- verifies the existing DB-read and arbitrary-root denial boundaries through `ops/ansible/kgm_control.yml`;
-- does not restart the service during P19 scheduled observations;
-- does not write the runtime database;
-- does not activate any shared runtime;
-- records each successful observation in GitHub Actions evidence.
+- invokes bounded Ansible with the requested `health|restart` operation;
+- records a P19 observation only when the operation is `health`;
+- verifies DB-read and arbitrary-root denial boundaries through `ops/ansible/kgm_control.yml`.
 
-`.github/workflows/p19-owner-local-real-soak.yml` statically checks this contract on pull requests and has no live credentials or schedule of its own.
-
-A single successful workflow run is only one observation and never substitutes for elapsed soak duration.
+The P19 automated dispatcher cannot request `restart`. A single successful workflow run is only one observation and never substitutes for elapsed soak duration.
 
 ## Binding boundaries
 
