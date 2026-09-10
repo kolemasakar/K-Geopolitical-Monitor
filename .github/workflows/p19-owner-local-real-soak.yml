@@ -44,9 +44,11 @@ jobs:
           if missing:
               raise SystemExit(f'missing authorized soak invariants: {missing}')
 
-          if 'tailscale/github-action@' in contract:
+          forbidden_live_action = 'tailscale/' + 'github-action@'
+          forbidden_schedule = 'sche' + 'dule:'
+          if forbidden_live_action in contract:
               raise SystemExit('P19 contract workflow must not create a second OIDC/Tailscale trust path')
-          if 'schedule:' in contract:
+          if forbidden_schedule in contract:
               raise SystemExit('P19 contract workflow must not schedule a second live observer')
 
           print('P19_AUTHORIZED_SOAK_CONTRACT=PASS')
