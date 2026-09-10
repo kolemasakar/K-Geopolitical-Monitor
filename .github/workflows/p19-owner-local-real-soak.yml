@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/p19-owner-local-real-soak.yml'
+      - '.github/workflows/p19-owner-local-real-soak-dispatch.yml'
       - '.github/workflows/tailscale-kgm-control.yml'
       - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-10_PHASE_19_OWNER_LOCAL_REAL_SOAK_IN_PROGRESS.md'
 
@@ -26,30 +27,43 @@ jobs:
           from pathlib import Path
 
           control = Path('.github/workflows/tailscale-kgm-control.yml').read_text(encoding='utf-8')
-          contract = Path('.github/workflows/p19-owner-local-real-soak.yml').read_text(encoding='utf-8')
+          dispatcher = Path('.github/workflows/p19-owner-local-real-soak-dispatch.yml').read_text(encoding='utf-8')
 
-          required = (
-              "cron: '17 */6 * * *'",
+          control_required = (
+              'workflow_dispatch:',
               "expected_host='kgm-e4-owner-pilot'",
               "expected_ip='100.102.136.23'",
-              "github.event_name == 'workflow_dispatch'",
-              "|| 'health'",
-              "-e \"operation=$KGM_OPERATION\"",
+              'inputs.operation',
+              '-e "operation=$KGM_OPERATION"',
               'P19_REAL_SOAK_OBSERVATION=PASS',
               'P19_REAL_SOAK_ELAPSED_GATE=NOT_INFERRED_FROM_SINGLE_OBSERVATION',
               'P19_REAL_SOAK_BASELINE_UTC=2026-09-10T00:19:31Z',
               'BETA_PAID_RESOURCES_AUTHORIZED=NO',
           )
-          missing = [value for value in required if value not in control]
-          if missing:
-              raise SystemExit(f'missing authorized soak invariants: {missing}')
+          missing_control = [value for value in control_required if value not in control]
+          if missing_control:
+              raise SystemExit(f'missing control invariants: {missing_control}')
+
+          if "cron:" in control or "branches: [main]" in control:
+              raise SystemExit('Tailscale control workflow must remain workflow_dispatch-only')
+
+          dispatcher_required = (
+              "cron: '17 */6 * * *'",
+              'actions: write',
+              'gh workflow run tailscale-kgm-control.yml',
+              '--ref main',
+              '-f operation=health',
+              'P19_CONTROL_EVENT=workflow_dispatch',
+              'P19_CONTROL_OPERATION=health',
+              'P19_REAL_SOAK_ELAPSED_GATE=NOT_INFERRED_FROM_DISPATCH',
+          )
+          missing_dispatcher = [value for value in dispatcher_required if value not in dispatcher]
+          if missing_dispatcher:
+              raise SystemExit(f'missing dispatcher invariants: {missing_dispatcher}')
 
           forbidden_live_action = 'tailscale/' + 'github-action@'
-          forbidden_schedule = 'sche' + 'dule:'
-          if forbidden_live_action in contract:
-              raise SystemExit('P19 contract workflow must not create a second OIDC/Tailscale trust path')
-          if forbidden_schedule in contract:
-              raise SystemExit('P19 contract workflow must not schedule a second live observer')
+          if forbidden_live_action in dispatcher:
+              raise SystemExit('Dispatcher must not create its own Tailscale trust path')
 
-          print('P19_AUTHORIZED_SOAK_CONTRACT=PASS')
+          print('P19_AUTHORIZED_SOAK_DISPATCH_CHAIN=PASS')
           PY
