@@ -58,15 +58,26 @@ jobs:
               'gh workflow run tailscale-kgm-control.yml',
               '--ref main',
               '-f operation=health',
+              'P19_CONTROL_RESULT=PASS',
+              'gh workflow run p19-owner-local-soak-gate-audit.yml',
+              'P19_SOAK_AUDIT_DISPATCH=PASS',
               'P19_CONTROL_EVENT=workflow_dispatch',
               'P19_CONTROL_OPERATION=health',
+              'P19_AUDIT_EVENT=workflow_dispatch',
               'P19_REAL_SOAK_ELAPSED_GATE=NOT_INFERRED_FROM_DISPATCH',
           )
           missing_dispatcher = [value for value in dispatcher_required if value not in dispatcher]
           if missing_dispatcher:
               raise SystemExit(f'missing dispatcher invariants: {missing_dispatcher}')
 
+          control_dispatch_pos = dispatcher.index('gh workflow run tailscale-kgm-control.yml')
+          control_pass_pos = dispatcher.index('P19_CONTROL_RESULT=PASS')
+          audit_dispatch_pos = dispatcher.index('gh workflow run p19-owner-local-soak-gate-audit.yml')
+          if not control_dispatch_pos < control_pass_pos < audit_dispatch_pos:
+              raise SystemExit('Elapsed audit must be dispatched only after successful KGM health control')
+
           audit_required = (
+              'workflow_dispatch:',
               'workflow_run:',
               'KGM Tailscale Ansible Control',
               "cron: '47 */6 * * *'",
@@ -103,4 +114,5 @@ jobs:
 
           print('P19_AUTHORIZED_SOAK_DISPATCH_CHAIN=PASS')
           print('P19_ELAPSED_SOAK_GATE_AUDIT_CONTRACT=PASS')
+          print('P19_CONTROL_THEN_AUDIT_ORDERING=PASS')
           PY

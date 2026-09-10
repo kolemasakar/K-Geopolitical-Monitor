@@ -20,7 +20,7 @@ concurrency:
 jobs:
   dispatch-health:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - name: Validate dispatcher event
@@ -32,24 +32,96 @@ jobs:
             *) echo 'Unsupported dispatcher event' >&2; exit 41 ;;
           esac
 
-      - name: Dispatch accepted KGM control workflow
+      - name: Dispatch and await accepted KGM health control
+        id: control
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -Eeuo pipefail
+
+          before_id="$(
+            gh api "/repos/${GITHUB_REPOSITORY}/actions/workflows/tailscale-kgm-control.yml/runs?event=workflow_dispatch&per_page=1" \
+              --jq '.workflow_runs[0].id // 0'
+          )"
+
           gh workflow run tailscale-kgm-control.yml \
             --repo "$GITHUB_REPOSITORY" \
             --ref main \
             -f operation=health
 
+          control_run_id=''
+          for attempt in $(seq 1 30); do
+            candidate="$(
+              gh api "/repos/${GITHUB_REPOSITORY}/actions/workflows/tailscale-kgm-control.yml/runs?event=workflow_dispatch&per_page=1" \
+                --jq '.workflow_runs[0].id // 0'
+            )"
+            if [ "$candidate" != '0' ] && [ "$candidate" != "$before_id" ]; then
+              control_run_id="$candidate"
+              break
+            fi
+            sleep 2
+          done
+
+          if [ -z "$control_run_id" ]; then
+            echo 'Dispatched KGM control run was not observable within timeout' >&2
+            exit 42
+          fi
+
+          echo "control_run_id=$control_run_id" >> "$GITHUB_OUTPUT"
+          echo "P19_CONTROL_RUN_ID=$control_run_id"
+
+          for attempt in $(seq 1 60); do
+            state="$(
+              gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${control_run_id}" \
+                --jq '[.status, (.conclusion // ""), .head_sha, .event] | @tsv'
+            )"
+            IFS=$'\t' read -r status conclusion head_sha event <<< "$state"
+
+            if [ "$event" != 'workflow_dispatch' ]; then
+              echo "Unexpected control event: $event" >&2
+              exit 43
+            fi
+
+            if [ "$status" = 'completed' ]; then
+              if [ "$conclusion" != 'success' ]; then
+                echo "KGM health control failed: run=$control_run_id conclusion=$conclusion" >&2
+                exit 44
+              fi
+              echo "P19_CONTROL_RESULT=PASS"
+              echo "P19_CONTROL_HEAD_SHA=$head_sha"
+              break
+            fi
+
+            if [ "$attempt" = '60' ]; then
+              echo "KGM health control did not complete within timeout: run=$control_run_id" >&2
+              exit 45
+            fi
+            sleep 5
+          done
+
+      - name: Dispatch elapsed-soak evidence audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CONTROL_RUN_ID: ${{ steps.control.outputs.control_run_id }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$CONTROL_RUN_ID"
+          gh workflow run p19-owner-local-soak-gate-audit.yml \
+            --repo "$GITHUB_REPOSITORY" \
+            --ref main
+          echo 'P19_SOAK_AUDIT_DISPATCH=PASS'
+          echo "P19_AUDIT_TRIGGER_CONTROL_RUN_ID=$CONTROL_RUN_ID"
+
       - name: Record dispatch boundary
         shell: bash
         run: |
           set -Eeuo pipefail
-          echo 'P19_SOAK_DISPATCH=PASS'
+          echo 'P19_SOAK_DISPATCH_CHAIN=PASS'
           echo 'P19_CONTROL_EVENT=workflow_dispatch'
           echo 'P19_CONTROL_OPERATION=health'
+          echo 'P19_AUDIT_EVENT=workflow_dispatch'
           echo 'P19_REAL_SOAK_ELAPSED_GATE=NOT_INFERRED_FROM_DISPATCH'
           echo 'PHASE_18_SHARED_RUNTIME_ACTIVE=NO'
           echo 'CANONICAL_CUTOVER_AUTHORIZED=NO'
