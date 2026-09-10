@@ -11,12 +11,6 @@ on:
         options:
           - health
           - restart
-  schedule:
-    - cron: '17 */6 * * *'
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/tailscale-kgm-control.yml'
 
 permissions:
   contents: read
@@ -31,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      KGM_OPERATION: ${{ github.event_name == 'workflow_dispatch' && inputs.operation || 'health' }}
+      KGM_OPERATION: ${{ inputs.operation }}
 
     steps:
       - name: Checkout exact repository revision
@@ -125,7 +119,7 @@ jobs:
           echo "repository_sha=$GITHUB_SHA"
 
       - name: Record P19 owner-local soak observation
-        if: github.event_name != 'workflow_dispatch' || inputs.operation == 'health'
+        if: inputs.operation == 'health'
         shell: bash
         run: |
           set -Eeuo pipefail
