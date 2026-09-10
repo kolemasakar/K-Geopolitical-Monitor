@@ -74,9 +74,9 @@ jobs:
           for attempt in $(seq 1 60); do
             state="$(
               gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${control_run_id}" \
-                --jq '[.status, (.conclusion // ""), .head_sha, .event] | @tsv'
+                --jq '[.status, (.conclusion // "NONE"), .head_sha, .event] | join("|")'
             )"
-            IFS=$'\t' read -r status conclusion head_sha event <<< "$state"
+            IFS='|' read -r status conclusion head_sha event <<< "$state"
 
             if [ "$event" != 'workflow_dispatch' ]; then
               echo "Unexpected control event: $event" >&2
