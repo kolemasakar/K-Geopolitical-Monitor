@@ -6,7 +6,10 @@ on:
     paths:
       - '.github/workflows/p19-owner-local-real-soak.yml'
       - '.github/workflows/p19-owner-local-real-soak-dispatch.yml'
+      - '.github/workflows/p19-owner-local-soak-gate-audit.yml'
       - '.github/workflows/tailscale-kgm-control.yml'
+      - 'scripts/p19_soak_gate.py'
+      - 'tests/test_p19_soak_gate.py'
       - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-10_PHASE_19_OWNER_LOCAL_REAL_SOAK_IN_PROGRESS.md'
 
 permissions:
@@ -28,6 +31,8 @@ jobs:
 
           control = Path('.github/workflows/tailscale-kgm-control.yml').read_text(encoding='utf-8')
           dispatcher = Path('.github/workflows/p19-owner-local-real-soak-dispatch.yml').read_text(encoding='utf-8')
+          audit = Path('.github/workflows/p19-owner-local-soak-gate-audit.yml').read_text(encoding='utf-8')
+          evaluator = Path('scripts/p19_soak_gate.py').read_text(encoding='utf-8')
 
           control_required = (
               'workflow_dispatch:',
@@ -48,7 +53,7 @@ jobs:
               raise SystemExit('Tailscale control workflow must remain workflow_dispatch-only')
 
           dispatcher_required = (
-              "cron: '17 */6 * * *'",
+              "cron: '27 */6 * * *'",
               'actions: write',
               'gh workflow run tailscale-kgm-control.yml',
               '--ref main',
@@ -61,9 +66,41 @@ jobs:
           if missing_dispatcher:
               raise SystemExit(f'missing dispatcher invariants: {missing_dispatcher}')
 
+          audit_required = (
+              'workflow_run:',
+              'KGM Tailscale Ansible Control',
+              "cron: '47 */6 * * *'",
+              'actions: read',
+              'scripts/p19_soak_gate.py',
+              "--baseline '2026-09-10T00:19:31Z'",
+              '--max-gap-hours 7',
+              'P19 Owner-Local Soak Gate Audit',
+              'actions/upload-artifact@v4',
+          )
+          missing_audit = [value for value in audit_required if value not in audit]
+          if missing_audit:
+              raise SystemExit(f'missing audit invariants: {missing_audit}')
+
+          evaluator_required = (
+              'MILESTONE_HOURS = (24, 72, 168)',
+              'WAITING_TERMINAL_OBSERVATION',
+              'FAIL_CONTINUITY',
+              'P19_REAL_24H_SOAK=',
+              'P19_REAL_72H_SOAK=',
+              'P19_REAL_7D_SOAK=',
+          )
+          missing_evaluator = [value for value in evaluator_required if value not in evaluator]
+          if missing_evaluator:
+              raise SystemExit(f'missing evaluator invariants: {missing_evaluator}')
+
           forbidden_live_action = 'tailscale/' + 'github-action@'
           if forbidden_live_action in dispatcher:
               raise SystemExit('Dispatcher must not create its own Tailscale trust path')
+          if forbidden_live_action in audit:
+              raise SystemExit('Audit workflow must not create a Tailscale trust path')
+          if 'actions: write' in audit:
+              raise SystemExit('Audit workflow must remain read-only')
 
           print('P19_AUTHORIZED_SOAK_DISPATCH_CHAIN=PASS')
+          print('P19_ELAPSED_SOAK_GATE_AUDIT_CONTRACT=PASS')
           PY
