@@ -11,6 +11,12 @@ on:
         options:
           - health
           - restart
+  schedule:
+    - cron: '17 */6 * * *'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/tailscale-kgm-control.yml'
 
 permissions:
   contents: read
@@ -24,6 +30,8 @@ jobs:
   control:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      KGM_OPERATION: ${{ github.event_name == 'workflow_dispatch' && inputs.operation || 'health' }}
 
     steps:
       - name: Checkout exact repository revision
@@ -46,22 +54,32 @@ jobs:
           audience: ${{ secrets.TS_AUDIENCE }}
           tags: tag:github-actions
 
-      - name: Resolve and verify tagged KGM peer
+      - name: Resolve and verify canonical KGM peer
         id: kgm
         shell: bash
         run: |
           set -Eeuo pipefail
+          expected_host='kgm-e4-owner-pilot'
+          expected_ip='100.102.136.23'
+
           for attempt in $(seq 1 20); do
             status="$(tailscale status --json)"
-            ip="$(printf '%s' "$status" | jq -r '[.Peer[] | select(.HostName == "kgm-e4-owner-pilot") | .TailscaleIPs[] | select(test("^[0-9.]+$"))][0] // empty')"
-            if [ -n "$ip" ]; then
+            host_count="$(printf '%s' "$status" | jq -r --arg h "$expected_host" '[.Peer[] | select(.HostName == $h)] | length')"
+            ip="$(printf '%s' "$status" | jq -r --arg h "$expected_host" '[.Peer[] | select(.HostName == $h) | .TailscaleIPs[] | select(test("^[0-9.]+$"))][0] // empty')"
+            online="$(printf '%s' "$status" | jq -r --arg h "$expected_host" '[.Peer[] | select(.HostName == $h) | .Online][0] // false')"
+
+            if [ "$host_count" = '1' ] && [ "$ip" = "$expected_ip" ] && [ "$online" = 'true' ]; then
               echo "ip=$ip" >> "$GITHUB_OUTPUT"
+              echo "KGM_OWNER_LOCAL_TARGET=$expected_host"
+              echo "KGM_OWNER_LOCAL_TAILSCALE_IP=$ip"
               tailscale ping --timeout=3s "$ip"
+              echo 'KGM_TAILSCALE_CONNECTIVITY=PASS'
               exit 0
             fi
             sleep 2
           done
-          echo 'KGM tagged peer was not discovered in tailnet' >&2
+
+          echo 'Canonical KGM peer did not satisfy exact host/IP/online contract' >&2
           exit 41
 
       - name: Install pinned Ansible control runtime
@@ -77,7 +95,7 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          test -n "$KGM_TS_IP"
+          test "$KGM_TS_IP" = '100.102.136.23'
           cat > /tmp/kgm-inventory.ini <<EOF
           [kgm]
           kgm-e4-owner-pilot ansible_host=$KGM_TS_IP ansible_user=kgmops ansible_connection=ssh ansible_python_interpreter=/usr/bin/python3 ansible_ssh_common_args='-o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=10'
@@ -86,7 +104,6 @@ jobs:
       - name: Execute bounded KGM Ansible operation
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'False'
-          KGM_OPERATION: ${{ inputs.operation }}
         shell: bash
         run: |
           set -Eeuo pipefail
@@ -103,6 +120,23 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          echo "KGM_TAILSCALE_ANSIBLE_CONTROL=PASS"
-          echo "operation=${{ inputs.operation }}"
+          echo 'KGM_TAILSCALE_ANSIBLE_CONTROL=PASS'
+          echo "operation=$KGM_OPERATION"
+          echo "repository_sha=$GITHUB_SHA"
+
+      - name: Record P19 owner-local soak observation
+        if: github.event_name != 'workflow_dispatch' || inputs.operation == 'health'
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test "$KGM_OPERATION" = 'health'
+          echo 'P19_REAL_SOAK_OBSERVATION=PASS'
+          echo 'P19_REAL_SOAK_ELAPSED_GATE=NOT_INFERRED_FROM_SINGLE_OBSERVATION'
+          echo 'P19_REAL_SOAK_BASELINE_UTC=2026-09-10T00:19:31Z'
+          echo 'OWNER_LOCAL_CANONICAL=YES'
+          echo 'PHASE_18_SHARED_RUNTIME_ACTIVE=NO'
+          echo 'CANONICAL_CUTOVER_AUTHORIZED=NO'
+          echo 'MIGRATION_033=NOT_CREATED_NOT_PREAUTHORIZED'
+          echo 'BETA_PAID_RESOURCES_AUTHORIZED=NO'
+          echo "observation_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           echo "repository_sha=$GITHUB_SHA"
