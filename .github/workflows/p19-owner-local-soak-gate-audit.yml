@@ -1,0 +1,147 @@
+name: P19 Owner-Local Soak Gate Audit
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - KGM Tailscale Ansible Control
+    types:
+      - completed
+  schedule:
+    - cron: '47 */6 * * *'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/p19-owner-local-soak-gate-audit.yml'
+      - '.github/workflows/p19-owner-local-real-soak-dispatch.yml'
+      - '.github/workflows/p19-owner-local-real-soak.yml'
+      - 'scripts/p19_soak_gate.py'
+      - 'tests/test_p19_soak_gate.py'
+      - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-10_PHASE_19_OWNER_LOCAL_REAL_SOAK_IN_PROGRESS.md'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: p19-owner-local-soak-gate-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout current evidence logic
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || 'main' }}
+
+      - name: Collect qualifying health observations
+        id: collect
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          baseline='2026-09-10T00:19:31Z'
+          observations='/tmp/p19-observations.txt'
+          : > "$observations"
+
+          runs="$(gh api "/repos/${GITHUB_REPOSITORY}/actions/workflows/tailscale-kgm-control.yml/runs?per_page=100")"
+          completed_count=0
+          failed_count=0
+          qualifying_count=0
+
+          while IFS=$'\t' read -r run_id conclusion; do
+            [ -n "$run_id" ] || continue
+            completed_count=$((completed_count + 1))
+
+            if [ "$conclusion" != 'success' ]; then
+              failed_count=$((failed_count + 1))
+              continue
+            fi
+
+            jobs="$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/jobs?per_page=100")"
+            observed_at="$(printf '%s' "$jobs" | jq -r '
+              [
+                .jobs[].steps[]?
+                | select(
+                    .name == "Record P19 owner-local soak observation"
+                    and .conclusion == "success"
+                    and .completed_at != null
+                  )
+                | .completed_at
+              ]
+              | sort
+              | last // empty
+            ')"
+
+            if [ -n "$observed_at" ]; then
+              printf '%s\n' "$observed_at" >> "$observations"
+              qualifying_count=$((qualifying_count + 1))
+            fi
+          done < <(
+            printf '%s' "$runs" | jq -r --arg baseline "$baseline" '
+              .workflow_runs[]
+              | select(
+                  .event == "workflow_dispatch"
+                  and .created_at >= $baseline
+                  and .status == "completed"
+                )
+              | [.id, (.conclusion // "")]
+              | @tsv
+            '
+          )
+
+          sort -u -o "$observations" "$observations"
+          echo "P19_CONTROL_COMPLETED_RUNS=$completed_count"
+          echo "P19_CONTROL_FAILED_RUNS=$failed_count"
+          echo "P19_QUALIFYING_HEALTH_OBSERVATIONS=$qualifying_count"
+          echo "completed_count=$completed_count" >> "$GITHUB_OUTPUT"
+          echo "failed_count=$failed_count" >> "$GITHUB_OUTPUT"
+          echo "qualifying_count=$qualifying_count" >> "$GITHUB_OUTPUT"
+
+      - name: Evaluate elapsed soak gates
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          now="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          set +e
+          python3 scripts/p19_soak_gate.py \
+            --baseline '2026-09-10T00:19:31Z' \
+            --now "$now" \
+            --observations-file /tmp/p19-observations.txt \
+            --max-gap-hours 7 \
+            --output-json /tmp/p19-soak-audit.json \
+            | tee /tmp/p19-soak-audit.log
+          rc=${PIPESTATUS[0]}
+          set -e
+
+          {
+            echo '## P19 owner-local elapsed-soak audit'
+            echo
+            echo "- evaluated at: \`$now\`"
+            echo "- completed workflow_dispatch control runs: \`${{ steps.collect.outputs.completed_count }}\`"
+            echo "- failed workflow_dispatch control runs: \`${{ steps.collect.outputs.failed_count }}\`"
+            echo "- qualifying health observations: \`${{ steps.collect.outputs.qualifying_count }}\`"
+            echo
+            echo '```json'
+            cat /tmp/p19-soak-audit.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          exit "$rc"
+
+      - name: Preserve audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p19-owner-local-soak-gate-audit-${{ github.run_id }}
+          path: |
+            /tmp/p19-soak-audit.json
+            /tmp/p19-soak-audit.log
+            /tmp/p19-observations.txt
+          if-no-files-found: warn
+          retention-days: 30
