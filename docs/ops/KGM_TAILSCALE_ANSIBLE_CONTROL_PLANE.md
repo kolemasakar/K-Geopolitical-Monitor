@@ -161,10 +161,63 @@ The KGM Tailscale + GitHub Actions OIDC + Tailscale SSH + Ansible control plane 
 
 KGM SentinelX is retired and its obsolete repository credentials are removed. K-Trader remains the sole SentinelX-managed dominant host.
 
-KRC-Cobalt remains outside this acceptance and on implementation HOLD until separately reviewed and approved.
+KRC-Cobalt remains outside this KGM acceptance boundary and must use its own independently authorized control plane.
 
 ## Version baselines
 
 - KGM Tailscale server: `1.102.3`
 - Tailscale GitHub Action: `tailscale/github-action@v4`
 - Ansible control runtime: `ansible-core==2.20.9`
+
+## 2026-09-11 control-plane reconciliation with Sentinel-Remote
+
+The cross-project infrastructure inventory in `kolemasakar/Sentinel-Remote` was revalidated on 2026-09-11. Its canonical `main` at reconciliation time was `ca15f4e6b66daa1eb047be742c4aee8fc6770d02` and records the KGM host as **ACTIVE / OPERATIONAL** with SentinelX intentionally retired.
+
+The absence of `kgm-e4-owner-pilot` from SentinelX or Remote Desktop Commander is therefore **not a KGM recovery/access defect** and must not be treated as an unresolved recovery blocker.
+
+Primary KGM operational path remains:
+
+```text
+GitHub Actions
+  -> KGM project-scoped GitHub OIDC
+  -> ephemeral Tailscale identity / tag:github-actions
+  -> tag:kgm / TCP 22 only
+  -> Tailscale SSH
+  -> kgmops
+  -> bounded Ansible
+  -> kgm-e4-owner-pilot
+```
+
+Canonical live target identity:
+
+```text
+host = kgm-e4-owner-pilot
+Tailscale IPv4 = 100.102.136.23
+OS automation user = kgmops
+service = kgm-monitor.service
+project root = /opt/k-geopolitical-monitor
+runtime DB = /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db
+```
+
+Operational interpretation rules:
+
+- SentinelX is **RETIRED BY DESIGN** for KGM; do not re-enroll it without a new explicit owner-approved architecture decision.
+- Remote Desktop Commander is not required for normal KGM control and is not a prerequisite for Phase 19 validation.
+- owner SSH remains recovery/bootstrap/break-glass only, not the normal automation path.
+- `kgmops` must remain unable to read the runtime database and must not receive arbitrary root authority.
+- KGM identities, tags, trust credentials, and privileges must not be reused by K-Trader or KRC.
+- for host/control-plane topology, `Sentinel-Remote` is the infrastructure inventory reference; for executable KGM control semantics, the KGM repository workflow and Ansible playbook remain authoritative.
+
+### Phase 19 application
+
+`kgm-e4-owner-pilot` remains the owner-local canonical runtime and real-soak target for Phase 19. The accepted bounded `health` control is a valid fresh live owner-local observation path for P19 evidence.
+
+Current deployed candidate remains:
+
+```text
+b31b2136b5fe982d0b63b0135479b1549041906c
+```
+
+Documentation-only repository advancement during the soak does not by itself imply runtime-candidate drift or require redeployment. Runtime mutation, restart, baseline/cadence/evaluator/trust-path changes, or SentinelX re-enrollment require their own explicit authorization boundaries.
+
+Owner pause recorded on 2026-09-11: no manual KGM work is planned until `2026-09-13 07:00 Europe/Kyiv`; existing already-authorized safeguards/evidence collection are not broadened by this note.
