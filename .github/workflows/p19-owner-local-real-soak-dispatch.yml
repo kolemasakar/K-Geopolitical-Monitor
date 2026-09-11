@@ -8,6 +8,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/p19-owner-local-real-soak-dispatch.yml'
+      - 'ops/p19/real_soak_baseline.txt'
 
 permissions:
   contents: read
