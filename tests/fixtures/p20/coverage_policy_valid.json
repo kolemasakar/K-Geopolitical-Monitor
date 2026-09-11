@@ -1,0 +1,32 @@
+{
+  "policy_id": "synthetic-p20-policy",
+  "version": "1",
+  "cells": [
+    {
+      "cell_id": "synthetic-region-en-general",
+      "region": "SYNTHETIC_REGION",
+      "country": "ZZ",
+      "language": "en",
+      "source_types": ["WIRE_SERVICE", "NATIONAL_MEDIA", "REGIONAL_LOCAL_MEDIA"],
+      "topic_role": "GENERAL_NEWS",
+      "required": true,
+      "minimum_source_count": 3,
+      "minimum_independent_origin_count": 2,
+      "maximum_stale_share": 0.25,
+      "maximum_dominant_origin_share": 0.67
+    },
+    {
+      "cell_id": "synthetic-region-en-official",
+      "region": "SYNTHETIC_REGION",
+      "country": "ZZ",
+      "language": "en",
+      "source_types": ["OFFICIAL_GOVERNMENT"],
+      "topic_role": "OFFICIAL_STATEMENTS",
+      "required": false,
+      "minimum_source_count": 0,
+      "minimum_independent_origin_count": 0,
+      "maximum_stale_share": 1.0,
+      "maximum_dominant_origin_share": 1.0
+    }
+  ]
+}
