@@ -147,14 +147,54 @@ TAILSCALE_TRUST_CHANGE = NO
 RUNTIME_CHANGE = NO
 ```
 
+## 2026-09-11 staged remediation update
+
+Draft PR #80 (`hardening/post-p19-security-package`) now stages a controlled remediation package without merging it into canonical `main`.
+
+High-sensitivity immutable action pins prepared in that branch include:
+
+```text
+actions/checkout -> fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+actions/setup-python -> ece7cb06caefa5fff74198d8649806c4678c61a1
+actions/upload-artifact -> ea165f8d65b6e75b540449e92b4886f43607fa02
+tailscale/github-action -> 306e68a486fd2350f2bfc3b19fcd143891a4a2d8
+```
+
+The staged branch also updates its security contract test so immutable SHA pins are required rather than restoring mutable major tags.
+
+Validated branch state:
+
+```text
+PR_80 = DRAFT / OPEN / UNMERGED
+HEAD = 7690f3fe1a8579e95215798867ded979afb8de1d
+CI = PASS
+CI_TESTS = 1179 passed
+P19_OWNER_LOCAL_REAL_SOAK_CONTRACT = PASS
+P19_OWNER_LOCAL_SOAK_GATE_AUDIT_PR_MODE = PASS
+```
+
+The first branch CI exposed one legacy test that literally required `actions/checkout@v5`; the test was corrected to assert the immutable pin and the full regression suite then passed. No weakening of the P19 contract was used to obtain PASS.
+
+SSH host-key remediation remains design-only. A project-native authenticated precedent was confirmed in the historical E9A.6 workflow: owner-controlled `E4_SSH_KNOWN_HOSTS` plus `StrictHostKeyChecking=yes`. No host key has been invented, accepted through TOFU, or applied to the active P19 Tailscale/Ansible path.
+
+Main branch protection/ruleset is still not enabled. It remains a post-soak controlled settings action.
+
+```text
+SECURITY_REMEDIATION_PACKAGE = STAGED
+SECURITY_REMEDIATION_MERGED = NO
+P19_LIVE_CONTROL_PATH_CHANGED = NO
+MAIN_BRANCH_PROTECTION = OFF
+SSH_PINNING_APPLIED_TO_P19_CONTROL = NO
+```
+
 ## Priority after the soak boundary
 
 Recommended remediation order:
 
 1. resolve P19 deployed-runtime candidate identity;
 2. enforce branch/ruleset protections;
-3. pin GitHub Actions to immutable SHAs;
-4. restore/pin SSH host identity verification;
+3. merge validated immutable GitHub Actions pins through a controlled boundary;
+4. restore/pin SSH host identity verification using authenticated known-host evidence;
 5. add dependency/security automation and optional CODEOWNERS policy.
 
 These recommendations do not authorize A5, shared runtime, paid resources, or canonical cutover.
