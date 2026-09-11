@@ -3,7 +3,7 @@
 Date: 2026-09-11
 Status: `READ_ONLY_EVIDENCE_PREPARED / NO_DECISION_APPLIED`
 
-This runbook supplements `PHASE_19_RUNTIME_CANDIDATE_DECISION_MEMO.md`.
+This runbook supplements `PHASE_19_RUNTIME_CANDIDATE_DECISION_MEMO.md` and the fail-closed acceptance matrix in `docs/evidence/PHASE_19_B31B_PATH_A_ACCEPTANCE_MATRIX_2026-09-11.md`.
 
 ## Verified historical facts for deployed `b31b2136...`
 
@@ -52,6 +52,20 @@ The replay also emitted Node-20 deprecation warnings for the historical action g
 
 These facts improve Path A feasibility but do **not** establish that every current P19 regression/recovery requirement introduced after `b31b...` is candidate-applicable or has been rerun against that exact candidate.
 
+## Dependency and regression classification result
+
+The candidate declared only `fastapi`, `uvicorn`, `pytest` and `httpx` ranges. Current canonical code adds `psycopg`, moves tests to `httpx2`, constrains `anyio`, applies a focused CI constraints file and treats selected deprecations as errors. Therefore current-main CI policy is materially stricter and cannot be retroactively described as the historical candidate environment.
+
+The applicability review is divided into five semantic classes:
+
+- candidate-native tests present at `b31b...`: authoritative for source replay; all 317 passed;
+- historical candidate-specific real-host validation: PASS;
+- later P19 control/evidence tests: candidate-independent and valid only for control/evidence semantics;
+- later tests for code/features absent at `b31b...`: not applicable to the frozen candidate;
+- later regressions against code paths that already existed at `b31b...`: **still require explicit review for known fixes/defects before unconditional Path A authorization**.
+
+The last category remains fail-closed/open; the acceptance matrix must be used as the decision source rather than inferring readiness from aggregate current-main test counts.
+
 ## Path A verification checklist — freeze deployed candidate
 
 Before declaring `b31b...` the intended P19 candidate, collect or recreate evidence for:
@@ -62,20 +76,23 @@ A0_HISTORICAL_CI = PASS                  # run 33486945121 attempt 1
 A0_HISTORICAL_REAL_HOST = PASS           # run 33486944907
 A1_EXACT_SOURCE_REPLAY_CURRENT_ENV = PASS # run 33486945121 attempt 2; 317 passed
 A1_EXACT_DEPENDENCY_REPRODUCIBILITY = PARTIAL_OPEN
-A2_CURRENT_APPLICABLE_REGRESSION_COVERAGE = PARTIAL_OPEN
+A2_B31B_NATIVE_TEST_SUITE = PASS
+A2_POST_B31B_CONTROL_TESTS = CANDIDATE_INDEPENDENT
+A2_POST_B31B_NEW_FEATURE_TESTS = NOT_APPLICABLE_TO_B31B
+A2_POST_B31B_EXISTING_PATH_REGRESSION_REVIEW = OPEN
 A3_CURRENT_DEPLOYED_SHA_REVERIFY = OPEN
 A4_NO_ATTEMPT_2_RUNTIME_MUTATION = CONTINUOUSLY_REQUIRED
 A5_24H_72H_7D_TEMPORAL_GATES = IN_PROGRESS
 A6_CANDIDATE_SCOPED_CLOSURE_WORDING = PREPARED_NOT_APPLIED
 ```
 
-Recommended remaining read-only evidence collection for A1/A2:
+Recommended remaining read-only evidence collection for A2:
 
-- enumerate exact dependency/constraints state at `b31b...` and distinguish declared ranges from reproducible pins;
-- determine which current tests existed and were applicable at that commit;
-- classify later tests as candidate-independent control tests versus tests of code absent from `b31b...`;
-- where a later test is candidate-applicable, run it against an isolated exact-commit checkout rather than the owner-local runtime;
-- record tests that cannot meaningfully apply to the older candidate instead of back-projecting them.
+- identify later regression/security fixes that modify code paths already present in `b31b...`;
+- classify each as candidate-relevant or operationally irrelevant to the deployed owner-local path;
+- for candidate-relevant fixes, reproduce the later regression against an isolated exact-commit checkout where feasible;
+- record non-applicable tests rather than back-projecting them;
+- do not alter the active owner-local runtime to perform this review.
 
 Do not rewrite history or assert that current `main` tests were present at `b31b...`.
 
@@ -130,8 +147,12 @@ B31B_HISTORICAL_CI = PASS
 B31B_HISTORICAL_REAL_HOST_VALIDATION = PASS
 B31B_CURRENT_SOURCE_REPLAY = PASS / 317 TESTS
 B31B_EXACT_DEPENDENCY_REPRODUCIBILITY = PARTIAL_OPEN
-B31B_CURRENT_APPLICABLE_REGRESSION_COVERAGE = PARTIAL_OPEN
-PATH_A_FEASIBILITY = IMPROVED_BUT_NOT_YET_AUTHORIZED
+B31B_NATIVE_TEST_SUITE = PASS
+POST_B31B_CONTROL_TESTS = CANDIDATE_INDEPENDENT
+POST_B31B_NEW_FEATURE_TESTS = NOT_APPLICABLE_TO_B31B
+POST_B31B_EXISTING_PATH_REGRESSION_REVIEW = OPEN
+PATH_A_READINESS = CONDITIONAL_PREFERRED
+PATH_A_AUTHORIZED = NO
 PATH_B_RUNBOOK = PREPARED_NOT_EXECUTED
 RUNTIME_MUTATION = NO
 P19_BASELINE_MUTATION = NO
