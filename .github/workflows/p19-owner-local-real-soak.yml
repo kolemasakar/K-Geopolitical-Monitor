@@ -8,9 +8,12 @@ on:
       - '.github/workflows/p19-owner-local-real-soak-dispatch.yml'
       - '.github/workflows/p19-owner-local-soak-gate-audit.yml'
       - '.github/workflows/tailscale-kgm-control.yml'
+      - 'ops/p19/real_soak_baseline.txt'
       - 'scripts/p19_soak_gate.py'
       - 'tests/test_p19_soak_gate.py'
       - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-10_PHASE_19_OWNER_LOCAL_REAL_SOAK_IN_PROGRESS.md'
+      - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-11_PHASE_19_SOAK_CONTINUITY_REMEDIATION.md'
+      - 'docs/evidence/PHASE_19_REAL_SOAK_CONTINUITY_FAILURE_AND_REMEDIATION_2026-09-11.md'
 
 permissions:
   contents: read
@@ -33,6 +36,8 @@ jobs:
           dispatcher = Path('.github/workflows/p19-owner-local-real-soak-dispatch.yml').read_text(encoding='utf-8')
           audit = Path('.github/workflows/p19-owner-local-soak-gate-audit.yml').read_text(encoding='utf-8')
           evaluator = Path('scripts/p19_soak_gate.py').read_text(encoding='utf-8')
+          baseline_path = Path('ops/p19/real_soak_baseline.txt')
+          baseline = baseline_path.read_text(encoding='utf-8').strip()
 
           control_required = (
               'workflow_dispatch:',
@@ -41,8 +46,7 @@ jobs:
               'inputs.operation',
               '-e "operation=$KGM_OPERATION"',
               'P19_REAL_SOAK_OBSERVATION=PASS',
-              'P19_REAL_SOAK_ELAPSED_GATE=NOT_INFERRED_FROM_SINGLE_OBSERVATION',
-              'P19_REAL_SOAK_BASELINE_UTC=2026-09-10T00:19:31Z',
+              'ops/p19/real_soak_baseline.txt',
               'BETA_PAID_RESOURCES_AUTHORIZED=NO',
           )
           missing_control = [value for value in control_required if value not in control]
@@ -53,7 +57,7 @@ jobs:
               raise SystemExit('Tailscale control workflow must remain workflow_dispatch-only')
 
           dispatcher_required = (
-              "cron: '27 */6 * * *'",
+              "cron: '27 */3 * * *'",
               'actions: write',
               'gh workflow run tailscale-kgm-control.yml',
               '--ref main',
@@ -67,6 +71,8 @@ jobs:
               'P19_CONTROL_EVENT=workflow_dispatch',
               'P19_CONTROL_OPERATION=health',
               'P19_AUDIT_EVENT=workflow_dispatch',
+              'P19_TARGET_OBSERVATION_CADENCE_HOURS=3',
+              'P19_MAX_EVIDENCE_GAP_HOURS=7',
               'P19_REAL_SOAK_ELAPSED_GATE=NOT_INFERRED_FROM_DISPATCH',
           )
           missing_dispatcher = [value for value in dispatcher_required if value not in dispatcher]
@@ -83,10 +89,11 @@ jobs:
               'workflow_dispatch:',
               'workflow_run:',
               'KGM Tailscale Ansible Control',
-              "cron: '47 */6 * * *'",
+              "cron: '47 */3 * * *'",
               'actions: read',
+              'ops/p19/real_soak_baseline.txt',
               'scripts/p19_soak_gate.py',
-              "--baseline '2026-09-10T00:19:31Z'",
+              '--baseline "$P19_BASELINE"',
               '--max-gap-hours 7',
               'P19 Owner-Local Soak Gate Audit',
               'actions/upload-artifact@v4',
@@ -107,6 +114,14 @@ jobs:
           if missing_evaluator:
               raise SystemExit(f'missing evaluator invariants: {missing_evaluator}')
 
+          target_cadence_hours = 3
+          max_gap_hours = 7
+          if target_cadence_hours * 2 >= max_gap_hours:
+              raise SystemExit('P19 cadence must tolerate one missed target cycle inside the evidence-gap bound')
+
+          if not baseline.endswith('Z') or 'T' not in baseline:
+              raise SystemExit(f'invalid canonical baseline: {baseline!r}')
+
           forbidden_live_action = 'tailscale/' + 'github-action@'
           if forbidden_live_action in dispatcher:
               raise SystemExit('Dispatcher must not create its own Tailscale trust path')
@@ -119,4 +134,6 @@ jobs:
           print('P19_ELAPSED_SOAK_GATE_AUDIT_CONTRACT=PASS')
           print('P19_CONTROL_THEN_AUDIT_ORDERING=PASS')
           print('P19_CONTROL_STATE_PARSE_CONTRACT=PASS')
+          print('P19_SCHEDULE_SAFETY_MARGIN=PASS')
+          print(f'P19_CANONICAL_BASELINE={baseline}')
           PY
