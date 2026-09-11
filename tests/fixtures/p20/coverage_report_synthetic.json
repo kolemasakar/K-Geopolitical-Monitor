@@ -1,0 +1,51 @@
+{
+  "schema_version": "kgm.p20.coverage_report.v1",
+  "generated_at": "2026-09-11T10:05:00Z",
+  "policy_id": "synthetic-p20-policy",
+  "source_registry_version": "synthetic-v1",
+  "global_summary": {
+    "cell_count": 3,
+    "adequate_count": 1,
+    "gap_count": 2,
+    "monoculture_count": 1,
+    "degraded_collection_count": 1
+  },
+  "cells": [
+    {
+      "cell_id": "synthetic-adequate",
+      "source_count": 2,
+      "independent_origin_count": 2,
+      "healthy_source_count": 2,
+      "stale_source_count": 0,
+      "copy_chain_count": 0,
+      "dominant_origin_share": 0.5,
+      "redundancy_score": 1.0,
+      "status": "ADEQUATE",
+      "reason_codes": ["POLICY_REQUIREMENTS_MET"]
+    },
+    {
+      "cell_id": "synthetic-monoculture",
+      "source_count": 3,
+      "independent_origin_count": 1,
+      "healthy_source_count": 3,
+      "stale_source_count": 0,
+      "copy_chain_count": 2,
+      "dominant_origin_share": 1.0,
+      "redundancy_score": 3.0,
+      "status": "MONOCULTURE_RISK",
+      "reason_codes": ["INDEPENDENT_ORIGIN_REQUIREMENT_NOT_MET", "DOMINANT_ORIGIN_SHARE_EXCEEDED"]
+    },
+    {
+      "cell_id": "synthetic-degraded",
+      "source_count": 3,
+      "independent_origin_count": 3,
+      "healthy_source_count": 1,
+      "stale_source_count": 2,
+      "copy_chain_count": 0,
+      "dominant_origin_share": 0.3333333333,
+      "redundancy_score": 1.0,
+      "status": "DEGRADED_COLLECTION",
+      "reason_codes": ["STALE_SHARE_EXCEEDED"]
+    }
+  ]
+}
