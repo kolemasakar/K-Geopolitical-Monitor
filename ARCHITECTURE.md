@@ -119,3 +119,52 @@ The pre-Phase-18 architecture-position text above is retained verbatim as histor
 - migration `033 = NOT_CREATED / NOT_PREAUTHORIZED`;
 - `PAID_PROVIDERS = NONE_APPROVED`;
 - `PRODUCTION_LIVE = NOT_OPERATIONAL`.
+
+## Current-State Addendum — Phase 19 Owner-Local Control Plane (2026-09-11)
+
+The Phase 18 historical text and intentionally frozen machine-readable strategic state above remain preserved. For current operational interpretation during Phase 19, the canonical owner-local runtime and access model are:
+
+```text
+OWNER_LOCAL_HOST = kgm-e4-owner-pilot
+OWNER_LOCAL_CANONICAL = YES
+PHASE_18_SHARED_RUNTIME_ACTIVE = NO
+KGM_SENTINELX = RETIRED_BY_DESIGN
+KGM_REMOTE_DESKTOP_REQUIREMENT = NONE
+KGM_PRIMARY_CONTROL_PLANE = GITHUB_OIDC_TAILSCALE_SSH_KGMOPS_BOUNDED_ANSIBLE
+```
+
+Accepted operational path:
+
+```text
+GitHub workflow_dispatch
+  -> project-scoped GitHub OIDC
+  -> ephemeral Tailscale identity / tag:github-actions
+  -> tag:kgm / TCP 22 only
+  -> Tailscale SSH
+  -> kgmops
+  -> bounded Ansible
+  -> kgm-e4-owner-pilot
+```
+
+Current implementation identity:
+
+```text
+Tailscale IPv4 = 100.102.136.23
+service = kgm-monitor.service
+project root = /opt/k-geopolitical-monitor
+runtime DB = /opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db
+```
+
+Security boundaries remain:
+
+- `kgmops` runtime database read: denied;
+- `kgmops` arbitrary root escalation: denied;
+- owner SSH is recovery/bootstrap/break-glass only;
+- KGM identities, tags and credentials are not reusable by K-Trader or KRC;
+- SentinelX must not be reintroduced for KGM without a new explicit owner-approved architecture change.
+
+The absence of KGM from SentinelX or Remote Desktop Commander is not an access/recovery defect. Cross-project host/control-plane inventory is maintained in `kolemasakar/Sentinel-Remote`; executable KGM control semantics remain defined by this repository's `.github/workflows/tailscale-kgm-control.yml` and `ops/ansible/kgm_control.yml`.
+
+Phase 19 currently uses this owner-local path for real elapsed-time soak evidence. The deployed runtime candidate is `b31b2136b5fe982d0b63b0135479b1549041906c`; documentation-only repository advancement does not itself authorize redeployment or imply candidate invalidation.
+
+Operational reconciliation record: `docs/ops/KGM_TAILSCALE_ANSIBLE_CONTROL_PLANE.md`.
