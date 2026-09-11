@@ -125,6 +125,95 @@ Design record:
 
 `docs/implementation/PHASE_20_SOURCE_COVERAGE_COLLECTION_QUALITY_DESIGN_SPEC.md`
 
+## 2026-09-11 pre-24h supplemental state
+
+A later read-only control/audit cycle and parallel preparation work strengthened the Attempt 2 evidence without changing the canonical baseline or owner-local runtime.
+
+Latest qualifying evidence:
+
+```text
+CONTROL_RUN = 34596182532 / SUCCESS
+CONTROL_JOB = 103252358278
+LATEST_QUALIFYING_OBSERVATION_UTC = 2026-09-11T11:54:06Z
+AUDIT_RUN = 34596259823 / SUCCESS
+AUDIT_JOB = 103252600665
+AUDIT_ARTIFACT_ID = 10262223231
+AUDIT_EVALUATED_AT_UTC = 2026-09-11T11:54:37Z
+P19_SOAK_AUDIT = PASS
+P19_CONTINUITY_STATUS = PASS
+CONTROL_FAILED_RUNS = 0
+CURRENT_MAX_GAP_HOURS = 3.8152777777777778
+```
+
+The 24h/72h/7d gates remain `IN_PROGRESS`.
+
+GitHub scheduled delivery is not being treated as a deterministic clock. At the pre-24h inspection, only the eight historical pre-Attempt-2 `schedule` runs were present, while historical scheduled-event delivery had shown multi-hour delay before run creation. The evaluator's actual evidence gap remains the source of truth.
+
+Two safety checks were scheduled outside the repository:
+
+```text
+CONTINUITY_CHECK = 2026-09-11T20:30:00+03:00
+24H_GATE_CHECK = 2026-09-12T10:45:00+03:00
+```
+
+Both are restricted to read-only inspection plus the already-authorized bounded health/audit chain when required; they cannot deploy, restart, change the baseline/cadence/workflows or merge preparation PRs.
+
+### Candidate evidence update
+
+Pre-sync canonical repository SHA:
+
+`5714a76aaf12c77993ed5a02165c02a48d953758`
+
+Supplemental compare against deployed `b31b2136...`:
+
+```text
+REPOSITORY_COMMITS_AHEAD_OF_DEPLOYED = 522
+FULL_REPOSITORY_DRIFT = MATERIAL
+```
+
+The original `516` value above remains the correct historical count against the earlier audit-base `b4c0f6...`.
+
+Exact-candidate validation performed in isolation:
+
+```text
+B31B_HISTORICAL_CI = PASS
+B31B_HISTORICAL_REAL_HOST_VALIDATION = PASS
+B31B_CURRENT_EXACT_SOURCE_REPLAY = PASS
+B31B_CURRENT_EXACT_SOURCE_REPLAY_RESULT = 317 passed in 39.36s
+EXACT_HISTORICAL_DEPENDENCY_REPRODUCIBILITY = NOT_PROVEN
+```
+
+A blob-level comparison also established that the inspected active owner-local monitoring path is unchanged between deployed `b31b...` and canonical `5714a76...`: fifteen application files and `deployment/systemd/kgm-monitor.service` are blob-identical. The bootstrap script and broader repository/dependency environment are not identical.
+
+Therefore:
+
+```text
+OWNER_LOCAL_ACTIVE_RUNTIME_CODE_PATH_EQUIVALENCE = PASS_FOR_INSPECTED_BLOBS
+OWNER_LOCAL_SYSTEMD_EXECUTION_CONTRACT_EQUIVALENCE = PASS
+FULL_REPOSITORY_EQUIVALENCE = NO
+FULL_DEPLOYMENT_TOOLING_EQUIVALENCE = NO
+CURRENT_MAIN_RUNTIME_EQUIVALENCE = NOT_CLAIMED
+PATH_A_READINESS = CONDITIONAL_PREFERRED_EVIDENCE_STRENGTHENED
+PATH_A_AUTHORIZED = NO
+```
+
+Targeted post-candidate regression screening found no known candidate-runtime blocker, but exhaustive semantic diff review remains open/fail-closed.
+
+### Parallel draft preparation
+
+```text
+PR_78_P20_IMPLEMENTATION_READY = DRAFT / CI_PASS / UNMERGED
+PR_79_RUNTIME_CANDIDATE_DECISION = DRAFT / UNMERGED / REVALIDATING_AFTER_EVIDENCE_UPDATES
+PR_80_SECURITY_HARDENING = DRAFT / CI_PASS / P19_CONTRACT_PASS / UNMERGED
+PR_81_MILESTONE_EVIDENCE_AUTOMATION = DRAFT / CI_PASS / UNMERGED
+```
+
+None of these preparation PRs changes canonical `main` while Attempt 2 is active.
+
+Detailed synchronized pre-24h checkpoint:
+
+`docs/checkpoints/PROJECT_CHECKPOINT_2026-09-11_PHASE_19_PRE_24H_PARALLEL_PREP_COMPLETE.md`
+
 ## Current roadmap position
 
 ```text
@@ -137,7 +226,7 @@ P19_CONTINUITY_STATUS = PASS
 P19_REAL_24H_SOAK = IN_PROGRESS
 P19_REAL_72H_SOAK = IN_PROGRESS
 P19_REAL_7D_SOAK = IN_PROGRESS
-P19_RUNTIME_CANDIDATE_IDENTITY = UNRESOLVED
+P19_RUNTIME_CANDIDATE_IDENTITY = CONDITIONAL_B31B_PENDING_FORMAL_DECISION
 P19_FULL_GATE = OPEN
 P20_EXECUTION = NOT_STARTED
 ```
