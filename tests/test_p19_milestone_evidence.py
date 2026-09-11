@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import sys
 from pathlib import Path
 
 import pytest
@@ -10,6 +11,7 @@ MODULE_PATH = Path(__file__).resolve().parents[1] / "scripts" / "p19_milestone_e
 SPEC = importlib.util.spec_from_file_location("p19_milestone_evidence", MODULE_PATH)
 assert SPEC is not None and SPEC.loader is not None
 p19e = importlib.util.module_from_spec(SPEC)
+sys.modules[SPEC.name] = p19e
 SPEC.loader.exec_module(p19e)
 
 
