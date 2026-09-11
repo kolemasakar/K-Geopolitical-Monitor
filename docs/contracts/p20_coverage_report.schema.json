@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kgm.local/contracts/p20_coverage_report.schema.json",
+  "title": "KGM Phase 20 Coverage Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "policy_id", "source_registry_version", "global_summary", "cells"],
+  "properties": {
+    "schema_version": {"const": "kgm.p20.coverage_report.v1"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "policy_id": {"type": "string", "minLength": 1},
+    "source_registry_version": {"type": "string", "minLength": 1},
+    "global_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cell_count", "adequate_count", "gap_count", "monoculture_count", "degraded_collection_count"],
+      "properties": {
+        "cell_count": {"type": "integer", "minimum": 0},
+        "adequate_count": {"type": "integer", "minimum": 0},
+        "gap_count": {"type": "integer", "minimum": 0},
+        "monoculture_count": {"type": "integer", "minimum": 0},
+        "degraded_collection_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "cells": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "cell_id",
+          "source_count",
+          "independent_origin_count",
+          "healthy_source_count",
+          "stale_source_count",
+          "copy_chain_count",
+          "dominant_origin_share",
+          "redundancy_score",
+          "status",
+          "reason_codes"
+        ],
+        "properties": {
+          "cell_id": {"type": "string", "minLength": 1},
+          "source_count": {"type": "integer", "minimum": 0},
+          "independent_origin_count": {"type": "integer", "minimum": 0},
+          "healthy_source_count": {"type": "integer", "minimum": 0},
+          "stale_source_count": {"type": "integer", "minimum": 0},
+          "copy_chain_count": {"type": "integer", "minimum": 0},
+          "dominant_origin_share": {"type": "number", "minimum": 0, "maximum": 1},
+          "redundancy_score": {"type": "number", "minimum": 0},
+          "status": {
+            "type": "string",
+            "enum": [
+              "ADEQUATE",
+              "THIN",
+              "MONOCULTURE_RISK",
+              "DEGRADED_COLLECTION",
+              "MISSING_EXPECTED_COVERAGE",
+              "NOT_REQUIRED_BY_POLICY",
+              "UNKNOWN"
+            ]
+          },
+          "reason_codes": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    }
+  }
+}
