@@ -264,12 +264,49 @@ P21 answers:
 
 P20 must not preempt P21 by treating source reputation or source count as proof of a claim.
 
+## Implementation-ready preparation completed during P19
+
+Draft PR #78 (`prep/p20-implementation-ready`) converts this design into a non-live implementation-ready package while preserving the P19 boundary.
+
+Prepared artifacts include:
+
+- a machine-readable source-record schema;
+- a machine-readable coverage-policy schema;
+- a machine-readable coverage-report schema;
+- fully synthetic `.invalid` fixtures;
+- deterministic pytest semantics for source/origin independence, monoculture and degraded collection;
+- an implementation/validation matrix for the P20 sequence.
+
+The package explicitly tests the non-equivalence boundaries rather than treating them as documentation only:
+
+```text
+SOURCE_COUNT != INDEPENDENT_ORIGIN_COUNT
+LANGUAGE_COUNT != INDEPENDENT_EVIDENCE_COUNT
+COVERAGE_CONFIDENCE != FACTUAL_VERIFICATION_CONFIDENCE
+```
+
+Validated state:
+
+```text
+PR_78 = DRAFT / OPEN / UNMERGED
+HEAD = eaf23e724cc2cf2be66e418c5f9ae98130ef10d5
+CHANGED_FILES = 8
+CI = PASS
+LIVE_SOURCE_ONBOARDING = NO
+LIVE_INGEST_CHANGE = NO
+RUNTIME_DEPLOYMENT = NO
+MIGRATION_033 = NOT_CREATED_NOT_PREAUTHORIZED
+PAID_OR_SHARED_RESOURCES = NOT_AUTHORIZED
+```
+
+This preparation is intentionally left out of canonical `main` while the P19 Attempt 2 soak remains active. It is ready to be reviewed/merged at the appropriate P19 transition boundary rather than forcing an operational P20 start during the soak.
+
 ## Entry condition
 
 Operational P20 work starts only after the project accepts the required P19 gate/transition decision. Until then:
 
 ```text
-P20_DESIGN = PREPARED
+P20_DESIGN = IMPLEMENTATION_READY_PREPARATION_AVAILABLE
 P20_EXECUTION = NOT_STARTED
 LIVE_SOURCE_EXPANSION = NO
 LIVE_INGEST_CHANGE = NO
