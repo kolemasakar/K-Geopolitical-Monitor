@@ -1,13 +1,13 @@
 # K-Geopolitical Monitor — Phase 19 Real Soak Attempt 2
 
 Date: 2026-09-11
-Status: `ATTEMPT_2_REANCHOR_PENDING_CANONICAL_VALIDATION`
+Status: `ATTEMPT_2_ACTIVE / TEMPORAL_SOAK_IN_PROGRESS / RUNTIME_CANDIDATE_IDENTITY_OPEN`
 Strategic machine state: `4.34 / INTENTIONALLY_FROZEN`
 
 ## Attempt history
 
 ```text
-ATTEMPT_1 = FAILED_CONTINUITY / NOT_EVIDENCED
+ATTEMPT_1 = FAILED_CONTINUITY / NOT_EVIDENCED / CLOSED
 ATTEMPT_1_MAX_GAP = 9.280277777777778h
 MAX_ALLOWED_GAP = 7h
 ATTEMPT_1_24H = NOT_VALIDATED
@@ -15,40 +15,23 @@ ATTEMPT_1_24H = NOT_VALIDATED
 
 No Attempt 1 elapsed time carries forward.
 
-## Remediation
+## Canonical Attempt 2 baseline
 
-Canonical cadence remediation:
+Cadence remediation canonical commit:
 
 `2cd911fa45d3a9ea94abc5979c1a2e109416a1d4`
 
+Attempt 2 reanchor merged through PR #76. Post-merge canonical SHA at activation:
+
+`b4c0f6b2e5d5772654842ebb3a22e7c2a87dfb4f`
+
 ```text
+BASELINE_UTC = 2026-09-11T07:38:44Z
 HEALTH_DISPATCHER = every 3h at minute 27 UTC
 DEAD_MAN_AUDIT = every 3h at minute 47 UTC
 MAX_ALLOWED_EVIDENCE_GAP = 7h
 TAILSCALE_TRUST_PATH = unchanged
 ```
-
-## Fresh exact-main health anchor
-
-```text
-CONTROL_RUN = 34575282809
-CONTROL_JOB = 103186235689
-REPOSITORY_SHA = 2cd911fa45d3a9ea94abc5979c1a2e109416a1d4
-OBSERVATION_UTC = 2026-09-11T07:38:44Z
-KGM_TARGET = kgm-e4-owner-pilot
-TAILSCALE_CONNECTIVITY = PASS
-KGM_MONITOR_SERVICE = active -> active
-RUNTIME_DB_READ_AS_KGMOPS = DENIED
-ARBITRARY_ROOT_ESCALATION = DENIED
-RESTART = SKIPPED
-ANSIBLE = ok=10 changed=0 unreachable=0 failed=0 skipped=1
-```
-
-## Attempt 2 clock
-
-Proposed canonical baseline:
-
-`2026-09-11T07:38:44Z`
 
 Temporal boundaries:
 
@@ -58,7 +41,89 @@ Temporal boundaries:
 7d  = 2026-09-18T07:38:44Z
 ```
 
-Attempt 2 must not be called active until the baseline commit is merged and the resulting exact-main dispatcher/control/audit sequence validates the new baseline.
+## Post-merge exact-main validation
+
+```text
+DISPATCHER_RUN = 34577383874 / SUCCESS
+CONTROL_RUN = 34577394775 / SUCCESS
+CONTROL_JOB = 103192880010
+AUDIT_RUN = 34577455069 / SUCCESS
+AUDIT_JOB = 103193065140
+EXACT_MAIN_CI_RUN = 34577383894 / SUCCESS
+EXACT_MAIN_TESTS = 1179 passed in 119.33s
+```
+
+Live owner-local health observation:
+
+```text
+OBSERVATION_UTC = 2026-09-11T08:05:11Z
+KGM_TARGET = kgm-e4-owner-pilot
+TAILSCALE_IP = 100.102.136.23
+TAILSCALE_CONNECTIVITY = PASS
+KGM_MONITOR_SERVICE = active -> active
+RUNTIME_DB_READ_AS_KGMOPS = DENIED
+ARBITRARY_ROOT_ESCALATION = DENIED
+RESTART = SKIPPED
+ANSIBLE = ok=10 changed=0 unreachable=0 failed=0 skipped=1
+```
+
+Post-merge audit:
+
+```text
+P19_SOAK_AUDIT = PASS
+P19_CONTINUITY_STATUS = PASS
+CONTROL_COMPLETED_RUNS = 2
+CONTROL_FAILED_RUNS = 0
+QUALIFYING_HEALTH_OBSERVATIONS = 2
+CURRENT_MAX_GAP_HOURS = 0.44083333333333335
+MAX_ALLOWED_GAP_HOURS = 7.0
+ARTIFACT_ID = 10190201003
+ARTIFACT_RETENTION = 30d
+P19_REAL_24H_SOAK = IN_PROGRESS
+P19_REAL_72H_SOAK = IN_PROGRESS
+P19_REAL_7D_SOAK = IN_PROGRESS
+```
+
+## Runtime drift finding
+
+A read-only VM↔repository audit performed while Attempt 2 was running established:
+
+```text
+OBSERVED_DEPLOYED_SHA = b31b2136b5fe982d0b63b0135479b1549041906c
+AUDIT_BASE_REPOSITORY_SHA = b4c0f6b2e5d5772654842ebb3a22e7c2a87dfb4f
+REPOSITORY_COMMITS_AHEAD_OF_DEPLOYED = 516
+RUNTIME_CODE_DRIFT = MATERIAL
+P19_RUNTIME_CANDIDATE_IDENTITY = UNRESOLVED
+```
+
+The temporal soak remains valid evidence for the build actually deployed on `kgm-e4-owner-pilot`, but final P19 closure must not imply that current repository application code was soak-tested unless the intended candidate is explicitly resolved.
+
+No deployment or restart was performed during the audit. See:
+
+`docs/evidence/PHASE_19_OWNER_LOCAL_RUNTIME_DRIFT_AUDIT_2026-09-11.md`
+
+## Closure preparation
+
+P19 milestone/retention requirements are prepared in:
+
+`docs/implementation/PHASE_19_CLOSURE_PREP_AND_EVIDENCE_RETENTION.md`
+
+Thirty-day Actions artifact retention is sufficient for the running 7-day gate, but accepted milestones must also receive durable evidence records under `docs/evidence/`.
+
+## P20 preparation status
+
+P20 design is prepared only; operational execution remains blocked:
+
+```text
+P20_DESIGN = PREPARED
+P20_EXECUTION = NOT_STARTED
+LIVE_SOURCE_EXPANSION = NO
+LIVE_INGEST_CHANGE = NO
+```
+
+Design record:
+
+`docs/implementation/PHASE_20_SOURCE_COVERAGE_COLLECTION_QUALITY_DESIGN_SPEC.md`
 
 ## Current roadmap position
 
@@ -66,11 +131,15 @@ Attempt 2 must not be called active until the baseline commit is merged and the 
 P19_DETERMINISTIC_HARNESS = PASS
 P19_OWNER_LOCAL_ACCESS = REVALIDATED
 P19_CONTROL_CHAIN = PASS
-P19_ATTEMPT_1 = FAILED_CONTINUITY
-P19_ATTEMPT_2_REANCHOR = IN_PROGRESS
-P19_REAL_24H_SOAK = NOT_YET_RESTARTED
+P19_ATTEMPT_1 = FAILED_CONTINUITY / CLOSED
+P19_ATTEMPT_2 = ACTIVE
+P19_CONTINUITY_STATUS = PASS
+P19_REAL_24H_SOAK = IN_PROGRESS
+P19_REAL_72H_SOAK = IN_PROGRESS
+P19_REAL_7D_SOAK = IN_PROGRESS
+P19_RUNTIME_CANDIDATE_IDENTITY = UNRESOLVED
 P19_FULL_GATE = OPEN
-P20 = NOT_STARTED
+P20_EXECUTION = NOT_STARTED
 ```
 
 ## Binding boundaries
