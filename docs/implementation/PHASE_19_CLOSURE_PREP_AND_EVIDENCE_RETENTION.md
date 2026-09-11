@@ -119,6 +119,57 @@ Do not close a milestone or P19 when any of these occurs:
 - deployed runtime candidate identity unresolved at final P19 closure;
 - a runtime deployment occurs but the old baseline remains in use.
 
+## Pre-24h implementation preparation update
+
+Draft PR #81 prepares an offline fail-closed milestone evidence generator and its pytest/runbook contract. It remains unmerged and is deliberately **not** wired into live GitHub Actions.
+
+Prepared behavior includes rejecting evidence generation when any required condition is absent, including:
+
+```text
+P19_SOAK_AUDIT != PASS
+P19_CONTINUITY_STATUS != PASS
+milestone_status != PASS
+terminal_observation < boundary
+max_gap > 7h
+failed_control_count != 0
+service_before/after != active
+runtime_db_read != denied
+arbitrary_root_escalation != denied
+restart_performed != false
+invalid deployed/canonical SHA metadata
+```
+
+Validated preparation state:
+
+```text
+PR_81 = DRAFT / OPEN / UNMERGED
+HEAD = 1c22011849b77ee370798cd9930bacdf1747ffc9
+CI = PASS
+LIVE_ACTIONS_WIRING = NO
+AUTO_COMMIT_EVIDENCE = NO
+```
+
+The latest known pre-24h live evidence remains:
+
+```text
+CONTROL_RUN = 34596182532 / SUCCESS
+LATEST_QUALIFYING_OBSERVATION_UTC = 2026-09-11T11:54:06Z
+AUDIT_RUN = 34596259823 / SUCCESS
+AUDIT_ARTIFACT_ID = 10262223231
+P19_CONTINUITY_STATUS = PASS
+```
+
+Because scheduled-event delivery has shown multi-hour nondeterminism, two bounded future checks were scheduled outside repository workflow definitions:
+
+```text
+CONTINUITY_CHECK = 2026-09-11T20:30:00+03:00
+24H_GATE_CHECK = 2026-09-12T10:45:00+03:00
+```
+
+The continuity check may use only the existing bounded `health` control and audit if the actual evidence gap approaches the 7h limit. The 24h check occurs only after the canonical boundary `2026-09-12T07:38:44Z`. Neither automation authorizes deployment, restart, workflow/cadence/baseline mutation, Tailscale trust change, or merge of preparation PRs.
+
+The 24h evidence record must not be created as PASS before the evaluator has a qualifying observation at or after the boundary and reports the 24h milestone PASS.
+
 ## No-change assertion
 
 Preparation of this document authorizes none of the following:
