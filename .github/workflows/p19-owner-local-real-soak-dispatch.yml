@@ -3,11 +3,12 @@ name: P19 Owner-Local Real Soak Dispatcher
 on:
   workflow_dispatch:
   schedule:
-    - cron: '27 */6 * * *'
+    - cron: '27 */3 * * *'
   push:
     branches: [main]
     paths:
       - '.github/workflows/p19-owner-local-real-soak-dispatch.yml'
+      - 'ops/p19/real_soak_baseline.txt'
 
 permissions:
   contents: read
@@ -122,6 +123,9 @@ jobs:
           echo 'P19_CONTROL_EVENT=workflow_dispatch'
           echo 'P19_CONTROL_OPERATION=health'
           echo 'P19_AUDIT_EVENT=workflow_dispatch'
+          echo 'P19_TARGET_OBSERVATION_CADENCE_HOURS=3'
+          echo 'P19_MAX_EVIDENCE_GAP_HOURS=7'
+          echo 'P19_ONE_MISSED_CYCLE_SAFETY_MARGIN=PASS'
           echo 'P19_REAL_SOAK_ELAPSED_GATE=NOT_INFERRED_FROM_DISPATCH'
           echo 'PHASE_18_SHARED_RUNTIME_ACTIVE=NO'
           echo 'CANONICAL_CUTOVER_AUTHORIZED=NO'

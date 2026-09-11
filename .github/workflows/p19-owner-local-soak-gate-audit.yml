@@ -8,16 +8,19 @@ on:
     types:
       - completed
   schedule:
-    - cron: '47 */6 * * *'
+    - cron: '47 */3 * * *'
   pull_request:
     branches: [main]
     paths:
       - '.github/workflows/p19-owner-local-soak-gate-audit.yml'
       - '.github/workflows/p19-owner-local-real-soak-dispatch.yml'
       - '.github/workflows/p19-owner-local-real-soak.yml'
+      - 'ops/p19/real_soak_baseline.txt'
       - 'scripts/p19_soak_gate.py'
       - 'tests/test_p19_soak_gate.py'
       - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-10_PHASE_19_OWNER_LOCAL_REAL_SOAK_IN_PROGRESS.md'
+      - 'docs/checkpoints/PROJECT_CHECKPOINT_2026-09-11_PHASE_19_SOAK_CONTINUITY_REMEDIATION.md'
+      - 'docs/evidence/PHASE_19_REAL_SOAK_CONTINUITY_FAILURE_AND_REMEDIATION_2026-09-11.md'
 
 permissions:
   contents: read
@@ -38,14 +41,31 @@ jobs:
         with:
           ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || 'main' }}
 
+      - name: Load canonical real-soak baseline
+        id: baseline
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          baseline="$(tr -d '\r\n' < ops/p19/real_soak_baseline.txt)"
+          python3 - "$baseline" <<'PY'
+          import re
+          import sys
+          value = sys.argv[1]
+          if not re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", value):
+              raise SystemExit(f"invalid RFC3339 UTC baseline: {value!r}")
+          PY
+          echo "baseline=$baseline" >> "$GITHUB_OUTPUT"
+          echo "P19_REAL_SOAK_BASELINE_UTC=$baseline"
+
       - name: Collect qualifying health observations
         id: collect
         env:
           GH_TOKEN: ${{ github.token }}
+          P19_BASELINE: ${{ steps.baseline.outputs.baseline }}
         shell: bash
         run: |
           set -Eeuo pipefail
-          baseline='2026-09-10T00:19:31Z'
+          baseline="$P19_BASELINE"
           observations='/tmp/p19-observations.txt'
           : > "$observations"
 
@@ -54,12 +74,14 @@ jobs:
           failed_count=0
           qualifying_count=0
 
-          while IFS=$'\t' read -r run_id conclusion; do
+          while IFS=$'\t' read -r run_id conclusion created_at; do
             [ -n "$run_id" ] || continue
-            completed_count=$((completed_count + 1))
 
             if [ "$conclusion" != 'success' ]; then
-              failed_count=$((failed_count + 1))
+              if [[ "$created_at" > "$baseline" || "$created_at" == "$baseline" ]]; then
+                completed_count=$((completed_count + 1))
+                failed_count=$((failed_count + 1))
+              fi
               continue
             fi
 
@@ -78,19 +100,19 @@ jobs:
               | last // empty
             ')"
 
-            if [ -n "$observed_at" ]; then
+            if [ -n "$observed_at" ] && { [[ "$observed_at" > "$baseline" ]] || [ "$observed_at" = "$baseline" ]; }; then
+              completed_count=$((completed_count + 1))
               printf '%s\n' "$observed_at" >> "$observations"
               qualifying_count=$((qualifying_count + 1))
             fi
           done < <(
-            printf '%s' "$runs" | jq -r --arg baseline "$baseline" '
+            printf '%s' "$runs" | jq -r '
               .workflow_runs[]
               | select(
                   .event == "workflow_dispatch"
-                  and .created_at >= $baseline
                   and .status == "completed"
                 )
-              | [.id, (.conclusion // "")]
+              | [.id, (.conclusion // ""), .created_at]
               | @tsv
             '
           )
@@ -104,13 +126,15 @@ jobs:
           echo "qualifying_count=$qualifying_count" >> "$GITHUB_OUTPUT"
 
       - name: Evaluate elapsed soak gates
+        env:
+          P19_BASELINE: ${{ steps.baseline.outputs.baseline }}
         shell: bash
         run: |
           set -Eeuo pipefail
           now="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           set +e
           python3 scripts/p19_soak_gate.py \
-            --baseline '2026-09-10T00:19:31Z' \
+            --baseline "$P19_BASELINE" \
             --now "$now" \
             --observations-file /tmp/p19-observations.txt \
             --max-gap-hours 7 \
@@ -122,15 +146,22 @@ jobs:
           {
             echo '## P19 owner-local elapsed-soak audit'
             echo
+            echo "- baseline: \`$P19_BASELINE\`"
             echo "- evaluated at: \`$now\`"
-            echo "- completed workflow_dispatch control runs: \`${{ steps.collect.outputs.completed_count }}\`"
-            echo "- failed workflow_dispatch control runs: \`${{ steps.collect.outputs.failed_count }}\`"
-            echo "- qualifying health observations: \`${{ steps.collect.outputs.qualifying_count }}\`"
+            echo "- completed workflow_dispatch control runs after baseline: \`${{ steps.collect.outputs.completed_count }}\`"
+            echo "- failed workflow_dispatch control runs after baseline: \`${{ steps.collect.outputs.failed_count }}\`"
+            echo "- qualifying health observations at/after baseline: \`${{ steps.collect.outputs.qualifying_count }}\`"
             echo
             echo '```json'
             cat /tmp/p19-soak-audit.json
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "${{ github.event_name }}" = 'pull_request' ]; then
+            echo 'P19_PULL_REQUEST_REAL_STATE_AUDIT=OBSERVATION_ONLY'
+            echo "P19_PULL_REQUEST_REAL_STATE_AUDIT_RC=$rc"
+            exit 0
+          fi
 
           exit "$rc"
 

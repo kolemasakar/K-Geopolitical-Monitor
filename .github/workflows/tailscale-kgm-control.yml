@@ -124,9 +124,11 @@ jobs:
         run: |
           set -Eeuo pipefail
           test "$KGM_OPERATION" = 'health'
+          baseline="$(tr -d '\r\n' < ops/p19/real_soak_baseline.txt)"
+          test -n "$baseline"
           echo 'P19_REAL_SOAK_OBSERVATION=PASS'
           echo 'P19_REAL_SOAK_ELAPSED_GATE=NOT_INFERRED_FROM_SINGLE_OBSERVATION'
-          echo 'P19_REAL_SOAK_BASELINE_UTC=2026-09-10T00:19:31Z'
+          echo "P19_REAL_SOAK_BASELINE_UTC=$baseline"
           echo 'OWNER_LOCAL_CANONICAL=YES'
           echo 'PHASE_18_SHARED_RUNTIME_ACTIVE=NO'
           echo 'CANONICAL_CUTOVER_AUTHORIZED=NO'
