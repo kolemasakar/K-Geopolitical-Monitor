@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout PR revision
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
 
       - name: Verify authorized fail-closed soak contract
         shell: bash
@@ -96,7 +96,7 @@ jobs:
               '--baseline "$P19_BASELINE"',
               '--max-gap-hours 7',
               'P19 Owner-Local Soak Gate Audit',
-              'actions/upload-artifact@v4',
+              'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02',
           )
           missing_audit = [value for value in audit_required if value not in audit]
           if missing_audit:
