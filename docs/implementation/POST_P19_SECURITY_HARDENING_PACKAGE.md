@@ -1,8 +1,10 @@
 # Post-P19 Security Hardening Package
 
-Date: 2026-09-11
-Status: `STAGED_ON_NON_MAIN_BRANCH / DO_NOT_MERGE_DURING_ACTIVE_P19_SOAK`
-Base: `5714a76aaf12c77993ed5a02165c02a48d953758`
+Date prepared: 2026-09-11
+Updated: 2026-09-13
+Status: `STAGED_ON_NON_MAIN_BRANCH / DO_NOT_MERGE_DURING_ACTIVE_P19_ATTEMPT_3`
+Original base: `5714a76aaf12c77993ed5a02165c02a48d953758`
+Current canonical main at audit: `3bfe4c1021fe27a363463d3eb8ecc3018b0989a3`
 
 This package prepares remediation for the repository security/static audit without changing the active P19 soak chain on canonical `main`.
 
@@ -35,7 +37,9 @@ Current staged scope:
 
 The P19 contract check is tightened to require the pinned `upload-artifact` SHA rather than the mutable `@v4` tag.
 
-Before this package may be merged, perform a repository-wide sweep of every remaining `uses:` reference and either pin it to an audited immutable SHA or document an explicit exception. The current branch is intentionally a staging package, not a claim that MEDIUM-2 is fully closed repository-wide.
+Before this package may be merged, perform a repository-wide sweep of every remaining `uses:` reference and either pin it to an audited immutable SHA or document an explicit exception. The current branch is intentionally a staging package, not a claim that the action-pin issue is fully closed repository-wide.
+
+Because Attempt 3 is now active, the workflow changes already staged on this branch remain intentionally isolated from canonical `main`. They must not be rebased-and-merged into the live P19 control chain until the soak-sensitive boundary is closed or a separately authorized urgent security exception is declared.
 
 ## SSH host-key verification remediation
 
@@ -91,30 +95,36 @@ Prepare after the action-pin sweep:
 
 ## Controlled merge gates
 
-This branch must remain unmerged while P19 Attempt 2 is active unless an urgent vulnerability requires a separately authorized exception.
+This branch must remain unmerged while P19 Attempt 3 is active unless an urgent vulnerability requires a separately authorized exception.
 
 Before merge require:
 
 ```text
 P19_SOAK_SENSITIVE_WINDOW = CLOSED_OR_EXPLICITLY_AUTHORIZED
+REBASE_ON_THEN_CURRENT_MAIN = PASS
 REPO_WIDE_ACTION_PIN_SWEEP = PASS
-CI = PASS
+CI_AFTER_REBASE = PASS
 P19_CONTRACT_CHECK = PASS
 HOST_KEY_TRUST_DESIGN = APPROVED
 NO_RUNTIME_DEPLOYMENT_FROM_MERGE = CONFIRMED
 NO_BASELINE_CHANGE_FROM_MERGE = CONFIRMED
+NO_CADENCE_CHANGE_FROM_MERGE = CONFIRMED
 ```
 
 Host-key verification may be delivered as a second controlled PR if the authenticated key material is not yet available. The immutable action pins do not require waiting for that key, but neither item should be misreported as fully remediated until its own gate passes.
 
-## Current result
+## Current result — 2026-09-13 audit
 
 ```text
 SECURITY_HARDENING_PACKAGE = STAGED
+P19_ATTEMPT = 3_ACTIVE
 MUTABLE_ACTION_PIN_REMEDIATION = PARTIAL_HIGH_SENSITIVITY_SCOPE
 SSH_HOST_KEY_REMEDIATION = DESIGNED_NOT_APPLIED
 MAIN_PROTECTION = DESIGNED_NOT_APPLIED
+PR_BRANCH_REBASE_REQUIRED = YES
 P19_RUNTIME_MUTATION = NO
 P19_BASELINE_MUTATION = NO
 P19_MAIN_WORKFLOW_MUTATION = NO
 ```
+
+Prior green CI on this branch was against the pre-Attempt-3 base and must not be treated as merge authorization. Revalidation is required after a future controlled rebase.
