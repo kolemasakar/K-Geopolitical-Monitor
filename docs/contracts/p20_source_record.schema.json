@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kgm.local/contracts/p20_source_record.schema.json",
+  "title": "KGM Phase 20 Source Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_id",
+    "display_name",
+    "primary_domain_or_endpoint",
+    "country",
+    "region",
+    "subregion",
+    "language",
+    "source_type",
+    "reliability_class",
+    "update_frequency",
+    "collection_status",
+    "coverage_role",
+    "origin_group_id",
+    "syndication_or_copy_relation",
+    "collection_method",
+    "expected_latency_seconds",
+    "last_success_at",
+    "last_item_at",
+    "health_status",
+    "active_for_coverage"
+  ],
+  "properties": {
+    "source_id": {"type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+    "display_name": {"type": "string", "minLength": 1},
+    "primary_domain_or_endpoint": {"type": "string", "minLength": 1},
+    "country": {"type": ["string", "null"]},
+    "region": {"type": "string", "minLength": 1},
+    "subregion": {"type": ["string", "null"]},
+    "language": {"type": "string", "minLength": 2},
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "OFFICIAL_GOVERNMENT",
+        "INTERNATIONAL_ORGANIZATION",
+        "WIRE_SERVICE",
+        "NATIONAL_MEDIA",
+        "REGIONAL_LOCAL_MEDIA",
+        "DEFENSE_SECURITY",
+        "THINK_TANK_RESEARCH",
+        "PUBLIC_OSINT",
+        "ECONOMIC_ENERGY",
+        "SANCTIONS_REGULATORY",
+        "APPROVED_PUBLIC_SOCIAL",
+        "OTHER_EXPLICITLY_CLASSIFIED"
+      ]
+    },
+    "reliability_class": {"type": "string", "minLength": 1},
+    "update_frequency": {"type": "string", "minLength": 1},
+    "collection_status": {
+      "type": "string",
+      "enum": ["ACTIVE", "PAUSED_EXPECTED", "PAUSED_UNEXPECTED", "RETIRED"]
+    },
+    "coverage_role": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "origin_group_id": {"type": "string", "minLength": 1},
+    "syndication_or_copy_relation": {
+      "type": "string",
+      "enum": ["ORIGINAL", "SYNDICATED_COPY", "AGGREGATOR_COPY", "DERIVED", "UNKNOWN"]
+    },
+    "collection_method": {
+      "type": "string",
+      "enum": ["RSS", "ATOM", "HTML", "API_PUBLIC", "PUBLIC_SOCIAL", "MANUAL_REFERENCE", "OTHER_PUBLIC"]
+    },
+    "expected_latency_seconds": {"type": "integer", "minimum": 0},
+    "last_success_at": {
+      "anyOf": [{"type": "string", "format": "date-time"}, {"type": "null"}]
+    },
+    "last_item_at": {
+      "anyOf": [{"type": "string", "format": "date-time"}, {"type": "null"}]
+    },
+    "health_status": {
+      "type": "string",
+      "enum": [
+        "HEALTHY",
+        "DEGRADED",
+        "STALE",
+        "UNREACHABLE",
+        "DISABLED_EXPECTED",
+        "DISABLED_UNEXPECTED",
+        "NO_RECENT_CONTENT_BUT_COLLECTOR_HEALTHY",
+        "UNKNOWN"
+      ]
+    },
+    "active_for_coverage": {"type": "boolean"},
+    "jurisdiction": {"type": ["string", "null"]},
+    "topic_specialization": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "provenance_notes": {"type": ["string", "null"]},
+    "access_classification": {"type": ["string", "null"]}
+  }
+}
