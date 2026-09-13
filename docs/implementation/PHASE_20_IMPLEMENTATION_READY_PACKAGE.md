@@ -1,11 +1,15 @@
 # Phase 20 — Implementation-Ready Package
 
 Date: 2026-09-11
+Updated: 2026-09-13
 Status: `PREPARED / DESIGN_AND_TEST_ARTIFACTS_ONLY / LIVE_EXECUTION_NOT_STARTED`
-Base: `5714a76aaf12c77993ed5a02165c02a48d953758`
+Original base: `5714a76aaf12c77993ed5a02165c02a48d953758`
+Current canonical main at audit: `3bfe4c1021fe27a363463d3eb8ecc3018b0989a3`
 Roadmap gate: `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED`
 
-This package refines the existing Phase 20 source-coverage design into machine-contract, fixture, validation, and implementation sequencing artifacts while Phase 19 Attempt 2 continues.
+This package refines the existing Phase 20 source-coverage design into machine-contract, fixture, validation, and implementation sequencing artifacts.
+
+Current P19 context: Attempt 3 is active. This package remains preparation-only and must not be merged or used to activate P20 while the P19 temporal gate is still open.
 
 It does **not** authorize live source onboarding, source activation, ingestion changes, runtime deployment, migration 033, paid resources, shared runtime, A5 activation, or canonical cutover.
 
@@ -170,7 +174,7 @@ A source cannot become `ACTIVE_FOR_COVERAGE=true` until it has:
 - rollback/disable behavior;
 - explicit authorization for any secret, paid resource or non-public dependency.
 
-During P19, implementation is limited to validation code and fixtures; no live onboarding is authorized.
+During active P19 Attempt 3, implementation is limited to validation code and fixtures; no live onboarding is authorized.
 
 Exit gate:
 `P20_5_SOURCE_ONBOARDING_CONTRACT_VALIDATED`
@@ -220,12 +224,14 @@ P20 final acceptance should include:
 - proof that no source-count amplification through copies is misreported as independent coverage;
 - proof that collection failure cannot silently masquerade as geopolitical silence.
 
-## Current boundary
+## Current audit boundary — 2026-09-13
 
 ```text
+P19_ATTEMPT = 3_ACTIVE
 P20_DESIGN = IMPLEMENTATION_READY
 P20_TEST_ARTIFACTS = PREPARED
 P20_EXECUTION = NOT_STARTED
+PR_BRANCH_REBASE_REQUIRED = YES
 LIVE_SOURCE_EXPANSION = NO
 LIVE_INGEST_CHANGE = NO
 RUNTIME_DEPLOYMENT = NO
@@ -233,3 +239,5 @@ MIGRATION_033 = NOT_CREATED_NOT_PREAUTHORIZED
 BETA_PAID_RESOURCES_AUTHORIZED = NO
 A5_ACTIVATION = NO
 ```
+
+The branch is intentionally not rebased or merged by this update. Before any future integration, rebase onto then-current canonical `main` and re-run CI; prior green CI against the 2026-09-11 base is not sufficient for merge approval.
