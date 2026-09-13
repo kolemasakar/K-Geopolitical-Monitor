@@ -1,7 +1,7 @@
 # Project Checkpoint — Phase 19 Attempt 3 Freeze Handoff
 
 Date: 2026-09-13
-Status: `ATTEMPT_3_ACTIVE / FREEZE_HANDOFF_PREPARED / DO_NOT_MERGE_DURING_ACTIVE_SOAK`
+Status: `ATTEMPT_3_ACTIVE / CONTINUITY_PASS / FREEZE_HANDOFF_PREPARED / DO_NOT_MERGE_DURING_ACTIVE_SOAK`
 Project: K-Geopolitical Monitor
 
 ## 1. Canonical position
@@ -15,7 +15,10 @@ P19_PATH = A / FREEZE_DEPLOYED_B31B
 P19_ATTEMPT = 3
 P19_ATTEMPT_3_BASELINE_UTC = 2026-09-13T08:51:24Z
 P19_FULL_GATE = OPEN
+P20_EXECUTION = NOT_STARTED
 ```
+
+The canonical baseline file is `ops/p19/real_soak_baseline.txt` and was re-read at handoff with exact content `2026-09-13T08:51:24Z`.
 
 The strategic machine-readable state remains intentionally unchanged pending a formal state-sync gate:
 
@@ -36,7 +39,8 @@ job_id = 103721264801
 event = workflow_dispatch
 repository_sha = 3bfe4c1021fe27a363463d3eb8ecc3018b0989a3
 operation = health
-observation_utc = 2026-09-13T12:10:51Z
+observation_utc = 2026-09-13T12:10:50Z
+audit_qualifying_timestamp = 2026-09-13T12:10:51Z
 owner_local_target = kgm-e4-owner-pilot
 tailscale_ip = 100.102.136.23
 deployed_sha = b31b2136b5fe982d0b63b0135479b1549041906c
@@ -50,17 +54,22 @@ KGM_TAILSCALE_ANSIBLE_CONTROL = PASS
 P19_REAL_SOAK_OBSERVATION = PASS
 ```
 
-No runtime mutation occurred.
+No runtime mutation or restart occurred.
 
-## 3. Latest Attempt 3 soak-gate audit
+## 3. Latest verified Attempt 3 soak-gate audit
+
+The later scheduled audit supersedes the earlier audit #47 snapshot recorded while this handoff package was being prepared.
 
 ```text
 workflow = P19 Owner-Local Soak Gate Audit
-run_number = 47
-run_id = 34756392146
-job_id = 103721368877
+run_number = 48
+run_id = 34756738674
+job_id = 103722293757
+event = schedule
+branch = main
+checked_out_sha = 3bfe4c1021fe27a363463d3eb8ecc3018b0989a3
 baseline_utc = 2026-09-13T08:51:24Z
-evaluated_at_utc = 2026-09-13T12:11:17Z
+evaluated_at_utc = 2026-09-13T12:19:04Z
 completed_control_runs = 2
 failed_control_runs = 0
 qualifying_health_observations = 2
@@ -71,7 +80,7 @@ max_allowed_gap_hours = 7.0
 latest_observation_utc = 2026-09-13T12:10:51Z
 ```
 
-Temporal gates:
+Temporal gates remain open/in progress:
 
 ```text
 24h boundary = 2026-09-14T08:51:24Z / IN_PROGRESS
@@ -79,38 +88,26 @@ Temporal gates:
 7d boundary  = 2026-09-20T08:51:24Z / IN_PROGRESS
 ```
 
-Artifact:
+Latest verified audit artifact:
 
 ```text
-name = p19-owner-local-soak-gate-audit-34756392146
-id = 10317692124
-sha256 = 71b78216e7d629963931041c7e32973e7fb5f36ae80c62b10ff7872cdf9287fb
-retention_days = 30
+artifact_id = 10317636592
+archive_sha256 = 9ae723f6deb0a908536c9e46330fb1f034c0650f1021139eb2f5929338ce0f43
 ```
 
-## 4. Runtime drift classification
+`P19_CONTINUITY_STATUS=PASS` does not imply completion of the 24h/72h/7d temporal gates.
 
-Broad GitHub compare from deployed candidate to canonical handoff `main`:
+## 4. Runtime/main drift classification
 
-```text
-b31b2136... -> 3bfe4c102...
-ahead_by = 542
-full_repository_equivalence = NO
-```
+Selected/deployed runtime candidate remains:
 
-The prior runtime audit proved inspected active owner-local application runtime blobs and the deployed systemd execution unit were identical between `b31b...` and anchor `5714a76a...`.
+`b31b2136b5fe982d0b63b0135479b1549041906c`
 
-Fresh compare from that anchor to Attempt 3 `main`:
+Canonical `main` at this checkpoint remains:
 
-```text
-5714a76a... -> 3bfe4c102...
-ahead_by = 20
-changed_files_returned_by_compare = 17
-inspected_active_runtime_paths_changed = 0
-systemd_execution_unit_changed = 0
-```
+`3bfe4c1021fe27a363463d3eb8ecc3018b0989a3`
 
-Therefore:
+The active candidate had prior exact inspected runtime-path/systemd blob-equivalence against an earlier canonical anchor. Later canonical changes include repository-level and ingestion-adapter semantic changes, therefore present-day `main` must not be described as fully semantically identical to the deployed b31b candidate.
 
 ```text
 INSPECTED_ACTIVE_RUNTIME_PATH_EQUIVALENCE = PASS_TRANSITIVELY
@@ -119,82 +116,61 @@ EXACT_DEPENDENCY_ENVIRONMENT_EQUIVALENCE = NOT_PROVEN
 REDEPLOY_REQUIRED_BY_DRIFT_ALONE = NO
 ```
 
+The drift is not itself a P19 continuity failure, does not establish a runtime outage, and does not authorize deployment or restart during the active soak.
+
 Detailed evidence is in `docs/evidence/PHASE_19_ATTEMPT_3_SEMANTIC_RUNTIME_DRIFT_AUDIT_2026-09-13.md` on this documentation branch.
 
-## 5. Freeze schedule
+## 5. Continuity safeguard and freeze state
 
-Planned KGM development freeze:
+Fresh automation inspection at handoff:
 
 ```text
-FREEZE_START = 2026-09-14 09:00 Europe/Kyiv
-FREEZE_REVIEW = 2026-09-15 09:00 Europe/Kyiv
-FREEZE_START_AUTOMATION = ENABLED
-FREEZE_REVIEW_AUTOMATION = ENABLED
+P19_ATTEMPT_3_CONTINUITY = ENABLED
+P19_ATTEMPT_3_CONTINUITY_ID = 6aa647444a088191ade063b8642ef6c7
+P19_ATTEMPT_3_CONTINUITY_MODE = condition_watch / hourly
+P19_ATTEMPT_3_CONTINUITY_TIMEZONE = Europe/Kiev
+KGM_FREEZE_START = ENABLED / 2026-09-14 09:00 Europe/Kyiv
+KGM_FREEZE_REVIEW = ENABLED / 2026-09-15 09:00 Europe/Kyiv
 ```
 
-The 24-hour Attempt 3 boundary is later on 2026-09-14 at `08:51:24Z` (`11:51:24 Europe/Kyiv`). The freeze therefore begins before the 24-hour milestone and must not prevent read-only/continuity evidence collection required to evaluate that milestone.
+The continuity safeguard is bounded to the existing `operation=health` path and may not deploy, restart, change the P19 baseline/cadence/workflows/Tailscale trust, broaden privileges, or merge preparation PRs.
 
-Allowed during the freeze:
+The 24-hour Attempt 3 boundary is `2026-09-14T08:51:24Z` (`11:51:24 Europe/Kyiv`), after the planned freeze begins. The freeze must therefore preserve read-only/continuity evidence collection required to evaluate the milestone.
 
-- read-only health inspection;
-- existing bounded `operation=health` when required to protect P19 continuity;
-- existing soak-gate audit;
-- evidence inspection and preservation;
-- fail-closed reporting.
-
-Frozen during the freeze:
+During the freeze, keep frozen:
 
 - application code/config changes;
 - deployment or service restart;
-- merge to canonical `main`;
-- P19 baseline changes;
-- P19 cadence/evaluator/workflow changes;
+- merges to canonical `main`;
+- P19 baseline, cadence, evaluator, or workflow changes;
 - Tailscale trust-policy changes or privilege broadening;
 - migration 033 creation/application;
 - paid/shared-resource activation;
 - P20 live activation or source onboarding.
 
-## 6. Continuity protection state
+Allowed:
 
-The canonical repository continuity chain remains the authoritative mechanism:
+- read-only GitHub/runtime/evidence inspection;
+- existing bounded health/audit path;
+- already-authorized P19 continuity safeguard;
+- evidence preservation without mutation of canonical live control/runtime state.
 
-```text
-P19 Owner-Local Real Soak Dispatcher
-  -> KGM Tailscale Ansible Control / operation=health
-  -> P19 Owner-Local Soak Gate Audit
-```
+## 6. Parallel preparation inventory
 
-The latest successful bounded health #27 and audit #47 prove that chain can produce qualifying Attempt 3 evidence on canonical `main`.
-
-A previously created external ChatGPT condition watcher named `P19 Attempt 3 Continuity` is currently disabled. This checkpoint does not enable it or alter its schedule. The repository control plane remains authoritative; any future re-enable of the external watcher requires separate action and must preserve the no-deploy/no-restart/no-baseline-change boundaries.
-
-A stale push-trigger dispatcher instance #20 (`run_id=34748621104`) was observed queued after the Attempt 3 baseline commit. It is not treated as qualifying evidence and is not used to infer continuity. The later successful health #27 and audit #47 are the current qualifying evidence.
-
-## 7. Parallel preparation inventory
-
-Preparation PRs remain isolated from active Attempt 3:
+Preparation/evidence PRs remain isolated from active Attempt 3:
 
 ```text
-PR #78 = OPEN / DRAFT / UNMERGED
-  P20 implementation-ready contracts and synthetic fixtures
-
-PR #79 = OPEN / DRAFT / UNMERGED
-  historical/supporting P19 runtime-candidate decision evidence;
-  Path A decision is already applied elsewhere
-
-PR #80 = OPEN / DRAFT / UNMERGED
-  post-P19 security hardening package
-
-PR #81 = OPEN / DRAFT / UNMERGED
-  offline P19 milestone-evidence automation
-
-PR #84 = OPEN / DRAFT / UNMERGED
-  historical Attempt 2 24h FAIL_CONTINUITY evidence
+PR #78 = OPEN / DRAFT / UNMERGED — P20 contracts/synthetic fixtures
+PR #79 = OPEN / DRAFT / UNMERGED — P19 runtime-candidate decision evidence
+PR #80 = OPEN / DRAFT / UNMERGED — post-P19 security hardening
+PR #81 = OPEN / DRAFT / UNMERGED — offline P19 milestone evidence generator
+PR #84 = OPEN / DRAFT / UNMERGED — historical Attempt 2 24h FAIL_CONTINUITY evidence
+PR #86 = OPEN / DRAFT / UNMERGED — Attempt 3 drift/freeze/new-chat handoff package
 ```
 
-No preparation PR is authorized for merge during active Attempt 3 by this checkpoint.
+Do not merge them during active Attempt 3 or the planned freeze without an explicit, separately justified exception.
 
-## 8. Security and control invariants
+## 7. Security and control invariants
 
 ```text
 OWNER_LOCAL_CANONICAL = YES
@@ -208,21 +184,13 @@ KGM_SENTINELX = RETIRED_BY_DESIGN
 KGM_RDC_PRIMARY_CONTROL = NO
 ```
 
-Latest live health evidence confirms:
+Latest qualifying health confirms DB access as `kgmops` denied, arbitrary root escalation denied, service `active -> active`, restart skipped, and Ansible `changed=0`.
 
-```text
-kgmops runtime DB read = denied
-kgmops arbitrary root escalation = denied
-service state = active -> active
-restart = skipped
-Ansible changed = 0
-```
-
-## 9. Freeze handoff decision
+## 8. Handoff decision
 
 ```text
 P19_ATTEMPT_3 = CONTINUE
-P19_CONTINUITY = PASS_AS_OF_2026-09-13T12:11:17Z
+P19_CONTINUITY = PASS_AS_OF_2026-09-13T12:19:04Z
 P19_24H = IN_PROGRESS
 P19_72H = IN_PROGRESS
 P19_7D = IN_PROGRESS
@@ -235,12 +203,12 @@ PREPARATION_PR_MERGE = NO
 FREEZE_READY = YES_WITH_CONTINUITY_EVIDENCE_ALLOWED
 ```
 
-The correct pre-freeze posture is to preserve the candidate and baseline, allow only the existing bounded continuity/evidence path, and fail closed if evidence gaps, control failures, service/security regressions, or unexpected runtime identity changes appear.
+The correct posture is to preserve the selected candidate and baseline, continue the existing bounded evidence chain, and fail closed if evidence gaps, qualifying-control failures, service/security regressions, or unexpected runtime identity changes appear.
 
-## 10. Next evaluation points
+## 9. New-chat transition
 
-- Continue qualifying bounded health observations so no evidence gap exceeds 7 hours.
-- Evaluate the 24-hour gate only at/after `2026-09-14T08:51:24Z` with a qualifying terminal observation and `continuity_status=PASS`.
-- Preserve exact run/job/artifact identifiers for every milestone assertion.
-- At the 2026-09-15 09:00 Europe/Kyiv freeze review, recommend either `GO` or `EXTEND`; do not automatically resume mutations.
-- Do not advance the strategic machine state from `4.34 / PHASE_18_P18_9_VALIDATED_ACTIVATION_OWNER_GATE` without its formal state-sync gate.
+The durable new-chat source is:
+
+`docs/checkpoints/PROJECT_HANDOFF_2026-09-13_P19_ATTEMPT_3_NEW_CHAT.md`
+
+On resume, live-revalidate `main`, the baseline, newest dispatcher/health/audit evidence, deployed runtime candidate, and automation/freeze state before any mutation. If the freeze is active, honor it. Do not start P20 until P19 transition criteria are actually satisfied and authorized.
