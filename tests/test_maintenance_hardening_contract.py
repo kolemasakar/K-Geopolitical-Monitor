@@ -4,6 +4,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
 
+CHECKOUT_V5_SHA = "fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09"
+SETUP_PYTHON_V6_SHA = "ece7cb06caefa5fff74198d8649806c4678c61a1"
+
 
 def test_workflows_do_not_use_node20_checkout_or_setup_python_generations():
     offenders = []
@@ -40,15 +43,21 @@ def test_ci_constraints_pin_compatibility_critical_stack():
 
 
 def test_primary_ci_workflows_enforce_constraints_and_pip_check():
-    for relative_path in (
-        ".github/workflows/ci.yml",
-        ".github/workflows/e4-arm64-validation.yml",
-    ):
-        text = (ROOT / relative_path).read_text(encoding="utf-8")
+    ci = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    arm64 = (ROOT / ".github/workflows/e4-arm64-validation.yml").read_text(encoding="utf-8")
+
+    for text in (ci, arm64):
         assert "PIP_CONSTRAINT: constraints/ci.txt" in text
         assert "python -m pip check" in text
-        assert "actions/checkout@v5" in text
-        assert "actions/setup-python@v6" in text
+
+    # The post-P19 hardening branch deliberately pins the primary CI workflow
+    # to immutable upstream SHAs. The ARM64 workflow remains outside this
+    # staged high-sensitivity pinning scope and is covered by the repository-wide
+    # `uses:` sweep required before merge.
+    assert f"actions/checkout@{CHECKOUT_V5_SHA}" in ci
+    assert f"actions/setup-python@{SETUP_PYTHON_V6_SHA}" in ci
+    assert "actions/checkout@v5" in arm64
+    assert "actions/setup-python@v6" in arm64
 
 
 def test_test_dependency_contract_uses_httpx2_and_compatible_anyio_window():
