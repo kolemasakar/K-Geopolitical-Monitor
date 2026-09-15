@@ -13,6 +13,7 @@ from urllib.parse import urlparse
 from .confidence_engine import calculate_confidence
 from .operational_monitoring import FAILED, OperationalMonitoringRuntime, _normalize_time
 from .operational_output import FindingDraft, OperationalFinding, OperationalOutputStore
+from .recovery_coverage import recovery_snapshot_ids
 
 
 DETECTED = "DETECTED"
@@ -40,6 +41,7 @@ class LiveAnalysisResult:
     monitoring_run_id: str
     claims: tuple[AnalyzedClaim, ...]
     findings: tuple[OperationalFinding, ...]
+    coverage_snapshot_ids: tuple[str, ...] = ()
 
 
 def _stable_id(prefix: str, value: str) -> str:
@@ -169,6 +171,9 @@ class LiveEndToEndProcessor:
         monitoring_run_id = self._monitoring_run_for_analysis(analysis_run_id)
         claims = self._load_claims(analysis_run_id)
         findings = tuple(self.output.ranked_findings(run_id=monitoring_run_id, limit=1000))
+        coverage_snapshot_ids = recovery_snapshot_ids(
+            self.runtime.database_path, collection_id
+        )
         return LiveAnalysisResult(
             analysis_run_id=analysis_run_id,
             collection_id=collection_id,
@@ -176,6 +181,7 @@ class LiveEndToEndProcessor:
             monitoring_run_id=monitoring_run_id,
             claims=claims,
             findings=findings,
+            coverage_snapshot_ids=coverage_snapshot_ids,
         )
 
     def process_collection(
@@ -202,6 +208,9 @@ class LiveEndToEndProcessor:
                 return self._load_existing_result(existing_id, collection_id, watch_id)
             raise ValueError("source collection already has a non-completed analysis run")
 
+        coverage_snapshot_ids = recovery_snapshot_ids(
+            self.runtime.database_path, collection_id
+        )
         evidence_rows = self._evidence_rows(collection_id)
         if not evidence_rows:
             raise ValueError("source collection contains no persisted live evidence")
@@ -318,6 +327,10 @@ class LiveEndToEndProcessor:
                     f"claim:{claim.claim_id}",
                     *tuple(f"raw_item:{raw_id}" for raw_id in claim.raw_item_ids),
                     *tuple(f"origin:{origin}" for origin in claim.independent_origins),
+                    *tuple(
+                        f"coverage_snapshot:{snapshot_id}"
+                        for snapshot_id in coverage_snapshot_ids
+                    ),
                 )
                 drafts.append(
                     FindingDraft(
@@ -332,7 +345,8 @@ class LiveEndToEndProcessor:
                         explanation=(
                             f"verification_status={claim.verification_status}; "
                             f"independent_origins={len(claim.independent_origins)}; "
-                            "strict normalized-title grouping; importance=0.5 neutral pilot baseline."
+                            "strict normalized-title grouping; importance=0.5 neutral pilot baseline; "
+                            f"recovery_coverage_snapshots={len(coverage_snapshot_ids)}."
                         ),
                     )
                 )
@@ -367,6 +381,7 @@ class LiveEndToEndProcessor:
                 monitoring_run_id=monitoring_run.run_id,
                 claims=tuple(analyzed_claims),
                 findings=findings,
+                coverage_snapshot_ids=coverage_snapshot_ids,
             )
         except Exception as exc:
             error = str(exc).strip() or exc.__class__.__name__
