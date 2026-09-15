@@ -22,7 +22,6 @@ overdue watch
 ```
 
 Strict continuity is not reintroduced as a gate.
-
 ## Source semantics
 
 - GDELT DOC 2.0 declares bounded-history capability from its configured `timespan`.
@@ -47,7 +46,6 @@ Full Windows/Python 3.14 suite on remediation branch:
 ```
 
 The same eight tests fail on a pristine worktree of the exact base commit. They are therefore platform/baseline failures, not remediation regressions.
-
 Baseline failures reproduced unchanged:
 
 - four E4 host-validation tests expecting Linux host semantics;
