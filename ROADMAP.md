@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.34
+Version: 4.35
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -597,10 +597,25 @@ P18.9 establishes `phase_matrix_validated = True` while keeping `launch_eligible
 
 P18.9 closes the Phase 18 implementation/readiness sequence only. Final shared-runtime activation remains a separate explicit owner decision plus fresh launch-time validation of a concrete candidate.
 
+## Phase 19 — Owner-local Beta Operational Stability / Recovery and Freshness
+State: `VALIDATED / CLOSED`
+Gate: `P19_TARGETED_CATCH_UP_AND_FRESHNESS_VALIDATION_PASS`
+Implementation anchor: `597db04e61a6d00bf4cd5faae1244d927abb9d8e`.
+Closure evidence: `docs/evidence/PHASE_19_TARGETED_CATCHUP_FRESHNESS_CLOSURE_VALIDATION_2026-09-15.md`
+Closure decision: `docs/decisions/PHASE_19_CLOSURE_DECISION_2026-09-15.md`
+
+Normal Monitoring Mode is the active project mode. Strict continuity is retired as a global gate and remains only a future optional Event Watch capability. Gap detection, collection resume, application-level catch-up for recoverable windows, explicit unrecoverable intervals, source-specific freshness, dedup/idempotency and security invariants are validated. Attempts 1–3 remain historical old-contract evidence; Attempt 4 and multi-day soak are not required.
+
+## Phase 20 — Source Coverage / Collection Quality
+State: `READY_TO_BEGIN`
+Next gate: `P20_0_EXISTING_COVERAGE_INVENTORY_REUSE_MAP`
+
+Phase 20 begins from the validated P19 recovery/freshness baseline and does not authorize shared-runtime activation, paid resources or migration `033`.
+
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.34`;
+- state synchronization: `v4.35`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -637,6 +652,10 @@ P18.9 closes the Phase 18 implementation/readiness sequence only. Final shared-r
 - P18.9: `VALIDATED`;
 - P18.9 real infrastructure observation: `NOT_OBSERVED`;
 - P18.9 launch eligibility: `FALSE`;
+- Phase 19: `PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED`;
+- P19 strict continuity gate: `RETIRED`;
+- P19 targeted catch-up/freshness validation: `PASS`;
+- Phase 20: `READY_TO_BEGIN / P20_0_EXISTING_COVERAGE_INVENTORY_REUSE_MAP`;
 - Phase 18 shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
 - migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
