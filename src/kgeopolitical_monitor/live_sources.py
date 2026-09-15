@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime
 from email.utils import parsedate_to_datetime
 from hashlib import sha256
@@ -19,6 +19,10 @@ import xml.etree.ElementTree as ET
 
 from .controlled_pilot import APPROVED_SOURCE_CLASSES
 from .operational_monitoring import MonitoringWatch, OperationalMonitoringRuntime, _normalize_time
+from .recovery_coverage import (
+    BOUNDED_HISTORY, UNKNOWN_HISTORY, RecoveryCoverageRecorder,
+    SourceRecoveryCapability, parse_history_window_seconds, recovery_window_for,
+)
 
 
 @dataclass(frozen=True)
@@ -165,6 +169,13 @@ class GdeltDoc2Adapter:
         self.max_records = max_records
         self.timespan = timespan
 
+    def recovery_capability(self) -> SourceRecoveryCapability:
+        try:
+            seconds = parse_history_window_seconds(self.timespan)
+        except ValueError:
+            return SourceRecoveryCapability(UNKNOWN_HISTORY)
+        return SourceRecoveryCapability(BOUNDED_HISTORY, seconds)
+
     def fetch(self, watch: MonitoringWatch, collected_at: datetime) -> list[LiveSourceItem]:
         timestamp = _normalize_time(collected_at)
         params = urlencode(
@@ -234,6 +245,9 @@ class ConsiliumRssAdapter:
     def __init__(self, transport: HttpTransport):
         self.transport = transport
 
+    def recovery_capability(self) -> SourceRecoveryCapability:
+        return SourceRecoveryCapability(UNKNOWN_HISTORY)
+
     def fetch(self, watch: MonitoringWatch, collected_at: datetime) -> list[LiveSourceItem]:
         timestamp = _normalize_time(collected_at)
         response = self.transport.get(
@@ -296,6 +310,9 @@ class SourceCollectionReport:
     failures: tuple[dict[str, str], ...]
     started_at: datetime
     completed_at: datetime
+    recovery_window_start: datetime | None = None
+    recovery_window_end: datetime | None = None
+    recovery_coverage_snapshot_id: str | None = None
 
 
 @dataclass(frozen=True)
@@ -529,6 +546,7 @@ class LiveSourceCollector:
         if not watch.enabled:
             raise ValueError("disabled watch cannot collect live sources")
 
+        recovery_window = recovery_window_for(self.runtime, watch, current)
         collection_id = f"collection-{uuid4().hex}"
         self.audit.start(collection_id, watch.watch_id, current)
 
@@ -586,4 +604,19 @@ class LiveSourceCollector:
             completed_at=current,
         )
         self.audit.finish(report)
-        return report
+        if recovery_window is None:
+            return report
+        snapshot_id = RecoveryCoverageRecorder(self.runtime).record(
+            collection_id=collection_id,
+            watch=watch,
+            window=recovery_window,
+            adapters=self.adapters,
+            attempts=self.audit.attempts(collection_id),
+            assessed_at=current,
+        )
+        return replace(
+            report,
+            recovery_window_start=recovery_window.start,
+            recovery_window_end=recovery_window.end,
+            recovery_coverage_snapshot_id=snapshot_id,
+        )
