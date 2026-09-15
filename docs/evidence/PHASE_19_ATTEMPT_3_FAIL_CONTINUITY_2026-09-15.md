@@ -16,19 +16,21 @@ P19_RUNTIME_CANDIDATE = b31b2136b5fe982d0b63b0135479b1549041906c
 
 ```text
 workflow = P19 Owner-Local Soak Gate Audit
+run_number = 64
 run_id = 34932643766
 job_id = 104263902641
 event = schedule
 conclusion = failure
 artifact_id = 10381978328
-evaluated_at_utc = 2026-09-15T06:50:50Z
+artifact_digest = sha256:5b37a0ef02fd065b5faed2c9cb97836b167fe86b81cc431d73a04742084a5bee
+evaluated_at_utc = 2026-09-15T05:25:20Z
 ```
 
-Exact evaluator result preserved from the audit artifact/log:
+Exact evaluator result preserved from run #64 job logs and its artifact:
 
 ```text
 P19_SOAK_AUDIT=FAIL_CONTINUITY
-P19_CONTINUITY_STATUS=FAIL
+P19_CONTINUITY_STATUS=FAIL_CONTINUITY
 P19_REAL_24H_SOAK=FAIL_CONTINUITY
 P19_REAL_72H_SOAK=IN_PROGRESS
 P19_REAL_7D_SOAK=IN_PROGRESS
@@ -37,26 +39,27 @@ P19_CONTROL_FAILED_RUNS=0
 P19_QUALIFYING_HEALTH_OBSERVATIONS=10
 current_max_gap_hours=7.9025
 max_allowed_gap_hours=7.0
-latest_observation_utc=2026-09-14T19:24:32Z
+latest_observation_utc=2026-09-15T05:06:05Z
+qualifying_observation_count_after_baseline=9
 ```
 
 The evaluator's 72h/7d `IN_PROGRESS` fields do not make Attempt 3 recoverable. Once continuity is violated, Attempt 3 cannot later satisfy the full fail-closed soak contract.
 
 ## Qualifying observation timeline
 
-The audit artifact preserved these timestamps:
+The run #64 artifact preserved these timestamps:
 
 ```text
 2026-09-13T08:51:24Z
 2026-09-13T12:10:51Z
-2026-09-13T15:10:38Z
-2026-09-13T16:36:07Z
-2026-09-13T18:11:12Z
-2026-09-13T22:32:50Z
-2026-09-14T01:43:48Z
+2026-09-13T16:32:18Z
+2026-09-13T20:59:41Z
+2026-09-13T23:17:00Z
 2026-09-14T05:13:02Z
 2026-09-14T13:07:11Z
-2026-09-14T19:24:32Z
+2026-09-14T19:53:53Z
+2026-09-14T23:56:28Z
+2026-09-15T05:06:05Z
 ```
 
 Fatal interval:
@@ -81,7 +84,7 @@ target_observation_cadence_hours = 3
 max_evidence_gap_hours = 7
 ```
 
-The repository's scheduled-run history for 2026-09-14 contains only four scheduled dispatcher runs in the UTC day, interleaved with four scheduled audit runs. Relevant dispatcher records are:
+The repository's scheduled-run history for 2026-09-14 contains only four scheduled dispatcher runs in the UTC day. Relevant dispatcher records are:
 
 ```text
 run #25 / 34808756269
@@ -97,15 +100,17 @@ qualifying observation = 2026-09-14T13:07:11Z
 run #27 / 34889570586
 created_at = 2026-09-14T19:52:59Z
 conclusion = success
+qualifying observation = 2026-09-14T19:53:53Z
 
 run #28 / 34910963516
 created_at = 2026-09-14T23:55:07Z
 conclusion = success
+qualifying observation = 2026-09-14T23:56:28Z
 ```
 
-Thus the fatal health-evidence gap aligns directly with an approximately `7h54m` interval between two successful scheduled dispatcher deliveries (#25 -> #26), even though the workflow is configured for a 3-hour cron cadence. No failed qualifying bounded control explains the interval.
+The fatal health-evidence gap aligns directly with an approximately `7h54m` interval between two successful scheduled dispatcher deliveries (#25 -> #26), despite the workflow's intended 3-hour cron cadence. No failed qualifying bounded control explains the interval.
 
-This supports a stronger orchestration-layer conclusion:
+This supports the orchestration-layer conclusion:
 
 ```text
 SCHEDULE_DEPENDENT_DISPATCH_CONTINUITY = FAILED
@@ -114,7 +119,7 @@ QUALIFYING_CONTROL_FAILURES = 0
 RUNTIME_OUTAGE = NOT_ESTABLISHED
 ```
 
-The repository evidence is sufficient to attribute the P19 gate failure to the schedule-dependent evidence-delivery mechanism. It is still not sufficient to distinguish conclusively among GitHub-internal delayed scheduling, omitted scheduled events, queue/service behavior, or another platform-side scheduling mechanism detail. Therefore avoid claiming a specific undocumented GitHub internal cause.
+The repository evidence is sufficient to attribute the P19 gate failure to the schedule-dependent evidence-delivery mechanism. It is not sufficient to distinguish conclusively among GitHub-internal delayed scheduling, omitted scheduled events, queue/service behavior, or another platform-side scheduling mechanism detail. Do not claim a specific undocumented GitHub internal cause.
 
 ## Failure classification
 
