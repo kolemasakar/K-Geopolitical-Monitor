@@ -71,23 +71,59 @@ allowed_gap_hours = 7.0
 
 The Attempt 3 24-hour boundary was `2026-09-14T08:51:24Z`, which lies inside the fatal evidence gap. Therefore the 24-hour gate is `FAIL_CONTINUITY`.
 
-## Failure classification
+## Dispatcher schedule evidence / RCA refinement
 
-Observed facts:
+Canonical dispatcher configuration at `3bfe4c102...` is:
 
 ```text
-QUALIFYING_CONTROL_FAILURES = 0
-RUNTIME_OUTAGE = NOT_ESTABLISHED
-CONTINUITY_FAILURE = YES
-FAILURE_CLASS = EVIDENCE_CONTINUITY/CADENCE
+cron = 27 */3 * * *
+target_observation_cadence_hours = 3
+max_evidence_gap_hours = 7
 ```
 
-The safest current root-cause statement is:
+The repository's scheduled-run history for 2026-09-14 contains only four scheduled dispatcher runs in the UTC day, interleaved with four scheduled audit runs. Relevant dispatcher records are:
 
 ```text
-ROOT_CAUSE_CLASS = SCHEDULED_EVIDENCE_DELIVERY/CADENCE_FAILURE
-PLATFORM_SCHEDULE_LATENCY_OR_JITTER = MOST_LIKELY / CONSISTENT_WITH EVIDENCE
-GITHUB_PLATFORM_CAUSALITY = NOT_CONCLUSIVELY_PROVEN
+run #25 / 34808756269
+created_at = 2026-09-14T05:12:14Z
+conclusion = success
+qualifying observation = 2026-09-14T05:13:02Z
+
+run #26 / 34847185678
+created_at = 2026-09-14T13:06:30Z
+conclusion = success
+qualifying observation = 2026-09-14T13:07:11Z
+
+run #27 / 34889570586
+created_at = 2026-09-14T19:52:59Z
+conclusion = success
+
+run #28 / 34910963516
+created_at = 2026-09-14T23:55:07Z
+conclusion = success
+```
+
+Thus the fatal health-evidence gap aligns directly with an approximately `7h54m` interval between two successful scheduled dispatcher deliveries (#25 -> #26), even though the workflow is configured for a 3-hour cron cadence. No failed qualifying bounded control explains the interval.
+
+This supports a stronger orchestration-layer conclusion:
+
+```text
+SCHEDULE_DEPENDENT_DISPATCH_CONTINUITY = FAILED
+EXPECTED_3H_SCHEDULE_DELIVERY = NOT_OBSERVED_RELIABLY
+QUALIFYING_CONTROL_FAILURES = 0
+RUNTIME_OUTAGE = NOT_ESTABLISHED
+```
+
+The repository evidence is sufficient to attribute the P19 gate failure to the schedule-dependent evidence-delivery mechanism. It is still not sufficient to distinguish conclusively among GitHub-internal delayed scheduling, omitted scheduled events, queue/service behavior, or another platform-side scheduling mechanism detail. Therefore avoid claiming a specific undocumented GitHub internal cause.
+
+## Failure classification
+
+```text
+ROOT_CAUSE_CLASS = SCHEDULE_DEPENDENT_EVIDENCE_DELIVERY_FAILURE
+RUNTIME_OUTAGE = NOT_ESTABLISHED
+BOUNDED_CONTROL_FAILURE = NO
+GITHUB_SCHEDULE_DELIVERY_RELIABILITY = INSUFFICIENT_FOR_CURRENT_P19_CONTRACT
+SPECIFIC_GITHUB_INTERNAL_CAUSE = NOT_CONCLUSIVELY_PROVEN
 ```
 
 This failure must not be represented as proof that the owner-local service itself failed. Conversely, later successful observations cannot retroactively repair the broken continuity interval.
@@ -118,4 +154,4 @@ WORKFLOW_OR_CADENCE_CHANGE = NO
 P20_START = NO
 ```
 
-Read-only diagnosis, evidence preservation, and isolated documentation updates remain safe. Any Attempt 4 design should address the repeated scheduled-evidence continuity failure rather than simply restarting the same mechanism unchanged.
+Read-only diagnosis, evidence preservation, and isolated documentation updates remain safe. Any Attempt 4 design should remove GitHub scheduled-event delivery as the sole continuity anchor rather than simply restarting the same mechanism unchanged.
