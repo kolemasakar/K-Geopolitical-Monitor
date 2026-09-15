@@ -13,6 +13,7 @@ P19_RUNTIME_CANDIDATE = b31b2136b5fe982d0b63b0135479b1549041906c
 P19_PATH = A / DEPLOYED_B31B
 P19_ATTEMPT_3_BASELINE_UTC = 2026-09-13T08:51:24Z
 P19_ATTEMPT_3 = FAILED_CONTINUITY
+P19_CONTINUITY_STATUS = FAIL_CONTINUITY
 P19_REAL_24H_SOAK = FAIL_CONTINUITY
 P19_FULL_GATE = OPEN
 P20_EXECUTION = NOT_STARTED
@@ -33,26 +34,29 @@ This isolated documentation checkpoint does not modify `docs/state/CURRENT_PROJE
 
 ```text
 workflow = P19 Owner-Local Soak Gate Audit
+run_number = 64
 run_id = 34932643766
 job_id = 104263902641
 event = schedule
 conclusion = failure
 artifact_id = 10381978328
-evaluated_at_utc = 2026-09-15T06:50:50Z
+artifact_digest = sha256:5b37a0ef02fd065b5faed2c9cb97836b167fe86b81cc431d73a04742084a5bee
+evaluated_at_utc = 2026-09-15T05:25:20Z
 ```
 
 Evaluator:
 
 ```text
 P19_SOAK_AUDIT = FAIL_CONTINUITY
-P19_CONTINUITY_STATUS = FAIL
+P19_CONTINUITY_STATUS = FAIL_CONTINUITY
 P19_REAL_24H_SOAK = FAIL_CONTINUITY
 P19_CONTROL_COMPLETED_RUNS = 10
 P19_CONTROL_FAILED_RUNS = 0
 P19_QUALIFYING_HEALTH_OBSERVATIONS = 10
 current_max_gap_hours = 7.9025
 max_allowed_gap_hours = 7.0
-latest_observation_utc = 2026-09-14T19:24:32Z
+latest_observation_utc = 2026-09-15T05:06:05Z
+qualifying_observation_count_after_baseline = 9
 ```
 
 Fatal interval:
@@ -68,18 +72,30 @@ Detailed evidence:
 
 `docs/evidence/PHASE_19_ATTEMPT_3_FAIL_CONTINUITY_2026-09-15.md`
 
-## 3. Classification
+## 3. RCA classification
 
-There were zero failed completed qualifying controls in the audit set. The failure is therefore classified as evidence continuity/cadence failure, not as a proven owner-local service failure.
+There were zero failed completed qualifying controls in the audit set. Canonical dispatcher cadence is `27 */3 * * *`, but the scheduled dispatcher sequence around the fatal gap was:
 
 ```text
-ROOT_CAUSE_CLASS = SCHEDULED_EVIDENCE_DELIVERY/CADENCE_FAILURE
-RUNTIME_OUTAGE = NOT_ESTABLISHED
-PLATFORM_SCHEDULE_LATENCY_OR_JITTER = MOST_LIKELY / CONSISTENT_WITH EVIDENCE
-GITHUB_PLATFORM_CAUSALITY = NOT_CONCLUSIVELY_PROVEN
+#25 / 34808756269 / created 2026-09-14T05:12:14Z / observation 05:13:02Z
+#26 / 34847185678 / created 2026-09-14T13:06:30Z / observation 13:07:11Z
 ```
 
-Further read-only RCA should inspect scheduled dispatcher delivery around the fatal interval before strengthening causality claims.
+This yields the same `7h54m09s` fatal interval despite the intended 3-hour schedule.
+
+Strongest supportable classification:
+
+```text
+ROOT_CAUSE_CLASS = SCHEDULE_DEPENDENT_EVIDENCE_DELIVERY_FAILURE
+SCHEDULE_DEPENDENT_DISPATCH_CONTINUITY = FAILED
+EXPECTED_3H_SCHEDULE_DELIVERY = NOT_OBSERVED_RELIABLY
+QUALIFYING_CONTROL_FAILURES = 0
+RUNTIME_OUTAGE = NOT_ESTABLISHED
+GITHUB_SCHEDULE_DELIVERY_RELIABILITY = INSUFFICIENT_FOR_CURRENT_P19_CONTRACT
+SPECIFIC_GITHUB_INTERNAL_CAUSE = NOT_CONCLUSIVELY_PROVEN
+```
+
+The P19 failure is attributable to the schedule-dependent evidence-delivery mechanism at the orchestration-contract level. Do not overstate this as proof of a specific undocumented GitHub internal defect.
 
 ## 4. Runtime/main drift
 
@@ -106,7 +122,7 @@ KGM_FREEZE_START = COMPLETED / DISABLED_AFTER_RUN
 KGM_FREEZE_REVIEW = COMPLETED / DISABLED_AFTER_RUN
 ```
 
-The continuity watcher cannot retroactively repair Attempt 3. Because the audit now proves a fail-closed condition, the safe review outcome is:
+The continuity watcher cannot retroactively repair Attempt 3. Because the audit proves a fail-closed condition, the safe review outcome is:
 
 ```text
 FREEZE_RECOMMENDATION = EXTEND
@@ -158,7 +174,7 @@ P19_FULL_GATE = OPEN
 P20 = NOT_STARTED
 ```
 
-After three continuity failures, do not repeat the same schedule-dependent mechanism unchanged. Prepare a read-only root-cause audit and a recovery design first. A future design should make continuity evidence robust to delayed/missed GitHub scheduled-event delivery, for example through durable runtime-local heartbeat/evidence plus GitHub collection/audit. Implementation requires a new explicit owner decision.
+After three continuity failures, do not repeat the same schedule-dependent mechanism unchanged. Prepare a read-only root-cause audit and a recovery design first. A future design should make continuity evidence robust to delayed or omitted GitHub scheduled-event delivery, for example through durable runtime-local heartbeat/evidence plus GitHub collection/audit. Implementation requires a new explicit owner decision.
 
 ## 9. New-chat transition
 
@@ -166,4 +182,4 @@ Durable handoff:
 
 `docs/checkpoints/PROJECT_HANDOFF_2026-09-13_P19_ATTEMPT_3_NEW_CHAT.md`
 
-On resume: live-revalidate `main`, baseline, latest P19 runs, current deployed SHA, automation state, and the fatal-gap evidence before any mutation. Keep the freeze extended until the owner approves the recovery plan.
+On resume: live-revalidate `main`, baseline, latest P19 runs, current deployed SHA, automation state, and fatal-gap evidence before any mutation. Keep the freeze extended until the owner approves the recovery plan.
