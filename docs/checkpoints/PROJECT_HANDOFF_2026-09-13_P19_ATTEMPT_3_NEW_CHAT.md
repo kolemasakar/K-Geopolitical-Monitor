@@ -17,7 +17,7 @@ P19_REAL_SOAK_ATTEMPT_2 = FAILED_CONTINUITY
 P19_REAL_SOAK_ATTEMPT_3 = FAILED_CONTINUITY
 P19_ATTEMPT_3_BASELINE_UTC = 2026-09-13T08:51:24Z
 P19_RUNTIME_CANDIDATE = b31b2136b5fe982d0b63b0135479b1549041906c
-P19_CONTINUITY_STATUS = FAIL
+P19_CONTINUITY_STATUS = FAIL_CONTINUITY
 P19_REAL_24H_SOAK = FAIL_CONTINUITY
 P19_FULL_GATE = OPEN
 P20_EXECUTION = NOT_STARTED
@@ -33,23 +33,25 @@ Do not change it unless a new owner decision explicitly authorizes a new attempt
 
 ## 2. Failing canonical audit evidence
 
-Latest critical audit:
+Latest critical scheduled audit:
 
 ```text
 workflow = P19 Owner-Local Soak Gate Audit
+run_number = 64
 run_id = 34932643766
 job_id = 104263902641
 event = schedule
 conclusion = failure
 artifact_id = 10381978328
-evaluated_at_utc = 2026-09-15T06:50:50Z
+artifact_digest = sha256:5b37a0ef02fd065b5faed2c9cb97836b167fe86b81cc431d73a04742084a5bee
+evaluated_at_utc = 2026-09-15T05:25:20Z
 ```
 
 Exact evaluator result:
 
 ```text
 P19_SOAK_AUDIT=FAIL_CONTINUITY
-P19_CONTINUITY_STATUS=FAIL
+P19_CONTINUITY_STATUS=FAIL_CONTINUITY
 P19_REAL_24H_SOAK=FAIL_CONTINUITY
 P19_REAL_72H_SOAK=IN_PROGRESS
 P19_REAL_7D_SOAK=IN_PROGRESS
@@ -58,7 +60,8 @@ P19_CONTROL_FAILED_RUNS=0
 P19_QUALIFYING_HEALTH_OBSERVATIONS=10
 current_max_gap_hours=7.9025
 max_allowed_gap_hours=7.0
-latest_observation_utc=2026-09-14T19:24:32Z
+latest_observation_utc=2026-09-15T05:06:05Z
+qualifying_observation_count_after_baseline=9
 ```
 
 Fatal interval:
@@ -73,11 +76,26 @@ allowed = 7.0h
 
 The 24h boundary falls inside the fatal gap, therefore `P19_REAL_24H_SOAK=FAIL_CONTINUITY`.
 
+Correct run #64 observation timeline:
+
+```text
+2026-09-13T08:51:24Z
+2026-09-13T12:10:51Z
+2026-09-13T16:32:18Z
+2026-09-13T20:59:41Z
+2026-09-13T23:17:00Z
+2026-09-14T05:13:02Z
+2026-09-14T13:07:11Z
+2026-09-14T19:53:53Z
+2026-09-14T23:56:28Z
+2026-09-15T05:06:05Z
+```
+
 Durable evidence:
 
 `docs/evidence/PHASE_19_ATTEMPT_3_FAIL_CONTINUITY_2026-09-15.md`
 
-## 3. Failure interpretation
+## 3. Failure interpretation and RCA
 
 No completed qualifying bounded health control in the audit set failed:
 
@@ -85,16 +103,28 @@ No completed qualifying bounded health control in the audit set failed:
 P19_CONTROL_FAILED_RUNS = 0
 ```
 
-Therefore the supported classification is evidence-continuity/cadence failure, not a proven runtime outage:
+Canonical dispatcher cadence is `27 */3 * * *`, but scheduled dispatcher delivery on 2026-09-14 did not reliably preserve the expected 3-hour evidence cadence. Relevant successful dispatcher runs were:
 
 ```text
-ROOT_CAUSE_CLASS = SCHEDULED_EVIDENCE_DELIVERY/CADENCE_FAILURE
-RUNTIME_OUTAGE = NOT_ESTABLISHED
-PLATFORM_SCHEDULE_LATENCY_OR_JITTER = MOST_LIKELY / CONSISTENT_WITH EVIDENCE
-GITHUB_PLATFORM_CAUSALITY = NOT_CONCLUSIVELY_PROVEN
+#25 / 34808756269 / created 2026-09-14T05:12:14Z / observation 05:13:02Z
+#26 / 34847185678 / created 2026-09-14T13:06:30Z / observation 13:07:11Z
+#27 / 34889570586 / created 2026-09-14T19:52:59Z / observation 19:53:53Z
+#28 / 34910963516 / created 2026-09-14T23:55:07Z / observation 23:56:28Z
 ```
 
-Do not claim the runtime failed merely because the soak gate failed. Do not claim GitHub platform causality is conclusively proven without additional evidence.
+The fatal gap aligns with the interval between dispatcher #25 and #26. The strongest supportable classification is:
+
+```text
+ROOT_CAUSE_CLASS = SCHEDULE_DEPENDENT_EVIDENCE_DELIVERY_FAILURE
+SCHEDULE_DEPENDENT_DISPATCH_CONTINUITY = FAILED
+EXPECTED_3H_SCHEDULE_DELIVERY = NOT_OBSERVED_RELIABLY
+QUALIFYING_CONTROL_FAILURES = 0
+RUNTIME_OUTAGE = NOT_ESTABLISHED
+GITHUB_SCHEDULE_DELIVERY_RELIABILITY = INSUFFICIENT_FOR_CURRENT_P19_CONTRACT
+SPECIFIC_GITHUB_INTERNAL_CAUSE = NOT_CONCLUSIVELY_PROVEN
+```
+
+Do not claim the runtime failed merely because the soak gate failed. Do not claim a specific undocumented GitHub internal failure mechanism without additional evidence.
 
 ## 4. Runtime candidate and authority
 
@@ -149,7 +179,7 @@ Fresh automation inspection on 2026-09-15 found:
 - ID: `6aa647444a088191ade063b8642ef6c7`
 - enabled: `true`
 - mode: hourly `condition_watch`
-- last recorded run: `2026-09-15T05:02:27.980208Z`
+- last recorded run at inspection: `2026-09-15T05:02:27.980208Z`
 - notifications: disabled
 
 This watcher can only protect future bounded health cadence; it cannot retroactively repair the fatal gap that already invalidated Attempt 3.
@@ -186,7 +216,8 @@ Until an explicit recovery decision:
 - no Phase 18 shared-runtime activation or canonical cutover;
 - no Migration 033;
 - no paid/shared-resource activation;
-- no P20 execution.
+- no P20 execution;
+- no Attempt 4 baseline/start.
 
 Allowed:
 
@@ -232,7 +263,7 @@ Required order:
 2. Re-read `ops/p19/real_soak_baseline.txt`; do not alter it.
 3. Inspect newest P19 dispatcher, bounded-health, and soak-gate audit runs.
 4. Confirm Attempt 3 failure evidence, especially audit run `34932643766`, failed-controls count, and the `7.9025h` fatal gap.
-5. Inspect the dispatcher/scheduled-run timeline around `2026-09-14T05:13:02Z` to `2026-09-14T13:07:11Z` and determine the strongest supportable root cause.
+5. Reconfirm the dispatcher timeline around `2026-09-14T05:13:02Z` to `2026-09-14T13:07:11Z` before strengthening any root-cause assertion.
 6. Verify current deployed runtime SHA and service/security assertions read-only; do not restart/deploy merely for diagnosis.
 7. Verify current automation/freeze state.
 8. Reconcile this handoff against any newer canonical checkpoint/evidence.
@@ -241,7 +272,7 @@ Required order:
 
 ## 11. Recommended recovery design posture
 
-After three continuity failures, do not simply repeat Attempt 4 unchanged. First prepare a root-cause analysis and a non-executing recovery design that reduces dependence on GitHub scheduled-event delivery for the continuity proof, for example a durable runtime-local heartbeat/evidence record collected or audited by GitHub. Any actual implementation remains separately authorized work.
+After three continuity failures, do not simply repeat Attempt 4 unchanged. First prepare a root-cause analysis and a non-executing recovery design that removes GitHub scheduled-event delivery as the sole continuity anchor, for example a durable runtime-local heartbeat/evidence record collected and audited by GitHub. Any actual implementation remains separately authorized work.
 
 Immediate objective:
 
