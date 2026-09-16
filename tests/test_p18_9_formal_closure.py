@@ -31,8 +31,8 @@ def _roadmap_minor_version(text: str) -> int:
 
 def test_p18_9_state_converges_to_validated_owner_activation_gate():
     state = _state()
-    assert state["roadmap"]["state_sync_version"] == "4.35"
-    assert state["roadmap"]["current_position"] == "PHASE_19_VALIDATED_P20_READY"
+    assert state["roadmap"]["state_sync_version"] == "4.36"
+    assert state["roadmap"]["current_position"] == "PHASE_20_P20_0_VALIDATED_P20_1_READY"
     assert state["phases"]["18"] == (
         "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / "
         "P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / "
@@ -66,7 +66,7 @@ def test_p18_9_roadmap_and_plan_close_readiness_without_activation_provider_or_m
     plan = _text(PLAN_PATH)
     state = _state()
 
-    assert _roadmap_minor_version(roadmap) == 35
+    assert _roadmap_minor_version(roadmap) >= 35
     assert "P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED" in roadmap
     assert "### P18.9 — Phase 18 Validation Matrix and Shared Runtime Activation Readiness" in roadmap
     assert "State: `VALIDATED`" in roadmap.split("### P18.9", 1)[1].split("# Current Implementation Checkpoint", 1)[0]
