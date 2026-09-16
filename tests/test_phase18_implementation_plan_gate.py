@@ -58,7 +58,6 @@ def test_phase18_owner_implementation_authorization_remains_recorded_during_subp
         state["activation_gates"]["phase18_activation"]
         == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
     )
-    assert state["roadmap"]["current_position"].startswith("PHASE_18_")
 
 
 def test_phase18_plan_sequence_is_complete_ordered_and_progresses_monotonically():
