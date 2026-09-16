@@ -91,6 +91,47 @@ def test_p21_0_draft_policy_cells_satisfy_contract_invariants():
             assert cell["criticality"] == "NONE"
 
 
+def test_p21_0_global_draft_has_explicit_macroregional_baseline():
+    policy = _json(PROPOSAL)
+    scopes = {cell["geography_scope"] for cell in policy["target_cells"]}
+    languages = {cell["language"] for cell in policy["target_cells"]}
+    source_types = {cell["source_type"] for cell in policy["target_cells"]}
+
+    assert policy["version"] == "0.2-draft-global-baseline"
+    assert len(policy["target_cells"]) == 33
+    assert {
+        "UKRAINE",
+        "RUSSIA",
+        "EUROPE",
+        "MIDDLE_EAST",
+        "EAST_ASIA",
+        "SOUTHEAST_ASIA",
+        "SOUTH_ASIA",
+        "CENTRAL_ASIA",
+        "CAUCASUS",
+        "NORTH_AFRICA",
+        "SUB_SAHARAN_AFRICA",
+        "NORTH_AMERICA",
+        "LATIN_AMERICA",
+        "BRAZIL",
+        "OCEANIA",
+        "GLOBAL",
+    }.issubset(scopes)
+    assert {"uk", "ru", "ar", "zh", "ja", "ko", "hi", "id", "es", "pt", "fr", "en"}.issubset(languages)
+    assert {"WIRE_SERVICE", "SANCTIONS_REGULATORY", "ECONOMIC_ENERGY", "THINK_TANK_RESEARCH"}.issubset(source_types)
+
+
+def test_p21_0_global_draft_does_not_claim_exhaustive_world_coverage():
+    policy = _json(PROPOSAL)
+    assert policy["default_requirement_state"] == "UNSET"
+
+    caucasus = next(cell for cell in policy["target_cells"] if cell["cell_id"] == "caucasus.multi.regional_local_media")
+    assert "transitional" in " ".join(caucasus["policy_basis"]).lower()
+
+    osint = next(cell for cell in policy["target_cells"] if cell["cell_id"] == "global.multi.public_osint")
+    assert "not exhaustive-global-coverage proof" in " ".join(osint["policy_basis"])
+
+
 def test_p21_0_unobserved_target_cells_are_policy_not_invented_evidence():
     observed_ids = {cell["cell_id"] for cell in _json(P20_MATRIX)["cells"]}
     proposal_ids = {cell["cell_id"] for cell in _json(PROPOSAL)["target_cells"]}
@@ -99,6 +140,8 @@ def test_p21_0_unobserved_target_cells_are_policy_not_invented_evidence():
     assert "ukraine.uk.official_government" in unobserved_targets
     assert "russia.ru.official_government" in unobserved_targets
     assert "middle_east.ar.national_media" in unobserved_targets
+    assert "east_asia.zh.national_media" in unobserved_targets
+    assert "latin_america.es.national_media" in unobserved_targets
 
     contract = CONTRACT.read_text(encoding="utf-8")
     assert "Policy never creates evidence automatically" in contract
