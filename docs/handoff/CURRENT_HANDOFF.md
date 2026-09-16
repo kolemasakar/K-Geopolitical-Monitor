@@ -1,25 +1,24 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / P20_3_READY_TO_BEGIN`
+Status: `AUTHORITATIVE_POINTER / P20_4_READY_TO_BEGIN`
 
 Canonical transition state:
-`PHASE_20_P20_2_VALIDATED_P20_3_READY`
+`PHASE_20_P20_3_VALIDATED_P20_4_READY`
 
 Read first:
 
-1. `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_P20_2_COVERAGE_MATRIX_POLICY_VALIDATED.md`
-2. `docs/implementation/P20_2_COVERAGE_MATRIX_TARGET_POLICY.md`
-3. `docs/evidence/P20_2_OBSERVED_COVERAGE_MATRIX_2026-09-16.json`
-4. `docs/contracts/p20_2_coverage_matrix_policy.schema.json`
-5. `docs/implementation/PHASE_20_SOURCE_COVERAGE_COLLECTION_QUALITY_DESIGN_SPEC.md`
+1. `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_P20_3_SOURCE_INDEPENDENCE_MONOCULTURE_VALIDATED.md`
+2. `docs/implementation/PHASE_20_SOURCE_COVERAGE_COLLECTION_QUALITY_DESIGN_SPEC.md`
+3. `docs/implementation/P20_2_COVERAGE_MATRIX_TARGET_POLICY.md`
+4. `docs/evidence/P20_2_OBSERVED_COVERAGE_MATRIX_2026-09-16.json`
 
-P20.2 implementation PR: `#96`
-P20.2 merge anchor: `e4cc26990fdcee9b7b6be84cc29b2a2d0a0d6328`
-Validation: `1204 passed in 120.53s / SUCCESS`.
+P20.3 implementation PR: `#98`
+P20.3 merge anchor: `fddb7a78aa316742bb854407543745c5d45cdbea`
+Validation: GitHub CI run `35094842065` / run `1502` / `SUCCESS`.
 
 Next gate:
-`P20_3_SOURCE_INDEPENDENCE_MONOCULTURE_VALIDATED`
+`P20_4_COLLECTION_HEALTH_LATENCY_VALIDATED`
 
-P20.3 remains contract/evidence/test-fixture work. Current source-level origin identity is unresolved and must remain unknown unless explicit provenance evidence supports classification.
+P20.4 owns collection-health, latency and missing-source semantics. Collector failure/staleness must remain distinct from low geopolitical event activity and from content credibility.
 
 No runtime deployment, service restart, live-source expansion, migration 033, paid-resource authorization, or shared-runtime activation is pending for the handoff.
