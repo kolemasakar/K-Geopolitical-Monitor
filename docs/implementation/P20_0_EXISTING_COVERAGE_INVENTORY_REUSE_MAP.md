@@ -1,7 +1,7 @@
 # P20.0 — Existing Coverage Inventory & Reuse Map
 
 Date: 2026-09-16
-Status: `IMPLEMENTED / VALIDATION_CANDIDATE`
+Status: `VALIDATED`
 Gate: `P20_0_EXISTING_COVERAGE_BASELINE_MAPPED`
 Canonical base: `5c9e2b0dc8f7741c08e035f2f3f38f6afa3ced93`
 
