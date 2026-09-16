@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.41",
+    "state_sync_version": "4.42",
     "status": "APPROVED",
-    "current_position": "PHASE_21_P21_4_VALIDATED_P21_5_OWNER_DECISION_REQUIRED"
+    "current_position": "PHASE_21_P21_5_AUTHORIZED_WAVE_A_READY"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -17,7 +17,7 @@
     "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED",
     "19": "PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED",
     "20": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
-    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_OWNER_DECISION_REQUIRED"
+    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_AUTHORIZED_WAVE_A_READY"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -31,7 +31,7 @@
     "phase18_readiness": "PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED",
     "phase18_activation": "PHASE_18_SHARED_RUNTIME_ACTIVE = NO",
     "phase18_launch": "EXPLICIT_OWNER_DECISION_PLUS_FRESH_LAUNCH_TIME_VALIDATION_REQUIRED",
-    "phase21_live_source_expansion": "P21_5_EXPLICIT_OWNER_DECISION_REQUIRED"
+    "phase21_live_source_expansion": "P21_5_AUTHORIZED_BY_OWNER_2026-09-16 / BOUNDED_PUBLIC_FREE_ONLY"
   },
   "runtime": {
     "storage": "PROJECT_LOCAL_ONLY",
@@ -289,8 +289,8 @@
       "P21.3",
       "P21.4"
     ],
-    "next_gate": "P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED / OWNER_DECISION_REQUIRED_BEFORE_EXECUTION",
-    "live_source_expansion": "NOT_AUTHORIZED / P21_5_EXPLICIT_OWNER_DECISION_REQUIRED",
+    "next_gate": "P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED",
+    "live_source_expansion": "AUTHORIZED_FOR_P21_5_BOUNDED_PUBLIC_FREE_ONBOARDING",
     "verification_authority": "P13.5/P13.6",
     "production_live": "NOT_OPERATIONAL"
   },
@@ -402,5 +402,27 @@
     "paid_provider_authorized": false,
     "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
     "next_gate": "P21_5_EXPLICIT_OWNER_DECISION_REQUIRED"
+  },
+  "phase21_p21_5": {
+    "state": "AUTHORIZED_READY_TO_BEGIN",
+    "gate": "P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED",
+    "owner_authorization": "docs/evidence/P21_5_CONTROLLED_SOURCE_ONBOARDING_OWNER_AUTHORIZATION_2026-09-16.json",
+    "owner_decision": "docs/decisions/P21_5_CONTROLLED_SOURCE_ONBOARDING_OWNER_ACTIVATION_2026-09-16.md",
+    "bound_plan_blob_sha": "383d1bb1f9764c5962bbb41035abc4a33140a223",
+    "initial_wave": "A_CRITICAL_REQUIRED",
+    "initial_cell_ids": [
+      "ukraine.uk.official_government",
+      "ukraine.uk.national_media"
+    ],
+    "public_free_anonymous_only": true,
+    "repository_activation_authorized_after_p20_5_pass": true,
+    "runtime_deployment_authorized": false,
+    "service_restart_authorized": false,
+    "production_live_cutover_authorized": false,
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "plugin_build_authorized": false,
+    "plugin_publication_authorized": false,
+    "verification_authority": "P13.5/P13.6"
   }
 }
