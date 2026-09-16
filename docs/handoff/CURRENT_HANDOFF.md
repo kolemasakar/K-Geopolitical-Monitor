@@ -1,27 +1,29 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / P20_5_READY_TO_BEGIN`
+Status: `AUTHORITATIVE_POINTER / P20_6_READY_TO_BEGIN`
 
 Canonical transition state:
-`PHASE_20_P20_4_VALIDATED_P20_5_READY`
+`PHASE_20_P20_5_VALIDATED_P20_6_READY`
 
 Read first:
 
-1. `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_P20_4_COLLECTION_HEALTH_LATENCY_VALIDATED.md`
-2. `docs/implementation/P20_4_COLLECTION_HEALTH_LATENCY_MISSING_SOURCE_MODEL.md`
-3. `docs/evidence/P20_4_CURRENT_COLLECTION_HEALTH_BASELINE_2026-09-16.json`
-4. `docs/contracts/p20_4_collection_health_latency.schema.json`
+1. `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_P20_5_SOURCE_ONBOARDING_CONTRACT_VALIDATED.md`
+2. `docs/implementation/P20_5_SOURCE_ONBOARDING_CONTRACT.md`
+3. `docs/evidence/P20_5_SOURCE_ONBOARDING_BASELINE_2026-09-16.json`
+4. `docs/contracts/p20_5_source_onboarding.schema.json`
 5. `docs/implementation/PHASE_20_SOURCE_COVERAGE_COLLECTION_QUALITY_DESIGN_SPEC.md`
 
-P20.4 implementation PR: `#101`
-P20.4 merge anchor: `d2aacd82788c54da5e36e83399a5c9b826bd9460`
-Validation: GitHub CI run `35097483496` / CI `#1519` / `1219 passed in 275.97s / SUCCESS`.
+P20.5 implementation PR: `#103`
+P20.5 merge anchor: `320eac5ea23c427b0db1a2ab276b366af9dbfdb7`
+Validation: GitHub CI run `35098764695` / CI `#1532` / `1227 passed in 153.91s / SUCCESS`.
 
 Next gate:
-`P20_5_SOURCE_ONBOARDING_CONTRACT_VALIDATED`
+`P20_6_COVERAGE_EVALUATION_REPORTING_VALIDATED`
 
-P20.5 owns the contract for making a new source coverage-eligible. It remains contract/test-fixture work unless a separate explicit gate authorizes live source activation.
+P20.6 owns reproducible machine-readable and operator-readable coverage evaluation/reporting. It must compose P20.2 coverage cells/policy, P20.3 independence/monoculture evidence and P20.4 health/latency/missing-source evidence without inventing values where provenance or fresh health observations are absent.
 
-Before coverage eligibility, P20.5 must require explicit taxonomy, geography/language, access/legal classification, deterministic identity, collection method, expected cadence/freshness, health behavior, origin/syndication state where known, fixture/test evidence and disable/rollback semantics. Unknown provenance must remain unknown rather than inferred.
+Required report sections include global summary, region/language/source-type gaps, monoculture warnings, stale/failed sources, latency outliers, missing expected sources and changes since previous report. `UNKNOWN` must remain distinct from a confirmed gap or adequate coverage.
+
+Coverage evaluation remains operational/source-network evidence and cannot promote claim verification. P13.5/P13.6 remains factual-verification authority.
 
 No runtime deployment, service restart, live-source expansion, migration 033, paid-resource authorization, or shared-runtime activation is pending for the handoff.
