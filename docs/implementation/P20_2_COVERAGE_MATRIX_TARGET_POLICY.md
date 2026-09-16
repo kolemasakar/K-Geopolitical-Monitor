@@ -128,3 +128,7 @@ P20.2 is eligible for validation when tests demonstrate that:
 - no live-source/runtime/paid/shared-resource boundary changes occur.
 
 On validation, the next gate is `P20_3_SOURCE_INDEPENDENCE_MONOCULTURE_VALIDATED`.
+
+## Validation execution note
+
+GitHub Actions run `35092121412` became stale during the full pytest step without reporting a failure. A documentation-only head refresh was used to trigger a fresh validation run; no P20.2 contract, evidence, policy, runtime, or source semantics changed.
