@@ -1,0 +1,174 @@
+{
+  "schema_version": "kgm.p20.1.source_taxonomy_reconciliation.v1",
+  "baseline": "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json",
+  "contract": "docs/contracts/p20_1_source_record.schema.json",
+  "principles": {
+    "source_count_not_independent_origin_count": true,
+    "language_count_not_independent_evidence_count": true,
+    "coverage_confidence_not_fact_verification_confidence": true,
+    "collection_health_not_content_credibility": true,
+    "unknown_origin_fields_remain_null": true
+  },
+  "field_reconciliation": [
+    {
+      "p12_field": "source_id",
+      "p20_field": "source_id",
+      "rule": "PRESERVE_EXACT"
+    },
+    {
+      "p12_field": "source_name",
+      "p20_field": "display_name",
+      "rule": "RENAME_ONLY"
+    },
+    {
+      "p12_field": "outbound_domains",
+      "p20_field": "primary_domains_or_endpoints",
+      "rule": "PRESERVE_MULTI_VALUE"
+    },
+    {
+      "p12_field": "region_scope",
+      "p20_field": "geography.legacy_region_scope",
+      "rule": "PRESERVE_MULTI_VALUE_NO_GEOPOLITICAL_INFERENCE"
+    },
+    {
+      "p12_field": "language_scope",
+      "p20_field": "languages",
+      "rule": "PRESERVE_MULTI_VALUE"
+    },
+    {
+      "p12_field": "source_class + source_role + source_id",
+      "p20_field": "source_type",
+      "rule": "DETERMINISTIC_MAPPING_TABLE"
+    },
+    {
+      "p12_field": "source_role",
+      "p20_field": "source_roles",
+      "rule": "PRESERVE_AS_SINGLETON_ARRAY"
+    },
+    {
+      "p12_field": "collection_cadence_minutes",
+      "p20_field": "update_frequency_minutes",
+      "rule": "DIRECT_MAPPING"
+    },
+    {
+      "p12_field": "expected_freshness_minutes",
+      "p20_field": "expected_latency_minutes",
+      "rule": "COMPATIBILITY_MAPPING_NOT_RUNTIME_SLA"
+    },
+    {
+      "p12_field": "adapter_id",
+      "p20_field": "collection_method",
+      "rule": "DETERMINISTIC_ADAPTER_FAMILY_MAPPING"
+    },
+    {
+      "p12_field": "availability_state",
+      "p20_field": "health_status",
+      "rule": "ACTIVE_TO_UNKNOWN_HEALTH_DEGRADED_TO_DEGRADED"
+    },
+    {
+      "p12_field": null,
+      "p20_field": "reliability_class",
+      "rule": "NULL_UNTIL_EXPLICITLY_GOVERNED"
+    },
+    {
+      "p12_field": null,
+      "p20_field": "origin_group_id",
+      "rule": "NULL_UNLESS_EXPLICIT_ORIGIN_EVIDENCE_EXISTS"
+    },
+    {
+      "p12_field": null,
+      "p20_field": "syndication_or_copy_relation",
+      "rule": "NULL_UNLESS_EXPLICIT_PROVENANCE_EVIDENCE_EXISTS"
+    },
+    {
+      "p12_field": null,
+      "p20_field": "active_for_coverage",
+      "rule": "NULL_UNTIL_P20_2_COVERAGE_POLICY"
+    },
+    {
+      "p12_field": null,
+      "p20_field": "collection_status",
+      "rule": "UNKNOWN_UNTIL_EXPLICIT_COLLECTION_LIFECYCLE_METADATA"
+    }
+  ],
+  "source_type_mapping": [
+    {
+      "source_id": "consilium-press-releases",
+      "source_type": "INTERNATIONAL_ORGANIZATION",
+      "basis": "official EU institutional source"
+    },
+    {
+      "source_id": "eu-commission-press-corner",
+      "source_type": "INTERNATIONAL_ORGANIZATION",
+      "basis": "official EU institutional source"
+    },
+    {
+      "source_id": "eu-parliament-press-releases",
+      "source_type": "INTERNATIONAL_ORGANIZATION",
+      "basis": "official EU institutional source"
+    },
+    {
+      "source_id": "gdelt-doc-2",
+      "source_type": "PUBLIC_OSINT",
+      "basis": "public structured discovery/index source"
+    },
+    {
+      "source_id": "haberturk-tr",
+      "source_type": "NATIONAL_MEDIA",
+      "basis": "national Turkish news publisher"
+    },
+    {
+      "source_id": "meduza-ru",
+      "source_type": "NATIONAL_MEDIA",
+      "basis": "national-focus Russian-language news publisher"
+    },
+    {
+      "source_id": "osce-latest-news",
+      "source_type": "INTERNATIONAL_ORGANIZATION",
+      "basis": "official OSCE institutional source"
+    },
+    {
+      "source_id": "rmf24-pl",
+      "source_type": "NATIONAL_MEDIA",
+      "basis": "national Polish news publisher"
+    },
+    {
+      "source_id": "uk-government-news-communications",
+      "source_type": "OFFICIAL_GOVERNMENT",
+      "basis": "official UK government source"
+    },
+    {
+      "source_id": "ukrainska-pravda-uk",
+      "source_type": "NATIONAL_MEDIA",
+      "basis": "national Ukrainian news publisher"
+    }
+  ],
+  "collection_method_mapping": {
+    "consilium-rss-atom": "RSS_ATOM",
+    "ec-presscorner-rss-atom": "RSS_ATOM",
+    "ep-press-releases-rss-atom": "RSS_ATOM",
+    "gdelt-doc-json": "PUBLIC_API",
+    "haberturk-tr-rss": "RSS",
+    "meduza-ru-rss": "RSS",
+    "osce-latest-rss-atom": "RSS_ATOM",
+    "rmf24-pl-rss": "RSS",
+    "govuk-news-atom": "ATOM",
+    "ukrainska-pravda-uk-rss": "RSS"
+  },
+  "historical_reconciliation": [
+    {
+      "source_id": "haberturk-tr",
+      "canonical_current_endpoint": "www.haberturk.com",
+      "historical_endpoint_aliases": ["rss.haberturk.com"],
+      "rule": "PRESERVE_HISTORICAL_MEASUREMENT_AS_ALIAS_DO_NOT_REWRITE_P12_5"
+    }
+  ],
+  "safety_boundary": {
+    "live_source_expansion": false,
+    "live_ingest_change": false,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "paid_or_shared_resources_authorized": false
+  }
+}
