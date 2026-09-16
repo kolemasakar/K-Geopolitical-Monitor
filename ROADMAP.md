@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.37
+Version: 4.38
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -14,7 +14,7 @@ K-Geopolitical Monitor advances through explicit implementation and validation g
 Implementation does not equal validation. Validation does not equal production/live operation. Publication does not equal production runtime maturity.
 
 Strategic sequence:
-`ENGINEERING PLATFORM -> INTELLIGENCE QUALITY -> SOURCE NETWORK -> OWNER OPERATIONALIZATION -> FORECAST CALIBRATION -> DELIVERY / QUALITY FEEDBACK -> OPTIONAL PUBLICATION -> OPTIONAL SHARED RUNTIME`
+`ENGINEERING PLATFORM -> INTELLIGENCE QUALITY -> SOURCE NETWORK -> OWNER OPERATIONALIZATION -> FORECAST CALIBRATION -> DELIVERY / QUALITY FEEDBACK -> OPTIONAL CHATGPT PLUGIN / EXTERNAL PUBLICATION -> OPTIONAL SHARED RUNTIME`
 
 No M14 engineering label is created by ROADMAP v4.
 
@@ -37,7 +37,8 @@ No M14 engineering label is created by ROADMAP v4.
 - `GLOBAL` is scope, not proof of exhaustive global coverage;
 - missing local-language evidence remains explicit;
 - reconstructed/uninstrumented tool history is never labeled exact;
-- unavailable persisted backend state is never replaced by ad hoc web research.
+- unavailable persisted backend state is never replaced by ad hoc web research;
+- Plugin/App/Connector/MCP routing cannot create source provenance, independence, health or factual-verification credit.
 
 ## Storage / Runtime Boundary
 
@@ -46,6 +47,8 @@ No M14 engineering label is created by ROADMAP v4.
 - no direct cross-project canonical-store mutation is allowed;
 - owner-only OCI remains the validated runtime line;
 - public KGM API/dashboard ingress remains not approved/deployed;
+- future ChatGPT-facing architecture is Plugin-first; legacy Custom GPT Actions are transition-only;
+- Plugin build/upload/sharing capability must be launch-time validated on the actual account/workspace;
 - `PRODUCTION_LIVE = NOT_OPERATIONAL`.
 
 Production/live operational status: NOT_OPERATIONAL
@@ -372,11 +375,13 @@ Phase 16 validates a project-local auditable delivery/operator/quality-feedback 
 Phase 16 introduced additive migrations `031_delivery_intent_audit.sql` and `032_operator_quality_feedback.sql`. No real external delivery provider, owner execution, production/live operation, public ingress, shared runtime or paid provider is activated by Phase 16 closure.
 
 ## Phase 17 — Controlled External Publication Readiness
-State: `VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`
+State: `VALIDATED_READY / NOT_ACTIVATED / LEGACY_CAPABILITY_HISTORICALLY_BLOCKED / PLUGIN_CAPABILITY_REVALIDATION_REQUIRED`
 Readiness gate: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
-Capability gate: `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`
+Legacy capability gate: `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`
+Forward capability gate: `PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED`
 Activation gate: `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION`
-Capability decision: `docs/decisions/PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md`
+Legacy capability decision: `docs/decisions/PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md`
+Plugin-first decision: `docs/decisions/OPENAI_CUSTOM_GPT_TO_PLUGIN_TRANSITION_2026-09-16.md`
 Closure validation anchor: `daca1240cb1f99267795b39ddf7da32eb4fa9ec0`.
 Implementation plan: `docs/implementation/PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_PLAN.md`
 Validation matrix: `docs/implementation/P17_6_VALIDATION_MATRIX.md`
@@ -417,7 +422,7 @@ Gate: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`
 
 Phase 17 validates publication eligibility, public-safe projection/redaction, deterministic release manifests/packages, a provider-neutral local/test target and an owner read-only readiness projection without changing canonical factual-verification authority. Publication lifecycle state, eligibility, receipts and engagement cannot promote factual verification; publisher/publication identity is not underlying-origin proof; canonical verification remains P13.5/P13.6 only.
 
-Phase 17 introduced no database migration; migration `033` remains uncreated/not pre-authorized. No real external publication target, owner execution, production/live operation, public ingress, public GPT Action, backend HTTPS, shared runtime or paid provider is activated by readiness closure. For the current account, actual external publication is additionally blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`; owner approval alone cannot bypass this account/platform capability boundary. If the capability becomes available later, activation remains separately gated by `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` and fresh launch-time validation.
+Phase 17 introduced no database migration; migration `033` remains uncreated/not pre-authorized. No real external publication target, owner execution, production/live operation, public ingress, legacy public GPT Action, backend HTTPS, shared runtime or paid provider is activated by readiness closure. The 2026-09-05 current-account capability decision remains historical evidence for the legacy publication surface. Following OpenAI's announced Custom GPT retirement, future ChatGPT-facing KGM delivery is Plugin-first and requires fresh validation of Plugin build/upload/sharing capability on the actual account/workspace. General Plugin availability does not itself authorize KGM publication. Any future activation remains separately gated by `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus fresh launch-time security, privacy, permission, regression, exposure and rollback validation.
 
 ## Phase 18 — Shared / Team Runtime
 State: `ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED`
@@ -681,12 +686,60 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_PHASE_20_GLOBAL_SOUR
 
 Acceptance validates the deterministic coverage framework and explicit limitations. It does not claim exhaustive global coverage or current operational adequacy. Current closure facts remain: 10 governed sources, 17 observed cells, 17 `UNKNOWN`, 0 `ADEQUATE`, 0 confirmed gap cells, target policy `UNSET`, known-origin source count 0, measured-health source count 0. P13.5/P13.6 remain factual-verification authority.
 
-No subsequent strategic phase is authorized by Phase 20 closure. Next strategic position: `ROADMAP_DECISION_REQUIRED`.
+At Phase 20 closure no subsequent strategic phase was yet authorized. That historical state was later superseded by the explicit owner approval of Phase 21 on 2026-09-16.
+
+## Phase 21 — Source Network Operational Adequacy & Evidence Population
+State: `IN_PROGRESS / P21_0_VALIDATED / P21_1_READY`
+Roadmap decision: `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
+Implementation plan: `docs/implementation/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_PLAN.md`
+
+Objective: convert the Phase 20 fail-closed coverage framework into an approved-policy, provenance-populated, fresh-health operational adequacy assessment, then derive gap-driven source expansion requirements and validate downstream intelligence impact.
+
+### P21.0 — Coverage Policy Definition & Criticality Contract
+State: `VALIDATED`
+Gate: `P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED`
+Result: `docs/implementation/P21_0_COVERAGE_POLICY_CRITICALITY_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_P21_0_COVERAGE_POLICY_VALIDATED_PLUGIN_REBASED.md`
+Approval envelope: `docs/evidence/P21_0_TARGET_COVERAGE_POLICY_APPROVAL_2026-09-16.json`
+
+Validated global operational baseline: 33 target cells, 20 geography scopes and 15 language labels. Unspecified cells remain `UNSET`; `GLOBAL` remains scope, not proof of exhaustive coverage. Owner approval binds to the exact reviewed manifest Git blob so changed policy content cannot silently inherit approval.
+
+### P21.1 — Existing Portfolio Provenance Resolution
+State: `READY_TO_BEGIN`
+Gate: `P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED`
+
+Resolve source-level underlying origin, syndication/copy/derivation and origin groups only where evidence supports them. Unknown remains `UNKNOWN`; publisher/domain/language/source counts cannot create independence credit.
+
+### P21.2 — Fresh Operational Health Baseline
+State: `PLANNED`
+Gate: `P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED`
+
+### P21.3 — Coverage Adequacy Baseline v1
+State: `PLANNED`
+Gate: `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`
+
+### P21.4 — Gap-Driven Source Expansion Plan
+State: `PLANNED`
+Gate: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`
+
+### P21.5 — Controlled Public/Free Source Onboarding
+State: `OWNER_DECISION_REQUIRED_BEFORE_LIVE_EXPANSION`
+Gate: `P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED`
+
+### P21.6 — Intelligence Quality Impact Validation
+State: `PLANNED`
+Gate: `P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED`
+
+### P21.7 — Phase Acceptance
+State: `PLANNED`
+Gate: `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED`
+
+Phase 21 does not authorize paid providers, shared runtime, migration `033`, production/live operation or Plugin/publication activation. Future ChatGPT-facing delivery is Plugin-first; P21.6 regression evidence should be reusable for later Plugin skill/reference/integration validation, while Plugin routing remains non-promotional for factual authority.
 
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.37`;
+- state synchronization: `v4.38`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -702,25 +755,17 @@ No subsequent strategic phase is authorized by Phase 20 closure. Next strategic 
 - P15.0–P15.6: `VALIDATED`;
 - Phase 16: `PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED`;
 - P16.0–P16.7: `VALIDATED`;
-- Phase 17: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY / OWNER_DECISION_REQUIRED`;
-- Phase 17 current account publication capability: `UNAVAILABLE`;
-- Phase 17 capability decision: `docs/decisions/PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md`;
+- Phase 17: `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED / LEGACY_CAPABILITY_HISTORICALLY_BLOCKED / PLUGIN_CAPABILITY_REVALIDATION_REQUIRED / OWNER_DECISION_REQUIRED`;
+- Phase 17 legacy account publication capability: `HISTORICAL_UNAVAILABLE`;
+- Phase 17 Plugin build/upload/sharing capability: `NOT_YET_VALIDATED_FOR_KGM_ACCOUNT_WORKSPACE`;
+- Phase 17 Plugin capability gate: `PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED`;
 - P17.0–P17.6: `VALIDATED`;
 - Phase 18: `ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED`;
 - Phase 18 architecture approval: `PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER`;
 - Phase 18 implementation planning: `PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES`;
 - Phase 18 implementation authorization: `PHASE_18_IMPLEMENTATION_AUTHORIZED = YES`;
 - Phase 18 readiness: `PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED`;
-- P18.0: `VALIDATED`;
-- P18.1: `VALIDATED`;
-- P18.2: `VALIDATED`;
-- P18.3: `VALIDATED`;
-- P18.4: `VALIDATED`;
-- P18.5: `VALIDATED`;
-- P18.6: `VALIDATED`;
-- P18.7: `VALIDATED`;
-- P18.8: `VALIDATED`;
-- P18.9: `VALIDATED`;
+- P18.0–P18.9: `VALIDATED`;
 - P18.9 real infrastructure observation: `NOT_OBSERVED`;
 - P18.9 launch eligibility: `FALSE`;
 - Phase 19: `PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED`;
@@ -729,18 +774,24 @@ No subsequent strategic phase is authorized by Phase 20 closure. Next strategic 
 - Phase 20: `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - P20.0–P20.6: `VALIDATED`;
 - P20.7: `PASS_WITH_KNOWN_LIMITATIONS`;
-- Phase 20 next strategic step: `ROADMAP_DECISION_REQUIRED`;
+- Phase 21: `IN_PROGRESS / P21_0_VALIDATED / P21_1_READY`;
+- P21.0: `P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED`;
+- P21.0 approved global baseline: `33 cells / 20 geography scopes / 15 language labels / default UNSET`;
+- P21.1: `READY_TO_BEGIN`;
 - Phase 18 shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
 - migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
 - mixed/shared runtime storage: `BLOCKED`;
 - production/live operational status: `NOT_OPERATIONAL`;
-- private GPT Action: `NOT_CONNECTED`;
+- primary ChatGPT surface: `PLUGIN`;
+- legacy private GPT Action: `NOT_CONNECTED / TRANSITIONAL_ONLY`;
+- Plugin build: `NOT_STARTED`;
+- Plugin publication: `NOT_ACTIVATED`;
 - backend HTTPS: `NOT_DEPLOYED`;
 - admin dashboard: `NOT_DEPLOYED`;
 - public sharing: `NOT_ACTIVE`;
 - paid providers: `NONE_APPROVED`.
 
-Phase 17 readiness is strategically closed at `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`. For the current account, real external publication is unavailable and blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`; an owner decision alone is insufficient while that capability boundary remains active. If the account/platform capability changes later, publication still requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus fresh launch-time validation. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 architecture and implementation are owner-authorized and P18.0 through P18.9 are validated at `PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED`. Phase 18 remains `NOT_ACTIVATED`: real external infrastructure observations remain `NOT_OBSERVED`, `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`, migration `033` is not created or preauthorized, no provider spending/selection is approved, and production/live remains not operational. Any final activation requires a separate explicit owner decision plus fresh launch-time validation of a concrete candidate infrastructure.
+Phase 17 readiness remains strategically validated, but its 2026-09-05 account-capability block is now historical for the legacy publication surface. Future ChatGPT-facing publication is Plugin-first and requires `PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED` plus a separate owner activation decision and fresh launch-time validation. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 remains `NOT_ACTIVATED`: real external infrastructure observations remain `NOT_OBSERVED`, `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`, migration `033` is not created or preauthorized, no provider spending/selection is approved, and production/live remains not operational.
 
-Phase 20 is closed at `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. The source-network coverage framework is deterministic and fail-closed, while current target-policy, origin-provenance and fresh-health limitations remain explicit. No later strategic phase is implied or authorized by this closure.
+Phase 20 remains closed at `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. Phase 21 is the active strategic development block. P21.0 is validated with the immutable owner-approved global baseline; P21.1 provenance resolution is the next executable gate. No live source expansion is authorized before the separately owner-gated P21.5 step.
