@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kgm.local/contracts/p20_4_collection_health_latency.schema.json",
+  "title": "KGM P20.4 Collection Health / Latency Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_id",
+    "registration_state",
+    "portfolio_availability_state",
+    "expected_freshness_minutes",
+    "collection_cadence_minutes",
+    "last_attempt_status",
+    "attempt_age_minutes",
+    "content_age_minutes",
+    "error_class",
+    "recovery_coverage_state",
+    "collection_latency_state",
+    "content_latency_state",
+    "missing_source_state",
+    "health_state",
+    "evaluation_completeness"
+  ],
+  "properties": {
+    "source_id": {"type": "string", "minLength": 1},
+    "registration_state": {
+      "type": "string",
+      "enum": ["REGISTERED_ENABLED", "REGISTERED_DISABLED", "EXPECTED_NOT_REGISTERED", "UNKNOWN"]
+    },
+    "portfolio_availability_state": {"type": ["string", "null"]},
+    "expected_freshness_minutes": {"type": ["integer", "null"], "minimum": 1},
+    "collection_cadence_minutes": {"type": ["integer", "null"], "minimum": 1},
+    "last_attempt_status": {"type": ["string", "null"]},
+    "attempt_age_minutes": {"type": ["number", "null"], "minimum": 0},
+    "content_age_minutes": {"type": ["number", "null"], "minimum": 0},
+    "error_class": {
+      "type": ["string", "null"],
+      "enum": ["NONE", "TRANSPORT", "PARSER", "GOVERNANCE", "UNKNOWN", null]
+    },
+    "disable_expected": {"type": ["boolean", "null"]},
+    "recovery_coverage_state": {
+      "type": "string",
+      "enum": ["COMPLETE", "GAP", "UNKNOWN", "NOT_APPLICABLE"]
+    },
+    "collection_latency_state": {
+      "type": "string",
+      "enum": ["WITHIN_EXPECTATION", "EXCEEDED_EXPECTATION", "UNKNOWN", "NOT_APPLICABLE"]
+    },
+    "content_latency_state": {
+      "type": "string",
+      "enum": ["WITHIN_EXPECTATION", "EXCEEDED_EXPECTATION", "NO_CONTENT_OBSERVED", "UNKNOWN", "NOT_APPLICABLE"]
+    },
+    "missing_source_state": {
+      "type": "string",
+      "enum": [
+        "PRESENT_MEASURED",
+        "PRESENT_UNMEASURED",
+        "EXPECTED_NOT_REGISTERED",
+        "DISABLED_EXPECTED",
+        "DISABLED_UNEXPECTED",
+        "UNKNOWN"
+      ]
+    },
+    "health_state": {
+      "type": "string",
+      "enum": [
+        "HEALTHY",
+        "DEGRADED",
+        "STALE",
+        "UNREACHABLE",
+        "DISABLED_EXPECTED",
+        "DISABLED_UNEXPECTED",
+        "NO_RECENT_CONTENT_BUT_COLLECTOR_HEALTHY",
+        "UNKNOWN"
+      ]
+    },
+    "evaluation_completeness": {
+      "type": "string",
+      "enum": ["COMPLETE", "PARTIAL", "UNKNOWN"]
+    }
+  }
+}

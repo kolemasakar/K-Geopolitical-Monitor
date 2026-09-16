@@ -1,0 +1,35 @@
+{
+  "schema_version": "kgm.p20.4.current_collection_health_baseline.v1",
+  "basis": "REPOSITORY_GOVERNANCE_ONLY_NO_FRESH_RUNTIME_HEALTH_SNAPSHOT",
+  "source_count": 10,
+  "measured_source_count": 0,
+  "unmeasured_source_count": 10,
+  "health_summary": {"UNKNOWN": 10},
+  "principles": {
+    "portfolio_availability_is_not_current_operational_health": true,
+    "collector_health_is_not_content_credibility": true,
+    "content_silence_is_not_geopolitical_silence": true,
+    "recovery_gap_is_coverage_evidence_not_collector_failure": true,
+    "missing_measurement_remains_unknown": true
+  },
+  "sources": [
+    {"source_id":"consilium-press-releases","registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":240,"collection_cadence_minutes":120,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"recovery_coverage_state":"UNKNOWN","collection_latency_state":"UNKNOWN","content_latency_state":"UNKNOWN","missing_source_state":"PRESENT_UNMEASURED","health_state":"UNKNOWN","evaluation_completeness":"UNKNOWN"},
+    {"source_id":"eu-commission-press-corner","registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":120,"collection_cadence_minutes":60,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"recovery_coverage_state":"UNKNOWN","collection_latency_state":"UNKNOWN","content_latency_state":"UNKNOWN","missing_source_state":"PRESENT_UNMEASURED","health_state":"UNKNOWN","evaluation_completeness":"UNKNOWN"},
+    {"source_id":"eu-parliament-press-releases","registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"DEGRADED","expected_freshness_minutes":240,"collection_cadence_minutes":120,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"recovery_coverage_state":"UNKNOWN","collection_latency_state":"UNKNOWN","content_latency_state":"UNKNOWN","missing_source_state":"PRESENT_UNMEASURED","health_state":"UNKNOWN","evaluation_completeness":"UNKNOWN"},
+    {"source_id":"gdelt-doc-2","registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"recovery_coverage_state":"UNKNOWN","collection_latency_state":"UNKNOWN","content_latency_state":"UNKNOWN","missing_source_state":"PRESENT_UNMEASURED","health_state":"UNKNOWN","evaluation_completeness":"UNKNOWN"},
+    {"source_id":"haberturk-tr","registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"recovery_coverage_state":"UNKNOWN","collection_latency_state":"UNKNOWN","content_latency_state":"UNKNOWN","missing_source_state":"PRESENT_UNMEASURED","health_state":"UNKNOWN","evaluation_completeness":"UNKNOWN"},
+    {"source_id":"meduza-ru","registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"recovery_coverage_state":"UNKNOWN","collection_latency_state":"UNKNOWN","content_latency_state":"UNKNOWN","missing_source_state":"PRESENT_UNMEASURED","health_state":"UNKNOWN","evaluation_completeness":"UNKNOWN"},
+    {"source_id":"osce-latest-news","registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":180,"collection_cadence_minutes":60,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"recovery_coverage_state":"UNKNOWN","collection_latency_state":"UNKNOWN","content_latency_state":"UNKNOWN","missing_source_state":"PRESENT_UNMEASURED","health_state":"UNKNOWN","evaluation_completeness":"UNKNOWN"},
+    {"source_id":"rmf24-pl","registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"recovery_coverage_state":"UNKNOWN","collection_latency_state":"UNKNOWN","content_latency_state":"UNKNOWN","missing_source_state":"PRESENT_UNMEASURED","health_state":"UNKNOWN","evaluation_completeness":"UNKNOWN"},
+    {"source_id":"uk-government-news-communications","registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":120,"collection_cadence_minutes":60,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"recovery_coverage_state":"UNKNOWN","collection_latency_state":"UNKNOWN","content_latency_state":"UNKNOWN","missing_source_state":"PRESENT_UNMEASURED","health_state":"UNKNOWN","evaluation_completeness":"UNKNOWN"},
+    {"source_id":"ukrainska-pravda-uk","registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"recovery_coverage_state":"UNKNOWN","collection_latency_state":"UNKNOWN","content_latency_state":"UNKNOWN","missing_source_state":"PRESENT_UNMEASURED","health_state":"UNKNOWN","evaluation_completeness":"UNKNOWN"}
+  ],
+  "safety_boundary": {
+    "live_source_expansion": false,
+    "live_ingest_change": false,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED"
+  }
+}
