@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_21_IN_PROGRESS / P21_0_VALIDATED / P21_1_READY`
+Status: `AUTHORITATIVE_POINTER / PHASE_21_IN_PROGRESS / P21_2_VALIDATED / P21_3_READY`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -9,10 +9,10 @@ Approved strategic block:
 `Phase 21 — Source Network Operational Adequacy & Evidence Population`
 
 Current Phase 21 position:
-`P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED`
+`P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED / VALIDATED_WITH_MEASURED_DEGRADATION`
 
 Next gate:
-`P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED`
+`P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`
 
 Roadmap decision:
 `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
@@ -49,6 +49,35 @@ Approved baseline dimensions:
 - `GLOBAL` remains scope, not proof of exhaustive global coverage.
 
 The pre-approval manifest remains immutable evidence; approval binds to its exact Git blob. Any changed manifest requires a new approval record.
+
+## P21.1 provenance resolution
+
+Gate: `P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED`.
+
+- 10/10 governed sources reviewed; publisher identity explicit for 10/10.
+- 3 direct institutional streams have confirmed source-level origin groups.
+- 6 streams remain `MIXED_ORIGIN` and require item-level provenance.
+- GDELT remains `DERIVED_MULTI_ORIGIN / NO_INDEPENDENCE_CREDIT`.
+- exact portfolio-wide independent-origin count remains `UNKNOWN`.
+- implementation anchor: `3ff9df391f31ff8c7d19e6c229e4647e8dc88597`.
+- CI: `1260 passed`.
+
+## P21.2 fresh operational health baseline
+
+Gate: `P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED`.
+Decision: `VALIDATED_WITH_MEASURED_DEGRADATION`.
+
+Fresh owner-local snapshot at `2026-09-16T16:59:49.917696+00:00` from `kgm-e4-owner-pilot` (`aarch64`) measured all 10 governed source paths from an isolated canonical checkout. Result: `8 success / 2 failure`, `260 items`, `10/10 CURRENT` measurement freshness.
+
+Measured degradation retained for P21.3:
+- `gdelt-doc-2`: `UNAVAILABLE / TRANSPORT`, HTTP 429;
+- `eu-parliament-press-releases`: `UNAVAILABLE / PARSER`;
+- `eu-commission-press-corner`: collector healthy, content stale;
+- `osce-latest-news`: collector healthy, content stale.
+
+Six paths were `HEALTHY / FRESH`: Consilium, Haberturk, Meduza, RMF24, GOV.UK, Ukrainska Pravda. CI run `35126109733`: `1263 passed`; merge anchor `7affa9ee3ca875ddff472972ee63d11a03ed1054`.
+
+The deployed runtime was not updated or restarted. Operational health/freshness remains truth-neutral and cannot create independent-origin or factual-verification credit.
 
 ## OpenAI / ChatGPT architecture rebase
 
@@ -95,4 +124,4 @@ P21.5 live source onboarding requires a separate explicit owner activation decis
 
 ## Next substantive action
 
-`Begin P21.1 repository-only provenance audit of the existing governed source portfolio. Resolve underlying origin and derivation only where evidence supports it; retain unresolved origin as UNKNOWN and award no independence credit from publisher/domain/language counts.`
+`Begin P21.3 operational coverage adequacy baseline using only the owner-approved 33-cell policy, P21.1 provenance evidence, and P21.2 fresh owner-local health evidence. Preserve UNKNOWN and measured degradation; do not infer source independence, health, or adequacy where evidence is missing.`
