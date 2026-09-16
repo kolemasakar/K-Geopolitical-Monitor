@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_21_IN_PROGRESS / P21_3_VALIDATED / P21_4_READY`
+Status: `AUTHORITATIVE_POINTER / PHASE_21_IN_PROGRESS / P21_4_VALIDATED / P21_5_OWNER_DECISION_REQUIRED`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -9,10 +9,10 @@ Approved strategic block:
 `Phase 21 — Source Network Operational Adequacy & Evidence Population`
 
 Current Phase 21 position:
-`P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`
+`P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`
 
 Next gate:
-`P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`
+`P21_5_EXPLICIT_OWNER_DECISION_REQUIRED`
 
 Roadmap decision:
 `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
@@ -91,7 +91,17 @@ Gate: `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`.
 - P20 closure remains historical (`17 UNKNOWN / 0 ADEQUATE / 0 confirmed gaps`) and is not rewritten;
 - CI #1682: `1271 passed in 99.74s`; merge anchor: `2e0666ed1f2a0b16d0ec3b4dda664664ce151f04`.
 
-P21.4 may now derive a gap-driven public/free-first expansion plan. This does not authorize live onboarding; P21.5 remains separately owner-gated.
+## P21.4 gap-driven source expansion plan
+
+Gate: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`.
+
+- 32 non-adequate target cells assigned to 6 policy-derived waves;
+- minimum deficits: `49 source paths / 49 healthy-source positions / 54 origin-evidence positions`;
+- `global.multi.public_osint` remains repair-or-alternate-first because the current GDELT path is degraded;
+- public/free-first qualification is required; independence is not inferred from path/domain/language counts;
+- GitHub CI #1710: `1281 passed in 115.53s`; implementation merge anchor: `277b219726008c70671cf4d804c857c98f8ab0c4`.
+
+P21.4 is planning-only and does not activate any source. Current project position: `P21_4_VALIDATED / P21_5_OWNER_DECISION_REQUIRED`. P21.5 is `NOT_STARTED` until a separate explicit owner decision.
 
 ## OpenAI / ChatGPT architecture rebase
 
@@ -138,4 +148,4 @@ P21.5 live source onboarding requires a separate explicit owner activation decis
 
 ## Next substantive action
 
-`Begin P21.4 gap-driven source expansion planning from the validated P21.3 baseline. Produce a public/free-first plan only; do not onboard or activate sources. Preserve provenance, independence, health, verification and owner-gate boundaries.`
+`STOP AT P21.5 OWNER GATE. Before any live source onboarding, obtain a separate explicit owner decision. Preserve public/free-first, provenance, independence, health, verification, rollback and runtime boundaries.`

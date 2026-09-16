@@ -1,7 +1,7 @@
 # Phase 21 — Source Network Operational Adequacy & Evidence Population — Implementation Plan
 
 Date: 2026-09-16
-Status: `IN_PROGRESS / P21_0_VALIDATED / P21_1_READY`
+Status: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_OWNER_DECISION_REQUIRED`
 Decision: `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
 
 ## Objective
@@ -25,16 +25,13 @@ These are evidence states, not claims of good or bad coverage.
 
 ## Current Phase 21 state
 
-P21.0 is validated at:
-`P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED`.
+Validated sequence: `P21.0 -> P21.1 -> P21.2 -> P21.3 -> P21.4`.
 
-Canonical global-baseline approval:
-`docs/evidence/P21_0_TARGET_COVERAGE_POLICY_APPROVAL_2026-09-16.json`.
+P21.4 gate: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`.
+Implementation merge anchor: `277b219726008c70671cf4d804c857c98f8ab0c4`.
+Validation: GitHub CI #1710 — `1281 passed in 115.53s / SUCCESS`.
 
-The approved baseline binds to the exact reviewed 33-cell global manifest and preserves `default_requirement_state = UNSET` for unspecified cells.
-
-Next gate:
-`P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED`.
+Current boundary: `P21_5_OWNER_DECISION_REQUIRED`. P21.5 is not started and live source onboarding remains unauthorized until a separate explicit owner decision.
 
 ## ChatGPT / Plugin architecture boundary
 
@@ -78,7 +75,7 @@ Validated outputs:
 
 ### P21.1 — Existing Portfolio Provenance Resolution
 
-State: `READY_TO_BEGIN`
+State: `VALIDATED`
 
 Deliverables:
 
@@ -93,6 +90,8 @@ Gate:
 
 ### P21.2 — Fresh Operational Health Baseline
 
+State: `VALIDATED_WITH_MEASURED_DEGRADATION`
+
 Deliverables:
 
 - bounded measurement procedure for the current 10 governed source paths;
@@ -106,6 +105,8 @@ Gate:
 
 ### P21.3 — Coverage Adequacy Baseline v1
 
+State: `VALIDATED`
+
 Deliverables:
 
 - deterministic recomputation using approved policy + provenance + fresh health;
@@ -118,6 +119,11 @@ Gate:
 `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`
 
 ### P21.4 — Gap-Driven Source Expansion Plan
+
+State: `VALIDATED`
+Gate: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`
+Merge anchor: `277b219726008c70671cf4d804c857c98f8ab0c4`
+Validation: GitHub CI #1710 / run `35138511971`, job `104936832558`: `1281 passed in 115.53s / SUCCESS`.
 
 Deliverables:
 
@@ -133,6 +139,8 @@ Gate:
 `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`
 
 ### P21.5 — Controlled Public/Free Source Onboarding
+
+State: `OWNER_DECISION_REQUIRED / NOT_STARTED`
 
 Entry condition:
 
@@ -202,4 +210,4 @@ PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED = YES
 
 ## Next executable step
 
-Begin P21.1 with a repository-only provenance audit of the 10 governed source paths. Resolve underlying origin and derivation only where evidence supports it; preserve unresolved origin as `UNKNOWN` and do not award independence credit from publisher/domain/language counts.
+`STOP AT P21.5 OWNER GATE.` A separate explicit owner decision is required before controlled public/free source onboarding can begin. Until then, do not activate sources, mutate live ingest, deploy runtime changes, restart services, authorize paid/shared providers, create migration `033`, or activate Plugin/publication surfaces.
