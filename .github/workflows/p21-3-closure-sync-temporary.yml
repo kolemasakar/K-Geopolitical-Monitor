@@ -31,19 +31,19 @@ jobs:
               ("- state synchronization: `v4.39`;", "- state synchronization: `v4.40`;"),
               ("- Phase 21: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_READY`;", "- Phase 21: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_READY`;"),
               ("- P21.3: `READY_TO_BEGIN`;", "- P21.3: `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`;\n- P21.4: `READY_TO_BEGIN`;"),
-              ("Canonical current position: `PHASE_21_P21_2_VALIDATED_P21_3_READY`.", "Canonical current position: `PHASE_21_P21_3_VALIDATED_P21_4_READY`."),
               ("Phase 21 is the active strategic development block. P21.0, P21.1 and P21.2 are validated; P21.2 preserves measured degradation rather than masking it. P21.3 operational coverage adequacy baseline is the next executable gate. No live source expansion is authorized before the separately owner-gated P21.5 step.", "Phase 21 is the active strategic development block. P21.0-P21.3 are validated; P21.2 preserves measured degradation rather than masking it. P21.4 gap-driven source expansion planning is the next executable gate. No live source expansion is authorized before the separately owner-gated P21.5 step.")
           ]
           for old, new in replacements:
               if old not in t:
-                  raise SystemExit(f"missing expected ROADMAP fragment: {old[:80]!r}")
+                  raise SystemExit(f"missing expected ROADMAP fragment: {old[:100]!r}")
               t = t.replace(old, new, 1)
           p.write_text(t, encoding="utf-8")
       - name: Verify and commit
         run: |
           git diff --check
           grep -q 'Version: 4.40' ROADMAP.md
-          grep -q 'PHASE_21_P21_3_VALIDATED_P21_4_READY' ROADMAP.md
+          grep -q 'P21_3_VALIDATED / P21_4_READY' ROADMAP.md
+          grep -q 'P21.4 gap-driven source expansion planning is the next executable gate' ROADMAP.md
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add ROADMAP.md
