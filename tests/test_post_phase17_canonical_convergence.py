@@ -32,13 +32,15 @@ def test_machine_readable_state_matches_current_roadmap_v4_position():
     assert major == "4"
     assert int(minor) >= 22
     assert f"Version: {sync_version}" in roadmap
-    assert state["roadmap"]["current_position"].startswith("PHASE_18_")
+    assert state["roadmap"]["current_position"] == "PHASE_19_VALIDATED_P20_READY"
     assert state["phases"]["17"].split(" / ")[0] in roadmap
     assert state["activation_gates"]["phase18_architecture"] in roadmap
     assert state["activation_gates"]["phase18_planning"] in roadmap
     assert state["activation_gates"]["phase18_implementation"] in roadmap
     assert state["activation_gates"]["phase18_activation"] in roadmap
     assert "P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED" in roadmap
+    assert state["phases"]["19"].split(" / ")[0] in roadmap
+    assert "Phase 20 — Source Coverage / Collection Quality" in roadmap
 
 
 def test_root_canonical_docs_share_current_phase_and_runtime_boundaries():
