@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.38",
+    "state_sync_version": "4.39",
     "status": "APPROVED",
-    "current_position": "PHASE_21_P21_0_VALIDATED_P21_1_READY"
+    "current_position": "PHASE_21_P21_2_VALIDATED_P21_3_READY"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -17,7 +17,7 @@
     "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED",
     "19": "PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED",
     "20": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
-    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_IN_PROGRESS / P21_0_VALIDATED / P21_1_READY"
+    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_READY"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -50,7 +50,11 @@
     "custom_gpt_surface": "TRANSITIONAL_ONLY",
     "custom_actions_long_term_architecture": false,
     "plugin_first": true,
-    "integration_candidates": ["APP", "CONNECTOR", "CUSTOM_MCP"],
+    "integration_candidates": [
+      "APP",
+      "CONNECTOR",
+      "CUSTOM_MCP"
+    ],
     "selected_model_is_canonical_dependency": false,
     "plugin_capability_revalidation_required": true
   },
@@ -227,7 +231,16 @@
     "state": "VALIDATED_WITH_KNOWN_LIMITATIONS",
     "gate": "P20_GLOBAL_SOURCE_COVERAGE_VALIDATED",
     "decision": "PASS_WITH_KNOWN_LIMITATIONS",
-    "validated_sequence": ["P20.0", "P20.1", "P20.2", "P20.3", "P20.4", "P20.5", "P20.6", "P20.7"],
+    "validated_sequence": [
+      "P20.0",
+      "P20.1",
+      "P20.2",
+      "P20.3",
+      "P20.4",
+      "P20.5",
+      "P20.6",
+      "P20.7"
+    ],
     "governed_source_count": 10,
     "observed_coverage_cell_count": 17,
     "target_policy_state_at_closure": "UNSET",
@@ -265,14 +278,75 @@
     "plugin_build": "NOT_STARTED",
     "plugin_publication": "NOT_ACTIVATED",
     "next_gate": "P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED",
-    "p21_1_state": "READY_TO_BEGIN"
+    "p21_1_state": "VALIDATED"
   },
   "phase21": {
     "state": "IN_PROGRESS",
-    "validated_sequence": ["P21.0"],
-    "next_gate": "P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED",
+    "validated_sequence": [
+      "P21.0",
+      "P21.1",
+      "P21.2"
+    ],
+    "next_gate": "P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED",
     "live_source_expansion": "NOT_AUTHORIZED_BEFORE_P21_5_OWNER_DECISION",
     "verification_authority": "P13.5/P13.6",
     "production_live": "NOT_OPERATIONAL"
+  },
+  "phase21_p21_1": {
+    "state": "VALIDATED",
+    "gate": "P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED",
+    "implementation_anchor": "3ff9df391f31ff8c7d19e6c229e4647e8dc88597",
+    "evidence": "docs/evidence/P21_1_SOURCE_PROVENANCE_RESOLUTION_2026-09-16.json",
+    "result": "docs/implementation/P21_1_SOURCE_PROVENANCE_RESOLUTION_RESULT.md",
+    "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED.md",
+    "reviewed_source_count": 10,
+    "publisher_identity_explicit_count": 10,
+    "explicit_single_origin_source_count": 3,
+    "mixed_origin_source_count": 6,
+    "derived_multi_origin_source_count": 1,
+    "precise_portfolio_independent_origin_count": "UNKNOWN",
+    "validation_run_id": 35123458991,
+    "validation_job_id": 104886664898,
+    "test_count": 1260,
+    "next_gate": "P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED",
+    "p21_2_state": "VALIDATED_WITH_MEASURED_DEGRADATION"
+  },
+  "phase21_p21_2": {
+    "state": "VALIDATED_WITH_MEASURED_DEGRADATION",
+    "gate": "P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED",
+    "merge_anchor": "7affa9ee3ca875ddff472972ee63d11a03ed1054",
+    "evidence": "docs/evidence/P21_2_FRESH_SOURCE_HEALTH_BASELINE_OWNER_LOCAL_2026-09-16.json",
+    "result": "docs/implementation/P21_2_FRESH_SOURCE_HEALTH_BASELINE_RESULT.md",
+    "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED.md",
+    "measurement_vantage": "OWNER_LOCAL_KGM_E4_PILOT_ISOLATED_CANONICAL_CHECKOUT",
+    "measurement_host": "kgm-e4-owner-pilot",
+    "measurement_architecture": "aarch64",
+    "assessed_at": "2026-09-16T16:59:49.917696+00:00",
+    "measured_source_count": 10,
+    "unmeasured_source_count": 0,
+    "source_success_count": 8,
+    "source_failure_count": 2,
+    "healthy_fresh_count": 6,
+    "healthy_stale_content_count": 2,
+    "unavailable_count": 2,
+    "collection_status": "PARTIAL",
+    "collected_item_count": 260,
+    "measured_failures": {
+      "gdelt-doc-2": "UNAVAILABLE / TRANSPORT / HTTP 429",
+      "eu-parliament-press-releases": "UNAVAILABLE / PARSER / INVALID XML"
+    },
+    "successful_stale_content": [
+      "eu-commission-press-corner",
+      "osce-latest-news"
+    ],
+    "validation_run_id": 35126109733,
+    "validation_job_id": 104895421504,
+    "test_count": 1263,
+    "production_runtime_mutated": false,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "source_expansion": false,
+    "next_gate": "P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED",
+    "p21_3_state": "READY_TO_BEGIN"
   }
 }

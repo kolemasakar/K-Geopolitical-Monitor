@@ -34,12 +34,16 @@ def test_machine_readable_state_matches_current_roadmap_v4_position():
     assert f"Version: {sync_version}" in roadmap
 
     # The machine-readable position is a compact state token; ROADMAP must carry
-    # the same semantic position rather than duplicate the exact token text.
-    assert state["roadmap"]["current_position"] == "PHASE_21_P21_0_VALIDATED_P21_1_READY"
+    # the same semantic position rather than freeze an older Phase-21 sub-gate.
+    position = state["roadmap"]["current_position"]
+    assert position.startswith("PHASE_21_")
+    assert position.endswith("_READY")
     assert "## Phase 21 — Source Network Operational Adequacy & Evidence Population" in roadmap
     assert "P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED" in roadmap
     assert "P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED" in roadmap
-    assert "State: `IN_PROGRESS / P21_0_VALIDATED / P21_1_READY`" in roadmap
+    assert "P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED" in roadmap
+    assert "P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED" in roadmap
+    assert "P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_READY" in roadmap
 
     assert state["phases"]["17"].split(" / ")[0] in roadmap
     assert state["activation_gates"]["phase18_architecture"] in roadmap
