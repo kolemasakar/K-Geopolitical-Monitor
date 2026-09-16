@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.36
+Version: 4.37
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -607,11 +607,13 @@ Closure decision: `docs/decisions/PHASE_19_CLOSURE_DECISION_2026-09-15.md`
 Normal Monitoring Mode is the active project mode. Strict continuity is retired as a global gate and remains only a future optional Event Watch capability. Gap detection, collection resume, application-level catch-up for recoverable windows, explicit unrecoverable intervals, source-specific freshness, dedup/idempotency and security invariants are validated. Attempts 1–3 remain historical old-contract evidence; Attempt 4 and multi-day soak are not required.
 
 ## Phase 20 — Source Coverage / Collection Quality
-State: `P20_0_VALIDATED / P20_1_READY_TO_BEGIN`
-Current gate: `P20_0_EXISTING_COVERAGE_BASELINE_MAPPED`
-Next gate: `P20_1_SOURCE_TAXONOMY_METADATA_CONTRACT_VALIDATED`
+State: `VALIDATED_WITH_KNOWN_LIMITATIONS / CLOSED`
+Gate: `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED`
+Decision: `PASS_WITH_KNOWN_LIMITATIONS`
+Final result: `docs/implementation/P20_7_PHASE_20_ACCEPTANCE_RESULT.md`
+Final checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED.md`
 
-Phase 20 begins from the validated P19 recovery/freshness baseline and does not authorize shared-runtime activation, paid resources or migration `033`.
+Phase 20 begins from the validated P19 recovery/freshness baseline and closes without authorizing shared-runtime activation, paid resources, live-source expansion or migration `033`.
 
 ### P20.0 — Existing Coverage Inventory & Reuse Map
 State: `VALIDATED`
@@ -619,12 +621,72 @@ Gate: `P20_0_EXISTING_COVERAGE_BASELINE_MAPPED`
 Implementation: `docs/implementation/P20_0_EXISTING_COVERAGE_INVENTORY_REUSE_MAP.md`
 Evidence: `docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json`; `docs/evidence/P20_0_EXISTING_COVERAGE_REUSE_MAP_2026-09-16.json`
 
-Validated baseline: 10 governed public/free source paths, 9 `ACTIVE` and 1 `DEGRADED`. Existing P11/P12/P19 portfolio, adapter, health, coverage, region/language and recovery capabilities are reused. Source-level origin groups, syndication/copy relation, independent-origin count and coverage eligibility remain explicit later-gate work and are not inferred from publisher/domain/source counts.
+Validated baseline: 10 governed public/free source paths, 9 `ACTIVE` and 1 `DEGRADED`. Existing P11/P12/P19 portfolio, adapter, health, coverage, region/language and recovery capabilities are reused. Source-level origin groups, syndication/copy relation, independent-origin count and coverage eligibility are not inferred from publisher/domain/source counts.
+
+### P20.1 — Canonical Source Taxonomy & Metadata Contract
+State: `VALIDATED`
+Gate: `P20_1_SOURCE_TAXONOMY_METADATA_CONTRACT_VALIDATED`
+Implementation PR: `#94`
+Closure PR: `#95`
+
+Validated deterministic taxonomy/metadata contract for the 10 governed sources. Region/language remain multi-valued; unknown origin/syndication/coverage-policy metadata remains explicit rather than inferred.
+
+### P20.2 — Coverage Matrix & Target Policy
+State: `VALIDATED`
+Gate: `P20_2_COVERAGE_MATRIX_POLICY_VALIDATED`
+Implementation PR: `#96`
+Closure PR: `#97`
+
+Validated deterministic `geography_scope × language × source_type` matrix with 17 observed cells. Policy states distinguish `REQUIRED / OPTIONAL / NOT_REQUIRED / UNSET`; `UNSET` is never treated as `NOT_REQUIRED`.
+
+### P20.3 — Independence, Redundancy & Monoculture Model
+State: `VALIDATED`
+Gate: `P20_3_SOURCE_INDEPENDENCE_MONOCULTURE_VALIDATED`
+Implementation PR: `#98`
+Closure PR: `#100`
+
+Validated fail-closed source-level provenance/independence model. Current 10-source portfolio has unresolved source-level origin identity; independent-origin count and monoculture metrics remain unknown unless explicit provenance supports them.
+
+### P20.4 — Collection Health, Latency & Missing-Source Semantics
+State: `VALIDATED`
+Gate: `P20_4_COLLECTION_HEALTH_LATENCY_VALIDATED`
+Implementation PR: `#101`
+Closure PR: `#102`
+
+Validated collection-health/content-latency/missing-source/recovery-coverage separation. Repository-only current baseline contains no fresh health snapshot, so current health remains `UNMEASURED/UNKNOWN` instead of being inferred from governance state.
+
+### P20.5 — Source Onboarding Contract
+State: `VALIDATED`
+Gate: `P20_5_SOURCE_ONBOARDING_CONTRACT_VALIDATED`
+Implementation PR: `#103`
+Closure PR: `#104`
+
+Validated fail-closed onboarding readiness. Onboarding cannot activate a source, authorize paid/secret/shared resources, or grant independent-origin credit.
+
+### P20.6 — Coverage Evaluation & Reporting
+State: `VALIDATED`
+Gate: `P20_6_COVERAGE_EVALUATION_REPORTING_VALIDATED`
+Implementation PR: `#105`
+Closure PR: `#106`
+Implementation merge anchor: `2f348e0840461c94d65710c89c5c743d2c816896`.
+Validation: GitHub CI `#1547`, `1236 passed in 157.14s / SUCCESS`.
+
+Validated machine-readable and operator-readable fail-closed reporting. Current canonical report deterministically preserves all 17 observed cells as `UNKNOWN`: target policy is `UNSET`, source-level origin evidence is `UNKNOWN`, and fresh repository health evidence is `UNMEASURED`.
+
+### P20.7 — Phase 20 Acceptance
+State: `PASS_WITH_KNOWN_LIMITATIONS`
+Gate: `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED`
+Result: `docs/implementation/P20_7_PHASE_20_ACCEPTANCE_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED.md`
+
+Acceptance validates the deterministic coverage framework and explicit limitations. It does not claim exhaustive global coverage or current operational adequacy. Current closure facts remain: 10 governed sources, 17 observed cells, 17 `UNKNOWN`, 0 `ADEQUATE`, 0 confirmed gap cells, target policy `UNSET`, known-origin source count 0, measured-health source count 0. P13.5/P13.6 remain factual-verification authority.
+
+No subsequent strategic phase is authorized by Phase 20 closure. Next strategic position: `ROADMAP_DECISION_REQUIRED`.
 
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.36`;
+- state synchronization: `v4.37`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -664,7 +726,10 @@ Validated baseline: 10 governed public/free source paths, 9 `ACTIVE` and 1 `DEGR
 - Phase 19: `PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED`;
 - P19 strict continuity gate: `RETIRED`;
 - P19 targeted catch-up/freshness validation: `PASS`;
-- Phase 20: `P20_0_VALIDATED / P20_1_READY_TO_BEGIN`;
+- Phase 20: `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
+- P20.0–P20.6: `VALIDATED`;
+- P20.7: `PASS_WITH_KNOWN_LIMITATIONS`;
+- Phase 20 next strategic step: `ROADMAP_DECISION_REQUIRED`;
 - Phase 18 shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
 - migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
@@ -677,3 +742,5 @@ Validated baseline: 10 governed public/free source paths, 9 `ACTIVE` and 1 `DEGR
 - paid providers: `NONE_APPROVED`.
 
 Phase 17 readiness is strategically closed at `PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED`. For the current account, real external publication is unavailable and blocked by `PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY`; an owner decision alone is insufficient while that capability boundary remains active. If the account/platform capability changes later, publication still requires `PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION` plus fresh launch-time validation. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 architecture and implementation are owner-authorized and P18.0 through P18.9 are validated at `PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED`. Phase 18 remains `NOT_ACTIVATED`: real external infrastructure observations remain `NOT_OBSERVED`, `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`, migration `033` is not created or preauthorized, no provider spending/selection is approved, and production/live remains not operational. Any final activation requires a separate explicit owner decision plus fresh launch-time validation of a concrete candidate infrastructure.
+
+Phase 20 is closed at `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. The source-network coverage framework is deterministic and fail-closed, while current target-policy, origin-provenance and fresh-health limitations remain explicit. No later strategic phase is implied or authorized by this closure.
