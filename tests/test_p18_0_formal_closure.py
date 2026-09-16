@@ -22,12 +22,11 @@ def test_p18_0_machine_state_remains_formally_validated_after_later_progression(
     state = _state()
 
     assert _version_tuple(state["roadmap"]["state_sync_version"]) >= (4, 25)
-    assert state["roadmap"]["current_position"].startswith("PHASE_18_")
     assert "P18_0_VALIDATED" in state["phases"]["18"]
     assert "/ NOT_ACTIVATED" in state["phases"]["18"]
 
     # phase18_p18_0 is historical closure evidence and must not be rewritten
-    # merely because later P18.x gates progress.
+    # merely because later phases progress.
     p18_0 = state["phase18_p18_0"]
     assert p18_0["state"] == "VALIDATED"
     assert p18_0["gate"] == "P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED"
