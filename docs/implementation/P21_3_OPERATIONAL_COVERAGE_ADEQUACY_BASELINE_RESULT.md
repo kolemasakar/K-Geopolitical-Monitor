@@ -64,4 +64,4 @@ P21.3 performs repository/evidence evaluation only. It does not authorize or per
 - Plugin build/publication;
 - production/live activation.
 
-Validation: GitHub CI #1682 / run `35131568836`, job `104913591458`: `1271 passed in 99.74s / SUCCESS`. Merge anchor: `2e0666ed1f2a0b16d0ec3b4dda664664ce151f04`. Formal closure advances the next executable gate to P21.4 without authorizing live source onboarding.
+Validation: GitHub CI #1682 / run `35131568836`, job `104913591458`: `1271 passed in 99.74s / SUCCESS`. Merge anchor: `2e0666ed1f2a0b16d0ec3b4dda664664ce151f04`. Formal closure advances the next executable gate to P21.4. P21.4 is planning/candidate-discovery only; any live source onboarding remains reserved for the separate explicit owner decision at P21.5.
