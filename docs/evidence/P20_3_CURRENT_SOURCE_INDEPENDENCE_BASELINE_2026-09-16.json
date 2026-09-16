@@ -1,0 +1,47 @@
+{
+  "schema_version": "kgm.p20.3.current_source_independence_baseline.v1",
+  "inputs": [
+    "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json",
+    "docs/evidence/P20_1_SOURCE_TAXONOMY_RECONCILIATION_2026-09-16.json",
+    "docs/evidence/P20_2_OBSERVED_COVERAGE_MATRIX_2026-09-16.json"
+  ],
+  "source_count": 10,
+  "known_origin_source_count": 0,
+  "unknown_origin_source_count": 10,
+  "known_origin_group_count": 0,
+  "independent_origin_count": null,
+  "copy_chain_count": null,
+  "dominant_origin_share": null,
+  "redundancy_score": null,
+  "evaluation_completeness": "UNKNOWN",
+  "monoculture_state": "UNKNOWN",
+  "reason": "P20.1 deliberately leaves origin_group_id and syndication_or_copy_relation null unless explicit provenance evidence exists; publisher/domain/language/source counts cannot substitute for independent-origin evidence.",
+  "sources": [
+    {"source_id": "consilium-press-releases", "origin_group_id": null, "syndication_or_copy_relation": null},
+    {"source_id": "eu-commission-press-corner", "origin_group_id": null, "syndication_or_copy_relation": null},
+    {"source_id": "eu-parliament-press-releases", "origin_group_id": null, "syndication_or_copy_relation": null},
+    {"source_id": "gdelt-doc-2", "origin_group_id": null, "syndication_or_copy_relation": null},
+    {"source_id": "haberturk-tr", "origin_group_id": null, "syndication_or_copy_relation": null},
+    {"source_id": "meduza-ru", "origin_group_id": null, "syndication_or_copy_relation": null},
+    {"source_id": "osce-latest-news", "origin_group_id": null, "syndication_or_copy_relation": null},
+    {"source_id": "rmf24-pl", "origin_group_id": null, "syndication_or_copy_relation": null},
+    {"source_id": "uk-government-news-communications", "origin_group_id": null, "syndication_or_copy_relation": null},
+    {"source_id": "ukrainska-pravda-uk", "origin_group_id": null, "syndication_or_copy_relation": null}
+  ],
+  "principles": {
+    "different_publishers_do_not_prove_independence": true,
+    "different_domains_do_not_prove_independence": true,
+    "different_languages_do_not_prove_independence": true,
+    "absence_of_known_derivation_does_not_prove_independence": true,
+    "p13_claim_independence_remains_separate_from_p20_portfolio_topology": true,
+    "unknown_origin_blocks_precise_monoculture_metrics": true
+  },
+  "safety_boundary": {
+    "live_source_expansion": false,
+    "live_ingest_change": false,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "paid_or_shared_resources_authorized": false
+  }
+}
