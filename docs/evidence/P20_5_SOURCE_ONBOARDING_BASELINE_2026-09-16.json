@@ -1,0 +1,46 @@
+{
+  "schema_version": "kgm.p20.5.source_onboarding_baseline.v1",
+  "current_governed_source_count": 10,
+  "new_source_candidate_count": 0,
+  "new_coverage_eligible_source_count": 0,
+  "live_activation_authorized_count": 0,
+  "paid_provider_approved_count": 0,
+  "secret_backed_source_approved_count": 0,
+  "shared_resource_activation_count": 0,
+  "decision_states": ["ELIGIBLE_NOT_ACTIVE", "BLOCKED", "REJECTED"],
+  "mandatory_readiness_dimensions": [
+    "DETERMINISTIC_IDENTITY",
+    "P20_1_TAXONOMY",
+    "GEOGRAPHY_LANGUAGE_METADATA",
+    "COLLECTION_METHOD_ENDPOINT",
+    "ACCESS_COST_AUTH_DATA_CLASSIFICATION",
+    "RESOURCE_AUTHORIZATION",
+    "CADENCE_FRESHNESS",
+    "P20_4_HEALTH_BEHAVIOR",
+    "FIXTURE_TEST_EVIDENCE",
+    "DISABLE_ROLLBACK",
+    "GOVERNANCE_REVIEW",
+    "PROVENANCE_STATE_EXPLICIT"
+  ],
+  "principles": {
+    "unknown_provenance_may_remain_unknown": true,
+    "unknown_provenance_grants_no_independence_credit": true,
+    "coverage_eligibility_does_not_activate_source": true,
+    "source_onboarding_does_not_change_claim_verification": true,
+    "paid_or_secret_resource_requires_separate_authorization": true
+  },
+  "canonical_non_activation": {
+    "live_activation_authorized": false,
+    "live_activation_state": "NOT_ACTIVE",
+    "independence_credit_granted": false
+  },
+  "safety_boundary": {
+    "live_source_expansion": false,
+    "live_ingest_change": false,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "control_plane_change": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "paid_or_shared_resources_authorized": false
+  }
+}
