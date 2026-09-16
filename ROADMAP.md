@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.39
+Version: 4.40
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -689,7 +689,7 @@ Acceptance validates the deterministic coverage framework and explicit limitatio
 At Phase 20 closure no subsequent strategic phase was yet authorized. That historical state was later superseded by the explicit owner approval of Phase 21 on 2026-09-16.
 
 ## Phase 21 — Source Network Operational Adequacy & Evidence Population
-State: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_READY`
+State: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_READY`
 Roadmap decision: `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
 Implementation plan: `docs/implementation/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_PLAN.md`
 
@@ -724,11 +724,17 @@ Merge anchor: `7affa9ee3ca875ddff472972ee63d11a03ed1054`.
 Fresh owner-local measurement from `kgm-e4-owner-pilot` measured 10/10 governed paths: 8 success, 2 failure, 260 items, 10/10 current measurement freshness. Six paths were healthy/fresh; Commission and OSCE were healthy with stale content; GDELT was unavailable with HTTP 429; European Parliament was unavailable due parser failure. These degradations are explicit operational evidence and input to P21.3, not a failure of the measurement gate. CI: `1263 passed in 122.61s / SUCCESS`.
 
 ### P21.3 — Coverage Adequacy Baseline v1
-State: `READY_TO_BEGIN`
+State: `VALIDATED`
 Gate: `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`
+Result: `docs/implementation/P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_RESULT.md`
+Machine report: `docs/evidence/P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_2026-09-16.json`
+Operator report: `docs/evidence/P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_2026-09-16.md`
+Merge anchor: `2e0666ed1f2a0b16d0ec3b4dda664664ce151f04`.
+
+Validated baseline: 33 policy target cells -> `1 ADEQUATE / 10 THIN / 21 MISSING_EXPECTED_COVERAGE / 1 DEGRADED_COLLECTION / 0 UNKNOWN`. Required cells: `1 ADEQUATE / 5 THIN / 21 MISSING_EXPECTED_COVERAGE`. `eu.en.international_organization` is the only currently adequate cell; `global.multi.public_osint` remains degraded by the fresh GDELT HTTP 429 measurement. CI #1682: `1271 passed in 99.74s / SUCCESS`.
 
 ### P21.4 — Gap-Driven Source Expansion Plan
-State: `PLANNED`
+State: `READY_TO_BEGIN`
 Gate: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`
 
 ### P21.5 — Controlled Public/Free Source Onboarding
@@ -748,7 +754,7 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.39`;
+- state synchronization: `v4.40`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -783,12 +789,13 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 - Phase 20: `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - P20.0–P20.6: `VALIDATED`;
 - P20.7: `PASS_WITH_KNOWN_LIMITATIONS`;
-- Phase 21: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_READY`;
+- Phase 21: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_READY`;
 - P21.0: `P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED`;
 - P21.0 approved global baseline: `33 cells / 20 geography scopes / 15 language labels / default UNSET`;
 - P21.1: `P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED`;
 - P21.2: `P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED / VALIDATED_WITH_MEASURED_DEGRADATION`;
-- P21.3: `READY_TO_BEGIN`;
+- P21.3: `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`;
+- P21.4: `READY_TO_BEGIN`;
 - Phase 18 shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
 - migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
@@ -805,4 +812,4 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 
 Phase 17 readiness remains strategically validated, but its 2026-09-05 account-capability block is now historical for the legacy publication surface. Future ChatGPT-facing publication is Plugin-first and requires `PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED` plus a separate owner activation decision and fresh launch-time validation. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 remains `NOT_ACTIVATED`: real external infrastructure observations remain `NOT_OBSERVED`, `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`, migration `033` is not created or preauthorized, no provider spending/selection is approved, and production/live remains not operational.
 
-Phase 20 remains closed at `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. Phase 21 is the active strategic development block. P21.0, P21.1 and P21.2 are validated; P21.2 preserves measured degradation rather than masking it. P21.3 operational coverage adequacy baseline is the next executable gate. No live source expansion is authorized before the separately owner-gated P21.5 step.
+Phase 20 remains closed at `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. Phase 21 is the active strategic development block. P21.0-P21.3 are validated; P21.2 preserves measured degradation rather than masking it. P21.4 gap-driven source expansion planning is the next executable gate. No live source expansion is authorized before the separately owner-gated P21.5 step.

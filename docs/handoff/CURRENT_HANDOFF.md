@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_21_IN_PROGRESS / P21_2_VALIDATED / P21_3_READY`
+Status: `AUTHORITATIVE_POINTER / PHASE_21_IN_PROGRESS / P21_3_VALIDATED / P21_4_READY`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -9,10 +9,10 @@ Approved strategic block:
 `Phase 21 — Source Network Operational Adequacy & Evidence Population`
 
 Current Phase 21 position:
-`P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED / VALIDATED_WITH_MEASURED_DEGRADATION`
+`P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`
 
 Next gate:
-`P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`
+`P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`
 
 Roadmap decision:
 `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
@@ -79,6 +79,20 @@ Six paths were `HEALTHY / FRESH`: Consilium, Haberturk, Meduza, RMF24, GOV.UK, U
 
 The deployed runtime was not updated or restarted. Operational health/freshness remains truth-neutral and cannot create independent-origin or factual-verification credit.
 
+## P21.3 operational coverage adequacy baseline
+
+Gate: `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`.
+
+- target cells: `33`; required: `27`; optional: `6`;
+- overall: `1 ADEQUATE / 10 THIN / 21 MISSING_EXPECTED_COVERAGE / 1 DEGRADED_COLLECTION / 0 UNKNOWN`;
+- required cells: `1 ADEQUATE / 5 THIN / 21 MISSING_EXPECTED_COVERAGE`;
+- only adequate cell: `eu.en.international_organization`;
+- degraded cell: `global.multi.public_osint` due fresh GDELT HTTP 429;
+- P20 closure remains historical (`17 UNKNOWN / 0 ADEQUATE / 0 confirmed gaps`) and is not rewritten;
+- CI #1682: `1271 passed in 99.74s`; merge anchor: `2e0666ed1f2a0b16d0ec3b4dda664664ce151f04`.
+
+P21.4 may now derive a gap-driven public/free-first expansion plan. This does not authorize live onboarding; P21.5 remains separately owner-gated.
+
 ## OpenAI / ChatGPT architecture rebase
 
 Canonical decision:
@@ -124,4 +138,4 @@ P21.5 live source onboarding requires a separate explicit owner activation decis
 
 ## Next substantive action
 
-`Begin P21.3 operational coverage adequacy baseline using only the owner-approved 33-cell policy, P21.1 provenance evidence, and P21.2 fresh owner-local health evidence. Preserve UNKNOWN and measured degradation; do not infer source independence, health, or adequacy where evidence is missing.`
+`Begin P21.4 gap-driven source expansion planning from the validated P21.3 baseline. Produce a public/free-first plan only; do not onboard or activate sources. Preserve provenance, independence, health, verification and owner-gate boundaries.`

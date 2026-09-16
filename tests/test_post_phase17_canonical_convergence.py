@@ -43,7 +43,8 @@ def test_machine_readable_state_matches_current_roadmap_v4_position():
     assert "P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED" in roadmap
     assert "P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED" in roadmap
     assert "P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED" in roadmap
-    assert "P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_READY" in roadmap
+    phase21_tail = " / ".join(state["phases"]["21"].split(" / ")[-2:])
+    assert phase21_tail in roadmap
 
     assert state["phases"]["17"].split(" / ")[0] in roadmap
     assert state["activation_gates"]["phase18_architecture"] in roadmap

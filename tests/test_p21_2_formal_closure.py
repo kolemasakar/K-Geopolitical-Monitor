@@ -10,17 +10,17 @@ CHECKPOINT = ROOT / "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_P21_2_FRESH_
 EVIDENCE = ROOT / "docs/evidence/P21_2_FRESH_SOURCE_HEALTH_BASELINE_OWNER_LOCAL_2026-09-16.json"
 
 
-def test_p21_2_formal_closure_and_p21_3_ready_state():
+def test_p21_2_formal_closure_remains_immutable_after_later_phase21_progress():
     state = json.loads(STATE.read_text())
     evidence = json.loads(EVIDENCE.read_text())
     roadmap = ROADMAP.read_text()
     handoff = HANDOFF.read_text()
     result = RESULT.read_text()
 
-    assert state["roadmap"]["state_sync_version"] == "4.39"
-    assert state["roadmap"]["current_position"] == "PHASE_21_P21_2_VALIDATED_P21_3_READY"
-    assert state["phase21"]["validated_sequence"] == ["P21.0", "P21.1", "P21.2"]
-    assert state["phase21"]["next_gate"] == "P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED"
+    major, minor = state["roadmap"]["state_sync_version"].split(".", 1)
+    assert major == "4" and int(minor) >= 39
+    assert state["roadmap"]["current_position"].startswith("PHASE_21_")
+    assert state["phase21"]["validated_sequence"][:3] == ["P21.0", "P21.1", "P21.2"]
     p = state["phase21_p21_2"]
     assert p["state"] == "VALIDATED_WITH_MEASURED_DEGRADATION"
     assert p["gate"] == "P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED"
@@ -33,7 +33,8 @@ def test_p21_2_formal_closure_and_p21_3_ready_state():
     assert evidence["phase21_measurement"]["source_expansion"] is False
     assert "1263 passed in 122.61s" in result
     assert CHECKPOINT.exists()
-    assert "P21_3_READY" in handoff
-    assert "State: `READY_TO_BEGIN`" in roadmap
+    assert "P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED" in handoff
+    assert "### P21.2 — Fresh Operational Health Baseline" in roadmap
+    assert "State: `VALIDATED_WITH_MEASURED_DEGRADATION`" in roadmap.split("### P21.2", 1)[1].split("### P21.3", 1)[0]
     assert state["activation_gates"]["phase21_live_source_expansion"] == "P21_5_EXPLICIT_OWNER_DECISION_REQUIRED"
     assert state["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"

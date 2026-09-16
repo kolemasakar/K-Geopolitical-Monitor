@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.39",
+    "state_sync_version": "4.40",
     "status": "APPROVED",
-    "current_position": "PHASE_21_P21_2_VALIDATED_P21_3_READY"
+    "current_position": "PHASE_21_P21_3_VALIDATED_P21_4_READY"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -17,7 +17,7 @@
     "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED",
     "19": "PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED",
     "20": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
-    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_READY"
+    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_READY"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -285,9 +285,10 @@
     "validated_sequence": [
       "P21.0",
       "P21.1",
-      "P21.2"
+      "P21.2",
+      "P21.3"
     ],
-    "next_gate": "P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED",
+    "next_gate": "P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED",
     "live_source_expansion": "NOT_AUTHORIZED_BEFORE_P21_5_OWNER_DECISION",
     "verification_authority": "P13.5/P13.6",
     "production_live": "NOT_OPERATIONAL"
@@ -347,6 +348,34 @@
     "service_restart": false,
     "source_expansion": false,
     "next_gate": "P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED",
-    "p21_3_state": "READY_TO_BEGIN"
+    "p21_3_state": "VALIDATED"
+  },
+  "phase21_p21_3": {
+    "state": "VALIDATED",
+    "gate": "P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED",
+    "merge_anchor": "2e0666ed1f2a0b16d0ec3b4dda664664ce151f04",
+    "machine_report": "docs/evidence/P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_2026-09-16.json",
+    "operator_report": "docs/evidence/P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_2026-09-16.md",
+    "result": "docs/implementation/P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_RESULT.md",
+    "target_cell_count": 33,
+    "required_cell_count": 27,
+    "optional_cell_count": 6,
+    "adequate_count": 1,
+    "thin_count": 10,
+    "missing_expected_coverage_count": 21,
+    "degraded_collection_count": 1,
+    "unknown_count": 0,
+    "required_adequate_count": 1,
+    "required_thin_count": 5,
+    "required_missing_expected_coverage_count": 21,
+    "validation_run_id": 35131568836,
+    "validation_job_id": 104913591458,
+    "test_count": 1271,
+    "verification_authority": "P13.5/P13.6",
+    "live_source_expansion": false,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "next_gate": "P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED",
+    "p21_4_state": "READY_TO_BEGIN"
   }
 }
