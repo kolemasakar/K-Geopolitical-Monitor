@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kgm.local/contracts/p21_1_source_provenance_resolution.schema.json",
+  "title": "KGM Phase 21.1 Source Provenance Resolution Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_id",
+    "publisher_identity_state",
+    "publisher_identity",
+    "stream_origin_state",
+    "origin_group_id",
+    "syndication_or_copy_relation",
+    "independence_credit_state",
+    "evidence_references",
+    "resolution_notes"
+  ],
+  "properties": {
+    "source_id": {"type": "string", "minLength": 1},
+    "publisher_identity_state": {
+      "type": "string",
+      "enum": ["EXPLICIT", "UNKNOWN"]
+    },
+    "publisher_identity": {"type": ["string", "null"]},
+    "stream_origin_state": {
+      "type": "string",
+      "enum": [
+        "EXPLICIT_SINGLE_ORIGIN",
+        "MIXED_ORIGIN",
+        "DERIVED_MULTI_ORIGIN",
+        "UNKNOWN_ORIGIN"
+      ]
+    },
+    "origin_group_id": {"type": ["string", "null"]},
+    "syndication_or_copy_relation": {
+      "type": "string",
+      "enum": ["ORIGINAL", "SYNDICATED_COPY", "AGGREGATOR_COPY", "DERIVED", "UNKNOWN"]
+    },
+    "independence_credit_state": {
+      "type": "string",
+      "enum": [
+        "SOURCE_LEVEL_ORIGIN_GROUP_CONFIRMED",
+        "ITEM_LEVEL_PROVENANCE_REQUIRED",
+        "NO_INDEPENDENCE_CREDIT"
+      ]
+    },
+    "evidence_references": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "resolution_notes": {"type": "string", "minLength": 1}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"stream_origin_state": {"const": "EXPLICIT_SINGLE_ORIGIN"}}},
+      "then": {
+        "properties": {
+          "origin_group_id": {"type": "string", "minLength": 1},
+          "independence_credit_state": {"const": "SOURCE_LEVEL_ORIGIN_GROUP_CONFIRMED"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"stream_origin_state": {"enum": ["MIXED_ORIGIN", "DERIVED_MULTI_ORIGIN", "UNKNOWN_ORIGIN"]}}},
+      "then": {"properties": {"origin_group_id": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"stream_origin_state": {"const": "DERIVED_MULTI_ORIGIN"}}},
+      "then": {
+        "properties": {
+          "syndication_or_copy_relation": {"const": "DERIVED"},
+          "independence_credit_state": {"const": "NO_INDEPENDENCE_CREDIT"}
+        }
+      }
+    }
+  ]
+}
