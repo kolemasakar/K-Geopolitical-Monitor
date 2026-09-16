@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kgm.local/contracts/p21_0_policy_approval_envelope.schema.json",
+  "title": "KGM Phase 21.0 Immutable Policy Approval Envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "approval_id",
+    "policy_id",
+    "manifest_path",
+    "manifest_version",
+    "manifest_blob_sha",
+    "authority_state",
+    "approved_at",
+    "owner_decision",
+    "target_cell_count",
+    "geography_scope_count",
+    "language_label_count",
+    "default_requirement_state"
+  ],
+  "properties": {
+    "approval_id": {"type": "string", "minLength": 1},
+    "policy_id": {"type": "string", "minLength": 1},
+    "manifest_path": {"type": "string", "minLength": 1},
+    "manifest_version": {"type": "string", "minLength": 1},
+    "manifest_blob_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "authority_state": {"const": "APPROVED"},
+    "approved_at": {"type": "string", "format": "date-time"},
+    "owner_decision": {"const": "APPROVED_GLOBAL_BASELINE"},
+    "target_cell_count": {"type": "integer", "minimum": 1},
+    "geography_scope_count": {"type": "integer", "minimum": 1},
+    "language_label_count": {"type": "integer", "minimum": 1},
+    "default_requirement_state": {"const": "UNSET"},
+    "notes": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  }
+}
