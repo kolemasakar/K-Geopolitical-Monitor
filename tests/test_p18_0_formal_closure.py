@@ -73,7 +73,9 @@ def test_roadmap_keeps_p18_0_validation_while_later_phase18_gates_advance():
     )
 
     assert _version_tuple(version_line.removeprefix("Version: ")) >= (4, 25)
-    assert "P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED" in roadmap
-    assert "P18.0: `VALIDATED`" in roadmap
+    assert "### P18.0 — Shared Runtime Contract Foundation and Test Harness" in roadmap
+    p18_0_section = roadmap.split("### P18.0", 1)[1].split("### P18.1", 1)[0]
+    assert "State: `VALIDATED`" in p18_0_section
+    assert "P18_0_SHARED_RUNTIME_CONTRACT_FOUNDATION_VALIDATED" in p18_0_section
     assert "PHASE_18_SHARED_RUNTIME_ACTIVE = NO" in roadmap
     assert "migration `033`" in roadmap.lower() or "Migration `033`" in roadmap
