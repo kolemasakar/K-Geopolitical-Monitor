@@ -89,7 +89,7 @@ def test_a3_workflow_uses_ephemeral_postgres_and_credential_free_live_canary():
 
 def test_a3_does_not_change_frozen_activation_state():
     state = json.loads(STATE.read_text(encoding="utf-8"))
-    assert state["roadmap"]["state_sync_version"] == "4.35"
+    assert state["roadmap"]["state_sync_version"] == "4.36"
     assert state["activation_gates"]["phase18_activation"] == "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
     assert state["runtime"]["storage"] == "PROJECT_LOCAL_ONLY"
     assert state["runtime"]["production_live"] == "NOT_OPERATIONAL"
