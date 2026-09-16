@@ -168,3 +168,7 @@ P20.3 is eligible for validation when tests demonstrate that:
 - no live-source/runtime/paid/shared-resource boundary changes occur.
 
 On validation, the next gate is `P20_4_COLLECTION_HEALTH_LATENCY_VALIDATED`.
+
+## Validation execution note
+
+GitHub Actions run `35094320076` became stale during the full pytest step without reporting a failure or producing a completed log artifact. A documentation-only head refresh was used to trigger a fresh validation run against the current canonical `main`; no P20.3 contract, evidence, fixture, metric, runtime, or source semantics changed.
