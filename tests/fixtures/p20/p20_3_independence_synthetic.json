@@ -1,0 +1,111 @@
+{
+  "schema_version": "kgm.p20.3.independence.synthetic.v1",
+  "cases": [
+    {
+      "cell_id": "synthetic.diverse",
+      "source_observations": [
+        {"source_id": "source-a", "origin_group_id": "origin-a", "origin_identity_state": "EXPLICIT_SINGLE_ORIGIN", "syndication_or_copy_relation": "ORIGINAL", "provenance_references": ["synthetic:origin-a"]},
+        {"source_id": "source-b", "origin_group_id": "origin-b", "origin_identity_state": "EXPLICIT_SINGLE_ORIGIN", "syndication_or_copy_relation": "ORIGINAL", "provenance_references": ["synthetic:origin-b"]},
+        {"source_id": "source-c", "origin_group_id": "origin-c", "origin_identity_state": "EXPLICIT_SINGLE_ORIGIN", "syndication_or_copy_relation": "ORIGINAL", "provenance_references": ["synthetic:origin-c"]}
+      ],
+      "policy_thresholds": {"minimum_independent_origin_count": 2, "maximum_dominant_origin_share": 0.75},
+      "expected_evaluation": {
+        "source_count": 3,
+        "known_origin_source_count": 3,
+        "unknown_origin_source_count": 0,
+        "known_origin_group_count": 3,
+        "independent_origin_count": 3,
+        "copy_chain_count": 0,
+        "dominant_origin_share": 0.3333333333,
+        "redundancy_score": 1.0,
+        "evaluation_completeness": "COMPLETE",
+        "monoculture_state": "CONFIRMED_DIVERSE",
+        "monoculture_risk": false
+      }
+    },
+    {
+      "cell_id": "synthetic.monoculture",
+      "source_observations": [
+        {"source_id": "source-a", "origin_group_id": "origin-a", "origin_identity_state": "EXPLICIT_SINGLE_ORIGIN", "syndication_or_copy_relation": "ORIGINAL", "provenance_references": ["synthetic:origin-a"]},
+        {"source_id": "source-b", "origin_group_id": "origin-a", "origin_identity_state": "EXPLICIT_SINGLE_ORIGIN", "syndication_or_copy_relation": "SYNDICATED_COPY", "provenance_references": ["synthetic:origin-a", "synthetic:syndication-b"]},
+        {"source_id": "source-c", "origin_group_id": "origin-a", "origin_identity_state": "EXPLICIT_SINGLE_ORIGIN", "syndication_or_copy_relation": "DERIVED", "provenance_references": ["synthetic:origin-a", "synthetic:derived-c"]}
+      ],
+      "policy_thresholds": {"minimum_independent_origin_count": 2, "maximum_dominant_origin_share": 0.75},
+      "expected_evaluation": {
+        "source_count": 3,
+        "known_origin_source_count": 3,
+        "unknown_origin_source_count": 0,
+        "known_origin_group_count": 1,
+        "independent_origin_count": 1,
+        "copy_chain_count": 2,
+        "dominant_origin_share": 1.0,
+        "redundancy_score": 3.0,
+        "evaluation_completeness": "COMPLETE",
+        "monoculture_state": "CONFIRMED_MONOCULTURE",
+        "monoculture_risk": true
+      }
+    },
+    {
+      "cell_id": "synthetic.single-source",
+      "source_observations": [
+        {"source_id": "source-a", "origin_group_id": "origin-a", "origin_identity_state": "EXPLICIT_SINGLE_ORIGIN", "syndication_or_copy_relation": "ORIGINAL", "provenance_references": ["synthetic:origin-a"]}
+      ],
+      "policy_thresholds": {"minimum_independent_origin_count": 1, "maximum_dominant_origin_share": 1.0},
+      "expected_evaluation": {
+        "source_count": 1,
+        "known_origin_source_count": 1,
+        "unknown_origin_source_count": 0,
+        "known_origin_group_count": 1,
+        "independent_origin_count": 1,
+        "copy_chain_count": 0,
+        "dominant_origin_share": 1.0,
+        "redundancy_score": 1.0,
+        "evaluation_completeness": "COMPLETE",
+        "monoculture_state": "NO_REDUNDANCY",
+        "monoculture_risk": false
+      }
+    },
+    {
+      "cell_id": "synthetic.unknown-origin",
+      "source_observations": [
+        {"source_id": "source-a", "origin_group_id": "origin-a", "origin_identity_state": "EXPLICIT_SINGLE_ORIGIN", "syndication_or_copy_relation": "ORIGINAL", "provenance_references": ["synthetic:origin-a"]},
+        {"source_id": "source-b", "origin_group_id": null, "origin_identity_state": "UNKNOWN_ORIGIN", "syndication_or_copy_relation": "UNKNOWN", "provenance_references": []}
+      ],
+      "policy_thresholds": {"minimum_independent_origin_count": 2, "maximum_dominant_origin_share": 0.75},
+      "expected_evaluation": {
+        "source_count": 2,
+        "known_origin_source_count": 1,
+        "unknown_origin_source_count": 1,
+        "known_origin_group_count": 1,
+        "independent_origin_count": null,
+        "copy_chain_count": null,
+        "dominant_origin_share": null,
+        "redundancy_score": null,
+        "evaluation_completeness": "PARTIAL",
+        "monoculture_state": "UNKNOWN",
+        "monoculture_risk": null
+      }
+    },
+    {
+      "cell_id": "synthetic.mixed-origin",
+      "source_observations": [
+        {"source_id": "source-a", "origin_group_id": "origin-a", "origin_identity_state": "EXPLICIT_SINGLE_ORIGIN", "syndication_or_copy_relation": "ORIGINAL", "provenance_references": ["synthetic:origin-a"]},
+        {"source_id": "source-b", "origin_group_id": null, "origin_identity_state": "MIXED_ORIGIN", "syndication_or_copy_relation": null, "provenance_references": ["synthetic:mixed-b"]}
+      ],
+      "policy_thresholds": {"minimum_independent_origin_count": 2, "maximum_dominant_origin_share": 0.75},
+      "expected_evaluation": {
+        "source_count": 2,
+        "known_origin_source_count": 1,
+        "unknown_origin_source_count": 1,
+        "known_origin_group_count": 1,
+        "independent_origin_count": null,
+        "copy_chain_count": null,
+        "dominant_origin_share": null,
+        "redundancy_score": null,
+        "evaluation_completeness": "PARTIAL",
+        "monoculture_state": "UNKNOWN",
+        "monoculture_risk": null
+      }
+    }
+  ]
+}

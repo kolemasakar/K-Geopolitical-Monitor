@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kgm.local/contracts/p20_3_source_independence.schema.json",
+  "title": "KGM Phase 20.3 Source Independence and Monoculture Evaluation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "cell_id",
+    "source_observations",
+    "source_count",
+    "known_origin_source_count",
+    "unknown_origin_source_count",
+    "known_origin_group_count",
+    "independent_origin_count",
+    "copy_chain_count",
+    "dominant_origin_share",
+    "redundancy_score",
+    "evaluation_completeness",
+    "monoculture_state",
+    "policy_thresholds",
+    "monoculture_risk"
+  ],
+  "properties": {
+    "cell_id": {"type": "string", "minLength": 1},
+    "source_observations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/sourceObservation"}
+    },
+    "source_count": {"type": "integer", "minimum": 1},
+    "known_origin_source_count": {"type": "integer", "minimum": 0},
+    "unknown_origin_source_count": {"type": "integer", "minimum": 0},
+    "known_origin_group_count": {"type": "integer", "minimum": 0},
+    "independent_origin_count": {"type": ["integer", "null"], "minimum": 1},
+    "copy_chain_count": {"type": ["integer", "null"], "minimum": 0},
+    "dominant_origin_share": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "redundancy_score": {"type": ["number", "null"], "minimum": 1},
+    "evaluation_completeness": {
+      "type": "string",
+      "enum": ["COMPLETE", "PARTIAL", "UNKNOWN"]
+    },
+    "monoculture_state": {
+      "type": "string",
+      "enum": ["CONFIRMED_MONOCULTURE", "CONFIRMED_DIVERSE", "NO_REDUNDANCY", "UNKNOWN"]
+    },
+    "policy_thresholds": {"$ref": "#/$defs/policyThresholds"},
+    "monoculture_risk": {"type": ["boolean", "null"]}
+  },
+  "$defs": {
+    "sourceObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "origin_group_id",
+        "origin_identity_state",
+        "syndication_or_copy_relation",
+        "provenance_references"
+      ],
+      "properties": {
+        "source_id": {"type": "string", "minLength": 1},
+        "origin_group_id": {"type": ["string", "null"]},
+        "origin_identity_state": {
+          "type": "string",
+          "enum": ["EXPLICIT_SINGLE_ORIGIN", "UNKNOWN_ORIGIN", "MIXED_ORIGIN"]
+        },
+        "syndication_or_copy_relation": {
+          "type": ["string", "null"],
+          "enum": ["ORIGINAL", "SYNDICATED_COPY", "AGGREGATOR_COPY", "DERIVED", "UNKNOWN", null]
+        },
+        "provenance_references": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "policyThresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum_independent_origin_count", "maximum_dominant_origin_share"],
+      "properties": {
+        "minimum_independent_origin_count": {"type": ["integer", "null"], "minimum": 1},
+        "maximum_dominant_origin_share": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
+      }
+    }
+  }
+}
