@@ -45,8 +45,10 @@ def test_p18_1_exact_engineering_evidence_is_recorded():
 def test_p18_1_roadmap_and_plan_preserve_validated_boundary_without_activation():
     roadmap = ROADMAP_PATH.read_text(encoding="utf-8")
     plan = PLAN_PATH.read_text(encoding="utf-8")
-    assert "P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED" in roadmap
-    assert "P18.1: `VALIDATED`" in roadmap
+    assert "### P18.1 — Identity and Authenticated Tenant Context Foundation" in roadmap
+    p18_1_section = roadmap.split("### P18.1", 1)[1].split("### P18.2", 1)[0]
+    assert "State: `VALIDATED`" in p18_1_section
+    assert "P18_1_IDENTITY_TENANT_CONTEXT_VALIDATED" in p18_1_section
     assert "P18_1_VALIDATED" in roadmap
     assert "P18.1" in plan
     assert "P18_2_RBAC_OWNER_GATE_ENFORCEMENT_VALIDATED" in plan
