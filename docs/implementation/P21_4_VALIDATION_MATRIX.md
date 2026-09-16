@@ -20,6 +20,9 @@ Gate candidate: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`
 | P21.5 owner gate | Explicit separate decision required before live onboarding | PASS |
 | Runtime/deployment | No deployment or service restart | PASS |
 | Migration 033 | Not created / not preauthorized | PASS |
-| CI | Full repository suite | PENDING |
+| Owner-local exact implementation head | SHA `5791740afb2fda972398ede53457a292c65ef2d9`: full suite `1281 passed in 415.54s` | PASS |
+| CI | Full repository suite on current PR head | PENDING |
 
-The P21.4 gate is granted only after full CI success. Gate validation authorizes the planning artifact only; it does not authorize source activation.
+The owner-local run is supplementary validation evidence for the implementation content and does not replace GitHub CI. This documentation-only update intentionally triggers a fresh PR CI run; the P21.4 gate remains ungranted until the current PR head has full GitHub CI success.
+
+The P21.4 gate authorizes the planning artifact only. It does not authorize source activation; P21.5 remains a separate explicit owner decision before any live onboarding.
