@@ -1,0 +1,21 @@
+{
+  "approval_id": "p21-0-global-baseline-approval-2026-09-16",
+  "policy_id": "kgm-global-operational-coverage-v1",
+  "manifest_path": "docs/evidence/P21_0_TARGET_COVERAGE_POLICY_PROPOSAL_2026-09-16.json",
+  "manifest_version": "0.2-draft-global-baseline",
+  "manifest_blob_sha": "d1d7ea7f36443b2b350a290114f3c8a6417a447e",
+  "authority_state": "APPROVED",
+  "approved_at": "2026-09-16T16:18:21Z",
+  "owner_decision": "APPROVED_GLOBAL_BASELINE",
+  "target_cell_count": 33,
+  "geography_scope_count": 20,
+  "language_label_count": 15,
+  "default_requirement_state": "UNSET",
+  "notes": [
+    "Approval binds to the exact immutable Git blob of the reviewed global-baseline manifest rather than rewriting historical proposal evidence.",
+    "GLOBAL remains scope, not proof of exhaustive world coverage.",
+    "Unspecified cells remain UNSET and fail closed.",
+    "Policy approval does not create source, health, provenance, independence or factual-verification evidence.",
+    "Live source expansion remains separately owner-gated at P21.5."
+  ]
+}

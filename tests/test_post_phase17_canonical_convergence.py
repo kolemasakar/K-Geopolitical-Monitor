@@ -32,7 +32,15 @@ def test_machine_readable_state_matches_current_roadmap_v4_position():
     assert major == "4"
     assert int(minor) >= 22
     assert f"Version: {sync_version}" in roadmap
-    assert state["roadmap"]["current_position"] in roadmap
+
+    # The machine-readable position is a compact state token; ROADMAP must carry
+    # the same semantic position rather than duplicate the exact token text.
+    assert state["roadmap"]["current_position"] == "PHASE_21_P21_0_VALIDATED_P21_1_READY"
+    assert "## Phase 21 — Source Network Operational Adequacy & Evidence Population" in roadmap
+    assert "P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED" in roadmap
+    assert "P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED" in roadmap
+    assert "State: `IN_PROGRESS / P21_0_VALIDATED / P21_1_READY`" in roadmap
+
     assert state["phases"]["17"].split(" / ")[0] in roadmap
     assert state["activation_gates"]["phase18_architecture"] in roadmap
     assert state["activation_gates"]["phase18_planning"] in roadmap
@@ -81,10 +89,23 @@ def test_data_models_matches_actual_post_phase14_migration_chain():
 def test_activation_and_publication_boundaries_are_synchronized_without_activation():
     state = _state()
     combined = "\n".join(_text(path) for path in ROOT_DOCS)
+    roadmap = _text("ROADMAP.md")
+    plugin_decision = _text("docs/decisions/OPENAI_CUSTOM_GPT_TO_PLUGIN_TRANSITION_2026-09-16.md")
+
     assert state["activation_gates"]["phase14_owner_operation"] in combined
     assert state["activation_gates"]["phase17_publication"] in combined
+
+    # Preserve the historical legacy capability boundary while using a new,
+    # explicit revalidation gate for the Plugin-first forward architecture.
     assert "PHASE_17_EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY" in combined
-    assert state["activation_gates"]["phase17_current_account_capability"] == "UNAVAILABLE"
+    assert state["activation_gates"]["phase17_legacy_account_capability"] == "HISTORICAL_UNAVAILABLE"
+    assert state["activation_gates"]["phase17_plugin_capability"] == "PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED"
+    assert state["activation_gates"]["phase17_plugin_build_upload_sharing"] == "NOT_YET_VALIDATED_FOR_KGM_ACCOUNT_WORKSPACE"
+    assert "PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED" in roadmap
+    assert "PRIMARY_CHATGPT_SURFACE = PLUGIN" in plugin_decision
+    assert state["runtime"]["plugin_build"] == "NOT_STARTED"
+    assert state["runtime"]["plugin_publication"] == "NOT_ACTIVATED"
+
     assert state["runtime"]["production_live"] == "NOT_OPERATIONAL"
     assert state["runtime"]["mixed_shared_runtime"] == "BLOCKED"
     assert state["activation_gates"]["phase18_implementation"] == "PHASE_18_IMPLEMENTATION_AUTHORIZED = YES"

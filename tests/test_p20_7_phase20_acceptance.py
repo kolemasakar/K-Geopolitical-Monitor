@@ -14,6 +14,7 @@ P20_7_RESULT = ROOT / "docs" / "implementation" / "P20_7_PHASE_20_ACCEPTANCE_RES
 P20_7_CHECKPOINT = ROOT / "docs" / "checkpoints" / "PROJECT_CHECKPOINT_2026-09-16_PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED.md"
 P21_DECISION = ROOT / "docs" / "decisions" / "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md"
 P21_PLAN = ROOT / "docs" / "implementation" / "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_PLAN.md"
+P21_APPROVAL = ROOT / "docs" / "evidence" / "P21_0_TARGET_COVERAGE_POLICY_APPROVAL_2026-09-16.json"
 STATE = ROOT / "docs" / "state" / "CURRENT_PROJECT_STATE.json"
 HANDOFF = ROOT / "docs" / "handoff" / "CURRENT_HANDOFF.md"
 ROADMAP = ROOT / "ROADMAP.md"
@@ -99,36 +100,39 @@ def test_p20_7_preserves_runtime_resource_and_verification_boundaries():
     assert not any(path.name.startswith("033_") for path in MIGRATIONS_DIR.glob("*.sql"))
 
 
-def test_p20_7_canonical_closure_remains_immutable_after_explicit_phase21_decision():
+def test_p20_7_canonical_closure_remains_immutable_after_explicit_phase21_progress():
     state = _json(STATE)
     handoff = HANDOFF.read_text(encoding="utf-8")
     roadmap = ROADMAP.read_text(encoding="utf-8")
     result = P20_7_RESULT.read_text(encoding="utf-8")
     decision = P21_DECISION.read_text(encoding="utf-8")
     plan = P21_PLAN.read_text(encoding="utf-8")
+    approval = _json(P21_APPROVAL)
 
-    # Historical Phase 20 closure remains exact and immutable.
-    assert state["roadmap"]["state_sync_version"] == "4.37"
-    assert state["roadmap"]["current_position"] == "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED"
+    # Historical Phase 20 closure facts remain exact and immutable even after the current state advances.
     assert state["phases"]["20"] == "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS"
     assert state["phase20"]["state"] == "VALIDATED_WITH_KNOWN_LIMITATIONS"
     assert state["phase20"]["gate"] == "P20_GLOBAL_SOURCE_COVERAGE_VALIDATED"
     assert state["phase20"]["decision"] == "PASS_WITH_KNOWN_LIMITATIONS"
-    assert state["phase20"]["next_strategic_step"] == "ROADMAP_DECISION_REQUIRED"
+    assert state["phase20"]["historical_next_strategic_step"] == "ROADMAP_DECISION_REQUIRED"
+    assert state["phase20"]["superseded_by"] == "OWNER_APPROVED_PHASE_21_2026-09-16"
     assert "No subsequent strategic phase is authorized by this result" in result
 
-    # A later Phase 21 is valid only because a separate owner-approved roadmap decision now exists.
+    # Current state may advance only because a separate owner-approved Phase 21 decision exists.
+    assert state["roadmap"]["state_sync_version"] == "4.38"
+    assert state["roadmap"]["current_position"] == "PHASE_21_P21_0_VALIDATED_P21_1_READY"
+    assert state["phases"]["21"].endswith("P21_0_VALIDATED / P21_1_READY")
     assert P21_DECISION.exists()
     assert P21_PLAN.exists()
-    assert "Status: `APPROVED / NOT_STARTED`" in decision
     assert "Authorization basis: owner approval" in decision
     assert "P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED" in decision
     assert "LIVE_SOURCE_EXPANSION = NO" in plan
-    assert "P21.5 live source onboarding requires a separate explicit owner activation decision" in handoff
-    assert "PHASE_21_APPROVED" in handoff
-    assert "P21_0_READY" in handoff
+    assert approval["owner_decision"] == "APPROVED_GLOBAL_BASELINE"
+    assert "P21_0_VALIDATED" in handoff
+    assert "P21_1_READY" in handoff
 
-    assert "Version: 4.37" in roadmap
+    assert "Version: 4.38" in roadmap
     assert "State: `VALIDATED_WITH_KNOWN_LIMITATIONS / CLOSED`" in roadmap
     assert "Gate: `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED`" in roadmap
     assert "Phase 20: `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`" in roadmap
+    assert "Phase 21: `IN_PROGRESS / P21_0_VALIDATED / P21_1_READY`" in roadmap

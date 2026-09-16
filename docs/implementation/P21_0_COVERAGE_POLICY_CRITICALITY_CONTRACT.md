@@ -1,7 +1,7 @@
 # P21.0 — Coverage Policy Definition & Criticality Contract
 
 Date: 2026-09-16
-Status: `IMPLEMENTED / TARGET_POLICY_NOT_YET_APPROVED`
+Status: `VALIDATED / GLOBAL_POLICY_APPROVED`
 Gate: `P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED`
 
 ## Purpose
@@ -36,6 +36,9 @@ The following remain unchanged:
 
 Schema:
 `docs/contracts/p21_0_coverage_policy_criticality.schema.json`
+
+Approval-envelope schema:
+`docs/contracts/p21_0_policy_approval_envelope.schema.json`
 
 Added policy-level fields:
 
@@ -82,7 +85,7 @@ Allowed only where the requirement state is `NOT_REQUIRED`. It does not mean tha
 
 Validation must enforce at least:
 
-- `APPROVED` policy must have an explicit effective timestamp;
+- a canonical approval must identify an exact immutable policy manifest and explicit approval timestamp;
 - `REQUIRED` cell cannot use `criticality = NONE`;
 - `NOT_REQUIRED` cell must use `criticality = NONE` and zero/null non-promotional thresholds;
 - `UNSET` cannot be interpreted as `OPTIONAL` or `NOT_REQUIRED`;
@@ -91,17 +94,36 @@ Validation must enforce at least:
 - target cells may be absent from the current observed matrix;
 - no target may imply that a source exists, is healthy, or is independent before evidence establishes it.
 
-## Policy authority rule
+## Immutable approval rule
 
-Only an `authority_state = APPROVED` target-policy artifact may drive canonical P21.3 adequacy/gap decisions.
+The reviewed global-baseline proposal remains immutable historical evidence with its internal proposal marker unchanged. Canonical authority is granted by a separate approval envelope that binds the owner decision to the exact Git blob of that reviewed manifest.
 
-A `DRAFT` policy may be schema-validated and reviewed but must not convert P20/P21 coverage cells into canonical `ADEQUATE` or `MISSING_EXPECTED_COVERAGE` states.
+Canonical approved pair:
+
+- manifest: `docs/evidence/P21_0_TARGET_COVERAGE_POLICY_PROPOSAL_2026-09-16.json`;
+- reviewed manifest version: `0.2-draft-global-baseline`;
+- reviewed manifest blob: `d1d7ea7f36443b2b350a290114f3c8a6417a447e`;
+- approval: `docs/evidence/P21_0_TARGET_COVERAGE_POLICY_APPROVAL_2026-09-16.json`;
+- approval authority: `APPROVED`.
+
+This approval-envelope design avoids rewriting the pre-approval artifact after the owner decision while still producing a deterministic canonical authority record. A manifest with a different blob SHA is not covered by this approval and requires a new approval record.
+
+Only the exact manifest bound by a valid `APPROVED` envelope may drive canonical P21.3 adequacy/gap decisions.
 
 ## Relationship to P13 verification
 
 Coverage criticality, requirement state, thresholds, adequacy and gap status remain non-promotional metadata.
 
 P13.5/P13.6 remain the sole canonical factual-verification authority.
+
+## OpenAI / ChatGPT surface boundary
+
+P21.0 policy and later adequacy evaluation are deployment-wrapper independent.
+
+OpenAI's Custom GPT retirement changes the future ChatGPT integration surface but does not change this policy contract. Future ChatGPT-facing access is Plugin-first, with Apps/Connectors/custom MCP considered for integrations. A Plugin or integration wrapper cannot create source independence, health, provenance or factual-verification credit.
+
+Canonical platform decision:
+`docs/decisions/OPENAI_CUSTOM_GPT_TO_PLUGIN_TRANSITION_2026-09-16.md`.
 
 ## Activation boundary
 
@@ -116,24 +138,27 @@ PAID_PROVIDERS = NONE_APPROVED
 SHARED_RUNTIME_ACTIVE = NO
 MIGRATION_033 = NOT_CREATED / NOT_PREAUTHORIZED
 PRODUCTION_LIVE = NOT_OPERATIONAL
+PLUGIN_BUILD = NOT_STARTED
+PLUGIN_PUBLICATION = NOT_ACTIVATED
 ```
 
 ## Gate status
 
-The contract implementation can be validated independently from target-policy approval.
+P21.0 final gate requires:
 
-P21.0 final gate is granted only when:
-
-- this contract/schema is validated;
-- a target-policy manifest is explicit and schema-valid;
-- its authority state is explicitly approved;
-- its scope/criticality/threshold choices are documented;
-- no historical P20 evidence is rewritten.
+- contract/schema validation;
+- explicit target-policy manifest;
+- immutable owner approval bound to the exact reviewed manifest;
+- documented scope/criticality/threshold choices;
+- preservation of P20 historical evidence;
+- regression validation.
 
 Current state:
 
 `P21_0_CONTRACT_IMPLEMENTED = YES`
 
-`P21_0_TARGET_POLICY = DRAFT_REQUIRED`
+`P21_0_GLOBAL_BASELINE_APPROVAL = APPROVED`
 
-`P21_0_GATE = NOT_YET_GRANTED`
+`P21_0_GATE = P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED`
+
+`NEXT_GATE = P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED`

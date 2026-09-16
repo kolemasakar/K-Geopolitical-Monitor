@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.37",
+    "state_sync_version": "4.38",
     "status": "APPROVED",
-    "current_position": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED"
+    "current_position": "PHASE_21_P21_0_VALIDATED_P21_1_READY"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -13,30 +13,46 @@
     "14": "PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED / OWNER_DECISION_REQUIRED",
     "15": "PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED",
     "16": "PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED",
-    "17": "PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY",
+    "17": "PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED / LEGACY_CAPABILITY_HISTORICALLY_BLOCKED / PLUGIN_CAPABILITY_REVALIDATION_REQUIRED",
     "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED",
     "19": "PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED",
-    "20": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS"
+    "20": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
+    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_IN_PROGRESS / P21_0_VALIDATED / P21_1_READY"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
     "phase17_publication": "PHASE_17_ACTIVATION_REQUIRES_EXPLICIT_OWNER_DECISION",
-    "phase17_current_account_capability": "UNAVAILABLE",
+    "phase17_legacy_account_capability": "HISTORICAL_UNAVAILABLE",
+    "phase17_plugin_capability": "PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED",
+    "phase17_plugin_build_upload_sharing": "NOT_YET_VALIDATED_FOR_KGM_ACCOUNT_WORKSPACE",
     "phase18_architecture": "PHASE_18_NEW_ARCHITECTURE_APPROVAL = APPROVED_BY_OWNER",
     "phase18_planning": "PHASE_18_IMPLEMENTATION_PLANNING_AUTHORIZED = YES",
     "phase18_implementation": "PHASE_18_IMPLEMENTATION_AUTHORIZED = YES",
     "phase18_readiness": "PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED",
     "phase18_activation": "PHASE_18_SHARED_RUNTIME_ACTIVE = NO",
-    "phase18_launch": "EXPLICIT_OWNER_DECISION_PLUS_FRESH_LAUNCH_TIME_VALIDATION_REQUIRED"
+    "phase18_launch": "EXPLICIT_OWNER_DECISION_PLUS_FRESH_LAUNCH_TIME_VALIDATION_REQUIRED",
+    "phase21_live_source_expansion": "P21_5_EXPLICIT_OWNER_DECISION_REQUIRED"
   },
   "runtime": {
     "storage": "PROJECT_LOCAL_ONLY",
     "mixed_shared_runtime": "BLOCKED",
     "production_live": "NOT_OPERATIONAL",
-    "private_gpt_action": "NOT_CONNECTED",
+    "primary_chatgpt_surface": "PLUGIN_FIRST",
+    "legacy_private_gpt_action": "NOT_CONNECTED / TRANSITIONAL_ONLY",
+    "plugin_build": "NOT_STARTED",
+    "plugin_publication": "NOT_ACTIVATED",
     "backend_https": "NOT_DEPLOYED",
     "public_sharing": "NOT_ACTIVE",
     "paid_providers": "NONE_APPROVED"
+  },
+  "openai_surface_transition": {
+    "decision": "docs/decisions/OPENAI_CUSTOM_GPT_TO_PLUGIN_TRANSITION_2026-09-16.md",
+    "custom_gpt_surface": "TRANSITIONAL_ONLY",
+    "custom_actions_long_term_architecture": false,
+    "plugin_first": true,
+    "integration_candidates": ["APP", "CONNECTOR", "CUSTOM_MCP"],
+    "selected_model_is_canonical_dependency": false,
+    "plugin_capability_revalidation_required": true
   },
   "verification_authority": "P13.5/P13.6",
   "migrations": {
@@ -50,6 +66,7 @@
   },
   "phase17_closure_anchor": "daca1240cb1f99267795b39ddf7da32eb4fa9ec0",
   "phase17_capability_decision": "docs/decisions/PHASE_17_CURRENT_ACCOUNT_PUBLICATION_CAPABILITY_BOUNDARY_2026-09-05.md",
+  "phase17_plugin_transition_decision": "docs/decisions/OPENAI_CUSTOM_GPT_TO_PLUGIN_TRANSITION_2026-09-16.md",
   "phase18_architecture_preflight_anchor": "fff4a1874ee4fd7cf584c4b93731d10badaf991f",
   "phase18_architecture_decision": "docs/decisions/PHASE_18_ARCHITECTURE_APPROVAL_GATE_2026-09-07.md",
   "phase18_architecture_approval_date": "2026-09-07",
@@ -213,12 +230,12 @@
     "validated_sequence": ["P20.0", "P20.1", "P20.2", "P20.3", "P20.4", "P20.5", "P20.6", "P20.7"],
     "governed_source_count": 10,
     "observed_coverage_cell_count": 17,
-    "target_policy_state": "UNSET",
-    "known_origin_source_count": 0,
-    "measured_health_source_count": 0,
-    "unknown_cell_count": 17,
-    "adequate_cell_count": 0,
-    "confirmed_gap_cell_count": 0,
+    "target_policy_state_at_closure": "UNSET",
+    "known_origin_source_count_at_closure": 0,
+    "measured_health_source_count_at_closure": 0,
+    "unknown_cell_count_at_closure": 17,
+    "adequate_cell_count_at_closure": 0,
+    "confirmed_gap_cell_count_at_closure": 0,
     "verification_authority": "P13.5/P13.6",
     "live_source_expansion": false,
     "runtime_deployment": false,
@@ -227,6 +244,35 @@
     "production_live": "NOT_OPERATIONAL",
     "acceptance_result": "docs/implementation/P20_7_PHASE_20_ACCEPTANCE_RESULT.md",
     "acceptance_checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED.md",
-    "next_strategic_step": "ROADMAP_DECISION_REQUIRED"
+    "historical_next_strategic_step": "ROADMAP_DECISION_REQUIRED",
+    "superseded_by": "OWNER_APPROVED_PHASE_21_2026-09-16"
+  },
+  "phase21_p21_0": {
+    "state": "VALIDATED",
+    "gate": "P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED",
+    "policy_id": "kgm-global-operational-coverage-v1",
+    "reviewed_manifest": "docs/evidence/P21_0_TARGET_COVERAGE_POLICY_PROPOSAL_2026-09-16.json",
+    "reviewed_manifest_version": "0.2-draft-global-baseline",
+    "reviewed_manifest_blob_sha": "d1d7ea7f36443b2b350a290114f3c8a6417a447e",
+    "approval_envelope": "docs/evidence/P21_0_TARGET_COVERAGE_POLICY_APPROVAL_2026-09-16.json",
+    "approval_state": "APPROVED_GLOBAL_BASELINE",
+    "target_cell_count": 33,
+    "geography_scope_count": 20,
+    "language_label_count": 15,
+    "default_requirement_state": "UNSET",
+    "live_source_expansion": false,
+    "runtime_deployment": false,
+    "plugin_build": "NOT_STARTED",
+    "plugin_publication": "NOT_ACTIVATED",
+    "next_gate": "P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED",
+    "p21_1_state": "READY_TO_BEGIN"
+  },
+  "phase21": {
+    "state": "IN_PROGRESS",
+    "validated_sequence": ["P21.0"],
+    "next_gate": "P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED",
+    "live_source_expansion": "NOT_AUTHORIZED_BEFORE_P21_5_OWNER_DECISION",
+    "verification_authority": "P13.5/P13.6",
+    "production_live": "NOT_OPERATIONAL"
   }
 }
