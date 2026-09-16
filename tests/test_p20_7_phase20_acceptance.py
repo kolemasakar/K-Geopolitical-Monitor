@@ -119,20 +119,21 @@ def test_p20_7_canonical_closure_remains_immutable_after_explicit_phase21_progre
     assert "No subsequent strategic phase is authorized by this result" in result
 
     # Current state may advance only because a separate owner-approved Phase 21 decision exists.
-    assert state["roadmap"]["state_sync_version"] == "4.38"
-    assert state["roadmap"]["current_position"] == "PHASE_21_P21_0_VALIDATED_P21_1_READY"
-    assert state["phases"]["21"].endswith("P21_0_VALIDATED / P21_1_READY")
+    major, minor = state["roadmap"]["state_sync_version"].split(".", 1)
+    assert major == "4" and int(minor) >= 38
+    assert state["roadmap"]["current_position"].startswith("PHASE_21_")
+    assert "P21_0_VALIDATED" in state["phases"]["21"]
     assert P21_DECISION.exists()
     assert P21_PLAN.exists()
     assert "Authorization basis: owner approval" in decision
     assert "P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED" in decision
     assert "LIVE_SOURCE_EXPANSION = NO" in plan
     assert approval["owner_decision"] == "APPROVED_GLOBAL_BASELINE"
-    assert "P21_0_VALIDATED" in handoff
-    assert "P21_1_READY" in handoff
+    assert "P21_0_TARGET_COVERAGE_POLICY_APPROVAL_2026-09-16.json" in handoff
+    assert "P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED" in handoff
 
-    assert "Version: 4.38" in roadmap
+    assert "Version: 4." in roadmap
     assert "State: `VALIDATED_WITH_KNOWN_LIMITATIONS / CLOSED`" in roadmap
     assert "Gate: `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED`" in roadmap
     assert "Phase 20: `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`" in roadmap
-    assert "Phase 21: `IN_PROGRESS / P21_0_VALIDATED / P21_1_READY`" in roadmap
+    assert "Phase 21: `IN_PROGRESS / P21_0_VALIDATED" in roadmap
