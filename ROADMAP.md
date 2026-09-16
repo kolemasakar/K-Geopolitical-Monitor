@@ -198,7 +198,7 @@ Implementation validation:
 Formal closure HEAD: `d2e80fe8a1bd998ca422be1e1001744be0e9e6e3`.
 Formal closure validation:
 - x64 run `33856550956`, job `100971101911`: `480 passed, 2 warnings / SUCCESS`;
-- native ARM64 run `33856550913`, job `100971101835`: native `aarch64`, `480 passed in 110.50s / SUCCESS`, bootstrap/unattended/systemd PASS.
+- native ARM64 run `33856550913`, job `100971101835`: native `aarch64`, `480 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Validated model:
 - migration `027_semantic_verification_policy_confidence.sql` adds append-only policy, multidimensional factual-confidence and decision histories;
