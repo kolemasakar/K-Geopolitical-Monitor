@@ -23,6 +23,9 @@ Roadmap decision:
 Implementation plan:
 `docs/implementation/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_PLAN.md`
 
+Approval checkpoint:
+`docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_PHASE_21_ROADMAP_APPROVED.md`
+
 Authoritative Phase 20 transition bootstrap:
 `docs/handoff/BOOTSTRAP_PACKAGE_2026-09-16_K-GEOPOLITICAL-MONITOR_PHASE_20_CLOSED_ROADMAP_DECISION_TRANSITION.md`
 
