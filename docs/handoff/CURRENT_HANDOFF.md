@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_21_IN_PROGRESS / P21_3_VALIDATED / P21_4_READY`
+Status: `AUTHORITATIVE_POINTER / PHASE_21_IN_PROGRESS / P21_4_VALIDATED / P21_5_OWNER_DECISION_REQUIRED`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -9,10 +9,10 @@ Approved strategic block:
 `Phase 21 — Source Network Operational Adequacy & Evidence Population`
 
 Current Phase 21 position:
-`P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`
+`P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`
 
 Next gate:
-`P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`
+`P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED` — blocked pending a separate explicit owner decision
 
 Roadmap decision:
 `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
@@ -91,7 +91,22 @@ Gate: `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`.
 - P20 closure remains historical (`17 UNKNOWN / 0 ADEQUATE / 0 confirmed gaps`) and is not rewritten;
 - CI #1682: `1271 passed in 99.74s`; merge anchor: `2e0666ed1f2a0b16d0ec3b4dda664664ce151f04`.
 
-P21.4 may now derive a gap-driven public/free-first expansion plan. This does not authorize live onboarding; P21.5 remains separately owner-gated.
+P21.4 is now validated as planning-only. The plan covers 32 gap cells in six policy-derived waves with deterministic minimum deficits of 49 source paths, 49 healthy-source positions and 54 origin-evidence positions from the confirmed lower bound. CI #1710: `1281 passed in 115.53s`; merge anchor: `277b219726008c70671cf4d804c857c98f8ab0c4`.
+
+## P21.4 gap-driven source expansion plan
+
+Gate: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`.
+
+- machine plan: `docs/evidence/P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_2026-09-16.json`;
+- operator plan: `docs/evidence/P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_2026-09-16.md`;
+- gap cells: `32`; adequate excluded: `1`;
+- six waves: critical required -> high required -> standard required -> watch required -> optional standard -> optional watch;
+- minimum source-path deficit: `49`; minimum healthy-source deficit: `49`;
+- origin-evidence deficit from confirmed lower bound: `54`;
+- GDELT degraded OSINT path remains repair-or-alternate-first;
+- source/domain/language counts do not create independence; P13.5/P13.6 remain factual-verification authority.
+
+P21.4 did not onboard or activate any source. P21.5 live onboarding remains separately owner-gated.
 
 ## OpenAI / ChatGPT architecture rebase
 
@@ -138,4 +153,4 @@ P21.5 live source onboarding requires a separate explicit owner activation decis
 
 ## Next substantive action
 
-`Begin P21.4 gap-driven source expansion planning from the validated P21.3 baseline. Produce a public/free-first plan only; do not onboard or activate sources. Preserve provenance, independence, health, verification and owner-gate boundaries.`
+`STOP at P21.5 owner decision gate. Do not onboard, register, activate or deploy any new source unless the owner separately and explicitly authorizes P21.5.`

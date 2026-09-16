@@ -1,7 +1,7 @@
 # Phase 21 — Source Network Operational Adequacy & Evidence Population — Implementation Plan
 
 Date: 2026-09-16
-Status: `IN_PROGRESS / P21_0_VALIDATED / P21_1_READY`
+Status: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_OWNER_DECISION_REQUIRED`
 Decision: `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
 
 ## Objective
@@ -25,16 +25,15 @@ These are evidence states, not claims of good or bad coverage.
 
 ## Current Phase 21 state
 
-P21.0 is validated at:
-`P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED`.
+Validated sequence: `P21.0 -> P21.1 -> P21.2 -> P21.3 -> P21.4`.
 
-Canonical global-baseline approval:
-`docs/evidence/P21_0_TARGET_COVERAGE_POLICY_APPROVAL_2026-09-16.json`.
+Current position: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED / P21_5_OWNER_DECISION_REQUIRED`.
 
-The approved baseline binds to the exact reviewed 33-cell global manifest and preserves `default_requirement_state = UNSET` for unspecified cells.
+P21.0 approved the 33-cell policy baseline; P21.1 resolved governed-source provenance without inventing independence; P21.2 produced fresh health evidence with measured degradation; P21.3 converted those inputs into the first operational adequacy baseline; P21.4 converted the measured gaps into a six-wave public/free-first planning artifact with no live activation.
 
-Next gate:
-`P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED`.
+P21.4 implementation merge anchor: `277b219726008c70671cf4d804c857c98f8ab0c4`. GitHub CI #1710 / run `35138511971` / job `104936832558`: `1281 passed in 115.53s / SUCCESS`.
+
+Next gate: `P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED`, but entry is blocked by `P21_5_EXPLICIT_OWNER_DECISION_REQUIRED`.
 
 ## ChatGPT / Plugin architecture boundary
 
@@ -78,7 +77,7 @@ Validated outputs:
 
 ### P21.1 — Existing Portfolio Provenance Resolution
 
-State: `READY_TO_BEGIN`
+State: `VALIDATED`
 
 Deliverables:
 
@@ -93,6 +92,8 @@ Gate:
 
 ### P21.2 — Fresh Operational Health Baseline
 
+State: `VALIDATED_WITH_MEASURED_DEGRADATION`
+
 Deliverables:
 
 - bounded measurement procedure for the current 10 governed source paths;
@@ -106,6 +107,8 @@ Gate:
 
 ### P21.3 — Coverage Adequacy Baseline v1
 
+State: `VALIDATED`
+
 Deliverables:
 
 - deterministic recomputation using approved policy + provenance + fresh health;
@@ -118,6 +121,8 @@ Gate:
 `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`
 
 ### P21.4 — Gap-Driven Source Expansion Plan
+
+State: `VALIDATED`
 
 Deliverables:
 
@@ -133,6 +138,8 @@ Gate:
 `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`
 
 ### P21.5 — Controlled Public/Free Source Onboarding
+
+State: `OWNER_DECISION_REQUIRED_BEFORE_LIVE_EXPANSION`
 
 Entry condition:
 
@@ -202,4 +209,4 @@ PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED = YES
 
 ## Next executable step
 
-Begin P21.1 with a repository-only provenance audit of the 10 governed source paths. Resolve underlying origin and derivation only where evidence supports it; preserve unresolved origin as `UNKNOWN` and do not award independence credit from publisher/domain/language counts.
+Stop at the P21.5 owner decision gate. No live source onboarding, registry activation, ingest mutation, runtime deployment or provider activation is authorized by P21.4 validation. If the owner separately approves P21.5, execute controlled public/free onboarding through the existing P20.5 governance contract with fixtures/tests before activation, fresh post-change health evidence and rollback validation.
