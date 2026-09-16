@@ -59,4 +59,4 @@ First substantive action in the new chat:
 
 `Audit Phases 12–20 and prepare the next roadmap-decision proposal.`
 
-Do not create Phase 21 automatically. The next roadmap block requires an explicit strategic decision after the audit.
+Do not create a new strategic phase automatically. The next roadmap block requires an explicit strategic decision after the audit.
