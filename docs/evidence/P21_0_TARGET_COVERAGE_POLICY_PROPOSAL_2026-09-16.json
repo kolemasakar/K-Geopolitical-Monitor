@@ -1,0 +1,214 @@
+{
+  "policy_id": "kgm-global-operational-coverage-v1",
+  "version": "0.1-draft",
+  "authority_state": "DRAFT",
+  "effective_from": null,
+  "review_due": null,
+  "default_requirement_state": "UNSET",
+  "target_cells": [
+    {
+      "cell_id": "ukraine.uk.national_media",
+      "geography_scope": "UKRAINE",
+      "language": "uk",
+      "source_type": "NATIONAL_MEDIA",
+      "topic_role": null,
+      "requirement_state": "REQUIRED",
+      "criticality": "CRITICAL",
+      "thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_stale_share": 0.5,
+        "maximum_dominant_origin_share": 0.75,
+        "maximum_collection_latency_minutes": 60,
+        "maximum_content_freshness_minutes": 120
+      },
+      "policy_reason": "Draft proposal for resilient local-language monitoring of Ukraine; current portfolio has only one observed national-media path and must not be assumed adequate.",
+      "policy_basis": [
+        "Phase 21 objective: operational adequacy must be policy-driven rather than source-count-driven",
+        "P20.2 observed matrix contains one UKRAINE/uk/NATIONAL_MEDIA source and no established independent-origin count"
+      ]
+    },
+    {
+      "cell_id": "ukraine.uk.official_government",
+      "geography_scope": "UKRAINE",
+      "language": "uk",
+      "source_type": "OFFICIAL_GOVERNMENT",
+      "topic_role": null,
+      "requirement_state": "REQUIRED",
+      "criticality": "CRITICAL",
+      "thresholds": {
+        "minimum_source_count": 1,
+        "minimum_independent_origin_count": 1,
+        "minimum_healthy_source_count": 1,
+        "maximum_stale_share": 0,
+        "maximum_dominant_origin_share": 1,
+        "maximum_collection_latency_minutes": 120,
+        "maximum_content_freshness_minutes": 240
+      },
+      "policy_reason": "Draft proposal to require direct Ukrainian official evidence as a distinct source class rather than relying on media reports of official statements.",
+      "policy_basis": [
+        "P13 epistemic boundary: an official statement is a distinct evidence relation and publisher identity does not substitute for underlying origin",
+        "P20.2 observed matrix currently contains no UKRAINE/uk/OFFICIAL_GOVERNMENT cell"
+      ]
+    },
+    {
+      "cell_id": "russia.ru.national_media",
+      "geography_scope": "RUSSIA",
+      "language": "ru",
+      "source_type": "NATIONAL_MEDIA",
+      "topic_role": null,
+      "requirement_state": "REQUIRED",
+      "criticality": "HIGH",
+      "thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_stale_share": 0.5,
+        "maximum_dominant_origin_share": 0.75,
+        "maximum_collection_latency_minutes": 60,
+        "maximum_content_freshness_minutes": 120
+      },
+      "policy_reason": "Draft proposal for plural Russian-language evidence coverage; one publisher path must not be treated as sufficient independent coverage.",
+      "policy_basis": [
+        "P20.2 observed matrix contains one RUSSIA/ru/NATIONAL_MEDIA path",
+        "P20/P21 independence boundary requires explicit independent origins rather than publisher-count assumptions"
+      ]
+    },
+    {
+      "cell_id": "russia.ru.official_government",
+      "geography_scope": "RUSSIA",
+      "language": "ru",
+      "source_type": "OFFICIAL_GOVERNMENT",
+      "topic_role": null,
+      "requirement_state": "REQUIRED",
+      "criticality": "HIGH",
+      "thresholds": {
+        "minimum_source_count": 1,
+        "minimum_independent_origin_count": 1,
+        "minimum_healthy_source_count": 1,
+        "maximum_stale_share": 0,
+        "maximum_dominant_origin_share": 1,
+        "maximum_collection_latency_minutes": 120,
+        "maximum_content_freshness_minutes": 240
+      },
+      "policy_reason": "Draft proposal to preserve direct official-statement evidence separately from media interpretation.",
+      "policy_basis": [
+        "P13 provenance/statement boundary",
+        "P20.2 observed matrix currently contains no RUSSIA/ru/OFFICIAL_GOVERNMENT cell"
+      ]
+    },
+    {
+      "cell_id": "eu.en.international_organization",
+      "geography_scope": "EU",
+      "language": "en",
+      "source_type": "INTERNATIONAL_ORGANIZATION",
+      "topic_role": null,
+      "requirement_state": "REQUIRED",
+      "criticality": "HIGH",
+      "thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_stale_share": 0.5,
+        "maximum_dominant_origin_share": 0.75,
+        "maximum_collection_latency_minutes": 180,
+        "maximum_content_freshness_minutes": 360
+      },
+      "policy_reason": "Draft proposal to require resilient EU institutional coverage while preserving the distinction among institutional sources and underlying origins.",
+      "policy_basis": [
+        "P20.2 observed matrix contains three governed EU institutional source paths with one degraded availability path"
+      ]
+    },
+    {
+      "cell_id": "europe.en.official_government",
+      "geography_scope": "EUROPE",
+      "language": "en",
+      "source_type": "OFFICIAL_GOVERNMENT",
+      "topic_role": null,
+      "requirement_state": "REQUIRED",
+      "criticality": "STANDARD",
+      "thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_stale_share": 0.5,
+        "maximum_dominant_origin_share": 0.75,
+        "maximum_collection_latency_minutes": 180,
+        "maximum_content_freshness_minutes": 360
+      },
+      "policy_reason": "Draft proposal for more than one direct government-origin path at the broad European level; the current single UK path is not assumed adequate.",
+      "policy_basis": [
+        "P20.2 observed matrix contains one EUROPE/en/OFFICIAL_GOVERNMENT path"
+      ]
+    },
+    {
+      "cell_id": "middle_east.ar.national_media",
+      "geography_scope": "MIDDLE_EAST",
+      "language": "ar",
+      "source_type": "NATIONAL_MEDIA",
+      "topic_role": null,
+      "requirement_state": "REQUIRED",
+      "criticality": "HIGH",
+      "thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_stale_share": 0.5,
+        "maximum_dominant_origin_share": 0.75,
+        "maximum_collection_latency_minutes": 60,
+        "maximum_content_freshness_minutes": 120
+      },
+      "policy_reason": "Draft proposal to add direct Arabic-language regional evidence; the current Middle East observed cell is Turkish-language only.",
+      "policy_basis": [
+        "P20.2 observed matrix has MIDDLE_EAST/tr/NATIONAL_MEDIA but no Arabic-language Middle East national-media cell",
+        "Phase 20 design requires local-language gaps to remain visible"
+      ]
+    },
+    {
+      "cell_id": "middle_east.en.international_organization",
+      "geography_scope": "MIDDLE_EAST",
+      "language": "en",
+      "source_type": "INTERNATIONAL_ORGANIZATION",
+      "topic_role": null,
+      "requirement_state": "OPTIONAL",
+      "criticality": "STANDARD",
+      "thresholds": {
+        "minimum_source_count": 1,
+        "minimum_independent_origin_count": 1,
+        "minimum_healthy_source_count": 1,
+        "maximum_stale_share": 0.5,
+        "maximum_dominant_origin_share": 1,
+        "maximum_collection_latency_minutes": 240,
+        "maximum_content_freshness_minutes": 480
+      },
+      "policy_reason": "Draft proposal for an institutional regional complement without substituting it for local-language evidence.",
+      "policy_basis": [
+        "Phase 20 source taxonomy separates international organizations from national media"
+      ]
+    },
+    {
+      "cell_id": "global.multi.public_osint",
+      "geography_scope": "GLOBAL",
+      "language": "multi",
+      "source_type": "PUBLIC_OSINT",
+      "topic_role": null,
+      "requirement_state": "OPTIONAL",
+      "criticality": "WATCH",
+      "thresholds": {
+        "minimum_source_count": 1,
+        "minimum_independent_origin_count": null,
+        "minimum_healthy_source_count": 1,
+        "maximum_stale_share": 1,
+        "maximum_dominant_origin_share": null,
+        "maximum_collection_latency_minutes": 120,
+        "maximum_content_freshness_minutes": 180
+      },
+      "policy_reason": "Discovery/index coverage is useful but cannot substitute for independent-origin evidence or exhaustive global coverage.",
+      "policy_basis": [
+        "P20.2 observed matrix contains the current GDELT global/multi PUBLIC_OSINT path",
+        "GLOBAL scope is explicitly not exhaustive-global-coverage proof"
+      ]
+    }
+  ]
+}
