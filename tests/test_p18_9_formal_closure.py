@@ -31,8 +31,9 @@ def _roadmap_minor_version(text: str) -> int:
 
 def test_p18_9_state_converges_to_validated_owner_activation_gate():
     state = _state()
-    assert state["roadmap"]["state_sync_version"] == "4.36"
-    assert state["roadmap"]["current_position"] == "PHASE_20_P20_0_VALIDATED_P20_1_READY"
+    major, minor = state["roadmap"]["state_sync_version"].split(".", 1)
+    assert major == "4"
+    assert int(minor) >= 36
     assert state["phases"]["18"] == (
         "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / "
         "P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / "

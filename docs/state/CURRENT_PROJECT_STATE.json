@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.36",
+    "state_sync_version": "4.37",
     "status": "APPROVED",
-    "current_position": "PHASE_20_P20_0_VALIDATED_P20_1_READY"
+    "current_position": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -16,7 +16,7 @@
     "17": "PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY",
     "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED",
     "19": "PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED",
-    "20": "P20_0_VALIDATED / P20_1_READY_TO_BEGIN"
+    "20": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -205,5 +205,28 @@
     "baseline_evidence": "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json",
     "reuse_map_evidence": "docs/evidence/P20_0_EXISTING_COVERAGE_REUSE_MAP_2026-09-16.json",
     "next_gate": "P20_1_SOURCE_TAXONOMY_METADATA_CONTRACT_VALIDATED"
+  },
+  "phase20": {
+    "state": "VALIDATED_WITH_KNOWN_LIMITATIONS",
+    "gate": "P20_GLOBAL_SOURCE_COVERAGE_VALIDATED",
+    "decision": "PASS_WITH_KNOWN_LIMITATIONS",
+    "validated_sequence": ["P20.0", "P20.1", "P20.2", "P20.3", "P20.4", "P20.5", "P20.6", "P20.7"],
+    "governed_source_count": 10,
+    "observed_coverage_cell_count": 17,
+    "target_policy_state": "UNSET",
+    "known_origin_source_count": 0,
+    "measured_health_source_count": 0,
+    "unknown_cell_count": 17,
+    "adequate_cell_count": 0,
+    "confirmed_gap_cell_count": 0,
+    "verification_authority": "P13.5/P13.6",
+    "live_source_expansion": false,
+    "runtime_deployment": false,
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "production_live": "NOT_OPERATIONAL",
+    "acceptance_result": "docs/implementation/P20_7_PHASE_20_ACCEPTANCE_RESULT.md",
+    "acceptance_checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-16_PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED.md",
+    "next_strategic_step": "ROADMAP_DECISION_REQUIRED"
   }
 }
