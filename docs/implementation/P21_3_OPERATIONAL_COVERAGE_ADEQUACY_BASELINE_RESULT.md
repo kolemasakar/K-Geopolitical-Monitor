@@ -1,8 +1,8 @@
 # P21.3 Operational Coverage Adequacy Baseline Result
 
 Date: 2026-09-16
-Status: `IMPLEMENTED / VALIDATION_PENDING`
-Gate candidate: `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`
+Status: `VALIDATED`
+Gate: `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`
 
 ## Inputs
 
@@ -64,4 +64,4 @@ P21.3 performs repository/evidence evaluation only. It does not authorize or per
 - Plugin build/publication;
 - production/live activation.
 
-Formal gate grant requires CI success and a separate canonical state-sync/closure update.
+Validation: GitHub CI #1682 / run `35131568836`, job `104913591458`: `1271 passed in 99.74s / SUCCESS`. Merge anchor: `2e0666ed1f2a0b16d0ec3b4dda664664ce151f04`. Formal closure advances the next executable gate to P21.4 without authorizing live source onboarding.
