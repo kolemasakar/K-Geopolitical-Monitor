@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kgm.local/contracts/p20_2_coverage_matrix_policy.schema.json",
+  "title": "KGM Phase 20.2 Coverage Matrix and Target Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["policy_id", "version", "default_requirement_state", "target_cells"],
+  "properties": {
+    "policy_id": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "minLength": 1},
+    "default_requirement_state": {
+      "type": "string",
+      "enum": ["REQUIRED", "OPTIONAL", "NOT_REQUIRED", "UNSET"]
+    },
+    "target_cells": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/targetCell"}
+    }
+  },
+  "$defs": {
+    "sourceType": {
+      "type": "string",
+      "enum": [
+        "OFFICIAL_GOVERNMENT",
+        "INTERNATIONAL_ORGANIZATION",
+        "WIRE_SERVICE",
+        "NATIONAL_MEDIA",
+        "REGIONAL_LOCAL_MEDIA",
+        "DEFENSE_SECURITY",
+        "THINK_TANK_RESEARCH",
+        "PUBLIC_OSINT",
+        "ECONOMIC_ENERGY",
+        "SANCTIONS_REGULATORY",
+        "APPROVED_PUBLIC_SOCIAL",
+        "OTHER_EXPLICITLY_CLASSIFIED"
+      ]
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimum_source_count",
+        "minimum_independent_origin_count",
+        "minimum_healthy_source_count",
+        "maximum_stale_share",
+        "maximum_dominant_origin_share"
+      ],
+      "properties": {
+        "minimum_source_count": {"type": ["integer", "null"], "minimum": 0},
+        "minimum_independent_origin_count": {"type": ["integer", "null"], "minimum": 0},
+        "minimum_healthy_source_count": {"type": ["integer", "null"], "minimum": 0},
+        "maximum_stale_share": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "maximum_dominant_origin_share": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
+      }
+    },
+    "targetCell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cell_id",
+        "geography_scope",
+        "language",
+        "source_type",
+        "topic_role",
+        "requirement_state",
+        "thresholds",
+        "policy_reason"
+      ],
+      "properties": {
+        "cell_id": {"type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+        "geography_scope": {"type": "string", "minLength": 1},
+        "language": {"type": "string", "minLength": 2},
+        "source_type": {"$ref": "#/$defs/sourceType"},
+        "topic_role": {"type": ["string", "null"]},
+        "requirement_state": {
+          "type": "string",
+          "enum": ["REQUIRED", "OPTIONAL", "NOT_REQUIRED", "UNSET"]
+        },
+        "thresholds": {"$ref": "#/$defs/thresholds"},
+        "policy_reason": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

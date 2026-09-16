@@ -1,0 +1,37 @@
+{
+  "schema_version": "kgm.p20.2.observed_coverage_matrix.v1",
+  "baseline": "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json",
+  "taxonomy_reconciliation": "docs/evidence/P20_1_SOURCE_TAXONOMY_RECONCILIATION_2026-09-16.json",
+  "matrix_dimensions": ["geography_scope", "language", "source_type"],
+  "cell_count": 17,
+  "policy_state": "UNSET",
+  "independent_origin_evaluation": "NOT_YET_AVAILABLE_P20_3",
+  "cells": [
+    {"cell_id":"black_sea.tr.national_media","geography_scope":"BLACK_SEA","language":"tr","source_type":"NATIONAL_MEDIA","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"central_europe.pl.national_media","geography_scope":"CENTRAL_EUROPE","language":"pl","source_type":"NATIONAL_MEDIA","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"eastern_europe.ru.national_media","geography_scope":"EASTERN_EUROPE","language":"ru","source_type":"NATIONAL_MEDIA","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"eastern_europe.uk.national_media","geography_scope":"EASTERN_EUROPE","language":"uk","source_type":"NATIONAL_MEDIA","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"eu.en.international_organization","geography_scope":"EU","language":"en","source_type":"INTERNATIONAL_ORGANIZATION","governed_source_count":3,"active_availability_count":2,"degraded_availability_count":1,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"eurasia.en.international_organization","geography_scope":"EURASIA","language":"en","source_type":"INTERNATIONAL_ORGANIZATION","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"eurasia.ru.national_media","geography_scope":"EURASIA","language":"ru","source_type":"NATIONAL_MEDIA","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"europe.en.international_organization","geography_scope":"EUROPE","language":"en","source_type":"INTERNATIONAL_ORGANIZATION","governed_source_count":4,"active_availability_count":3,"degraded_availability_count":1,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"europe.en.official_government","geography_scope":"EUROPE","language":"en","source_type":"OFFICIAL_GOVERNMENT","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"global.multi.public_osint","geography_scope":"GLOBAL","language":"multi","source_type":"PUBLIC_OSINT","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"middle_east.tr.national_media","geography_scope":"MIDDLE_EAST","language":"tr","source_type":"NATIONAL_MEDIA","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"osce.en.international_organization","geography_scope":"OSCE","language":"en","source_type":"INTERNATIONAL_ORGANIZATION","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"poland.pl.national_media","geography_scope":"POLAND","language":"pl","source_type":"NATIONAL_MEDIA","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"russia.ru.national_media","geography_scope":"RUSSIA","language":"ru","source_type":"NATIONAL_MEDIA","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"turkey.tr.national_media","geography_scope":"TURKEY","language":"tr","source_type":"NATIONAL_MEDIA","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"ukraine.uk.national_media","geography_scope":"UKRAINE","language":"uk","source_type":"NATIONAL_MEDIA","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"},
+    {"cell_id":"united_kingdom.en.official_government","geography_scope":"UNITED_KINGDOM","language":"en","source_type":"OFFICIAL_GOVERNMENT","governed_source_count":1,"active_availability_count":1,"degraded_availability_count":0,"independent_origin_count":null,"coverage_status":"POLICY_UNSET"}
+  ],
+  "zero_coverage_semantics": "A zero-coverage cell is represented only when declared by target policy; absence from observed cells does not mean NOT_REQUIRED.",
+  "safety_boundary": {
+    "live_source_expansion": false,
+    "live_ingest_change": false,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "paid_or_shared_resources_authorized": false
+  }
+}
