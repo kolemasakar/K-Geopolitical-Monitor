@@ -82,12 +82,11 @@ def test_activation_preflight_is_separate_from_phase18_readiness_and_activation(
     assert PREFLIGHT_AUTH in plan
     assert PREFLIGHT_AUTH in checkpoint
 
-    # The strategic roadmap/machine state remains the validated P18.9 closure
-    # until the separate activation workstream reaches a formal synchronization gate.
-    assert state["roadmap"]["state_sync_version"] == "4.36"
-    assert state["roadmap"]["current_position"] == (
-        "PHASE_20_P20_0_VALIDATED_P20_1_READY"
-    )
+    # Later roadmap synchronization may advance the strategic phase while the
+    # separate Phase 18 activation boundary remains frozen and fail-closed.
+    major, minor = state["roadmap"]["state_sync_version"].split(".", 1)
+    assert major == "4"
+    assert int(minor) >= 36
     assert state["activation_gates"]["phase18_readiness"] == READINESS_GATE
     assert state["activation_gates"]["phase18_activation"] == ACTIVE_NO
 
