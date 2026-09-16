@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.41
+Version: 4.42
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -540,7 +540,7 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-07_P18_6_SHARED_RUNTIME
 
 Exact implementation validation:
 - PR #26 CI run `34154201285`, job `101842505507`: `963 passed in 90.80s / SUCCESS`;
-- exact-main x64 run `34154397826`, job `101843094272`: `963 passed in 143.97s / SUCCESS`;
+- exact-main x64 run `34154397826`, job `101843094272`: `963 passed in 143.97s / SUCCESS`, dependency check PASS;
 - exact-main native ARM64 run `34154397829`, job `101843094702`: native `aarch64`, `963 passed in 162.34s / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Validated security contract: shared application configuration is HTTPS-only; shared datastore configuration forbids public ingress and requires encrypted transport; secret references, recursive redaction and fail-closed surface review prevent private secret material from ordinary public/non-sensitive/log/export/backup metadata surfaces; shared identity is issuer-scoped and membership/RBAC/retry identity are issuer-aware; session credential rebinding fails closed; IDOR, structured-query/injection, SSRF, CSRF-where-applicable, privilege-escalation and tenant resource-abuse controls are explicitly negative-tested; security-event audit evidence remains tenant-scoped, redacted and truth-neutral.
@@ -575,8 +575,8 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-08_P18_8_NONPROD_SHADOW
 
 Exact implementation validation:
 - PR #32 branch CI run `34172333125`, job `101894888146`: `1077 passed in 114.49s / SUCCESS`, dependency check PASS;
-- exact-main x64 run `34172531605`, job `101895457213`: exact `5cb0c4075c709c2f32c62857de7b577d04a90da6`, `1077 passed in 141.19s / SUCCESS`, dependency check PASS;
-- exact-main native ARM64 run `34172531604`, job `101895457340`: exact `5cb0c4075c709c2f32c62857de7b577d04a90da6`, native `aarch64`, `1077 passed in 102.82s / SUCCESS`, dependency check, bootstrap, unattended one-tick and systemd contract PASS; unattended smoke `execution_count=0`, `recovered_runs=0`.
+- exact-main x64 run `34172531605`, job `101895457999`: `1077 passed in 141.19s / SUCCESS`, dependency check PASS;
+- exact-main native ARM64 run `34172531604`, job `101895457340`: native `aarch64`, `1077 passed in 102.82s / SUCCESS`, bootstrap, unattended one-tick and systemd contract PASS; unattended smoke `execution_count=0`, `recovered_runs=0`.
 
 Validated shadow/canary contract: provenance-bound owner-local snapshots load only into an isolated provider-neutral read-only non-production candidate; imported tables must belong to the approved target schema; cross-tenant import, overwrite, writes and unapproved table reads fail closed; row-count/content/semantic drift is explicit and budgetable only when non-fatal; tenant, schema and invariant mismatches are always fatal; P18.4/P18.6/P18.7 contract evidence is composed without inventing infrastructure observations; provider selection/spend remains separately owner-gated; staged canary design is read-only and cannot auto-promote, cut over, activate shared runtime or authorize production/live.
 
@@ -689,7 +689,7 @@ Acceptance validates the deterministic coverage framework and explicit limitatio
 At Phase 20 closure no subsequent strategic phase was yet authorized. That historical state was later superseded by the explicit owner approval of Phase 21 on 2026-09-16.
 
 ## Phase 21 — Source Network Operational Adequacy & Evidence Population
-State: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_OWNER_DECISION_REQUIRED`
+State: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_AUTHORIZED_WAVE_A_READY`
 Roadmap decision: `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
 Implementation plan: `docs/implementation/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_PLAN.md`
 
@@ -743,8 +743,9 @@ Merge anchor: `277b219726008c70671cf4d804c857c98f8ab0c4`.
 Validated planning baseline: `32` non-adequate cells in `6` policy-derived waves, deterministic minimum deficits `49 source paths / 49 healthy-source positions / 54 origin-evidence positions`. This is a planning artifact only; it does not authorize onboarding. CI #1710: `1281 passed in 115.53s / SUCCESS`.
 
 ### P21.5 — Controlled Public/Free Source Onboarding
-State: `OWNER_DECISION_REQUIRED_BEFORE_LIVE_EXPANSION / NOT_STARTED`
+State: `AUTHORIZED / WAVE_A_READY_TO_BEGIN`
 Gate: `P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED`
+Owner decision: `docs/decisions/P21_5_CONTROLLED_SOURCE_ONBOARDING_OWNER_ACTIVATION_2026-09-16.md`
 
 ### P21.6 — Intelligence Quality Impact Validation
 State: `PLANNED`
@@ -759,7 +760,7 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.41`;
+- state synchronization: `v4.42`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -794,14 +795,14 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 - Phase 20: `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - P20.0–P20.6: `VALIDATED`;
 - P20.7: `PASS_WITH_KNOWN_LIMITATIONS`;
-- Phase 21: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_OWNER_DECISION_REQUIRED`;
+- Phase 21: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_AUTHORIZED_WAVE_A_READY`;
 - P21.0: `P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED`;
 - P21.0 approved global baseline: `33 cells / 20 geography scopes / 15 language labels / default UNSET`;
 - P21.1: `P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED`;
 - P21.2: `P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED / VALIDATED_WITH_MEASURED_DEGRADATION`;
 - P21.3: `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`;
 - P21.4: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`;
-- P21.5: `OWNER_DECISION_REQUIRED_BEFORE_LIVE_EXPANSION / NOT_STARTED`;
+- P21.5: `AUTHORIZED / WAVE_A_READY_TO_BEGIN`;
 - Phase 18 shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
 - migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
@@ -818,4 +819,4 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 
 Phase 17 readiness remains strategically validated, but its 2026-09-05 account-capability block is now historical for the legacy publication surface. Future ChatGPT-facing publication is Plugin-first and requires `PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED` plus a separate owner activation decision and fresh launch-time validation. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 remains `NOT_ACTIVATED`: real external infrastructure observations remain `NOT_OBSERVED`, `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`, migration `033` is not created or preauthorized, no provider spending/selection is approved, and production/live remains not operational.
 
-Phase 20 remains closed at `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. Phase 21 is the active strategic development block. P21.0-P21.4 are validated; P21.2 preserves measured degradation rather than masking it. The project is stopped at the P21.5 owner gate. No live source expansion is authorized until a separate explicit owner decision starts P21.5.
+Phase 20 remains closed at `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. Phase 21 is the active strategic development block. P21.0-P21.4 are validated; P21.2 preserves measured degradation rather than masking it. P21.5 is owner-authorized for bounded public/free onboarding, beginning with Wave A. Deployed runtime, paid/shared resources, production/live cutover and Plugin/publication remain unauthorized.
