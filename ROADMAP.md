@@ -198,7 +198,7 @@ Implementation validation:
 Formal closure HEAD: `d2e80fe8a1bd998ca422be1e1001744be0e9e6e3`.
 Formal closure validation:
 - x64 run `33856550956`, job `100971101911`: `480 passed, 2 warnings / SUCCESS`;
-- native ARM64 run `33856550913`, job `100971101835`: native `aarch64`, `480 passed, 2 warnings / SUCCESS`, bootstrap/unattended/systemd PASS.
+- native ARM64 run `33856550913`, job `100971101835`: native `aarch64`, `480 passed in 110.50s / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Validated model:
 - migration `027_semantic_verification_policy_confidence.sql` adds append-only policy, multidimensional factual-confidence and decision histories;
@@ -540,7 +540,7 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-07_P18_6_SHARED_RUNTIME
 
 Exact implementation validation:
 - PR #26 CI run `34154201285`, job `101842505507`: `963 passed in 90.80s / SUCCESS`;
-- exact-main x64 run `34154397826`, job `101843094272`: `963 passed in 143.97s / SUCCESS`, dependency check PASS;
+- exact-main x64 run `34154397826`, job `101843094272`: `963 passed in 143.97s / SUCCESS`;
 - exact-main native ARM64 run `34154397829`, job `101843094702`: native `aarch64`, `963 passed in 162.34s / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Validated security contract: shared application configuration is HTTPS-only; shared datastore configuration forbids public ingress and requires encrypted transport; secret references, recursive redaction and fail-closed surface review prevent private secret material from ordinary public/non-sensitive/log/export/backup metadata surfaces; shared identity is issuer-scoped and membership/RBAC/retry identity are issuer-aware; session credential rebinding fails closed; IDOR, structured-query/injection, SSRF, CSRF-where-applicable, privilege-escalation and tenant resource-abuse controls are explicitly negative-tested; security-event audit evidence remains tenant-scoped, redacted and truth-neutral.
@@ -575,8 +575,8 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-08_P18_8_NONPROD_SHADOW
 
 Exact implementation validation:
 - PR #32 branch CI run `34172333125`, job `101894888146`: `1077 passed in 114.49s / SUCCESS`, dependency check PASS;
-- exact-main x64 run `34172531605`, job `101895457999`: `1077 passed in 141.19s / SUCCESS`, dependency check PASS;
-- exact-main native ARM64 run `34172531604`, job `101895457340`: native `aarch64`, `1077 passed in 102.82s / SUCCESS`, bootstrap, unattended one-tick and systemd contract PASS; unattended smoke `execution_count=0`, `recovered_runs=0`.
+- exact-main x64 run `34172531605`, job `101895457213`: exact `5cb0c4075c709c2f32c62857de7b577d04a90da6`, `1077 passed in 141.19s / SUCCESS`, dependency check PASS;
+- exact-main native ARM64 run `34172531604`, job `101895457340`: exact `5cb0c4075c709c2f32c62857de7b577d04a90da6`, native `aarch64`, `1077 passed in 102.82s / SUCCESS`, dependency check, bootstrap, unattended one-tick and systemd contract PASS; unattended smoke `execution_count=0`, `recovered_runs=0`.
 
 Validated shadow/canary contract: provenance-bound owner-local snapshots load only into an isolated provider-neutral read-only non-production candidate; imported tables must belong to the approved target schema; cross-tenant import, overwrite, writes and unapproved table reads fail closed; row-count/content/semantic drift is explicit and budgetable only when non-fatal; tenant, schema and invariant mismatches are always fatal; P18.4/P18.6/P18.7 contract evidence is composed without inventing infrastructure observations; provider selection/spend remains separately owner-gated; staged canary design is read-only and cannot auto-promote, cut over, activate shared runtime or authorize production/live.
 
