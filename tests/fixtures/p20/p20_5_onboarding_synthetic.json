@@ -1,0 +1,65 @@
+{
+  "schema_version": "kgm.p20.5.onboarding.synthetic.v1",
+  "cases": [
+    {
+      "case_id": "valid-public-unknown-provenance",
+      "input": {"source_id":"fixture-news-uk","display_name":"Fixture News UK","source_type":"REGIONAL_LOCAL_MEDIA","geography_scope":["UKRAINE"],"language_scope":["uk"],"primary_domain_or_endpoint":"https://fixture.invalid/rss","collection_method":"RSS","access_mode":"PUBLIC_ANONYMOUS","cost_mode":"FREE","authentication_mode":"NONE","data_classification":"PUBLIC","resource_authorization_state":"NOT_REQUIRED","expected_freshness_minutes":60,"collection_cadence_minutes":30,"health_behavior_status":"PASS","fixture_validation_status":"PASS","rollback_disable_status":"PASS","governance_review_status":"APPROVED","origin_group_id":null,"syndication_or_copy_relation":null,"provenance_completeness":"UNKNOWN","activation_requested":false},
+      "expected": {"eligibility_decision":"ELIGIBLE_NOT_ACTIVE","reason_codes":[],"independence_credit_granted":false,"live_activation_authorized":false,"live_activation_state":"NOT_ACTIVE"}
+    },
+    {
+      "case_id": "valid-public-known-provenance",
+      "input": {"source_id":"fixture-official-eu","display_name":"Fixture Official EU","source_type":"INTERNATIONAL_ORGANIZATION","geography_scope":["EU","EUROPE"],"language_scope":["en"],"primary_domain_or_endpoint":"https://fixture.invalid/feed","collection_method":"ATOM","access_mode":"PUBLIC_ANONYMOUS","cost_mode":"FREE","authentication_mode":"NONE","data_classification":"PUBLIC","resource_authorization_state":"NOT_REQUIRED","expected_freshness_minutes":120,"collection_cadence_minutes":60,"health_behavior_status":"PASS","fixture_validation_status":"PASS","rollback_disable_status":"PASS","governance_review_status":"APPROVED","origin_group_id":"origin-fixture-eu","syndication_or_copy_relation":"ORIGINAL","provenance_completeness":"KNOWN","activation_requested":false},
+      "expected": {"eligibility_decision":"ELIGIBLE_NOT_ACTIVE","reason_codes":[],"independence_credit_granted":false,"live_activation_authorized":false,"live_activation_state":"NOT_ACTIVE"}
+    },
+    {
+      "case_id": "invalid-source-id",
+      "input": {"source_id":"Invalid Source ID","display_name":"Invalid ID","source_type":"NATIONAL_MEDIA","geography_scope":["EUROPE"],"language_scope":["en"],"primary_domain_or_endpoint":"https://fixture.invalid/rss","collection_method":"RSS","access_mode":"PUBLIC_ANONYMOUS","cost_mode":"FREE","authentication_mode":"NONE","data_classification":"PUBLIC","resource_authorization_state":"NOT_REQUIRED","expected_freshness_minutes":60,"collection_cadence_minutes":30,"health_behavior_status":"PASS","fixture_validation_status":"PASS","rollback_disable_status":"PASS","governance_review_status":"APPROVED","origin_group_id":null,"syndication_or_copy_relation":null,"provenance_completeness":"UNKNOWN","activation_requested":false},
+      "expected": {"eligibility_decision":"BLOCKED","reason_codes":["SOURCE_ID_INVALID"],"independence_credit_granted":false,"live_activation_authorized":false,"live_activation_state":"NOT_ACTIVE"}
+    },
+    {
+      "case_id": "missing-language",
+      "input": {"source_id":"fixture-missing-language","display_name":"Missing Language","source_type":"NATIONAL_MEDIA","geography_scope":["EUROPE"],"language_scope":[],"primary_domain_or_endpoint":"https://fixture.invalid/rss","collection_method":"RSS","access_mode":"PUBLIC_ANONYMOUS","cost_mode":"FREE","authentication_mode":"NONE","data_classification":"PUBLIC","resource_authorization_state":"NOT_REQUIRED","expected_freshness_minutes":60,"collection_cadence_minutes":30,"health_behavior_status":"PASS","fixture_validation_status":"PASS","rollback_disable_status":"PASS","governance_review_status":"APPROVED","origin_group_id":null,"syndication_or_copy_relation":null,"provenance_completeness":"UNKNOWN","activation_requested":false},
+      "expected": {"eligibility_decision":"BLOCKED","reason_codes":["LANGUAGE_SCOPE_MISSING"],"independence_credit_granted":false,"live_activation_authorized":false,"live_activation_state":"NOT_ACTIVE"}
+    },
+    {
+      "case_id": "health-behavior-missing",
+      "input": {"source_id":"fixture-health-missing","display_name":"Health Missing","source_type":"PUBLIC_OSINT","geography_scope":["GLOBAL"],"language_scope":["en"],"primary_domain_or_endpoint":"https://fixture.invalid/api","collection_method":"API_PUBLIC","access_mode":"PUBLIC_ANONYMOUS","cost_mode":"FREE","authentication_mode":"NONE","data_classification":"PUBLIC","resource_authorization_state":"NOT_REQUIRED","expected_freshness_minutes":30,"collection_cadence_minutes":15,"health_behavior_status":"MISSING","fixture_validation_status":"PASS","rollback_disable_status":"PASS","governance_review_status":"APPROVED","origin_group_id":null,"syndication_or_copy_relation":null,"provenance_completeness":"UNKNOWN","activation_requested":false},
+      "expected": {"eligibility_decision":"BLOCKED","reason_codes":["HEALTH_BEHAVIOR_NOT_PASS"],"independence_credit_granted":false,"live_activation_authorized":false,"live_activation_state":"NOT_ACTIVE"}
+    },
+    {
+      "case_id": "fixture-validation-failed",
+      "input": {"source_id":"fixture-test-failed","display_name":"Fixture Failed","source_type":"NATIONAL_MEDIA","geography_scope":["EUROPE"],"language_scope":["en"],"primary_domain_or_endpoint":"https://fixture.invalid/rss","collection_method":"RSS","access_mode":"PUBLIC_ANONYMOUS","cost_mode":"FREE","authentication_mode":"NONE","data_classification":"PUBLIC","resource_authorization_state":"NOT_REQUIRED","expected_freshness_minutes":60,"collection_cadence_minutes":30,"health_behavior_status":"PASS","fixture_validation_status":"FAIL","rollback_disable_status":"PASS","governance_review_status":"APPROVED","origin_group_id":null,"syndication_or_copy_relation":null,"provenance_completeness":"UNKNOWN","activation_requested":false},
+      "expected": {"eligibility_decision":"BLOCKED","reason_codes":["FIXTURE_VALIDATION_NOT_PASS"],"independence_credit_granted":false,"live_activation_authorized":false,"live_activation_state":"NOT_ACTIVE"}
+    },
+    {
+      "case_id": "rollback-missing",
+      "input": {"source_id":"fixture-no-rollback","display_name":"No Rollback","source_type":"NATIONAL_MEDIA","geography_scope":["EUROPE"],"language_scope":["en"],"primary_domain_or_endpoint":"https://fixture.invalid/rss","collection_method":"RSS","access_mode":"PUBLIC_ANONYMOUS","cost_mode":"FREE","authentication_mode":"NONE","data_classification":"PUBLIC","resource_authorization_state":"NOT_REQUIRED","expected_freshness_minutes":60,"collection_cadence_minutes":30,"health_behavior_status":"PASS","fixture_validation_status":"PASS","rollback_disable_status":"MISSING","governance_review_status":"APPROVED","origin_group_id":null,"syndication_or_copy_relation":null,"provenance_completeness":"UNKNOWN","activation_requested":false},
+      "expected": {"eligibility_decision":"BLOCKED","reason_codes":["ROLLBACK_DISABLE_NOT_PASS"],"independence_credit_granted":false,"live_activation_authorized":false,"live_activation_state":"NOT_ACTIVE"}
+    },
+    {
+      "case_id": "governance-pending",
+      "input": {"source_id":"fixture-review-pending","display_name":"Review Pending","source_type":"NATIONAL_MEDIA","geography_scope":["EUROPE"],"language_scope":["en"],"primary_domain_or_endpoint":"https://fixture.invalid/rss","collection_method":"RSS","access_mode":"PUBLIC_ANONYMOUS","cost_mode":"FREE","authentication_mode":"NONE","data_classification":"PUBLIC","resource_authorization_state":"NOT_REQUIRED","expected_freshness_minutes":60,"collection_cadence_minutes":30,"health_behavior_status":"PASS","fixture_validation_status":"PASS","rollback_disable_status":"PASS","governance_review_status":"PENDING","origin_group_id":null,"syndication_or_copy_relation":null,"provenance_completeness":"UNKNOWN","activation_requested":false},
+      "expected": {"eligibility_decision":"BLOCKED","reason_codes":["GOVERNANCE_NOT_APPROVED"],"independence_credit_granted":false,"live_activation_authorized":false,"live_activation_state":"NOT_ACTIVE"}
+    },
+    {
+      "case_id": "governance-rejected",
+      "input": {"source_id":"fixture-review-rejected","display_name":"Review Rejected","source_type":"NATIONAL_MEDIA","geography_scope":["EUROPE"],"language_scope":["en"],"primary_domain_or_endpoint":"https://fixture.invalid/rss","collection_method":"RSS","access_mode":"PUBLIC_ANONYMOUS","cost_mode":"FREE","authentication_mode":"NONE","data_classification":"PUBLIC","resource_authorization_state":"NOT_REQUIRED","expected_freshness_minutes":60,"collection_cadence_minutes":30,"health_behavior_status":"PASS","fixture_validation_status":"PASS","rollback_disable_status":"PASS","governance_review_status":"REJECTED","origin_group_id":null,"syndication_or_copy_relation":null,"provenance_completeness":"UNKNOWN","activation_requested":false},
+      "expected": {"eligibility_decision":"REJECTED","reason_codes":["GOVERNANCE_REJECTED"],"independence_credit_granted":false,"live_activation_authorized":false,"live_activation_state":"NOT_ACTIVE"}
+    },
+    {
+      "case_id": "paid-resource-not-approved",
+      "input": {"source_id":"fixture-paid","display_name":"Paid Fixture","source_type":"WIRE_SERVICE","geography_scope":["GLOBAL"],"language_scope":["en"],"primary_domain_or_endpoint":"https://fixture.invalid/api","collection_method":"API_PUBLIC","access_mode":"PUBLIC_AUTHENTICATED","cost_mode":"PAID","authentication_mode":"API_KEY","data_classification":"PUBLIC","resource_authorization_state":"NOT_APPROVED","expected_freshness_minutes":15,"collection_cadence_minutes":5,"health_behavior_status":"PASS","fixture_validation_status":"PASS","rollback_disable_status":"PASS","governance_review_status":"APPROVED","origin_group_id":null,"syndication_or_copy_relation":null,"provenance_completeness":"UNKNOWN","activation_requested":false},
+      "expected": {"eligibility_decision":"BLOCKED","reason_codes":["RESOURCE_AUTHORIZATION_REQUIRED"],"independence_credit_granted":false,"live_activation_authorized":false,"live_activation_state":"NOT_ACTIVE"}
+    },
+    {
+      "case_id": "secret-auth-not-approved",
+      "input": {"source_id":"fixture-secret","display_name":"Secret Fixture","source_type":"PUBLIC_OSINT","geography_scope":["GLOBAL"],"language_scope":["en"],"primary_domain_or_endpoint":"https://fixture.invalid/api","collection_method":"API_PUBLIC","access_mode":"PUBLIC_AUTHENTICATED","cost_mode":"FREE","authentication_mode":"TOKEN","data_classification":"PUBLIC","resource_authorization_state":"NOT_APPROVED","expected_freshness_minutes":30,"collection_cadence_minutes":15,"health_behavior_status":"PASS","fixture_validation_status":"PASS","rollback_disable_status":"PASS","governance_review_status":"APPROVED","origin_group_id":null,"syndication_or_copy_relation":null,"provenance_completeness":"UNKNOWN","activation_requested":false},
+      "expected": {"eligibility_decision":"BLOCKED","reason_codes":["RESOURCE_AUTHORIZATION_REQUIRED"],"independence_credit_granted":false,"live_activation_authorized":false,"live_activation_state":"NOT_ACTIVE"}
+    },
+    {
+      "case_id": "activation-requested-inside-p20-5",
+      "input": {"source_id":"fixture-activation-request","display_name":"Activation Request","source_type":"NATIONAL_MEDIA","geography_scope":["EUROPE"],"language_scope":["en"],"primary_domain_or_endpoint":"https://fixture.invalid/rss","collection_method":"RSS","access_mode":"PUBLIC_ANONYMOUS","cost_mode":"FREE","authentication_mode":"NONE","data_classification":"PUBLIC","resource_authorization_state":"NOT_REQUIRED","expected_freshness_minutes":60,"collection_cadence_minutes":30,"health_behavior_status":"PASS","fixture_validation_status":"PASS","rollback_disable_status":"PASS","governance_review_status":"APPROVED","origin_group_id":null,"syndication_or_copy_relation":null,"provenance_completeness":"UNKNOWN","activation_requested":true},
+      "expected": {"eligibility_decision":"BLOCKED","reason_codes":["LIVE_ACTIVATION_OUT_OF_SCOPE"],"independence_credit_granted":false,"live_activation_authorized":false,"live_activation_state":"NOT_ACTIVE"}
+    }
+  ]
+}
