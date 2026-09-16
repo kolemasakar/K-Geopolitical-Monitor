@@ -1,0 +1,65 @@
+{
+  "schema_version": "kgm.p20.4.collection_health.synthetic.v1",
+  "cases": [
+    {
+      "case_id": "healthy-current",
+      "input": {"registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":"SUCCESS","attempt_age_minutes":10,"content_age_minutes":20,"error_class":"NONE","disable_expected":null,"recovery_coverage_state":"COMPLETE"},
+      "expected": {"collection_latency_state":"WITHIN_EXPECTATION","content_latency_state":"WITHIN_EXPECTATION","missing_source_state":"PRESENT_MEASURED","health_state":"HEALTHY","evaluation_completeness":"COMPLETE"}
+    },
+    {
+      "case_id": "healthy-current-recovery-gap",
+      "input": {"registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":"SUCCESS","attempt_age_minutes":10,"content_age_minutes":20,"error_class":"NONE","disable_expected":null,"recovery_coverage_state":"GAP"},
+      "expected": {"collection_latency_state":"WITHIN_EXPECTATION","content_latency_state":"WITHIN_EXPECTATION","missing_source_state":"PRESENT_MEASURED","health_state":"HEALTHY","evaluation_completeness":"COMPLETE"}
+    },
+    {
+      "case_id": "collector-healthy-no-content",
+      "input": {"registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":"SUCCESS","attempt_age_minutes":10,"content_age_minutes":null,"error_class":"NONE","disable_expected":null,"recovery_coverage_state":"NOT_APPLICABLE"},
+      "expected": {"collection_latency_state":"WITHIN_EXPECTATION","content_latency_state":"NO_CONTENT_OBSERVED","missing_source_state":"PRESENT_MEASURED","health_state":"NO_RECENT_CONTENT_BUT_COLLECTOR_HEALTHY","evaluation_completeness":"COMPLETE"}
+    },
+    {
+      "case_id": "collector-healthy-stale-content",
+      "input": {"registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":"SUCCESS","attempt_age_minutes":10,"content_age_minutes":120,"error_class":"NONE","disable_expected":null,"recovery_coverage_state":"NOT_APPLICABLE"},
+      "expected": {"collection_latency_state":"WITHIN_EXPECTATION","content_latency_state":"EXCEEDED_EXPECTATION","missing_source_state":"PRESENT_MEASURED","health_state":"NO_RECENT_CONTENT_BUT_COLLECTOR_HEALTHY","evaluation_completeness":"COMPLETE"}
+    },
+    {
+      "case_id": "stale-collection-measurement",
+      "input": {"registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":"SUCCESS","attempt_age_minutes":181,"content_age_minutes":20,"error_class":"NONE","disable_expected":null,"recovery_coverage_state":"UNKNOWN"},
+      "expected": {"collection_latency_state":"EXCEEDED_EXPECTATION","content_latency_state":"WITHIN_EXPECTATION","missing_source_state":"PRESENT_MEASURED","health_state":"STALE","evaluation_completeness":"COMPLETE"}
+    },
+    {
+      "case_id": "transport-unreachable",
+      "input": {"registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":"FAILED","attempt_age_minutes":5,"content_age_minutes":null,"error_class":"TRANSPORT","disable_expected":null,"recovery_coverage_state":"UNKNOWN"},
+      "expected": {"collection_latency_state":"WITHIN_EXPECTATION","content_latency_state":"UNKNOWN","missing_source_state":"PRESENT_MEASURED","health_state":"UNREACHABLE","evaluation_completeness":"COMPLETE"}
+    },
+    {
+      "case_id": "parser-degraded",
+      "input": {"registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":240,"collection_cadence_minutes":120,"last_attempt_status":"FAILED","attempt_age_minutes":5,"content_age_minutes":null,"error_class":"PARSER","disable_expected":null,"recovery_coverage_state":"UNKNOWN"},
+      "expected": {"collection_latency_state":"WITHIN_EXPECTATION","content_latency_state":"UNKNOWN","missing_source_state":"PRESENT_MEASURED","health_state":"DEGRADED","evaluation_completeness":"COMPLETE"}
+    },
+    {
+      "case_id": "governance-degraded-success",
+      "input": {"registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"DEGRADED","expected_freshness_minutes":240,"collection_cadence_minutes":120,"last_attempt_status":"SUCCESS","attempt_age_minutes":5,"content_age_minutes":30,"error_class":"NONE","disable_expected":null,"recovery_coverage_state":"NOT_APPLICABLE"},
+      "expected": {"collection_latency_state":"WITHIN_EXPECTATION","content_latency_state":"WITHIN_EXPECTATION","missing_source_state":"PRESENT_MEASURED","health_state":"DEGRADED","evaluation_completeness":"COMPLETE"}
+    },
+    {
+      "case_id": "disabled-expected",
+      "input": {"registration_state":"REGISTERED_DISABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"disable_expected":true,"recovery_coverage_state":"NOT_APPLICABLE"},
+      "expected": {"collection_latency_state":"NOT_APPLICABLE","content_latency_state":"NOT_APPLICABLE","missing_source_state":"DISABLED_EXPECTED","health_state":"DISABLED_EXPECTED","evaluation_completeness":"COMPLETE"}
+    },
+    {
+      "case_id": "disabled-unexpected",
+      "input": {"registration_state":"REGISTERED_DISABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"disable_expected":false,"recovery_coverage_state":"UNKNOWN"},
+      "expected": {"collection_latency_state":"NOT_APPLICABLE","content_latency_state":"NOT_APPLICABLE","missing_source_state":"DISABLED_UNEXPECTED","health_state":"DISABLED_UNEXPECTED","evaluation_completeness":"COMPLETE"}
+    },
+    {
+      "case_id": "registered-unmeasured",
+      "input": {"registration_state":"REGISTERED_ENABLED","portfolio_availability_state":"ACTIVE","expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"disable_expected":null,"recovery_coverage_state":"UNKNOWN"},
+      "expected": {"collection_latency_state":"UNKNOWN","content_latency_state":"UNKNOWN","missing_source_state":"PRESENT_UNMEASURED","health_state":"UNKNOWN","evaluation_completeness":"UNKNOWN"}
+    },
+    {
+      "case_id": "expected-not-registered",
+      "input": {"registration_state":"EXPECTED_NOT_REGISTERED","portfolio_availability_state":null,"expected_freshness_minutes":60,"collection_cadence_minutes":30,"last_attempt_status":null,"attempt_age_minutes":null,"content_age_minutes":null,"error_class":null,"disable_expected":null,"recovery_coverage_state":"UNKNOWN"},
+      "expected": {"collection_latency_state":"NOT_APPLICABLE","content_latency_state":"NOT_APPLICABLE","missing_source_state":"EXPECTED_NOT_REGISTERED","health_state":"UNKNOWN","evaluation_completeness":"UNKNOWN"}
+    }
+  ]
+}
