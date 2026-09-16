@@ -1,0 +1,51 @@
+name: Temporary P21.3 closure ROADMAP sync
+
+on:
+  push:
+    branches:
+      - phase21/p21-3-closure-p21-4-ready
+    paths:
+      - .github/workflows/p21-3-closure-sync-temporary.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync-roadmap:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: phase21/p21-3-closure-p21-4-ready
+      - name: Apply bounded ROADMAP state sync
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path("ROADMAP.md")
+          t = p.read_text(encoding="utf-8")
+          replacements = [
+              ("Version: 4.39", "Version: 4.40"),
+              ("State: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_READY`", "State: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_READY`"),
+              ("### P21.3 — Coverage Adequacy Baseline v1\nState: `READY_TO_BEGIN`\nGate: `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`", "### P21.3 — Coverage Adequacy Baseline v1\nState: `VALIDATED`\nGate: `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`\nResult: `docs/implementation/P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_RESULT.md`\nMachine report: `docs/evidence/P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_2026-09-16.json`\nOperator report: `docs/evidence/P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_2026-09-16.md`\nMerge anchor: `2e0666ed1f2a0b16d0ec3b4dda664664ce151f04`.\n\nValidated baseline: 33 policy target cells -> `1 ADEQUATE / 10 THIN / 21 MISSING_EXPECTED_COVERAGE / 1 DEGRADED_COLLECTION / 0 UNKNOWN`. Required cells: `1 ADEQUATE / 5 THIN / 21 MISSING_EXPECTED_COVERAGE`. `eu.en.international_organization` is the only currently adequate cell; `global.multi.public_osint` remains degraded by the fresh GDELT HTTP 429 measurement. CI #1682: `1271 passed in 99.74s / SUCCESS`."),
+              ("### P21.4 — Gap-Driven Source Expansion Plan\nState: `PLANNED`", "### P21.4 — Gap-Driven Source Expansion Plan\nState: `READY_TO_BEGIN`"),
+              ("- state synchronization: `v4.39`;", "- state synchronization: `v4.40`;"),
+              ("- Phase 21: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_READY`;", "- Phase 21: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_READY`;"),
+              ("- P21.3: `READY_TO_BEGIN`;", "- P21.3: `P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_VALIDATED`;\n- P21.4: `READY_TO_BEGIN`;"),
+              ("Canonical current position: `PHASE_21_P21_2_VALIDATED_P21_3_READY`.", "Canonical current position: `PHASE_21_P21_3_VALIDATED_P21_4_READY`."),
+              ("Phase 21 is the active strategic development block. P21.0, P21.1 and P21.2 are validated; P21.2 preserves measured degradation rather than masking it. P21.3 operational coverage adequacy baseline is the next executable gate. No live source expansion is authorized before the separately owner-gated P21.5 step.", "Phase 21 is the active strategic development block. P21.0-P21.3 are validated; P21.2 preserves measured degradation rather than masking it. P21.4 gap-driven source expansion planning is the next executable gate. No live source expansion is authorized before the separately owner-gated P21.5 step.")
+          ]
+          for old, new in replacements:
+              if old not in t:
+                  raise SystemExit(f"missing expected ROADMAP fragment: {old[:80]!r}")
+              t = t.replace(old, new, 1)
+          p.write_text(t, encoding="utf-8")
+      - name: Verify and commit
+        run: |
+          git diff --check
+          grep -q 'Version: 4.40' ROADMAP.md
+          grep -q 'PHASE_21_P21_3_VALIDATED_P21_4_READY' ROADMAP.md
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add ROADMAP.md
+          git commit -m 'Synchronize ROADMAP through P21.3 closure'
+          git push origin HEAD:phase21/p21-3-closure-p21-4-ready
