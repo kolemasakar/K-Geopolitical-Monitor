@@ -65,7 +65,7 @@ def test_a2_3_workflow_uses_ephemeral_postgres_and_owner_local_runtime() -> None
 def test_a2_3_does_not_relax_activation_or_migration_033_gates() -> None:
     state = json.loads(STATE.read_text(encoding="utf-8"))
 
-    assert state["roadmap"]["state_sync_version"] == "4.35"
+    assert state["roadmap"]["state_sync_version"] == "4.36"
     assert state["activation_gates"]["phase18_activation"] == (
         "PHASE_18_SHARED_RUNTIME_ACTIVE = NO"
     )

@@ -1,0 +1,191 @@
+{
+  "schema_version": "kgm.p20.0.existing_coverage_baseline.v1",
+  "canonical_base": "5c9e2b0dc8f7741c08e035f2f3f38f6afa3ced93",
+  "generated_from": "install_phase12_health_probe_governance",
+  "mode": "READ_ONLY_TEMP_RUNTIME",
+  "source_count": 10,
+  "availability_summary": {
+    "ACTIVE": 9,
+    "DEGRADED": 1
+  },
+  "access_summary": {
+    "PUBLIC_ANONYMOUS": 10
+  },
+  "cost_summary": {
+    "FREE": 10
+  },
+  "data_classification_summary": {
+    "PUBLIC": 10
+  },
+  "review_summary": {
+    "APPROVED": 10
+  },
+  "paid_provider_approved_count": 0,
+  "language_labels": ["en", "multi", "pl", "ru", "tr", "uk"],
+  "region_labels": [
+    "BLACK_SEA",
+    "CENTRAL_EUROPE",
+    "EASTERN_EUROPE",
+    "EU",
+    "EURASIA",
+    "EUROPE",
+    "GLOBAL",
+    "MIDDLE_EAST",
+    "OSCE",
+    "POLAND",
+    "RUSSIA",
+    "TURKEY",
+    "UKRAINE",
+    "UNITED_KINGDOM"
+  ],
+  "independent_origin_count": null,
+  "independent_origin_count_reason": "The current P12 source portfolio does not define a canonical source-level origin_group_id. Publisher/domain/language/adapter counts must not be treated as independent-origin counts.",
+  "sources": [
+    {
+      "source_id": "consilium-press-releases",
+      "source_name": "Council of the EU / European Council Press Releases",
+      "source_class": "Official sources",
+      "source_role": "OFFICIAL",
+      "region_scope": ["EU", "EUROPE"],
+      "language_scope": ["en"],
+      "expected_freshness_minutes": 240,
+      "collection_cadence_minutes": 120,
+      "adapter_id": "consilium-rss-atom",
+      "outbound_domains": ["www.consilium.europa.eu"],
+      "availability_state": "ACTIVE"
+    },
+    {
+      "source_id": "eu-commission-press-corner",
+      "source_name": "European Commission Press Corner",
+      "source_class": "Official sources",
+      "source_role": "OFFICIAL",
+      "region_scope": ["EU", "EUROPE"],
+      "language_scope": ["en"],
+      "expected_freshness_minutes": 120,
+      "collection_cadence_minutes": 60,
+      "adapter_id": "ec-presscorner-rss-atom",
+      "outbound_domains": ["ec.europa.eu"],
+      "availability_state": "ACTIVE"
+    },
+    {
+      "source_id": "eu-parliament-press-releases",
+      "source_name": "European Parliament Press Releases",
+      "source_class": "Official sources",
+      "source_role": "OFFICIAL",
+      "region_scope": ["EU", "EUROPE"],
+      "language_scope": ["en"],
+      "expected_freshness_minutes": 240,
+      "collection_cadence_minutes": 120,
+      "adapter_id": "ep-press-releases-rss-atom",
+      "outbound_domains": ["www.europarl.europa.eu"],
+      "availability_state": "DEGRADED"
+    },
+    {
+      "source_id": "gdelt-doc-2",
+      "source_name": "GDELT DOC 2.0",
+      "source_class": "Structured data",
+      "source_role": "DISCOVERY",
+      "region_scope": ["GLOBAL"],
+      "language_scope": ["multi"],
+      "expected_freshness_minutes": 60,
+      "collection_cadence_minutes": 30,
+      "adapter_id": "gdelt-doc-json",
+      "outbound_domains": ["api.gdeltproject.org"],
+      "availability_state": "ACTIVE"
+    },
+    {
+      "source_id": "haberturk-tr",
+      "source_name": "Haberturk — Turkish News",
+      "source_class": "Regional media",
+      "source_role": "MEDIA",
+      "region_scope": ["BLACK_SEA", "MIDDLE_EAST", "TURKEY"],
+      "language_scope": ["tr"],
+      "expected_freshness_minutes": 60,
+      "collection_cadence_minutes": 30,
+      "adapter_id": "haberturk-tr-rss",
+      "outbound_domains": ["www.haberturk.com"],
+      "availability_state": "ACTIVE"
+    },
+    {
+      "source_id": "meduza-ru",
+      "source_name": "Meduza — Russian RSS",
+      "source_class": "International media",
+      "source_role": "MEDIA",
+      "region_scope": ["EASTERN_EUROPE", "EURASIA", "RUSSIA"],
+      "language_scope": ["ru"],
+      "expected_freshness_minutes": 60,
+      "collection_cadence_minutes": 30,
+      "adapter_id": "meduza-ru-rss",
+      "outbound_domains": ["meduza.io"],
+      "availability_state": "ACTIVE"
+    },
+    {
+      "source_id": "osce-latest-news",
+      "source_name": "OSCE Latest News",
+      "source_class": "Official sources",
+      "source_role": "OFFICIAL",
+      "region_scope": ["EURASIA", "EUROPE", "OSCE"],
+      "language_scope": ["en"],
+      "expected_freshness_minutes": 180,
+      "collection_cadence_minutes": 60,
+      "adapter_id": "osce-latest-rss-atom",
+      "outbound_domains": ["feeds.osce.org"],
+      "availability_state": "ACTIVE"
+    },
+    {
+      "source_id": "rmf24-pl",
+      "source_name": "RMF24 — Polish News",
+      "source_class": "Regional media",
+      "source_role": "MEDIA",
+      "region_scope": ["CENTRAL_EUROPE", "POLAND"],
+      "language_scope": ["pl"],
+      "expected_freshness_minutes": 60,
+      "collection_cadence_minutes": 30,
+      "adapter_id": "rmf24-pl-rss",
+      "outbound_domains": ["www.rmf24.pl"],
+      "availability_state": "ACTIVE"
+    },
+    {
+      "source_id": "uk-government-news-communications",
+      "source_name": "UK Government News and Communications",
+      "source_class": "Official sources",
+      "source_role": "OFFICIAL",
+      "region_scope": ["EUROPE", "UNITED_KINGDOM"],
+      "language_scope": ["en"],
+      "expected_freshness_minutes": 120,
+      "collection_cadence_minutes": 60,
+      "adapter_id": "govuk-news-atom",
+      "outbound_domains": ["www.gov.uk"],
+      "availability_state": "ACTIVE"
+    },
+    {
+      "source_id": "ukrainska-pravda-uk",
+      "source_name": "Ukrainska Pravda — Ukrainian News",
+      "source_class": "Regional media",
+      "source_role": "MEDIA",
+      "region_scope": ["EASTERN_EUROPE", "UKRAINE"],
+      "language_scope": ["uk"],
+      "expected_freshness_minutes": 60,
+      "collection_cadence_minutes": 30,
+      "adapter_id": "ukrainska-pravda-uk-rss",
+      "outbound_domains": ["www.pravda.com.ua"],
+      "availability_state": "ACTIVE"
+    }
+  ],
+  "historical_reconciliation_items": [
+    {
+      "source_id": "haberturk-tr",
+      "kind": "DOMAIN_MEASUREMENT_DRIFT",
+      "current_governed_domain": "www.haberturk.com",
+      "historical_p12_5_matrix_domain": "rss.haberturk.com",
+      "disposition": "KEEP_EXPLICIT_FOR_P20_1_METADATA_RECONCILIATION"
+    }
+  ],
+  "safety_boundary": {
+    "live_source_expansion": false,
+    "live_ingest_change": false,
+    "runtime_deployment": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "paid_or_shared_resources_authorized": false
+  }
+}

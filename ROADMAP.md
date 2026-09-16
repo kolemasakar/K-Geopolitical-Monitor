@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.35
+Version: 4.36
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -607,15 +607,24 @@ Closure decision: `docs/decisions/PHASE_19_CLOSURE_DECISION_2026-09-15.md`
 Normal Monitoring Mode is the active project mode. Strict continuity is retired as a global gate and remains only a future optional Event Watch capability. Gap detection, collection resume, application-level catch-up for recoverable windows, explicit unrecoverable intervals, source-specific freshness, dedup/idempotency and security invariants are validated. Attempts 1–3 remain historical old-contract evidence; Attempt 4 and multi-day soak are not required.
 
 ## Phase 20 — Source Coverage / Collection Quality
-State: `READY_TO_BEGIN`
-Next gate: `P20_0_EXISTING_COVERAGE_INVENTORY_REUSE_MAP`
+State: `P20_0_VALIDATED / P20_1_READY_TO_BEGIN`
+Current gate: `P20_0_EXISTING_COVERAGE_BASELINE_MAPPED`
+Next gate: `P20_1_SOURCE_TAXONOMY_METADATA_CONTRACT_VALIDATED`
 
 Phase 20 begins from the validated P19 recovery/freshness baseline and does not authorize shared-runtime activation, paid resources or migration `033`.
+
+### P20.0 — Existing Coverage Inventory & Reuse Map
+State: `VALIDATED`
+Gate: `P20_0_EXISTING_COVERAGE_BASELINE_MAPPED`
+Implementation: `docs/implementation/P20_0_EXISTING_COVERAGE_INVENTORY_REUSE_MAP.md`
+Evidence: `docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json`; `docs/evidence/P20_0_EXISTING_COVERAGE_REUSE_MAP_2026-09-16.json`
+
+Validated baseline: 10 governed public/free source paths, 9 `ACTIVE` and 1 `DEGRADED`. Existing P11/P12/P19 portfolio, adapter, health, coverage, region/language and recovery capabilities are reused. Source-level origin groups, syndication/copy relation, independent-origin count and coverage eligibility remain explicit later-gate work and are not inferred from publisher/domain/source counts.
 
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.35`;
+- state synchronization: `v4.36`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -655,7 +664,7 @@ Phase 20 begins from the validated P19 recovery/freshness baseline and does not 
 - Phase 19: `PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED`;
 - P19 strict continuity gate: `RETIRED`;
 - P19 targeted catch-up/freshness validation: `PASS`;
-- Phase 20: `READY_TO_BEGIN / P20_0_EXISTING_COVERAGE_INVENTORY_REUSE_MAP`;
+- Phase 20: `P20_0_VALIDATED / P20_1_READY_TO_BEGIN`;
 - Phase 18 shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
 - migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;

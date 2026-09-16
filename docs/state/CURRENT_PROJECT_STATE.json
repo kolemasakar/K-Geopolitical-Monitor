@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.35",
+    "state_sync_version": "4.36",
     "status": "APPROVED",
-    "current_position": "PHASE_19_VALIDATED_P20_READY"
+    "current_position": "PHASE_20_P20_0_VALIDATED_P20_1_READY"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -16,7 +16,7 @@
     "17": "PHASE_17_CONTROLLED_EXTERNAL_PUBLICATION_READINESS_VALIDATED / VALIDATED_READY / NOT_ACTIVATED / EXTERNAL_PUBLICATION_BLOCKED_BY_CURRENT_ACCOUNT_CAPABILITY",
     "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED",
     "19": "PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED",
-    "20": "READY_TO_BEGIN / P20_0_EXISTING_COVERAGE_INVENTORY_REUSE_MAP"
+    "20": "P20_0_VALIDATED / P20_1_READY_TO_BEGIN"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -189,5 +189,21 @@
     "closure_evidence": "docs/evidence/PHASE_19_TARGETED_CATCHUP_FRESHNESS_CLOSURE_VALIDATION_2026-09-15.md",
     "closure_decision": "docs/decisions/PHASE_19_CLOSURE_DECISION_2026-09-15.md",
     "next_gate": "P20_0_EXISTING_COVERAGE_INVENTORY_REUSE_MAP"
+  },
+  "phase20_p20_0": {
+    "state": "VALIDATED",
+    "gate": "P20_0_EXISTING_COVERAGE_BASELINE_MAPPED",
+    "canonical_base": "5c9e2b0dc8f7741c08e035f2f3f38f6afa3ced93",
+    "governed_source_count": 10,
+    "active_source_count": 9,
+    "degraded_source_count": 1,
+    "live_source_expansion": false,
+    "runtime_deployment": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "independent_origin_count": "NOT_MEASURABLE_FROM_CURRENT_SOURCE_PORTFOLIO",
+    "implementation": "docs/implementation/P20_0_EXISTING_COVERAGE_INVENTORY_REUSE_MAP.md",
+    "baseline_evidence": "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json",
+    "reuse_map_evidence": "docs/evidence/P20_0_EXISTING_COVERAGE_REUSE_MAP_2026-09-16.json",
+    "next_gate": "P20_1_SOURCE_TAXONOMY_METADATA_CONTRACT_VALIDATED"
   }
 }
