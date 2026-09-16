@@ -1,0 +1,182 @@
+{
+  "schema_version": "kgm.p21.1.source_provenance_resolution.v1",
+  "contract": "docs/contracts/p21_1_source_provenance_resolution.schema.json",
+  "baseline": "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json",
+  "source_count": 10,
+  "reviewed_source_count": 10,
+  "publisher_identity_explicit_count": 10,
+  "explicit_single_origin_source_count": 3,
+  "mixed_origin_source_count": 6,
+  "derived_multi_origin_source_count": 1,
+  "unknown_origin_state_count": 0,
+  "confirmed_source_level_origin_group_count": 3,
+  "precise_portfolio_independent_origin_count": null,
+  "precise_portfolio_independent_origin_count_reason": "Three direct institutional streams support explicit source-level origin groups, while six streams are mixed-origin editorial/institutional collections and GDELT is a derived multi-origin index. The unresolved mixed-origin streams prevent a precise portfolio-wide independent-origin count. Publisher/domain/language counts remain non-substitutes.",
+  "records": [
+    {
+      "source_id": "consilium-press-releases",
+      "publisher_identity_state": "EXPLICIT",
+      "publisher_identity": "Official Council of the EU / European Council press platform managed by the General Secretariat of the Council",
+      "stream_origin_state": "MIXED_ORIGIN",
+      "origin_group_id": null,
+      "syndication_or_copy_relation": "ORIGINAL",
+      "independence_credit_state": "ITEM_LEVEL_PROVENANCE_REQUIRED",
+      "evidence_references": [
+        "https://www.consilium.europa.eu/en/",
+        "https://www.consilium.europa.eu/en/press/",
+        "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json"
+      ],
+      "resolution_notes": "The official site states that it serves two distinct EU institutions and its press stream also contains multiple entity/function labels. Direct institutional publication is established, but one single underlying institutional origin for the whole governed stream is not."
+    },
+    {
+      "source_id": "eu-commission-press-corner",
+      "publisher_identity_state": "EXPLICIT",
+      "publisher_identity": "European Commission",
+      "stream_origin_state": "EXPLICIT_SINGLE_ORIGIN",
+      "origin_group_id": "official:european-commission",
+      "syndication_or_copy_relation": "ORIGINAL",
+      "independence_credit_state": "SOURCE_LEVEL_ORIGIN_GROUP_CONFIRMED",
+      "evidence_references": [
+        "https://commission.europa.eu/news-and-media_en",
+        "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json"
+      ],
+      "resolution_notes": "European Commission identifies Press Corner as press material from its Spokesperson's Service. This supports an institutional publication-origin group for source-network topology; it does not prove the truth of claims made in Commission material."
+    },
+    {
+      "source_id": "eu-parliament-press-releases",
+      "publisher_identity_state": "EXPLICIT",
+      "publisher_identity": "European Parliament",
+      "stream_origin_state": "EXPLICIT_SINGLE_ORIGIN",
+      "origin_group_id": "official:european-parliament",
+      "syndication_or_copy_relation": "ORIGINAL",
+      "independence_credit_state": "SOURCE_LEVEL_ORIGIN_GROUP_CONFIRMED",
+      "evidence_references": [
+        "https://www.europarl.europa.eu/news/en",
+        "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json"
+      ],
+      "resolution_notes": "The governed source is the European Parliament's official press-release surface. Institutional publication origin is explicit; statement/event verification remains governed separately by P13."
+    },
+    {
+      "source_id": "gdelt-doc-2",
+      "publisher_identity_state": "EXPLICIT",
+      "publisher_identity": "The GDELT Project",
+      "stream_origin_state": "DERIVED_MULTI_ORIGIN",
+      "origin_group_id": null,
+      "syndication_or_copy_relation": "DERIVED",
+      "independence_credit_state": "NO_INDEPENDENCE_CREDIT",
+      "evidence_references": [
+        "https://gdeltproject.org/about.html",
+        "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json"
+      ],
+      "resolution_notes": "GDELT describes itself as a platform/database built from hundreds of thousands of broadcast, print and online news sources. It is discovery/index evidence, not an independent underlying origin for indexed reporting."
+    },
+    {
+      "source_id": "haberturk-tr",
+      "publisher_identity_state": "EXPLICIT",
+      "publisher_identity": "Habertürk Gazetecilik A.Ş.",
+      "stream_origin_state": "MIXED_ORIGIN",
+      "origin_group_id": null,
+      "syndication_or_copy_relation": "UNKNOWN",
+      "independence_credit_state": "ITEM_LEVEL_PROVENANCE_REQUIRED",
+      "evidence_references": [
+        "https://www.haberturk.com/kunye",
+        "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json"
+      ],
+      "resolution_notes": "Habertürk's masthead explicitly identifies the publisher. A general national-news stream can contain staff reporting, external statements, agency/cited material and other derivation patterns; publisher identity alone does not establish one underlying origin."
+    },
+    {
+      "source_id": "meduza-ru",
+      "publisher_identity_state": "EXPLICIT",
+      "publisher_identity": "SIA Medusa Project / Meduza",
+      "stream_origin_state": "MIXED_ORIGIN",
+      "origin_group_id": null,
+      "syndication_or_copy_relation": "UNKNOWN",
+      "independence_credit_state": "ITEM_LEVEL_PROVENANCE_REQUIRED",
+      "evidence_references": [
+        "https://meduza.io/en/pages/about",
+        "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json"
+      ],
+      "resolution_notes": "Meduza identifies its publisher/editorial organization and states that its stories are reported and written by journalists. The stream still mixes original reporting, sourced reporting, analysis and cited material, so one source-level underlying-origin group is not assigned."
+    },
+    {
+      "source_id": "osce-latest-news",
+      "publisher_identity_state": "EXPLICIT",
+      "publisher_identity": "Organization for Security and Co-operation in Europe (OSCE)",
+      "stream_origin_state": "EXPLICIT_SINGLE_ORIGIN",
+      "origin_group_id": "official:osce",
+      "syndication_or_copy_relation": "ORIGINAL",
+      "independence_credit_state": "SOURCE_LEVEL_ORIGIN_GROUP_CONFIRMED",
+      "evidence_references": [
+        "https://www.osce.org/who-we-are",
+        "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json"
+      ],
+      "resolution_notes": "The governed path is an official OSCE news stream. OSCE is treated as the source-network institutional origin group; statements by OSCE remain statement evidence and do not automatically prove underlying events."
+    },
+    {
+      "source_id": "rmf24-pl",
+      "publisher_identity_state": "EXPLICIT",
+      "publisher_identity": "RMF24 / RMF FM editorial operation",
+      "stream_origin_state": "MIXED_ORIGIN",
+      "origin_group_id": null,
+      "syndication_or_copy_relation": "UNKNOWN",
+      "independence_credit_state": "ITEM_LEVEL_PROVENANCE_REQUIRED",
+      "evidence_references": [
+        "https://www.rmf24.pl/kontakt",
+        "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json"
+      ],
+      "resolution_notes": "RMF24 describes itself as the RMF FM news portal created by station journalists, reporters and correspondents. The broad news stream still requires item-level provenance to distinguish original reporting, statements, citations and possible syndicated material."
+    },
+    {
+      "source_id": "uk-government-news-communications",
+      "publisher_identity_state": "EXPLICIT",
+      "publisher_identity": "GOV.UK / United Kingdom government organisations",
+      "stream_origin_state": "MIXED_ORIGIN",
+      "origin_group_id": null,
+      "syndication_or_copy_relation": "ORIGINAL",
+      "independence_credit_state": "ITEM_LEVEL_PROVENANCE_REQUIRED",
+      "evidence_references": [
+        "https://www.gov.uk/search/news-and-communications",
+        "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json"
+      ],
+      "resolution_notes": "The GOV.UK news-and-communications stream aggregates publications from many departments, agencies, ministers and official roles. It is a direct official platform but not one single underlying institutional origin group."
+    },
+    {
+      "source_id": "ukrainska-pravda-uk",
+      "publisher_identity_state": "EXPLICIT",
+      "publisher_identity": "Ukrainska Pravda online publication",
+      "stream_origin_state": "MIXED_ORIGIN",
+      "origin_group_id": null,
+      "syndication_or_copy_relation": "UNKNOWN",
+      "independence_credit_state": "ITEM_LEVEL_PROVENANCE_REQUIRED",
+      "evidence_references": [
+        "https://www.pravda.com.ua/eng/rules/",
+        "docs/evidence/P20_0_EXISTING_COVERAGE_BASELINE_2026-09-16.json"
+      ],
+      "resolution_notes": "Ukrainska Pravda's reuse rules identify the publication and authors as rights holders unless otherwise indicated. A broad editorial news feed still requires item-level provenance before assigning an underlying-origin group or independence credit."
+    }
+  ],
+  "confirmed_origin_groups": [
+    "official:european-commission",
+    "official:european-parliament",
+    "official:osce"
+  ],
+  "principles": {
+    "publisher_identity_not_underlying_origin": true,
+    "official_statement_not_underlying_event_truth": true,
+    "mixed_stream_requires_item_level_provenance": true,
+    "derived_index_gets_no_independence_credit": true,
+    "source_level_origin_group_does_not_promote_claim_verification": true,
+    "different_domains_languages_publishers_do_not_prove_claim_independence": true,
+    "plugin_app_connector_mcp_routing_is_provenance_neutral": true
+  },
+  "safety_boundary": {
+    "live_source_expansion": false,
+    "live_ingest_change": false,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "paid_or_shared_resources_authorized": false,
+    "plugin_build": false,
+    "plugin_publication": false
+  }
+}
