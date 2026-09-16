@@ -70,7 +70,7 @@ def test_p18_9_roadmap_and_plan_close_readiness_without_activation_provider_or_m
     assert _roadmap_minor_version(roadmap) >= 35
     assert "P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED" in roadmap
     assert "### P18.9 — Phase 18 Validation Matrix and Shared Runtime Activation Readiness" in roadmap
-    assert "State: `VALIDATED`" in roadmap.split("### P18.9", 1)[1].split("# Current Implementation Checkpoint", 1)[0]
+    assert "State: `VALIDATED`" in roadmap.split("### P18.9", 1)[1].split("## Phase 19", 1)[0]
     assert IMPLEMENTATION_ANCHOR in roadmap
     assert P18_9_GATE in roadmap
     assert "real external infrastructure observations remain `NOT_OBSERVED`" in roadmap
@@ -131,4 +131,4 @@ def test_p18_9_closure_is_readiness_only_and_requires_fresh_owner_launch_gate():
     assert "real_infrastructure_observation = NOT_OBSERVED" in checkpoint
     assert "Final shared-runtime activation remains a separate owner decision" in result
     assert "launch-time validation" in checkpoint
-    assert "Any final activation requires a separate explicit owner decision" in roadmap
+    assert "Final shared-runtime activation remains a separate explicit owner decision plus fresh launch-time validation" in roadmap
