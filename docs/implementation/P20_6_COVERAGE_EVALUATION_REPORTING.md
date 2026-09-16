@@ -19,7 +19,7 @@ P20.5 onboarding readiness is intentionally not equivalent to active coverage an
 
 Evaluation is fail-closed.
 
-- `UNKNOWN` is distinct from both a confirmed gap and adequate coverage.
+- UNKNOWN is distinct from both a confirmed gap and adequate coverage.
 - Policy `UNSET` blocks `ADEQUATE`, `THIN`, `MISSING_EXPECTED_COVERAGE`, and `NOT_REQUIRED_BY_POLICY` conclusions that require declared target policy.
 - Unknown origin identity blocks precise independent-origin, redundancy, dominant-origin and monoculture conclusions.
 - Unmeasured health blocks current `HEALTHY`, `DEGRADED_COLLECTION`, stale/failed-source and latency-outlier conclusions.
