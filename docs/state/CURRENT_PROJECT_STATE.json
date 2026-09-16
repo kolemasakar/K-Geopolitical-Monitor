@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.40",
+    "state_sync_version": "4.41",
     "status": "APPROVED",
-    "current_position": "PHASE_21_P21_3_VALIDATED_P21_4_READY"
+    "current_position": "PHASE_21_P21_4_VALIDATED_P21_5_OWNER_DECISION_REQUIRED"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -17,7 +17,7 @@
     "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED",
     "19": "PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED",
     "20": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
-    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_READY"
+    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_OWNER_DECISION_REQUIRED"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -286,10 +286,11 @@
       "P21.0",
       "P21.1",
       "P21.2",
-      "P21.3"
+      "P21.3",
+      "P21.4"
     ],
-    "next_gate": "P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED",
-    "live_source_expansion": "NOT_AUTHORIZED_BEFORE_P21_5_OWNER_DECISION",
+    "next_gate": "P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED / OWNER_DECISION_REQUIRED_BEFORE_EXECUTION",
+    "live_source_expansion": "NOT_AUTHORIZED / P21_5_EXPLICIT_OWNER_DECISION_REQUIRED",
     "verification_authority": "P13.5/P13.6",
     "production_live": "NOT_OPERATIONAL"
   },
@@ -377,5 +378,29 @@
     "service_restart": false,
     "next_gate": "P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED",
     "p21_4_state": "READY_TO_BEGIN"
+  },
+  "phase21_p21_4": {
+    "state": "VALIDATED",
+    "gate": "P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED",
+    "merge_anchor": "277b219726008c70671cf4d804c857c98f8ab0c4",
+    "machine_plan": "docs/evidence/P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_2026-09-16.json",
+    "operator_plan": "docs/evidence/P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_2026-09-16.md",
+    "result": "docs/implementation/P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_RESULT.md",
+    "gap_cell_count": 32,
+    "adequate_excluded_count": 1,
+    "minimum_new_source_path_deficit": 49,
+    "minimum_healthy_source_deficit": 49,
+    "origin_evidence_deficit_from_confirmed_lower_bound": 54,
+    "priority_wave_count": 6,
+    "validation_run_id": 35138511971,
+    "validation_job_id": 104936832558,
+    "test_count": 1281,
+    "verification_authority": "P13.5/P13.6",
+    "live_source_onboarding": false,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "paid_provider_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "next_gate": "P21_5_EXPLICIT_OWNER_DECISION_REQUIRED"
   }
 }

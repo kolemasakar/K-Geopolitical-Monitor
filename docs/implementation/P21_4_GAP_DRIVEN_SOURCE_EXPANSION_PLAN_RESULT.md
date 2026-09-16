@@ -1,8 +1,8 @@
 # P21.4 Gap-Driven Source Expansion Plan Result
 
 Date: 2026-09-16
-Status: `IMPLEMENTED / VALIDATION_PENDING`
-Gate candidate: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`
+Status: `VALIDATED`
+Gate: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`
 
 ## Result
 
@@ -16,4 +16,4 @@ Priority is derived only from the owner-approved P21.0 requirement state and cri
 
 P21.4 validates planning only. It does not authorize live onboarding, registry activation, runtime deployment, service restart, paid/shared providers, migration 033, Plugin/publication activation or production/live operation. P21.5 remains a separate explicit owner gate before any source is added to live collection. P13.5/P13.6 remain factual-verification authority.
 
-Formal gate grant requires CI success and a separate canonical closure/state-sync update.
+Validation: GitHub CI #1710 / run `35138511971`, job `104936832558`: `1281 passed in 115.53s / SUCCESS`. Implementation merge anchor: `277b219726008c70671cf4d804c857c98f8ab0c4`. Formal closure advances to the separately owner-gated P21.5 step; P21.5 remains `NOT_STARTED` and no live onboarding is authorized.

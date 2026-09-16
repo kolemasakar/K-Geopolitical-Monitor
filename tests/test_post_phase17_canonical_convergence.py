@@ -37,7 +37,7 @@ def test_machine_readable_state_matches_current_roadmap_v4_position():
     # the same semantic position rather than freeze an older Phase-21 sub-gate.
     position = state["roadmap"]["current_position"]
     assert position.startswith("PHASE_21_")
-    assert position.endswith("_READY")
+    assert position.endswith("_READY") or position.endswith("_OWNER_DECISION_REQUIRED")
     assert "## Phase 21 — Source Network Operational Adequacy & Evidence Population" in roadmap
     assert "P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED" in roadmap
     assert "P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED" in roadmap
