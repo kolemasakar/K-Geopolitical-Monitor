@@ -116,3 +116,21 @@ The historical pre-Phase-18 integration wording above is retained verbatim for r
 - `PRODUCTION_LIVE = NOT_OPERATIONAL`.
 
 Strategic machine state remains at synchronization `4.34` until a separate formal activation synchronization gate.
+
+## Current-State Addendum — OpenAI Custom GPT retirement / Plugin direction (2026-09-16)
+
+The historical phrase `public GPT Action` above is retained for audit continuity but is now interpreted as a **legacy deployment concept**, not the preferred future ChatGPT integration surface.
+
+OpenAI has announced retirement of Custom GPTs and migration toward Plugins. Therefore any future KGM ChatGPT-facing publication/integration architecture must be evaluated Plugin-first:
+
+```text
+legacy public/private GPT Action concept
+-> supported App / Connector / custom MCP integration candidate
+
+KGM workflow/policies
+-> Plugin skill/workflow candidate
+```
+
+This addendum does not activate publication, create migration `033`, change Phase 17/18 state, approve paid providers, alter storage, expose public ingress, or authorize production/live launch.
+
+Canonical decision record: `docs/decisions/OPENAI_CUSTOM_GPT_TO_PLUGIN_TRANSITION_2026-09-16.md`.
