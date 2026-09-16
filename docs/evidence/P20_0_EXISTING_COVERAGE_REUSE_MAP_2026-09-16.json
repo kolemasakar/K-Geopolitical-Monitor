@@ -1,0 +1,88 @@
+{
+  "schema_version": "kgm.p20.0.reuse_map.v1",
+  "canonical_base": "5c9e2b0dc8f7741c08e035f2f3f38f6afa3ced93",
+  "component_reuse": [
+    {
+      "component": "source_portfolio",
+      "status": "REUSE_PRIMARY",
+      "provides": ["source_id", "source_name", "publisher_name", "source_class", "source_role", "region_scope", "language_scope", "access_mode", "cost_mode", "authentication_mode", "expected_freshness_minutes", "collection_cadence_minutes", "adapter_id", "adapter_version", "outbound_domains", "availability_state", "data_classification", "origin_characteristics", "independence_constraints", "review_status", "paid_provider_approved"]
+    },
+    {
+      "component": "adapter_framework",
+      "status": "REUSE_PRIMARY",
+      "provides": ["adapter identity", "public HTTPS collection contract", "feed/json adapter shapes", "source identity validation"]
+    },
+    {
+      "component": "authoritative_source_pack",
+      "status": "REUSE_PRIMARY",
+      "provides": ["four governed official-source specs", "feed endpoints", "region/language scope", "freshness/cadence"]
+    },
+    {
+      "component": "local_language_discovery_pack",
+      "status": "REUSE_PRIMARY",
+      "provides": ["uk/ru/pl/tr discovery specs", "language metadata", "regional scope", "original-language preservation"]
+    },
+    {
+      "component": "source_health_egress",
+      "status": "REUSE_PRIMARY",
+      "provides": ["operational health", "measurement freshness", "content freshness", "last attempt", "latest content timestamp", "egress inventory"]
+    },
+    {
+      "component": "operational_coverage",
+      "status": "REUSE_PRIMARY",
+      "provides": ["coverage contracts", "coverage snapshots", "SATISFIED/GAP/UNAVAILABLE/STALE/UNKNOWN/UNMEASURED semantics", "limitations"]
+    },
+    {
+      "component": "region_language_coverage",
+      "status": "REUSE_PARTIAL",
+      "provides": ["region definitions", "language definitions", "scope requirements", "observation attribution"],
+      "limitation": "Does not provide P20 source taxonomy or source-level independent-origin groups."
+    },
+    {
+      "component": "recovery_coverage",
+      "status": "REUSE_PRIMARY",
+      "provides": ["recovery interval", "bounded/unknown history capability", "covered/uncovered intervals", "post-gap source freshness"]
+    },
+    {
+      "component": "semantic_provenance",
+      "status": "REUSE_FOR_ORIGIN_EVIDENCE_ONLY",
+      "provides": ["claim/evidence provenance and origin relations"],
+      "limitation": "Must not be collapsed into a guessed source-level origin_group_id."
+    },
+    {
+      "component": "draft_pr_78",
+      "status": "REFERENCE_ONLY_STALE",
+      "provides": ["candidate P20 schemas", "synthetic fixtures", "semantic boundary tests"],
+      "limitation": "Created before P19 closure; do not merge directly. Reconcile individual artifacts in their owning P20 subphases."
+    }
+  ],
+  "field_reuse": [
+    {"p20_field": "source_id", "status": "DIRECT", "existing_source": "SourcePortfolioRecord.source_id"},
+    {"p20_field": "display_name", "status": "DIRECT_RENAME", "existing_source": "SourcePortfolioRecord.source_name"},
+    {"p20_field": "primary_domain_or_endpoint", "status": "PARTIAL", "existing_source": "SourcePortfolioRecord.outbound_domains plus adapter/source-pack endpoint", "limitation": "Portfolio stores hostnames, not one canonical endpoint URL."},
+    {"p20_field": "country", "status": "MISSING_CANONICAL", "existing_source": "region_scope may contain country-like labels", "limitation": "Do not infer country deterministically from free-form/multi-valued region_scope."},
+    {"p20_field": "region", "status": "PARTIAL_MULTI_VALUE", "existing_source": "SourcePortfolioRecord.region_scope", "limitation": "Existing contract permits multiple region labels; P20 normalization policy is still required."},
+    {"p20_field": "subregion", "status": "MISSING_CANONICAL", "existing_source": null},
+    {"p20_field": "language", "status": "PARTIAL_MULTI_VALUE", "existing_source": "SourcePortfolioRecord.language_scope", "limitation": "Existing scope is tuple-valued and can include multi."},
+    {"p20_field": "source_type", "status": "P20_1_MAPPING_REQUIRED", "existing_source": "source_class + source_role", "limitation": "P12 classes/roles are not identical to the proposed P20 taxonomy."},
+    {"p20_field": "reliability_class", "status": "REUSE_WITH_SEMANTIC_REVIEW", "existing_source": "canonical sources.reliability and governed pack reliability"},
+    {"p20_field": "update_frequency", "status": "DERIVABLE", "existing_source": "collection_cadence_minutes"},
+    {"p20_field": "collection_status", "status": "DERIVABLE_WITH_MAPPING", "existing_source": "availability_state + review_status"},
+    {"p20_field": "coverage_role", "status": "P20_1_MAPPING_REQUIRED", "existing_source": "source_role", "limitation": "Operational source_role is not automatically a coverage-role taxonomy."},
+    {"p20_field": "origin_group_id", "status": "MISSING_CANONICAL", "existing_source": "semantic provenance exists downstream", "limitation": "Publisher/domain/source identity must not be promoted to independent-origin identity."},
+    {"p20_field": "syndication_or_copy_relation", "status": "MISSING_CANONICAL", "existing_source": "semantic provenance/evidence relations exist downstream", "limitation": "No source-level canonical relation currently exists."},
+    {"p20_field": "collection_method", "status": "DERIVABLE_WITH_MAPPING", "existing_source": "adapter_id + adapter class/spec"},
+    {"p20_field": "expected_latency", "status": "PARTIAL", "existing_source": "collection_cadence_minutes + expected_freshness_minutes", "limitation": "Cadence/freshness are not identical to end-to-end latency."},
+    {"p20_field": "last_success_at", "status": "DIRECT_RUNTIME", "existing_source": "source_collection_attempts.attempted_at where status=SUCCESS"},
+    {"p20_field": "last_item_at", "status": "DIRECT_RUNTIME", "existing_source": "live_source_provenance/raw_items publication observations"},
+    {"p20_field": "health_status", "status": "DIRECT_RUNTIME", "existing_source": "SourceHealthEgressService operational/measurement/content freshness assessment"},
+    {"p20_field": "active_for_coverage", "status": "NEW_P20_POLICY_FIELD", "existing_source": null, "limitation": "Review/availability state does not safely imply coverage eligibility."}
+  ],
+  "p20_0_conclusions": {
+    "new_live_collection_required": false,
+    "new_database_migration_required": false,
+    "new_paid_resource_required": false,
+    "source_level_independence_currently_measurable": false,
+    "next_gate": "P20_1_SOURCE_TAXONOMY_METADATA_CONTRACT_VALIDATED"
+  }
+}
