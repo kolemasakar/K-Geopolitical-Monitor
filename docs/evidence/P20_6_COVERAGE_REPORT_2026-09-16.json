@@ -1,0 +1,67 @@
+{
+  "schema_version": "kgm.p20.6.coverage_report.v1",
+  "generated_at": "2026-09-16T00:00:00Z",
+  "input_refs": {
+    "coverage_matrix": "docs/evidence/P20_2_OBSERVED_COVERAGE_MATRIX_2026-09-16.json",
+    "independence_baseline": "docs/evidence/P20_3_CURRENT_SOURCE_INDEPENDENCE_BASELINE_2026-09-16.json",
+    "health_baseline": "docs/evidence/P20_4_CURRENT_COLLECTION_HEALTH_BASELINE_2026-09-16.json",
+    "previous_report": null
+  },
+  "evaluation_basis": {
+    "coverage_policy_state": "UNSET",
+    "independence_evidence_state": "UNKNOWN",
+    "health_evidence_state": "UNMEASURED"
+  },
+  "global_summary": {
+    "observed_cell_count": 17,
+    "adequate_count": 0,
+    "thin_count": 0,
+    "monoculture_risk_count": 0,
+    "degraded_collection_count": 0,
+    "missing_expected_coverage_count": 0,
+    "not_required_count": 0,
+    "unknown_count": 17,
+    "governed_source_count": 10,
+    "measured_source_count": 0,
+    "known_origin_source_count": 0
+  },
+  "cells": [
+    {"cell_id":"black_sea.tr.national_media","geography_scope":"BLACK_SEA","language":"tr","source_type":"NATIONAL_MEDIA","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"central_europe.pl.national_media","geography_scope":"CENTRAL_EUROPE","language":"pl","source_type":"NATIONAL_MEDIA","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"eastern_europe.ru.national_media","geography_scope":"EASTERN_EUROPE","language":"ru","source_type":"NATIONAL_MEDIA","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"eastern_europe.uk.national_media","geography_scope":"EASTERN_EUROPE","language":"uk","source_type":"NATIONAL_MEDIA","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"eu.en.international_organization","geography_scope":"EU","language":"en","source_type":"INTERNATIONAL_ORGANIZATION","governed_source_count":3,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"eurasia.en.international_organization","geography_scope":"EURASIA","language":"en","source_type":"INTERNATIONAL_ORGANIZATION","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"eurasia.ru.national_media","geography_scope":"EURASIA","language":"ru","source_type":"NATIONAL_MEDIA","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"europe.en.international_organization","geography_scope":"EUROPE","language":"en","source_type":"INTERNATIONAL_ORGANIZATION","governed_source_count":4,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"europe.en.official_government","geography_scope":"EUROPE","language":"en","source_type":"OFFICIAL_GOVERNMENT","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"global.multi.public_osint","geography_scope":"GLOBAL","language":"multi","source_type":"PUBLIC_OSINT","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"middle_east.tr.national_media","geography_scope":"MIDDLE_EAST","language":"tr","source_type":"NATIONAL_MEDIA","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"osce.en.international_organization","geography_scope":"OSCE","language":"en","source_type":"INTERNATIONAL_ORGANIZATION","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"poland.pl.national_media","geography_scope":"POLAND","language":"pl","source_type":"NATIONAL_MEDIA","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"russia.ru.national_media","geography_scope":"RUSSIA","language":"ru","source_type":"NATIONAL_MEDIA","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"turkey.tr.national_media","geography_scope":"TURKEY","language":"tr","source_type":"NATIONAL_MEDIA","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"ukraine.uk.national_media","geography_scope":"UKRAINE","language":"uk","source_type":"NATIONAL_MEDIA","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]},
+    {"cell_id":"united_kingdom.en.official_government","geography_scope":"UNITED_KINGDOM","language":"en","source_type":"OFFICIAL_GOVERNMENT","governed_source_count":1,"independent_origin_count":null,"healthy_source_count":null,"stale_or_failed_source_count":null,"status":"UNKNOWN","reason_codes":["POLICY_UNSET","INDEPENDENCE_UNKNOWN","HEALTH_UNMEASURED"]}
+  ],
+  "report_sections": {
+    "region_gaps": {"state":"UNKNOWN","items":[],"reason_codes":["POLICY_UNSET"]},
+    "language_gaps": {"state":"UNKNOWN","items":[],"reason_codes":["POLICY_UNSET"]},
+    "source_type_gaps": {"state":"UNKNOWN","items":[],"reason_codes":["POLICY_UNSET"]},
+    "monoculture_warnings": {"state":"UNKNOWN","items":[],"reason_codes":["INDEPENDENCE_UNKNOWN"]},
+    "stale_or_failed_sources": {"state":"UNKNOWN","items":[],"reason_codes":["HEALTH_UNMEASURED"]},
+    "latency_outliers": {"state":"UNKNOWN","items":[],"reason_codes":["HEALTH_UNMEASURED"]},
+    "missing_expected_sources": {"state":"UNKNOWN","items":[],"reason_codes":["POLICY_UNSET","NO_FRESH_RUNTIME_EXPECTATION_EVALUATION"]}
+  },
+  "changes_since_previous_report": {
+    "state": "NO_PREVIOUS_REPORT",
+    "changes": []
+  },
+  "epistemic_boundary": "Coverage evaluation is source-network operational evidence only. UNKNOWN is not a confirmed gap and is not adequate coverage. Coverage status cannot promote claim verification; P13.5/P13.6 remain factual-verification authority.",
+  "safety_boundary": {
+    "runtime_deployment": false,
+    "live_source_expansion": false,
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED"
+  }
+}

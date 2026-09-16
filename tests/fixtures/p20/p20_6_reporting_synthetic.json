@@ -1,0 +1,113 @@
+{
+  "schema_version": "kgm.p20.6.reporting.synthetic.v1",
+  "cases": [
+    {
+      "case_id": "not-required",
+      "policy_state": "DECLARED",
+      "requirement": "NOT_REQUIRED",
+      "source_count": 0,
+      "minimum_source_count": null,
+      "independent_origin_count": null,
+      "minimum_independent_origin_count": null,
+      "monoculture_risk": null,
+      "health_state": "UNMEASURED",
+      "expected_status": "NOT_REQUIRED_BY_POLICY"
+    },
+    {
+      "case_id": "missing-required",
+      "policy_state": "DECLARED",
+      "requirement": "REQUIRED",
+      "source_count": 0,
+      "minimum_source_count": 1,
+      "independent_origin_count": 0,
+      "minimum_independent_origin_count": 1,
+      "monoculture_risk": false,
+      "health_state": "CURRENT_HEALTHY",
+      "expected_status": "MISSING_EXPECTED_COVERAGE"
+    },
+    {
+      "case_id": "degraded-collection",
+      "policy_state": "DECLARED",
+      "requirement": "REQUIRED",
+      "source_count": 2,
+      "minimum_source_count": 1,
+      "independent_origin_count": 2,
+      "minimum_independent_origin_count": 2,
+      "monoculture_risk": false,
+      "health_state": "CURRENT_DEGRADED",
+      "expected_status": "DEGRADED_COLLECTION"
+    },
+    {
+      "case_id": "monoculture",
+      "policy_state": "DECLARED",
+      "requirement": "REQUIRED",
+      "source_count": 3,
+      "minimum_source_count": 2,
+      "independent_origin_count": 1,
+      "minimum_independent_origin_count": 2,
+      "monoculture_risk": true,
+      "health_state": "CURRENT_HEALTHY",
+      "expected_status": "MONOCULTURE_RISK"
+    },
+    {
+      "case_id": "adequate",
+      "policy_state": "DECLARED",
+      "requirement": "REQUIRED",
+      "source_count": 3,
+      "minimum_source_count": 2,
+      "independent_origin_count": 3,
+      "minimum_independent_origin_count": 2,
+      "monoculture_risk": false,
+      "health_state": "CURRENT_HEALTHY",
+      "expected_status": "ADEQUATE"
+    },
+    {
+      "case_id": "thin",
+      "policy_state": "DECLARED",
+      "requirement": "REQUIRED",
+      "source_count": 1,
+      "minimum_source_count": 2,
+      "independent_origin_count": 1,
+      "minimum_independent_origin_count": 2,
+      "monoculture_risk": false,
+      "health_state": "CURRENT_HEALTHY",
+      "expected_status": "THIN"
+    },
+    {
+      "case_id": "policy-unset",
+      "policy_state": "UNSET",
+      "requirement": null,
+      "source_count": 4,
+      "minimum_source_count": null,
+      "independent_origin_count": null,
+      "minimum_independent_origin_count": null,
+      "monoculture_risk": null,
+      "health_state": "UNMEASURED",
+      "expected_status": "UNKNOWN"
+    },
+    {
+      "case_id": "unknown-origin",
+      "policy_state": "DECLARED",
+      "requirement": "REQUIRED",
+      "source_count": 3,
+      "minimum_source_count": 2,
+      "independent_origin_count": null,
+      "minimum_independent_origin_count": 2,
+      "monoculture_risk": null,
+      "health_state": "CURRENT_HEALTHY",
+      "expected_status": "UNKNOWN"
+    },
+    {
+      "case_id": "unmeasured-health",
+      "policy_state": "DECLARED",
+      "requirement": "REQUIRED",
+      "source_count": 3,
+      "minimum_source_count": 2,
+      "independent_origin_count": 3,
+      "minimum_independent_origin_count": 2,
+      "monoculture_risk": false,
+      "health_state": "UNMEASURED",
+      "expected_status": "UNKNOWN"
+    }
+  ]
+}
