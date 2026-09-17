@@ -1,0 +1,39 @@
+{
+  "schema_version": "kgm.p21.5.wave_a.health.v1",
+  "assessed_at": "2026-09-17T02:23:08.192373+00:00",
+  "pack_version": "P21.5-WAVE-A-1.0",
+  "measurement_vantage": "OWNER_LOCAL_KGM_E4_PILOT_ISOLATED_CANONICAL_CHECKOUT",
+  "canonical_base_sha": "fea68ed4139e383fdcac44385a3d7c0839588c87",
+  "branch": "phase21/p21-5-wave-a-implementation",
+  "host_label": "kgm-e4-owner-pilot",
+  "architecture": "aarch64",
+  "production_runtime_mutated": false,
+  "service_restart": false,
+  "runtime_deployment": false,
+  "sources": [
+    {
+      "source_id": "ukraine-government-kmu-uk",
+      "status": "SUCCESS",
+      "item_count": 20,
+      "latest_content_at": "2026-09-16T18:39:00+00:00",
+      "content_age_minutes": 464.13653955,
+      "adapter_identity": "kmu-uk-rss@P12.2-2.0",
+      "request_base_url": "https://www.kmu.gov.ua/api/rss",
+      "error": null
+    },
+    {
+      "source_id": "suspilne-uk",
+      "status": "SUCCESS",
+      "item_count": 100,
+      "latest_content_at": "2026-09-17T00:40:50+00:00",
+      "content_age_minutes": 102.30320621666667,
+      "adapter_identity": "suspilne-uk-rss@P12.2-2.0",
+      "request_base_url": "https://suspilne.media/rss/all.rss",
+      "error": null
+    }
+  ],
+  "success_count": 2,
+  "failure_count": 0,
+  "item_count": 120,
+  "epistemic_note": "Operational reachability/freshness does not create factual-verification or independent-origin credit."
+}
