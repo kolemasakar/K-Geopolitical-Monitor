@@ -36,5 +36,13 @@ def test_p21_2_formal_closure_remains_immutable_after_later_phase21_progress():
     assert "P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED" in handoff
     assert "### P21.2 — Fresh Operational Health Baseline" in roadmap
     assert "State: `VALIDATED_WITH_MEASURED_DEGRADATION`" in roadmap.split("### P21.2", 1)[1].split("### P21.3", 1)[0]
-    assert state["activation_gates"]["phase21_live_source_expansion"] == "P21_5_EXPLICIT_OWNER_DECISION_REQUIRED"
+    # P21.2 historical closure remains immutable, while current activation state may lawfully advance
+    # through the separately recorded owner authorization for P21.5.
+    gate = state["activation_gates"]["phase21_live_source_expansion"]
+    assert gate in {
+        "P21_5_EXPLICIT_OWNER_DECISION_REQUIRED",
+        "P21_5_AUTHORIZED_BY_OWNER_2026-09-16 / BOUNDED_PUBLIC_FREE_ONLY",
+    }
+    if gate.startswith("P21_5_AUTHORIZED_BY_OWNER"):
+        assert state["phase21_p21_5"]["owner_authorization"] == "docs/evidence/P21_5_CONTROLLED_SOURCE_ONBOARDING_OWNER_AUTHORIZATION_2026-09-16.json"
     assert state["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
