@@ -1,0 +1,30 @@
+{
+  "authorization_id": "p21-5-controlled-public-free-onboarding-2026-09-16",
+  "authority_state": "APPROVED",
+  "approved_at": "2026-09-16T20:33:07Z",
+  "owner_decision": "APPROVE_P21_5_CONTROLLED_PUBLIC_FREE_SOURCE_ONBOARDING",
+  "bound_plan_path": "docs/evidence/P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_2026-09-16.json",
+  "bound_plan_blob_sha": "383d1bb1f9764c5962bbb41035abc4a33140a223",
+  "initial_wave": "A_CRITICAL_REQUIRED",
+  "initial_cell_ids": [
+    "ukraine.uk.official_government",
+    "ukraine.uk.national_media"
+  ],
+  "authorized": {
+    "public_free_anonymous_public_data_sources": true,
+    "repository_source_adapter_portfolio_changes": true,
+    "isolated_read_only_public_https_probes": true,
+    "repository_activation_after_p20_5_pass": true
+  },
+  "not_authorized": {
+    "paid_or_credentialed_or_restricted_sources": true,
+    "shared_resources": true,
+    "runtime_deployment_or_service_restart": true,
+    "production_live_cutover": true,
+    "migration_033": true,
+    "phase18_shared_runtime_activation": true,
+    "plugin_build_or_publication": true
+  },
+  "verification_authority": "P13.5/P13.6",
+  "independence_credit_auto_granted": false
+}
