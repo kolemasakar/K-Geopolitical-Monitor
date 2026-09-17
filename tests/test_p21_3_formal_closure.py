@@ -30,8 +30,16 @@ def test_p21_3_formal_closure_remains_preserved_after_later_phase21_progress():
     assert CHECKPOINT.exists()
 
 
-def test_p21_3_closure_does_not_activate_p21_5_or_runtime():
+def test_p21_3_historical_closure_does_not_activate_runtime_and_allows_later_owner_gate_progress():
     s = json.loads(STATE.read_text())
-    assert s["activation_gates"]["phase21_live_source_expansion"] == "P21_5_EXPLICIT_OWNER_DECISION_REQUIRED"
+    checkpoint = CHECKPOINT.read_text()
+    assert "P21.5" in checkpoint
+    gate = s["activation_gates"]["phase21_live_source_expansion"]
+    assert gate in {
+        "P21_5_EXPLICIT_OWNER_DECISION_REQUIRED",
+        "P21_5_AUTHORIZED_BY_OWNER_2026-09-16 / BOUNDED_PUBLIC_FREE_ONLY",
+    }
+    if gate.startswith("P21_5_AUTHORIZED_BY_OWNER"):
+        assert s["phase21_p21_5"]["state"] == "AUTHORIZED_READY_TO_BEGIN"
     assert s["runtime"]["production_live"] == "NOT_OPERATIONAL"
     assert s["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
