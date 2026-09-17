@@ -38,6 +38,7 @@ def test_p21_3_historical_closure_does_not_activate_runtime_and_allows_later_own
     assert gate in {
         "P21_5_EXPLICIT_OWNER_DECISION_REQUIRED",
         "P21_5_AUTHORIZED_BY_OWNER_2026-09-16 / BOUNDED_PUBLIC_FREE_ONLY",
+        "P21_5_WAVE_A_VALIDATED / FUTURE_WAVES_OWNER_DECISION_REQUIRED",
     }
     if gate.startswith("P21_5_AUTHORIZED_BY_OWNER"):
         assert s["phase21_p21_5"]["state"] == "AUTHORIZED_READY_TO_BEGIN"
