@@ -474,7 +474,7 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-07_P18_2_RBAC_OWNER_GAT
 
 Exact implementation validation:
 - x64 run `34131110962`, job `101771189130`: `820 passed in 125.92s / SUCCESS`;
-- native ARM64 run `34131110956`, job `101771189305`: native `aarch64`, `820 passed in 173.68s / SUCCESS`, bootstrap/unattended/systemd PASS.
+- native ARM64 run `34131110956`, job `101771189222`: native `aarch64`, `820 passed in 173.68s / SUCCESS`, bootstrap/unattended/systemd PASS.
 
 Validated authorization foundation: authorization is deny-by-default; role bindings are resolved server-side against authenticated identity and tenant context; `OWNER / ADMIN / ANALYST / VIEWER / SERVICE` permissions remain separated; services have no implicit authority; `ADMIN` does not inherit owner-only strategic authority; strategic activation/provider/cutover/migration gates require an authenticated human with workspace-wide `OWNER` authority; cross-tenant and escalation attempts fail closed.
 
