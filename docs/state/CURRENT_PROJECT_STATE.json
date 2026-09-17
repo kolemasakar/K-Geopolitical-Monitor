@@ -3,13 +3,13 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.42",
+    "state_sync_version": "4.43",
     "status": "APPROVED",
-    "current_position": "PHASE_21_P21_5_AUTHORIZED_WAVE_A_READY"
+    "current_position": "PHASE_21_P21_5_VALIDATED_P21_6_READY"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
-    "13": "PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED",
+    "13": "PHASE_13_SEMANTIIC_VERIFICATION_PROVENANCE_VALIDATED",
     "14": "PHASE_14_OWNER_OPERATIONAL_INTELLIGENCE_READY / VALIDATED_READY / NOT_ACTIVATED / OWNER_DECISION_REQUIRED",
     "15": "PHASE_15_FORECAST_CALIBRATION_PERFORMANCE_VALIDATED",
     "16": "PHASE_16_DELIVERY_OPERATOR_QUALITY_LOOP_VALIDATED",
@@ -17,7 +17,7 @@
     "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED",
     "19": "PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED",
     "20": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
-    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_AUTHORIZED_WAVE_A_READY"
+    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_VALIDATED / P21_6_READY"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -31,7 +31,7 @@
     "phase18_readiness": "PHASE_18_SHARED_TEAM_RUNTIME_ACTIVATION_READINESS_VALIDATED",
     "phase18_activation": "PHASE_18_SHARED_RUNTIME_ACTIVE = NO",
     "phase18_launch": "EXPLICIT_OWNER_DECISION_PLUS_FRESH_LAUNCH_TIME_VALIDATION_REQUIRED",
-    "phase21_live_source_expansion": "P21_5_AUTHORIZED_BY_OWNER_2026-09-16 / BOUNDED_PUBLIC_FREE_ONLY"
+    "phase21_live_source_expansion": "P21_5_WAVE_A_VALIDATED / FUTURE_WAVES_OWNER_DECISION_REQUIRED"
   },
   "runtime": {
     "storage": "PROJECT_LOCAL_ONLY",
@@ -287,10 +287,11 @@
       "P21.1",
       "P21.2",
       "P21.3",
-      "P21.4"
+      "P21.4",
+      "P21.5"
     ],
-    "next_gate": "P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED",
-    "live_source_expansion": "AUTHORIZED_FOR_P21_5_BOUNDED_PUBLIC_FREE_ONBOARDING",
+    "next_gate": "P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED",
+    "live_source_expansion": "WAVE_A_REPOSITORY_ONBOARDING_VALIDATED / DEPLOYED_RUNTIME_NOT_MUTATED",
     "verification_authority": "P13.5/P13.6",
     "production_live": "NOT_OPERATIONAL"
   },
@@ -404,7 +405,7 @@
     "next_gate": "P21_5_EXPLICIT_OWNER_DECISION_REQUIRED"
   },
   "phase21_p21_5": {
-    "state": "AUTHORIZED_READY_TO_BEGIN",
+    "state": "VALIDATED_WITH_MEASURED_CONTENT_STALENESS",
     "gate": "P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED",
     "owner_authorization": "docs/evidence/P21_5_CONTROLLED_SOURCE_ONBOARDING_OWNER_AUTHORIZATION_2026-09-16.json",
     "owner_decision": "docs/decisions/P21_5_CONTROLLED_SOURCE_ONBOARDING_OWNER_ACTIVATION_2026-09-16.md",
@@ -423,6 +424,25 @@
     "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
     "plugin_build_authorized": false,
     "plugin_publication_authorized": false,
-    "verification_authority": "P13.5/P13.6"
+    "verification_authority": "P13.5/P13.6",
+    "implementation_merge_anchor": "e2b78f8511154e9b626a39d0525d9b118c842bd2",
+    "implementation_pr": 123,
+    "validation_run_id": 35174372833,
+    "validation_job_id": 105052706519,
+    "test_count": 1292,
+    "wave_a_source_ids": [
+      "ukraine-government-kmu-uk",
+      "suspilne-uk"
+    ],
+    "repository_active_count": 2,
+    "fresh_healthy_count": 1,
+    "healthy_collector_stale_content_count": 1,
+    "independence_credit_granted_count": 0,
+    "fresh_health_evidence": "docs/evidence/P21_5_WAVE_A_FRESH_HEALTH_2026-09-17.json",
+    "onboarding_evidence": "docs/evidence/P21_5_WAVE_A_ONBOARDING_2026-09-17.json",
+    "result": "docs/implementation/P21_5_WAVE_A_CONTROLLED_SOURCE_ONBOARDING_RESULT.md",
+    "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-17_P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED.md",
+    "next_gate": "P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED",
+    "p21_6_state": "READY_TO_BEGIN"
   }
 }
