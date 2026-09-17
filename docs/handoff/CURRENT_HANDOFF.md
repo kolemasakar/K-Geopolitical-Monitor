@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_21_IN_PROGRESS / P21_5_AUTHORIZED / WAVE_A_READY`
+Status: `AUTHORITATIVE_POINTER / PHASE_21_IN_PROGRESS / P21_5_VALIDATED / P21_6_READY`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -9,10 +9,10 @@ Approved strategic block:
 `Phase 21 — Source Network Operational Adequacy & Evidence Population`
 
 Current Phase 21 position:
-`P21_5_AUTHORIZED_WAVE_A_READY`
+`PHASE_21_P21_5_VALIDATED_P21_6_READY`
 
 Next gate:
-`P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED`
+`P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED`
 
 Roadmap decision:
 `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
@@ -103,6 +103,20 @@ Gate: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`.
 
 P21.4 is planning-only and did not activate any source. At P21.4 closure the position was `P21_4_VALIDATED / P21_5_OWNER_DECISION_REQUIRED`; that historical gate was superseded by the explicit owner authorization recorded for P21.5 on 2026-09-16.
 
+
+## P21.5 controlled public/free onboarding
+
+Gate: `P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED`.
+
+- Wave A sources: `ukraine-government-kmu-uk`, `suspilne-uk`;
+- repository-active paths: `2`; P20.5 qualified: `2`; automatic independence credit: `0`;
+- fresh probe: `2/2 SUCCESS`, `120 items`;
+- `suspilne-uk`: fresh against 120-minute threshold;
+- `ukraine-government-kmu-uk`: collector/parser healthy but content stale (~464 minutes against 240), limitation preserved;
+- PR #123; merge anchor `e2b78f8511154e9b626a39d0525d9b118c842bd2`;
+- CI #1752: `1292 passed in 141.35s / SUCCESS`;
+- deployed runtime not mutated or restarted.
+
 ## OpenAI / ChatGPT architecture rebase
 
 Canonical decision:
@@ -149,4 +163,4 @@ P21.5 controlled public/free onboarding was explicitly authorized by the owner o
 
 ## Next substantive action
 
-`BEGIN P21.5 WAVE A. Use P20.5 qualification, fixtures/tests, fresh health evidence and deterministic rollback. Preserve public/free-only, provenance, independence, verification and no-deployed-runtime-mutation boundaries.`
+`BEGIN P21.6 INTELLIGENCE QUALITY IMPACT VALIDATION. Compare pre/post Wave-A exact cohorts where feasible without converting coverage/health/source-count changes into factual-verification authority.`
