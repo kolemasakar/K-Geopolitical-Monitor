@@ -22,6 +22,6 @@ def test_wave_a_fresh_health_preserves_measured_degradation():
 
 def test_wave_a_result_keeps_truth_and_runtime_boundaries():
     t=RESULT.read_text()
-    assert 'IMPLEMENTED / VALIDATION_CANDIDATE' in t
+    assert 'VALIDATED_WITH_MEASURED_CONTENT_STALENESS' in t
     assert 'P13.5/P13.6 remain factual-verification authority' in t
     assert 'HEALTHY_COLLECTOR / STALE_CONTENT' in t

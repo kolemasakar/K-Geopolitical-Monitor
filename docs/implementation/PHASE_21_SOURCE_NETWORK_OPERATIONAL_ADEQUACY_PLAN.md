@@ -1,7 +1,7 @@
 # Phase 21 — Source Network Operational Adequacy & Evidence Population — Implementation Plan
 
 Date: 2026-09-16
-Status: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_AUTHORIZED_WAVE_A_READY`
+Status: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_VALIDATED / P21_6_READY`
 Decision: `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
 
 ## Objective
@@ -31,7 +31,7 @@ P21.4 gate: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`.
 Implementation merge anchor: `277b219726008c70671cf4d804c857c98f8ab0c4`.
 Validation: GitHub CI #1710 — `1281 passed in 115.53s / SUCCESS`.
 
-Current boundary: `P21_5_AUTHORIZED_WAVE_A_READY`. The owner explicitly authorized bounded public/free P21.5 onboarding; execution begins with Wave A while runtime deployment, paid/shared providers, production/live cutover and Plugin/publication remain unauthorized.
+Current boundary: `P21_5_VALIDATED / P21_6_READY`. Wave A repository onboarding is validated; measured KMU content staleness is preserved. Runtime deployment, paid/shared providers, production/live cutover and Plugin/publication remain unauthorized.
 
 ## ChatGPT / Plugin architecture boundary
 
@@ -140,7 +140,7 @@ Gate:
 
 ### P21.5 — Controlled Public/Free Source Onboarding
 
-State: `AUTHORIZED / WAVE_A_READY_TO_BEGIN`
+State: `VALIDATED_WITH_MEASURED_CONTENT_STALENESS`
 
 Owner authorization: `docs/evidence/P21_5_CONTROLLED_SOURCE_ONBOARDING_OWNER_AUTHORIZATION_2026-09-16.json`
 
@@ -159,6 +159,8 @@ Gate:
 `P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED`
 
 ### P21.6 — Intelligence Quality Impact Validation
+
+State: `READY_TO_BEGIN`
 
 Deliverables:
 
@@ -211,4 +213,4 @@ PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED = YES
 
 ## Next executable step
 
-Begin P21.5 Wave A using the P20.5 contract. Qualify and onboard public/free anonymous sources for `ukraine.uk.official_government` and `ukraine.uk.national_media`; require fixtures/tests, fresh health evidence and deterministic disable/rollback before repository activation. Do not deploy/restart the stale `/opt` runtime, authorize paid/shared resources, create migration `033`, or activate Plugin/publication surfaces.
+Begin P21.6 intelligence-quality impact validation using exact pre/post Wave-A cohorts where feasible. Measure provenance completeness, verification decision yield, unresolved-claim distribution, contradiction workload, analytical coverage and forecast-input coverage without treating source/coverage/health metrics as factual verification. Do not deploy/restart the stale `/opt` runtime, authorize paid/shared resources, create migration `033`, or activate Plugin/publication surfaces.
