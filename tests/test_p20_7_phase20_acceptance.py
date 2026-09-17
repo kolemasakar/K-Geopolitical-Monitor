@@ -127,7 +127,8 @@ def test_p20_7_canonical_closure_remains_immutable_after_explicit_phase21_progre
     assert P21_PLAN.exists()
     assert "Authorization basis: owner approval" in decision
     assert "P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED" in decision
-    assert "LIVE_SOURCE_EXPANSION = NO" in plan
+    assert "DEPLOYED_RUNTIME_SOURCE_EXPANSION = NO" in plan
+    assert "P21_5_BOUNDED_PUBLIC_FREE_ONBOARDING = AUTHORIZED_WAVE_A" in plan
     assert approval["owner_decision"] == "APPROVED_GLOBAL_BASELINE"
     assert "P21_0_TARGET_COVERAGE_POLICY_APPROVAL_2026-09-16.json" in handoff
     assert "P21_2_FRESH_SOURCE_HEALTH_BASELINE_VALIDATED" in handoff
