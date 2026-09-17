@@ -42,6 +42,7 @@ def test_p21_2_formal_closure_remains_immutable_after_later_phase21_progress():
     assert gate in {
         "P21_5_EXPLICIT_OWNER_DECISION_REQUIRED",
         "P21_5_AUTHORIZED_BY_OWNER_2026-09-16 / BOUNDED_PUBLIC_FREE_ONLY",
+        "P21_5_WAVE_A_VALIDATED / FUTURE_WAVES_OWNER_DECISION_REQUIRED",
     }
     if gate.startswith("P21_5_AUTHORIZED_BY_OWNER"):
         assert state["phase21_p21_5"]["owner_authorization"] == "docs/evidence/P21_5_CONTROLLED_SOURCE_ONBOARDING_OWNER_AUTHORIZATION_2026-09-16.json"
