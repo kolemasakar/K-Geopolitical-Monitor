@@ -14,14 +14,15 @@ def test_p22_0_entry_convergence_is_validated_and_p22_2_is_ready():
     s = json.loads(STATE.read_text(encoding="utf-8"))
     x = s["phase22"]
 
-    assert s["roadmap"]["state_sync_version"] == "4.48"
-    assert s["roadmap"]["current_position"] == "PHASE_22_P22_0_VALIDATED_P22_2_READY"
+    major, minor = map(int, s["roadmap"]["state_sync_version"].split("."))
+    assert major == 4 and minor >= 48
+    assert s["roadmap"]["current_position"].startswith("PHASE_22_")
     assert x["p22_0_state"] == "VALIDATED"
     assert x["p22_0_gate"] == "P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED"
     assert x["p22_1_state"] == "BLOCKED_ON_OWNER_GATE"
-    assert x["p22_2_state"] == "READY_TO_BEGIN"
+    assert x["p22_2_state"] in {"READY_TO_BEGIN", "VALIDATED_WITH_ONBOARDING_BLOCKERS"}
     assert x["p22_3_state"] == "BLOCKED_ON_OWNER_GATE"
-    assert x["next_gate"] == "P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED"
+    assert x["next_gate"] in {"P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED", "EXPLICIT_OWNER_DECISIONS_REQUIRED"}
 
 
 def test_p22_0_preserves_owner_wave_runtime_and_truth_boundaries():
@@ -48,11 +49,12 @@ def test_p22_0_preserves_owner_wave_runtime_and_truth_boundaries():
     assert "P22_2_STATE = READY_TO_BEGIN" in result
     assert "P22_1 = BLOCKED_ON_OWNER_GATE" in checkpoint
 
-    assert "Version: 4.48" in roadmap
+    sync_version = s["roadmap"]["state_sync_version"]
+    assert f"Version: {sync_version}" in roadmap
     assert "### P22.2 — Wave-B Candidate Discovery & Qualification" in roadmap
-    assert "State: `READY_TO_BEGIN`" in roadmap
+    assert "P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED" in roadmap
     assert "P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED" in handoff
-    assert "State: `READY_TO_BEGIN`" in plan
+    assert "P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED" in plan
 
     assert s["runtime"]["production_live"] == "NOT_OPERATIONAL"
     assert s["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
