@@ -1,7 +1,7 @@
 # Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion — Implementation Plan
 
 Date: 2026-09-19
-Status: `APPROVED / P22_0_READY`
+Status: `APPROVED / P22_0_VALIDATED / P22_1_BLOCKED_ON_OWNER_GATE / P22_2_READY`
 Decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Parent audit: `docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md`
 
@@ -87,7 +87,9 @@ This cohort is not automatically authorized for onboarding.
 
 ### P22.0 — Entry Convergence & Owner Gates
 
-State: `READY_TO_BEGIN`
+State: `VALIDATED`
+Result: `docs/implementation/P22_0_ENTRY_CONVERGENCE_OWNER_GATES_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED.md`
 
 Deliverables:
 
@@ -121,7 +123,7 @@ Gate:
 
 ### P22.2 — Wave-B Candidate Discovery & Qualification
 
-State: `PLANNED`
+State: `READY_TO_BEGIN`
 
 Candidate discovery/qualification may remain repository-only and non-activating.
 
@@ -238,6 +240,4 @@ Final gate:
 
 ## Next executable step
 
-Begin P22.0 Entry Convergence & Owner Gates.
-
-P22.0 must not activate the owner-operational pilot or onboard Wave B. Its purpose is to validate the entry contract and make both owner gates explicit and regression-protected.
+Begin P22.2 Wave-B Candidate Discovery & Qualification. This step is repository-only/public-free-first and must not activate the owner-operational pilot or onboard Wave B.

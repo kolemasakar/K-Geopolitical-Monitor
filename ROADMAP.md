@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.47
+Version: 4.48
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -868,7 +868,7 @@ Current strategic position:
 
 
 ## Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion
-State: `APPROVED / P22_0_READY`
+State: `APPROVED / P22_0_VALIDATED / P22_1_BLOCKED_ON_OWNER_GATE / P22_2_READY`
 Roadmap decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Implementation plan: `docs/implementation/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_PLAN.md`
 
@@ -888,8 +888,10 @@ Entry constraints:
 - Plugin build/publication remains inactive.
 
 ### P22.0 — Entry Convergence & Owner Gates
-State: `READY_TO_BEGIN`
+State: `VALIDATED`
 Gate: `P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED`
+Result: `docs/implementation/P22_0_ENTRY_CONVERGENCE_OWNER_GATES_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED.md`
 
 P22.0 validates the entry contract and explicit activation boundaries. It must not activate the owner-operational pilot or onboard Wave B.
 
@@ -899,7 +901,7 @@ Entry gate: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`
 Gate: `P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED`
 
 ### P22.2 — Wave-B Candidate Discovery & Qualification
-State: `PLANNED`
+State: `READY_TO_BEGIN`
 Gate: `P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED`
 
 Default planning cohort: P21.4 `B_HIGH_REQUIRED` — 9 required gap cells / 13 source-path deficit / 13 healthy-source deficit / 16 origin-evidence deficit.

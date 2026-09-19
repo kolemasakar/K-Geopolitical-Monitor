@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_22_APPROVED / P22_0_READY`
+Status: `AUTHORITATIVE_POINTER / PHASE_22_APPROVED / P22_0_VALIDATED / P22_2_READY`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -249,14 +249,18 @@ Current state:
 
 ```text
 PHASE_22 = APPROVED
-CURRENT_POSITION = PHASE_22_P22_0_READY
-NEXT_GATE = P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED
+CURRENT_POSITION = PHASE_22_P22_0_VALIDATED_P22_2_READY
+P22_0_GATE = P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED
+NEXT_GATE = P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED
+P22_1 = BLOCKED_ON_OWNER_GATE
+P22_2 = READY_TO_BEGIN
+P22_3 = BLOCKED_ON_OWNER_GATE
 OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED
 WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED
 ```
 
-P22.0 may proceed with repository/state/contract convergence only. It must not activate runtime operation or onboard Wave B.
+P22.0 is validated. P22.2 repository-only/public-free-first candidate discovery and qualification may proceed. P22.1 owner-operational pilot and P22.3 onboarding remain blocked on explicit owner gates.
 
 ## Next substantive action
 
-`BEGIN P22.0 ENTRY CONVERGENCE & OWNER GATES`. Validate Phase 22 entry-state convergence and regression-protect the owner-operational and Wave-B onboarding gates. Do not activate runtime operation, onboard Wave B, deploy/restart runtime, authorize paid/shared resources, create migration 033, cut over production/live, or activate Plugin/publication.
+`BEGIN P22.2 WAVE-B CANDIDATE DISCOVERY & QUALIFICATION`. Repository-only/public-free-first research is authorized. Do not activate runtime operation, onboard Wave B, deploy/restart runtime, authorize paid/shared resources, create migration 033, cut over production/live, or activate Plugin/publication.
