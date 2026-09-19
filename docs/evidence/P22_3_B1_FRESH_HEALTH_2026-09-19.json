@@ -1,0 +1,77 @@
+{
+  "schema_version": "kgm.p22.3.b1.health.v1",
+  "assessed_at": "2026-09-19T15:19:27.072712+00:00",
+  "cohort_id": "B1_INSTITUTIONAL",
+  "measurement_vantage": "OWNER_LOCAL_KGM_E4_PILOT_ISOLATED_EXACT_MAIN",
+  "host_label": "kgm-e4-owner-pilot",
+  "architecture": "aarch64",
+  "exact_main_sha": "445699eb8b60fec3a70cbbfb5d831ffb35aa26a3",
+  "deployed_sha_before": "b31b2136b5fe982d0b63b0135479b1549041906c",
+  "deployed_sha_after": "b31b2136b5fe982d0b63b0135479b1549041906c",
+  "service_before": "active",
+  "service_after": "active",
+  "runtime_deployment": false,
+  "service_restart": false,
+  "production_runtime_mutated": false,
+  "probe_transport": {
+    "timeout_seconds": 20,
+    "max_bytes": 10000000
+  },
+  "sources": [
+    {
+      "source_id": "ofac-recent-actions-en",
+      "status": "SUCCESS",
+      "item_count": 15,
+      "adapter_identity": "ofac-recent-actions-html@P12.2-2.0",
+      "request_base_url": "https://ofac.treasury.gov/recent-actions",
+      "health_behavior_status": "PASS",
+      "p20_4_compatible_observation": "COLLECTOR_SUCCESS_CONTENT_FRESHNESS_UNOBSERVED",
+      "content_freshness_credit": "NOT_GRANTED",
+      "error": null
+    },
+    {
+      "source_id": "uk-sanctions-list-en",
+      "status": "FAILED",
+      "item_count": 0,
+      "adapter_identity": "uk-sanctions-list-csv@P12.2-2.0",
+      "request_base_url": "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv",
+      "health_behavior_status": "FAIL",
+      "p20_4_compatible_observation": "DEGRADED_BOUNDED_RESPONSE_LIMIT",
+      "diagnostic_content_length_bytes": 49928338,
+      "bounded_transport_max_bytes": 10000000,
+      "error_class": "BOUNDED_RESPONSE_LIMIT",
+      "error": "RuntimeError: P12.2 source response exceeds configured size limit"
+    },
+    {
+      "source_id": "russian-government-news-ru",
+      "status": "FAILED",
+      "item_count": 0,
+      "adapter_identity": "russian-government-news-html@P12.2-2.0",
+      "request_base_url": "https://government.ru/news/",
+      "health_behavior_status": "FAIL",
+      "p20_4_compatible_observation": "UNREACHABLE_TRANSPORT_TIMEOUT",
+      "error_class": "TRANSPORT",
+      "error": "RuntimeError: P12.2 source network error: timed out"
+    },
+    {
+      "source_id": "white-house-briefings-en",
+      "status": "SUCCESS",
+      "item_count": 13,
+      "adapter_identity": "white-house-briefings-html@P12.2-2.0",
+      "request_base_url": "https://www.whitehouse.gov/briefings-statements/",
+      "health_behavior_status": "PASS",
+      "p20_4_compatible_observation": "COLLECTOR_SUCCESS_CONTENT_FRESHNESS_UNOBSERVED",
+      "content_freshness_credit": "NOT_GRANTED",
+      "error": null
+    }
+  ],
+  "summary": {
+    "measured_source_count": 4,
+    "success_count": 2,
+    "failure_count": 2,
+    "item_count": 28,
+    "health_behavior_pass_count": 2,
+    "content_freshness_credit_count": 0
+  },
+  "epistemic_note": "Current collector success is operational evidence only. It does not create factual-verification, independent-origin, or content-freshness credit when publication time is not observed."
+}
