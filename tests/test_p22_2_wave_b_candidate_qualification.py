@@ -83,9 +83,9 @@ def test_p22_2_state_preserves_owner_runtime_and_truth_gates():
     assert s["roadmap"]["current_position"].startswith("PHASE_22_")
     assert x["p22_2_state"] == "VALIDATED_WITH_ONBOARDING_BLOCKERS"
     assert x["p22_1_state"] in {"BLOCKED_ON_OWNER_GATE", "AUTHORIZED_READY_TO_EXECUTE", "VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION"}
-    assert x["p22_3_state"] in {"BLOCKED_ON_OWNER_GATE", "AUTHORIZED_B1_IMPLEMENTATION_READY"}
+    assert x["p22_3_state"] in {"BLOCKED_ON_OWNER_GATE", "AUTHORIZED_B1_IMPLEMENTATION_READY", "VALIDATED_WITH_PARTIAL_ONBOARDING"}
     assert x["owner_operational_activation"] in {"OWNER_DECISION_REQUIRED", "APPROVED_FOR_BOUNDED_P22_1_PILOT", "BOUNDED_P22_1_PILOT_COMPLETED / PERSISTENT_OWNER_OPERATION_NOT_ACTIVATED"}
-    assert x["wave_b_onboarding"] in {"OWNER_DECISION_REQUIRED", "APPROVED_FOR_B1_INSTITUTIONAL_COHORT"}
+    assert x["wave_b_onboarding"] in {"OWNER_DECISION_REQUIRED", "APPROVED_FOR_B1_INSTITUTIONAL_COHORT", "B1_PARTIAL_ONBOARDING_VALIDATED / REMAINING_WAVE_B_OWNER_DECISION_REQUIRED"}
 
     assert p["candidate_count"] == 13
     assert p["p20_5_eligible_not_active_count"] == 0
