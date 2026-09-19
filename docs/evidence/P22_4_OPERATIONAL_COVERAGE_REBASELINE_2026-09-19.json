@@ -1,0 +1,140 @@
+{
+  "schema_version": "kgm.p22.4.operational_coverage_rebaseline.v1",
+  "assessed_at": "2026-09-19",
+  "canonical_base_sha": "5ed788f54af816f06568981bd58b34f6e447b1b4",
+  "inputs": {
+    "phase21_acceptance": "docs/implementation/P21_7_PHASE_21_ACCEPTANCE_RESULT.md",
+    "phase21_wave_a": "docs/evidence/P21_5_WAVE_A_ONBOARDING_2026-09-17.json",
+    "p22_3_health": "docs/evidence/P22_3_B1_FRESH_HEALTH_2026-09-19.json",
+    "p22_3_onboarding": "docs/evidence/P22_3_B1_ONBOARDING_2026-09-19.json"
+  },
+  "pre_b1_post_wave_a": {
+    "status_counts": {
+      "ADEQUATE": 1,
+      "DEGRADED_COLLECTION": 2,
+      "MISSING_EXPECTED_COVERAGE": 20,
+      "THIN": 10
+    },
+    "required_status_counts": {
+      "ADEQUATE": 1,
+      "DEGRADED_COLLECTION": 1,
+      "MISSING_EXPECTED_COVERAGE": 20,
+      "THIN": 5
+    }
+  },
+  "post_b1": {
+    "target_cell_count": 33,
+    "required_cell_count": 27,
+    "optional_cell_count": 6,
+    "status_counts": {
+      "ADEQUATE": 1,
+      "DEGRADED_COLLECTION": 4,
+      "MISSING_EXPECTED_COVERAGE": 18,
+      "THIN": 10
+    },
+    "required_status_counts": {
+      "ADEQUATE": 1,
+      "DEGRADED_COLLECTION": 3,
+      "MISSING_EXPECTED_COVERAGE": 18,
+      "THIN": 5
+    },
+    "deltas": {
+      "ADEQUATE": 0,
+      "DEGRADED_COLLECTION": 2,
+      "MISSING_EXPECTED_COVERAGE": -2,
+      "THIN": 0
+    },
+    "required_deltas": {
+      "ADEQUATE": 0,
+      "DEGRADED_COLLECTION": 2,
+      "MISSING_EXPECTED_COVERAGE": -2,
+      "THIN": 0
+    }
+  },
+  "changed_cells": [
+    {
+      "cell_id": "global.en.sanctions_regulatory",
+      "requirement_state": "REQUIRED",
+      "criticality": "HIGH",
+      "prior_status": "MISSING_EXPECTED_COVERAGE",
+      "status": "DEGRADED_COLLECTION",
+      "repository_active_source_ids": [
+        "ofac-recent-actions-en"
+      ],
+      "blocked_candidate_ids": [
+        "uk-sanctions-list-en"
+      ],
+      "known_origin_groups": [
+        "official:us-treasury-ofac"
+      ],
+      "known_independent_origin_lower_bound": 1,
+      "collector_health_pass_source_ids": [
+        "ofac-recent-actions-en"
+      ],
+      "content_freshness_credited_source_ids": [],
+      "reason_codes": [
+        "CONTENT_FRESHNESS_NOT_OBSERVED",
+        "SOURCE_COUNT_BELOW_POLICY_MINIMUM"
+      ],
+      "epistemic_note": "Direct institutional origin identifies the publication stream only and grants no automatic factual independence."
+    },
+    {
+      "cell_id": "united_states.en.official_government",
+      "requirement_state": "REQUIRED",
+      "criticality": "HIGH",
+      "prior_status": "MISSING_EXPECTED_COVERAGE",
+      "status": "DEGRADED_COLLECTION",
+      "repository_active_source_ids": [
+        "white-house-briefings-en"
+      ],
+      "blocked_candidate_ids": [],
+      "known_origin_groups": [
+        "official:us-white-house"
+      ],
+      "known_independent_origin_lower_bound": 1,
+      "collector_health_pass_source_ids": [
+        "white-house-briefings-en"
+      ],
+      "content_freshness_credited_source_ids": [],
+      "reason_codes": [
+        "CONTENT_FRESHNESS_NOT_OBSERVED",
+        "SOURCE_COUNT_BELOW_POLICY_MINIMUM"
+      ],
+      "epistemic_note": "Direct institutional origin identifies the publication stream only and grants no automatic factual independence."
+    }
+  ],
+  "unchanged_blocker_cells": [
+    {
+      "cell_id": "russia.ru.official_government",
+      "status": "MISSING_EXPECTED_COVERAGE",
+      "blocked_candidate": "russian-government-news-ru",
+      "blocker": "TRANSPORT_TIMEOUT"
+    }
+  ],
+  "structural_impact": {
+    "repository_active_source_path_delta": 2,
+    "collector_health_pass_path_delta": 2,
+    "healthy_fresh_path_delta": 0,
+    "confirmed_source_network_origin_group_lower_bound_delta": 2,
+    "automatic_factual_independence_credit_delta": 0,
+    "required_missing_cell_delta": -2,
+    "adequate_cell_delta": 0
+  },
+  "limitations": [
+    "OFAC and White House collector success has no content-freshness credit because publication timestamps were not observed by the P22.3 health probe.",
+    "UK Sanctions List remains blocked by the bounded response-size limit.",
+    "Government of Russia remains blocked by owner-node transport timeout.",
+    "Remaining Wave-B candidates are not authorized and therefore do not enter this rebaseline."
+  ],
+  "safety_boundary": {
+    "persistent_owner_operation": "NOT_ACTIVATED",
+    "runtime_deployment": false,
+    "service_restart": false,
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "production_live": "NOT_OPERATIONAL",
+    "plugin_build": false,
+    "plugin_publication": false
+  },
+  "verification_authority": "P13.5/P13.6"
+}
