@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.45
+Version: 4.46
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -837,3 +837,24 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 Phase 17 readiness remains strategically validated, but its 2026-09-05 account-capability block is now historical for the legacy publication surface. Future ChatGPT-facing publication is Plugin-first and requires `PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED` plus a separate owner activation decision and fresh launch-time validation. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 remains `NOT_ACTIVATED`: real external infrastructure observations remain `NOT_OBSERVED`, `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`, migration `033` is not created or preauthorized, no provider spending/selection is approved, and production/live remains not operational.
 
 Phase 20 remains closed at `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. Phase 21 is now closed at `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. P21.0-P21.7 are validated; measured degradation, material coverage gaps, unresolved provenance and `NOT_OBSERVED` semantic downstream effects remain explicit. Deployed runtime, additional source waves, paid/shared resources, production/live cutover and Plugin/publication remain unauthorized. No Phase 22 is authorized by Phase 21 acceptance; next strategic position is `ROADMAP_DECISION_REQUIRED`.
+
+# Post-Phase-21 Strategic Audit
+
+State: `COMPLETED / ROADMAP_DECISION_REQUIRED`
+Audit: `docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md`
+Roadmap proposal: `docs/decisions/POST_PHASE_21_ROADMAP_DECISION_PROPOSAL_2026-09-19.md`
+
+Audit conclusion:
+
+- Phase 21 validated the source-network assessment/onboarding mechanism but did not establish broad adequacy;
+- required coverage remains the first measured structural constraint: `1 ADEQUATE / 1 DEGRADED_COLLECTION / 20 MISSING_EXPECTED_COVERAGE / 5 THIN`;
+- downstream semantic effect remains unobserved because no post-Wave-A operational semantic corpus exists;
+- existing Phase 14/15/16/19 readiness can support a bounded owner-local evidence pilot without public/shared activation;
+- recommended strategic direction is a bounded owner-operational evidence pilot plus high-priority source expansion;
+- proposed next block is `Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion`, but it is **not created or authorized** by this audit;
+- owner-operational activation and Wave-B onboarding remain explicit owner gates;
+- paid/shared resources, migration `033`, production/live cutover and Plugin/publication remain unauthorized.
+
+Current strategic position remains:
+`ROADMAP_DECISION_REQUIRED`.
+
