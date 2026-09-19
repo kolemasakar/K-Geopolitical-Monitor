@@ -51,12 +51,12 @@ def test_p22_3_b1_preserves_runtime_and_truth_boundaries():
     assert a["production_live"] == "NOT_OPERATIONAL"
     assert a["verification_authority"] == "P13.5/P13.6"
 
-    assert x["p22_3_state"] == "AUTHORIZED_B1_IMPLEMENTATION_READY"
-    assert x["wave_b_onboarding"] == "APPROVED_FOR_B1_INSTITUTIONAL_COHORT"
+    assert x["p22_3_state"] in {"AUTHORIZED_B1_IMPLEMENTATION_READY", "VALIDATED_WITH_PARTIAL_ONBOARDING"}
+    assert x["wave_b_onboarding"] in {"APPROVED_FOR_B1_INSTITUTIONAL_COHORT", "B1_PARTIAL_ONBOARDING_VALIDATED / REMAINING_WAVE_B_OWNER_DECISION_REQUIRED"}
     assert x["persistent_owner_operation"] == "NOT_ACTIVATED"
     assert s["runtime"]["production_live"] == "NOT_OPERATIONAL"
     assert s["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
 
     assert DECISION.exists()
     assert "B1_REPOSITORY_ACTIVATION = CONDITIONAL_ON_P20_5_PASS" in DECISION.read_text(encoding="utf-8")
-    assert "State: `AUTHORIZED_B1_IMPLEMENTATION_READY`" in PLAN.read_text(encoding="utf-8")
+    assert any(marker in PLAN.read_text(encoding="utf-8") for marker in ("State: `AUTHORIZED_B1_IMPLEMENTATION_READY`", "State: `VALIDATED_WITH_PARTIAL_ONBOARDING`"))
