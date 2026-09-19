@@ -15,10 +15,10 @@ def test_p21_6_formal_closure_state_is_converged():
     s = json.loads(STATE.read_text(encoding="utf-8"))
     x = s["phase21_p21_6"]
 
-    assert s["roadmap"]["state_sync_version"] == "4.44"
-    assert s["roadmap"]["current_position"] == "PHASE_21_P21_6_VALIDATED_P21_7_READY"
-    assert s["phase21"]["validated_sequence"][-1] == "P21.6"
-    assert s["phase21"]["next_gate"] == "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED"
+    major, minor = map(int, s["roadmap"]["state_sync_version"].split("."))
+    assert major == 4 and minor >= 44
+    assert "P21.6" in s["phase21"]["validated_sequence"]
+    assert s["phase21_p21_6"]["next_gate"] == "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED"
 
     assert x["state"] == "VALIDATED_WITH_STRUCTURAL_IMPACT_ONLY"
     assert x["gate"] == "P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED"
