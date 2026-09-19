@@ -1,7 +1,7 @@
 # Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion — Implementation Plan
 
 Date: 2026-09-19
-Status: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_READY_TO_BEGIN`
+Status: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_VALIDATED_WITH_MEASURED_DEGRADATION / P22_5_READY_TO_BEGIN`
 Decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Parent audit: `docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md`
 
@@ -20,8 +20,8 @@ Current required-cell structural state:
 ```text
 REQUIRED_TOTAL = 27
 ADEQUATE = 1
-DEGRADED_COLLECTION = 1
-MISSING_EXPECTED_COVERAGE = 20
+DEGRADED_COLLECTION = 3
+MISSING_EXPECTED_COVERAGE = 18
 THIN = 5
 ```
 
@@ -178,7 +178,12 @@ Gate:
 
 ### P22.4 — Operational Coverage Rebaseline
 
-State: `READY_TO_BEGIN`
+State: `VALIDATED_WITH_MEASURED_DEGRADATION`
+Evidence: `docs/evidence/P22_4_OPERATIONAL_COVERAGE_REBASELINE_2026-09-19.json`
+Result: `docs/implementation/P22_4_OPERATIONAL_COVERAGE_REBASELINE_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED.md`
+
+Post-B1 required-cell state: `1 ADEQUATE / 3 DEGRADED_COLLECTION / 18 MISSING_EXPECTED_COVERAGE / 5 THIN`. OFAC and White House reduce required missing cells by two, but remain degraded because content-freshness credit was not observed.
 
 Deliverables:
 
@@ -259,5 +264,5 @@ Final gate:
 
 P22.1 and P22.2 are validated with explicit measured limitations.
 
-P22.3 is validated with partial B1 onboarding. Next execute P22.4 deterministic operational coverage rebaseline from the two new repository-active paths and the explicit health/freshness limitations. Persistent owner operation remains not activated; the remaining 9 P22.2 candidates remain unauthorized.
+P22.4 is validated with measured degradation. Next execute P22.5 semantic corpus and P13.5/P13.6 verification observation against the exact post-B1 cohort. Persistent owner operation remains not activated; the remaining Wave-B candidates remain unauthorized.
 
