@@ -60,7 +60,8 @@ def test_p21_7_acceptance_preserves_material_coverage_limitations():
 
     assert "20 required target cells remain `MISSING_EXPECTED_COVERAGE`" in result
     assert "PASS_WITH_KNOWN_LIMITATIONS" in checkpoint
-    assert "not a claim of exhaustive or broadly adequate geopolitical coverage" in result.lower()
+    assert "does **not** claim" in result.lower()
+    assert "broadly adequate" in result.lower()
 
 
 def test_p21_7_acceptance_preserves_truth_runtime_and_activation_boundaries():
