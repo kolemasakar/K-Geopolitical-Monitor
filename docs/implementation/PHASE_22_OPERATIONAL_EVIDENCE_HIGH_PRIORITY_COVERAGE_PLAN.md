@@ -1,7 +1,7 @@
 # Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion — Implementation Plan
 
 Date: 2026-09-19
-Status: `APPROVED / P22_0_VALIDATED / P22_1_BLOCKED_ON_OWNER_GATE / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_BLOCKED_ON_OWNER_GATE`
+Status: `APPROVED / P22_0_VALIDATED / P22_1_AUTHORIZED_READY_TO_EXECUTE / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_BLOCKED_ON_OWNER_GATE`
 Decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Parent audit: `docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md`
 
@@ -40,12 +40,13 @@ Approved now:
 - Phase 22 planning and implementation;
 - P22.0 entry convergence;
 - repository-only/read-only preparation;
-- later public/free/anonymous-first candidate discovery/qualification.
+- public/free/anonymous-first candidate discovery/qualification;
+- one bounded P22.1 owner-local operational pilot on `kgm-e4-owner-pilot` under `docs/decisions/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_AUTHORIZATION_2026-09-19.md`.
 
 Not approved now:
 
 ```text
-OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED
+OWNER_ONLY_OPERATIONAL_ACTIVATION = APPROVED_FOR_BOUNDED_P22_1_PILOT
 WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED
 RUNTIME_DEPLOYMENT = NO
 SERVICE_RESTART = NO
