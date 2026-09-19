@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_21_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
+Status: `AUTHORITATIVE_POINTER / PHASE_21_VALIDATED / POST_PHASE_21_AUDIT_COMPLETED / ROADMAP_DECISION_REQUIRED`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -212,6 +212,28 @@ This rebase does not activate a Plugin or change source/truth/runtime semantics.
 
 P21.5 controlled public/free onboarding was explicitly authorized by the owner on 2026-09-16. Authorization is bounded to Wave A and does not authorize deployed-runtime mutation, paid/shared resources, production/live cutover or Plugin/publication activation. Phase 21 acceptance does not authorize any additional source wave; future waves still require an owner decision.
 
+
+
+## Post-Phase-21 strategic audit
+
+State: `COMPLETED / ROADMAP_DECISION_REQUIRED`.
+
+Audit:
+`docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md`
+
+Roadmap decision proposal:
+`docs/decisions/POST_PHASE_21_ROADMAP_DECISION_PROPOSAL_2026-09-19.md`
+
+Key findings:
+
+- required coverage remains materially sparse after Wave A;
+- semantic downstream impact remains `NOT_OBSERVED` because no post-Wave-A operational semantic corpus exists;
+- Phase 14/15/16/19 provide enough owner-local readiness to collect real operational evidence without public/shared activation;
+- recommended direction: bounded owner-operational evidence plus high-priority source expansion;
+- proposed working block: `Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion`.
+
+The proposed Phase 22 is **not created or authorized**. Owner-operational activation and Wave-B onboarding remain explicit owner decisions. Paid/shared resources, migration `033`, production/live cutover and Plugin/publication remain unauthorized.
+
 ## Next substantive action
 
-`ROADMAP_DECISION_REQUIRED`. Phase 21 is closed at `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. Do not infer authorization for Phase 22, additional source waves, runtime deployment/restart, paid/shared resources, migration 033, production/live cutover or Plugin/publication.
+`ROADMAP_DECISION_REQUIRED`. Review and decide the post-Phase-21 roadmap proposal. Do not infer authorization for Phase 22, owner-operational activation, Wave-B onboarding, runtime deployment/restart, paid/shared resources, migration 033, production/live cutover or Plugin/publication.
