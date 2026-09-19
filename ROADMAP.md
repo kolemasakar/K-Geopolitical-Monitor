@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.54
+Version: 4.55
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -775,7 +775,7 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.54`;
+- state synchronization: `v4.55`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -865,7 +865,7 @@ Roadmap decision:
 `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`.
 
 Current strategic position:
-`PHASE_22_P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED`.
+`PHASE_22_P22_5_BLOCKED_CANONICAL_SEMANTIC_INGESTION_GAP`.
 
 
 
@@ -937,7 +937,11 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_4_OPERATIONAL_CO
 Post-B1 projection: overall `1 ADEQUATE / 4 DEGRADED_COLLECTION / 18 MISSING_EXPECTED_COVERAGE / 10 THIN`; required `1 / 3 / 18 / 5`. Two required cells improve from missing to degraded; adequate count remains unchanged.
 
 ### P22.5 — Semantic Corpus & Verification Observation
-State: `PLANNED`
+State: `BLOCKED_ON_CANONICAL_SEMANTIC_INGESTION_GAP`
+Observed exact-main: `eabd9ed98cfa3e266fdee5933f69bed2d459b83b`
+Result: 28 raw items / 28 legacy DETECTED claims / 0 canonical P13 semantic claims / 0 canonical verification decisions.
+Next remediation: `P22_5_CANONICAL_SEMANTIC_INGESTION_BRIDGE_IMPLEMENTATION`.
+P22.6 remains closed.
 Gate: `P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED`
 
 ### P22.6 — Contradiction / Analysis / Forecast-Input Impact
