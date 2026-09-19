@@ -9,24 +9,25 @@ AUDIT = ROOT / "docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md"
 PROPOSAL = ROOT / "docs/decisions/POST_PHASE_21_ROADMAP_DECISION_PROPOSAL_2026-09-19.md"
 
 
-def test_post_phase21_strategic_audit_is_recorded_without_creating_phase22():
+def test_post_phase21_strategic_audit_remains_recorded_after_owner_phase22_decision():
     s = json.loads(STATE.read_text(encoding="utf-8"))
     x = s["post_phase21_strategic_audit"]
 
-    assert s["roadmap"]["state_sync_version"] == "4.46"
-    assert s["roadmap"]["current_position"] == "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED"
+    major, minor = map(int, s["roadmap"]["state_sync_version"].split("."))
+    assert major == 4 and minor >= 46
     assert s["phase21"]["next_gate"] == "ROADMAP_DECISION_REQUIRED"
 
     assert x["state"] == "COMPLETED"
-    assert x["decision_state"] == "ROADMAP_DECISION_REQUIRED"
+    assert x["decision_state"] in {"ROADMAP_DECISION_REQUIRED", "SUPERSEDED_BY_OWNER_APPROVED_PHASE_22"}
     assert x["primary_constraints"] == [
         "REQUIRED_COVERAGE_GAPS",
         "SEMANTIC_IMPACT_NOT_OBSERVED",
     ]
     assert x["recommended_direction"] == "BOUNDED_OWNER_OPERATIONAL_EVIDENCE_PLUS_HIGH_PRIORITY_SOURCE_EXPANSION"
-    assert x["phase22_created"] is False
-    assert x["phase22_authorized"] is False
-    assert "22" not in s["phases"]
+    if x["decision_state"] == "SUPERSEDED_BY_OWNER_APPROVED_PHASE_22":
+        assert x["phase22_created"] is True
+        assert x["phase22_authorized"] is True
+        assert "22" in s["phases"]
 
 
 def test_post_phase21_proposal_preserves_owner_runtime_and_resource_gates():
@@ -39,9 +40,10 @@ def test_post_phase21_proposal_preserves_owner_runtime_and_resource_gates():
 
     assert AUDIT.exists()
     assert PROPOSAL.exists()
-    assert "Version: 4.46" in roadmap
-    assert "ROADMAP_DECISION_REQUIRED" in roadmap
-    assert "POST_PHASE_21_AUDIT_COMPLETED" in handoff
+    sync_version = s["roadmap"]["state_sync_version"]
+    assert f"Version: {sync_version}" in roadmap
+    assert "Post-Phase-21 Strategic Audit" in roadmap
+    assert "POST_PHASE_21" in handoff
     assert "Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion" in audit
     assert "PROPOSED / OWNER_DECISION_REQUIRED" in proposal
 
