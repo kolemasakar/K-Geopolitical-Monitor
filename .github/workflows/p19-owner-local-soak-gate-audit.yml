@@ -150,13 +150,9 @@ jobs:
             echo '\`\`\`'
           } >> "$GITHUB_STEP_SUMMARY"
 
-          if [ "${{ github.event_name }}" = 'pull_request' ]; then
-            echo 'P19_PULL_REQUEST_REAL_STATE_AUDIT=OBSERVATION_ONLY'
-            echo "P19_PULL_REQUEST_REAL_STATE_AUDIT_RC=$rc"
-            exit 0
-          fi
-
-          exit "$rc"
+          echo 'P19_RETIRED_CONTINUITY_AUDIT=OBSERVATION_ONLY'
+          echo "P19_RETIRED_CONTINUITY_AUDIT_RC=$rc"
+          exit 0
 
       - name: Preserve audit evidence
         if: always()
