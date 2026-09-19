@@ -84,7 +84,8 @@ def test_p21_7_acceptance_preserves_truth_runtime_and_activation_boundaries():
 
     assert s["runtime"]["production_live"] == "NOT_OPERATIONAL"
     assert s["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
-    assert f"Version: {s[\"roadmap\"][\"state_sync_version\"]}" in roadmap
+    sync_version = s["roadmap"]["state_sync_version"]
+    assert f"Version: {sync_version}" in roadmap
     assert "P21.7: `PASS_WITH_KNOWN_LIMITATIONS`" in roadmap
     assert "ROADMAP_DECISION_REQUIRED" in handoff
     assert "ROADMAP_DECISION_REQUIRED" in plan
