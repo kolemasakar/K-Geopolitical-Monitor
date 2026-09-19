@@ -1,0 +1,38 @@
+{
+  "schema_version": "kgm.p22.3.b1.owner_authorization.v1",
+  "phase": "P22.3",
+  "date": "2026-09-19",
+  "status": "AUTHORIZED",
+  "authorization_basis": "Explicit owner instruction to continue after P22.1/P22.2 validation; interpreted narrowly as the next sequential gate and a named low-risk institutional subset.",
+  "cohort_id": "B1_INSTITUTIONAL",
+  "source_ids": [
+    "ofac-recent-actions-en",
+    "uk-sanctions-list-en",
+    "russian-government-news-ru",
+    "white-house-briefings-en"
+  ],
+  "candidate_ids": [
+    "p22-2-b03-ofac",
+    "p22-2-b04-uk-sanctions",
+    "p22-2-b09-rugov",
+    "p22-2-b10-whitehouse"
+  ],
+  "repository_activation_rule": "CONDITIONAL_ON_PER_SOURCE_P20_5_PASS",
+  "required_states": {
+    "health_behavior_status": "PASS",
+    "fixture_validation_status": "PASS",
+    "rollback_disable_status": "PASS",
+    "governance_review_status": "APPROVED",
+    "eligibility_decision": "ELIGIBLE_NOT_ACTIVE"
+  },
+  "remaining_p22_2_candidates_authorized": false,
+  "persistent_owner_operation_authorized": false,
+  "runtime_deployment_authorized": false,
+  "service_restart_authorized": false,
+  "paid_or_shared_resources_authorized": false,
+  "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+  "production_live": "NOT_OPERATIONAL",
+  "plugin_build_authorized": false,
+  "plugin_publication_authorized": false,
+  "verification_authority": "P13.5/P13.6"
+}

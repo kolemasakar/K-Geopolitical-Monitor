@@ -1,7 +1,7 @@
 # Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion — Implementation Plan
 
 Date: 2026-09-19
-Status: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_BLOCKED_ON_OWNER_GATE`
+Status: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_B1_AUTHORIZED_IMPLEMENTATION_READY`
 Decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Parent audit: `docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md`
 
@@ -48,7 +48,7 @@ Not approved now:
 ```text
 BOUNDED_P22_1_PILOT = COMPLETED
 PERSISTENT_OWNER_OPERATION = NOT_ACTIVATED
-WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED
+WAVE_B_ONBOARDING = APPROVED_FOR_B1_INSTITUTIONAL_COHORT
 RUNTIME_DEPLOYMENT = NO
 SERVICE_RESTART = NO
 PAID_PROVIDERS = NONE_APPROVED
@@ -152,10 +152,12 @@ Gate:
 
 ### P22.3 — Controlled High-Priority Onboarding
 
-State: `BLOCKED_ON_OWNER_GATE`
+State: `AUTHORIZED_B1_IMPLEMENTATION_READY`
+Authorization: `docs/decisions/P22_3_B1_CONTROLLED_ONBOARDING_OWNER_AUTHORIZATION_2026-09-19.md`
 
-Entry gate:
-`WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED`
+Authorized cohort: `B1_INSTITUTIONAL` = OFAC, UK Sanctions List, Government of Russia, White House.
+
+Repository activation is conditional per source on full P20.5 PASS. The remaining 9 P22.2 candidates are not authorized.
 
 Deliverables after approval:
 
@@ -253,9 +255,5 @@ Final gate:
 
 P22.1 and P22.2 are validated with explicit measured limitations.
 
-The next strategic gate is:
-
-`P22_3_WAVE_B_ONBOARDING_OWNER_DECISION_REQUIRED`
-
-Wave-B onboarding is not authorized by P22.1 validation. Any P22.3 execution requires a separate explicit owner decision. Persistent owner operation also remains not activated.
+P22.3 B1 is owner-authorized. Next execute B1 fixture/adapter/health/rollback/P20.5 readiness and activate only sources that pass. Persistent owner operation remains not activated; the remaining 9 P22.2 candidates remain unauthorized.
 
