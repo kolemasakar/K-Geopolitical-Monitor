@@ -1,7 +1,7 @@
 # Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion — Implementation Plan
 
 Date: 2026-09-19
-Status: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_VALIDATED_WITH_MEASURED_DEGRADATION / P22_5_BLOCKED_CANONICAL_SEMANTIC_INGESTION_GAP`
+Status: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_VALIDATED_WITH_MEASURED_DEGRADATION / P22_5_VALIDATED / P22_6_READY_TO_BEGIN`
 Decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Parent audit: `docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md`
 
@@ -198,11 +198,12 @@ Gate:
 
 ### P22.5 — Semantic Corpus & Verification Observation
 
-State: `BLOCKED_ON_CANONICAL_SEMANTIC_INGESTION_GAP`
-Evidence: `docs/evidence/P22_5_SEMANTIC_CORPUS_OBSERVATION_2026-09-19.json`
-Result: `docs/implementation/P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_RESULT.md`
+State: `VALIDATED_WITH_ALL_CLAIMS_DETECTED_AND_UNDERLYING_ORIGIN_UNRESOLVED`
+Evidence: `docs/evidence/P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED_2026-09-19.json`
+Result: `docs/implementation/P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED.md`
 
-Exact-main observation produced 28 raw items and 28 legacy DETECTED claims, but 0 canonical P13 semantic claim/evidence/verification rows. P22.6 remains closed. Remediation is a P13-compliant canonical semantic ingestion bridge; legacy headline grouping must not be promoted into canonical truth.
+The canonical P13 bridge is integrated. Exact-main owner-local observation yields 28 canonical publication-attribution claims, 28 ATTRIBUTION_ONLY evidence relations and 28 DETECTED P13.5 decisions. No underlying-world fact is promoted; origin independence remains unresolved and automatic independence credit is zero.
 
 Deliverables:
 
@@ -218,7 +219,7 @@ Gate:
 
 ### P22.6 — Contradiction / Analysis / Forecast-Input Impact
 
-State: `PLANNED`
+State: `READY_TO_BEGIN`
 
 Deliverables:
 
@@ -268,5 +269,5 @@ Final gate:
 
 P22.1 and P22.2 are validated with explicit measured limitations.
 
-P22.4 is validated with measured degradation. Next execute P22.5 semantic corpus and P13.5/P13.6 verification observation against the exact post-B1 cohort. Persistent owner operation remains not activated; the remaining Wave-B candidates remain unauthorized.
+P22.5 is validated with a real canonical semantic corpus under fail-closed P13 verification. Next execute P22.6 downstream intelligence impact measurement on the exact P22.5 cohort. Persistent owner operation remains not activated; the remaining Wave-B candidates remain unauthorized.
 
