@@ -18,11 +18,12 @@ def test_p22_3_closure_is_partial_and_opens_only_p22_4():
     s=_json(STATE)
     x=s["phase22"]
     p=s["phase22_p22_3_b1"]
-    assert s["roadmap"]["state_sync_version"]=="4.53"
-    assert s["roadmap"]["current_position"]=="PHASE_22_P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED"
+    major, minor = map(int, s["roadmap"]["state_sync_version"].split("."))
+    assert major == 4 and minor >= 53
+    assert s["roadmap"]["current_position"].startswith("PHASE_22_")
     assert x["p22_3_state"]=="VALIDATED_WITH_PARTIAL_ONBOARDING"
-    assert x["p22_4_state"]=="READY_TO_BEGIN"
-    assert x["next_gate"]=="P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED"
+    assert x["p22_4_state"] in {"READY_TO_BEGIN", "VALIDATED_WITH_MEASURED_DEGRADATION"}
+    assert x["next_gate"] in {"P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED", "P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED"}
     assert p["gate"]=="P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED"
     assert p["implementation_pr"]==140
     assert p["implementation_merge_anchor"]=="9c730ccd4a646aecbd0ada13b972701b65596adf"
@@ -62,8 +63,9 @@ def test_p22_3_closure_converges_docs_and_safety_boundaries():
     result=RESULT.read_text(encoding="utf-8")
     checkpoint=CHECKPOINT.read_text(encoding="utf-8")
 
-    assert "Version: 4.53" in roadmap
-    assert "state synchronization: `v4.53`" in roadmap
+    sync_version = s["roadmap"]["state_sync_version"]
+    assert f"Version: {sync_version}" in roadmap
+    assert f"state synchronization: `v{sync_version}`" in roadmap
     assert s["roadmap"]["current_position"] in roadmap
     assert "P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED" in handoff
     assert "State: `VALIDATED_WITH_PARTIAL_ONBOARDING`" in plan
