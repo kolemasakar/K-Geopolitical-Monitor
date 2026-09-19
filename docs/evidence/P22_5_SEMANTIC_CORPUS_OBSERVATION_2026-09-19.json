@@ -1,0 +1,53 @@
+{
+  "schema_version": "kgm.p22.5.semantic_observation.v1",
+  "assessed_at": "2026-09-19T16:02:43.037029+00:00",
+  "canonical_base_sha": "eabd9ed98cfa3e266fdee5933f69bed2d459b83b",
+  "measurement_vantage": "OWNER_LOCAL_KGM_E4_PILOT_ISOLATED_EXACT_MAIN",
+  "host_label": "kgm-e4-owner-pilot",
+  "architecture": "aarch64",
+  "source_ids": [
+    "ofac-recent-actions-en",
+    "white-house-briefings-en"
+  ],
+  "collection": {
+    "status": "COMPLETED",
+    "item_count": 28,
+    "source_success_count": 2,
+    "source_failure_count": 0,
+    "failures": []
+  },
+  "legacy_analysis": {
+    "claim_count": 28,
+    "finding_count": 28,
+    "live_claim_rows": 28,
+    "live_evidence_rows": 28,
+    "status_distribution": {
+      "DETECTED": 28
+    }
+  },
+  "canonical_semantic": {
+    "semantic_claim_versions": 0,
+    "semantic_claim_links": 0,
+    "semantic_evidence_relation_versions": 0,
+    "semantic_factual_confidence_versions": 0,
+    "semantic_verification_decision_versions": 0
+  },
+  "database_integrity": "ok",
+  "decision": "BLOCKED_ON_CANONICAL_SEMANTIC_INGESTION_GAP",
+  "canonical_semantic_corpus_observed": false,
+  "verification_yield_impact": "NOT_OBSERVED",
+  "contradiction_workload_impact": "NOT_OBSERVED",
+  "forecast_input_impact": "NOT_OBSERVED",
+  "next_action": "P22_5_CANONICAL_SEMANTIC_INGESTION_BRIDGE_IMPLEMENTATION",
+  "safety_boundary": {
+    "persistent_owner_operation": "NOT_ACTIVATED",
+    "runtime_deployment": false,
+    "service_restart": false,
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "production_live": "NOT_OPERATIONAL",
+    "plugin_publication": false
+  },
+  "verification_authority": "P13.5/P13.6",
+  "epistemic_note": "Legacy title-grouped live_analysis_claims are not canonical P13 semantic claims and cannot be promoted to factual verification. Semantic claim identity is not headline identity; host/source counts are not canonical independence."
+}
