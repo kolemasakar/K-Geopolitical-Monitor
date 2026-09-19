@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.46
+Version: 4.47
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -855,6 +855,27 @@ Audit conclusion:
 - owner-operational activation and Wave-B onboarding remain explicit owner gates;
 - paid/shared resources, migration `033`, production/live cutover and Plugin/publication remain unauthorized.
 
-Current strategic position remains:
-`ROADMAP_DECISION_REQUIRED`.
+Current strategic position is now:
+`PHASE_22_APPROVED_P22_0_READY`.
+
+## Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion
+State: `APPROVED / P22_0_READY`
+Roadmap decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
+Implementation plan: `docs/implementation/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_PLAN.md`
+
+Objective: generate observed owner-local intelligence evidence while reducing high-priority required source-network gaps.
+
+Current gate:
+`P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED`
+
+Preserved entry boundaries:
+
+- owner-operational activation: `OWNER_DECISION_REQUIRED`;
+- Wave-B discovery/qualification: authorized after P22.0;
+- Wave-B onboarding: `OWNER_DECISION_REQUIRED`;
+- paid/shared resources: not authorized;
+- migration `033`: not created/preauthorized;
+- production/live: `NOT_OPERATIONAL`;
+- Plugin build/publication: inactive;
+- factual verification authority: P13.5/P13.6.
 
