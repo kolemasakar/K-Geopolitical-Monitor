@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_22_APPROVED / P22_1_AUTHORIZED_READY_TO_EXECUTE / P22_2_VALIDATED`
+Status: `AUTHORITATIVE_POINTER / PHASE_22_APPROVED / P22_1_VALIDATED / P22_2_VALIDATED / P22_3_OWNER_DECISION_REQUIRED`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -249,13 +249,14 @@ Current state:
 
 ```text
 PHASE_22 = APPROVED
-CURRENT_POSITION = PHASE_22_P22_1_AUTHORIZED_READY_TO_EXECUTE
+CURRENT_POSITION = PHASE_22_P22_1_P22_2_VALIDATED_P22_3_OWNER_DECISION_REQUIRED
 P22_0_GATE = P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED
-NEXT_GATE = P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED
-P22_1 = AUTHORIZED_READY_TO_EXECUTE
+NEXT_GATE = P22_3_WAVE_B_ONBOARDING_OWNER_DECISION_REQUIRED
+P22_1 = VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION
 P22_2 = VALIDATED_WITH_ONBOARDING_BLOCKERS
 P22_3 = BLOCKED_ON_OWNER_GATE
-OWNER_ONLY_OPERATIONAL_ACTIVATION = APPROVED_FOR_BOUNDED_P22_1_PILOT
+BOUNDED_P22_1_PILOT = COMPLETED
+PERSISTENT_OWNER_OPERATION = NOT_ACTIVATED
 WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED
 ```
 
@@ -289,13 +290,44 @@ Checkpoint:
 
 Public web reachability/currentness is discovery evidence only. It is not P20.5 health validation, collection permission, independent-origin proof or factual-verification evidence.
 
+
+
+## P22.1 bounded owner-local operational pilot
+
+Gate: `P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED`.
+Decision: `VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION`.
+
+Authorization:
+`docs/decisions/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_AUTHORIZATION_2026-09-19.md`
+
+Evidence:
+`docs/evidence/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_2026-09-19.json`
+
+Result:
+`docs/implementation/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_RESULT.md`
+
+Checkpoint:
+`docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED.md`
+
+Observed on `kgm-e4-owner-pilot` from exact SHA `ec71242cc3cb8f793a7dcf0b70c884e085db5b26`:
+
+- architecture: `aarch64`;
+- monitoring executions: `1 COMPLETED`;
+- collection: `PARTIAL`;
+- Consilium: `SUCCESS / 0 items`;
+- GDELT: `FAILED / HTTP 429`;
+- semantic claims/findings: `0`;
+- runtime health tick: `HEALTHY`;
+- isolated DB integrity: `ok`;
+- deployed SHA/service: unchanged;
+- persistent owner operation: `NOT_ACTIVATED`;
+- semantic/verification impact: `NOT_OBSERVED`.
+
+P22.1 validates bounded operational execution and fail-closed degradation visibility, not semantic utility.
+
 ## Next substantive action
 
-`OWNER DECISION REQUIRED`.
+`P22_3_WAVE_B_ONBOARDING_OWNER_DECISION_REQUIRED`.
 
-Available gated transitions:
+P22.1 and P22.2 are validated with measured limitations. Wave-B onboarding remains separately blocked and requires a new explicit owner decision. Persistent owner operation remains not activated.
 
-- P22.1: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`;
-- P22.3: `WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED`.
-
-No runtime operation, Wave-B onboarding, deploy/restart, paid/shared resource authorization, migration 033, production/live cutover or Plugin/publication is authorized by P22.2.
