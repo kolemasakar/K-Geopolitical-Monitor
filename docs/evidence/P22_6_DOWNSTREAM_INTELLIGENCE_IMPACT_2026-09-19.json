@@ -1,0 +1,66 @@
+{
+  "schema_version": "kgm.p22.6.downstream_intelligence_impact.v1",
+  "assessed_at": "2026-09-19",
+  "canonical_base_sha": "7c50fc6ed7c086c9d85aa963cfc9ceb77ef90535",
+  "exact_p22_5_cohort": {
+    "source_ids": [
+      "ofac-recent-actions-en",
+      "white-house-briefings-en"
+    ],
+    "analysis_run_id": "analysis-40db4a933f17064d461789e8",
+    "canonical_semantic_claim_count": 28,
+    "verification_state_distribution": {
+      "DETECTED": 28
+    },
+    "evidence_relation_distribution": {
+      "ATTRIBUTION_ONLY": 28
+    },
+    "underlying_origin_unresolved_count": 28
+  },
+  "contradiction_observation": {
+    "semantic_contradiction_version_count": 0,
+    "semantic_contradiction_evidence_link_count": 0,
+    "interpretation": "NO_CANONICAL_CONTRADICTION_WORKLOAD_OBSERVED_IN_EXACT_COHORT",
+    "positive_consistency_claim": false
+  },
+  "analytical_coverage_observation": {
+    "legacy_operational_finding_count": 28,
+    "canonical_claim_scope": "PUBLICATION_ATTRIBUTION_ONLY",
+    "underlying_event_analytical_claim_count": 0,
+    "interpretation": "NO_UNDERLYING_EVENT_ANALYTICAL_UPLIFT_OBSERVED"
+  },
+  "forecast_input_observation": {
+    "forecast_count": 0,
+    "forecast_version_count": 0,
+    "forecast_version_input_count": 0,
+    "interpretation": "NO_FORECAST_INPUT_UPLIFT_OBSERVED"
+  },
+  "impact_summary": {
+    "contradiction_workload_impact": "MEASURED_ZERO_IN_EXACT_COHORT",
+    "analytical_coverage_impact": "NO_UNDERLYING_EVENT_UPLIFT_OBSERVED",
+    "forecast_input_impact": "MEASURED_ZERO_IN_EXACT_COHORT",
+    "downstream_intelligence_uplift": "NOT_OBSERVED"
+  },
+  "independence": {
+    "semantic_independence_assessment_count": 0,
+    "automatic_factual_independence_credit": 0
+  },
+  "database_integrity": "ok",
+  "limitations": [
+    "Exact cohort contains 28 publication-attribution semantic claims from two B1 institutional source paths.",
+    "No underlying-event semantic claim corpus exists in this cohort.",
+    "Zero contradiction objects is a workload observation, not evidence of consistency or truth.",
+    "Zero forecast inputs means forecast-input impact is measured as absent, not improved.",
+    "Legacy operational findings are not promoted into canonical analytical claims."
+  ],
+  "verification_authority": "P13.5/P13.6",
+  "safety_boundary": {
+    "persistent_owner_operation": "NOT_ACTIVATED",
+    "runtime_deployment": false,
+    "service_restart": false,
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "production_live": "NOT_OPERATIONAL",
+    "plugin_publication": false
+  }
+}
