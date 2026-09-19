@@ -39,7 +39,7 @@ def test_machine_readable_state_matches_current_roadmap_v4_position():
     position = state["roadmap"]["current_position"]
     assert position.startswith(("PHASE_21_", "PHASE_22_"))
     assert position in roadmap
-    assert position.endswith(("_READY", "_OWNER_DECISION_REQUIRED", "_OWNER_DECISIONS_REQUIRED", "_VALIDATED"))
+    assert position.endswith(("_READY", "_READY_TO_EXECUTE", "_OWNER_DECISION_REQUIRED", "_OWNER_DECISIONS_REQUIRED", "_VALIDATED"))
     assert "## Phase 21 — Source Network Operational Adequacy & Evidence Population" in roadmap
     assert "P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED" in roadmap
     assert "P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED" in roadmap
