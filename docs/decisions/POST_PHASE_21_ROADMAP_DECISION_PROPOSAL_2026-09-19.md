@@ -1,7 +1,7 @@
 # Post-Phase-21 Roadmap Decision Proposal
 
 Date: 2026-09-19
-Status: `PROPOSED / OWNER_DECISION_REQUIRED`
+Status: `APPROVED / SUPERSEDED_BY_PHASE_22_ROADMAP_DECISION`
 Project: `K-Geopolitical Monitor`
 Audit: `docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md`
 
@@ -13,7 +13,7 @@ Proposed block:
 
 `Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion`
 
-This document is a proposal only. It does not create or authorize Phase 22.
+This proposal was explicitly approved by the owner on 2026-09-19 and is superseded as the active authorization record by `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`.
 
 ## Why this block
 
@@ -133,14 +133,16 @@ Operational activation and source-wave onboarding should remain explicitly bound
 
 ## Owner decision
 
-Current state:
+Current state after owner decision:
 
 ```text
-POST_PHASE_21_ROADMAP_PROPOSAL = READY
-PHASE_22 = NOT_CREATED
-PHASE_22_AUTHORIZATION = OWNER_DECISION_REQUIRED
+POST_PHASE_21_ROADMAP_PROPOSAL = APPROVED
+PHASE_22 = CREATED
+PHASE_22_AUTHORIZATION = APPROVED
+OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED
+WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED
 ```
 
-Recommended owner decision if accepted:
+Recorded owner decision:
 
-`APPROVE Phase 22 planning and implementation under the bounded owner-local/public-free-first constraints above, with operational activation and Wave-B onboarding recorded as explicit gates.`
+`APPROVED Phase 22 planning and implementation under the bounded owner-local/public-free-first constraints above, with operational activation and Wave-B onboarding retained as explicit gates.`

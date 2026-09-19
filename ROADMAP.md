@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.46
+Version: 4.47
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -775,7 +775,7 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.45`;
+- state synchronization: `v4.47`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -820,6 +820,10 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 - P21.5: `P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED / VALIDATED_WITH_MEASURED_CONTENT_STALENESS`;
 - P21.6: `P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED / VALIDATED_WITH_STRUCTURAL_IMPACT_ONLY`;
 - P21.7: `PASS_WITH_KNOWN_LIMITATIONS`;
+- Phase 22: `APPROVED / P22_0_READY`;
+- P22.0: `READY_TO_BEGIN / P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED`;
+- Phase 22 owner-operational pilot: `OWNER_DECISION_REQUIRED`;
+- Phase 22 Wave-B onboarding: `OWNER_DECISION_REQUIRED`;
 - Phase 18 shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
 - migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
@@ -851,10 +855,76 @@ Audit conclusion:
 - downstream semantic effect remains unobserved because no post-Wave-A operational semantic corpus exists;
 - existing Phase 14/15/16/19 readiness can support a bounded owner-local evidence pilot without public/shared activation;
 - recommended strategic direction is a bounded owner-operational evidence pilot plus high-priority source expansion;
-- proposed next block is `Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion`, but it is **not created or authorized** by this audit;
+- the owner approved `Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion` on 2026-09-19;
 - owner-operational activation and Wave-B onboarding remain explicit owner gates;
 - paid/shared resources, migration `033`, production/live cutover and Plugin/publication remain unauthorized.
 
-Current strategic position remains:
-`ROADMAP_DECISION_REQUIRED`.
+Roadmap decision:
+`docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`.
 
+Current strategic position:
+`PHASE_22_P22_0_READY`.
+
+
+
+## Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion
+State: `APPROVED / P22_0_READY`
+Roadmap decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
+Implementation plan: `docs/implementation/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_PLAN.md`
+
+Objective: generate observed owner-local intelligence evidence while reducing the highest-priority required source gaps. Phase 22 couples controlled source expansion to downstream semantic, verification, contradiction, forecast-input and owner-utility observation.
+
+Entry constraints:
+
+- Phase 21 remains closed at `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
+- P13.5/P13.6 remain factual-verification authority;
+- owner-operational activation remains `OWNER_DECISION_REQUIRED`;
+- Wave-B onboarding remains `OWNER_DECISION_REQUIRED`;
+- public/free/anonymous-first is the default candidate policy;
+- paid/shared resources remain unapproved;
+- runtime deployment/restart is not implied by Phase 22 approval;
+- migration `033` remains `NOT_CREATED / NOT_PREAUTHORIZED`;
+- production/live remains `NOT_OPERATIONAL`;
+- Plugin build/publication remains inactive.
+
+### P22.0 — Entry Convergence & Owner Gates
+State: `READY_TO_BEGIN`
+Gate: `P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED`
+
+P22.0 validates the entry contract and explicit activation boundaries. It must not activate the owner-operational pilot or onboard Wave B.
+
+### P22.1 — Bounded Owner-Only Operational Pilot
+State: `BLOCKED_ON_OWNER_GATE`
+Entry gate: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`
+Gate: `P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED`
+
+### P22.2 — Wave-B Candidate Discovery & Qualification
+State: `PLANNED`
+Gate: `P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED`
+
+Default planning cohort: P21.4 `B_HIGH_REQUIRED` — 9 required gap cells / 13 source-path deficit / 13 healthy-source deficit / 16 origin-evidence deficit.
+
+### P22.3 — Controlled High-Priority Onboarding
+State: `BLOCKED_ON_OWNER_GATE`
+Entry gate: `WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED`
+Gate: `P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED`
+
+### P22.4 — Operational Coverage Rebaseline
+State: `PLANNED`
+Gate: `P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED`
+
+### P22.5 — Semantic Corpus & Verification Observation
+State: `PLANNED`
+Gate: `P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED`
+
+### P22.6 — Contradiction / Analysis / Forecast-Input Impact
+State: `PLANNED`
+Gate: `P22_6_DOWNSTREAM_INTELLIGENCE_IMPACT_VALIDATED`
+
+### P22.7 — Owner Utility & Quality Observation
+State: `PLANNED`
+Gate: `P22_7_OWNER_UTILITY_QUALITY_OBSERVATION_VALIDATED`
+
+### P22.8 — Phase Acceptance
+State: `PLANNED`
+Final gate: `PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED`
