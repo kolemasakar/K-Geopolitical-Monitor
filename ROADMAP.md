@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.51
+Version: 4.52
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -865,12 +865,12 @@ Roadmap decision:
 `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`.
 
 Current strategic position:
-`PHASE_22_P22_1_P22_2_VALIDATED_P22_3_OWNER_DECISION_REQUIRED`.
+`PHASE_22_P22_3_B1_AUTHORIZED_IMPLEMENTATION_READY`.
 
 
 
 ## Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion
-State: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_BLOCKED_ON_OWNER_GATE`
+State: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_B1_AUTHORIZED_IMPLEMENTATION_READY`
 Roadmap decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Implementation plan: `docs/implementation/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_PLAN.md`
 
@@ -919,8 +919,9 @@ Validated discovery result: 13 public/free/anonymous-first candidates cover all 
 Default planning cohort: P21.4 `B_HIGH_REQUIRED` — 9 required gap cells / 13 source-path deficit / 13 healthy-source deficit / 16 origin-evidence deficit.
 
 ### P22.3 — Controlled High-Priority Onboarding
-State: `BLOCKED_ON_OWNER_GATE`
-Entry gate: `WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED`
+State: `AUTHORIZED_B1_IMPLEMENTATION_READY`
+Authorization: `docs/decisions/P22_3_B1_CONTROLLED_ONBOARDING_OWNER_AUTHORIZATION_2026-09-19.md`
+Entry gate: `WAVE_B_ONBOARDING = APPROVED_FOR_B1_INSTITUTIONAL_COHORT`
 Gate: `P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED`
 
 ### P22.4 — Operational Coverage Rebaseline
