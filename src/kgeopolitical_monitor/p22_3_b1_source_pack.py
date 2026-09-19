@@ -17,10 +17,15 @@ from urllib.parse import urljoin, urlparse
 
 from .adapter_framework import ADAPTER_FRAMEWORK_VERSION, AdapterRequest, PublicHttpTransport
 from .live_sources import LiveSourceItem
-from .operational_monitoring import MonitoringWatch, _normalize_time
+from .operational_monitoring import MonitoringWatch, OperationalMonitoringRuntime, _normalize_time
+from .source_portfolio import SourcePortfolioRecord, SourcePortfolioService
 
 
 P22_3_B1_VERSION = "P22.3-B1-1.0"
+B1_REPOSITORY_ACTIVE_SOURCE_IDS: tuple[str, ...] = (
+    "ofac-recent-actions-en",
+    "white-house-briefings-en",
+)
 
 
 @dataclass(frozen=True)
@@ -320,3 +325,120 @@ def build_b1_adapters(
         else:
             adapters.append(InstitutionalHtmlListingAdapter(transport, spec, max_entries=max_entries))
     return adapters
+
+
+OFFICIAL_INDEPENDENCE_CONSTRAINT = (
+    "Direct institutional publication establishes what the institution published; "
+    "it does not automatically establish the truth of the underlying event claim. "
+    "Factual independence remains evidence-bound under P13.5/P13.6."
+)
+
+
+def _governance_matches(record: SourcePortfolioRecord, spec: B1SourceSpec) -> bool:
+    return (
+        record.source_id == spec.source_id
+        and record.source_name == spec.source_name
+        and record.publisher_name == spec.publisher_name
+        and record.source_class == spec.source_class
+        and record.source_role == spec.source_role
+        and record.region_scope == tuple(sorted(set(spec.region_scope)))
+        and record.language_scope == tuple(sorted(set(spec.language_scope)))
+        and record.access_mode == "PUBLIC_ANONYMOUS"
+        and record.cost_mode == "FREE"
+        and record.authentication_mode == "NONE"
+        and record.expected_freshness_minutes == spec.expected_freshness_minutes
+        and record.collection_cadence_minutes == spec.collection_cadence_minutes
+        and record.adapter_id == spec.adapter_id
+        and record.adapter_version == ADAPTER_FRAMEWORK_VERSION
+        and record.outbound_domains == (spec.outbound_domain,)
+        and record.outbound_protocols == ("HTTPS",)
+        and record.availability_state == "ACTIVE"
+        and record.data_classification == "PUBLIC"
+        and record.review_status == "APPROVED"
+        and record.paid_provider_approved is False
+    )
+
+
+def install_b1_governance(
+    runtime: OperationalMonitoringRuntime,
+    *,
+    reviewed_at: datetime,
+    enabled_source_ids: Iterable[str] = B1_REPOSITORY_ACTIVE_SOURCE_IDS,
+    owner: str = "KGM owner",
+    reviewer: str = "KGM owner",
+) -> tuple[SourcePortfolioRecord, ...]:
+    """Install only the B1 sources that passed live-health + P20.5 readiness.
+
+    UKSL and Government of Russia remain hard-blocked in this version. Attempting
+    to activate either one fails closed even though their probe adapters remain
+    available for later repair/revalidation.
+    """
+    enabled = {str(x) for x in enabled_source_ids}
+    approved = set(B1_REPOSITORY_ACTIVE_SOURCE_IDS)
+    disallowed = enabled - approved
+    if disallowed:
+        raise ValueError(
+            "P22.3 B1 source is not approved for repository activation: "
+            + ", ".join(sorted(disallowed))
+        )
+
+    specs = b1_by_id()
+    t = _normalize_time(reviewed_at)
+    svc = SourcePortfolioService(runtime)
+    out: list[SourcePortfolioRecord] = []
+
+    for source_id in B1_REPOSITORY_ACTIVE_SOURCE_IDS:
+        if source_id not in enabled:
+            continue
+        spec = specs[source_id]
+        svc.register_source_identity(
+            source_id,
+            source_name=spec.source_name,
+            source_class=spec.source_class,
+            reliability="official",
+        )
+        current = svc.current(source_id)
+        if current is not None:
+            if not _governance_matches(current, spec):
+                raise RuntimeError(
+                    f"P22.3 B1 source portfolio drift requires explicit review: {source_id}"
+                )
+            out.append(current)
+            continue
+
+        out.append(
+            svc.record_version(
+                source_id,
+                source_name=spec.source_name,
+                publisher_name=spec.publisher_name,
+                source_class=spec.source_class,
+                source_role=spec.source_role,
+                region_scope=spec.region_scope,
+                language_scope=spec.language_scope,
+                access_mode="PUBLIC_ANONYMOUS",
+                cost_mode="FREE",
+                authentication_mode="NONE",
+                expected_freshness_minutes=spec.expected_freshness_minutes,
+                collection_cadence_minutes=spec.collection_cadence_minutes,
+                adapter_id=spec.adapter_id,
+                adapter_version=ADAPTER_FRAMEWORK_VERSION,
+                outbound_domains=(spec.outbound_domain,),
+                outbound_protocols=("HTTPS",),
+                fallback_source_ids=(),
+                availability_state="ACTIVE",
+                data_classification="PUBLIC",
+                origin_characteristics=(
+                    f"Direct official institutional publication stream; "
+                    f"origin_group_id={spec.origin_group_id}."
+                ),
+                independence_constraints=OFFICIAL_INDEPENDENCE_CONSTRAINT,
+                terms_notes=spec.terms_notes,
+                owner=owner,
+                reviewer=reviewer,
+                review_status="APPROVED",
+                paid_provider_approved=False,
+                reviewed_at=t,
+                created_at=t,
+            )
+        )
+    return tuple(out)
