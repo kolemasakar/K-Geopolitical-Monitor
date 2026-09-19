@@ -354,3 +354,16 @@ Decision: `VALIDATED_WITH_MEASURED_DEGRADATION`.
 - P13.5/P13.6 remain verification authority.
 
 Next substantive action: `P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED`.
+
+
+## P22.5 semantic observation gap
+
+Exact-main owner-local observation from `eabd9ed98cfa3e266fdee5933f69bed2d459b83b`:
+
+- B1 collection: `COMPLETED / 28 items / 2 source successes / 0 failures`;
+- legacy live-analysis: `28 DETECTED`;
+- canonical P13 semantic claims: `0`;
+- canonical semantic evidence relations: `0`;
+- canonical P13.5 verification decisions: `0`.
+
+P22.5 is blocked on `P22_5_CANONICAL_SEMANTIC_INGESTION_BRIDGE_IMPLEMENTATION`. P22.6 is not open. Legacy title grouping cannot substitute for canonical semantic claim identity or independence.
