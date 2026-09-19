@@ -49,7 +49,8 @@ def test_p22_0_preserves_owner_wave_runtime_and_truth_boundaries():
     assert "P22_1 = BLOCKED_ON_OWNER_GATE" in checkpoint
 
     assert "Version: 4.48" in roadmap
-    assert "P22.2: `READY_TO_BEGIN`" in roadmap
+    assert "### P22.2 — Wave-B Candidate Discovery & Qualification" in roadmap
+    assert "State: `READY_TO_BEGIN`" in roadmap
     assert "P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED" in handoff
     assert "State: `READY_TO_BEGIN`" in plan
 
