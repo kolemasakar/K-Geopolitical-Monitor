@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_21_IN_PROGRESS / P21_6_VALIDATED / P21_7_READY`
+Status: `AUTHORITATIVE_POINTER / PHASE_21_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -9,10 +9,10 @@ Approved strategic block:
 `Phase 21 — Source Network Operational Adequacy & Evidence Population`
 
 Current Phase 21 position:
-`PHASE_21_P21_6_VALIDATED_P21_7_READY`
-
-Next gate:
 `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED`
+
+Next strategic position:
+`ROADMAP_DECISION_REQUIRED`
 
 Roadmap decision:
 `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
@@ -141,6 +141,33 @@ Decision: `VALIDATED_WITH_STRUCTURAL_IMPACT_ONLY / SEMANTIC_QUALITY_NOT_OBSERVED
 
 No deployed post-Wave-A semantic corpus exists, so structural coverage/health/topology improvements are not promoted into semantic-quality or factual-verification claims. P13.5/P13.6 remain authoritative.
 
+## P21.7 Phase Acceptance
+
+Gate: `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED`.
+Decision: `PASS_WITH_KNOWN_LIMITATIONS`.
+State sync: `v4.45`.
+
+Acceptance result:
+`docs/implementation/P21_7_PHASE_21_ACCEPTANCE_RESULT.md`
+
+Checkpoint:
+`docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED.md`
+
+Acceptance conclusions:
+
+- the 33-cell target policy is explicit enough to evaluate required coverage;
+- health evidence exists for the 10 pre-Wave-A governed paths and both Wave-A paths, with timestamp/snapshot limitations preserved;
+- provenance/origin evidence is improved without invented independence;
+- measured gaps remain explicit;
+- only owner-authorized public/free Wave A was onboarded;
+- post-Wave-A structural projection remains `1 ADEQUATE / 2 DEGRADED_COLLECTION / 20 MISSING_EXPECTED_COVERAGE / 10 THIN`;
+- required cells remain `1 ADEQUATE / 1 DEGRADED_COLLECTION / 20 MISSING_EXPECTED_COVERAGE / 5 THIN`;
+- P13.5/P13.6 remain factual-verification authority;
+- verification-yield, contradiction-workload and forecast-input effects remain `NOT_OBSERVED`;
+- no extra source wave, runtime deployment/restart, paid/shared dependency, migration 033, production/live cutover or Plugin publication is authorized by acceptance.
+
+Phase 21 is closed with explicit material limitations; this is not a claim of exhaustive or broadly adequate geopolitical coverage.
+
 ## OpenAI / ChatGPT architecture rebase
 
 Canonical decision:
@@ -183,8 +210,8 @@ This rebase does not activate a Plugin or change source/truth/runtime semantics.
 - `PRODUCTION_LIVE = NOT_OPERATIONAL`;
 - P13.5/P13.6 remain authoritative for factual verification.
 
-P21.5 controlled public/free onboarding was explicitly authorized by the owner on 2026-09-16. Authorization begins with Wave A and does not authorize deployed-runtime mutation, paid/shared resources, production/live cutover or Plugin/publication activation. P21.6 closure does not authorize any additional source wave; future waves still require an owner decision.
+P21.5 controlled public/free onboarding was explicitly authorized by the owner on 2026-09-16. Authorization is bounded to Wave A and does not authorize deployed-runtime mutation, paid/shared resources, production/live cutover or Plugin/publication activation. Phase 21 acceptance does not authorize any additional source wave; future waves still require an owner decision.
 
 ## Next substantive action
 
-`BEGIN P21.7 PHASE ACCEPTANCE. Validate the complete P21.0-P21.6 evidence chain against Phase 21 acceptance criteria without authorizing additional source waves, runtime deployment/restart, paid/shared resources, migration 033, production/live cutover or Plugin/publication.`
+`ROADMAP_DECISION_REQUIRED`. Phase 21 is closed at `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. Do not infer authorization for Phase 22, additional source waves, runtime deployment/restart, paid/shared resources, migration 033, production/live cutover or Plugin/publication.
