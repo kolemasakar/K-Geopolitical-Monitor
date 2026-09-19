@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.52
+Version: 4.53
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -775,7 +775,7 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.52`;
+- state synchronization: `v4.53`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -865,12 +865,12 @@ Roadmap decision:
 `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`.
 
 Current strategic position:
-`PHASE_22_P22_3_B1_AUTHORIZED_IMPLEMENTATION_READY`.
+`PHASE_22_P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED`.
 
 
 
 ## Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion
-State: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_B1_AUTHORIZED_IMPLEMENTATION_READY`
+State: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_READY_TO_BEGIN`
 Roadmap decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Implementation plan: `docs/implementation/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_PLAN.md`
 
@@ -919,13 +919,17 @@ Validated discovery result: 13 public/free/anonymous-first candidates cover all 
 Default planning cohort: P21.4 `B_HIGH_REQUIRED` — 9 required gap cells / 13 source-path deficit / 13 healthy-source deficit / 16 origin-evidence deficit.
 
 ### P22.3 — Controlled High-Priority Onboarding
-State: `AUTHORIZED_B1_IMPLEMENTATION_READY`
+State: `VALIDATED_WITH_PARTIAL_ONBOARDING`
+Gate: `P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED`
 Authorization: `docs/decisions/P22_3_B1_CONTROLLED_ONBOARDING_OWNER_AUTHORIZATION_2026-09-19.md`
-Entry gate: `WAVE_B_ONBOARDING = APPROVED_FOR_B1_INSTITUTIONAL_COHORT`
+Result: `docs/implementation/P22_3_B1_CONTROLLED_ONBOARDING_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED.md`
+
+B1 outcome: 2/4 P20.5 PASS and repository-active (OFAC, White House); 2/4 blocked (UKSL response-size boundary, Government of Russia transport timeout). Live activation = 0; independence credit = 0.
 Gate: `P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED`
 
 ### P22.4 — Operational Coverage Rebaseline
-State: `PLANNED`
+State: `READY_TO_BEGIN`
 Gate: `P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED`
 
 ### P22.5 — Semantic Corpus & Verification Observation
