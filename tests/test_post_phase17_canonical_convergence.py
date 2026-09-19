@@ -34,9 +34,9 @@ def test_machine_readable_state_matches_current_roadmap_v4_position():
     assert f"Version: {sync_version}" in roadmap
 
     # The machine-readable position is a compact state token; ROADMAP must carry
-    # the same semantic position rather than freeze an older Phase-21 sub-gate.
+    # the same semantic position rather than freeze an older strategic sub-gate.
     position = state["roadmap"]["current_position"]
-    assert position.startswith("PHASE_21_")
+    assert position.startswith(("PHASE_21_", "PHASE_22_"))
     assert position.endswith("_READY") or position.endswith("_OWNER_DECISION_REQUIRED") or position.endswith("_VALIDATED")
     assert "## Phase 21 — Source Network Operational Adequacy & Evidence Population" in roadmap
     assert "P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED" in roadmap
@@ -55,6 +55,8 @@ def test_machine_readable_state_matches_current_roadmap_v4_position():
     assert state["phases"]["19"].split(" / ")[0] in roadmap
     assert state["phases"]["20"].split(" / ")[0] in roadmap
     assert "Phase 20 — Source Coverage / Collection Quality" in roadmap
+    if "22" in state["phases"]:
+        assert "## Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion" in roadmap
 
 
 def test_root_canonical_docs_share_current_phase_and_runtime_boundaries():
