@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_22_APPROVED / P22_0_VALIDATED / P22_2_READY`
+Status: `AUTHORITATIVE_POINTER / PHASE_22_APPROVED / P22_0_VALIDATED / P22_2_VALIDATED / OWNER_DECISIONS_REQUIRED`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -12,10 +12,10 @@ Prior validated strategic position:
 `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
 
 Current position:
-`PHASE_22_P22_0_READY`
+`PHASE_22_P22_2_VALIDATED_OWNER_DECISIONS_REQUIRED`
 
 Next gate:
-`P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED`
+`EXPLICIT_OWNER_DECISIONS_REQUIRED`
 
 Roadmap decision:
 `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
@@ -249,18 +249,53 @@ Current state:
 
 ```text
 PHASE_22 = APPROVED
-CURRENT_POSITION = PHASE_22_P22_0_VALIDATED_P22_2_READY
+CURRENT_POSITION = PHASE_22_P22_2_VALIDATED_OWNER_DECISIONS_REQUIRED
 P22_0_GATE = P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED
 NEXT_GATE = P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED
 P22_1 = BLOCKED_ON_OWNER_GATE
-P22_2 = READY_TO_BEGIN
+P22_2 = VALIDATED_WITH_ONBOARDING_BLOCKERS
 P22_3 = BLOCKED_ON_OWNER_GATE
 OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED
 WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED
 ```
 
-P22.0 is validated. P22.2 repository-only/public-free-first candidate discovery and qualification may proceed. P22.1 owner-operational pilot and P22.3 onboarding remain blocked on explicit owner gates.
+P22.0 and P22.2 are validated. P22.2 identified 13 public/free/anonymous-first candidates across all 9 B_HIGH_REQUIRED cells, but 13/13 remain P20.5-blocked pending health/fixture/rollback/governance evidence. P22.1 owner-operational pilot and P22.3 Wave-B onboarding remain blocked on their explicit owner gates.
+
+
+
+## P22.2 Wave-B candidate qualification
+
+Gate: `P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED`.
+Decision: `VALIDATED_WITH_ONBOARDING_BLOCKERS`.
+
+Evidence:
+`docs/evidence/P22_2_WAVE_B_CANDIDATE_QUALIFICATION_2026-09-19.json`
+
+Result:
+`docs/implementation/P22_2_WAVE_B_CANDIDATE_QUALIFICATION_RESULT.md`
+
+Checkpoint:
+`docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED.md`
+
+- target cells: `9`;
+- candidate paths: `13`, exactly matching the Wave-B path deficit;
+- fixture-build qualified: `7`;
+- conditional rights review: `4`;
+- conditional taxonomy + rights review: `2`;
+- P20.5 eligible-not-active: `0`;
+- P20.5 blocked: `13`;
+- repository/live activations: `0`;
+- independence credit: `0`.
+
+Public web reachability/currentness is discovery evidence only. It is not P20.5 health validation, collection permission, independent-origin proof or factual-verification evidence.
 
 ## Next substantive action
 
-`BEGIN P22.2 WAVE-B CANDIDATE DISCOVERY & QUALIFICATION`. Repository-only/public-free-first research is authorized. Do not activate runtime operation, onboard Wave B, deploy/restart runtime, authorize paid/shared resources, create migration 033, cut over production/live, or activate Plugin/publication.
+`OWNER DECISION REQUIRED`.
+
+Available gated transitions:
+
+- P22.1: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`;
+- P22.3: `WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED`.
+
+No runtime operation, Wave-B onboarding, deploy/restart, paid/shared resource authorization, migration 033, production/live cutover or Plugin/publication is authorized by P22.2.
