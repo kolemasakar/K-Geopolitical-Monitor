@@ -43,8 +43,9 @@ def test_post_phase21_proposal_preserves_owner_runtime_and_resource_gates():
 
     assert AUDIT.exists()
     assert PROPOSAL.exists()
-    assert f"Version: {s[\"roadmap\"][\"state_sync_version\"]}" in roadmap
-    assert "POST_PHASE_21_AUDIT_COMPLETED" in handoff
+    sync_version = s["roadmap"]["state_sync_version"]
+    assert f"Version: {sync_version}" in roadmap
+    assert "## Post-Phase-21 strategic audit" in handoff
     assert "Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion" in audit
     assert "Post-Phase-21 Roadmap Decision Proposal" in proposal
 
