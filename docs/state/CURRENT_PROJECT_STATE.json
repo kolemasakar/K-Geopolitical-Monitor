@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.44",
+    "state_sync_version": "4.45",
     "status": "APPROVED",
-    "current_position": "PHASE_21_P21_6_VALIDATED_P21_7_READY"
+    "current_position": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -17,7 +17,7 @@
     "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED",
     "19": "PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED",
     "20": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
-    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_VALIDATED / P21_6_VALIDATED / P21_7_READY"
+    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -281,7 +281,9 @@
     "p21_1_state": "VALIDATED"
   },
   "phase21": {
-    "state": "IN_PROGRESS",
+    "state": "VALIDATED_WITH_KNOWN_LIMITATIONS",
+    "decision": "PASS_WITH_KNOWN_LIMITATIONS",
+    "gate": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED",
     "validated_sequence": [
       "P21.0",
       "P21.1",
@@ -289,10 +291,11 @@
       "P21.3",
       "P21.4",
       "P21.5",
-      "P21.6"
+      "P21.6",
+      "P21.7"
     ],
-    "next_gate": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED",
-    "live_source_expansion": "WAVE_A_REPOSITORY_ONBOARDING_VALIDATED / DEPLOYED_RUNTIME_NOT_MUTATED",
+    "next_gate": "ROADMAP_DECISION_REQUIRED",
+    "live_source_expansion": "WAVE_A_REPOSITORY_ONBOARDING_VALIDATED / FUTURE_WAVES_OWNER_DECISION_REQUIRED / DEPLOYED_RUNTIME_NOT_MUTATED",
     "verification_authority": "P13.5/P13.6",
     "production_live": "NOT_OPERATIONAL"
   },
@@ -475,5 +478,47 @@
     "future_source_waves_authorized": false,
     "next_gate": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED",
     "p21_7_state": "READY_TO_BEGIN"
+  },
+  "phase21_p21_7": {
+    "state": "PASS_WITH_KNOWN_LIMITATIONS",
+    "gate": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED",
+    "decision": "PASS_WITH_KNOWN_LIMITATIONS",
+    "acceptance_base_anchor": "3d7b18832bc07758fc5fa53e2edc5109bffb0260",
+    "result": "docs/implementation/P21_7_PHASE_21_ACCEPTANCE_RESULT.md",
+    "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED.md",
+    "acceptance_criteria_count": 8,
+    "target_cell_count": 33,
+    "required_cell_count": 27,
+    "post_wave_a_structural_projection": {
+      "adequate": 1,
+      "degraded_collection": 2,
+      "missing_expected_coverage": 20,
+      "thin": 10
+    },
+    "required_post_wave_a_structural_projection": {
+      "adequate": 1,
+      "degraded_collection": 1,
+      "missing_expected_coverage": 20,
+      "thin": 5
+    },
+    "governed_source_path_delta_from_wave_a": 2,
+    "healthy_fresh_source_path_delta_from_wave_a": 1,
+    "confirmed_origin_lower_bound_delta_from_wave_a": 1,
+    "automatic_factual_independence_credit_delta": 0,
+    "adequate_cell_delta": 0,
+    "missing_required_cell_delta": -1,
+    "verification_yield_impact": "NOT_OBSERVED",
+    "contradiction_workload_impact": "NOT_OBSERVED",
+    "forecast_input_impact": "NOT_OBSERVED",
+    "verification_authority": "P13.5/P13.6",
+    "future_source_waves_authorized": false,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "plugin_build_authorized": false,
+    "plugin_publication_authorized": false,
+    "production_live": "NOT_OPERATIONAL",
+    "next_gate": "ROADMAP_DECISION_REQUIRED"
   }
 }
