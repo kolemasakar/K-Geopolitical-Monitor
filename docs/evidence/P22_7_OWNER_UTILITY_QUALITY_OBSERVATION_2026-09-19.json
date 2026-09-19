@@ -1,0 +1,67 @@
+{
+  "schema_version": "kgm.p22.7.owner_utility_quality_observation.v1",
+  "assessed_at": "2026-09-19",
+  "canonical_base_sha": "f83e84f7d37af112e8893b6ac4c05d8bff4b6c7a",
+  "measurement_vantage": "OWNER_LOCAL_KGM_E4_PILOT_ISOLATED_EXACT_COHORT",
+  "host_label": "kgm-e4-owner-pilot",
+  "architecture": "aarch64",
+  "exact_p22_5_cohort": {
+    "analysis_run_id": "analysis-40db4a933f17064d461789e8",
+    "canonical_semantic_claim_count": 28,
+    "verification_state_distribution": {"DETECTED": 28},
+    "evidence_relation_distribution": {"ATTRIBUTION_ONLY": 28}
+  },
+  "observation_database": {
+    "mode": "ISOLATED_COPY_OF_REAL_P22_5_OWNER_LOCAL_DB",
+    "sha256": "e8437f94c5e5515b2bb785fcfd5d40618cd8c74c6564d9d29a6ab0cd1d5fb66d",
+    "integrity": "ok"
+  },
+  "owner_delivery_read_model": {
+    "projection_version": "KGM_OWNER_DELIVERY_EXPERIENCE_V1",
+    "projection_row_count": 0,
+    "utility_observation": "NOT_OBSERVED_NO_DELIVERY_INTENTS"
+  },
+  "quality_feedback": {
+    "metrics_version": "KGM_ADVISORY_QUALITY_METRICS_V1",
+    "sample_size": 0,
+    "delivery_intent_count": 0,
+    "terminal_delivery_count": 0,
+    "feedback_count": 0,
+    "useful_count": 0,
+    "not_useful_count": 0,
+    "timely_count": 0,
+    "late_count": 0,
+    "duplicate_noisy_count": 0,
+    "correction_request_count": 0,
+    "usefulness_rate": null,
+    "timeliness_rate": null,
+    "noise_feedback_rate": null,
+    "interpretation": "NO_OWNER_UTILITY_FEEDBACK_OBSERVED"
+  },
+  "decision": "VALIDATED_WITH_NO_OWNER_UTILITY_FEEDBACK_OBSERVED",
+  "verification_authority": "P13.5/P13.6",
+  "limitations": [
+    "The exact semantic cohort has no persisted delivery intents, so the Phase 16 owner delivery read model has no rows for this observation database.",
+    "No persisted operator feedback exists for the exact cohort; usefulness, timeliness and noise rates are undefined (null), not zero.",
+    "No subjective owner feedback is inferred or reconstructed from chat history.",
+    "Absence of correction requests is not evidence that no correction was needed.",
+    "This gate validates bounded measurement and explicit absence only; it does not demonstrate positive owner utility."
+  ],
+  "safety_boundary": {
+    "persistent_owner_operation": "NOT_ACTIVATED",
+    "runtime_deployment": false,
+    "service_restart": false,
+    "remaining_wave_b_onboarding_authorized": false,
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "production_live": "NOT_OPERATIONAL",
+    "plugin_publication": false,
+    "automatic_policy_mutation": false
+  },
+  "validation_policy": {
+    "github_actions_mode": "QUOTA_CONTINGENCY_ACTIVE_UNTIL_2026-10-01",
+    "validation_host": "kgm-e4-owner-pilot",
+    "validation_architecture": "aarch64",
+    "hp_omen_used": false
+  }
+}
