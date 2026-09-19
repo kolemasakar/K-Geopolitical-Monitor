@@ -1,7 +1,7 @@
 # Phase 21 — Source Network Operational Adequacy & Evidence Population — Implementation Plan
 
 Date: 2026-09-16
-Status: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_VALIDATED / P21_6_READY`
+Status: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_VALIDATED / P21_6_VALIDATED / P21_7_READY`
 Decision: `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
 
 ## Objective
@@ -25,13 +25,13 @@ These are evidence states, not claims of good or bad coverage.
 
 ## Current Phase 21 state
 
-Validated sequence: `P21.0 -> P21.1 -> P21.2 -> P21.3 -> P21.4`.
+Validated sequence: `P21.0 -> P21.1 -> P21.2 -> P21.3 -> P21.4 -> P21.5 -> P21.6`.
 
 P21.4 gate: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`.
 Implementation merge anchor: `277b219726008c70671cf4d804c857c98f8ab0c4`.
 Validation: GitHub CI #1710 — `1281 passed in 115.53s / SUCCESS`.
 
-Current boundary: `P21_5_VALIDATED / P21_6_READY`. Wave A repository onboarding is validated; measured KMU content staleness is preserved. Runtime deployment, paid/shared providers, production/live cutover and Plugin/publication remain unauthorized.
+Current boundary: `P21_6_VALIDATED / P21_7_READY`. Wave A structural impact is validated without inventing semantic-quality evidence: one required missing cell is removed, no adequate-cell gain is observed, and verification/contradiction/forecast effects remain `NOT_OBSERVED`. Runtime deployment, paid/shared providers, additional source waves, production/live cutover and Plugin/publication remain unauthorized.
 
 ## ChatGPT / Plugin architecture boundary
 
@@ -160,7 +160,12 @@ Gate:
 
 ### P21.6 — Intelligence Quality Impact Validation
 
-State: `READY_TO_BEGIN`
+State: `VALIDATED_WITH_STRUCTURAL_IMPACT_ONLY`
+Gate: `P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED`
+Evidence: `docs/evidence/P21_6_INTELLIGENCE_QUALITY_IMPACT_2026-09-17.json`
+Result: `docs/implementation/P21_6_INTELLIGENCE_QUALITY_IMPACT_RESULT.md`
+Merge anchor: `c7a29377457b338d8ddc55f7e989dd13557f36b7`
+Validation: GitHub CI #1793 / run `35437681811`, job `105883018288`: `1305 passed in 89.63s / SUCCESS`.
 
 Deliverables:
 
@@ -177,6 +182,8 @@ Gate:
 `P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED`
 
 ### P21.7 — Phase Acceptance
+
+State: `READY_TO_BEGIN`
 
 Acceptance criteria:
 
@@ -213,4 +220,4 @@ PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED = YES
 
 ## Next executable step
 
-Begin P21.6 intelligence-quality impact validation using exact pre/post Wave-A cohorts where feasible. Measure provenance completeness, verification decision yield, unresolved-claim distribution, contradiction workload, analytical coverage and forecast-input coverage without treating source/coverage/health metrics as factual verification. Do not deploy/restart the stale `/opt` runtime, authorize paid/shared resources, create migration `033`, or activate Plugin/publication surfaces.
+Begin P21.7 Phase Acceptance against the validated P21.0-P21.6 evidence chain. Confirm policy adequacy, measured health limitations, provenance boundaries, explicit gaps, controlled Wave-A effects and preserved P13.5/P13.6 factual-verification authority. Do not authorize additional source waves, deploy/restart the stale `/opt` runtime, authorize paid/shared resources, create migration `033`, or activate Plugin/publication surfaces.

@@ -1,8 +1,8 @@
 # P21.6 — Intelligence Quality Impact Validation Result
 
-Status: `VALIDATION_CANDIDATE / EXACT_COHORT_STRUCTURAL_IMPACT_MEASURED / SEMANTIC_QUALITY_NOT_OBSERVED`
+Status: `VALIDATED_WITH_STRUCTURAL_IMPACT_ONLY / SEMANTIC_QUALITY_NOT_OBSERVED`
 
-Gate target: `P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED`.
+Gate: `P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED`.
 
 ## Exact cohort
 
@@ -82,3 +82,14 @@ P13.5/P13.6 remain the factual-verification authority.
 - future source waves: `OWNER_DECISION_REQUIRED`.
 
 P21.6 does not authorize additional source onboarding or runtime activation.
+
+## Formal validation
+
+- implementation PR: `#127`;
+- implementation merge anchor: `c7a29377457b338d8ddc55f7e989dd13557f36b7`;
+- GitHub CI: run `35437681811` / job `105883018288` — `1305 passed in 89.63s / SUCCESS`;
+- formal state sync: `v4.44`;
+- current position after closure: `PHASE_21_P21_6_VALIDATED_P21_7_READY`;
+- next gate: `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED`.
+
+P21.7 is readiness only at this transition; no additional source wave is authorized by P21.6 closure.

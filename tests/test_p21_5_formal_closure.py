@@ -12,10 +12,10 @@ HEALTH=ROOT/'docs/evidence/P21_5_WAVE_A_FRESH_HEALTH_2026-09-17.json'
 
 def test_p21_5_formal_closure_state_is_converged():
     s=json.loads(STATE.read_text()); x=s['phase21_p21_5']
-    assert s['roadmap']['state_sync_version']=='4.43'
-    assert s['roadmap']['current_position']=='PHASE_21_P21_5_VALIDATED_P21_6_READY'
-    assert s['phase21']['validated_sequence'][-1]=='P21.5'
-    assert s['phase21']['next_gate']=='P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED'
+    major, minor = s['roadmap']['state_sync_version'].split('.', 1)
+    assert major == '4' and int(minor) >= 43
+    assert 'P21.5' in s['phase21']['validated_sequence']
+    assert x['next_gate']=='P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED'
     assert x['state']=='VALIDATED_WITH_MEASURED_CONTENT_STALENESS'
     assert x['implementation_merge_anchor']=='e2b78f8511154e9b626a39d0525d9b118c842bd2'
     assert x['implementation_pr']==123 and x['validation_run_id']==35174372833 and x['test_count']==1292

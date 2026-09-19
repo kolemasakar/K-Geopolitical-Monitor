@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_21_IN_PROGRESS / P21_5_VALIDATED / P21_6_READY`
+Status: `AUTHORITATIVE_POINTER / PHASE_21_IN_PROGRESS / P21_6_VALIDATED / P21_7_READY`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -9,10 +9,10 @@ Approved strategic block:
 `Phase 21 — Source Network Operational Adequacy & Evidence Population`
 
 Current Phase 21 position:
-`PHASE_21_P21_5_VALIDATED_P21_6_READY`
+`PHASE_21_P21_6_VALIDATED_P21_7_READY`
 
 Next gate:
-`P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED`
+`PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED`
 
 Roadmap decision:
 `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
@@ -117,6 +117,30 @@ Gate: `P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED`.
 - CI #1752: `1292 passed in 141.35s / SUCCESS`;
 - deployed runtime not mutated or restarted.
 
+## P21.6 intelligence quality impact validation
+
+Gate: `P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED`.
+Decision: `VALIDATED_WITH_STRUCTURAL_IMPACT_ONLY / SEMANTIC_QUALITY_NOT_OBSERVED`.
+
+- exact Wave-A policy-cell cohort: `2`;
+- governed source-path delta: `+2`;
+- healthy/fresh source-path delta: `+1`;
+- confirmed source-network independent-origin lower-bound delta: `+1`;
+- automatic factual/claim independence credit delta: `0`;
+- exact-cohort statuses: `1 MISSING_EXPECTED_COVERAGE / 1 THIN -> 1 DEGRADED_COLLECTION / 1 THIN`;
+- adequate-cell delta: `0`;
+- missing-required-cell delta: `-1`;
+- `ukraine.uk.national_media`: `THIN -> THIN`;
+- `ukraine.uk.official_government`: `MISSING_EXPECTED_COVERAGE -> DEGRADED_COLLECTION`;
+- verification-yield impact: `NOT_OBSERVED`;
+- contradiction-workload impact: `NOT_OBSERVED`;
+- forecast-input impact: `NOT_OBSERVED`;
+- PR #127; merge anchor `c7a29377457b338d8ddc55f7e989dd13557f36b7`;
+- CI #1793 / run `35437681811`, job `105883018288`: `1305 passed in 89.63s / SUCCESS`;
+- state sync: `v4.44`.
+
+No deployed post-Wave-A semantic corpus exists, so structural coverage/health/topology improvements are not promoted into semantic-quality or factual-verification claims. P13.5/P13.6 remain authoritative.
+
 ## OpenAI / ChatGPT architecture rebase
 
 Canonical decision:
@@ -159,8 +183,8 @@ This rebase does not activate a Plugin or change source/truth/runtime semantics.
 - `PRODUCTION_LIVE = NOT_OPERATIONAL`;
 - P13.5/P13.6 remain authoritative for factual verification.
 
-P21.5 controlled public/free onboarding was explicitly authorized by the owner on 2026-09-16. Authorization begins with Wave A and does not authorize deployed-runtime mutation, paid/shared resources, production/live cutover or Plugin/publication activation.
+P21.5 controlled public/free onboarding was explicitly authorized by the owner on 2026-09-16. Authorization begins with Wave A and does not authorize deployed-runtime mutation, paid/shared resources, production/live cutover or Plugin/publication activation. P21.6 closure does not authorize any additional source wave; future waves still require an owner decision.
 
 ## Next substantive action
 
-`BEGIN P21.6 INTELLIGENCE QUALITY IMPACT VALIDATION. Compare pre/post Wave-A exact cohorts where feasible without converting coverage/health/source-count changes into factual-verification authority.`
+`BEGIN P21.7 PHASE ACCEPTANCE. Validate the complete P21.0-P21.6 evidence chain against Phase 21 acceptance criteria without authorizing additional source waves, runtime deployment/restart, paid/shared resources, migration 033, production/live cutover or Plugin/publication.`
