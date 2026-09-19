@@ -25,10 +25,15 @@ def test_p22_1_bounded_owner_pilot_is_explicitly_authorized_only():
 
     assert p["state"] in {"AUTHORIZED_READY_TO_EXECUTE", "VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION"}
     assert p["target_node"] == "kgm-e4-owner-pilot"
-    assert p["execution_scope"] == "ONE_BOUNDED_OWNER_LOCAL_SESSION"
-    assert p["existing_governed_source_set_only"] is True
-    assert p["persistent_scheduler_enablement_authorized"] is False
     assert p["wave_b_onboarding"] == "OWNER_DECISION_REQUIRED"
+    if p["state"] == "AUTHORIZED_READY_TO_EXECUTE":
+        assert p["execution_scope"] == "ONE_BOUNDED_OWNER_LOCAL_SESSION"
+        assert p["existing_governed_source_set_only"] is True
+        assert p["persistent_scheduler_enablement_authorized"] is False
+    else:
+        assert p["state"] == "VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION"
+        assert p["persistent_owner_operation_activated"] is False
+        assert p["deployed_runtime_mutated"] is False
 
 
 def test_p22_1_authorization_preserves_runtime_resource_and_truth_boundaries():
@@ -44,13 +49,18 @@ def test_p22_1_authorization_preserves_runtime_resource_and_truth_boundaries():
     assert "WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED" in auth
     assert "ONE_BOUNDED_OWNER_LOCAL_SESSION" in auth
 
-    assert p["runtime_storage"] == "PROJECT_LOCAL_ONLY"
     assert p["production_live"] == "NOT_OPERATIONAL"
     assert p["migration_033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
     assert p["verification_authority"] == "P13.5/P13.6"
-    assert p["shared_runtime_authorized"] is False
-    assert p["paid_or_secret_provider_authorized"] is False
-    assert p["plugin_publication_authorized"] is False
+    if p["state"] == "AUTHORIZED_READY_TO_EXECUTE":
+        assert p["runtime_storage"] == "PROJECT_LOCAL_ONLY"
+        assert p["shared_runtime_authorized"] is False
+        assert p["paid_or_secret_provider_authorized"] is False
+        assert p["plugin_publication_authorized"] is False
+    else:
+        assert p["paid_or_shared_resources_authorized"] is False
+        assert p["plugin_publication_authorized"] is False
+        assert p["deployed_service_restart"] is False
 
     assert s["runtime"]["production_live"] == "NOT_OPERATIONAL"
     assert s["runtime"]["paid_providers"] == "NONE_APPROVED"
