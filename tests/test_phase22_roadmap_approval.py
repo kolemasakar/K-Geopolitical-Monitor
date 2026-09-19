@@ -21,7 +21,7 @@ def test_phase22_owner_approval_opens_p22_0_without_activation():
 
     assert x["state"] == "APPROVED"
     assert x["implementation_authorized"] is True
-    assert x["current_position"].startswith("P22_0_")
+    assert x["current_position"].startswith(("P22_0_", "P22_2_"))
     assert x["p22_0_state"] in {"READY_TO_BEGIN", "VALIDATED"}
 
     assert s["post_phase21_strategic_audit"]["decision_state"] == "OWNER_APPROVED_PHASE_22"

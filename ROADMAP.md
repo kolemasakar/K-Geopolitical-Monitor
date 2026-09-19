@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.48
+Version: 4.49
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -868,7 +868,7 @@ Current strategic position:
 
 
 ## Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion
-State: `APPROVED / P22_0_VALIDATED / P22_1_BLOCKED_ON_OWNER_GATE / P22_2_READY`
+State: `APPROVED / P22_0_VALIDATED / P22_1_BLOCKED_ON_OWNER_GATE / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_BLOCKED_ON_OWNER_GATE`
 Roadmap decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Implementation plan: `docs/implementation/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_PLAN.md`
 
@@ -901,8 +901,13 @@ Entry gate: `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`
 Gate: `P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED`
 
 ### P22.2 — Wave-B Candidate Discovery & Qualification
-State: `READY_TO_BEGIN`
+State: `VALIDATED_WITH_ONBOARDING_BLOCKERS`
 Gate: `P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED`
+Result: `docs/implementation/P22_2_WAVE_B_CANDIDATE_QUALIFICATION_RESULT.md`
+Evidence: `docs/evidence/P22_2_WAVE_B_CANDIDATE_QUALIFICATION_2026-09-19.json`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED.md`
+
+Validated discovery result: 13 public/free/anonymous-first candidates cover all 9 B_HIGH_REQUIRED cells and the exact 13-path deficit. All 13 remain P20.5 `BLOCKED` until health/fixture/rollback/governance evidence exists; 0 sources were activated and 0 independence credits were granted.
 
 Default planning cohort: P21.4 `B_HIGH_REQUIRED` — 9 required gap cells / 13 source-path deficit / 13 healthy-source deficit / 16 origin-evidence deficit.
 

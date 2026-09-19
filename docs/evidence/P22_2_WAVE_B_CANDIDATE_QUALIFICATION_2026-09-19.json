@@ -1,0 +1,904 @@
+{
+  "schema_version": "kgm.p22.2.wave_b_candidate_qualification.v1",
+  "phase": "P22.2",
+  "wave": "B_HIGH_REQUIRED",
+  "assessed_on": "2026-09-19",
+  "canonical_base_sha": "5925700e793385a77a2e1c6fd79956a2bf286f12",
+  "authority_state": "DISCOVERY_AND_QUALIFICATION_ONLY",
+  "planning_basis": {
+    "gap_cell_count": 9,
+    "source_path_deficit": 13,
+    "healthy_source_deficit": 13,
+    "origin_evidence_deficit_from_confirmed_lower_bound": 16
+  },
+  "onboarding_authorized": false,
+  "repository_activation_authorized": false,
+  "live_activation_authorized": false,
+  "paid_provider_authorized": false,
+  "owner_operational_activation_authorized": false,
+  "candidates": [
+    {
+      "candidate_id": "p22-2-b01-people-cn",
+      "cell_id": "east_asia.zh.national_media",
+      "source_id_proposal": "people-cn-zh",
+      "display_name": "People.cn / People's Daily",
+      "source_type": "NATIONAL_MEDIA",
+      "geography_scope": [
+        "EAST_ASIA"
+      ],
+      "language_scope": [
+        "zh"
+      ],
+      "primary_domain_or_endpoint": "https://www.people.com.cn/",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "policy_thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_collection_latency_minutes": 120,
+        "maximum_content_freshness_minutes": 240
+      },
+      "taxonomy_fit": "EXACT_WITH_STATE_MEDIA_NOTE",
+      "discovery_evidence": {
+        "assessed_on": "2026-09-19",
+        "public_web_reachability": "OBSERVED",
+        "recent_content_or_update_observed": "CURRENT_CONTENT_OBSERVED",
+        "latest_observed_date": "2026-09-19",
+        "evidence_urls": [
+          "https://www.people.com.cn/",
+          "https://paper.people.com.cn/rmrb/pc/layout/202609/19/node_03.html"
+        ]
+      },
+      "provenance": {
+        "publisher_identity_state": "EXPLICIT",
+        "source_level_origin_class": "EDITORIAL_PUBLISHER",
+        "origin_group_id": null,
+        "syndication_or_copy_relation": "UNKNOWN",
+        "provenance_completeness": "PARTIAL",
+        "independence_credit_granted": false
+      },
+      "automated_collection_rights_state": "REQUIRES_WRITTEN_AUTHORIZATION_REVIEW",
+      "p20_5_readiness": {
+        "health_behavior_status": "MISSING",
+        "fixture_validation_status": "MISSING",
+        "rollback_disable_status": "MISSING",
+        "governance_review_status": "PENDING",
+        "eligibility_decision": "BLOCKED",
+        "reason_codes": [
+          "HEALTH_BEHAVIOR_NOT_VALIDATED",
+          "FIXTURE_VALIDATION_MISSING",
+          "ROLLBACK_DISABLE_MISSING",
+          "GOVERNANCE_REVIEW_PENDING",
+          "AUTOMATED_COLLECTION_RIGHTS_REVIEW_PENDING"
+        ],
+        "live_activation_authorized": false,
+        "live_activation_state": "NOT_ACTIVE"
+      },
+      "qualification_decision": "CONDITIONAL_RIGHTS_REVIEW",
+      "repository_activation": false,
+      "onboarding_authorized": false,
+      "live_activation_authorized": false
+    },
+    {
+      "candidate_id": "p22-2-b02-cctv",
+      "cell_id": "east_asia.zh.national_media",
+      "source_id_proposal": "cctv-news-zh",
+      "display_name": "CCTV News",
+      "source_type": "NATIONAL_MEDIA",
+      "geography_scope": [
+        "EAST_ASIA"
+      ],
+      "language_scope": [
+        "zh"
+      ],
+      "primary_domain_or_endpoint": "https://news.cctv.com/",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "policy_thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_collection_latency_minutes": 120,
+        "maximum_content_freshness_minutes": 240
+      },
+      "taxonomy_fit": "EXACT_WITH_STATE_MEDIA_NOTE",
+      "discovery_evidence": {
+        "assessed_on": "2026-09-19",
+        "public_web_reachability": "OBSERVED",
+        "recent_content_or_update_observed": "RECENT_CONTENT_OBSERVED",
+        "latest_observed_date": "2026-09-17",
+        "evidence_urls": [
+          "https://news.cctv.com/"
+        ]
+      },
+      "provenance": {
+        "publisher_identity_state": "EXPLICIT",
+        "source_level_origin_class": "EDITORIAL_PUBLISHER",
+        "origin_group_id": null,
+        "syndication_or_copy_relation": "UNKNOWN",
+        "provenance_completeness": "PARTIAL",
+        "independence_credit_granted": false
+      },
+      "automated_collection_rights_state": "PENDING_REVIEW",
+      "p20_5_readiness": {
+        "health_behavior_status": "MISSING",
+        "fixture_validation_status": "MISSING",
+        "rollback_disable_status": "MISSING",
+        "governance_review_status": "PENDING",
+        "eligibility_decision": "BLOCKED",
+        "reason_codes": [
+          "HEALTH_BEHAVIOR_NOT_VALIDATED",
+          "FIXTURE_VALIDATION_MISSING",
+          "ROLLBACK_DISABLE_MISSING",
+          "GOVERNANCE_REVIEW_PENDING",
+          "AUTOMATED_COLLECTION_RIGHTS_REVIEW_PENDING"
+        ],
+        "live_activation_authorized": false,
+        "live_activation_state": "NOT_ACTIVE"
+      },
+      "qualification_decision": "QUALIFIED_FOR_FIXTURE_BUILD",
+      "repository_activation": false,
+      "onboarding_authorized": false,
+      "live_activation_authorized": false
+    },
+    {
+      "candidate_id": "p22-2-b03-ofac",
+      "cell_id": "global.en.sanctions_regulatory",
+      "source_id_proposal": "ofac-recent-actions-en",
+      "display_name": "U.S. Treasury OFAC Recent Actions",
+      "source_type": "SANCTIONS_REGULATORY",
+      "geography_scope": [
+        "GLOBAL"
+      ],
+      "language_scope": [
+        "en"
+      ],
+      "primary_domain_or_endpoint": "https://ofac.treasury.gov/recent-actions",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "policy_thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_collection_latency_minutes": 240,
+        "maximum_content_freshness_minutes": 480
+      },
+      "taxonomy_fit": "EXACT",
+      "discovery_evidence": {
+        "assessed_on": "2026-09-19",
+        "public_web_reachability": "OBSERVED",
+        "recent_content_or_update_observed": "CURRENT_UPDATE_STREAM_OBSERVED",
+        "latest_observed_date": "2026-09-18",
+        "evidence_urls": [
+          "https://ofac.treasury.gov/recent-actions"
+        ]
+      },
+      "provenance": {
+        "publisher_identity_state": "EXPLICIT",
+        "source_level_origin_class": "DIRECT_INSTITUTIONAL",
+        "origin_group_id": "official:us-treasury-ofac",
+        "syndication_or_copy_relation": "ORIGINAL",
+        "provenance_completeness": "KNOWN",
+        "independence_credit_granted": false
+      },
+      "automated_collection_rights_state": "PUBLIC_OFFICIAL_ENDPOINT",
+      "p20_5_readiness": {
+        "health_behavior_status": "MISSING",
+        "fixture_validation_status": "MISSING",
+        "rollback_disable_status": "MISSING",
+        "governance_review_status": "PENDING",
+        "eligibility_decision": "BLOCKED",
+        "reason_codes": [
+          "HEALTH_BEHAVIOR_NOT_VALIDATED",
+          "FIXTURE_VALIDATION_MISSING",
+          "ROLLBACK_DISABLE_MISSING",
+          "GOVERNANCE_REVIEW_PENDING"
+        ],
+        "live_activation_authorized": false,
+        "live_activation_state": "NOT_ACTIVE"
+      },
+      "qualification_decision": "QUALIFIED_FOR_FIXTURE_BUILD",
+      "repository_activation": false,
+      "onboarding_authorized": false,
+      "live_activation_authorized": false
+    },
+    {
+      "candidate_id": "p22-2-b04-uk-sanctions",
+      "cell_id": "global.en.sanctions_regulatory",
+      "source_id_proposal": "uk-sanctions-list-en",
+      "display_name": "UK Sanctions List",
+      "source_type": "SANCTIONS_REGULATORY",
+      "geography_scope": [
+        "GLOBAL"
+      ],
+      "language_scope": [
+        "en"
+      ],
+      "primary_domain_or_endpoint": "https://www.gov.uk/government/publications/the-uk-sanctions-list",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "policy_thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_collection_latency_minutes": 240,
+        "maximum_content_freshness_minutes": 480
+      },
+      "taxonomy_fit": "EXACT",
+      "discovery_evidence": {
+        "assessed_on": "2026-09-19",
+        "public_web_reachability": "OBSERVED",
+        "recent_content_or_update_observed": "OFFICIAL_UPDATE_PAGE_OBSERVED",
+        "latest_observed_date": "2026-09-11",
+        "evidence_urls": [
+          "https://www.gov.uk/government/publications/the-uk-sanctions-list",
+          "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.xml"
+        ]
+      },
+      "provenance": {
+        "publisher_identity_state": "EXPLICIT",
+        "source_level_origin_class": "DIRECT_INSTITUTIONAL",
+        "origin_group_id": "official:uk-fcdo",
+        "syndication_or_copy_relation": "ORIGINAL",
+        "provenance_completeness": "KNOWN",
+        "independence_credit_granted": false
+      },
+      "automated_collection_rights_state": "PUBLIC_OFFICIAL_ENDPOINT",
+      "p20_5_readiness": {
+        "health_behavior_status": "MISSING",
+        "fixture_validation_status": "MISSING",
+        "rollback_disable_status": "MISSING",
+        "governance_review_status": "PENDING",
+        "eligibility_decision": "BLOCKED",
+        "reason_codes": [
+          "HEALTH_BEHAVIOR_NOT_VALIDATED",
+          "FIXTURE_VALIDATION_MISSING",
+          "ROLLBACK_DISABLE_MISSING",
+          "GOVERNANCE_REVIEW_PENDING"
+        ],
+        "live_activation_authorized": false,
+        "live_activation_state": "NOT_ACTIVE"
+      },
+      "qualification_decision": "QUALIFIED_FOR_FIXTURE_BUILD",
+      "repository_activation": false,
+      "onboarding_authorized": false,
+      "live_activation_authorized": false
+    },
+    {
+      "candidate_id": "p22-2-b05-reuters",
+      "cell_id": "global.en.wire_service",
+      "source_id_proposal": "reuters-world-en",
+      "display_name": "Reuters World",
+      "source_type": "WIRE_SERVICE",
+      "geography_scope": [
+        "GLOBAL"
+      ],
+      "language_scope": [
+        "en"
+      ],
+      "primary_domain_or_endpoint": "https://www.reuters.com/world/",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "policy_thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_collection_latency_minutes": 60,
+        "maximum_content_freshness_minutes": 120
+      },
+      "taxonomy_fit": "EXACT",
+      "discovery_evidence": {
+        "assessed_on": "2026-09-19",
+        "public_web_reachability": "OBSERVED",
+        "recent_content_or_update_observed": "CURRENT_CONTENT_OBSERVED",
+        "latest_observed_date": "2026-09-19",
+        "evidence_urls": [
+          "https://www.reuters.com/world/"
+        ]
+      },
+      "provenance": {
+        "publisher_identity_state": "EXPLICIT",
+        "source_level_origin_class": "EDITORIAL_PUBLISHER",
+        "origin_group_id": null,
+        "syndication_or_copy_relation": "UNKNOWN",
+        "provenance_completeness": "PARTIAL",
+        "independence_credit_granted": false
+      },
+      "automated_collection_rights_state": "PENDING_REVIEW",
+      "p20_5_readiness": {
+        "health_behavior_status": "MISSING",
+        "fixture_validation_status": "MISSING",
+        "rollback_disable_status": "MISSING",
+        "governance_review_status": "PENDING",
+        "eligibility_decision": "BLOCKED",
+        "reason_codes": [
+          "HEALTH_BEHAVIOR_NOT_VALIDATED",
+          "FIXTURE_VALIDATION_MISSING",
+          "ROLLBACK_DISABLE_MISSING",
+          "GOVERNANCE_REVIEW_PENDING",
+          "AUTOMATED_COLLECTION_RIGHTS_REVIEW_PENDING"
+        ],
+        "live_activation_authorized": false,
+        "live_activation_state": "NOT_ACTIVE"
+      },
+      "qualification_decision": "CONDITIONAL_RIGHTS_REVIEW",
+      "repository_activation": false,
+      "onboarding_authorized": false,
+      "live_activation_authorized": false
+    },
+    {
+      "candidate_id": "p22-2-b06-anadolu",
+      "cell_id": "global.en.wire_service",
+      "source_id_proposal": "anadolu-en",
+      "display_name": "Anadolu Agency English",
+      "source_type": "WIRE_SERVICE",
+      "geography_scope": [
+        "GLOBAL"
+      ],
+      "language_scope": [
+        "en"
+      ],
+      "primary_domain_or_endpoint": "https://www.aa.com.tr/en/rss/default?cat=live",
+      "collection_method": "RSS",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "policy_thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_collection_latency_minutes": 60,
+        "maximum_content_freshness_minutes": 120
+      },
+      "taxonomy_fit": "EXACT",
+      "discovery_evidence": {
+        "assessed_on": "2026-09-19",
+        "public_web_reachability": "OBSERVED",
+        "recent_content_or_update_observed": "CURRENT_CONTENT_AND_RSS_LINK_OBSERVED",
+        "latest_observed_date": "2026-09-19",
+        "evidence_urls": [
+          "https://www.aa.com.tr/en",
+          "https://www.aa.com.tr/en/rss/default?cat=live"
+        ]
+      },
+      "provenance": {
+        "publisher_identity_state": "EXPLICIT",
+        "source_level_origin_class": "EDITORIAL_PUBLISHER",
+        "origin_group_id": null,
+        "syndication_or_copy_relation": "UNKNOWN",
+        "provenance_completeness": "PARTIAL",
+        "independence_credit_granted": false
+      },
+      "automated_collection_rights_state": "PENDING_REVIEW",
+      "p20_5_readiness": {
+        "health_behavior_status": "MISSING",
+        "fixture_validation_status": "MISSING",
+        "rollback_disable_status": "MISSING",
+        "governance_review_status": "PENDING",
+        "eligibility_decision": "BLOCKED",
+        "reason_codes": [
+          "HEALTH_BEHAVIOR_NOT_VALIDATED",
+          "FIXTURE_VALIDATION_MISSING",
+          "ROLLBACK_DISABLE_MISSING",
+          "GOVERNANCE_REVIEW_PENDING",
+          "AUTOMATED_COLLECTION_RIGHTS_REVIEW_PENDING"
+        ],
+        "live_activation_authorized": false,
+        "live_activation_state": "NOT_ACTIVE"
+      },
+      "qualification_decision": "QUALIFIED_FOR_FIXTURE_BUILD",
+      "repository_activation": false,
+      "onboarding_authorized": false,
+      "live_activation_authorized": false
+    },
+    {
+      "candidate_id": "p22-2-b07-aljazeera",
+      "cell_id": "middle_east.ar.national_media",
+      "source_id_proposal": "aljazeera-ar",
+      "display_name": "Al Jazeera Arabic",
+      "source_type": "NATIONAL_MEDIA",
+      "geography_scope": [
+        "MIDDLE_EAST"
+      ],
+      "language_scope": [
+        "ar"
+      ],
+      "primary_domain_or_endpoint": "https://www.aljazeera.net/news/",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "policy_thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_collection_latency_minutes": 60,
+        "maximum_content_freshness_minutes": 120
+      },
+      "taxonomy_fit": "GOVERNANCE_CONFIRMATION_REQUIRED",
+      "discovery_evidence": {
+        "assessed_on": "2026-09-19",
+        "public_web_reachability": "OBSERVED",
+        "recent_content_or_update_observed": "CURRENT_ARABIC_CONTENT_OBSERVED",
+        "latest_observed_date": "2026-09-19",
+        "evidence_urls": [
+          "https://www.aljazeera.net/news/"
+        ]
+      },
+      "provenance": {
+        "publisher_identity_state": "EXPLICIT",
+        "source_level_origin_class": "EDITORIAL_PUBLISHER",
+        "origin_group_id": null,
+        "syndication_or_copy_relation": "UNKNOWN",
+        "provenance_completeness": "PARTIAL",
+        "independence_credit_granted": false
+      },
+      "automated_collection_rights_state": "PENDING_REVIEW",
+      "p20_5_readiness": {
+        "health_behavior_status": "MISSING",
+        "fixture_validation_status": "MISSING",
+        "rollback_disable_status": "MISSING",
+        "governance_review_status": "PENDING",
+        "eligibility_decision": "BLOCKED",
+        "reason_codes": [
+          "HEALTH_BEHAVIOR_NOT_VALIDATED",
+          "FIXTURE_VALIDATION_MISSING",
+          "ROLLBACK_DISABLE_MISSING",
+          "GOVERNANCE_REVIEW_PENDING",
+          "AUTOMATED_COLLECTION_RIGHTS_REVIEW_PENDING",
+          "TAXONOMY_FIT_GOVERNANCE_CONFIRMATION_REQUIRED"
+        ],
+        "live_activation_authorized": false,
+        "live_activation_state": "NOT_ACTIVE"
+      },
+      "qualification_decision": "CONDITIONAL_TAXONOMY_AND_RIGHTS_REVIEW",
+      "repository_activation": false,
+      "onboarding_authorized": false,
+      "live_activation_authorized": false
+    },
+    {
+      "candidate_id": "p22-2-b08-alarabiya",
+      "cell_id": "middle_east.ar.national_media",
+      "source_id_proposal": "alarabiya-ar",
+      "display_name": "Al Arabiya Arabic",
+      "source_type": "NATIONAL_MEDIA",
+      "geography_scope": [
+        "MIDDLE_EAST"
+      ],
+      "language_scope": [
+        "ar"
+      ],
+      "primary_domain_or_endpoint": "https://www.alarabiya.net/arab-and-world",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "policy_thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_collection_latency_minutes": 60,
+        "maximum_content_freshness_minutes": 120
+      },
+      "taxonomy_fit": "GOVERNANCE_CONFIRMATION_REQUIRED",
+      "discovery_evidence": {
+        "assessed_on": "2026-09-19",
+        "public_web_reachability": "OBSERVED",
+        "recent_content_or_update_observed": "CURRENT_ARABIC_CONTENT_OBSERVED",
+        "latest_observed_date": "2026-09-19",
+        "evidence_urls": [
+          "https://www.alarabiya.net/arab-and-world"
+        ]
+      },
+      "provenance": {
+        "publisher_identity_state": "EXPLICIT",
+        "source_level_origin_class": "EDITORIAL_PUBLISHER",
+        "origin_group_id": null,
+        "syndication_or_copy_relation": "UNKNOWN",
+        "provenance_completeness": "PARTIAL",
+        "independence_credit_granted": false
+      },
+      "automated_collection_rights_state": "PENDING_REVIEW",
+      "p20_5_readiness": {
+        "health_behavior_status": "MISSING",
+        "fixture_validation_status": "MISSING",
+        "rollback_disable_status": "MISSING",
+        "governance_review_status": "PENDING",
+        "eligibility_decision": "BLOCKED",
+        "reason_codes": [
+          "HEALTH_BEHAVIOR_NOT_VALIDATED",
+          "FIXTURE_VALIDATION_MISSING",
+          "ROLLBACK_DISABLE_MISSING",
+          "GOVERNANCE_REVIEW_PENDING",
+          "AUTOMATED_COLLECTION_RIGHTS_REVIEW_PENDING",
+          "TAXONOMY_FIT_GOVERNANCE_CONFIRMATION_REQUIRED"
+        ],
+        "live_activation_authorized": false,
+        "live_activation_state": "NOT_ACTIVE"
+      },
+      "qualification_decision": "CONDITIONAL_TAXONOMY_AND_RIGHTS_REVIEW",
+      "repository_activation": false,
+      "onboarding_authorized": false,
+      "live_activation_authorized": false
+    },
+    {
+      "candidate_id": "p22-2-b09-rugov",
+      "cell_id": "russia.ru.official_government",
+      "source_id_proposal": "russian-government-news-ru",
+      "display_name": "Government of Russia — News",
+      "source_type": "OFFICIAL_GOVERNMENT",
+      "geography_scope": [
+        "RUSSIA"
+      ],
+      "language_scope": [
+        "ru"
+      ],
+      "primary_domain_or_endpoint": "https://government.ru/news/",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "policy_thresholds": {
+        "minimum_source_count": 1,
+        "minimum_independent_origin_count": 1,
+        "minimum_healthy_source_count": 1,
+        "maximum_collection_latency_minutes": 120,
+        "maximum_content_freshness_minutes": 240
+      },
+      "taxonomy_fit": "EXACT",
+      "discovery_evidence": {
+        "assessed_on": "2026-09-19",
+        "public_web_reachability": "OBSERVED",
+        "recent_content_or_update_observed": "RECENT_OFFICIAL_CONTENT_OBSERVED",
+        "latest_observed_date": "2026-09-17",
+        "evidence_urls": [
+          "https://government.ru/news/"
+        ]
+      },
+      "provenance": {
+        "publisher_identity_state": "EXPLICIT",
+        "source_level_origin_class": "DIRECT_INSTITUTIONAL",
+        "origin_group_id": "official:russian-government",
+        "syndication_or_copy_relation": "ORIGINAL",
+        "provenance_completeness": "KNOWN",
+        "independence_credit_granted": false
+      },
+      "automated_collection_rights_state": "PUBLIC_OFFICIAL_ENDPOINT",
+      "p20_5_readiness": {
+        "health_behavior_status": "MISSING",
+        "fixture_validation_status": "MISSING",
+        "rollback_disable_status": "MISSING",
+        "governance_review_status": "PENDING",
+        "eligibility_decision": "BLOCKED",
+        "reason_codes": [
+          "HEALTH_BEHAVIOR_NOT_VALIDATED",
+          "FIXTURE_VALIDATION_MISSING",
+          "ROLLBACK_DISABLE_MISSING",
+          "GOVERNANCE_REVIEW_PENDING"
+        ],
+        "live_activation_authorized": false,
+        "live_activation_state": "NOT_ACTIVE"
+      },
+      "qualification_decision": "QUALIFIED_FOR_FIXTURE_BUILD",
+      "repository_activation": false,
+      "onboarding_authorized": false,
+      "live_activation_authorized": false
+    },
+    {
+      "candidate_id": "p22-2-b10-whitehouse",
+      "cell_id": "united_states.en.official_government",
+      "source_id_proposal": "white-house-briefings-en",
+      "display_name": "The White House — Briefings & Statements",
+      "source_type": "OFFICIAL_GOVERNMENT",
+      "geography_scope": [
+        "UNITED_STATES"
+      ],
+      "language_scope": [
+        "en"
+      ],
+      "primary_domain_or_endpoint": "https://www.whitehouse.gov/briefings-statements/",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "policy_thresholds": {
+        "minimum_source_count": 1,
+        "minimum_independent_origin_count": 1,
+        "minimum_healthy_source_count": 1,
+        "maximum_collection_latency_minutes": 120,
+        "maximum_content_freshness_minutes": 240
+      },
+      "taxonomy_fit": "EXACT",
+      "discovery_evidence": {
+        "assessed_on": "2026-09-19",
+        "public_web_reachability": "OBSERVED",
+        "recent_content_or_update_observed": "CURRENT_OFFICIAL_CONTENT_OBSERVED",
+        "latest_observed_date": "2026-09-18",
+        "evidence_urls": [
+          "https://www.whitehouse.gov/briefings-statements/"
+        ]
+      },
+      "provenance": {
+        "publisher_identity_state": "EXPLICIT",
+        "source_level_origin_class": "DIRECT_INSTITUTIONAL",
+        "origin_group_id": "official:us-white-house",
+        "syndication_or_copy_relation": "ORIGINAL",
+        "provenance_completeness": "KNOWN",
+        "independence_credit_granted": false
+      },
+      "automated_collection_rights_state": "PUBLIC_OFFICIAL_ENDPOINT",
+      "p20_5_readiness": {
+        "health_behavior_status": "MISSING",
+        "fixture_validation_status": "MISSING",
+        "rollback_disable_status": "MISSING",
+        "governance_review_status": "PENDING",
+        "eligibility_decision": "BLOCKED",
+        "reason_codes": [
+          "HEALTH_BEHAVIOR_NOT_VALIDATED",
+          "FIXTURE_VALIDATION_MISSING",
+          "ROLLBACK_DISABLE_MISSING",
+          "GOVERNANCE_REVIEW_PENDING"
+        ],
+        "live_activation_authorized": false,
+        "live_activation_state": "NOT_ACTIVE"
+      },
+      "qualification_decision": "QUALIFIED_FOR_FIXTURE_BUILD",
+      "repository_activation": false,
+      "onboarding_authorized": false,
+      "live_activation_authorized": false
+    },
+    {
+      "candidate_id": "p22-2-b11-trt",
+      "cell_id": "black_sea.tr.national_media",
+      "source_id_proposal": "trt-haber-tr",
+      "display_name": "TRT Haber",
+      "source_type": "NATIONAL_MEDIA",
+      "geography_scope": [
+        "BLACK_SEA"
+      ],
+      "language_scope": [
+        "tr"
+      ],
+      "primary_domain_or_endpoint": "https://www.trthaber.com/",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "policy_thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_collection_latency_minutes": 90,
+        "maximum_content_freshness_minutes": 180
+      },
+      "taxonomy_fit": "EXACT_WITH_STATE_MEDIA_NOTE",
+      "discovery_evidence": {
+        "assessed_on": "2026-09-19",
+        "public_web_reachability": "OBSERVED",
+        "recent_content_or_update_observed": "CURRENT_TURKISH_CONTENT_OBSERVED",
+        "latest_observed_date": "2026-09-19",
+        "evidence_urls": [
+          "https://www.trthaber.com/"
+        ]
+      },
+      "provenance": {
+        "publisher_identity_state": "EXPLICIT",
+        "source_level_origin_class": "EDITORIAL_PUBLISHER",
+        "origin_group_id": null,
+        "syndication_or_copy_relation": "UNKNOWN",
+        "provenance_completeness": "PARTIAL",
+        "independence_credit_granted": false
+      },
+      "automated_collection_rights_state": "PENDING_REVIEW",
+      "p20_5_readiness": {
+        "health_behavior_status": "MISSING",
+        "fixture_validation_status": "MISSING",
+        "rollback_disable_status": "MISSING",
+        "governance_review_status": "PENDING",
+        "eligibility_decision": "BLOCKED",
+        "reason_codes": [
+          "HEALTH_BEHAVIOR_NOT_VALIDATED",
+          "FIXTURE_VALIDATION_MISSING",
+          "ROLLBACK_DISABLE_MISSING",
+          "GOVERNANCE_REVIEW_PENDING",
+          "AUTOMATED_COLLECTION_RIGHTS_REVIEW_PENDING"
+        ],
+        "live_activation_authorized": false,
+        "live_activation_state": "NOT_ACTIVE"
+      },
+      "qualification_decision": "QUALIFIED_FOR_FIXTURE_BUILD",
+      "repository_activation": false,
+      "onboarding_authorized": false,
+      "live_activation_authorized": false
+    },
+    {
+      "candidate_id": "p22-2-b12-tvn24",
+      "cell_id": "central_europe.pl.national_media",
+      "source_id_proposal": "tvn24-pl",
+      "display_name": "TVN24",
+      "source_type": "NATIONAL_MEDIA",
+      "geography_scope": [
+        "CENTRAL_EUROPE"
+      ],
+      "language_scope": [
+        "pl"
+      ],
+      "primary_domain_or_endpoint": "https://tvn24.pl/",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "policy_thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_collection_latency_minutes": 90,
+        "maximum_content_freshness_minutes": 180
+      },
+      "taxonomy_fit": "EXACT",
+      "discovery_evidence": {
+        "assessed_on": "2026-09-19",
+        "public_web_reachability": "OBSERVED",
+        "recent_content_or_update_observed": "CURRENT_POLISH_CONTENT_OBSERVED",
+        "latest_observed_date": "2026-09-19",
+        "evidence_urls": [
+          "https://tvn24.pl/"
+        ]
+      },
+      "provenance": {
+        "publisher_identity_state": "EXPLICIT",
+        "source_level_origin_class": "EDITORIAL_PUBLISHER",
+        "origin_group_id": null,
+        "syndication_or_copy_relation": "UNKNOWN",
+        "provenance_completeness": "PARTIAL",
+        "independence_credit_granted": false
+      },
+      "automated_collection_rights_state": "PENDING_REVIEW",
+      "p20_5_readiness": {
+        "health_behavior_status": "MISSING",
+        "fixture_validation_status": "MISSING",
+        "rollback_disable_status": "MISSING",
+        "governance_review_status": "PENDING",
+        "eligibility_decision": "BLOCKED",
+        "reason_codes": [
+          "HEALTH_BEHAVIOR_NOT_VALIDATED",
+          "FIXTURE_VALIDATION_MISSING",
+          "ROLLBACK_DISABLE_MISSING",
+          "GOVERNANCE_REVIEW_PENDING",
+          "AUTOMATED_COLLECTION_RIGHTS_REVIEW_PENDING"
+        ],
+        "live_activation_authorized": false,
+        "live_activation_state": "NOT_ACTIVE"
+      },
+      "qualification_decision": "CONDITIONAL_RIGHTS_REVIEW",
+      "repository_activation": false,
+      "onboarding_authorized": false,
+      "live_activation_authorized": false
+    },
+    {
+      "candidate_id": "p22-2-b13-rbc",
+      "cell_id": "russia.ru.national_media",
+      "source_id_proposal": "rbc-politics-ru",
+      "display_name": "RBC — Politics",
+      "source_type": "NATIONAL_MEDIA",
+      "geography_scope": [
+        "RUSSIA"
+      ],
+      "language_scope": [
+        "ru"
+      ],
+      "primary_domain_or_endpoint": "https://www.rbc.ru/rubric/politics",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "policy_thresholds": {
+        "minimum_source_count": 2,
+        "minimum_independent_origin_count": 2,
+        "minimum_healthy_source_count": 2,
+        "maximum_collection_latency_minutes": 60,
+        "maximum_content_freshness_minutes": 120
+      },
+      "taxonomy_fit": "EXACT",
+      "discovery_evidence": {
+        "assessed_on": "2026-09-19",
+        "public_web_reachability": "OBSERVED",
+        "recent_content_or_update_observed": "CURRENT_RUSSIAN_CONTENT_OBSERVED",
+        "latest_observed_date": "2026-09-19",
+        "evidence_urls": [
+          "https://www.rbc.ru/rubric/politics"
+        ]
+      },
+      "provenance": {
+        "publisher_identity_state": "EXPLICIT",
+        "source_level_origin_class": "EDITORIAL_PUBLISHER",
+        "origin_group_id": null,
+        "syndication_or_copy_relation": "UNKNOWN",
+        "provenance_completeness": "PARTIAL",
+        "independence_credit_granted": false
+      },
+      "automated_collection_rights_state": "PENDING_REVIEW",
+      "p20_5_readiness": {
+        "health_behavior_status": "MISSING",
+        "fixture_validation_status": "MISSING",
+        "rollback_disable_status": "MISSING",
+        "governance_review_status": "PENDING",
+        "eligibility_decision": "BLOCKED",
+        "reason_codes": [
+          "HEALTH_BEHAVIOR_NOT_VALIDATED",
+          "FIXTURE_VALIDATION_MISSING",
+          "ROLLBACK_DISABLE_MISSING",
+          "GOVERNANCE_REVIEW_PENDING",
+          "AUTOMATED_COLLECTION_RIGHTS_REVIEW_PENDING"
+        ],
+        "live_activation_authorized": false,
+        "live_activation_state": "NOT_ACTIVE"
+      },
+      "qualification_decision": "CONDITIONAL_RIGHTS_REVIEW",
+      "repository_activation": false,
+      "onboarding_authorized": false,
+      "live_activation_authorized": false
+    }
+  ],
+  "summary": {
+    "candidate_count": 13,
+    "target_cell_count": 9,
+    "exact_source_path_deficit_covered_by_candidates": 13,
+    "qualified_for_fixture_build_count": 7,
+    "conditional_rights_review_count": 4,
+    "conditional_taxonomy_and_rights_review_count": 2,
+    "p20_5_eligible_not_active_count": 0,
+    "p20_5_blocked_count": 13,
+    "independence_credit_granted_count": 0,
+    "repository_activation_count": 0,
+    "live_activation_count": 0
+  },
+  "safety_boundary": {
+    "wave_b_onboarding": "OWNER_DECISION_REQUIRED",
+    "runtime_deployment": false,
+    "service_restart": false,
+    "production_live": "NOT_OPERATIONAL",
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "plugin_build": false,
+    "plugin_publication": false
+  },
+  "epistemic_note": "Candidate count, public reachability, source class, currentness, publisher identity and source diversity do not establish independent origin or factual truth. P13.5/P13.6 remain the sole factual-verification authority. P22.2 does not activate or onboard sources."
+}
