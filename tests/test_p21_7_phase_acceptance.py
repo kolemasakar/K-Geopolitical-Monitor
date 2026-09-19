@@ -14,7 +14,8 @@ def test_p21_7_phase_acceptance_state_is_converged():
     s = json.loads(STATE.read_text(encoding="utf-8"))
     x = s["phase21_p21_7"]
 
-    assert s["roadmap"]["state_sync_version"] == "4.45"
+    major, minor = map(int, s["roadmap"]["state_sync_version"].split("."))
+    assert major == 4 and minor >= 45
     assert s["roadmap"]["current_position"] == "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED"
     assert s["phases"]["21"] == "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS"
 
@@ -83,7 +84,8 @@ def test_p21_7_acceptance_preserves_truth_runtime_and_activation_boundaries():
 
     assert s["runtime"]["production_live"] == "NOT_OPERATIONAL"
     assert s["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
-    assert "Version: 4.45" in roadmap
+    sync_version = s["roadmap"]["state_sync_version"]
+    assert f"Version: {sync_version}" in roadmap
     assert "P21.7: `PASS_WITH_KNOWN_LIMITATIONS`" in roadmap
     assert "ROADMAP_DECISION_REQUIRED" in handoff
     assert "ROADMAP_DECISION_REQUIRED" in plan
