@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_22_APPROVED / P22_1_VALIDATED / P22_2_VALIDATED / P22_3_B1_AUTHORIZED`
+Status: `AUTHORITATIVE_POINTER / PHASE_22_APPROVED / P22_1_VALIDATED / P22_2_VALIDATED / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_READY`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -12,10 +12,10 @@ Prior validated strategic position:
 `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
 
 Current position:
-`PHASE_22_P22_3_B1_AUTHORIZED_IMPLEMENTATION_READY`
+`PHASE_22_P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED`
 
 Next gate:
-`P22_3_B1_P20_5_READINESS_AND_ONBOARDING_VALIDATION`
+`P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED`
 
 Roadmap decision:
 `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
@@ -254,7 +254,7 @@ P22_0_GATE = P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED
 NEXT_GATE = P22_3_WAVE_B_ONBOARDING_OWNER_DECISION_REQUIRED
 P22_1 = VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION
 P22_2 = VALIDATED_WITH_ONBOARDING_BLOCKERS
-P22_3 = B1_AUTHORIZED_IMPLEMENTATION_READY
+P22_3 = VALIDATED_WITH_PARTIAL_ONBOARDING
 BOUNDED_P22_1_PILOT = COMPLETED
 PERSISTENT_OWNER_OPERATION = NOT_ACTIVATED
 WAVE_B_ONBOARDING = APPROVED_FOR_B1_INSTITUTIONAL_COHORT
@@ -327,7 +327,13 @@ P22.1 validates bounded operational execution and fail-closed degradation visibi
 
 ## Next substantive action
 
-`P22_3_B1_P20_5_READINESS_AND_ONBOARDING_VALIDATION`.
+P22.3 is validated with partial B1 onboarding.
 
-B1 institutional onboarding is authorized conditionally on per-source P20.5 PASS. Remaining candidates and persistent owner operation remain unauthorized.
+- repository-active: `ofac-recent-actions-en`, `white-house-briefings-en`;
+- blocked: `uk-sanctions-list-en` (bounded response limit), `russian-government-news-ru` (transport timeout);
+- live activation: `0`;
+- independence credit: `0`;
+- deployed runtime unchanged.
+
+Next substantive action: `P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED`. Remaining candidates and persistent owner operation remain unauthorized.
 

@@ -48,6 +48,6 @@ def test_b1_onboarding_activates_only_p20_5_pass_sources():
 
 def test_b1_result_preserves_truth_and_runtime_boundaries():
     t=RESULT.read_text(encoding="utf-8")
-    assert "IMPLEMENTED / VALIDATION_CANDIDATE / PARTIAL_ONBOARDING" in t
+    assert any(marker in t for marker in ("IMPLEMENTED / VALIDATION_CANDIDATE / PARTIAL_ONBOARDING", "VALIDATED_WITH_PARTIAL_ONBOARDING"))
     assert "P13.5/P13.6 remain factual-verification authority" in t
     assert "Repository activation is not deployed-runtime activation" in t

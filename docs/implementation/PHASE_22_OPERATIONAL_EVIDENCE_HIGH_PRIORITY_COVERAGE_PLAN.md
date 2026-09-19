@@ -1,7 +1,7 @@
 # Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion — Implementation Plan
 
 Date: 2026-09-19
-Status: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_B1_AUTHORIZED_IMPLEMENTATION_READY`
+Status: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_READY_TO_BEGIN`
 Decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Parent audit: `docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md`
 
@@ -152,12 +152,16 @@ Gate:
 
 ### P22.3 — Controlled High-Priority Onboarding
 
-State: `AUTHORIZED_B1_IMPLEMENTATION_READY`
+State: `VALIDATED_WITH_PARTIAL_ONBOARDING`
+Gate: `P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED`
 Authorization: `docs/decisions/P22_3_B1_CONTROLLED_ONBOARDING_OWNER_AUTHORIZATION_2026-09-19.md`
+Evidence: `docs/evidence/P22_3_B1_FRESH_HEALTH_2026-09-19.json`, `docs/evidence/P22_3_B1_ONBOARDING_2026-09-19.json`
+Result: `docs/implementation/P22_3_B1_CONTROLLED_ONBOARDING_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED.md`
 
-Authorized cohort: `B1_INSTITUTIONAL` = OFAC, UK Sanctions List, Government of Russia, White House.
+B1 result: 4 measured; OFAC + White House passed P20.5 and are repository-active; UK Sanctions List is blocked by the bounded response limit; Government of Russia is blocked by owner-node transport timeout. Live activation remains 0 and automatic independence credit remains 0.
 
-Repository activation is conditional per source on full P20.5 PASS. The remaining 9 P22.2 candidates are not authorized.
+The remaining 9 P22.2 candidates remain unauthorized.
 
 Deliverables after approval:
 
@@ -174,7 +178,7 @@ Gate:
 
 ### P22.4 — Operational Coverage Rebaseline
 
-State: `PLANNED`
+State: `READY_TO_BEGIN`
 
 Deliverables:
 
@@ -255,5 +259,5 @@ Final gate:
 
 P22.1 and P22.2 are validated with explicit measured limitations.
 
-P22.3 B1 is owner-authorized. Next execute B1 fixture/adapter/health/rollback/P20.5 readiness and activate only sources that pass. Persistent owner operation remains not activated; the remaining 9 P22.2 candidates remain unauthorized.
+P22.3 is validated with partial B1 onboarding. Next execute P22.4 deterministic operational coverage rebaseline from the two new repository-active paths and the explicit health/freshness limitations. Persistent owner operation remains not activated; the remaining 9 P22.2 candidates remain unauthorized.
 
