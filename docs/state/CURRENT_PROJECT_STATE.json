@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.52",
+    "state_sync_version": "4.53",
     "status": "APPROVED",
-    "current_position": "PHASE_22_P22_3_B1_AUTHORIZED_IMPLEMENTATION_READY"
+    "current_position": "PHASE_22_P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -18,7 +18,7 @@
     "19": "PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED",
     "20": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
     "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
-    "22": "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_B1_AUTHORIZED_IMPLEMENTATION_READY"
+    "22": "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -34,7 +34,7 @@
     "phase18_launch": "EXPLICIT_OWNER_DECISION_PLUS_FRESH_LAUNCH_TIME_VALIDATION_REQUIRED",
     "phase21_live_source_expansion": "P21_5_WAVE_A_VALIDATED / FUTURE_WAVES_OWNER_DECISION_REQUIRED",
     "phase22_owner_operational_pilot": "BOUNDED_P22_1_PILOT_COMPLETED / PERSISTENT_OWNER_OPERATION_NOT_ACTIVATED",
-    "phase22_wave_b_onboarding": "WAVE_B_ONBOARDING = APPROVED_FOR_B1_INSTITUTIONAL_COHORT",
+    "phase22_wave_b_onboarding": "B1_INSTITUTIONAL_PARTIAL_ONBOARDING_VALIDATED / REMAINING_WAVE_B = OWNER_DECISION_REQUIRED",
     "phase22_paid_sources": "PAID_PROVIDERS = NONE_APPROVED",
     "phase22_production_live": "PRODUCTION_LIVE = NOT_OPERATIONAL"
   },
@@ -553,10 +553,10 @@
     "implementation_plan": "docs/implementation/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_PLAN.md",
     "authorization_date": "2026-09-19",
     "implementation_authorized": true,
-    "current_position": "P22_3_B1_AUTHORIZED_IMPLEMENTATION_READY",
-    "next_gate": "P22_3_B1_P20_5_READINESS_AND_ONBOARDING_VALIDATION",
+    "current_position": "P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED",
+    "next_gate": "P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED",
     "owner_operational_activation": "BOUNDED_P22_1_PILOT_COMPLETED / PERSISTENT_OWNER_OPERATION_NOT_ACTIVATED",
-    "wave_b_onboarding": "APPROVED_FOR_B1_INSTITUTIONAL_COHORT",
+    "wave_b_onboarding": "B1_PARTIAL_ONBOARDING_VALIDATED / REMAINING_WAVE_B_OWNER_DECISION_REQUIRED",
     "wave_b_planning_basis": "B_HIGH_REQUIRED",
     "wave_b_gap_cell_count": 9,
     "wave_b_source_path_deficit": 13,
@@ -577,7 +577,7 @@
     "p22_0_checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED.md",
     "p22_1_state": "VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION",
     "p22_2_state": "VALIDATED_WITH_ONBOARDING_BLOCKERS",
-    "p22_3_state": "AUTHORIZED_B1_IMPLEMENTATION_READY",
+    "p22_3_state": "VALIDATED_WITH_PARTIAL_ONBOARDING",
     "p22_2_gate": "P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED",
     "p22_1_authorization": "docs/decisions/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_AUTHORIZATION_2026-09-19.md",
     "p22_1_gate": "P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED",
@@ -585,7 +585,9 @@
     "p22_1_evidence": "docs/evidence/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_2026-09-19.json",
     "p22_1_checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED.md",
     "persistent_owner_operation": "NOT_ACTIVATED",
-    "p22_3_authorization": "docs/decisions/P22_3_B1_CONTROLLED_ONBOARDING_OWNER_AUTHORIZATION_2026-09-19.md"
+    "p22_3_authorization": "docs/decisions/P22_3_B1_CONTROLLED_ONBOARDING_OWNER_AUTHORIZATION_2026-09-19.md",
+    "p22_4_state": "READY_TO_BEGIN",
+    "p22_3_gate": "P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED"
   },
   "phase22_p22_2": {
     "state": "VALIDATED_WITH_ONBOARDING_BLOCKERS",
@@ -654,7 +656,7 @@
     "next_gate": "P22_3_WAVE_B_ONBOARDING_OWNER_DECISION_REQUIRED"
   },
   "phase22_p22_3_b1": {
-    "state": "AUTHORIZED_B1_IMPLEMENTATION_READY",
+    "state": "VALIDATED_WITH_PARTIAL_ONBOARDING",
     "authorization": "docs/decisions/P22_3_B1_CONTROLLED_ONBOARDING_OWNER_AUTHORIZATION_2026-09-19.md",
     "authorization_evidence": "docs/evidence/P22_3_B1_OWNER_AUTHORIZATION_2026-09-19.json",
     "cohort_id": "B1_INSTITUTIONAL",
@@ -674,6 +676,41 @@
     "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
     "production_live": "NOT_OPERATIONAL",
     "verification_authority": "P13.5/P13.6",
-    "next_gate": "P22_3_B1_P20_5_READINESS_AND_ONBOARDING_VALIDATION"
+    "next_gate": "P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED",
+    "decision": "VALIDATED_WITH_PARTIAL_ONBOARDING",
+    "gate": "P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED",
+    "implementation_pr": 140,
+    "implementation_merge_anchor": "9c730ccd4a646aecbd0ada13b972701b65596adf",
+    "validation_run_id": 35451792014,
+    "validation_job_id": 105920115982,
+    "test_count": 1343,
+    "exact_main_probe_sha": "445699eb8b60fec3a70cbbfb5d831ffb35aa26a3",
+    "health_evidence": "docs/evidence/P22_3_B1_FRESH_HEALTH_2026-09-19.json",
+    "onboarding_evidence": "docs/evidence/P22_3_B1_ONBOARDING_2026-09-19.json",
+    "result": "docs/implementation/P22_3_B1_CONTROLLED_ONBOARDING_RESULT.md",
+    "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED.md",
+    "measured_source_count": 4,
+    "source_success_count": 2,
+    "source_failure_count": 2,
+    "collected_item_count": 28,
+    "health_behavior_pass_count": 2,
+    "content_freshness_credit_count": 0,
+    "p20_5_eligible_not_active_count": 2,
+    "p20_5_blocked_count": 2,
+    "repository_active_count": 2,
+    "live_activation_count": 0,
+    "independence_credit_granted_count": 0,
+    "repository_active_source_ids": [
+      "ofac-recent-actions-en",
+      "white-house-briefings-en"
+    ],
+    "blocked_sources": {
+      "uk-sanctions-list-en": "BOUNDED_RESPONSE_LIMIT",
+      "russian-government-news-ru": "TRANSPORT_TIMEOUT"
+    },
+    "covered_cells_with_new_repository_path": [
+      "global.en.sanctions_regulatory",
+      "united_states.en.official_government"
+    ]
   }
 }
