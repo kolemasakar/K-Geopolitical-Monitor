@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_21_VALIDATED / POST_PHASE_21_AUDIT_COMPLETED / ROADMAP_DECISION_REQUIRED`
+Status: `AUTHORITATIVE_POINTER / PHASE_22_APPROVED / P22_0_READY`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -8,11 +8,14 @@ Canonical prior validated strategic baseline:
 Approved strategic block:
 `Phase 21 — Source Network Operational Adequacy & Evidence Population`
 
-Current Phase 21 position:
-`PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED`
+Prior validated strategic position:
+`PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
 
-Next strategic position:
-`ROADMAP_DECISION_REQUIRED`
+Current position:
+`PHASE_22_P22_0_READY`
+
+Next gate:
+`P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED`
 
 Roadmap decision:
 `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
@@ -232,8 +235,28 @@ Key findings:
 - recommended direction: bounded owner-operational evidence plus high-priority source expansion;
 - proposed working block: `Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion`.
 
-The proposed Phase 22 is **not created or authorized**. Owner-operational activation and Wave-B onboarding remain explicit owner decisions. Paid/shared resources, migration `033`, production/live cutover and Plugin/publication remain unauthorized.
+The owner approved Phase 22 planning and implementation on 2026-09-19. Owner-operational activation and Wave-B onboarding remain separate explicit owner decisions. Paid/shared resources, migration `033`, production/live cutover and Plugin/publication remain unauthorized.
+
+## Phase 22 roadmap authorization
+
+Decision:
+`docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
+
+Implementation plan:
+`docs/implementation/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_PLAN.md`
+
+Current state:
+
+```text
+PHASE_22 = APPROVED
+CURRENT_POSITION = PHASE_22_P22_0_READY
+NEXT_GATE = P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED
+OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED
+WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED
+```
+
+P22.0 may proceed with repository/state/contract convergence only. It must not activate runtime operation or onboard Wave B.
 
 ## Next substantive action
 
-`ROADMAP_DECISION_REQUIRED`. Review and decide the post-Phase-21 roadmap proposal. Do not infer authorization for Phase 22, owner-operational activation, Wave-B onboarding, runtime deployment/restart, paid/shared resources, migration 033, production/live cutover or Plugin/publication.
+`BEGIN P22.0 ENTRY CONVERGENCE & OWNER GATES`. Validate Phase 22 entry-state convergence and regression-protect the owner-operational and Wave-B onboarding gates. Do not activate runtime operation, onboard Wave B, deploy/restart runtime, authorize paid/shared resources, create migration 033, cut over production/live, or activate Plugin/publication.
