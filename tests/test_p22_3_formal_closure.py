@@ -23,7 +23,7 @@ def test_p22_3_closure_is_partial_and_opens_only_p22_4():
     assert s["roadmap"]["current_position"].startswith("PHASE_22_")
     assert x["p22_3_state"]=="VALIDATED_WITH_PARTIAL_ONBOARDING"
     assert x["p22_4_state"] in {"READY_TO_BEGIN", "VALIDATED_WITH_MEASURED_DEGRADATION"}
-    assert x["next_gate"] in {"P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED", "P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED"}
+    assert x["next_gate"] in {"P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED", "P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED", "P22_5_CANONICAL_SEMANTIC_INGESTION_BRIDGE_IMPLEMENTATION"}
     assert p["gate"]=="P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED"
     assert p["implementation_pr"]==140
     assert p["implementation_merge_anchor"]=="9c730ccd4a646aecbd0ada13b972701b65596adf"
