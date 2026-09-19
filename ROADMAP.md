@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.55
+Version: 4.56
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -775,7 +775,7 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.55`;
+- state synchronization: `v4.56`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -865,12 +865,12 @@ Roadmap decision:
 `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`.
 
 Current strategic position:
-`PHASE_22_P22_5_BLOCKED_CANONICAL_SEMANTIC_INGESTION_GAP`.
+`PHASE_22_P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED`.
 
 
 
 ## Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion
-State: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_VALIDATED_WITH_MEASURED_DEGRADATION / P22_5_READY_TO_BEGIN`
+State: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_VALIDATED_WITH_MEASURED_DEGRADATION / P22_5_VALIDATED / P22_6_READY_TO_BEGIN`
 Roadmap decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Implementation plan: `docs/implementation/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_PLAN.md`
 
@@ -937,15 +937,17 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_4_OPERATIONAL_CO
 Post-B1 projection: overall `1 ADEQUATE / 4 DEGRADED_COLLECTION / 18 MISSING_EXPECTED_COVERAGE / 10 THIN`; required `1 / 3 / 18 / 5`. Two required cells improve from missing to degraded; adequate count remains unchanged.
 
 ### P22.5 — Semantic Corpus & Verification Observation
-State: `BLOCKED_ON_CANONICAL_SEMANTIC_INGESTION_GAP`
-Observed exact-main: `eabd9ed98cfa3e266fdee5933f69bed2d459b83b`
-Result: 28 raw items / 28 legacy DETECTED claims / 0 canonical P13 semantic claims / 0 canonical verification decisions.
-Next remediation: `P22_5_CANONICAL_SEMANTIC_INGESTION_BRIDGE_IMPLEMENTATION`.
-P22.6 remains closed.
+State: `VALIDATED_WITH_ALL_CLAIMS_DETECTED_AND_UNDERLYING_ORIGIN_UNRESOLVED`
 Gate: `P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED`
+Canonical bridge SHA: `a4dfeee3765116e6b2c261413129b7329f754202`
+Evidence: `docs/evidence/P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED_2026-09-19.json`
+Result: `docs/implementation/P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED.md`
+
+Exact cohort: 28 canonical semantic claims / 28 ATTRIBUTION_ONLY evidence relations / 28 DETECTED decisions / 0 automatic factual-independence credit. Underlying origin remains unresolved for all 28 claims. Historical zero-corpus gap evidence is preserved.
 
 ### P22.6 — Contradiction / Analysis / Forecast-Input Impact
-State: `PLANNED`
+State: `READY_TO_BEGIN`
 Gate: `P22_6_DOWNSTREAM_INTELLIGENCE_IMPACT_VALIDATED`
 
 ### P22.7 — Owner Utility & Quality Observation
