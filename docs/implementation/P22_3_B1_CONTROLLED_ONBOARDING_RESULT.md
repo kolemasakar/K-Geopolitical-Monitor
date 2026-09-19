@@ -1,6 +1,6 @@
 # P22.3 B1 — Controlled High-Priority Onboarding Result
 
-Status: `IMPLEMENTED / VALIDATION_CANDIDATE / PARTIAL_ONBOARDING`
+Status: `VALIDATED_WITH_PARTIAL_ONBOARDING`
 
 Owner-authorized B1 was evaluated from exact canonical main `445699eb8b60fec3a70cbbfb5d831ffb35aa26a3` on `kgm-e4-owner-pilot` (`aarch64`).
 
@@ -39,4 +39,15 @@ Before and after the probe:
 
 Automatic factual independence credit remains `0`. P13.5/P13.6 remain factual-verification authority.
 
-Gate remains `P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED` pending full CI and formal closure/state synchronization.
+Validation evidence:
+
+- PR #140;
+- merge anchor `9c730ccd4a646aecbd0ada13b972701b65596adf`;
+- CI run `35451792014`, job `105920115982`;
+- `1343 passed in 107.57s / SUCCESS`.
+
+Gate: `P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED`.
+
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_3_CONTROLLED_HIGH_PRIORITY_ONBOARDING_VALIDATED.md`.
+
+Next gate: `P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED`.
