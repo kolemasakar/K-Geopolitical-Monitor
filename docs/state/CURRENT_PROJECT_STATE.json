@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.54",
+    "state_sync_version": "4.55",
     "status": "APPROVED",
-    "current_position": "PHASE_22_P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED"
+    "current_position": "PHASE_22_P22_5_BLOCKED_CANONICAL_SEMANTIC_INGESTION_GAP"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -18,7 +18,7 @@
     "19": "PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED",
     "20": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
     "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
-    "22": "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_VALIDATED_WITH_MEASURED_DEGRADATION"
+    "22": "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_VALIDATED_WITH_MEASURED_DEGRADATION / P22_5_BLOCKED_CANONICAL_SEMANTIC_INGESTION_GAP"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -553,8 +553,8 @@
     "implementation_plan": "docs/implementation/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_PLAN.md",
     "authorization_date": "2026-09-19",
     "implementation_authorized": true,
-    "current_position": "P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED",
-    "next_gate": "P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED",
+    "current_position": "P22_5_BLOCKED_CANONICAL_SEMANTIC_INGESTION_GAP",
+    "next_gate": "P22_5_CANONICAL_SEMANTIC_INGESTION_BRIDGE_IMPLEMENTATION",
     "owner_operational_activation": "BOUNDED_P22_1_PILOT_COMPLETED / PERSISTENT_OWNER_OPERATION_NOT_ACTIVATED",
     "wave_b_onboarding": "B1_PARTIAL_ONBOARDING_VALIDATED / REMAINING_WAVE_B_OWNER_DECISION_REQUIRED",
     "wave_b_planning_basis": "B_HIGH_REQUIRED",
@@ -591,7 +591,8 @@
     "p22_4_gate": "P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED",
     "p22_4_result": "docs/implementation/P22_4_OPERATIONAL_COVERAGE_REBASELINE_RESULT.md",
     "p22_4_evidence": "docs/evidence/P22_4_OPERATIONAL_COVERAGE_REBASELINE_2026-09-19.json",
-    "p22_4_checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED.md"
+    "p22_4_checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED.md",
+    "p22_5_state": "BLOCKED_ON_CANONICAL_SEMANTIC_INGESTION_GAP"
   },
   "phase22_p22_2": {
     "state": "VALIDATED_WITH_ONBOARDING_BLOCKERS",
@@ -748,5 +749,36 @@
     "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
     "production_live": "NOT_OPERATIONAL",
     "next_gate": "P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED"
+  },
+  "phase22_p22_5": {
+    "state": "BLOCKED_ON_CANONICAL_SEMANTIC_INGESTION_GAP",
+    "canonical_base": "eabd9ed98cfa3e266fdee5933f69bed2d459b83b",
+    "evidence": "docs/evidence/P22_5_SEMANTIC_CORPUS_OBSERVATION_2026-09-19.json",
+    "result": "docs/implementation/P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_RESULT.md",
+    "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_5_CANONICAL_SEMANTIC_INGESTION_GAP.md",
+    "source_ids": [
+      "ofac-recent-actions-en",
+      "white-house-briefings-en"
+    ],
+    "collection_status": "COMPLETED",
+    "collected_item_count": 28,
+    "source_success_count": 2,
+    "source_failure_count": 0,
+    "legacy_live_claim_count": 28,
+    "legacy_status_distribution": {
+      "DETECTED": 28
+    },
+    "canonical_semantic_claim_count": 0,
+    "canonical_semantic_evidence_relation_count": 0,
+    "canonical_semantic_verification_decision_count": 0,
+    "canonical_semantic_corpus_observed": false,
+    "verification_yield_impact": "NOT_OBSERVED",
+    "contradiction_workload_impact": "NOT_OBSERVED",
+    "forecast_input_impact": "NOT_OBSERVED",
+    "persistent_owner_operation": "NOT_ACTIVATED",
+    "runtime_deployment": false,
+    "service_restart": false,
+    "verification_authority": "P13.5/P13.6",
+    "next_gate": "P22_5_CANONICAL_SEMANTIC_INGESTION_BRIDGE_IMPLEMENTATION"
   }
 }
