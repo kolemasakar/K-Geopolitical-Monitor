@@ -1,0 +1,53 @@
+{
+  "schema_version": "kgm.p22.5.semantic_ingestion_bridge.local_validation.v1",
+  "date": "2026-09-19",
+  "status": "LOCAL_VALIDATION_PASS_AWAITING_CANONICAL_INTEGRATION",
+  "canonical_base_sha": "4b4b7390160c16af0ab3b0f2a151b0fbed2edc7e",
+  "host": "kgm-e4-owner-pilot",
+  "architecture": "aarch64",
+  "bridge_version": "P22.5-BRIDGE-1.0",
+  "authorized_source_ids": [
+    "ofac-recent-actions-en",
+    "white-house-briefings-en"
+  ],
+  "targeted_regression": {
+    "passed": 50,
+    "failed": 0,
+    "duration_seconds": 80.61
+  },
+  "full_regression": {
+    "passed": 1358,
+    "failed": 0,
+    "duration_seconds": 617.01
+  },
+  "real_observation_db_copy": {
+    "legacy_live_claim_count": 28,
+    "semantic_claim_created_count": 28,
+    "semantic_evidence_relation_count": 28,
+    "semantic_evidence_relation_types": {
+      "ATTRIBUTION_ONLY": 28
+    },
+    "independence_assessment_count": 0,
+    "verification_decision_count": 28,
+    "verification_states": {
+      "DETECTED": 28,
+      "PARTLY_VERIFIED": 0,
+      "VERIFIED": 0
+    },
+    "integrity_check": "ok",
+    "replay_created_count": 0,
+    "replay_skipped_count": 28
+  },
+  "runtime_mutation": false,
+  "original_observation_db_mutated": false,
+  "persistent_owner_operation": "NOT_ACTIVATED",
+  "verification_authority": "P13.5/P13.6",
+  "github_actions_constraint": {
+    "included_minutes": 2000,
+    "used_minutes": 2000,
+    "displayed_usage_percent": 100,
+    "displayed_reset_date": "2026-10-01",
+    "new_ci_runs_intentionally_avoided": true
+  },
+  "canonical_integration_state": "PENDING"
+}
