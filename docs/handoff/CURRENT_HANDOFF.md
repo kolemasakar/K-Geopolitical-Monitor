@@ -387,3 +387,20 @@ Exact-main bridge observation:
 GitHub Actions quota contingency is active until 2026-10-01. Bridge exact-head local validation: `32 targeted passed`; full regression `1357 passed in 416.09s` on `kgm-e4-owner-pilot / aarch64`.
 
 Next substantive action: `P22_6_DOWNSTREAM_INTELLIGENCE_IMPACT_VALIDATED`.
+
+
+## P22.6 downstream intelligence impact
+
+Gate: `P22_6_DOWNSTREAM_INTELLIGENCE_IMPACT_VALIDATED`.
+Decision: `VALIDATED_WITH_NO_DOWNSTREAM_UPLIFT_OBSERVED`.
+
+- exact canonical cohort: `28` publication-attribution claims;
+- canonical contradictions: `0`;
+- underlying-event analytical claims: `0`;
+- forecast versions / inputs: `0 / 0`;
+- automatic factual-independence credit: `0`;
+- downstream intelligence uplift: `NOT_OBSERVED`.
+
+Zero counts are measured absence only. They are not truth, consistency, or forecast-quality evidence.
+
+Next substantive action: `P22_7_OWNER_UTILITY_QUALITY_OBSERVATION_VALIDATED`.
