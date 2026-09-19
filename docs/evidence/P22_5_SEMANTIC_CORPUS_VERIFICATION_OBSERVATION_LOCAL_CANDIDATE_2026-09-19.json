@@ -1,0 +1,71 @@
+{
+  "schema_version": "kgm.p22.5.semantic_observation.local_candidate.v1",
+  "date": "2026-09-19",
+  "status": "LOCAL_CANDIDATE_AWAITING_CANONICAL_BRIDGE_INTEGRATION",
+  "canonical_base_sha": "4b4b7390160c16af0ab3b0f2a151b0fbed2edc7e",
+  "bridge_local_commit": "678d75192f723c3a3962bf16732a1db03aa44c83",
+  "observation_database_mode": "ISOLATED_COPY_OF_REAL_P22_5_OWNER_LOCAL_DB",
+  "exact_cohort": {
+    "analysis_run_id": "analysis-40db4a933f17064d461789e8",
+    "source_ids": [
+      "ofac-recent-actions-en",
+      "white-house-briefings-en"
+    ],
+    "source_claim_counts": {
+      "ofac-recent-actions-en": 15,
+      "white-house-briefings-en": 13
+    },
+    "legacy_live_claim_count": 28,
+    "canonical_semantic_claim_count": 28
+  },
+  "verification_distribution": {
+    "DETECTED": 28,
+    "PARTLY_VERIFIED": 0,
+    "VERIFIED": 0,
+    "DISPUTED": 0,
+    "UNVERIFIABLE": 0
+  },
+  "evidence_distribution": {
+    "ATTRIBUTION_ONLY": 28,
+    "SUPPORTS": 0,
+    "CONTRADICTS": 0,
+    "QUALIFIES": 0,
+    "CONTEXT_ONLY": 0,
+    "DUPLICATE_OR_SAME_ORIGIN": 0
+  },
+  "provenance_observation": {
+    "publication_observed_count": 28,
+    "underlying_origin_unresolved_count": 28,
+    "publication_entity_count": 28,
+    "unknown_origin_entity_count": 28
+  },
+  "independence_observation": {
+    "assessment_count": 0,
+    "independent_count": 0,
+    "not_independent_count": 0,
+    "unknown_count": 0,
+    "interpretation": "No pairwise independence assertion is created by the bounded bridge; underlying origin remains unresolved for every claim."
+  },
+  "confidence_profile_distribution": {
+    "count": 28,
+    "evidence_sufficiency": "LOW",
+    "provenance_independence": "UNKNOWN",
+    "authority_proximity": "LOW",
+    "contradiction_resolution": "UNKNOWN",
+    "temporal_freshness": "UNKNOWN",
+    "extraction_certainty": "LOW",
+    "translation_certainty": "UNKNOWN",
+    "claim_specific_certainty": "LOW",
+    "coverage_limitation": "LIMITED"
+  },
+  "p13_6_compatibility": {
+    "LINKED_WITH_DECISION": 28,
+    "legacy_status_promoted_count": 0
+  },
+  "contradiction_version_count": 0,
+  "database_integrity": "ok",
+  "verification_authority": "P13.5/P13.6",
+  "p22_5_candidate_decision": "VALIDATABLE_WITH_ALL_CLAIMS_DETECTED_AND_UNDERLYING_ORIGIN_UNRESOLVED",
+  "p22_6_open": false,
+  "canonical_closure_state": "PENDING"
+}
