@@ -87,20 +87,21 @@ jobs:
 
           audit_required = (
               'workflow_dispatch:',
-              'workflow_run:',
-              'KGM Tailscale Ansible Control',
-              "cron: '47 */3 * * *'",
               'actions: read',
               'ops/p19/real_soak_baseline.txt',
               'scripts/p19_soak_gate.py',
               '--baseline "$P19_BASELINE"',
               '--max-gap-hours 7',
               'P19 Owner-Local Soak Gate Audit',
+              'P19_RETIRED_CONTINUITY_AUDIT=OBSERVATION_ONLY',
               'actions/upload-artifact@v4',
           )
           missing_audit = [value for value in audit_required if value not in audit]
           if missing_audit:
               raise SystemExit(f'missing audit invariants: {missing_audit}')
+
+          if 'workflow_run:' in audit or 'cron:' in audit:
+              raise SystemExit('Retired P19 soak audit must not have automatic triggers')
 
           evaluator_required = (
               'MILESTONE_HOURS = (24, 72, 168)',
