@@ -3,7 +3,7 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.45",
+    "state_sync_version": "4.46",
     "status": "APPROVED",
     "current_position": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED"
   },
@@ -520,5 +520,26 @@
     "plugin_publication_authorized": false,
     "production_live": "NOT_OPERATIONAL",
     "next_gate": "ROADMAP_DECISION_REQUIRED"
+  },
+  "post_phase21_strategic_audit": {
+    "state": "COMPLETED",
+    "decision_state": "ROADMAP_DECISION_REQUIRED",
+    "canonical_base": "2d10a240cc22168e5ebf7d4e0961b35a5523ded7",
+    "audit": "docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md",
+    "proposal": "docs/decisions/POST_PHASE_21_ROADMAP_DECISION_PROPOSAL_2026-09-19.md",
+    "primary_constraints": [
+      "REQUIRED_COVERAGE_GAPS",
+      "SEMANTIC_IMPACT_NOT_OBSERVED"
+    ],
+    "recommended_direction": "BOUNDED_OWNER_OPERATIONAL_EVIDENCE_PLUS_HIGH_PRIORITY_SOURCE_EXPANSION",
+    "proposed_next_block": "Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion",
+    "phase22_created": false,
+    "phase22_authorized": false,
+    "owner_operational_activation_authorized": false,
+    "wave_b_onboarding_authorized": false,
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "production_live": "NOT_OPERATIONAL",
+    "plugin_publication_authorized": false
   }
 }
