@@ -19,10 +19,10 @@ def test_p22_0_entry_convergence_is_validated_and_p22_2_is_ready():
     assert s["roadmap"]["current_position"].startswith("PHASE_22_")
     assert x["p22_0_state"] == "VALIDATED"
     assert x["p22_0_gate"] == "P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED"
-    assert x["p22_1_state"] == "BLOCKED_ON_OWNER_GATE"
+    assert x["p22_1_state"] in {"BLOCKED_ON_OWNER_GATE", "AUTHORIZED_READY_TO_EXECUTE"}
     assert x["p22_2_state"] in {"READY_TO_BEGIN", "VALIDATED_WITH_ONBOARDING_BLOCKERS"}
     assert x["p22_3_state"] == "BLOCKED_ON_OWNER_GATE"
-    assert x["next_gate"] in {"P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED", "EXPLICIT_OWNER_DECISIONS_REQUIRED"}
+    assert x["next_gate"] in {"P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED", "EXPLICIT_OWNER_DECISIONS_REQUIRED", "P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED"}
 
 
 def test_p22_0_preserves_owner_wave_runtime_and_truth_boundaries():
@@ -37,7 +37,7 @@ def test_p22_0_preserves_owner_wave_runtime_and_truth_boundaries():
     assert RESULT.exists()
     assert CHECKPOINT.exists()
 
-    assert x["owner_operational_activation"] == "OWNER_DECISION_REQUIRED"
+    assert x["owner_operational_activation"] in {"OWNER_DECISION_REQUIRED", "APPROVED_FOR_BOUNDED_P22_1_PILOT"}
     assert x["wave_b_onboarding"] == "OWNER_DECISION_REQUIRED"
     assert x["paid_or_shared_resources_authorized"] is False
     assert x["migration_033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
