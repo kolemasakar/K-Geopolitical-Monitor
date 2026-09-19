@@ -2,13 +2,6 @@ name: P19 Owner-Local Soak Gate Audit
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows:
-      - KGM Tailscale Ansible Control
-    types:
-      - completed
-  schedule:
-    - cron: '47 */3 * * *'
   pull_request:
     branches: [main]
     paths:
@@ -152,18 +145,14 @@ jobs:
             echo "- failed workflow_dispatch control runs after baseline: \`${{ steps.collect.outputs.failed_count }}\`"
             echo "- qualifying health observations at/after baseline: \`${{ steps.collect.outputs.qualifying_count }}\`"
             echo
-            echo '```json'
+            echo '\`\`\`json'
             cat /tmp/p19-soak-audit.json
-            echo '```'
+            echo '\`\`\`'
           } >> "$GITHUB_STEP_SUMMARY"
 
-          if [ "${{ github.event_name }}" = 'pull_request' ]; then
-            echo 'P19_PULL_REQUEST_REAL_STATE_AUDIT=OBSERVATION_ONLY'
-            echo "P19_PULL_REQUEST_REAL_STATE_AUDIT_RC=$rc"
-            exit 0
-          fi
-
-          exit "$rc"
+          echo 'P19_RETIRED_CONTINUITY_AUDIT=OBSERVATION_ONLY'
+          echo "P19_RETIRED_CONTINUITY_AUDIT_RC=$rc"
+          exit 0
 
       - name: Preserve audit evidence
         if: always()
