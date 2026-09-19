@@ -1,0 +1,77 @@
+{
+  "schema_version": "kgm.p22.3.b1.stage1_readiness.v1",
+  "phase": "P22.3",
+  "cohort_id": "B1_INSTITUTIONAL",
+  "canonical_base_sha": "9e7ab7952f6c5e05c9f3873397f40c3db72746d1",
+  "authorization": "docs/decisions/P22_3_B1_CONTROLLED_ONBOARDING_OWNER_AUTHORIZATION_2026-09-19.md",
+  "stage": "FIXTURE_ADAPTER_ROLLBACK_READINESS",
+  "source_count": 4,
+  "sources": [
+    {
+      "source_id": "ofac-recent-actions-en",
+      "health_behavior_status": "MISSING_LIVE_PROBE",
+      "fixture_validation_status": "PASS",
+      "rollback_disable_status": "PASS",
+      "governance_review_status": "PENDING_LIVE_HEALTH",
+      "eligibility_decision": "BLOCKED",
+      "repository_activation": "NOT_ACTIVE",
+      "reason_codes": [
+        "FRESH_HEALTH_EVIDENCE_REQUIRED"
+      ]
+    },
+    {
+      "source_id": "uk-sanctions-list-en",
+      "health_behavior_status": "MISSING_LIVE_PROBE",
+      "fixture_validation_status": "PASS",
+      "rollback_disable_status": "PASS",
+      "governance_review_status": "PENDING_LIVE_HEALTH",
+      "eligibility_decision": "BLOCKED",
+      "repository_activation": "NOT_ACTIVE",
+      "reason_codes": [
+        "FRESH_HEALTH_EVIDENCE_REQUIRED"
+      ]
+    },
+    {
+      "source_id": "russian-government-news-ru",
+      "health_behavior_status": "MISSING_LIVE_PROBE",
+      "fixture_validation_status": "PASS",
+      "rollback_disable_status": "PASS",
+      "governance_review_status": "PENDING_LIVE_HEALTH",
+      "eligibility_decision": "BLOCKED",
+      "repository_activation": "NOT_ACTIVE",
+      "reason_codes": [
+        "FRESH_HEALTH_EVIDENCE_REQUIRED"
+      ]
+    },
+    {
+      "source_id": "white-house-briefings-en",
+      "health_behavior_status": "MISSING_LIVE_PROBE",
+      "fixture_validation_status": "PASS",
+      "rollback_disable_status": "PASS",
+      "governance_review_status": "PENDING_LIVE_HEALTH",
+      "eligibility_decision": "BLOCKED",
+      "repository_activation": "NOT_ACTIVE",
+      "reason_codes": [
+        "FRESH_HEALTH_EVIDENCE_REQUIRED"
+      ]
+    }
+  ],
+  "summary": {
+    "fixture_pass_count": 4,
+    "rollback_pass_count": 4,
+    "live_health_pass_count": 0,
+    "p20_5_eligible_count": 0,
+    "repository_active_count": 0,
+    "independence_credit_granted_count": 0
+  },
+  "safety_boundary": {
+    "persistent_owner_operation": "NOT_ACTIVATED",
+    "runtime_deployment": false,
+    "service_restart": false,
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "production_live": "NOT_OPERATIONAL",
+    "plugin_publication": false
+  },
+  "epistemic_note": "Fixture/parser success is not live health, factual truth, or independent-origin proof. Repository activation remains blocked until fresh health and governance PASS."
+}
