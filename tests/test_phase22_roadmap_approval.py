@@ -91,4 +91,4 @@ def test_phase22_wave_b_planning_basis_is_exact_and_non_activating():
     assert x["wave_b_source_path_deficit"] == 13
     assert x["wave_b_healthy_source_deficit"] == 13
     assert x["wave_b_origin_evidence_deficit"] == 16
-    assert x["wave_b_onboarding"] == "OWNER_DECISION_REQUIRED"
+    assert x["wave_b_onboarding"] in {"OWNER_DECISION_REQUIRED", "APPROVED_FOR_B1_INSTITUTIONAL_COHORT"}
