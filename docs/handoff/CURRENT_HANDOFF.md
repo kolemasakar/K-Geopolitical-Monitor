@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_22_APPROVED / P22_1_VALIDATED / P22_2_VALIDATED / P22_3_OWNER_DECISION_REQUIRED`
+Status: `AUTHORITATIVE_POINTER / PHASE_22_APPROVED / P22_1_VALIDATED / P22_2_VALIDATED / P22_3_B1_AUTHORIZED`
 
 Canonical prior validated strategic baseline:
 `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
@@ -12,10 +12,10 @@ Prior validated strategic position:
 `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
 
 Current position:
-`PHASE_22_P22_2_VALIDATED_OWNER_DECISIONS_REQUIRED`
+`PHASE_22_P22_3_B1_AUTHORIZED_IMPLEMENTATION_READY`
 
 Next gate:
-`EXPLICIT_OWNER_DECISIONS_REQUIRED`
+`P22_3_B1_P20_5_READINESS_AND_ONBOARDING_VALIDATION`
 
 Roadmap decision:
 `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
@@ -254,10 +254,10 @@ P22_0_GATE = P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED
 NEXT_GATE = P22_3_WAVE_B_ONBOARDING_OWNER_DECISION_REQUIRED
 P22_1 = VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION
 P22_2 = VALIDATED_WITH_ONBOARDING_BLOCKERS
-P22_3 = BLOCKED_ON_OWNER_GATE
+P22_3 = B1_AUTHORIZED_IMPLEMENTATION_READY
 BOUNDED_P22_1_PILOT = COMPLETED
 PERSISTENT_OWNER_OPERATION = NOT_ACTIVATED
-WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED
+WAVE_B_ONBOARDING = APPROVED_FOR_B1_INSTITUTIONAL_COHORT
 ```
 
 P22.0 and P22.2 are validated. P22.2 identified 13 public/free/anonymous-first candidates across all 9 B_HIGH_REQUIRED cells, but 13/13 remain P20.5-blocked pending health/fixture/rollback/governance evidence. P22.1 owner-operational pilot and P22.3 Wave-B onboarding remain blocked on their explicit owner gates.
@@ -327,7 +327,7 @@ P22.1 validates bounded operational execution and fail-closed degradation visibi
 
 ## Next substantive action
 
-`P22_3_WAVE_B_ONBOARDING_OWNER_DECISION_REQUIRED`.
+`P22_3_B1_P20_5_READINESS_AND_ONBOARDING_VALIDATION`.
 
-P22.1 and P22.2 are validated with measured limitations. Wave-B onboarding remains separately blocked and requires a new explicit owner decision. Persistent owner operation remains not activated.
+B1 institutional onboarding is authorized conditionally on per-source P20.5 PASS. Remaining candidates and persistent owner operation remain unauthorized.
 
