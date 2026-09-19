@@ -1,7 +1,7 @@
 # Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion — Implementation Plan
 
 Date: 2026-09-19
-Status: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_VALIDATED_WITH_MEASURED_DEGRADATION / P22_5_VALIDATED / P22_6_READY_TO_BEGIN`
+Status: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_VALIDATED_WITH_MEASURED_DEGRADATION / P22_5_VALIDATED / P22_6_VALIDATED / P22_7_READY_TO_BEGIN`
 Decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Parent audit: `docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md`
 
@@ -219,7 +219,12 @@ Gate:
 
 ### P22.6 — Contradiction / Analysis / Forecast-Input Impact
 
-State: `READY_TO_BEGIN`
+State: `VALIDATED_WITH_NO_DOWNSTREAM_UPLIFT_OBSERVED`
+Evidence: `docs/evidence/P22_6_DOWNSTREAM_INTELLIGENCE_IMPACT_2026-09-19.json`
+Result: `docs/implementation/P22_6_DOWNSTREAM_INTELLIGENCE_IMPACT_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_6_DOWNSTREAM_INTELLIGENCE_IMPACT_VALIDATED.md`
+
+Measured exact-cohort result: 0 canonical contradictions, 0 underlying-event analytical claims and 0 forecast inputs. Downstream uplift remains NOT_OBSERVED.
 
 Deliverables:
 
@@ -234,7 +239,7 @@ Gate:
 
 ### P22.7 — Owner Utility & Quality Observation
 
-State: `PLANNED`
+State: `READY_TO_BEGIN`
 
 Deliverables:
 
@@ -269,5 +274,5 @@ Final gate:
 
 P22.1 and P22.2 are validated with explicit measured limitations.
 
-P22.5 is validated with a real canonical semantic corpus under fail-closed P13 verification. Next execute P22.6 downstream intelligence impact measurement on the exact P22.5 cohort. Persistent owner operation remains not activated; the remaining Wave-B candidates remain unauthorized.
+P22.6 is validated with no downstream uplift observed. Next execute P22.7 owner utility and quality observation using the bounded owner-facing read model and explicit feedback evidence only. Persistent owner operation remains not activated; remaining Wave-B candidates remain unauthorized.
 
