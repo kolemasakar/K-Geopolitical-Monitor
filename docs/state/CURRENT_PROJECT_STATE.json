@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.46",
+    "state_sync_version": "4.47",
     "status": "APPROVED",
-    "current_position": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED"
+    "current_position": "PHASE_22_APPROVED_P22_0_READY"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -17,7 +17,8 @@
     "18": "ARCHITECTURE_APPROVED / IMPLEMENTATION_AUTHORIZED / P18_0_VALIDATED / P18_1_VALIDATED / P18_2_VALIDATED / P18_3_VALIDATED / P18_4_VALIDATED / P18_5_VALIDATED / P18_6_VALIDATED / P18_7_VALIDATED / P18_8_VALIDATED / P18_9_VALIDATED / NOT_ACTIVATED / OWNER_DECISION_REQUIRED",
     "19": "PHASE_19_BETA_OPERATIONAL_STABILITY_REBASELINED_VALIDATED / CLOSED",
     "20": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
-    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS"
+    "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
+    "22": "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_APPROVED / P22_0_READY"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -523,7 +524,7 @@
   },
   "post_phase21_strategic_audit": {
     "state": "COMPLETED",
-    "decision_state": "ROADMAP_DECISION_REQUIRED",
+    "decision_state": "SUPERSEDED_BY_OWNER_APPROVED_PHASE_22",
     "canonical_base": "2d10a240cc22168e5ebf7d4e0961b35a5523ded7",
     "audit": "docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md",
     "proposal": "docs/decisions/POST_PHASE_21_ROADMAP_DECISION_PROPOSAL_2026-09-19.md",
@@ -533,13 +534,30 @@
     ],
     "recommended_direction": "BOUNDED_OWNER_OPERATIONAL_EVIDENCE_PLUS_HIGH_PRIORITY_SOURCE_EXPANSION",
     "proposed_next_block": "Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion",
-    "phase22_created": false,
-    "phase22_authorized": false,
+    "phase22_created": true,
+    "phase22_authorized": true,
     "owner_operational_activation_authorized": false,
     "wave_b_onboarding_authorized": false,
     "paid_or_shared_resources_authorized": false,
     "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
     "production_live": "NOT_OPERATIONAL",
     "plugin_publication_authorized": false
+  },
+  "phase22": {
+    "state": "APPROVED",
+    "decision": "OWNER_APPROVED_2026-09-19",
+    "gate": "P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED",
+    "current_position": "P22_0_READY",
+    "implementation_plan": "docs/implementation/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_PLAN.md",
+    "roadmap_decision": "docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md",
+    "owner_operational_activation": "OWNER_DECISION_REQUIRED",
+    "wave_b_candidate_discovery_qualification": "AUTHORIZED_AFTER_P22_0",
+    "wave_b_onboarding": "OWNER_DECISION_REQUIRED",
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "production_live": "NOT_OPERATIONAL",
+    "plugin_build": "NOT_STARTED",
+    "plugin_publication": "NOT_ACTIVATED",
+    "verification_authority": "P13.5/P13.6"
   }
 }
