@@ -59,7 +59,7 @@ def test_p21_6_closure_preserves_truth_runtime_and_future_wave_boundaries():
     assert "1305 passed in 89.63s / SUCCESS" in result
     assert "P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED" in roadmap
     assert "P21.6 intelligence quality impact validation" in handoff
-    assert "P21.7 Phase Acceptance" in plan
+    assert "### P21.7 — Phase Acceptance" in plan
 
     assert s["runtime"]["production_live"] == "NOT_OPERATIONAL"
     assert s["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
