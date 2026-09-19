@@ -32,11 +32,13 @@ def test_machine_readable_state_matches_current_roadmap_v4_position():
     assert major == "4"
     assert int(minor) >= 22
     assert f"Version: {sync_version}" in roadmap
+    assert f"state synchronization: `v{sync_version}`" in roadmap
 
     # The machine-readable position is a compact state token; ROADMAP must carry
     # the same semantic position rather than freeze an older strategic sub-gate.
     position = state["roadmap"]["current_position"]
     assert position.startswith(("PHASE_21_", "PHASE_22_"))
+    assert position in roadmap
     assert position.endswith(("_READY", "_OWNER_DECISION_REQUIRED", "_OWNER_DECISIONS_REQUIRED", "_VALIDATED"))
     assert "## Phase 21 — Source Network Operational Adequacy & Evidence Population" in roadmap
     assert "P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED" in roadmap
