@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.44
+Version: 4.45
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -689,7 +689,7 @@ Acceptance validates the deterministic coverage framework and explicit limitatio
 At Phase 20 closure no subsequent strategic phase was yet authorized. That historical state was later superseded by the explicit owner approval of Phase 21 on 2026-09-16.
 
 ## Phase 21 — Source Network Operational Adequacy & Evidence Population
-State: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_VALIDATED / P21_6_VALIDATED / P21_7_READY`
+State: `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
 Roadmap decision: `docs/decisions/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_ROADMAP_DECISION_2026-09-16.md`
 Implementation plan: `docs/implementation/PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_PLAN.md`
 
@@ -763,15 +763,19 @@ Validation: CI #1793 / run `35437681811`, job `105883018288`: `1305 passed in 89
 Exact Wave-A impact: `+2` governed paths, `+1` healthy/fresh path, `+1` confirmed source-network origin lower bound, `0` automatic factual-independence credit, `0` adequate-cell delta and `-1` missing-required-cell delta. Verification-yield, contradiction-workload and forecast-input impacts remain `NOT_OBSERVED` because no deployed post-Wave-A semantic corpus exists. P13.5/P13.6 remain factual-verification authority.
 
 ### P21.7 — Phase Acceptance
-State: `READY_TO_BEGIN`
+State: `PASS_WITH_KNOWN_LIMITATIONS`
 Gate: `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED`
+Result: `docs/implementation/P21_7_PHASE_21_ACCEPTANCE_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED.md`
+
+Acceptance validates the complete P21.0-P21.6 evidence chain without claiming broad source-network adequacy: post-Wave-A structural projection remains `1 ADEQUATE / 2 DEGRADED_COLLECTION / 20 MISSING_EXPECTED_COVERAGE / 10 THIN`. Required cells remain `1 ADEQUATE / 1 DEGRADED_COLLECTION / 20 MISSING_EXPECTED_COVERAGE / 5 THIN`. P13.5/P13.6 remain factual-verification authority; downstream semantic quality effects remain `NOT_OBSERVED`.
 
 Phase 21 does not authorize paid providers, shared runtime, migration `033`, production/live operation or Plugin/publication activation. Future ChatGPT-facing delivery is Plugin-first; P21.6 regression evidence should be reusable for later Plugin skill/reference/integration validation, while Plugin routing remains non-promotional for factual authority.
 
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.44`;
+- state synchronization: `v4.45`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -806,7 +810,7 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 - Phase 20: `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - P20.0–P20.6: `VALIDATED`;
 - P20.7: `PASS_WITH_KNOWN_LIMITATIONS`;
-- Phase 21: `IN_PROGRESS / P21_0_VALIDATED / P21_1_VALIDATED / P21_2_VALIDATED_WITH_MEASURED_DEGRADATION / P21_3_VALIDATED / P21_4_VALIDATED / P21_5_VALIDATED / P21_6_VALIDATED / P21_7_READY`;
+- Phase 21: `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - P21.0: `P21_0_COVERAGE_POLICY_CRITICALITY_CONTRACT_VALIDATED`;
 - P21.0 approved global baseline: `33 cells / 20 geography scopes / 15 language labels / default UNSET`;
 - P21.1: `P21_1_SOURCE_PROVENANCE_RESOLUTION_VALIDATED`;
@@ -815,7 +819,7 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 - P21.4: `P21_4_GAP_DRIVEN_SOURCE_EXPANSION_PLAN_VALIDATED`;
 - P21.5: `P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED / VALIDATED_WITH_MEASURED_CONTENT_STALENESS`;
 - P21.6: `P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED / VALIDATED_WITH_STRUCTURAL_IMPACT_ONLY`;
-- P21.7: `READY_TO_BEGIN`;
+- P21.7: `PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 18 shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
 - migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
@@ -832,4 +836,4 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 
 Phase 17 readiness remains strategically validated, but its 2026-09-05 account-capability block is now historical for the legacy publication surface. Future ChatGPT-facing publication is Plugin-first and requires `PHASE_17_PLUGIN_CAPABILITY_REVALIDATION_REQUIRED` plus a separate owner activation decision and fresh launch-time validation. Phase 14 operational activation remains separately gated by `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`. Phase 18 remains `NOT_ACTIVATED`: real external infrastructure observations remain `NOT_OBSERVED`, `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`, migration `033` is not created or preauthorized, no provider spending/selection is approved, and production/live remains not operational.
 
-Phase 20 remains closed at `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. Phase 21 is the active strategic development block. P21.0-P21.6 are validated; P21.2 preserves measured degradation rather than masking it. P21.5 Wave A is validated with measured KMU content staleness preserved. P21.6 validates only structural impact and explicitly leaves semantic downstream effects `NOT_OBSERVED`. P21.7 Phase Acceptance is ready to begin. Deployed runtime, additional source waves, paid/shared resources, production/live cutover and Plugin/publication remain unauthorized.
+Phase 20 remains closed at `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. Phase 21 is now closed at `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`. P21.0-P21.7 are validated; measured degradation, material coverage gaps, unresolved provenance and `NOT_OBSERVED` semantic downstream effects remain explicit. Deployed runtime, additional source waves, paid/shared resources, production/live cutover and Plugin/publication remain unauthorized. No Phase 22 is authorized by Phase 21 acceptance; next strategic position is `ROADMAP_DECISION_REQUIRED`.

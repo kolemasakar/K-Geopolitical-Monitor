@@ -122,7 +122,7 @@ def test_p20_7_canonical_closure_remains_immutable_after_explicit_phase21_progre
     major, minor = state["roadmap"]["state_sync_version"].split(".", 1)
     assert major == "4" and int(minor) >= 38
     assert state["roadmap"]["current_position"].startswith("PHASE_21_")
-    assert "P21_0_VALIDATED" in state["phases"]["21"]
+    assert "P21.0" in state["phase21"]["validated_sequence"]
     assert P21_DECISION.exists()
     assert P21_PLAN.exists()
     assert "Authorization basis: owner approval" in decision
@@ -137,4 +137,4 @@ def test_p20_7_canonical_closure_remains_immutable_after_explicit_phase21_progre
     assert "State: `VALIDATED_WITH_KNOWN_LIMITATIONS / CLOSED`" in roadmap
     assert "Gate: `P20_GLOBAL_SOURCE_COVERAGE_VALIDATED`" in roadmap
     assert "Phase 20: `PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`" in roadmap
-    assert "Phase 21: `IN_PROGRESS / P21_0_VALIDATED" in roadmap
+    assert state["phases"]["21"] in roadmap
