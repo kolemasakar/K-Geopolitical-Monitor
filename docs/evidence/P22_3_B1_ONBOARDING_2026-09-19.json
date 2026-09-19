@@ -1,0 +1,181 @@
+{
+  "schema_version": "kgm.p22.3.b1.onboarding.v1",
+  "cohort_id": "B1_INSTITUTIONAL",
+  "authorization": "docs/decisions/P22_3_B1_CONTROLLED_ONBOARDING_OWNER_AUTHORIZATION_2026-09-19.md",
+  "health_evidence": "docs/evidence/P22_3_B1_FRESH_HEALTH_2026-09-19.json",
+  "implementation_base_sha": "445699eb8b60fec3a70cbbfb5d831ffb35aa26a3",
+  "sources": [
+    {
+      "candidate_id": "p22-2-b03-ofac",
+      "source_id": "ofac-recent-actions-en",
+      "display_name": "U.S. Treasury OFAC Recent Actions",
+      "source_type": "SANCTIONS_REGULATORY",
+      "cell_id": "global.en.sanctions_regulatory",
+      "geography_scope": [
+        "GLOBAL"
+      ],
+      "language_scope": [
+        "en"
+      ],
+      "primary_domain_or_endpoint": "https://ofac.treasury.gov/recent-actions",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "expected_freshness_minutes": 480,
+      "collection_cadence_minutes": 240,
+      "health_behavior_status": "PASS",
+      "fixture_validation_status": "PASS",
+      "rollback_disable_status": "PASS",
+      "governance_review_status": "APPROVED",
+      "origin_group_id": "official:us-treasury-ofac",
+      "syndication_or_copy_relation": "ORIGINAL",
+      "provenance_completeness": "KNOWN",
+      "independence_credit_granted": false,
+      "eligibility_decision": "ELIGIBLE_NOT_ACTIVE",
+      "live_activation_authorized": false,
+      "live_activation_state": "NOT_ACTIVE",
+      "p22_3_repository_activation": "ACTIVE",
+      "reason_codes": []
+    },
+    {
+      "candidate_id": "p22-2-b04-uk-sanctions",
+      "source_id": "uk-sanctions-list-en",
+      "display_name": "UK Sanctions List",
+      "source_type": "SANCTIONS_REGULATORY",
+      "cell_id": "global.en.sanctions_regulatory",
+      "geography_scope": [
+        "GLOBAL"
+      ],
+      "language_scope": [
+        "en"
+      ],
+      "primary_domain_or_endpoint": "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv",
+      "collection_method": "OTHER_PUBLIC",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "expected_freshness_minutes": 480,
+      "collection_cadence_minutes": 240,
+      "health_behavior_status": "FAIL",
+      "fixture_validation_status": "PASS",
+      "rollback_disable_status": "PASS",
+      "governance_review_status": "PENDING",
+      "origin_group_id": "official:uk-fcdo",
+      "syndication_or_copy_relation": "ORIGINAL",
+      "provenance_completeness": "KNOWN",
+      "independence_credit_granted": false,
+      "eligibility_decision": "BLOCKED",
+      "live_activation_authorized": false,
+      "live_activation_state": "NOT_ACTIVE",
+      "p22_3_repository_activation": "NOT_ACTIVE",
+      "reason_codes": [
+        "HEALTH_BEHAVIOR_NOT_PASS",
+        "BOUNDED_RESPONSE_LIMIT"
+      ]
+    },
+    {
+      "candidate_id": "p22-2-b09-rugov",
+      "source_id": "russian-government-news-ru",
+      "display_name": "Government of Russia — News",
+      "source_type": "OFFICIAL_GOVERNMENT",
+      "cell_id": "russia.ru.official_government",
+      "geography_scope": [
+        "RUSSIA"
+      ],
+      "language_scope": [
+        "ru"
+      ],
+      "primary_domain_or_endpoint": "https://government.ru/news/",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "expected_freshness_minutes": 240,
+      "collection_cadence_minutes": 120,
+      "health_behavior_status": "FAIL",
+      "fixture_validation_status": "PASS",
+      "rollback_disable_status": "PASS",
+      "governance_review_status": "PENDING",
+      "origin_group_id": "official:russian-government",
+      "syndication_or_copy_relation": "ORIGINAL",
+      "provenance_completeness": "KNOWN",
+      "independence_credit_granted": false,
+      "eligibility_decision": "BLOCKED",
+      "live_activation_authorized": false,
+      "live_activation_state": "NOT_ACTIVE",
+      "p22_3_repository_activation": "NOT_ACTIVE",
+      "reason_codes": [
+        "HEALTH_BEHAVIOR_NOT_PASS",
+        "TRANSPORT_TIMEOUT"
+      ]
+    },
+    {
+      "candidate_id": "p22-2-b10-whitehouse",
+      "source_id": "white-house-briefings-en",
+      "display_name": "The White House — Briefings & Statements",
+      "source_type": "OFFICIAL_GOVERNMENT",
+      "cell_id": "united_states.en.official_government",
+      "geography_scope": [
+        "UNITED_STATES"
+      ],
+      "language_scope": [
+        "en"
+      ],
+      "primary_domain_or_endpoint": "https://www.whitehouse.gov/briefings-statements/",
+      "collection_method": "HTML",
+      "access_mode": "PUBLIC_ANONYMOUS",
+      "cost_mode": "FREE",
+      "authentication_mode": "NONE",
+      "data_classification": "PUBLIC",
+      "resource_authorization_state": "NOT_REQUIRED",
+      "expected_freshness_minutes": 240,
+      "collection_cadence_minutes": 120,
+      "health_behavior_status": "PASS",
+      "fixture_validation_status": "PASS",
+      "rollback_disable_status": "PASS",
+      "governance_review_status": "APPROVED",
+      "origin_group_id": "official:us-white-house",
+      "syndication_or_copy_relation": "ORIGINAL",
+      "provenance_completeness": "KNOWN",
+      "independence_credit_granted": false,
+      "eligibility_decision": "ELIGIBLE_NOT_ACTIVE",
+      "live_activation_authorized": false,
+      "live_activation_state": "NOT_ACTIVE",
+      "p22_3_repository_activation": "ACTIVE",
+      "reason_codes": []
+    }
+  ],
+  "summary": {
+    "candidate_count": 4,
+    "health_behavior_pass_count": 2,
+    "p20_5_eligible_not_active_count": 2,
+    "p20_5_blocked_count": 2,
+    "repository_active_count": 2,
+    "live_activation_count": 0,
+    "independence_credit_granted_count": 0,
+    "covered_cells_with_new_repository_path": [
+      "global.en.sanctions_regulatory",
+      "united_states.en.official_government"
+    ]
+  },
+  "safety_boundary": {
+    "persistent_owner_operation": "NOT_ACTIVATED",
+    "deployed_runtime_mutated": false,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "production_live": "NOT_OPERATIONAL",
+    "plugin_build": false,
+    "plugin_publication": false
+  },
+  "verification_authority": "P13.5/P13.6",
+  "epistemic_note": "Repository activation is a governed source-pack state after separate P22.3 authorization. It is not deployed live activation and grants no factual independence or verification credit."
+}
