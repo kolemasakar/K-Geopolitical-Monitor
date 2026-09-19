@@ -1,0 +1,136 @@
+{
+  "schema_version": "kgm.p22.1.bounded_owner_operational_pilot.v1",
+  "phase": "P22.1",
+  "assessed_on": "2026-09-19",
+  "execution_checked_at": "2026-09-19T14:28:20.080287+00:00",
+  "workspace_observed_at": "2026-09-19T14:29:31.573924+00:00",
+  "canonical_sha": "ec71242cc3cb8f793a7dcf0b70c884e085db5b26",
+  "authorization": "docs/decisions/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_AUTHORIZATION_2026-09-19.md",
+  "authorization_pr": 136,
+  "authorization_ci": {
+    "run_number": 1911,
+    "run_id": 35448572732,
+    "job_id": 105911664409,
+    "test_count": 1325,
+    "duration_seconds": 227.03,
+    "conclusion": "SUCCESS"
+  },
+  "host": {
+    "device_name": "kgm-e4-owner-pilot",
+    "architecture": "aarch64",
+    "python": "3.12.3",
+    "execution_user": "kgmops"
+  },
+  "deployed_runtime_containment": {
+    "deployed_sha_before": "b31b2136b5fe982d0b63b0135479b1549041906c",
+    "deployed_sha_after": "b31b2136b5fe982d0b63b0135479b1549041906c",
+    "service_before": "active",
+    "service_after": "active",
+    "service_enabled_before": "enabled",
+    "service_enabled_after": "enabled",
+    "deployed_repo_owner": "root:root",
+    "deployed_data_owner": "kgm:kgm",
+    "deployed_data_mode": "750",
+    "deployed_runtime_db_readable_by_kgmops": false,
+    "deployed_runtime_mutated_by_p22_1": false,
+    "service_restart": false
+  },
+  "isolated_execution": {
+    "project_root": "/tmp/kgm-p221-owner-pilot-20260919",
+    "exact_main_sha": "ec71242cc3cb8f793a7dcf0b70c884e085db5b26",
+    "git_status_clean": true,
+    "runtime_storage": "PROJECT_LOCAL_ONLY",
+    "database_path": "data/kgeopolitical_monitor.db",
+    "database_integrity": "ok",
+    "database_size_bytes": 1232896,
+    "database_sha256": "c6fef3cd87792ae27a786bfb18f6f47a256e98f83bda2248e271548a30c37179"
+  },
+  "watch": {
+    "watch_id": "watch-p22-1-bounded-20260919",
+    "name": "P22.1 bounded owner-local pilot",
+    "query": "Ukraine",
+    "cadence_minutes": 1440
+  },
+  "supervisor_tick": {
+    "checked_at": "2026-09-19T14:28:20.080287+00:00",
+    "recovered_runs": 0,
+    "execution_count": 1,
+    "run_id": "run-f292770b59e545c38252a7dd044ffd5a",
+    "status": "COMPLETED",
+    "result_count": 0,
+    "retry_count": 0,
+    "error": null
+  },
+  "source_collection": {
+    "collection_id": "collection-6c68c4b06a1f4916941bcc0142229d9b",
+    "status": "PARTIAL",
+    "item_count": 0,
+    "source_success_count": 1,
+    "source_failure_count": 1,
+    "attempts": [
+      {
+        "source_id": "consilium-press-releases",
+        "source_name": "Council of the EU / European Council Press Releases",
+        "source_class": "Official sources",
+        "status": "SUCCESS",
+        "item_count": 0,
+        "error": null
+      },
+      {
+        "source_id": "gdelt-doc-2",
+        "source_name": "GDELT DOC 2.0",
+        "source_class": "Structured data",
+        "status": "FAILED",
+        "item_count": 0,
+        "error": "live source HTTP error: 429"
+      }
+    ]
+  },
+  "persisted_observation": {
+    "monitoring_run_count": 1,
+    "live_analysis_run_count": 0,
+    "live_analysis_claim_count": 0,
+    "operational_finding_count": 0,
+    "operational_coverage_snapshot_count": 0,
+    "owner_runtime_health_count": 1,
+    "owner_runtime_health_tick_status": "HEALTHY",
+    "owner_runtime_health_execution_count": 1,
+    "owner_runtime_health_completed_execution_count": 1,
+    "owner_runtime_health_failed_execution_count": 0,
+    "owner_workspace_watch_count": 1,
+    "owner_workspace_finding_count": 0,
+    "owner_workspace_alert_count": 0,
+    "owner_workspace_verified_count": 0,
+    "owner_workspace_unresolved_count": 0,
+    "owner_workspace_degraded_source_count": 1,
+    "owner_workspace_limitations": [
+      "DEGRADED_SOURCES_PRESENT",
+      "NO_PERSISTED_COVERAGE_ASSESSMENT"
+    ],
+    "owner_execution_enabled": false,
+    "persistent_owner_operational_activation": "NOT_ACTIVATED"
+  },
+  "semantic_observation": {
+    "semantic_corpus_observed": false,
+    "canonical_semantic_decisions_observed": 0,
+    "verification_yield_impact": "NOT_OBSERVED",
+    "contradiction_workload_impact": "NOT_OBSERVED",
+    "forecast_input_impact": "NOT_OBSERVED",
+    "verification_authority": "P13.5/P13.6"
+  },
+  "decision": "VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION",
+  "gate": "P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED",
+  "safety_boundary": {
+    "wave_b_onboarding": "OWNER_DECISION_REQUIRED",
+    "persistent_scheduler_enablement": false,
+    "runtime_deployment": false,
+    "deployed_service_restart": false,
+    "paid_or_shared_resources_authorized": false,
+    "public_ingress": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "production_live": "NOT_OPERATIONAL",
+    "plugin_build": false,
+    "plugin_publication": false
+  },
+  "epistemic_note": "The bounded pilot validates real owner-local execution, persistence, containment and fail-closed source degradation visibility. Zero collected items means no semantic or factual-verification utility is inferred from this session."
+}

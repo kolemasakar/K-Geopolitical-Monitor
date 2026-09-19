@@ -33,7 +33,7 @@ def test_phase22_approval_preserves_explicit_owner_gates_and_runtime_boundaries(
     s = json.loads(STATE.read_text(encoding="utf-8"))
     x = s["phase22"]
 
-    assert x["owner_operational_activation"] in {"OWNER_DECISION_REQUIRED", "APPROVED_FOR_BOUNDED_P22_1_PILOT"}
+    assert x["owner_operational_activation"] in {"OWNER_DECISION_REQUIRED", "APPROVED_FOR_BOUNDED_P22_1_PILOT", "BOUNDED_P22_1_PILOT_COMPLETED / PERSISTENT_OWNER_OPERATION_NOT_ACTIVATED"}
     assert x["wave_b_onboarding"] == "OWNER_DECISION_REQUIRED"
     assert x["public_free_anonymous_first"] is True
     assert x["verification_authority"] == "P13.5/P13.6"
@@ -51,6 +51,7 @@ def test_phase22_approval_preserves_explicit_owner_gates_and_runtime_boundaries(
     assert s["activation_gates"]["phase22_owner_operational_pilot"] in {
         "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
         "OWNER_ONLY_OPERATIONAL_ACTIVATION = APPROVED_FOR_BOUNDED_P22_1_PILOT",
+        "BOUNDED_P22_1_PILOT_COMPLETED / PERSISTENT_OWNER_OPERATION_NOT_ACTIVATED",
     }
     assert s["activation_gates"]["phase22_wave_b_onboarding"] == "WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED"
 

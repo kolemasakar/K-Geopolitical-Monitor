@@ -1,7 +1,7 @@
 # Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion — Implementation Plan
 
 Date: 2026-09-19
-Status: `APPROVED / P22_0_VALIDATED / P22_1_AUTHORIZED_READY_TO_EXECUTE / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_BLOCKED_ON_OWNER_GATE`
+Status: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_BLOCKED_ON_OWNER_GATE`
 Decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Parent audit: `docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md`
 
@@ -46,7 +46,8 @@ Approved now:
 Not approved now:
 
 ```text
-OWNER_ONLY_OPERATIONAL_ACTIVATION = APPROVED_FOR_BOUNDED_P22_1_PILOT
+BOUNDED_P22_1_PILOT = COMPLETED
+PERSISTENT_OWNER_OPERATION = NOT_ACTIVATED
 WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED
 RUNTIME_DEPLOYMENT = NO
 SERVICE_RESTART = NO
@@ -106,18 +107,24 @@ Gate:
 
 ### P22.1 — Bounded Owner-Only Operational Pilot
 
-State: `BLOCKED_ON_OWNER_GATE`
+State: `VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION`
+Authorization: `docs/decisions/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_AUTHORIZATION_2026-09-19.md`
+Evidence: `docs/evidence/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_2026-09-19.json`
+Result: `docs/implementation/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED.md`
 
-Entry gate:
-`OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED`
+Execution result:
 
-Deliverables after approval:
-
-- bounded owner-local monitoring interval;
-- timestamped semantic corpus;
-- source/health/provenance lineage;
-- recovery/freshness evidence;
-- no public/shared/production activation.
+- exact-main isolated owner-local run on `kgm-e4-owner-pilot`;
+- ARM64 `aarch64`;
+- one supervisor execution: `COMPLETED`;
+- collection: `PARTIAL`;
+- Consilium: `SUCCESS / 0 items`;
+- GDELT: `FAILED / HTTP 429`;
+- semantic corpus: `NOT_OBSERVED`;
+- deployed runtime SHA/service unchanged;
+- isolated DB integrity: `ok`;
+- persistent owner operation remains `NOT_ACTIVATED`.
 
 Gate:
 `P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED`
@@ -244,9 +251,11 @@ Final gate:
 
 ## Next executable step
 
-P22.2 is validated with onboarding blockers. The project is now at explicit owner-decision gates:
+P22.1 and P22.2 are validated with explicit measured limitations.
 
-- `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED` for P22.1;
-- `WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED` for P22.3.
+The next strategic gate is:
 
-P22.2 identified 13 public/free/anonymous-first candidates across all 9 Wave-B cells, but 13/13 remain P20.5-blocked until health/fixture/rollback/governance evidence is completed. No source activation is implied.
+`P22_3_WAVE_B_ONBOARDING_OWNER_DECISION_REQUIRED`
+
+Wave-B onboarding is not authorized by P22.1 validation. Any P22.3 execution requires a separate explicit owner decision. Persistent owner operation also remains not activated.
+

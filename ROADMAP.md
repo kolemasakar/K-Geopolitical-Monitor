@@ -1,6 +1,6 @@
 # ROADMAP
 
-Version: 4.50
+Version: 4.51
 Status: APPROVED
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
@@ -775,7 +775,7 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.50`;
+- state synchronization: `v4.51`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -820,10 +820,11 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 - P21.5: `P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED / VALIDATED_WITH_MEASURED_CONTENT_STALENESS`;
 - P21.6: `P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED / VALIDATED_WITH_STRUCTURAL_IMPACT_ONLY`;
 - P21.7: `PASS_WITH_KNOWN_LIMITATIONS`;
-- Phase 22: `APPROVED / P22_0_VALIDATED / P22_1_AUTHORIZED_READY_TO_EXECUTE / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_BLOCKED_ON_OWNER_GATE`;
+- Phase 22: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_BLOCKED_ON_OWNER_GATE`;
 - P22.0: `VALIDATED / P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED`;
+- P22.1: `VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED`;
 - P22.2: `VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED`;
-- Phase 22 owner-operational pilot: `APPROVED_FOR_BOUNDED_P22_1_PILOT`;
+- Phase 22 owner-operational pilot: `BOUNDED_P22_1_PILOT_COMPLETED / PERSISTENT_OWNER_OPERATION_NOT_ACTIVATED`;
 - Phase 22 Wave-B onboarding: `OWNER_DECISION_REQUIRED`;
 - Phase 18 shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
 - migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
@@ -864,12 +865,12 @@ Roadmap decision:
 `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`.
 
 Current strategic position:
-`PHASE_22_P22_1_AUTHORIZED_READY_TO_EXECUTE`.
+`PHASE_22_P22_1_P22_2_VALIDATED_P22_3_OWNER_DECISION_REQUIRED`.
 
 
 
 ## Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion
-State: `APPROVED / P22_0_VALIDATED / P22_1_AUTHORIZED_READY_TO_EXECUTE / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_BLOCKED_ON_OWNER_GATE`
+State: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_BLOCKED_ON_OWNER_GATE`
 Roadmap decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Implementation plan: `docs/implementation/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_PLAN.md`
 
@@ -879,7 +880,7 @@ Entry constraints:
 
 - Phase 21 remains closed at `PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - P13.5/P13.6 remain factual-verification authority;
-- owner-operational activation is `APPROVED_FOR_BOUNDED_P22_1_PILOT` only;
+- the bounded P22.1 pilot is completed and persistent owner operation remains `NOT_ACTIVATED`;
 - Wave-B onboarding remains `OWNER_DECISION_REQUIRED`;
 - public/free/anonymous-first is the default candidate policy;
 - paid/shared resources remain unapproved;
@@ -897,10 +898,14 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_0_ENTRY_CONVERGE
 P22.0 validates the entry contract and explicit activation boundaries. It must not activate the owner-operational pilot or onboard Wave B.
 
 ### P22.1 — Bounded Owner-Only Operational Pilot
-State: `AUTHORIZED_READY_TO_EXECUTE`
-Authorization: `docs/decisions/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_AUTHORIZATION_2026-09-19.md`
-Entry gate: `OWNER_ONLY_OPERATIONAL_ACTIVATION = APPROVED_FOR_BOUNDED_P22_1_PILOT`
+State: `VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION`
 Gate: `P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED`
+Authorization: `docs/decisions/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_AUTHORIZATION_2026-09-19.md`
+Evidence: `docs/evidence/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_2026-09-19.json`
+Result: `docs/implementation/P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED.md`
+
+Observed exact-main ARM64 owner-local one-shot execution: monitoring run `COMPLETED`, collection `PARTIAL`, Consilium `SUCCESS / 0 items`, GDELT `FAILED / HTTP 429`, semantic corpus `NOT_OBSERVED`. Deployed runtime remained unchanged; persistent owner operation is not activated.
 
 ### P22.2 — Wave-B Candidate Discovery & Qualification
 State: `VALIDATED_WITH_ONBOARDING_BLOCKERS`
