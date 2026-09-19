@@ -1,7 +1,7 @@
 # Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion — Implementation Plan
 
 Date: 2026-09-19
-Status: `APPROVED / P22_0_VALIDATED / P22_1_BLOCKED_ON_OWNER_GATE / P22_2_READY`
+Status: `APPROVED / P22_0_VALIDATED / P22_1_BLOCKED_ON_OWNER_GATE / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_BLOCKED_ON_OWNER_GATE`
 Decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Parent audit: `docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md`
 
@@ -123,7 +123,10 @@ Gate:
 
 ### P22.2 — Wave-B Candidate Discovery & Qualification
 
-State: `READY_TO_BEGIN`
+State: `VALIDATED_WITH_ONBOARDING_BLOCKERS`
+Result: `docs/implementation/P22_2_WAVE_B_CANDIDATE_QUALIFICATION_RESULT.md`
+Evidence: `docs/evidence/P22_2_WAVE_B_CANDIDATE_QUALIFICATION_2026-09-19.json`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED.md`
 
 Candidate discovery/qualification may remain repository-only and non-activating.
 
@@ -240,4 +243,9 @@ Final gate:
 
 ## Next executable step
 
-Begin P22.2 Wave-B Candidate Discovery & Qualification. This step is repository-only/public-free-first and must not activate the owner-operational pilot or onboard Wave B.
+P22.2 is validated with onboarding blockers. The project is now at explicit owner-decision gates:
+
+- `OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED` for P22.1;
+- `WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED` for P22.3.
+
+P22.2 identified 13 public/free/anonymous-first candidates across all 9 Wave-B cells, but 13/13 remain P20.5-blocked until health/fixture/rollback/governance evidence is completed. No source activation is implied.
