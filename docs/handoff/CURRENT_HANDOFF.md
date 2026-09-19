@@ -367,3 +367,23 @@ Exact-main owner-local observation from `eabd9ed98cfa3e266fdee5933f69bed2d459b83
 - canonical P13.5 verification decisions: `0`.
 
 P22.5 is blocked on `P22_5_CANONICAL_SEMANTIC_INGESTION_BRIDGE_IMPLEMENTATION`. P22.6 is not open. Legacy title grouping cannot substitute for canonical semantic claim identity or independence.
+
+
+## P22.5 canonical semantic corpus validation
+
+Gate: `P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED`.
+
+Exact-main bridge observation:
+
+- canonical code SHA: `a4dfeee3765116e6b2c261413129b7329f754202`;
+- canonical semantic claims: `28`;
+- evidence relations: `28 ATTRIBUTION_ONLY`;
+- verification decisions: `28 DETECTED`;
+- P13.6 linked-with-decision projections: `28`;
+- independence assessments / automatic factual credit: `0 / 0`;
+- underlying origin: unresolved for all 28;
+- database integrity: `ok`.
+
+GitHub Actions quota contingency is active until 2026-10-01. Bridge exact-head local validation: `32 targeted passed`; full regression `1357 passed in 416.09s` on `kgm-e4-owner-pilot / aarch64`.
+
+Next substantive action: `P22_6_DOWNSTREAM_INTELLIGENCE_IMPACT_VALIDATED`.
