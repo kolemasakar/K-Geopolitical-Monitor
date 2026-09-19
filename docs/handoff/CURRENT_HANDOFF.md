@@ -337,3 +337,20 @@ P22.3 is validated with partial B1 onboarding.
 
 Next substantive action: `P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED`. Remaining candidates and persistent owner operation remain unauthorized.
 
+
+
+## P22.4 operational coverage rebaseline
+
+Gate: `P22_4_OPERATIONAL_COVERAGE_REBASELINE_VALIDATED`.
+Decision: `VALIDATED_WITH_MEASURED_DEGRADATION`.
+
+- post-B1 overall: `1 ADEQUATE / 4 DEGRADED_COLLECTION / 18 MISSING_EXPECTED_COVERAGE / 10 THIN`;
+- required: `1 ADEQUATE / 3 DEGRADED_COLLECTION / 18 MISSING_EXPECTED_COVERAGE / 5 THIN`;
+- required missing-cell delta: `-2`;
+- adequate-cell delta: `0`;
+- OFAC + White House are new repository-active required-cell paths;
+- content-freshness credit for both: `0`;
+- automatic factual independence credit: `0`;
+- P13.5/P13.6 remain verification authority.
+
+Next substantive action: `P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED`.
