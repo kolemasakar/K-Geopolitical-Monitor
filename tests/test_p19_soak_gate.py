@@ -116,7 +116,7 @@ def test_7d_passes_with_clean_full_window():
     assert result["milestones"]["7d"]["status"] == "PASS"
 
 
-def test_scheduler_cadence_has_one_missed_cycle_margin_inside_gap_bound():
+def test_retired_audit_is_manual_observation_only_while_historical_dispatcher_contract_is_preserved():
     root = Path(__file__).resolve().parents[1]
     dispatcher = (root / ".github/workflows/p19-owner-local-real-soak-dispatch.yml").read_text(
         encoding="utf-8"
@@ -131,7 +131,10 @@ def test_scheduler_cadence_has_one_missed_cycle_margin_inside_gap_bound():
     max_gap_hours = 7
 
     assert "cron: '27 */3 * * *'" in dispatcher
-    assert "cron: '47 */3 * * *'" in audit
+    assert "workflow_dispatch:" in audit
+    assert "workflow_run:" not in audit
+    assert "cron:" not in audit
+    assert "P19_RETIRED_CONTINUITY_AUDIT=OBSERVATION_ONLY" in audit
     assert "--max-gap-hours 7" in audit
     assert target_cadence_hours * 2 < max_gap_hours
     assert "ops/p19/real_soak_baseline.txt" in audit
