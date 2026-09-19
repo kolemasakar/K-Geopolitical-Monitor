@@ -1,0 +1,161 @@
+{
+  "assessed_at": "2026-09-17T02:23:08.192373+00:00",
+  "cells": [
+    {
+      "cell_id": "ukraine.uk.national_media",
+      "criticality": "CRITICAL",
+      "post": {
+        "confirmed_independent_origin_lower_bound": 0,
+        "dominant_origin_share_upper_bound": 1.0,
+        "governed_source_count": 2,
+        "governed_source_ids": [
+          "suspilne-uk",
+          "ukrainska-pravda-uk"
+        ],
+        "healthy_fresh_source_count": 2,
+        "healthy_fresh_source_ids": [
+          "suspilne-uk",
+          "ukrainska-pravda-uk"
+        ],
+        "known_origin_groups": [],
+        "reason_codes": [
+          "INDEPENDENT_ORIGIN_LOWER_BOUND_BELOW_MINIMUM",
+          "DOMINANT_ORIGIN_SHARE_UPPER_BOUND_ABOVE_MAXIMUM"
+        ],
+        "stale_or_failed_share": 0.0,
+        "stale_or_failed_source_ids": [],
+        "status": "THIN"
+      },
+      "pre": {
+        "confirmed_independent_origin_lower_bound": 0,
+        "governed_source_count": 1,
+        "governed_source_ids": [
+          "ukrainska-pravda-uk"
+        ],
+        "healthy_fresh_source_count": 1,
+        "healthy_fresh_source_ids": [
+          "ukrainska-pravda-uk"
+        ],
+        "known_origin_groups": [],
+        "reason_codes": [
+          "SOURCE_COUNT_BELOW_MINIMUM"
+        ],
+        "status": "THIN"
+      },
+      "requirement_state": "REQUIRED"
+    },
+    {
+      "cell_id": "ukraine.uk.official_government",
+      "criticality": "CRITICAL",
+      "post": {
+        "confirmed_independent_origin_lower_bound": 1,
+        "dominant_origin_share_upper_bound": 1.0,
+        "governed_source_count": 1,
+        "governed_source_ids": [
+          "ukraine-government-kmu-uk"
+        ],
+        "healthy_fresh_source_count": 0,
+        "healthy_fresh_source_ids": [],
+        "known_origin_groups": [
+          "official:cabinet-of-ministers-ukraine"
+        ],
+        "reason_codes": [
+          "HEALTH_OR_FRESHNESS_THRESHOLD_NOT_MET"
+        ],
+        "stale_or_failed_share": 1.0,
+        "stale_or_failed_source_ids": [
+          "ukraine-government-kmu-uk"
+        ],
+        "status": "DEGRADED_COLLECTION"
+      },
+      "pre": {
+        "confirmed_independent_origin_lower_bound": 0,
+        "governed_source_count": 0,
+        "governed_source_ids": [],
+        "healthy_fresh_source_count": 0,
+        "healthy_fresh_source_ids": [],
+        "known_origin_groups": [],
+        "reason_codes": [
+          "NO_MATCHING_GOVERNED_SOURCE"
+        ],
+        "status": "MISSING_EXPECTED_COVERAGE"
+      },
+      "requirement_state": "REQUIRED"
+    }
+  ],
+  "cohort": {
+    "basis": "EXACT_P21_5_WAVE_A_REPOSITORY_ACTIVE_POLICY_CELLS",
+    "cell_count": 2,
+    "cell_ids": [
+      "ukraine.uk.national_media",
+      "ukraine.uk.official_government"
+    ],
+    "source_count": 2,
+    "source_ids": [
+      "suspilne-uk",
+      "ukraine-government-kmu-uk"
+    ]
+  },
+  "downstream_intelligence_quality": {
+    "contradiction_workload_impact": "NOT_OBSERVED",
+    "forecast_input_impact": "NOT_OBSERVED",
+    "reason": "No deployed post-Wave-A semantic corpus is available. Structural coverage, source-health and source-topology changes cannot be promoted into factual-verification, contradiction-workload or forecast-input claims.",
+    "semantic_post_wave_a_corpus_observed": false,
+    "verification_yield_impact": "NOT_OBSERVED"
+  },
+  "inputs": {
+    "approved_policy_manifest": "docs/evidence/P21_0_TARGET_COVERAGE_POLICY_PROPOSAL_2026-09-16.json",
+    "pre_operational_adequacy_baseline": "docs/evidence/P21_3_OPERATIONAL_COVERAGE_ADEQUACY_BASELINE_2026-09-16.json",
+    "pre_source_provenance": "docs/evidence/P21_1_SOURCE_PROVENANCE_RESOLUTION_2026-09-16.json",
+    "wave_a_fresh_health": "docs/evidence/P21_5_WAVE_A_FRESH_HEALTH_2026-09-17.json",
+    "wave_a_onboarding": "docs/evidence/P21_5_WAVE_A_ONBOARDING_2026-09-17.json"
+  },
+  "principles": {
+    "automatic_independence_credit_from_wave_a": false,
+    "coverage_health_is_not_truth": true,
+    "exact_cohort_only": true,
+    "no_counterfactual_semantic_quality_claim": true,
+    "source_level_origin_group_is_topology_evidence_not_claim_truth": true,
+    "verification_authority": "P13.5/P13.6"
+  },
+  "safety_boundary": {
+    "deployed_runtime_mutated": false,
+    "future_source_waves_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "paid_or_shared_resources_authorized": false,
+    "plugin_build": false,
+    "plugin_publication": false,
+    "production_live": false,
+    "runtime_deployment": false,
+    "service_restart": false
+  },
+  "schema_version": "kgm.p21.6.intelligence_quality_impact.v1",
+  "summary": {
+    "adequate_cell_delta": 0,
+    "automatic_factual_independence_credit_delta": 0,
+    "confirmed_independent_origin_lower_bound_delta": 1,
+    "governed_source_path_delta": 2,
+    "healthy_fresh_source_path_delta": 1,
+    "missing_required_cell_delta": -1,
+    "portfolio_post_structural_status_counts": {
+      "ADEQUATE": 1,
+      "DEGRADED_COLLECTION": 2,
+      "MISSING_EXPECTED_COVERAGE": 20,
+      "THIN": 10
+    },
+    "portfolio_pre_status_counts": {
+      "ADEQUATE": 1,
+      "DEGRADED_COLLECTION": 1,
+      "MISSING_EXPECTED_COVERAGE": 21,
+      "THIN": 10
+    },
+    "post_status_counts": {
+      "DEGRADED_COLLECTION": 1,
+      "THIN": 1
+    },
+    "pre_status_counts": {
+      "MISSING_EXPECTED_COVERAGE": 1,
+      "THIN": 1
+    }
+  }
+}
