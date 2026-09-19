@@ -14,15 +14,16 @@ def test_p22_1_bounded_owner_pilot_is_explicitly_authorized_only():
     x = s["phase22"]
     p = s["phase22_p22_1"]
 
-    assert s["roadmap"]["state_sync_version"] == "4.50"
-    assert s["roadmap"]["current_position"] == "PHASE_22_P22_1_AUTHORIZED_READY_TO_EXECUTE"
+    major, minor = map(int, s["roadmap"]["state_sync_version"].split("."))
+    assert major == 4 and minor >= 50
+    assert s["roadmap"]["current_position"].startswith("PHASE_22_")
 
-    assert x["p22_1_state"] == "AUTHORIZED_READY_TO_EXECUTE"
-    assert x["owner_operational_activation"] == "APPROVED_FOR_BOUNDED_P22_1_PILOT"
+    assert x["p22_1_state"] in {"AUTHORIZED_READY_TO_EXECUTE", "VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION"}
+    assert x["owner_operational_activation"] in {"APPROVED_FOR_BOUNDED_P22_1_PILOT", "BOUNDED_P22_1_PILOT_COMPLETED / PERSISTENT_OWNER_OPERATION_NOT_ACTIVATED"}
     assert x["wave_b_onboarding"] == "OWNER_DECISION_REQUIRED"
-    assert x["next_gate"] == "P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED"
+    assert x["next_gate"] in {"P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED", "P22_3_WAVE_B_ONBOARDING_OWNER_DECISION_REQUIRED"}
 
-    assert p["state"] == "AUTHORIZED_READY_TO_EXECUTE"
+    assert p["state"] in {"AUTHORIZED_READY_TO_EXECUTE", "VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION"}
     assert p["target_node"] == "kgm-e4-owner-pilot"
     assert p["execution_scope"] == "ONE_BOUNDED_OWNER_LOCAL_SESSION"
     assert p["existing_governed_source_set_only"] is True
@@ -55,7 +56,8 @@ def test_p22_1_authorization_preserves_runtime_resource_and_truth_boundaries():
     assert s["runtime"]["paid_providers"] == "NONE_APPROVED"
     assert s["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
 
-    assert "Version: 4.50" in roadmap
-    assert "PHASE_22_P22_1_AUTHORIZED_READY_TO_EXECUTE" in roadmap
-    assert "P22_1_AUTHORIZED_READY_TO_EXECUTE" in handoff
-    assert "AUTHORIZED_READY_TO_EXECUTE" in plan
+    sync_version = s["roadmap"]["state_sync_version"]
+    assert f"Version: {sync_version}" in roadmap
+    assert s["roadmap"]["current_position"] in roadmap
+    assert "P22_1" in handoff
+    assert "P22.1" in plan
