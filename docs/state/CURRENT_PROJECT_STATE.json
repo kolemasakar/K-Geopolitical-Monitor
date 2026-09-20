@@ -3,7 +3,7 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.60",
+    "state_sync_version": "4.61",
     "status": "APPROVED",
     "current_position": "PHASE_23_P23_0_ENTRY_CONVERGENCE_VALIDATED"
   },
@@ -940,5 +940,17 @@
     "p23_0_evidence": "docs/evidence/P23_0_ENTRY_CONVERGENCE_OWNER_GATES_2026-09-20.json",
     "p23_0_result": "docs/implementation/P23_0_ENTRY_CONVERGENCE_OWNER_GATES_RESULT.md",
     "p23_0_checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-20_P23_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED.md"
+  },
+  "project_sync": {
+    "date": "2026-09-20",
+    "type": "DOCUMENTATION_AND_HANDOFF_SYNC",
+    "canonical_base_before_sync": "fbcf8bcd07560eb4c47a12ce4ea51a0a48e7883f",
+    "current_position": "PHASE_23_P23_0_ENTRY_CONVERGENCE_VALIDATED",
+    "next_gate": "P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED",
+    "handoff": "docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-09-20_P23_1.md",
+    "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-20_PHASE23_PROJECT_SYNC_P23_1_READY.md",
+    "semantic_or_runtime_change": false,
+    "github_actions_hosted_used": false,
+    "hp_omen_used": false
   }
 }

@@ -2,6 +2,12 @@
 
 Status: `AUTHORITATIVE_POINTER / PHASE_23_APPROVED / P23_0_VALIDATED / P23_1_READY`
 
+Latest project-sync handoff:
+`docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-09-20_P23_1.md`
+
+Latest project-sync checkpoint:
+`docs/checkpoints/PROJECT_CHECKPOINT_2026-09-20_PHASE23_PROJECT_SYNC_P23_1_READY.md`
+
 Canonical prior validated strategic baseline:
 `PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
 
