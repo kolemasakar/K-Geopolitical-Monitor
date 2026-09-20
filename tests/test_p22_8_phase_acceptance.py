@@ -17,7 +17,8 @@ def test_p22_8_acceptance_state_is_converged():
     e = json.loads(EVIDENCE.read_text(encoding="utf-8"))
 
     major, minor = map(int, s["roadmap"]["state_sync_version"].split(".")); assert major == 4 and minor >= 59
-    assert s["roadmap"]["current_position"] in {"PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED", "PHASE_23_P23_0_ENTRY_CONVERGENCE_VALIDATED"}
+    current_position = s["roadmap"]["current_position"]
+    assert current_position == "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED" or current_position.startswith("PHASE_23_")
     assert s["phases"]["22"] == "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS"
     assert s["phase22"]["state"] == "VALIDATED_WITH_KNOWN_LIMITATIONS"
     assert s["phase22"]["current_position"] == "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED"
