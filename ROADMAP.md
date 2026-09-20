@@ -1,8 +1,8 @@
 # ROADMAP
 
-Version: 4.60
+Version: 4.61
 Status: APPROVED
-Canonical state synchronization: `v4.60`
+Canonical state synchronization: `v4.61`
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
@@ -1032,3 +1032,17 @@ State: `PLANNED`
 Final gate: `PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_VALIDATED`
 
 Constraints: HP-OMEN out of scope; no intentional GitHub-hosted Actions before 2026-10-01; blocked/new source activation, acquisition-limit relaxation and P23.6 execution remain explicit owner gates; persistent owner operation, production/live, paid/shared resources, migration 033 and Plugin publication remain inactive or unauthorized.
+
+
+## Project Sync Checkpoint — 2026-09-20
+
+Canonical project-sync base before this documentation-only checkpoint:
+`fbcf8bcd07560eb4c47a12ce4ea51a0a48e7883f`.
+
+Current strategic state remains:
+`PHASE_23_P23_0_ENTRY_CONVERGENCE_VALIDATED / P23_1_READY_TO_BEGIN`.
+
+Authoritative transition handoff:
+`docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-09-20_P23_1.md`.
+
+No Phase 23 semantic, runtime, source-activation, production/live, paid/shared, migration-033, Plugin-publication or owner-operational boundary is changed by this documentation sync.
