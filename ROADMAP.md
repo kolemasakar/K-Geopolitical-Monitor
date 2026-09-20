@@ -1,8 +1,8 @@
 # ROADMAP
 
-Version: 4.59
+Version: 4.60
 Status: APPROVED
-Canonical state synchronization: `v4.59`
+Canonical state synchronization: `v4.60`
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
@@ -776,7 +776,7 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.58`;
+- state synchronization: `v4.60`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -821,12 +821,18 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 - P21.5: `P21_5_CONTROLLED_SOURCE_ONBOARDING_VALIDATED / VALIDATED_WITH_MEASURED_CONTENT_STALENESS`;
 - P21.6: `P21_6_INTELLIGENCE_QUALITY_IMPACT_VALIDATED / VALIDATED_WITH_STRUCTURAL_IMPACT_ONLY`;
 - P21.7: `PASS_WITH_KNOWN_LIMITATIONS`;
-- Phase 22: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_BLOCKED_ON_OWNER_GATE`;
+- Phase 22: `PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
+- P22.0–P22.8: `VALIDATED / CLOSED_WITH_KNOWN_LIMITATIONS`;
+- Phase 23: `APPROVED / P23_0_VALIDATED / P23_1_READY_TO_BEGIN`;
+- P23.0: `P23_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED`;
 - P22.0: `VALIDATED / P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED`;
 - P22.1: `VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_1_BOUNDED_OWNER_OPERATIONAL_PILOT_VALIDATED`;
 - P22.2: `VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_2_WAVE_B_CANDIDATE_QUALIFICATION_VALIDATED`;
 - Phase 22 owner-operational pilot: `BOUNDED_P22_1_PILOT_COMPLETED / PERSISTENT_OWNER_OPERATION_NOT_ACTIVATED`;
-- Phase 22 Wave-B onboarding: `OWNER_DECISION_REQUIRED`;
+- Phase 22 Wave-B onboarding: `B1_PARTIAL_ONBOARDING_VALIDATED / REMAINING_WAVE_B_OWNER_DECISION_REQUIRED`;
+- Phase 23 blocked/new source activation: `OWNER_DECISION_REQUIRED`;
+- Phase 23 acquisition resource-limit relaxation: `OWNER_DECISION_REQUIRED`;
+- Phase 23 bounded owner-facing sample: `OWNER_DECISION_REQUIRED`;
 - Phase 18 shared runtime activation: `PHASE_18_SHARED_RUNTIME_ACTIVE = NO`;
 - migration `033`: `NOT_CREATED / NOT_PREAUTHORIZED`;
 - runtime storage: `PROJECT_LOCAL_ONLY`;
@@ -866,7 +872,7 @@ Roadmap decision:
 `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`.
 
 Current strategic position:
-`PHASE_22_P22_7_OWNER_UTILITY_QUALITY_OBSERVATION_VALIDATED`.
+`PHASE_23_P23_0_ENTRY_CONVERGENCE_VALIDATED`.
 
 
 
@@ -976,3 +982,53 @@ Phase 22 closes with measurable structural coverage improvement and a real seman
 
 Decision: `PASS_WITH_KNOWN_LIMITATIONS`.
 Next strategic gate: `ROADMAP_DECISION_REQUIRED`.
+
+# Post-Phase-22 Strategic Decision
+
+Audit: `docs/analysis/POST_PHASE_22_STRATEGIC_AUDIT_2026-09-20.md`
+
+Owner decision: `APPROVE PHASE 23 / EVIDENCE_YIELD_DUAL_TRACK`
+
+Roadmap decision: `docs/decisions/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_ROADMAP_DECISION_2026-09-20.md`
+
+## Phase 23 — Evidence Depth, Corroboration & Operational Yield
+
+State: `APPROVED / P23_0_VALIDATED / P23_1_READY_TO_BEGIN`
+
+Implementation plan: `docs/implementation/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_PLAN.md`
+
+Success is evidence-yield based, not source-count based. P13.5/P13.6 remain factual-verification authority.
+
+### P23.0 — Entry Convergence & Owner Gates
+State: `VALIDATED`
+Gate: `P23_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED`
+
+### P23.1 — B1 Blocker Remediation & Selective Source Readiness
+State: `READY_TO_BEGIN`
+Gate: `P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED`
+
+### P23.2 — Underlying-Origin / Provenance Resolution
+State: `PLANNED`
+Gate: `P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED`
+
+### P23.3 — Corroboration & Evidence Relations
+State: `PLANNED`
+Gate: `P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED`
+
+### P23.4 — Selective Evidence-Yield Coverage Expansion
+State: `PLANNED`
+Gate: `P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED`
+
+### P23.5 — Downstream Intelligence-Yield Observation
+State: `PLANNED`
+Gate: `P23_5_DOWNSTREAM_INTELLIGENCE_YIELD_VALIDATED`
+
+### P23.6 — Bounded Owner-Facing Delivery & Feedback
+State: `OWNER_DECISION_REQUIRED_BEFORE_EXECUTION`
+Gate: `P23_6_BOUNDED_OWNER_DELIVERY_FEEDBACK_VALIDATED`
+
+### P23.7 — Phase Acceptance
+State: `PLANNED`
+Final gate: `PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_VALIDATED`
+
+Constraints: HP-OMEN out of scope; no intentional GitHub-hosted Actions before 2026-10-01; blocked/new source activation, acquisition-limit relaxation and P23.6 execution remain explicit owner gates; persistent owner operation, production/live, paid/shared resources, migration 033 and Plugin publication remain inactive or unauthorized.
