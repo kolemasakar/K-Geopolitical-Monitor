@@ -2,6 +2,7 @@
 
 Version: 4.59
 Status: APPROVED
+Canonical state synchronization: `v4.59`
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
