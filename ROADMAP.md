@@ -995,6 +995,8 @@ Roadmap decision: `docs/decisions/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIO
 
 State: `APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_READY_TO_BEGIN`
 
+Current position: `PHASE_23_P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED`
+
 Implementation plan: `docs/implementation/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_PLAN.md`
 
 Success is evidence-yield based, not source-count based. P13.5/P13.6 remain factual-verification authority.
