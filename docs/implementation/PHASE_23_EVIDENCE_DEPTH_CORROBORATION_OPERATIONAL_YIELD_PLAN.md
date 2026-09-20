@@ -1,7 +1,7 @@
 # Phase 23 — Evidence Depth, Corroboration & Operational Yield — Implementation Plan
 
 Date: 2026-09-20
-Status: `APPROVED / P23_0_VALIDATED / P23_1_READY_TO_BEGIN`
+Status: `APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_READY_TO_BEGIN`
 Decision: `docs/decisions/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_ROADMAP_DECISION_2026-09-20.md`
 
 ## Objective
@@ -17,15 +17,13 @@ Outputs: owner decision, Phase 23 ROADMAP/state/handoff convergence, evidence-yi
 
 ## P23.1 — B1 Blocker Remediation & Selective Source Readiness
 
-State: `READY_TO_BEGIN`
+State: `VALIDATED_WITH_PARTIAL_REMEDIATION`
 Gate: `P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED`
 
-Allowed without another owner decision: read-only reproduction, repository-only bounded acquisition design, fixtures/tests, range/streaming design that preserves boundedness, alternate official path discovery, public/free candidate qualification and rollback design.
-
-Activation of blocked/new sources, runtime mutation or relaxation of bounded acquisition limits remains owner-gated.
+UKSL bounded Range acquisition/parser remediation is validated and ready only for a later owner-gated activation revalidation. Government of Russia remains blocked on HTTPS transport timeout. No source activation, runtime mutation or acquisition-limit relaxation occurred.
 
 ## P23.2 — Underlying-Origin / Provenance Resolution
-State: `PLANNED`
+State: `READY_TO_BEGIN`
 Gate: `P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED`
 
 ## P23.3 — Corroboration & Evidence Relations
