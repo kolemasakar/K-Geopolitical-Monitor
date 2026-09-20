@@ -19,7 +19,7 @@ def test_p21_2_formal_closure_remains_immutable_after_later_phase21_progress():
 
     major, minor = state["roadmap"]["state_sync_version"].split(".", 1)
     assert major == "4" and int(minor) >= 39
-    assert state["roadmap"]["current_position"].startswith(("PHASE_21_", "PHASE_22_"))
+    assert state["roadmap"]["current_position"].startswith(("PHASE_21_", "PHASE_22_", "PHASE_23_"))
     assert state["phase21"]["validated_sequence"][:3] == ["P21.0", "P21.1", "P21.2"]
     p = state["phase21_p21_2"]
     assert p["state"] == "VALIDATED_WITH_MEASURED_DEGRADATION"

@@ -11,7 +11,7 @@ def test_p21_5_owner_authorization_is_bound_and_bounded():
     a=json.loads(AUTH.read_text())
     major, minor = s['roadmap']['state_sync_version'].split('.', 1)
     assert major == '4' and int(minor) >= 42
-    assert s['roadmap']['current_position'].startswith(('PHASE_21_', 'PHASE_22_'))
+    assert s['roadmap']['current_position'].startswith(('PHASE_21_', 'PHASE_22_', 'PHASE_23_'))
     assert a['authority_state']=='APPROVED'
     assert a['bound_plan_blob_sha']=='383d1bb1f9764c5962bbb41035abc4a33140a223'
     assert a['initial_wave']=='A_CRITICAL_REQUIRED'

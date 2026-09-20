@@ -16,7 +16,7 @@ def test_p21_7_phase_acceptance_state_is_converged():
 
     major, minor = map(int, s["roadmap"]["state_sync_version"].split("."))
     assert major == 4 and minor >= 45
-    assert s["roadmap"]["current_position"].startswith(("PHASE_21_", "PHASE_22_"))
+    assert s["roadmap"]["current_position"].startswith(("PHASE_21_", "PHASE_22_", "PHASE_23_"))
     assert s["phases"]["21"] == "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS"
 
     assert s["phase21"]["state"] == "VALIDATED_WITH_KNOWN_LIMITATIONS"

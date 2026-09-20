@@ -69,7 +69,7 @@ def test_p22_4_canonical_state_opens_only_p22_5():
     p=s["phase22_p22_4"]
     major, minor = map(int, s["roadmap"]["state_sync_version"].split("."))
     assert major == 4 and minor >= 54
-    assert s["roadmap"]["current_position"].startswith("PHASE_22_")
+    assert s["roadmap"]["current_position"].startswith(("PHASE_22_", "PHASE_23_"))
     assert x["p22_4_state"]=="VALIDATED_WITH_MEASURED_DEGRADATION"
     assert x["next_gate"] in {"P22_5_SEMANTIC_CORPUS_VERIFICATION_OBSERVATION_VALIDATED", "P22_5_CANONICAL_SEMANTIC_INGESTION_BRIDGE_IMPLEMENTATION", "P22_6_DOWNSTREAM_INTELLIGENCE_IMPACT_VALIDATED", "P22_7_OWNER_UTILITY_QUALITY_OBSERVATION_VALIDATED", "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED", "ROADMAP_DECISION_REQUIRED"}
     assert p["required_missing_expected_coverage_count"]==18

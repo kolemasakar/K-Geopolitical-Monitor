@@ -16,8 +16,8 @@ def test_p22_8_acceptance_state_is_converged():
     x = s["phase22_p22_8"]
     e = json.loads(EVIDENCE.read_text(encoding="utf-8"))
 
-    assert s["roadmap"]["state_sync_version"] == "4.59"
-    assert s["roadmap"]["current_position"] == "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED"
+    major, minor = map(int, s["roadmap"]["state_sync_version"].split(".")); assert major == 4 and minor >= 59
+    assert s["roadmap"]["current_position"] in {"PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED", "PHASE_23_P23_0_ENTRY_CONVERGENCE_VALIDATED"}
     assert s["phases"]["22"] == "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS"
     assert s["phase22"]["state"] == "VALIDATED_WITH_KNOWN_LIMITATIONS"
     assert s["phase22"]["current_position"] == "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED"
@@ -71,7 +71,7 @@ def test_p22_8_acceptance_preserves_authority_and_activation_boundaries():
     assert x["plugin_publication"] is False
     assert s["runtime"]["production_live"] == "NOT_OPERATIONAL"
     assert s["migrations"]["033"] == "NOT_CREATED / NOT_PREAUTHORIZED"
-    assert "Version: 4.59" in roadmap
+    assert f"Version: {s['roadmap']['state_sync_version']}" in roadmap
     assert "P22.8" in roadmap and "PASS_WITH_KNOWN_LIMITATIONS" in roadmap
     assert "ROADMAP_DECISION_REQUIRED" in handoff
     assert "ROADMAP_DECISION_REQUIRED" in plan

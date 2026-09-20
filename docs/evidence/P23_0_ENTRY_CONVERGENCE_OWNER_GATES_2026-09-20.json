@@ -1,0 +1,60 @@
+{
+  "schema_version": "kgm.p23.0.entry_convergence_owner_gates.v1",
+  "assessed_at": "2026-09-20",
+  "canonical_base_sha": "256214dadae24e73ca5f9ffcff4abd3302799d6a",
+  "owner_decision": "APPROVED_CREATE_PHASE_23",
+  "strategic_direction": "EVIDENCE_YIELD_DUAL_TRACK",
+  "entry_baseline": {
+    "required_adequate": 1,
+    "required_degraded_collection": 3,
+    "required_missing_expected_coverage": 18,
+    "required_thin": 5,
+    "canonical_semantic_claim_count": 28,
+    "detected_count": 28,
+    "attribution_only_count": 28,
+    "underlying_origin_unresolved_count": 28,
+    "semantic_independence_assessment_count": 0,
+    "contradiction_version_count": 0,
+    "underlying_event_analytical_claim_count": 0,
+    "forecast_input_count": 0,
+    "owner_feedback_record_count": 0
+  },
+  "success_dimensions": [
+    "REQUIRED_COVERAGE",
+    "PROVENANCE_ORIGIN_DEPTH",
+    "CORROBORATION_OR_CONTRADICTION",
+    "ANALYTICAL_OR_FORECAST_INPUT",
+    "OWNER_UTILITY_EVIDENCE"
+  ],
+  "authorization": {
+    "phase23_created": true,
+    "implementation_authorized": true,
+    "p23_0_authorized": true,
+    "repository_only_bounded_remediation": true,
+    "public_free_candidate_discovery_qualification": true,
+    "new_or_blocked_source_activation": "OWNER_DECISION_REQUIRED",
+    "acquisition_resource_limit_relaxation": "OWNER_DECISION_REQUIRED",
+    "bounded_owner_facing_delivery_sample": "OWNER_DECISION_REQUIRED",
+    "persistent_owner_operation": "NOT_ACTIVATED"
+  },
+  "runtime_boundary": {
+    "runtime_deployment": false,
+    "service_restart": false,
+    "paid_or_shared_resources_authorized": false,
+    "shared_runtime_active": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "production_live": "NOT_OPERATIONAL",
+    "plugin_publication": false,
+    "hp_omen_used": false
+  },
+  "verification_authority": "P13.5/P13.6",
+  "validation_policy": {
+    "github_actions_mode": "QUOTA_CONTINGENCY_ACTIVE_UNTIL_2026-10-01",
+    "validation_host": "kgm-e4-owner-pilot",
+    "validation_architecture": "aarch64",
+    "hp_omen_allowed": false
+  },
+  "decision": "VALIDATED",
+  "gate": "P23_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED",
+  "next_gate": "P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED"
+}

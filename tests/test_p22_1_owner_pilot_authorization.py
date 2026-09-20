@@ -16,7 +16,7 @@ def test_p22_1_bounded_owner_pilot_is_explicitly_authorized_only():
 
     major, minor = map(int, s["roadmap"]["state_sync_version"].split("."))
     assert major == 4 and minor >= 50
-    assert s["roadmap"]["current_position"].startswith("PHASE_22_")
+    assert s["roadmap"]["current_position"].startswith(("PHASE_22_", "PHASE_23_"))
 
     assert x["p22_1_state"] in {"AUTHORIZED_READY_TO_EXECUTE", "VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION"}
     assert x["owner_operational_activation"] in {"APPROVED_FOR_BOUNDED_P22_1_PILOT", "BOUNDED_P22_1_PILOT_COMPLETED / PERSISTENT_OWNER_OPERATION_NOT_ACTIVATED"}
