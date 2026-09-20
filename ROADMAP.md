@@ -1,8 +1,8 @@
 # ROADMAP
 
-Version: 4.61
+Version: 4.62
 Status: APPROVED
-Canonical state synchronization: `v4.61`
+Canonical state synchronization: `v4.62`
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
@@ -993,7 +993,7 @@ Roadmap decision: `docs/decisions/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIO
 
 ## Phase 23 — Evidence Depth, Corroboration & Operational Yield
 
-State: `APPROVED / P23_0_VALIDATED / P23_1_READY_TO_BEGIN`
+State: `APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_READY_TO_BEGIN`
 
 Implementation plan: `docs/implementation/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_PLAN.md`
 
@@ -1004,11 +1004,16 @@ State: `VALIDATED`
 Gate: `P23_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED`
 
 ### P23.1 — B1 Blocker Remediation & Selective Source Readiness
-State: `READY_TO_BEGIN`
+State: `VALIDATED_WITH_PARTIAL_REMEDIATION`
 Gate: `P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED`
+Evidence: `docs/evidence/P23_1_B1_BLOCKER_REMEDIATION_READINESS_2026-09-20.json`
+Result: `docs/implementation/P23_1_B1_BLOCKER_REMEDIATION_READINESS_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-20_P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED.md`
+
+UKSL bounded 1.5 MB Range acquisition and structural CSV-header detection are validated without increasing the 2 MB transport ceiling. Exact-branch live readiness returned 100 items. UKSL remains inactive and owner-gated for activation. Government of Russia remains blocked because HTTPS/443 times out from the owner node; reachable HTTP/80 is not accepted as a fallback. Source activation delta remains 0.
 
 ### P23.2 — Underlying-Origin / Provenance Resolution
-State: `PLANNED`
+State: `READY_TO_BEGIN`
 Gate: `P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED`
 
 ### P23.3 — Corroboration & Evidence Relations
