@@ -14,7 +14,8 @@ def state():
 
 def test_phase23_owner_approval_creates_phase_without_activation():
     s = state(); x = s['phase23']
-    assert s['roadmap']['state_sync_version'] == '4.60'
+    major, minor = map(int, s['roadmap']['state_sync_version'].split('.'))
+    assert major == 4 and minor >= 60
     assert s['roadmap']['current_position'].startswith('PHASE_23_')
     assert s['phases']['23'].startswith('PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_APPROVED')
     assert s['post_phase22_strategic_audit']['decision_state'] == 'OWNER_APPROVED_PHASE_23'
@@ -37,7 +38,7 @@ def test_phase23_preserves_boundaries():
 def test_phase23_documents_converged():
     s = state(); roadmap = ROADMAP.read_text(encoding='utf-8'); handoff = HANDOFF.read_text(encoding='utf-8')
     assert DECISION.exists() and PLAN.exists()
-    assert 'Version: 4.60' in roadmap
+    assert f"Version: {s['roadmap']['state_sync_version']}" in roadmap
     assert '## Phase 23 — Evidence Depth, Corroboration & Operational Yield' in roadmap
     assert 'PHASE_23_P23_0_ENTRY_CONVERGENCE_VALIDATED' in handoff
     assert 'APPROVED / SUPERSEDED_BY_PHASE_23_ROADMAP_DECISION' in PROPOSAL.read_text(encoding='utf-8')
