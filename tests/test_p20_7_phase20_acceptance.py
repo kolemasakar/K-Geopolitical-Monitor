@@ -121,7 +121,7 @@ def test_p20_7_canonical_closure_remains_immutable_after_explicit_phase21_progre
     # Current state may advance only because a separate owner-approved Phase 21 decision exists.
     major, minor = state["roadmap"]["state_sync_version"].split(".", 1)
     assert major == "4" and int(minor) >= 38
-    assert state["roadmap"]["current_position"].startswith(("PHASE_21_", "PHASE_22_"))
+    assert state["roadmap"]["current_position"].startswith(("PHASE_21_", "PHASE_22_", "PHASE_23_"))
     assert "P21.0" in state["phase21"]["validated_sequence"]
     assert P21_DECISION.exists()
     assert P21_PLAN.exists()
