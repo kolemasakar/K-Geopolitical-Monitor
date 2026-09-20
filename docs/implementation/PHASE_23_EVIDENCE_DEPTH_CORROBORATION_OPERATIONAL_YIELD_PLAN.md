@@ -1,7 +1,7 @@
 # Phase 23 — Evidence Depth, Corroboration & Operational Yield — Implementation Plan
 
 Date: 2026-09-20
-Status: `APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_READY_TO_BEGIN`
+Status: `APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_VALIDATED_WITH_ZERO_UNDERLYING_ORIGIN_RESOLUTION / P23_3_READY_TO_BEGIN`
 Decision: `docs/decisions/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_ROADMAP_DECISION_2026-09-20.md`
 
 ## Objective
@@ -23,11 +23,13 @@ Gate: `P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED`
 UKSL bounded Range acquisition/parser remediation is validated and ready only for a later owner-gated activation revalidation. Government of Russia remains blocked on HTTPS transport timeout. No source activation, runtime mutation or acquisition-limit relaxation occurred.
 
 ## P23.2 — Underlying-Origin / Provenance Resolution
-State: `READY_TO_BEGIN`
+State: `VALIDATED_WITH_ZERO_UNDERLYING_ORIGIN_RESOLUTION`
 Gate: `P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED`
 
+A read-only fail-closed observer now distinguishes first-party publication provenance from actual underlying-origin resolution. The exact reference cohort remains 0 resolved / 28 unresolved; no independence credit is created.
+
 ## P23.3 — Corroboration & Evidence Relations
-State: `PLANNED`
+State: `READY_TO_BEGIN`
 Gate: `P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED`
 
 ## P23.4 — Selective Evidence-Yield Coverage Expansion
