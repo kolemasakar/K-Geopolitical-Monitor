@@ -1,0 +1,47 @@
+{
+  "schema_version": "kgm.p23.2.underlying_origin_provenance_resolution.v1",
+  "assessed_at": "2026-09-20",
+  "canonical_base_sha": "d9e5d53ae3cfa6d350bbe48b50d9ef4cb6a326b0",
+  "reference_cohort": {
+    "analysis_run_id": "analysis-40db4a933f17064d461789e8",
+    "source_claim_counts": {
+      "ofac-recent-actions-en": 15,
+      "white-house-briefings-en": 13
+    },
+    "canonical_semantic_claim_count": 28,
+    "claim_type": "PUBLICATION_ATTRIBUTION",
+    "attribution_only_evidence_count": 28
+  },
+  "resolution_observation": {
+    "underlying_origin_resolved_count": 0,
+    "underlying_origin_unresolved_count": 28,
+    "semantic_independence_assessment_count": 0,
+    "automatic_factual_independence_credit": 0,
+    "first_party_publication_context_is_underlying_origin_credit": false,
+    "publisher_identity_is_underlying_origin_proof": false
+  },
+  "implementation": {
+    "component": "UnderlyingOriginResolutionObserver",
+    "mode": "READ_ONLY",
+    "writes_semantic_state": false,
+    "requires_explicit_current_concrete_underlying_origin_role_for_resolution": true,
+    "asserted_origin_counts_as_resolved": false,
+    "mixed_or_unknown_counts_as_resolved": false
+  },
+  "decision": "VALIDATED_WITH_ZERO_UNDERLYING_ORIGIN_RESOLUTION",
+  "gate": "P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED",
+  "next_gate": "P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED",
+  "safety_boundary": {
+    "source_activation_delta": 0,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "persistent_owner_operation": "NOT_ACTIVATED",
+    "production_live": "NOT_OPERATIONAL",
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "plugin_publication": false,
+    "hp_omen_used": false
+  },
+  "verification_authority": "P13.5/P13.6",
+  "epistemic_note": "The exact Phase-22 cohort contains publication-attribution claims only. First-party publication provenance does not establish the underlying origin of the material or independent corroboration. P23.2 therefore records zero resolved underlying origins rather than inventing uplift."
+}
