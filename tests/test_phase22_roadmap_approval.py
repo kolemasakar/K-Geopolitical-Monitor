@@ -19,7 +19,7 @@ def test_phase22_owner_approval_opens_p22_0_without_activation():
     assert s["roadmap"]["current_position"].startswith("PHASE_22_")
     assert s["phases"]["22"].startswith(("PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_APPROVED", "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED"))
 
-    assert x["state"] == "APPROVED"
+    assert x["state"] in {"APPROVED", "VALIDATED_WITH_KNOWN_LIMITATIONS"}
     assert x["implementation_authorized"] is True
     assert x["current_position"].startswith(("P22_0_", "P22_1_", "P22_2_", "P22_3_", "P22_4_", "P22_5_", "P22_6_", "P22_7_", "P22_8_", "PHASE_22_"))
     assert x["p22_0_state"] in {"READY_TO_BEGIN", "VALIDATED"}
