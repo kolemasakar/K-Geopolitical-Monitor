@@ -1,8 +1,8 @@
 # ROADMAP
 
-Version: 4.59
+Version: 4.60
 Status: APPROVED
-Canonical state synchronization: `v4.59`
+Canonical state synchronization: `v4.60`
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
@@ -776,7 +776,7 @@ Phase 21 does not authorize paid providers, shared runtime, migration `033`, pro
 # Current Implementation Checkpoint
 
 - Strategic ROADMAP: `APPROVED / v4`;
-- state synchronization: `v4.58`;
+- state synchronization: `v4.60`;
 - Phase 12: `PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`;
 - Phase 13: `PHASE_13_SEMANTIC_VERIFICATION_PROVENANCE_VALIDATED`;
 - P13.0: `P13_0_SEMANTIC_VERIFICATION_ARCHITECTURE_CONTRACT_VALIDATED`;
@@ -866,7 +866,7 @@ Roadmap decision:
 `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`.
 
 Current strategic position:
-`PHASE_22_P22_7_OWNER_UTILITY_QUALITY_OBSERVATION_VALIDATED`.
+`PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`.
 
 
 
@@ -976,3 +976,27 @@ Phase 22 closes with measurable structural coverage improvement and a real seman
 
 Decision: `PASS_WITH_KNOWN_LIMITATIONS`.
 Next strategic gate: `ROADMAP_DECISION_REQUIRED`.
+
+## Post-Phase-22 Strategic Audit
+
+State: `COMPLETED / OWNER_ROADMAP_DECISION_REQUIRED`
+
+Audit:
+`docs/analysis/POST_PHASE_22_STRATEGIC_AUDIT_2026-09-20.md`
+
+Roadmap proposal:
+`docs/decisions/POST_PHASE_22_ROADMAP_DECISION_PROPOSAL_2026-09-20.md`
+
+Measured post-Phase-22 constraints:
+
+- required coverage remains `1 ADEQUATE / 3 DEGRADED_COLLECTION / 18 MISSING_EXPECTED_COVERAGE / 5 THIN`;
+- all 28 canonical observed claims remain `DETECTED / ATTRIBUTION_ONLY` with unresolved underlying origin;
+- downstream contradiction/analysis/forecast-input uplift remains `NOT_OBSERVED`;
+- persisted owner-delivery/feedback evidence remains `NOT_OBSERVED`;
+- UKSL response-size and Government of Russia owner-node reachability blockers are reproduced in bounded read-only diagnostics.
+
+Recommended direction: `EVIDENCE_YIELD_DUAL_TRACK` — selective required-coverage improvement plus underlying-origin/corroboration depth and a bounded owner-facing evidence sample.
+
+Working title `Phase 23 — Evidence Depth, Corroboration & Operational Yield` is proposal-only. **Phase 23 is not created or authorized.** Additional source onboarding, persistent owner operation, paid/shared resources, production/live cutover, migration 033 and Plugin publication remain separately gated.
+
+Next gate: `OWNER_ROADMAP_DECISION_REQUIRED`.
