@@ -22,6 +22,8 @@ from .source_portfolio import SourcePortfolioRecord, SourcePortfolioService
 
 
 P22_3_B1_VERSION = "P22.3-B1-1.0"
+P23_1_B1_REMEDIATION_VERSION = "P23.1-B1-1.0"
+P23_1_UKSL_RANGE_BYTES = 1_500_000
 B1_REPOSITORY_ACTIVE_SOURCE_IDS: tuple[str, ...] = (
     "ofac-recent-actions-en",
     "white-house-briefings-en",
@@ -131,6 +133,25 @@ def _stable_id(source_id: str, identity: str) -> str:
     return "p223-" + sha256(f"{source_id}\n{identity}".encode("utf-8")).hexdigest()[:24]
 
 
+def _uksl_csv_table_text(decoded: str) -> str:
+    """Return the canonical UKSL CSV table after its report-date preamble.
+
+    The live FCDO distribution emits a human-readable Report Date line before
+    the actual CSV header. Missing the canonical header fails closed instead
+    of guessing field positions.
+    """
+    lines = decoded.splitlines(keepends=True)
+    required_columns = {"unique id", "name 6", "regime name"}
+    for index, line in enumerate(lines):
+        fields = {
+            str(value or "").lstrip("\ufeff").strip().lower()
+            for value in next(csv.reader([line]), [])
+        }
+        if required_columns.issubset(fields):
+            return "".join(lines[index:])
+    raise ValueError("UK Sanctions List canonical CSV header not found")
+
+
 class _AnchorParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
@@ -235,7 +256,14 @@ class InstitutionalHtmlListingAdapter:
 
 
 class UkSanctionsCsvAdapter:
-    def __init__(self, transport: PublicHttpTransport, spec: B1SourceSpec, *, max_entries: int = 200):
+    def __init__(
+        self,
+        transport: PublicHttpTransport,
+        spec: B1SourceSpec,
+        *,
+        max_entries: int = 200,
+        range_bytes: int = P23_1_UKSL_RANGE_BYTES,
+    ):
         self.transport = transport
         self.spec = spec
         self.source_id = spec.source_id
@@ -246,6 +274,9 @@ class UkSanctionsCsvAdapter:
         self.adapter_id = spec.adapter_id
         self.adapter_version = ADAPTER_FRAMEWORK_VERSION
         self.max_entries = int(max_entries)
+        self.range_bytes = int(range_bytes)
+        if self.range_bytes <= 0:
+            raise ValueError("UK Sanctions List range_bytes must be positive")
         self.last_request_locator: str | None = None
 
     @property
@@ -262,12 +293,13 @@ class UkSanctionsCsvAdapter:
         response = self.transport.get(
             self.endpoint,
             headers={
-                "Accept": "text/csv,text/plain",
-                "User-Agent": f"K-Geopolitical-Monitor/{P22_3_B1_VERSION}",
+                "Accept": "text/csv,text/plain,application/octet-stream",
+                "Range": f"bytes=0-{self.range_bytes - 1}",
+                "User-Agent": f"K-Geopolitical-Monitor/{P23_1_B1_REMEDIATION_VERSION}",
             },
         )
         decoded = response.body.decode("utf-8-sig", errors="strict")
-        reader = csv.DictReader(StringIO(decoded))
+        reader = csv.DictReader(StringIO(_uksl_csv_table_text(decoded)))
         items: list[LiveSourceItem] = []
         for row_number, row in enumerate(reader, start=1):
             normalized = {str(k or "").strip().lower(): str(v or "").strip() for k, v in row.items()}
@@ -295,6 +327,8 @@ class UkSanctionsCsvAdapter:
                         "origin_group_id": self.spec.origin_group_id,
                         "unique_id": unique_id,
                         "regime": regime,
+                        "acquisition_mode": "INITIAL_BYTE_RANGE",
+                        "range_bytes": self.range_bytes,
                         "official_statement_boundary": True,
                     },
                     reliability="official",

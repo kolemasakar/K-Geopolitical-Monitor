@@ -23,9 +23,9 @@ def test_p23_0_owner_gates_fail_closed():
     assert a['persistent_owner_operation'] == 'NOT_ACTIVATED'
     assert r['runtime_deployment'] is False and r['service_restart'] is False and r['hp_omen_used'] is False
 
-def test_p23_0_opens_only_p23_1_readiness():
+def test_p23_0_historical_entry_convergence_remains_valid_after_forward_progress():
     s=load(STATE); x=s['phase23']
-    assert s['roadmap']['current_position'] == 'PHASE_23_P23_0_ENTRY_CONVERGENCE_VALIDATED'
-    assert x['current_position'] == 'P23_0_ENTRY_CONVERGENCE_VALIDATED'
-    assert x['next_gate'] == 'P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED'
+    assert s['roadmap']['current_position'].startswith('PHASE_23_P23_')
+    assert x['p23_0_state'] == 'VALIDATED'
+    assert x['p23_0_gate'] == 'P23_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED'
     assert RESULT.exists() and CHECKPOINT.exists()

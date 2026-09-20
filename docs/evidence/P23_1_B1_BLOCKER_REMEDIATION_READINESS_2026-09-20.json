@@ -1,0 +1,80 @@
+{
+  "schema_version": "kgm.p23.1.b1_blocker_remediation_readiness.v1",
+  "assessed_at": "2026-09-20T04:34:58Z",
+  "canonical_base_sha": "9f6f48f78beefa4f493b00f1907362f16e337b0a",
+  "remediation_code_sha": "29dee59f8afd5ce71faf4e80d1c602348edee9fd",
+  "validation_host": "kgm-e4-owner-pilot",
+  "validation_architecture": "aarch64",
+  "decision": "VALIDATED_WITH_PARTIAL_REMEDIATION",
+  "gate": "P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED",
+  "uk_sanctions_list": {
+    "source_id": "uk-sanctions-list-en",
+    "endpoint": "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv",
+    "original_blocker": "BOUNDED_RESPONSE_LIMIT",
+    "observed_total_bytes": 49928338,
+    "observed_last_modified": "2026-09-11T14:02:07Z",
+    "accept_ranges": true,
+    "range_probe_http_status": 206,
+    "range_probe_bytes": 2000000,
+    "parser_old_behavior_recognized_names": 0,
+    "parser_corrected_behavior_recognized_names_in_2000000_bytes": 2381,
+    "bounded_design_range_bytes": 1500000,
+    "recognized_names_in_1500000_bytes": 1788,
+    "exact_branch_live_probe": {
+      "status": "SUCCESS",
+      "item_count": 100,
+      "elapsed_seconds": 0.078,
+      "acquisition_mode": "INITIAL_BYTE_RANGE",
+      "transport_max_bytes": 2000000,
+      "transport_limit_relaxed": false
+    },
+    "repository_activation": false,
+    "activation_state": "OWNER_DECISION_REQUIRED",
+    "readiness": "READY_FOR_OWNER_GATED_ACTIVATION_REVALIDATION"
+  },
+  "russian_government": {
+    "source_id": "russian-government-news-ru",
+    "canonical_endpoint": "https://government.ru/news/",
+    "original_blocker": "TRANSPORT_TIMEOUT",
+    "exact_branch_https_probe": {
+      "status": "FAILED",
+      "error": "P12.2 source network error: timed out",
+      "elapsed_seconds": 24.021
+    },
+    "owner_node_protocol_observation": {
+      "http_80_status": 200,
+      "http_80_content_length": 87739,
+      "https_443_status": "TIMEOUT",
+      "first_party_https_hosts_checked": [
+        "government.ru",
+        "www.government.ru",
+        "services.government.ru",
+        "premier.gov.ru"
+      ],
+      "first_party_https_hosts_reachable": 0,
+      "rss_hints_on_http_page": [
+        "/all/rss/",
+        "/news/rss/"
+      ]
+    },
+    "http_fallback_allowed": false,
+    "reason": "HTTPS_ONLY_BOUNDARY_PRESERVED",
+    "repository_activation": false,
+    "readiness": "BLOCKED_HTTPS_TRANSPORT_TIMEOUT"
+  },
+  "repository_active_sources_unchanged": [
+    "ofac-recent-actions-en",
+    "white-house-briefings-en"
+  ],
+  "source_activation_delta": 0,
+  "acquisition_resource_limit_relaxed": false,
+  "runtime_deployment": false,
+  "service_restart": false,
+  "persistent_owner_operation": "NOT_ACTIVATED",
+  "paid_or_shared_resources_authorized": false,
+  "production_live": "NOT_OPERATIONAL",
+  "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+  "plugin_publication": false,
+  "verification_authority": "P13.5/P13.6",
+  "next_gate": "P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED"
+}
