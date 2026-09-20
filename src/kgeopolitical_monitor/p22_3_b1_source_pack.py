@@ -141,13 +141,13 @@ def _uksl_csv_table_text(decoded: str) -> str:
     of guessing field positions.
     """
     lines = decoded.splitlines(keepends=True)
+    required_columns = {"unique id", "name 6", "regime name"}
     for index, line in enumerate(lines):
-        normalized = line.lstrip("\ufeff").strip().lower()
-        if (
-            normalized.startswith("last updated,")
-            and "unique id" in normalized
-            and "name 6" in normalized
-        ):
+        fields = {
+            str(value or "").lstrip("\ufeff").strip().lower()
+            for value in next(csv.reader([line]), [])
+        }
+        if required_columns.issubset(fields):
             return "".join(lines[index:])
     raise ValueError("UK Sanctions List canonical CSV header not found")
 
