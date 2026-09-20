@@ -17,8 +17,9 @@ def load(path):
 def test_p23_1_state_and_gate_are_canonical():
     state = load(STATE)
     p = state["phase23_p23_1"]
-    assert state["roadmap"]["state_sync_version"] == "4.62"
-    assert state["roadmap"]["current_position"] == "PHASE_23_P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED"
+    major, minor = map(int, state["roadmap"]["state_sync_version"].split("."))
+    assert major == 4 and minor >= 62
+    assert state["roadmap"]["current_position"].startswith("PHASE_23_")
     assert p["state"] == "VALIDATED_WITH_PARTIAL_REMEDIATION"
     assert p["gate"] == "P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED"
     assert p["next_gate"] == "P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED"
@@ -40,11 +41,12 @@ def test_p23_1_readiness_preserves_activation_and_resource_boundaries():
     )
 
 
-def test_p23_1_roadmap_and_handoff_advance_only_to_p23_2_readiness():
+def test_p23_1_roadmap_and_handoff_preserve_historical_gate_after_forward_progress():
+    state = load(STATE)
     roadmap = ROADMAP.read_text(encoding="utf-8")
     handoff = HANDOFF.read_text(encoding="utf-8")
-    assert "Version: 4.62" in roadmap
+    assert f"Version: {state['roadmap']['state_sync_version']}" in roadmap
     assert "P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED" in roadmap
     assert "P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED" in roadmap
-    assert "PHASE_23_P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED" in handoff
+    assert "P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED" in handoff
     assert "P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED" in handoff
