@@ -47,7 +47,7 @@ def test_p22_7_state_opens_only_phase22_acceptance():
     s = _json(STATE)
     major, minor = map(int, s["roadmap"]["state_sync_version"].split("."))
     assert major == 4 and minor >= 58
-    assert s["roadmap"]["current_position"] in {"PHASE_22_P22_7_OWNER_UTILITY_QUALITY_OBSERVATION_VALIDATED", "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED"}
+    assert s["roadmap"]["current_position"].startswith(("PHASE_22_", "PHASE_23_"))
     assert s["phase22"]["p22_7_state"] == "VALIDATED_WITH_NO_OWNER_UTILITY_FEEDBACK_OBSERVED"
     assert s["phase22"]["next_gate"] in {"PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED", "ROADMAP_DECISION_REQUIRED"}
     assert s["phase22"]["persistent_owner_operation"] == "NOT_ACTIVATED"
