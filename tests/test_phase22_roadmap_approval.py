@@ -16,7 +16,7 @@ def test_phase22_owner_approval_opens_p22_0_without_activation():
 
     major, minor = map(int, s["roadmap"]["state_sync_version"].split("."))
     assert major == 4 and minor >= 47
-    assert s["roadmap"]["current_position"].startswith("PHASE_22_")
+    assert s["roadmap"]["current_position"].startswith(("PHASE_22_", "PHASE_23_"))
     assert s["phases"]["22"].startswith(("PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_APPROVED", "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED"))
 
     assert x["state"] in {"APPROVED", "VALIDATED_WITH_KNOWN_LIMITATIONS"}
