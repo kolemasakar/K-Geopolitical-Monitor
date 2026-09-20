@@ -40,6 +40,7 @@ def test_phase23_documents_converged():
     assert DECISION.exists() and PLAN.exists()
     assert f"Version: {s['roadmap']['state_sync_version']}" in roadmap
     assert '## Phase 23 — Evidence Depth, Corroboration & Operational Yield' in roadmap
-    assert 'PHASE_23_P23_0_ENTRY_CONVERGENCE_VALIDATED' in handoff
+    assert 'Current position:' in handoff and 'PHASE_23_P23_' in handoff
+    assert 'docs/evidence/P23_0_ENTRY_CONVERGENCE_OWNER_GATES_2026-09-20.json' in handoff
     assert 'APPROVED / SUPERSEDED_BY_PHASE_23_ROADMAP_DECISION' in PROPOSAL.read_text(encoding='utf-8')
     assert s['phase22']['state'] == 'VALIDATED_WITH_KNOWN_LIMITATIONS'
