@@ -1,0 +1,44 @@
+{
+  "schema_version": "kgm.post_p22.blocker_diagnostic.v1",
+  "assessed_at": "2026-09-20T00:42:00Z",
+  "measurement_vantage": "kgm-e4-owner-pilot",
+  "architecture": "aarch64",
+  "mode": "READ_ONLY_BOUNDED_DIAGNOSTIC",
+  "uk_sanctions_list": {
+    "csv_url": "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv",
+    "csv_http_status": 200,
+    "csv_content_length_bytes": 49928338,
+    "csv_accept_ranges": "bytes",
+    "csv_last_modified": "Fri, 11 Sep 2026 14:02:07 GMT",
+    "xml_url": "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.xml",
+    "xml_http_status": 200,
+    "xml_content_length_bytes": 21780935,
+    "xml_accept_ranges": "bytes",
+    "xml_last_modified": "Fri, 11 Sep 2026 14:00:24 GMT",
+    "current_bounded_probe_max_bytes": 10000000,
+    "interpretation": "RESPONSE_SIZE_BLOCKER_REPRODUCED",
+    "remediation_direction": "PRESERVE_BOUNDEDNESS; evaluate streaming/range-aware acquisition or a smaller official distribution path before any repository activation"
+  },
+  "russian_government": {
+    "url": "https://government.ru/news/",
+    "ipv4_dns_observed": true,
+    "observed_ipv4_examples": [
+      "95.173.136.163",
+      "95.173.136.168",
+      "95.173.136.162"
+    ],
+    "ipv4_https_connect_timeout_seconds": 5,
+    "ipv4_http_status": 0,
+    "ipv6_resolution_observed": false,
+    "interpretation": "OWNER_NODE_NETWORK_REACHABILITY_BLOCKER_REPRODUCED",
+    "remediation_direction": "Do not treat as parser failure; retain blocked state until a permitted owner-node path can reach the official endpoint or an approved official alternate exists"
+  },
+  "safety_boundary": {
+    "runtime_deployment": false,
+    "service_restart": false,
+    "source_activation": false,
+    "persistent_owner_operation": "NOT_ACTIVATED",
+    "paid_or_shared_resources_authorized": false,
+    "hp_omen_used": false
+  }
+}
