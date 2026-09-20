@@ -17,9 +17,9 @@ def test_phase22_owner_approval_opens_p22_0_without_activation():
     major, minor = map(int, s["roadmap"]["state_sync_version"].split("."))
     assert major == 4 and minor >= 47
     assert s["roadmap"]["current_position"].startswith("PHASE_22_")
-    assert s["phases"]["22"].startswith("PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_APPROVED")
+    assert s["phases"]["22"].startswith(("PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_APPROVED", "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED"))
 
-    assert x["state"] == "APPROVED"
+    assert x["state"] in {"APPROVED", "VALIDATED_WITH_KNOWN_LIMITATIONS"}
     assert x["implementation_authorized"] is True
     assert x["current_position"].startswith(("P22_0_", "P22_1_", "P22_2_", "P22_3_", "P22_4_", "P22_5_", "P22_6_", "P22_7_", "P22_8_", "PHASE_22_"))
     assert x["p22_0_state"] in {"READY_TO_BEGIN", "VALIDATED"}
@@ -75,7 +75,7 @@ def test_phase22_decision_plan_roadmap_handoff_are_converged():
     assert "APPROVED / P22_0_READY" in decision
     assert "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED" in decision
     assert "WAVE_B_ONBOARDING = OWNER_DECISION_REQUIRED" in decision
-    assert "Status: `APPROVED / P22_0_" in plan
+    assert ("Status: `APPROVED / P22_0_" in plan or "Status: `PHASE_22_VALIDATED_WITH_KNOWN_LIMITATIONS / P22_0-P22_8_VALIDATED`" in plan)
     assert "APPROVED / SUPERSEDED_BY_PHASE_22_ROADMAP_DECISION" in proposal
 
     assert s["phase21"]["state"] == "VALIDATED_WITH_KNOWN_LIMITATIONS"

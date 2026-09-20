@@ -1,7 +1,8 @@
 # ROADMAP
 
-Version: 4.58
+Version: 4.59
 Status: APPROVED
+Canonical state synchronization: `v4.59`
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
@@ -870,7 +871,7 @@ Current strategic position:
 
 
 ## Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion
-State: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_VALIDATED_WITH_MEASURED_DEGRADATION / P22_5_VALIDATED / P22_6_VALIDATED / P22_7_VALIDATED / P22_8_READY_TO_BEGIN`
+State: `VALIDATED_WITH_KNOWN_LIMITATIONS / P22_0-P22_8_VALIDATED`
 Roadmap decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Implementation plan: `docs/implementation/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_PLAN.md`
 
@@ -965,5 +966,13 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-19_P22_7_OWNER_UTILITY_
 Exact P22.5/P22.6 cohort has 0 persisted delivery intents and 0 operator-feedback records. Usefulness/timeliness/noise rates are undefined (`null`), not zero; no positive owner utility is claimed.
 
 ### P22.8 — Phase Acceptance
-State: `READY_TO_BEGIN`
+State: `PASS_WITH_KNOWN_LIMITATIONS`
 Final gate: `PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED`
+Evidence: `docs/evidence/P22_8_PHASE_ACCEPTANCE_2026-09-20.json`
+Result: `docs/implementation/P22_8_PHASE_22_ACCEPTANCE_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-20_PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED.md`
+
+Phase 22 closes with measurable structural coverage improvement and a real semantic corpus, while explicitly preserving the absence of downstream intelligence uplift and owner-utility feedback as known limitations. Required missing cells improved from 20 to 18; positive owner utility and underlying-event verification are not claimed.
+
+Decision: `PASS_WITH_KNOWN_LIMITATIONS`.
+Next strategic gate: `ROADMAP_DECISION_REQUIRED`.

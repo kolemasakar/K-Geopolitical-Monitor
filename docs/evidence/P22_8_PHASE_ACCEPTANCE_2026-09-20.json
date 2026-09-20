@@ -1,0 +1,97 @@
+{
+  "schema_version": "kgm.p22.8.phase_acceptance.v1",
+  "assessed_at": "2026-09-20",
+  "canonical_base_sha": "96e40119978e177c11e3e6143cf3a6c89acea2c5",
+  "decision": "PASS_WITH_KNOWN_LIMITATIONS",
+  "gate": "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED",
+  "acceptance_dimensions": {
+    "coverage_improvement": {
+      "result": "PASS_WITH_KNOWN_LIMITATIONS",
+      "required_entry": {
+        "adequate": 1,
+        "degraded_collection": 1,
+        "missing_expected_coverage": 20,
+        "thin": 5
+      },
+      "required_post_b1": {
+        "adequate": 1,
+        "degraded_collection": 3,
+        "missing_expected_coverage": 18,
+        "thin": 5
+      },
+      "missing_required_cell_delta": -2,
+      "adequate_cell_delta": 0,
+      "repository_active_source_path_delta": 2,
+      "healthy_fresh_path_delta": 0
+    },
+    "source_health_freshness": {
+      "result": "PASS_WITH_MEASURED_DEGRADATION",
+      "b1_measured_source_count": 4,
+      "health_pass_count": 2,
+      "health_fail_count": 2,
+      "content_freshness_credit_count": 0,
+      "blocked_sources": {
+        "uk-sanctions-list-en": "BOUNDED_RESPONSE_LIMIT",
+        "russian-government-news-ru": "TRANSPORT_TIMEOUT"
+      }
+    },
+    "provenance_independence": {
+      "result": "PASS_WITH_KNOWN_LIMITATIONS",
+      "confirmed_origin_group_lower_bound_delta": 2,
+      "automatic_factual_independence_credit_delta": 0,
+      "underlying_origin_unresolved_claim_count": 28
+    },
+    "semantic_corpus": {
+      "result": "PASS_WITH_KNOWN_LIMITATIONS",
+      "canonical_semantic_claim_count": 28,
+      "verification_distribution": {"DETECTED": 28},
+      "evidence_relation_distribution": {"ATTRIBUTION_ONLY": 28}
+    },
+    "downstream_intelligence_impact": {
+      "result": "MEASURED_NO_UPLIFT_OBSERVED",
+      "semantic_contradiction_version_count": 0,
+      "underlying_event_analytical_claim_count": 0,
+      "forecast_version_input_count": 0
+    },
+    "owner_utility_quality": {
+      "result": "MEASURED_NO_OWNER_FEEDBACK_OBSERVED",
+      "delivery_intent_count": 0,
+      "owner_delivery_projection_row_count": 0,
+      "operator_feedback_count": 0,
+      "usefulness_rate": null,
+      "timeliness_rate": null,
+      "noise_feedback_rate": null
+    },
+    "verification_authority": {
+      "result": "PASS",
+      "authority": "P13.5/P13.6"
+    },
+    "resource_runtime_boundaries": {
+      "result": "PASS",
+      "persistent_owner_operation": "NOT_ACTIVATED",
+      "runtime_deployment": false,
+      "service_restart": false,
+      "remaining_wave_b_onboarding_authorized": false,
+      "paid_or_shared_resources_authorized": false,
+      "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+      "production_live": "NOT_OPERATIONAL",
+      "plugin_publication": false
+    }
+  },
+  "acceptance_criteria_count": 8,
+  "known_limitations": [
+    "18 required target cells remain MISSING_EXPECTED_COVERAGE and 5 remain THIN.",
+    "No B1 path earned healthy/fresh credit at P22.4.",
+    "All 28 canonical claims remain publication-attribution claims with unresolved underlying origin.",
+    "No contradiction workload, underlying-event analytical coverage, or forecast-input uplift was observed.",
+    "No persisted owner-delivery or operator-feedback evidence exists for the exact cohort; positive owner utility is not demonstrated.",
+    "Persistent owner operation, remaining Wave-B onboarding, production/live operation and Plugin publication remain inactive."
+  ],
+  "validation_policy": {
+    "github_actions_mode": "QUOTA_CONTINGENCY_ACTIVE_UNTIL_2026-10-01",
+    "validation_host": "kgm-e4-owner-pilot",
+    "validation_architecture": "aarch64",
+    "hp_omen_used": false
+  },
+  "next_gate": "ROADMAP_DECISION_REQUIRED"
+}

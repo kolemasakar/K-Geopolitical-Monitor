@@ -1,7 +1,7 @@
 # Phase 22 — Operational Evidence Pilot & High-Priority Coverage Expansion — Implementation Plan
 
 Date: 2026-09-19
-Status: `APPROVED / P22_0_VALIDATED / P22_1_VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION / P22_2_VALIDATED_WITH_ONBOARDING_BLOCKERS / P22_3_VALIDATED_WITH_PARTIAL_ONBOARDING / P22_4_VALIDATED_WITH_MEASURED_DEGRADATION / P22_5_VALIDATED / P22_6_VALIDATED / P22_7_VALIDATED / P22_8_READY_TO_BEGIN`
+Status: `PHASE_22_VALIDATED_WITH_KNOWN_LIMITATIONS / P22_0-P22_8_VALIDATED`
 Decision: `docs/decisions/PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_ROADMAP_DECISION_2026-09-19.md`
 Parent audit: `docs/analysis/POST_PHASE_21_STRATEGIC_AUDIT_2026-09-19.md`
 
@@ -259,7 +259,10 @@ Gate:
 
 ### P22.8 — Phase Acceptance
 
-State: `READY_TO_BEGIN`
+State: `PASS_WITH_KNOWN_LIMITATIONS`
+Evidence: `docs/evidence/P22_8_PHASE_ACCEPTANCE_2026-09-20.json`
+Result: `docs/implementation/P22_8_PHASE_22_ACCEPTANCE_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-20_PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED.md`
 
 Acceptance dimensions:
 
@@ -277,6 +280,8 @@ Final gate:
 
 ## Next executable step
 
-P22.1 and P22.2 are validated with explicit measured limitations.
+P22.8 closes Phase 22 as `PASS_WITH_KNOWN_LIMITATIONS`. No further Phase 22 implementation gate remains open.
 
-P22.7 is validated with no persisted owner-utility feedback observed. Next execute P22.8 phase acceptance across the exact P22.0-P22.7 evidence set. Persistent owner operation remains not activated; remaining Wave-B candidates remain unauthorized.
+Next execute a post-Phase-22 strategic audit and roadmap decision. Do not create or activate a new strategic phase until the audit selects the next constraint. Persistent owner operation remains not activated; remaining Wave-B candidates remain unauthorized.
+
+Next gate: `ROADMAP_DECISION_REQUIRED`.
