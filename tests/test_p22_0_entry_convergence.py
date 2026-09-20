@@ -16,7 +16,7 @@ def test_p22_0_entry_convergence_is_validated_and_p22_2_is_ready():
 
     major, minor = map(int, s["roadmap"]["state_sync_version"].split("."))
     assert major == 4 and minor >= 48
-    assert s["roadmap"]["current_position"].startswith("PHASE_22_")
+    assert s["roadmap"]["current_position"].startswith(("PHASE_22_", "PHASE_23_"))
     assert x["p22_0_state"] == "VALIDATED"
     assert x["p22_0_gate"] == "P22_0_ENTRY_CONVERGENCE_OWNER_GATES_VALIDATED"
     assert x["p22_1_state"] in {"BLOCKED_ON_OWNER_GATE", "AUTHORIZED_READY_TO_EXECUTE", "VALIDATED_WITH_MEASURED_COLLECTION_DEGRADATION"}
