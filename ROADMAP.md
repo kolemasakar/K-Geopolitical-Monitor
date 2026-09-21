@@ -1,8 +1,8 @@
 # ROADMAP
 
-Version: 4.62
+Version: 4.63
 Status: APPROVED
-Canonical state synchronization: `v4.62`
+Canonical state synchronization: `v4.63`
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
@@ -993,9 +993,10 @@ Roadmap decision: `docs/decisions/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIO
 
 ## Phase 23 — Evidence Depth, Corroboration & Operational Yield
 
-State: `APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_READY_TO_BEGIN`
+Current position: `PHASE_23_P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED`
+Next gate: `P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED`
 
-Current position: `PHASE_23_P23_1_B1_BLOCKER_REMEDIATION_READINESS_VALIDATED`
+State: `APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_VALIDATED_WITH_ZERO_UNDERLYING_ORIGIN_RESOLUTION / P23_3_READY_TO_BEGIN`
 
 Implementation plan: `docs/implementation/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_PLAN.md`
 
@@ -1015,11 +1016,16 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-20_P23_1_B1_BLOCKER_REM
 UKSL bounded 1.5 MB Range acquisition and structural CSV-header detection are validated without increasing the 2 MB transport ceiling. Exact-branch live readiness returned 100 items. UKSL remains inactive and owner-gated for activation. Government of Russia remains blocked because HTTPS/443 times out from the owner node; reachable HTTP/80 is not accepted as a fallback. Source activation delta remains 0.
 
 ### P23.2 — Underlying-Origin / Provenance Resolution
-State: `READY_TO_BEGIN`
+State: `VALIDATED_WITH_ZERO_UNDERLYING_ORIGIN_RESOLUTION`
 Gate: `P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED`
+Evidence: `docs/evidence/P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_2026-09-20.json`
+Result: `docs/implementation/P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-20_P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED.md`
+
+The exact 28-claim reference cohort remains publication-attribution only. First-party publication provenance is explicitly separated from underlying-origin proof. Resolved underlying origins remain 0/28; unresolved remain 28/28; independence assessments and automatic factual-independence credit remain 0. The P23.2 observer is read-only and fail-closed.
 
 ### P23.3 — Corroboration & Evidence Relations
-State: `PLANNED`
+State: `READY_TO_BEGIN`
 Gate: `P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED`
 
 ### P23.4 — Selective Evidence-Yield Coverage Expansion
