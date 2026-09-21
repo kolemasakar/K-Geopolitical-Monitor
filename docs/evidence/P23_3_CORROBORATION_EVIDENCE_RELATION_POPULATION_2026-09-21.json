@@ -1,0 +1,55 @@
+{
+  "schema_version": "kgm.p23.3.corroboration_evidence_relation_population.v1",
+  "assessed_at": "2026-09-21",
+  "canonical_base_sha": "d47475ae39775857c049452bdf3af6888332551d",
+  "observer_code_sha": "15ed1a2b2cd41717197457772981677997329d22",
+  "reference_cohort": {
+    "analysis_run_id": "analysis-40db4a933f17064d461789e8",
+    "observation_database_mode": "ISOLATED_COPY_OF_REAL_P22_5_OWNER_LOCAL_DB",
+    "canonical_semantic_claim_count": 28
+  },
+  "observation": {
+    "relation_distribution": {
+      "SUPPORTS": 0,
+      "CONTRADICTS": 0,
+      "QUALIFIES": 0,
+      "CONTEXT_ONLY": 0,
+      "ATTRIBUTION_ONLY": 28,
+      "DUPLICATE_OR_SAME_ORIGIN": 0
+    },
+    "independence_distribution": {
+      "INDEPENDENT": 0,
+      "NOT_INDEPENDENT": 0,
+      "UNKNOWN": 0,
+      "MIXED": 0
+    },
+    "claims_with_support": 0,
+    "claims_with_contradiction": 0,
+    "claims_with_explicit_independent_support_pair": 0,
+    "corroborated_claim_count": 0
+  },
+  "implementation": {
+    "component": "CorroborationEvidenceObserver",
+    "mode": "READ_ONLY",
+    "writes_semantic_state": false,
+    "corroboration_rule": "CURRENT_SUPPORTS_PAIR_PLUS_CURRENT_INDEPENDENT_ASSESSMENT",
+    "attribution_only_counts_as_corroboration": false,
+    "domain_source_host_language_counts_as_independence": false
+  },
+  "decision": "VALIDATED_WITH_ZERO_CORROBORATION_POPULATION",
+  "gate": "P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED",
+  "next_gate": "P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED",
+  "safety_boundary": {
+    "source_activation_delta": 0,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "persistent_owner_operation": "NOT_ACTIVATED",
+    "production_live": "NOT_OPERATIONAL",
+    "paid_or_shared_resources_authorized": false,
+    "migration_033": "NOT_CREATED / NOT_PREAUTHORIZED",
+    "plugin_publication": false,
+    "hp_omen_used": false
+  },
+  "verification_authority": "P13.5/P13.6",
+  "epistemic_note": "The exact cohort has only ATTRIBUTION_ONLY relations and no current independence assessments. Zero corroboration is measured absence, not evidence of falsity or inconsistency."
+}
