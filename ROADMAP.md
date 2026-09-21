@@ -993,8 +993,8 @@ Roadmap decision: `docs/decisions/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIO
 
 ## Phase 23 — Evidence Depth, Corroboration & Operational Yield
 
-Current position: `PHASE_23_P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED`
-Next gate: `P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED`
+Current position: `PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED`
+Next gate: `P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED`
 
 State: `APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_VALIDATED_WITH_ZERO_UNDERLYING_ORIGIN_RESOLUTION / P23_3_VALIDATED_WITH_ZERO_CORROBORATION_POPULATION / P23_4_READY_TO_BEGIN`
 
@@ -1025,11 +1025,16 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-20_P23_2_UNDERLYING_ORI
 The exact 28-claim reference cohort remains publication-attribution only. First-party publication provenance is explicitly separated from underlying-origin proof. Resolved underlying origins remain 0/28; unresolved remain 28/28; independence assessments and automatic factual-independence credit remain 0. The P23.2 observer is read-only and fail-closed.
 
 ### P23.3 — Corroboration & Evidence Relations
-State: `READY_TO_BEGIN`
+State: `VALIDATED_WITH_ZERO_CORROBORATION_POPULATION`
 Gate: `P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED`
+Evidence: `docs/evidence/P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_2026-09-21.json`
+Result: `docs/implementation/P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-21_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED.md`
+
+Exact cohort: 28 semantic claims / 28 ATTRIBUTION_ONLY / 0 SUPPORTS / 0 CONTRADICTS / 0 QUALIFIES / 0 current independence assessments / 0 explicit independent support pairs / 0 corroborated claims. Zero corroboration is measured absence only.
 
 ### P23.4 — Selective Evidence-Yield Coverage Expansion
-State: `PLANNED`
+State: `READY_TO_BEGIN`
 Gate: `P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED`
 
 ### P23.5 — Downstream Intelligence-Yield Observation
