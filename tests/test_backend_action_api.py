@@ -3,7 +3,7 @@ import sqlite3
 
 from fastapi.testclient import TestClient
 
-from kgeopolitical_monitor.backend_action_api import create_action_app
+from kgeopolitical_monitor.backend_action_api import BackendStateReader, create_action_app
 from kgeopolitical_monitor.live_end_to_end import LiveEndToEndProcessor
 from kgeopolitical_monitor.live_sources import LiveSourceCollector, LiveSourceItem
 from kgeopolitical_monitor.operational_monitoring import OperationalMonitoringRuntime
@@ -363,7 +363,16 @@ def test_private_plugin_status_read_only_and_wrong_auth_never_queries(tmp_path, 
             table: connection.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
             for table in ("monitoring_runs", "source_collection_attempts", "strategic_alerts")
         }
+    original_summary = BackendStateReader.state_summary
+    original_degraded = BackendStateReader.degraded_sources
+    def unauthorized_read(*args, **kwargs):
+        raise AssertionError("unauthorized request reached backend reader")
+    monkeypatch.setattr(BackendStateReader, "state_summary", unauthorized_read)
+    monkeypatch.setattr(BackendStateReader, "degraded_sources", unauthorized_read)
     assert client.get(endpoint, headers={"Authorization": "Bearer incorrect"}).status_code == 401
+    assert client.get(endpoint).status_code == 401
+    monkeypatch.setattr(BackendStateReader, "state_summary", original_summary)
+    monkeypatch.setattr(BackendStateReader, "degraded_sources", original_degraded)
     assert client.get(endpoint, headers=AUTH).status_code == 200
     with sqlite3.connect(runtime.database_path) as connection:
         after = {
