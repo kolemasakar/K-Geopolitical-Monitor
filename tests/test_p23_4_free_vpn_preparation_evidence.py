@@ -43,7 +43,7 @@ def test_runbook_requires_tenancy_and_existing_owner_network_gates():
     runbook = (OPS / "README.md").read_text(encoding="utf-8")
     for expected in [
         "Home Region", "50 GB", "Always Free", "source-specific",
-        "wg-kgm-govru", "no host-wide", "separate explicit existing-host network-change gate"
+        "wg-kgm-govru", "not a host-wide", "separate explicit existing-host network-change gate"
     ]:
         assert expected.lower() in runbook.lower()
     for file in [
