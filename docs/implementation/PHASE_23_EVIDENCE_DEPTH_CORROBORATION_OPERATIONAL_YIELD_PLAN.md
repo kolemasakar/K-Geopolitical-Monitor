@@ -44,6 +44,8 @@ Owner-gated activation-revalidation candidate: `uk-sanctions-list-en`. Rights-re
 
 2026-09-25 controlled UKSL pilot: observed HTTPS 206, exact 1.5 MB range, 1,827 complete physical data rows and 38 distinct official designation IDs. Duplicate-ID inflation remediated; staged captured/live runs each return 38 unique items. This partial range is NOT comprehensive coverage; report and Last-Modified 2026-09-21 do not establish policy freshness. Transport-level HTTP 206/Content-Range enforcement and explicit completeness policy review remain prerequisites to any repository activation. Owner permits foreign VPN for `government.ru`, but no Tailscale exit node is configured. Details: `docs/implementation/P23_4_UKSL_CONTROLLED_READONLY_PILOT_RESULT.md`. P23.4 full gate remains NOT VALIDATED.
 
+Free non-Ukraine VPN preparation (2026-09-25): repository-only new-node runbook, WireGuard endpoint templates, source-only HTTPS relay, and offline Always Free cost guard prepared. OCI destination home region/capacity not verified; no VM exists. No KGM owner-node route alteration or source activation. Runbook: `ops/p23_4_govru_free_vpn/README.md`. P23.4 expansion remains unvalidated.
+
 ## P23.5 — Downstream Intelligence-Yield Observation
 State: `PLANNED`
 Gate: `P23_5_DOWNSTREAM_INTELLIGENCE_YIELD_VALIDATED`
