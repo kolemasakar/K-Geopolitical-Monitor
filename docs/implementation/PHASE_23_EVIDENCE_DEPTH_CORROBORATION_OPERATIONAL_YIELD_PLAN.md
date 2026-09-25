@@ -1,7 +1,7 @@
 # Phase 23 — Evidence Depth, Corroboration & Operational Yield — Implementation Plan
 
 Date: 2026-09-20
-Status: `APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_VALIDATED_WITH_ZERO_UNDERLYING_ORIGIN_RESOLUTION / P23_3_VALIDATED_WITH_ZERO_CORROBORATION_POPULATION / P23_4_PRESELECTION_COMPLETE_OWNER_DECISION_REQUIRED`
+Status: `APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_VALIDATED_WITH_ZERO_UNDERLYING_ORIGIN_RESOLUTION / P23_3_VALIDATED_WITH_ZERO_CORROBORATION_POPULATION / P23_4_PRESELECTION_COMPLETE_OWNER_DECISION_REQUIRED / UKSL_CONTROLLED_PILOT_PASS_WITH_MATERIAL_LIMITATIONS`
 Decision: `docs/decisions/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_ROADMAP_DECISION_2026-09-20.md`
 
 ## Objective
@@ -41,6 +41,8 @@ Gate: `P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED` — **NOT YET VALIDATE
 Selection-readiness package: `docs/evidence/P23_4_EVIDENCE_YIELD_SELECTION_READINESS_2026-09-21.json`.
 
 Owner-gated activation-revalidation candidate: `uk-sanctions-list-en`. Rights-review preparation cohort: `cctv-news-zh`, `anadolu-en`, `trt-haber-tr`. No source or repository activation occurred.
+
+2026-09-25 controlled UKSL pilot: observed HTTPS 206, exact 1.5 MB range, 1,827 complete physical data rows and 38 distinct official designation IDs. Duplicate-ID inflation remediated; staged captured/live runs each return 38 unique items. This partial range is NOT comprehensive coverage; report and Last-Modified 2026-09-21 do not establish policy freshness. Transport-level HTTP 206/Content-Range enforcement and explicit completeness policy review remain prerequisites to any repository activation. Owner permits foreign VPN for `government.ru`, but no Tailscale exit node is configured. Details: `docs/implementation/P23_4_UKSL_CONTROLLED_READONLY_PILOT_RESULT.md`. P23.4 full gate remains NOT VALIDATED.
 
 ## P23.5 — Downstream Intelligence-Yield Observation
 State: `PLANNED`
