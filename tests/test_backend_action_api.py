@@ -352,3 +352,22 @@ def test_private_plugin_status_requires_owner_and_redacts(tmp_path):
     assert "error" not in str(result)
     schema = client.get("/openapi.json").json()
     assert schema["paths"][endpoint]["get"]["operationId"] == "kgmGetStatus"
+
+
+def test_private_plugin_status_read_only_and_wrong_auth_never_queries(tmp_path, monkeypatch):
+    runtime, _ = _runtime_with_state(tmp_path)
+    client = TestClient(create_action_app(runtime, owner_token=TOKEN))
+    endpoint = "/v1/private-plugin/status"
+    with sqlite3.connect(runtime.database_path) as connection:
+        before = {
+            table: connection.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+            for table in ("monitoring_runs", "source_collection_attempts", "strategic_alerts")
+        }
+    assert client.get(endpoint, headers={"Authorization": "Bearer incorrect"}).status_code == 401
+    assert client.get(endpoint, headers=AUTH).status_code == 200
+    with sqlite3.connect(runtime.database_path) as connection:
+        after = {
+            table: connection.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+            for table in before
+        }
+    assert after == before
