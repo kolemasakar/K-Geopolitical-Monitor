@@ -1,8 +1,8 @@
 # ROADMAP
 
-Version: 4.66
+Version: 4.67
 Status: APPROVED
-Canonical state synchronization: `v4.66`
+Canonical state synchronization: `v4.67`
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
@@ -1043,6 +1043,8 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-21_P23_4_SELECTION_READ
 Preselection does not change the canonical current position. `uk-sanctions-list-en` is ready only for owner-gated activation revalidation; `cctv-news-zh`, `anadolu-en`, and `trt-haber-tr` form a rights-review preparation cohort. Source/repository activation delta remains 0.
 
 P23.4 controlled UKSL pilot (2026-09-25): `CONTROLLED_READONLY_PILOT_PASS_WITH_MATERIAL_LIMITATIONS`. Bounded official HTTPS 206 initial 1.5 MB range, 38 distinct designations after fixing repeated Unique ID inflation (the previous 100 items had one ID). The full CSV advertised 49,927,316 bytes; the initial range is NOT comprehensive coverage, and 2026-09-21 report / Last-Modified do NOT earn governed freshness credit. Source activation stays 0, rollback empty selection PASS, and P23.4 gate remains NOT VALIDATED. Evidence: `docs/evidence/P23_4_UKSL_CONTROLLED_READONLY_PILOT_2026-09-25.json`. Owner permits an out-of-Ukraine VPN for `government.ru`, but no trusted exit node is configured; see `docs/implementation/P23_4_GOVRU_NON_UA_VPN_READINESS_2026-09-25.md`. Telegram channel is a separate, inactive candidate, not independence credit.
+
+P23.4 separate free non-Ukraine VPN node preparation (2026-09-25): `REPOSITORY_PREPARED_TENANCY_PREFLIGHT_REQUIRED`. Dedicated independent OCI Always Free VM template; exact-host WireGuard/private HTTPS CONNECT relay; fail-closed offline cost guard and tests. **NO cloud resource was created, no foreign region or capacity verified, no existing KGM node network modified**, no source activation, no paid services. Destination tenancy owner's real Home Region/available free compute and 50 GB boot are prerequisites to any new instance creation. The full P23.4 gate stays NOT VALIDATED. Runbook: `ops/p23_4_govru_free_vpn/README.md`. Evidence: `docs/evidence/P23_4_FREE_NON_UA_VPN_NODE_PREPARATION_2026-09-25.json`. Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-25_P23_4_FREE_NON_UA_VPN_PREPARED.md`.
 
 ### P23.5 — Downstream Intelligence-Yield Observation
 State: `PLANNED`
