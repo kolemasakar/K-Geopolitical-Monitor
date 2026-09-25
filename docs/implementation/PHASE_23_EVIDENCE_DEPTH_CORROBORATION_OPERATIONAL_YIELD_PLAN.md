@@ -1,7 +1,7 @@
 # Phase 23 — Evidence Depth, Corroboration & Operational Yield — Implementation Plan
 
 Date: 2026-09-20
-Status: `APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_VALIDATED_WITH_ZERO_UNDERLYING_ORIGIN_RESOLUTION / P23_3_VALIDATED_WITH_ZERO_CORROBORATION_POPULATION / P23_4_READY_TO_BEGIN`
+Status: `APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_VALIDATED_WITH_ZERO_UNDERLYING_ORIGIN_RESOLUTION / P23_3_VALIDATED_WITH_ZERO_CORROBORATION_POPULATION / P23_4_PRESELECTION_COMPLETE_OWNER_DECISION_REQUIRED`
 Decision: `docs/decisions/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_ROADMAP_DECISION_2026-09-20.md`
 
 ## Objective
@@ -29,12 +29,18 @@ Gate: `P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED`
 A read-only fail-closed observer now distinguishes first-party publication provenance from actual underlying-origin resolution. The exact reference cohort remains 0 resolved / 28 unresolved; no independence credit is created.
 
 ## P23.3 — Corroboration & Evidence Relations
-State: `READY_TO_BEGIN`
+State: `VALIDATED_WITH_ZERO_CORROBORATION_POPULATION`
 Gate: `P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED`
 
+Exact 28-claim cohort: 28 ATTRIBUTION_ONLY, 0 supporting relations, 0 current independence assessments and 0 corroborated claims. Validation records observation of absence, not factual refutation or independence credit.
+
 ## P23.4 — Selective Evidence-Yield Coverage Expansion
-State: `PLANNED`
-Gate: `P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED`
+State: `PRESELECTION_COMPLETE / OWNER_DECISION_REQUIRED_FOR_EXPANSION`
+Gate: `P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED` — **NOT YET VALIDATED**
+
+Selection-readiness package: `docs/evidence/P23_4_EVIDENCE_YIELD_SELECTION_READINESS_2026-09-21.json`.
+
+Owner-gated activation-revalidation candidate: `uk-sanctions-list-en`. Rights-review preparation cohort: `cctv-news-zh`, `anadolu-en`, `trt-haber-tr`. No source or repository activation occurred.
 
 ## P23.5 — Downstream Intelligence-Yield Observation
 State: `PLANNED`

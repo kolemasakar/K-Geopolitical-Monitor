@@ -1,8 +1,8 @@
 # ROADMAP
 
-Version: 4.64
+Version: 4.65
 Status: APPROVED
-Canonical state synchronization: `v4.64`
+Canonical state synchronization: `v4.65`
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
@@ -1034,8 +1034,13 @@ Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-21_P23_3_CORROBORATION_
 Exact cohort: 28 semantic claims / 28 ATTRIBUTION_ONLY / 0 SUPPORTS / 0 CONTRADICTS / 0 QUALIFIES / 0 current independence assessments / 0 explicit independent support pairs / 0 corroborated claims. Zero corroboration is measured absence only.
 
 ### P23.4 — Selective Evidence-Yield Coverage Expansion
-State: `READY_TO_BEGIN`
-Gate: `P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED`
+State: `PRESELECTION_COMPLETE / OWNER_DECISION_REQUIRED_FOR_EXPANSION`
+Gate: `P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED` — `NOT_VALIDATED`
+Evidence: `docs/evidence/P23_4_EVIDENCE_YIELD_SELECTION_READINESS_2026-09-21.json`
+Result: `docs/implementation/P23_4_EVIDENCE_YIELD_SELECTION_READINESS_RESULT.md`
+Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-21_P23_4_SELECTION_READINESS_OWNER_DECISION_REQUIRED.md`
+
+Preselection does not change the canonical current position. `uk-sanctions-list-en` is ready only for owner-gated activation revalidation; `cctv-news-zh`, `anadolu-en`, and `trt-haber-tr` form a rights-review preparation cohort. Source/repository activation delta remains 0.
 
 ### P23.5 — Downstream Intelligence-Yield Observation
 State: `PLANNED`

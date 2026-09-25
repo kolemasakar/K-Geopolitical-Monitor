@@ -3,7 +3,7 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.64",
+    "state_sync_version": "4.65",
     "status": "APPROVED",
     "current_position": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED"
   },
@@ -958,7 +958,13 @@
     "p23_3_gate": "P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED",
     "p23_3_evidence": "docs/evidence/P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_2026-09-21.json",
     "p23_3_result": "docs/implementation/P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_RESULT.md",
-    "p23_3_checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-21_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED.md"
+    "p23_3_checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-21_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED.md",
+    "p23_4_preselection_state": "PRESELECTION_COMPLETE_OWNER_DECISION_REQUIRED",
+    "p23_4_preselection_evidence": "docs/evidence/P23_4_EVIDENCE_YIELD_SELECTION_READINESS_2026-09-21.json",
+    "p23_4_preselection_result": "docs/implementation/P23_4_EVIDENCE_YIELD_SELECTION_READINESS_RESULT.md",
+    "p23_4_owner_gate_candidate": "uk-sanctions-list-en",
+    "p23_4_source_activation_delta": 0,
+    "p23_4_gate_validated": false
   },
   "project_sync": {
     "date": "2026-09-20",
@@ -1048,5 +1054,29 @@
     "production_live": "NOT_OPERATIONAL",
     "verification_authority": "P13.5/P13.6",
     "next_gate": "P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED"
+  },
+  "phase23_p23_4_preselection": {
+    "state": "PRESELECTION_COMPLETE_OWNER_DECISION_REQUIRED",
+    "canonical_base": "38843e00cfc6054a33907d2f35a00397b8b99bfe",
+    "evidence": "docs/evidence/P23_4_EVIDENCE_YIELD_SELECTION_READINESS_2026-09-21.json",
+    "result": "docs/implementation/P23_4_EVIDENCE_YIELD_SELECTION_READINESS_RESULT.md",
+    "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-21_P23_4_SELECTION_READINESS_OWNER_DECISION_REQUIRED.md",
+    "candidate_count": 13,
+    "already_repository_active_count": 2,
+    "owner_gated_activation_revalidation_candidate_count": 1,
+    "owner_gated_activation_revalidation_candidate": "uk-sanctions-list-en",
+    "transport_blocked_count": 1,
+    "rights_review_preparation_cohort": [
+      "cctv-news-zh",
+      "anadolu-en",
+      "trt-haber-tr"
+    ],
+    "source_activation_delta": 0,
+    "repository_activation_delta": 0,
+    "acquisition_resource_limit_relaxed": false,
+    "p23_4_gate_validated": false,
+    "current_position_preserved": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED",
+    "next_gate": "P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED",
+    "verification_authority": "P13.5/P13.6"
   }
 }
