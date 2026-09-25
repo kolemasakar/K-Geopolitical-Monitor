@@ -1,0 +1,72 @@
+{
+  "schema_version": "kgm.p23.4.uksl_controlled_readonly_pilot.v1",
+  "assessed_on": "2026-09-25",
+  "canonical_base_sha": "964f926159229ba2d25942c47ad8ebe1e29f43f9",
+  "authorization": "OWNER_APPROVED_CONTROLLED_UKSL_NO_PRODUCTION_DEPLOYMENT",
+  "source_id": "uk-sanctions-list-en",
+  "endpoint": "https://sanctionslist.fcdo.gov.uk/docs/UK-Sanctions-List.csv",
+  "acquisition": {
+    "mode": "HTTPS_INITIAL_BYTE_RANGE",
+    "status": 206,
+    "bytes_received": 1500000,
+    "content_range": "bytes 0-1499999/49927316",
+    "existing_transport_max_bytes": 2000000,
+    "limit_relaxed": false,
+    "report_date": "2026-09-21",
+    "http_last_modified": "2026-09-21T12:51:12Z"
+  },
+  "identity_regression": {
+    "original_first_100_source_rows": 100,
+    "original_distinct_item_ids_in_first_100": 1,
+    "captured_fully_terminated_csv_rows": 1827,
+    "captured_distinct_official_unique_ids": 38,
+    "root_cause": "ONE_OFFICIAL_UNIQUE_ID_REPEATS_ACROSS_EXPLODED_ALIAS_AND_OTHER_FIELDS",
+    "remediation": "DEDUP_OFFICIAL_UNIQUE_ID_DROP_UNTERMINATED_PHYSICAL_TAIL_STRICT_CSV",
+    "staged_distinct_items_after_fix": 38,
+    "staged_distinct_item_ids_after_fix": 38,
+    "live_bounded_fetch_items_after_fix": 38,
+    "live_bounded_fetch_distinct_ids": 38,
+    "duplicate_inflation_after_fix": 0
+  },
+  "qualification": {
+    "decision": "CONTROLLED_READONLY_PILOT_PASS_WITH_MATERIAL_LIMITATIONS",
+    "range_is_complete_document": false,
+    "full_designation_coverage_claimed": false,
+    "freshness_credit_granted": false,
+    "full_p20_5_eligibility_pass": false,
+    "need_prior_to_repository_activation": [
+      "PROVEN_FRESH_CONTENT_OR_EXPLICIT_FRESHNESS_POLICY_DECISION",
+      "ACQUISITION_COVERAGE_AND_TRUNCATION_POLICY_REVIEW",
+      "TRANSPORT_LEVEL_HTTP_206_CONTENT_RANGE_ENFORCEMENT",
+      "SEPARATE_REPOSITORY_ACTIVATION_REVALIDATION"
+    ]
+  },
+  "russian_government_route": {
+    "owner_allows_non_ukraine_vpn": true,
+    "canonical_url": "https://government.ru/news/",
+    "first_party_rss_hint": "https://services.government.ru/en/subscribe/",
+    "canonical_https_observation": "HTTPS_CONNECT_TIMEOUT",
+    "first_party_https_observation": "HTTPS_CONNECT_TIMEOUT",
+    "tailscale_exit_nodes_available": 0,
+    "official_telegram_candidate": "https://t.me/s/government_rus",
+    "telegram_public_https_head_status": 200,
+    "telegram_source_activation": false,
+    "vpn_configured": false,
+    "vpn_route_readiness": "WAITING_FOR_AUTHORIZED_NON_UKRAINE_EGRESS"
+  },
+  "safety_boundary": {
+    "repository_source_activation_delta": 0,
+    "persistent_owner_operations_activated": false,
+    "runtime_deployment": false,
+    "service_restart": false,
+    "production_live": "NOT_OPERATIONAL",
+    "acquisition_limits_relaxed": false,
+    "shared_or_paid_resources_activated": false,
+    "plugin_publication": false,
+    "hp_omen_used": false
+  },
+  "p23_4_gate_validated": false,
+  "current_position_preserved": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED",
+  "next_gate": "P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED",
+  "verification_authority": "P13.5/P13.6"
+}
