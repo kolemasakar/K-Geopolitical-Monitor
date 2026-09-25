@@ -109,8 +109,8 @@ class OnlyOfficialConnect(socketserver.BaseRequestHandler):
                 return
             with upstream:
                 client.sendall(b"HTTP/1.1 200 Connection Established\r\n\r\n")
-                client.settimeout(None)
-                upstream.settimeout(None)
+                client.settimeout(15)
+                upstream.settimeout(15)
                 relay_bounded(client, upstream)
         except (ValueError, OSError):
             try:
