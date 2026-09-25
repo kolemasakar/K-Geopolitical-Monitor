@@ -332,3 +332,23 @@ def test_empty_owner_token_is_rejected(tmp_path):
         assert "owner_token" in str(exc)
     else:
         raise AssertionError("empty owner token must fail closed")
+
+
+def test_private_plugin_status_requires_owner_and_redacts(tmp_path):
+    runtime, _ = _runtime_with_state(tmp_path)
+    client = TestClient(create_action_app(runtime, owner_token=TOKEN))
+    endpoint = "/v1/private-plugin/status"
+    assert client.get(endpoint).status_code == 401
+    assert client.get(endpoint, headers={"Authorization": "Bearer wrong"}).status_code == 401
+    response = client.get(endpoint, headers=AUTH)
+    assert response.status_code == 200
+    result = response.json()
+    assert result["schema_version"] == "0.2"
+    assert result["active_monitoring_watches"] == 1
+    assert result["service_health"] == "NOT_MEASURED"
+    assert result["acquisition_continuity"] == "NOT_VERIFIED"
+    assert result["last_unattended_cycle_at"] is None
+    assert len(result["degraded_sources"]) <= 20
+    assert "error" not in str(result)
+    schema = client.get("/openapi.json").json()
+    assert schema["paths"][endpoint]["get"]["operationId"] == "kgmGetStatus"
