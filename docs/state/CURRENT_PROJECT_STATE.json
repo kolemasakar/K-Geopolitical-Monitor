@@ -3,7 +3,7 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.65",
+    "state_sync_version": "4.66",
     "status": "APPROVED",
     "current_position": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED"
   },
@@ -964,7 +964,11 @@
     "p23_4_preselection_result": "docs/implementation/P23_4_EVIDENCE_YIELD_SELECTION_READINESS_RESULT.md",
     "p23_4_owner_gate_candidate": "uk-sanctions-list-en",
     "p23_4_source_activation_delta": 0,
-    "p23_4_gate_validated": false
+    "p23_4_gate_validated": false,
+    "p23_4_uksl_pilot_state": "CONTROLLED_READONLY_PILOT_PASS_WITH_MATERIAL_LIMITATIONS",
+    "p23_4_uksl_pilot_evidence": "docs/evidence/P23_4_UKSL_CONTROLLED_READONLY_PILOT_2026-09-25.json",
+    "p23_4_uksl_distinct_designations_in_initial_range": 38,
+    "p23_4_govru_vpn_route_state": "OWNER_ALLOWED_NON_UA_VPN_EXIT_NOT_CONFIGURED"
   },
   "project_sync": {
     "date": "2026-09-20",
@@ -1074,6 +1078,28 @@
     "source_activation_delta": 0,
     "repository_activation_delta": 0,
     "acquisition_resource_limit_relaxed": false,
+    "p23_4_gate_validated": false,
+    "current_position_preserved": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED",
+    "next_gate": "P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED",
+    "verification_authority": "P13.5/P13.6"
+  },
+  "phase23_p23_4_uksl_controlled": {
+    "state": "CONTROLLED_READONLY_PILOT_PASS_WITH_MATERIAL_LIMITATIONS",
+    "canonical_base": "964f926159229ba2d25942c47ad8ebe1e29f43f9",
+    "evidence": "docs/evidence/P23_4_UKSL_CONTROLLED_READONLY_PILOT_2026-09-25.json",
+    "result": "docs/implementation/P23_4_UKSL_CONTROLLED_READONLY_PILOT_RESULT.md",
+    "vpn_route_design": "docs/implementation/P23_4_GOVRU_NON_UA_VPN_READINESS_2026-09-25.md",
+    "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-25_P23_4_UKSL_CONTROLLED_PILOT.md",
+    "uk_sanctions_live_distinct_designations": 38,
+    "prior_observed_duplicate_item_inflation": true,
+    "after_remediation_duplicate_inflation": 0,
+    "controlled_partial_range_only": true,
+    "freshness_credit_granted": false,
+    "source_activation_delta": 0,
+    "repository_activation_delta": 0,
+    "production_live": "NOT_OPERATIONAL",
+    "vpn_owner_allowed": true,
+    "vpn_exit_configured": false,
     "p23_4_gate_validated": false,
     "current_position_preserved": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED",
     "next_gate": "P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED",

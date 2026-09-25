@@ -11,7 +11,6 @@ from datetime import datetime
 import csv
 from hashlib import sha256
 from html.parser import HTMLParser
-from io import StringIO
 from typing import Iterable
 from urllib.parse import urljoin, urlparse
 
@@ -299,16 +298,26 @@ class UkSanctionsCsvAdapter:
             },
         )
         decoded = response.body.decode("utf-8-sig", errors="strict")
-        reader = csv.DictReader(StringIO(_uksl_csv_table_text(decoded)))
+        table_text = _uksl_csv_table_text(decoded)
+        physical_lines = table_text.splitlines(keepends=True)
+        # A bounded initial byte range can stop mid-record. Never count the
+        # unterminated physical tail as a complete designation.
+        if physical_lines and not physical_lines[-1].endswith(("\n", "\r")):
+            physical_lines.pop()
+        reader = csv.DictReader(physical_lines, strict=True)
         items: list[LiveSourceItem] = []
+        seen_designation_ids: set[str] = set()
         for row_number, row in enumerate(reader, start=1):
             normalized = {str(k or "").strip().lower(): str(v or "").strip() for k, v in row.items()}
             name = next((normalized[k] for k in ("name 6", "name", "name_6", "individual, entity, ship") if normalized.get(k)), "")
             unique_id = next((normalized[k] for k in ("unique id", "unique_id", "uk sanctions list ref", "group id") if normalized.get(k)), "")
             regime = next((normalized[k] for k in ("regime name", "regime", "sanctions regime") if normalized.get(k)), "")
-            if not name:
+            # UKSL repeats one Unique ID across aliases/addresses and other
+            # exploded CSV fields. Count designations, not source CSV rows.
+            if not name or not unique_id or unique_id in seen_designation_ids:
                 continue
-            identity = unique_id or f"row-{row_number}:{name}:{regime}"
+            seen_designation_ids.add(unique_id)
+            identity = unique_id
             original_url = "https://www.gov.uk/government/publications/the-uk-sanctions-list"
             items.append(
                 LiveSourceItem(
