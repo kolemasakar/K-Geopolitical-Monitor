@@ -23,3 +23,9 @@ Public reference URLs:
 5. Full P20.5 readiness and separate source activation gate still apply. The alternative official-channel candidate, if considered, also requires its own rights, provenance, freshness and governance review, and cannot earn automatic factual-independence credit.
 
 Current next dependency: owner-supplied existing non-Ukrainian VPN exit details or explicit authorization for an appropriate dedicated owned egress resource. Never paste private keys, passwords or VPN credentials into chat.
+
+## 2026-09-25 — Separate zero-cost node preparation
+
+Owner requested preparation of a new separate VPN node with strict zero-spend design. The project now has non-executing runbook, WireGuard peer templates, private exact-host CONNECT proxy, OCI read-only/free-eligibility guard and policy tests under `ops/p23_4_govru_free_vpn/`. Default choice is NEW E2.1.Micro + 50 GB boot in the approved independently eligible tenancy's verified non-Ukraine Home Region; A1 Flex 1 OCPU/2 GB is a capacity-gated fallback. No actual tenancy inventory or foreign connectivity has been verified, and no new VM, tunnel, existing host network change, provider mutation or source activation has occurred. The P23.4 full gate remains NOT VALIDATED.
+
+Evidence: `docs/evidence/P23_4_FREE_NON_UA_VPN_NODE_PREPARATION_2026-09-25.json`.
