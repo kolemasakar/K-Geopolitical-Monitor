@@ -1,0 +1,20 @@
+{
+  "_instructions": "TEMPLATE ONLY. Replace every null from destination tenancy Console before offline preflight. NEVER commit filled inventory, identifiers or secrets.",
+  "tenancy_owner_authorized": null,
+  "home_region": null,
+  "deployment_region": null,
+  "egress_region_outside_ukraine": null,
+  "selected_shape": "VM.Standard.E2.1.Micro",
+  "selected_shape_always_free": null,
+  "selected_image_always_free": null,
+  "regional_capacity_confirmed": null,
+  "existing_e2_micro_instances": null,
+  "existing_a1_ocpu": null,
+  "existing_a1_memory_gb": null,
+  "existing_boot_and_block_gb": null,
+  "boot_volume_always_free": null,
+  "public_ipv4_no_extra_charge": null,
+  "existing_monthly_outbound_tenancy_tb_estimate": null,
+  "no_payg_upgrade": null,
+  "no_nonfree_services": null
+}
