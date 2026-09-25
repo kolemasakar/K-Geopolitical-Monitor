@@ -1,6 +1,6 @@
 # Current K-Geopolitical Monitor Handoff
 
-Status: `AUTHORITATIVE_POINTER / PHASE_23_APPROVED / P23_3_VALIDATED_WITH_ZERO_CORROBORATION_POPULATION / P23_4_PRESELECTION_COMPLETE_OWNER_DECISION_REQUIRED`
+Status: `AUTHORITATIVE_POINTER / PHASE_23_APPROVED / P23_3_VALIDATED_WITH_ZERO_CORROBORATION_POPULATION / P23_4_PRESELECTION_COMPLETE_OWNER_DECISION_REQUIRED / UKSL_CONTROLLED_PILOT_PASS_WITH_MATERIAL_LIMITATIONS`
 
 Latest project-sync handoff:
 `docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-09-20_P23_1.md`
@@ -49,6 +49,16 @@ P23.3 evidence:
 
 P23.4 selection-readiness evidence:
 `docs/evidence/P23_4_EVIDENCE_YIELD_SELECTION_READINESS_2026-09-21.json`
+
+P23.4 UKSL controlled pilot:
+`CONTROLLED_READONLY_PILOT_PASS_WITH_MATERIAL_LIMITATIONS` — 38 distinct designations within a bounded 1.5 MB initial range; NOT full coverage or freshness credit. Source remains inactive.
+
+P23.4 UKSL evidence:
+`docs/evidence/P23_4_UKSL_CONTROLLED_READONLY_PILOT_2026-09-25.json`
+
+Government.ru VPN route:
+`OWNER_ALLOWED_NON_UA_VPN_EXIT_NOT_CONFIGURED`; no authorized exit node currently available. Telegram candidate is reachable but not activated.
+
 
 P23.4 status:
 `PRESELECTION_COMPLETE / OWNER_DECISION_REQUIRED_FOR_EXPANSION / GATE_NOT_VALIDATED`
