@@ -1,0 +1,49 @@
+{
+  "schema_version": "kgm.p23.4.free_foreign_vpn_node_preparation.v1",
+  "created_at": "2026-09-25",
+  "canonical_base": "1d6873e85fb5cb5327a9e8193e5090c815affa38",
+  "state": "REPOSITORY_PREPARED_TENANCY_PREFLIGHT_REQUIRED",
+  "owner_request": "PREPARE_NEW_SEPARATE_FREE_NON_UKRAINE_VPN_NODE_FOR_GOVRU",
+  "selected_provider": "OCI_ALWAYS_FREE_ONLY",
+  "selected_shape_default": "VM.Standard.E2.1.Micro",
+  "selected_shape_fallback": "VM.Standard.A1.Flex_1OCPU_2GB_ONLY_IF_WITHIN_TENANCY_FREE_LIMITS",
+  "home_region": "UNVERIFIED_NEEDS_REAL_DESTINATION_TENANCY_HOME_REGION",
+  "capacity": "UNVERIFIED",
+  "destination_tenancy": "UNVERIFIED",
+  "public_exit_country": "UNVERIFIED",
+  "selected_software": "WIREGUARD_OPEN_SOURCE",
+  "routing": "SINGLE_PEER_AND_EXACT_HOST_HTTPS_CONNECT_PROXY_ONLY",
+  "default_route_change": false,
+  "wireguard_peer_routes": [
+    "10.254.90.1/32",
+    "10.254.90.2/32"
+  ],
+  "official_https_allowlist": [
+    "government.ru:443",
+    "services.government.ru:443"
+  ],
+  "new_vm_provisioned": false,
+  "existing_vm_wireguard_changed": false,
+  "vpn_tunnel_created": false,
+  "cloud_account_mutated": false,
+  "source_activation_delta": 0,
+  "production_deployment": false,
+  "p23_4_gate_validated": false,
+  "requires_owner_input": [
+    "DESTINATION_TENANCY_HOME_REGION",
+    "ACTUAL_ALWAYS_FREE_CAPACITY_AND_50GB_BOOT_AVAILABILITY",
+    "OWNER_ADMINISTRATOR_APPROVAL_FOR_NEW_VM_AND_LATER_EXISTING_KGM_NODE_NETWORK_CHANGE"
+  ],
+  "prepared_paths": {
+    "runbook": "ops/p23_4_govru_free_vpn/README.md",
+    "private_proxy": "ops/p23_4_govru_free_vpn/official_connect_proxy.py",
+    "free_guard": "ops/p23_4_govru_free_vpn/oci_free_guard.py",
+    "unfilled_inventory": "ops/p23_4_govru_free_vpn/inventory.template.json",
+    "new_node_wireguard_template": "ops/p23_4_govru_free_vpn/wireguard-node.example.conf",
+    "owner_node_wireguard_template": "ops/p23_4_govru_free_vpn/wireguard-kgm-owner.example.conf",
+    "service_unit_template": "ops/p23_4_govru_free_vpn/kgm-govru-egress.service.example",
+    "allowlist_tests": "tests/test_p23_4_free_vpn_policy.py",
+    "budget_tests": "tests/test_p23_4_free_vpn_cost_guard.py"
+  },
+  "authority": "P13.5/P13.6"
+}
