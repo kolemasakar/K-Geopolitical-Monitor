@@ -1,0 +1,31 @@
+# TEMPLATE, install only on separately authorized NEW EU VM.
+# /etc/systemd/system/kgm-govru-egress.service
+[Unit]
+Description=KGM Government.ru source-only VPN HTTPS CONNECT relay
+After=network-online.target wg-quick@wg-kgm.service
+Requires=wg-quick@wg-kgm.service
+
+[Service]
+Type=simple
+User=kgmproxy
+Group=kgmproxy
+WorkingDirectory=/opt/kgm-govru-egress
+ExecStart=/usr/bin/python3 /opt/kgm-govru-egress/official_connect_proxy.py
+Restart=on-failure
+RestartSec=8
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_INET AF_UNIX
+TasksMax=24
+MemoryMax=128M
+LimitNOFILE=128
+
+[Install]
+WantedBy=multi-user.target
