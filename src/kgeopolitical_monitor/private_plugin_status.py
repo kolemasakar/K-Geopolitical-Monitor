@@ -6,7 +6,7 @@ import re
 MAX_DEGRADED_SOURCES = 20
 SAFE_ID = re.compile(r"^[A-Za-z0-9_.:-]{1,96}$")
 SAFE_STATUS = re.compile(r"^[A-Z][A-Z0-9_]{0,39}$")
-SAFE_TIME = re.compile(r"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?(?:Z|[+-]\\d{2}:\\d{2})$")
+SAFE_TIME = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|[+-]\d{2}:\d{2})$")
 MAX_WATCHES = 100000
 
 
