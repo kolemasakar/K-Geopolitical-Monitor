@@ -1,8 +1,8 @@
 # ROADMAP
 
-Version: 4.65
+Version: 4.66
 Status: APPROVED
-Canonical state synchronization: `v4.65`
+Canonical state synchronization: `v4.66`
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
@@ -1041,6 +1041,8 @@ Result: `docs/implementation/P23_4_EVIDENCE_YIELD_SELECTION_READINESS_RESULT.md`
 Checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-21_P23_4_SELECTION_READINESS_OWNER_DECISION_REQUIRED.md`
 
 Preselection does not change the canonical current position. `uk-sanctions-list-en` is ready only for owner-gated activation revalidation; `cctv-news-zh`, `anadolu-en`, and `trt-haber-tr` form a rights-review preparation cohort. Source/repository activation delta remains 0.
+
+P23.4 controlled UKSL pilot (2026-09-25): `CONTROLLED_READONLY_PILOT_PASS_WITH_MATERIAL_LIMITATIONS`. Bounded official HTTPS 206 initial 1.5 MB range, 38 distinct designations after fixing repeated Unique ID inflation (the previous 100 items had one ID). The full CSV advertised 49,927,316 bytes; the initial range is NOT comprehensive coverage, and 2026-09-21 report / Last-Modified do NOT earn governed freshness credit. Source activation stays 0, rollback empty selection PASS, and P23.4 gate remains NOT VALIDATED. Evidence: `docs/evidence/P23_4_UKSL_CONTROLLED_READONLY_PILOT_2026-09-25.json`. Owner permits an out-of-Ukraine VPN for `government.ru`, but no trusted exit node is configured; see `docs/implementation/P23_4_GOVRU_NON_UA_VPN_READINESS_2026-09-25.md`. Telegram channel is a separate, inactive candidate, not independence credit.
 
 ### P23.5 — Downstream Intelligence-Yield Observation
 State: `PLANNED`
