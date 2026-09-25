@@ -63,6 +63,10 @@ Government.ru VPN route:
 P23.4 status:
 `PRESELECTION_COMPLETE / OWNER_DECISION_REQUIRED_FOR_EXPANSION / GATE_NOT_VALIDATED`
 
+Foreign free VPN-node preparation (NOT provisioned):
+`REPOSITORY_PREPARED_TENANCY_PREFLIGHT_REQUIRED` — separate OCI Always Free new node, Home Region and real quota unverified. No default-route/other source changes, no paid providers, and no existing KGM owner-node network mutation. Prepared runbook: `ops/p23_4_govru_free_vpn/README.md`; checkpoint: `docs/checkpoints/PROJECT_CHECKPOINT_2026-09-25_P23_4_FREE_NON_UA_VPN_PREPARED.md`.
+
+
 P23.2 measured result:
 `0 RESOLVED / 28 UNRESOLVED / 0 INDEPENDENCE ASSESSMENTS / 0 AUTOMATIC FACTUAL-INDEPENDENCE CREDIT`
 
