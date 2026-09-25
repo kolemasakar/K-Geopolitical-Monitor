@@ -54,6 +54,47 @@ class PluginStatusTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             kgm_get_status(BadReader())
 
+    def test_adversarial_allowed_values_are_dropped(self):
+        class MaliciousReader(FakeReader):
+            def state_summary(self):
+                return {
+                    "active_monitoring_watches": True,
+                    "last_monitoring_cycle": {
+                        "run_id": "secret=abc / invalid",
+                        "status": "ok\\nsecret",
+                        "started_at": "not a date",
+                        "completed_at": None,
+                    },
+                    "last_unattended_cycle_at": "token=secret",
+                    "unattended_cycle_instrumentation": "secret=abc",
+                }
+
+            def degraded_sources(self):
+                return [{
+                    "source_id": "token=secret",
+                    "availability_state": "STALE\\nsecret",
+                    "observed_at": "bad timestamp",
+                }]
+        result = kgm_get_status(MaliciousReader())
+        self.assertIsNone(result["active_monitoring_watches"])
+        self.assertIsNone(result["last_monitoring_cycle"]["run_id"])
+        self.assertIsNone(result["last_unattended_cycle_at"])
+        self.assertEqual(result["unattended_cycle_instrumentation"], "UNKNOWN")
+        self.assertEqual(result["degraded_sources"][0]["source_id"], None)
+        self.assertNotIn("secret", repr(result))
+
+    def test_rejects_invalid_degraded_container(self):
+        class BadReader(FakeReader):
+            def degraded_sources(self):
+                return {"unbounded": True}
+        with self.assertRaises(ValueError):
+            kgm_get_status(BadReader())
+
+    def test_valid_timestamp_and_count(self):
+        result = kgm_get_status(FakeReader())
+        self.assertEqual(result["last_monitoring_cycle"]["started_at"], "2026-09-25T00:00:00Z")
+        self.assertEqual(result["active_monitoring_watches"], 2)
+
 
 if __name__ == "__main__":
     unittest.main()
