@@ -29,8 +29,10 @@ Gate: `P23_2_UNDERLYING_ORIGIN_PROVENANCE_RESOLUTION_VALIDATED`
 A read-only fail-closed observer now distinguishes first-party publication provenance from actual underlying-origin resolution. The exact reference cohort remains 0 resolved / 28 unresolved; no independence credit is created.
 
 ## P23.3 — Corroboration & Evidence Relations
-State: `READY_TO_BEGIN`
+State: `VALIDATED_WITH_ZERO_CORROBORATION_POPULATION`
 Gate: `P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED`
+
+Exact 28-claim cohort: 28 ATTRIBUTION_ONLY, 0 supporting relations, 0 current independence assessments and 0 corroborated claims. Validation records observation of absence, not factual refutation or independence credit.
 
 ## P23.4 — Selective Evidence-Yield Coverage Expansion
 State: `PRESELECTION_COMPLETE / OWNER_DECISION_REQUIRED_FOR_EXPANSION`
