@@ -1116,7 +1116,6 @@
     "new_cloud_vm_created": false,
     "source_scoped_transport": "WIREGUARD_AND_EXACT_HOST_CONNECT_PROXY_PREPARED_NOT_DEPLOYED",
     "vpn_configured": false,
-    "owner_kmg_runtime_network_modified": false,
     "paid_resources_used": false,
     "source_activation_delta": 0,
     "p23_4_gate_validated": false,
@@ -1124,6 +1123,7 @@
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-25_P23_4_FREE_NON_UA_VPN_PREPARED.md",
     "runbook": "ops/p23_4_govru_free_vpn/README.md",
     "next_gate": "P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED",
-    "verification_authority": "P13.5/P13.6"
+    "verification_authority": "P13.5/P13.6",
+    "owner_kgm_runtime_network_modified": false
   }
 }
