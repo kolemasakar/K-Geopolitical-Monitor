@@ -11,7 +11,6 @@ from datetime import datetime
 import csv
 from hashlib import sha256
 from html.parser import HTMLParser
-from io import StringIO
 from typing import Iterable
 from urllib.parse import urljoin, urlparse
 
