@@ -3,7 +3,7 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.66",
+    "state_sync_version": "4.67",
     "status": "APPROVED",
     "current_position": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED"
   },
@@ -968,7 +968,8 @@
     "p23_4_uksl_pilot_state": "CONTROLLED_READONLY_PILOT_PASS_WITH_MATERIAL_LIMITATIONS",
     "p23_4_uksl_pilot_evidence": "docs/evidence/P23_4_UKSL_CONTROLLED_READONLY_PILOT_2026-09-25.json",
     "p23_4_uksl_distinct_designations_in_initial_range": 38,
-    "p23_4_govru_vpn_route_state": "OWNER_ALLOWED_NON_UA_VPN_EXIT_NOT_CONFIGURED"
+    "p23_4_govru_vpn_route_state": "NEW_ZERO_COST_FOREIGN_VPN_NODE_REPOSITORY_PREPARED_TENANCY_PREFLIGHT_REQUIRED",
+    "p23_4_govru_vpn_evidence": "docs/evidence/P23_4_FREE_NON_UA_VPN_NODE_PREPARATION_2026-09-25.json"
   },
   "project_sync": {
     "date": "2026-09-20",
@@ -1102,6 +1103,26 @@
     "vpn_exit_configured": false,
     "p23_4_gate_validated": false,
     "current_position_preserved": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED",
+    "next_gate": "P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED",
+    "verification_authority": "P13.5/P13.6"
+  },
+  "phase23_p23_4_govru_free_vpn": {
+    "state": "REPOSITORY_PREPARED_TENANCY_PREFLIGHT_REQUIRED",
+    "canonical_base": "1d6873e85fb5cb5327a9e8193e5090c815affa38",
+    "provider": "OCI_ALWAYS_FREE_ONLY",
+    "candidate_shape": "VM.Standard.E2.1.Micro",
+    "home_region": "UNVERIFIED",
+    "existing_tenancy_budget": "UNVERIFIED",
+    "new_cloud_vm_created": false,
+    "source_scoped_transport": "WIREGUARD_AND_EXACT_HOST_CONNECT_PROXY_PREPARED_NOT_DEPLOYED",
+    "vpn_configured": false,
+    "owner_kmg_runtime_network_modified": false,
+    "paid_resources_used": false,
+    "source_activation_delta": 0,
+    "p23_4_gate_validated": false,
+    "evidence": "docs/evidence/P23_4_FREE_NON_UA_VPN_NODE_PREPARATION_2026-09-25.json",
+    "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-09-25_P23_4_FREE_NON_UA_VPN_PREPARED.md",
+    "runbook": "ops/p23_4_govru_free_vpn/README.md",
     "next_gate": "P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED",
     "verification_authority": "P13.5/P13.6"
   }
