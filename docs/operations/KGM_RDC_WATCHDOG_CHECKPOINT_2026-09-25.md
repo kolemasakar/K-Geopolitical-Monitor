@@ -14,3 +14,6 @@ Deployed as unprivileged kgmops:
 Not yet verified: real process-failure recovery, real reboot, end-to-end hung-process detection, persisted refresh token longevity. Invalid token still requires owner browser authorization. No sudo, linger, service restart, production source activation, or cross-project host change.
 
 Primary GitHub OIDC/Tailscale SSH/bounded Ansible remains unchanged. SentinelX remains retired on KGM. Refer to Sentinel-Remote for authoritative future recovery policy; do not duplicate divergent operating procedures here.
+
+## Schedule adjustment — 2026-09-25
+Owner approved reducing watchdog frequency from once per minute to once every five minutes. Verified live KGM crontab now contains `*/5 * * * * /home/kgmops/.local/bin/kgm-rdc-watchdog.sh`; `@reboot` remains configured. Script syntax validation PASS. This changes only RDC process checks, not exchange-data collection or trading schedules.
