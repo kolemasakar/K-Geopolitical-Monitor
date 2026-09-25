@@ -5,6 +5,8 @@ ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / "docs/state/CURRENT_PROJECT_STATE.json"
 EVIDENCE = ROOT / "docs/evidence/P23_4_EVIDENCE_YIELD_SELECTION_READINESS_2026-09-21.json"
 ROADMAP = ROOT / "ROADMAP.md"
+PLAN = ROOT / "docs/implementation/PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_PLAN.md"
+HANDOFF = ROOT / "docs/handoff/CURRENT_HANDOFF.md"
 
 
 def test_p23_4_preselection_does_not_close_expansion_gate():
@@ -43,3 +45,10 @@ def test_p23_4_roadmap_records_owner_gate_without_claiming_validation():
     roadmap = ROADMAP.read_text(encoding="utf-8")
     assert "P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED" in roadmap
     assert "PRESELECTION_COMPLETE / OWNER_DECISION_REQUIRED_FOR_EXPANSION" in roadmap
+
+
+def test_p23_3_section_and_p23_4_handoff_are_forward_converged():
+    plan = PLAN.read_text(encoding="utf-8")
+    handoff = HANDOFF.read_text(encoding="utf-8")
+    assert "## P23.3 — Corroboration & Evidence Relations\\nState: `VALIDATED_WITH_ZERO_CORROBORATION_POPULATION`".replace("\\n", "\n") in plan
+    assert "P23_4_PRESELECTION_COMPLETE_OWNER_DECISION_REQUIRED" in handoff
