@@ -23,7 +23,7 @@ def test_streamable_http_initialize_discover_and_call():
         "Content-Type": "application/json",
         "MCP-Protocol-Version": "2025-06-18",
     }
-    with TestClient(app, base_url="http://127.0.0.1") as client:
+    with TestClient(app, base_url="http://127.0.0.1:8000") as client:
         initialized = client.post("/mcp", headers=headers, json={
             "jsonrpc": "2.0", "id": 1, "method": "initialize",
             "params": {
