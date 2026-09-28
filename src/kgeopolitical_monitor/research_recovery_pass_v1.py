@@ -32,15 +32,16 @@ def recovery_pass(root, *, allowed_consumers, observed_at_utc,
         key = (consumer, request_id)
         try:
             # Attempt verified artifact reconciliation first, including after a crash.
-            try:
-                complete_or_reconcile(root, consumer, request_id,
-                                      allowed_consumers=allowed_consumers,
-                                      at_utc=observed_at_utc)
-                report["reconciled"].append(key)
-                continue
-            except ValueError as error:
-                if str(error) != "result not yet published":
-                    raise
+            if item["status"] == "PROCESSING":
+                try:
+                    complete_or_reconcile(root, consumer, request_id,
+                                          allowed_consumers=allowed_consumers,
+                                          at_utc=observed_at_utc)
+                    report["reconciled"].append(key)
+                    continue
+                except ValueError as error:
+                    if str(error) != "result not yet published":
+                        raise
             deadline = deadlines.get(key)
             if deadline is not None and _utc(observed_at_utc) >= _utc(deadline):
                 expire_stale(root, consumer, request_id,
