@@ -28,7 +28,7 @@ def _read(path):
     return saved
 
 
-def admit(root, request, *, allowed_consumers, max_pending_per_consumer=10):
+def admit(root, request, *, allowed_consumers, max_pending_per_consumer=10, deadline_utc=None):
     root = initialize(root)
     validate_request(request)
     consumer = request["consumer_id"]
@@ -36,6 +36,8 @@ def admit(root, request, *, allowed_consumers, max_pending_per_consumer=10):
         raise PermissionError("consumer/policy denied")
     if type(max_pending_per_consumer) is not int or not 1 <= max_pending_per_consumer <= 1000:
         raise ValueError("invalid quota")
+    if deadline_utc is not None and _utc(deadline_utc) < _utc(request["requested_at_utc"]):
+        raise ValueError("deadline predates request")
     digest = hashlib.sha256(_bytes(request)).hexdigest()
     fd = _lock(root)
     try:
@@ -44,6 +46,8 @@ def admit(root, request, *, allowed_consumers, max_pending_per_consumer=10):
             saved = _read(target)
             if saved["request_digest"] != digest:
                 raise ValueError("idempotency conflict")
+            if deadline_utc is not None and saved.get("deadline_utc") != deadline_utc:
+                raise ValueError("immutable admission deadline conflict")
             return saved
         pending = 0
         for path in (root / "inbox").glob(consumer + "--*.json"):
@@ -58,6 +62,8 @@ def admit(root, request, *, allowed_consumers, max_pending_per_consumer=10):
             raise ValueError("pending quota exceeded")
         saved = {"request": request, "request_digest": digest, "status": "RECEIVED",
                  "updated_at_utc": request["requested_at_utc"], "attempts": 0}
+        if deadline_utc is not None:
+            saved["deadline_utc"] = deadline_utc
         _atomic(target, _bytes(saved))
         return saved
     finally:
