@@ -24,6 +24,22 @@ CONTRADICTION_STATES = frozenset({"DETECTED", "UNRESOLVED", "EVOLVING", "RESOLVE
 SOURCE_STATES = frozenset({"UNMEASURED", "HEALTHY", "DEGRADED", "STALE", "UNAVAILABLE"})
 MAX_RECORDS = 100
 MAX_BYTES = 1024 * 1024
+# Prototype policy: reject unknown keys rather than pass through unreviewed data.
+BATCH_FIELDS = frozenset({"schema_version","batch_id","generated_at_utc","producer_snapshot_id","producer_code_sha","minimum_available_cursor","high_watermark_cursor","heartbeat","policy_version","records"})
+RECORD_FIELDS = frozenset({"record_id","kind","change_type","entity_id","entity_version_id","recorded_at_utc","published_at_utc","ingested_at_utc","exported_at_utc","supersedes_record_id","retraction_state","language","content","provenance","verification","contradiction","forecast","source_health"})
+SAFE_CONTENT_FIELDS = frozenset({"summary","event_type","region_tags","topic_tags"})
+SAFE_PROVENANCE_FIELDS = frozenset({"publisher","underlying_origin","origin_resolution","public_evidence_refs"})
+SAFE_VERIFICATION_FIELDS = frozenset({"canonical_verification_state","compatibility_state","policy_version","confidence_dimensions"})
+SAFE_CONTRADICTION_FIELDS = frozenset({"lifecycle_state","dimensions","public_evidence_refs"})
+SAFE_FORECAST_FIELDS = frozenset({"scenario_id","forecast_id","forecast_version_id","assumptions","public_input_refs","raw_probability","calibrated_probability","scenario_confidence"})
+SAFE_SOURCE_FIELDS = frozenset({"source_id","operational_state","measurement_freshness","content_freshness","last_attempt_at_utc","latest_content_at_utc"})
+
+def _allowlisted(value: Any, name: str, fields: frozenset[str]) -> Mapping[str, Any]:
+    obj = _mapping(value, name)
+    if set(obj) - fields:
+        raise ValueError(f"{name}: unapproved fields")
+    return obj
+
 
 
 def _utc(value: Any, name: str) -> datetime:
@@ -51,6 +67,10 @@ def _id(value: Any, name: str) -> str:
 
 
 def validate_record(record: Mapping[str, Any], exported_at: datetime) -> None:
+    _allowlisted(record, "record", RECORD_FIELDS)
+    for field, allowed in (("content",SAFE_CONTENT_FIELDS),("provenance",SAFE_PROVENANCE_FIELDS),("verification",SAFE_VERIFICATION_FIELDS),("contradiction",SAFE_CONTRADICTION_FIELDS),("forecast",SAFE_FORECAST_FIELDS),("source_health",SAFE_SOURCE_FIELDS)):
+        if record.get(field) is not None:
+            _allowlisted(record[field], field, allowed)
     kind = record.get("kind")
     change = record.get("change_type")
     if kind not in KINDS or change not in CHANGES:
@@ -114,13 +134,14 @@ def validate_record(record: Mapping[str, Any], exported_at: datetime) -> None:
 
 
 def validate_batch(batch: Mapping[str, Any]) -> str:
-    obj = _mapping(batch, "batch")
+    obj = _allowlisted(batch, "batch", BATCH_FIELDS)
     if obj.get("schema_version") != SCHEMA_VERSION:
         raise ValueError("unsupported schema_version")
     for key in ("batch_id", "producer_snapshot_id", "producer_code_sha", "policy_version"):
         _id(obj.get(key), key)
     produced = _utc(obj.get("generated_at_utc"), "generated_at_utc")
     heartbeat = _mapping(obj.get("heartbeat"), "heartbeat")
+    _allowlisted(heartbeat, "heartbeat", frozenset({"state", "observed_at_utc"}))
     if heartbeat.get("state") not in {"HEALTHY", "DEGRADED", "UNKNOWN"}:
         raise ValueError("heartbeat.state must be explicit")
     _utc(heartbeat.get("observed_at_utc"), "heartbeat.observed_at_utc")
