@@ -39,4 +39,4 @@ def assess_fixture_coverage(request, *, corpus_windows, evidence):
     return {"coverage": "COMPLETE" if complete else "UNMEASURED",
             "eligible_evidence_count": available,
             "gap_detected": not complete,
-            "no_news_conclusion_authorized": complete and available == 0}
+            "no_news_conclusion_authorized": False}
