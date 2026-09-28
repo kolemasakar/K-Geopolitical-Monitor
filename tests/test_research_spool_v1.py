@@ -94,3 +94,34 @@ def test_incomplete_coverage_explicit_partial(tmp_path):
                                source_health="UNMEASURED")
     assert artifact["result"]["research_status"] == "PARTIAL"
     assert artifact["result"]["records"] == []
+
+
+def test_tampered_stored_request_denied(tmp_path):
+    submit(tmp_path, sample(), allowed_consumers=POLICY)
+    path = tmp_path / "inbox" / "ktrader--req-01.json"
+    obj = json.loads(path.read_text())
+    obj["request"]["symbols"] = ["AAPL"]
+    path.write_text(json.dumps(obj))
+    with pytest.raises(ValueError):
+        submit(tmp_path, sample(), allowed_consumers=POLICY)
+    with pytest.raises(ValueError):
+        process(tmp_path)
+
+
+def test_existing_corrupt_result_not_replayed(tmp_path):
+    submit(tmp_path, sample(), allowed_consumers=POLICY)
+    process(tmp_path)
+    path = tmp_path / "outbox" / "ktrader" / "req-01.json"
+    obj = json.loads(path.read_text())
+    obj["result"]["coverage"] = "PARTIAL"
+    path.write_text(json.dumps(obj))
+    with pytest.raises(ValueError):
+        process(tmp_path)
+
+
+def test_policy_revocation_blocks_retrieval(tmp_path):
+    submit(tmp_path, sample(), allowed_consumers=POLICY)
+    process(tmp_path)
+    with pytest.raises(ValueError):
+        retrieve(tmp_path, "ktrader", "req-01",
+                 allowed_consumers={"ktrader": "review-v2"})
