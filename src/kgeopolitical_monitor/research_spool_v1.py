@@ -92,7 +92,7 @@ def submit(root, request, *, allowed_consumers):
             raise ValueError("symlink request denied")
         if path.exists():
             saved = json.loads(path.read_bytes())
-            if saved["request_digest"] != digest:
+            if saved["request_digest"] != digest or hashlib.sha256(_bytes(validate_request(saved["request"]))).hexdigest() != digest or saved["status"] != "RECEIVED":
                 raise ValueError("idempotency conflict")
             return saved
         record = {"request_digest": digest, "request": request, "status": "RECEIVED"}
@@ -130,7 +130,7 @@ def process_fixture(root, consumer_id, request_id, *, allowed_consumers,
             raise ValueError("symlink result denied")
         if target.exists():
             saved = json.loads(target.read_bytes())
-            if saved["request_digest"] != record["request_digest"]:
+            if saved["request_digest"] != record["request_digest"] or saved["result"]["consumer_id"] != consumer_id or saved["result"]["request_id"] != request_id or saved["sha256"] != hashlib.sha256(_bytes({"request_digest": saved["request_digest"], "result": saved["result"]})).hexdigest():
                 raise ValueError("result digest conflict")
             return saved
         job = SyntheticResearchJob(request)
@@ -156,7 +156,7 @@ def retrieve(root, consumer_id, request_id, *, allowed_consumers):
     if path.is_symlink() or not path.is_file():
         raise ValueError("result unavailable")
     artifact = json.loads(path.read_bytes())
-    if artifact["result"]["consumer_id"] != consumer_id or artifact["result"]["request_id"] != request_id:
+    if artifact["result"]["consumer_id"] != consumer_id or artifact["result"]["request_id"] != request_id or artifact["result"]["policy_version"] != allowed_consumers[consumer_id]:
         raise ValueError("correlation mismatch")
     expected = hashlib.sha256(_bytes({"request_digest": artifact["request_digest"],
                                       "result": artifact["result"]})).hexdigest()
