@@ -47,6 +47,8 @@ def admit(root, request, *, allowed_consumers, max_pending_per_consumer=10):
             return saved
         pending = 0
         for path in (root / "inbox").glob(consumer + "--*.json"):
+            if path.name.endswith(".deadline.json"):
+                continue
             record = _read(path)
             if record["request"]["consumer_id"] != consumer:
                 raise ValueError("corrupt consumer namespace")
@@ -98,6 +100,8 @@ def recovery_snapshot(root, *, allowed_consumers):
     try:
         pending = []
         for path in sorted((root / "inbox").glob("*.json")):
+            if path.name.endswith(".deadline.json"):
+                continue
             saved = _read(path)
             req = saved["request"]
             if req["consumer_id"] not in allowed_consumers or req["policy_version"] != allowed_consumers[req["consumer_id"]]:
