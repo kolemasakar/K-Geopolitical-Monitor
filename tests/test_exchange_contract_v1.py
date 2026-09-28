@@ -126,3 +126,25 @@ def test_no_mutation_and_deterministic_digest():
     original = deepcopy(b)
     assert validate_batch(b) == validate_batch(b)
     assert b == original
+
+def test_reject_unreviewed_nested_private_field():
+    b = base()
+    v = claim()
+    v["provenance"]["private_database_path"] = "/secret/data"
+    b["records"] = [v]
+    with pytest.raises(ValueError):
+        validate_batch(b)
+
+def test_reject_unreviewed_batch_field():
+    b = base()
+    b["private_token"] = "synthetic"
+    with pytest.raises(ValueError):
+        validate_batch(b)
+
+def test_reject_unreviewed_record_field():
+    b = base()
+    v = claim()
+    v["raw_internal_row"] = {"secret": "synthetic"}
+    b["records"] = [v]
+    with pytest.raises(ValueError):
+        validate_batch(b)
