@@ -38,3 +38,19 @@ def recover_pending(root, *, allowed_consumers, observed_at_utc,
     return recovery_pass(root, allowed_consumers=allowed_consumers,
                          observed_at_utc=observed_at_utc,
                          deadlines=deadlines, max_items=max_items)
+
+
+def register_request_deadline(root, consumer, request_id, *, allowed_consumers,
+                              deadline_utc):
+    from .research_deadline_registry_v1 import register_deadline
+    return register_deadline(root, consumer, request_id,
+                             allowed_consumers=allowed_consumers,
+                             deadline_utc=deadline_utc)
+
+
+def recover_registered(root, *, allowed_consumers, observed_at_utc, max_items=10):
+    from .research_deadline_registry_v1 import registered_deadlines
+    deadlines = registered_deadlines(root, allowed_consumers=allowed_consumers)
+    return recover_pending(root, allowed_consumers=allowed_consumers,
+                           observed_at_utc=observed_at_utc,
+                           deadlines=deadlines, max_items=max_items)
