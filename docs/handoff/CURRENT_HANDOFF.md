@@ -456,3 +456,8 @@ Decision: `VALIDATED_WITH_NO_DOWNSTREAM_UPLIFT_OBSERVED`.
 Zero counts are measured absence only. They are not truth, consistency, or forecast-quality evidence.
 
 Next substantive action: `P22_7_OWNER_UTILITY_QUALITY_OBSERVATION_VALIDATED`.
+## Parallel private owner MCP handoff (2026-09-28; draft PR #161 only)
+
+Detailed transition: `docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-09-28_PRIVATE_MCP_P161.md`.
+
+Local isolated MCP regression: exact SHA `f8b823c5ae499059e16d0f266e3ba371513e8de7`, 29 passed, 1 warning; subsequent documentation commits not exact-SHA retested. Private personal KGM Plugin NOT CREATED; hosted private transport NOT VERIFIED; production MCP NOT DEPLOYED. KGM RDC observed offline at handoff, which does not establish runtime outage. Owner-only, free-only, no public ingress/Funnel, no PR merge or source activation. Parallel engineering does NOT change strategic P23.4 gate, ROADMAP v4.66 or source-truth status.

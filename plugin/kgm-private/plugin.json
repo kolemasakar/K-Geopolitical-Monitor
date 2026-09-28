@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "kgm-private",
+  "version": "0.1.0",
+  "description": "Private read-only K-Geopolitical Monitor status instructions; MCP connection pending validated private transport."
+}

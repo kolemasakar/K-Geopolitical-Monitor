@@ -1,0 +1,8 @@
+# KGM isolated MCP protocol test dependencies
+# Deliberately use a Starlette version whose TestClient uses httpx rather than httpx2.
+# Install in a dedicated disposable venv, never in production KGM.
+mcp==1.30.0
+fastapi==0.115.12
+starlette==0.46.2
+httpx==0.28.1
+pytest==9.1.1

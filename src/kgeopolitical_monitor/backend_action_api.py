@@ -14,6 +14,7 @@ from urllib.parse import quote
 from fastapi import Depends, FastAPI, HTTPException, Query, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
+from .private_plugin_status import kgm_get_status
 from .forecast_semantics import forecast_semantic_contract
 from .operational_monitoring import OperationalMonitoringRuntime
 
@@ -549,6 +550,11 @@ def create_action_app(
     @app.get("/v1/state/summary", operation_id="getPersistedStateSummary")
     def get_state_summary(_: OwnerAuth) -> dict[str, object]:
         return reader.state_summary()
+
+    @app.get("/v1/private-plugin/status", operation_id="kgmGetStatus")
+    def get_private_plugin_status(_: OwnerAuth) -> dict[str, object]:
+        """Authenticated, sanitized read-only status; no new public ingress."""
+        return kgm_get_status(reader)
 
     @app.get("/v1/alerts", operation_id="getRecentAlerts")
     def get_recent_alerts(

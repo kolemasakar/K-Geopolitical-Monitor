@@ -1071,3 +1071,7 @@ Authoritative transition handoff:
 `docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-09-20_P23_1.md`.
 
 No Phase 23 semantic, runtime, source-activation, production/live, paid/shared, migration-033, Plugin-publication or owner-operational boundary is changed by this documentation sync.
+
+## Parallel owner-only Plugin engineering checkpoint (2026-09-28, draft PR #161)
+
+This is a parallel technical track, not a new strategic phase or P23.4 validation. The local-only official MCP SDK and authenticated ASGI gateway have 29/29 focused tests passing at exact tested SHA `f8b823c5ae499059e16d0f266e3ba371513e8de7`. A private personal Plugin is not created, hosted private transport is unverified, and production MCP deployment remains prohibited. See `docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-09-28_PRIVATE_MCP_P161.md`. The strategic v4.66 position and P23.4 owner gates remain unchanged; no merge or release is implied by this checkpoint.

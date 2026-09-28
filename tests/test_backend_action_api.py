@@ -3,7 +3,7 @@ import sqlite3
 
 from fastapi.testclient import TestClient
 
-from kgeopolitical_monitor.backend_action_api import create_action_app
+from kgeopolitical_monitor.backend_action_api import BackendStateReader, create_action_app
 from kgeopolitical_monitor.live_end_to_end import LiveEndToEndProcessor
 from kgeopolitical_monitor.live_sources import LiveSourceCollector, LiveSourceItem
 from kgeopolitical_monitor.operational_monitoring import OperationalMonitoringRuntime
@@ -332,3 +332,51 @@ def test_empty_owner_token_is_rejected(tmp_path):
         assert "owner_token" in str(exc)
     else:
         raise AssertionError("empty owner token must fail closed")
+
+
+def test_private_plugin_status_requires_owner_and_redacts(tmp_path):
+    runtime, _ = _runtime_with_state(tmp_path)
+    client = TestClient(create_action_app(runtime, owner_token=TOKEN))
+    endpoint = "/v1/private-plugin/status"
+    assert client.get(endpoint).status_code == 401
+    assert client.get(endpoint, headers={"Authorization": "Bearer wrong"}).status_code == 401
+    response = client.get(endpoint, headers=AUTH)
+    assert response.status_code == 200
+    result = response.json()
+    assert result["schema_version"] == "0.2"
+    assert result["active_monitoring_watches"] == 1
+    assert result["service_health"] == "NOT_MEASURED"
+    assert result["acquisition_continuity"] == "NOT_VERIFIED"
+    assert result["last_unattended_cycle_at"] is None
+    assert len(result["degraded_sources"]) <= 20
+    assert "error" not in str(result)
+    schema = client.get("/openapi.json").json()
+    assert schema["paths"][endpoint]["get"]["operationId"] == "kgmGetStatus"
+
+
+def test_private_plugin_status_read_only_and_wrong_auth_never_queries(tmp_path, monkeypatch):
+    runtime, _ = _runtime_with_state(tmp_path)
+    client = TestClient(create_action_app(runtime, owner_token=TOKEN))
+    endpoint = "/v1/private-plugin/status"
+    with sqlite3.connect(runtime.database_path) as connection:
+        before = {
+            table: connection.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+            for table in ("monitoring_runs", "source_collection_attempts", "strategic_alerts")
+        }
+    original_summary = BackendStateReader.state_summary
+    original_degraded = BackendStateReader.degraded_sources
+    def unauthorized_read(*args, **kwargs):
+        raise AssertionError("unauthorized request reached backend reader")
+    monkeypatch.setattr(BackendStateReader, "state_summary", unauthorized_read)
+    monkeypatch.setattr(BackendStateReader, "degraded_sources", unauthorized_read)
+    assert client.get(endpoint, headers={"Authorization": "Bearer incorrect"}).status_code == 401
+    assert client.get(endpoint).status_code == 401
+    monkeypatch.setattr(BackendStateReader, "state_summary", original_summary)
+    monkeypatch.setattr(BackendStateReader, "degraded_sources", original_degraded)
+    assert client.get(endpoint, headers=AUTH).status_code == 200
+    with sqlite3.connect(runtime.database_path) as connection:
+        after = {
+            table: connection.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+            for table in before
+        }
+    assert after == before
