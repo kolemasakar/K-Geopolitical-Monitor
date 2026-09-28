@@ -11,7 +11,7 @@ from .research_request_v1 import _utc
 
 
 def recovery_pass(root, *, allowed_consumers, observed_at_utc,
-                  deadlines=None, max_items=10):
+                  deadlines=None, max_items=10, after_key=None):
     _utc(observed_at_utc)
     if type(max_items) is not int or not 1 <= max_items <= 100:
         raise ValueError("invalid recovery bound")
@@ -24,12 +24,22 @@ def recovery_pass(root, *, allowed_consumers, observed_at_utc,
         if not isinstance(key, tuple) or len(key) != 2 or not all(isinstance(x, str) for x in key):
             raise ValueError("invalid deadline key")
         _utc(value)
+    if after_key is not None and (not isinstance(after_key, tuple) or len(after_key) != 2 or not all(isinstance(x, str) for x in after_key)):
+        raise ValueError("invalid recovery cursor")
     pending = recovery_snapshot(root, allowed_consumers=allowed_consumers)
+    # A caller may persist the returned cursor to avoid starving later keys.
+    # Snapshot scanning remains O(total inbox); only processing is bounded.
+    if after_key is not None:
+        later = [item for item in pending if (item["consumer_id"], item["request_id"]) > after_key]
+        earlier = [item for item in pending if (item["consumer_id"], item["request_id"]) <= after_key]
+        pending = later + earlier
     report = {"reconciled": [], "expired": [], "pending": [], "errors": [],
-              "remaining": max(0, len(pending) - max_items)}
+              "remaining": max(0, len(pending) - max_items),
+              "next_cursor": after_key}
     for item in pending[:max_items]:
         consumer, request_id = item["consumer_id"], item["request_id"]
         key = (consumer, request_id)
+        report["next_cursor"] = key
         try:
             # Attempt verified artifact reconciliation first, including after a crash.
             if item["status"] == "PROCESSING":
