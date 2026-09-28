@@ -35,10 +35,11 @@ def publish_and_complete(root, consumer, request_id, result, *,
 
 
 def recover_pending(root, *, allowed_consumers, observed_at_utc,
-                    deadlines=None, max_items=10):
+                    deadlines=None, max_items=10, after_key=None):
     return recovery_pass(root, allowed_consumers=allowed_consumers,
                          observed_at_utc=observed_at_utc,
-                         deadlines=deadlines, max_items=max_items)
+                         deadlines=deadlines, max_items=max_items,
+                         after_key=after_key)
 
 
 def register_request_deadline(root, consumer, request_id, *, allowed_consumers,
@@ -49,9 +50,11 @@ def register_request_deadline(root, consumer, request_id, *, allowed_consumers,
                              deadline_utc=deadline_utc)
 
 
-def recover_registered(root, *, allowed_consumers, observed_at_utc, max_items=10):
+def recover_registered(root, *, allowed_consumers, observed_at_utc, max_items=10,
+                       after_key=None):
     from .research_deadline_registry_v1 import registered_deadlines
     deadlines = registered_deadlines(root, allowed_consumers=allowed_consumers)
     return recover_pending(root, allowed_consumers=allowed_consumers,
                            observed_at_utc=observed_at_utc,
-                           deadlines=deadlines, max_items=max_items)
+                           deadlines=deadlines, max_items=max_items,
+                           after_key=after_key)
