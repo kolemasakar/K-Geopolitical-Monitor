@@ -11,9 +11,10 @@ from .research_typed_result_v1 import validate_typed_result
 
 
 def accept_request(root, request, *, allowed_consumers, max_pending_per_consumer=10,
-                   accepted_at_utc):
+                   accepted_at_utc, deadline_utc=None):
     saved = admit(root, request, allowed_consumers=allowed_consumers,
-                  max_pending_per_consumer=max_pending_per_consumer)
+                  max_pending_per_consumer=max_pending_per_consumer,
+                  deadline_utc=deadline_utc)
     if saved["status"] == "RECEIVED":
         return advance(root, request["consumer_id"], request["request_id"], "ACCEPTED",
                        allowed_consumers=allowed_consumers, at_utc=accepted_at_utc)
