@@ -20,6 +20,13 @@ def _read(path):
     if path.is_symlink() or not path.is_file():
         raise ValueError("request unavailable")
     saved = json.loads(path.read_bytes())
+    if not isinstance(saved, dict) or not {"request", "request_digest", "status", "updated_at_utc", "attempts"} <= set(saved):
+        raise ValueError("noncanonical durable request record")
+    if type(saved["attempts"]) is not int or saved["attempts"] < 0:
+        raise ValueError("invalid durable attempt count")
+    _utc(saved["updated_at_utc"])
+    if "deadline_utc" in saved:
+        _utc(saved["deadline_utc"])
     request = validate_request(saved["request"])
     if hashlib.sha256(_bytes(request)).hexdigest() != saved["request_digest"]:
         raise ValueError("request digest mismatch")
