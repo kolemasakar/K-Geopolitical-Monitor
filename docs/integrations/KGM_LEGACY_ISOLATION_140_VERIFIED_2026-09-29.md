@@ -1,0 +1,7 @@
+# KGM legacy API isolation — 140-test verified checkpoint
+
+Date: 2026-09-29. Exact tested code SHA `a312a90b3ca5124095ebe14a456870a3044a4a08`. Authorized isolated KGM host `kgm-e4-owner-pilot`, checkout `/tmp/kgm-pr163-validation-AWDJxqb2/repo`. **27 selected exchange/research modules: 140 passed in 2.04s, exit 0**. Three new isolation tests independently passed in 0.09s.
+
+The legacy audit is recorded in `docs/integrations/KGM_LEGACY_RESEARCH_API_AUDIT_2026-09-29.md`. Implemented explicit canonical durable record schema checks in `research_durable_lifecycle_v1._read`: required request digest, request, status, updated timestamp and attempt count. Missing legacy-only fields fail closed. Tests verify canonical recovery, new admission and idempotent same-ID retry reject a minimal legacy record rather than silently mixing incompatible formats. Legacy synthetic spool remains available in separately dedicated fixtures; no migration or deletion of existing data was attempted.
+
+Remaining: low-level `advance` still permits terminal COMPLETE/PARTIAL without typed artifact for legacy fixture tests; canonical typed completion uses `complete_or_reconcile`. Full pending snapshot remains O(total inbox); no indexed bounded scanning yet. Additional synthetic scale measurement and indexed-manifest crash design required before changing the recovery scan. No production, HP-OMEN, K-Trader, live provider, or external consumer exchange.
