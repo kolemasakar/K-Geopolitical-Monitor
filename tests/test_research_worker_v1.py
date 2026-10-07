@@ -63,3 +63,38 @@ def test_invalid_observation_leaves_processing_recoverable(tmp_path):
             processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
     assert recover_pending(tmp_path,allowed_consumers=POLICY,
         observed_at_utc="2026-09-28T12:05:00Z")["pending"]==[("ktrader","req-01")]
+
+def test_retry_after_adapter_crash_is_idempotent(tmp_path):
+    req=accepted(tmp_path)
+    calls={"n":0}
+    def flaky(r):
+        calls["n"]+=1
+        if calls["n"]==1: raise RuntimeError("injected adapter crash")
+        return adapter()(r)
+    with pytest.raises(RuntimeError):
+        execute_deterministic(tmp_path,"ktrader","req-01",request=req,
+            allowed_consumers=POLICY,adapters=[flaky],
+            processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
+    artifact=execute_deterministic(tmp_path,"ktrader","req-01",request=req,
+        allowed_consumers=POLICY,adapters=[flaky],
+        processing_at_utc="2026-09-28T12:03:00Z",completed_at_utc="2026-09-28T12:04:00Z")
+    assert artifact["result"]["research_status"]=="COMPLETE"
+    assert recover_pending(tmp_path,allowed_consumers=POLICY,
+        observed_at_utc="2026-09-28T12:05:00Z")["pending"]==[]
+
+def test_worker_replay_after_terminal_does_not_rerun_adapter(tmp_path):
+    req=accepted(tmp_path)
+    first=execute_deterministic(tmp_path,"ktrader","req-01",request=req,
+        allowed_consumers=POLICY,adapters=[adapter()],
+        processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
+    calls={"n":0}
+    def must_not_run(_):
+        calls["n"]+=1
+        raise AssertionError("terminal replay invoked adapter")
+    with pytest.raises(ValueError):
+        execute_deterministic(tmp_path,"ktrader","req-01",request=req,
+            allowed_consumers=POLICY,adapters=[must_not_run],
+            processing_at_utc="2026-09-28T12:06:00Z",completed_at_utc="2026-09-28T12:07:00Z")
+    assert calls["n"]==0
+    assert complete_or_reconcile(tmp_path,"ktrader","req-01",
+        allowed_consumers=POLICY)==first
