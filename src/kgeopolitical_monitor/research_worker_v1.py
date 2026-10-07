@@ -4,9 +4,59 @@ Adapters are injected callables. This module performs no network access.
 """
 from __future__ import annotations
 import hashlib
+from collections import defaultdict
 from .research_source_adapter_v1 import normalize_observations
 from .research_typed_workflow_v1 import begin_processing, publish_and_complete
 from .research_storage_v1 import canonical_bytes
+
+_EVIDENCE_FIELDS=("source_id","public_url","published_at_utc","available_at_utc")
+
+def _evidence(item):
+    return {k:item[k] for k in _EVIDENCE_FIELDS}
+
+def _build_records(usable, max_results):
+    """Conservative cross-source correlation by shared observation_id.
+
+    Same observation_id + same summary => one deduplicated record with merged
+    provenance. Same observation_id + differing summary => separate DISPUTED
+    records linked as contradictions. Different observation_ids are never
+    heuristically merged.
+    """
+    groups=defaultdict(list)
+    for item in usable:
+        groups[item["observation_id"]].append(item)
+    records=[]; disagreement=False
+    for observation_id in sorted(groups):
+        group=groups[observation_id]
+        summaries={item["summary"] for item in group}
+        if len(summaries)==1:
+            seen=set(); evidence=[]
+            for item in group:
+                ev=_evidence(item)
+                key=tuple(ev[k] for k in _EVIDENCE_FIELDS)
+                if key not in seen:
+                    seen.add(key); evidence.append(ev)
+            records.append({"record_id":observation_id,"kind":"CLAIM_EVENT",
+                "summary":group[0]["summary"],"verification":"UNVERIFIED",
+                "evidence":evidence[:20],"contradictions":[],"revision_of":None,
+                "forecast":None})
+        else:
+            disagreement=True
+            ids=[]
+            for item in group:
+                rid="dispute-"+hashlib.sha256(canonical_bytes({
+                    "source_id":item["source_id"],"observation_id":observation_id,
+                    "summary":item["summary"]})).hexdigest()[:24]
+                ids.append(rid)
+            for item,rid in zip(group,ids):
+                records.append({"record_id":rid,"kind":"CLAIM_EVENT",
+                    "summary":item["summary"],"verification":"DISPUTED",
+                    "evidence":[_evidence(item)],
+                    "contradictions":[x for x in ids if x!=rid][:20],
+                    "revision_of":None,"forecast":None})
+        if len(records)>=max_results:
+            break
+    return records[:max_results],disagreement
 
 def execute_deterministic(root, consumer, request_id, *, request, allowed_consumers,
                           adapters, processing_at_utc, completed_at_utc,
@@ -20,18 +70,13 @@ def execute_deterministic(root, consumer, request_id, *, request, allowed_consum
             observations.extend(produced)
         else:
             observations.append(produced)
-        if len(observations) > 100:
+        if len(observations)>100:
             raise ValueError("unbounded adapter observations")
-    normalized=normalize_observations(request, observations)
+    normalized=normalize_observations(request,observations)
     usable=[x for x in normalized if x["status"] in {"SUCCESS","PARTIAL"}]
     unhealthy=[x for x in normalized if x["status"] in {"PARTIAL","UNAVAILABLE","INVALID"}]
-    records=[]
-    for item in usable[:request["max_results"]]:
-        records.append({"record_id":item["observation_id"],"kind":"CLAIM_EVENT",
-            "summary":item["summary"],"verification":"UNVERIFIED",
-            "evidence":[{k:item[k] for k in ("source_id","public_url","published_at_utc","available_at_utc")}],
-            "contradictions":[],"revision_of":None,"forecast":None})
-    complete = bool(records) and not unhealthy
+    records,disagreement=_build_records(usable,request["max_results"])
+    complete=bool(records) and not unhealthy and not disagreement
     status="COMPLETE" if complete else "PARTIAL"
     result={"schema_version":"kgm.research.result.v1","request_id":request_id,
         "consumer_id":consumer,
@@ -41,6 +86,6 @@ def execute_deterministic(root, consumer, request_id, *, request, allowed_consum
         "coverage":"COMPLETE" if complete else "PARTIAL",
         "source_health":"HEALTHY" if complete else ("DEGRADED" if records else "UNAVAILABLE"),
         "records":records}
-    return publish_and_complete(root, consumer, request_id, result,
+    return publish_and_complete(root,consumer,request_id,result,
                                 allowed_consumers=allowed_consumers,
                                 at_utc=completed_at_utc)
