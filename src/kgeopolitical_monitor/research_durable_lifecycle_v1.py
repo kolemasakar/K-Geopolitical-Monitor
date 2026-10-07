@@ -25,9 +25,7 @@ def _read(path):
     if type(saved["attempts"]) is not int or saved["attempts"] < 0:
         raise ValueError("invalid durable attempt count")
     _utc(saved["updated_at_utc"])
-    if "deadline_utc" in saved:
-        _utc(saved["deadline_utc"])
-    request = validate_request(saved["request"])
+    if "deadline_utc" in saved:\n        _utc(saved["deadline_utc"])\n        expected_deadline_digest = hashlib.sha256(_bytes({"request_digest": saved["request_digest"], "deadline_utc": saved["deadline_utc"]})).hexdigest()\n        if saved.get("deadline_digest") != expected_deadline_digest:\n            raise ValueError("deadline digest mismatch")\n    elif "deadline_digest" in saved:\n        raise ValueError("orphan deadline digest")\n    request = validate_request(saved["request"])
     if hashlib.sha256(_bytes(request)).hexdigest() != saved["request_digest"]:
         raise ValueError("request digest mismatch")
     if saved["status"] not in TRANSITIONS:
@@ -69,9 +67,7 @@ def admit(root, request, *, allowed_consumers, max_pending_per_consumer=10, dead
             raise ValueError("pending quota exceeded")
         saved = {"request": request, "request_digest": digest, "status": "RECEIVED",
                  "updated_at_utc": request["requested_at_utc"], "attempts": 0}
-        if deadline_utc is not None:
-            saved["deadline_utc"] = deadline_utc
-        _atomic(target, _bytes(saved))
+        if deadline_utc is not None:\n            saved["deadline_utc"] = deadline_utc\n            saved["deadline_digest"] = hashlib.sha256(_bytes({"request_digest": digest, "deadline_utc": deadline_utc})).hexdigest()\n        _atomic(target, _bytes(saved))
         return saved
     finally:
         os.close(fd)
