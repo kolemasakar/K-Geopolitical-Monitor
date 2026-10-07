@@ -56,3 +56,20 @@ def test_timeout_maps_to_unavailable():
     items=fetch(req,query="Ukraine",observed_at_utc="2026-09-28T12:01:00Z",
                 http_get=lambda _: (_ for _ in ()).throw(TimeoutError()))
     assert items[0]["error_code"]=="TRANSPORT_UNAVAILABLE"
+
+def test_rate_limit_retry_is_bounded_and_backed_off():
+    req=current(); calls=[]; sleeps=[]
+    class RateLimited(OSError): code=429
+    def transport(_):
+        calls.append(1)
+        if len(calls)==1: raise RateLimited()
+        return {"articles":[ARTICLE]}
+    items=fetch(req,query="Ukraine",observed_at_utc="2026-09-28T12:01:00Z",
+                http_get=transport,sleep=sleeps.append)
+    assert len(calls)==2 and sleeps==[1]
+    assert items[0]["status"]=="SUCCESS"
+
+def test_attempt_bound_cannot_exceed_two():
+    with pytest.raises(ValueError,match="attempt bound"):
+        fetch(current(),query="Ukraine",observed_at_utc="2026-09-28T12:01:00Z",
+              http_get=lambda _:{"articles":[]},max_attempts=3)
