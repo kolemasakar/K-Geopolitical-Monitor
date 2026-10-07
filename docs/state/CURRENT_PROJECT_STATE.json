@@ -1104,5 +1104,54 @@
     "current_position_preserved": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED",
     "next_gate": "P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED",
     "verification_authority": "P13.5/P13.6"
+  },
+  "independent_research_owner_pilot": {
+    "state": "LIVE_GDACS_OWNER_PILOT_E2E_PASS",
+    "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
+    "independent_research_ready": "NOT_DECLARED",
+    "exact_validated_code_sha": "155c8f06c5457a0988ad91c80a7ebee6d541d797",
+    "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
+    "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
+    "acceptance": "docs/integrations/KGM_LIVE_GDACS_OWNER_PILOT_ACCEPTANCE_2026-10-07.md",
+    "ci": {
+      "code_sha_run": 2465,
+      "code_sha_conclusion": "SUCCESS",
+      "acceptance_doc_run": 2467,
+      "acceptance_doc_conclusion": "SUCCESS"
+    },
+    "validation": {
+      "host": "kgm-e4-owner-pilot",
+      "architecture": "aarch64",
+      "selected_regression": "178 passed in 2.59s",
+      "hp_omen_used": false
+    },
+    "live_sources": {
+      "gdelt": {
+        "adapter": "PUBLIC_FREE_READ_ONLY",
+        "observed_state": "RATE_LIMITED_HTTP_429",
+        "retry_bound": 2,
+        "cooldown_supported": true,
+        "false_complete_prevented": true
+      },
+      "gdacs": {
+        "adapter": "PUBLIC_FREE_READ_ONLY",
+        "live_probe": "SUCCESS",
+        "typed_e2e": "COMPLETE",
+        "record_count": 5,
+        "result_id": "result-7f48780e2892c2926b35f0a2",
+        "restart_reconciled": true,
+        "recovery_pending": 0
+      }
+    },
+    "boundaries": {
+      "production_live": false,
+      "persistent_scheduler": false,
+      "sentinel_integration": false,
+      "ktrader_integration": false,
+      "paid_providers": false,
+      "shared_runtime": false,
+      "plugin_publication": false
+    },
+    "next_track": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS"
   }
 }
