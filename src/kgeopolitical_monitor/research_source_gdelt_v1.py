@@ -59,12 +59,19 @@ def normalize_article(request, article, *, observed_at_utc, ordinal):
         "available_at_utc":available_at,"public_url":url,"summary":title[:1000],
         "error_code":None}
 
-def fetch(request, *, query, observed_at_utc, http_get):
+def fetch(request, *, query, observed_at_utc, http_get, sleep=lambda _: None, max_attempts=MAX_ATTEMPTS):
     url=build_query(request,query=query)
-    try:
-        payload=http_get(url)
-    except (TimeoutError, OSError) as exc:
-        code="RATE_LIMITED" if getattr(exc, "code", None)==429 else "TRANSPORT_UNAVAILABLE"
+    if type(max_attempts) is not int or not 1 <= max_attempts <= MAX_ATTEMPTS:
+        raise ValueError("invalid GDELT attempt bound")
+    payload=None; code=None
+    for attempt in range(max_attempts):
+        try:
+            payload=http_get(url); code=None; break
+        except (TimeoutError, OSError) as exc:
+            code="RATE_LIMITED" if getattr(exc, "code", None)==429 else "TRANSPORT_UNAVAILABLE"
+            if attempt + 1 < max_attempts:
+                sleep(2 ** attempt)
+    if code is not None:
         return [{"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
             "source_id":SOURCE_ID,"observation_id":"gdelt-transport","status":"UNAVAILABLE",
             "observed_at_utc":observed_at_utc,"published_at_utc":None,"available_at_utc":None,
