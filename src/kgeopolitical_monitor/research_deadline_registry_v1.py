@@ -6,7 +6,7 @@ Registration is cooperative-lock protected and crash-safe via atomic fsync.
 from __future__ import annotations
 import json
 import os
-from .research_spool_v1 import initialize, _lock, _atomic, _bytes
+from .research_storage_v1 import initialize, lock as _lock, atomic_replace as _atomic, canonical_bytes as _bytes
 from .research_durable_lifecycle_v1 import _read, _path
 from .research_request_v1 import _ID, _utc
 
