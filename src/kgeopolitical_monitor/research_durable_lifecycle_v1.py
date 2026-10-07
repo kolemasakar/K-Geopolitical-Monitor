@@ -7,9 +7,9 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-from .research_spool_v1 import initialize, _lock, _atomic, _bytes
+from .research_storage_v1 import initialize, lock as _lock, atomic_replace as _atomic, canonical_bytes as _bytes
 from .research_request_v1 import validate_request, _ID, _utc
-from .research_lifecycle_v1 import TRANSITIONS
+from .research_states_v1 import TRANSITIONS
 
 
 def _path(root, consumer, request_id):
