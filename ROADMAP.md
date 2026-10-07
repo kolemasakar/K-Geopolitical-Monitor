@@ -1099,3 +1099,39 @@ Next technical milestone:
 `MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS`
 
 Scope remains owner-pilot only. No production/live activation, persistent scheduler, Sentinel/K-Trader integration, paid fallback, shared runtime, or Plugin publication is authorized by this checkpoint.
+
+
+### Multi-source owner-pilot milestone — 2026-10-07
+
+Gate:
+`MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS = PASS`
+
+Validated code SHA:
+`93701e9edc0dd5624ab7241e854908cb04700e61`
+
+Source set:
+- GDACS live;
+- USGS Earthquake FDSN live;
+- GDELT under durable RATE_LIMITED cooldown.
+
+Validated semantics:
+- cross-source same-observation deduplication with provenance merge;
+- conflicting summaries for the same observation → DISPUTED + PARTIAL;
+- any unhealthy source → PARTIAL;
+- COMPLETE requires usable evidence, no unhealthy source and no disagreement;
+- deterministic source-balanced selection prevents source starvation;
+- no heuristic merge across distinct observation IDs.
+
+Real mixed-source owner-pilot result:
+`PARTIAL / PARTIAL / DEGRADED`, 10 records, GDACS + USGS represented, 0 GDELT network calls during cooldown.
+
+Targeted: `35 passed`.
+Selected regression: `184 passed in 2.77s`.
+
+Acceptance:
+`docs/integrations/KGM_MULTI_SOURCE_OWNER_PILOT_ACCEPTANCE_2026-10-07.md`
+
+Next technical track:
+`THIRD_SOURCE_BROADENING_AND_CORRELATION_IDENTITY`
+
+This milestone does not advance the canonical Phase 23 strategic gate and does not declare `KGM_INDEPENDENT_RESEARCH_READY`.
