@@ -1071,3 +1071,31 @@ Authoritative transition handoff:
 `docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-09-20_P23_1.md`.
 
 No Phase 23 semantic, runtime, source-activation, production/live, paid/shared, migration-033, Plugin-publication or owner-operational boundary is changed by this documentation sync.
+
+
+## 2026-10-07 — Parallel owner-pilot research execution track
+
+This is a bounded technical execution track and does **not** advance the canonical Phase 23 strategic gate.
+
+Validated state:
+
+- `KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT = PASS_WITH_RESTRICTIONS`
+- `LIVE_GDACS_OWNER_PILOT_E2E = PASS`
+- `KGM_INDEPENDENT_RESEARCH_READY = NOT_DECLARED`
+- exact validated code SHA: `155c8f06c5457a0988ad91c80a7ebee6d541d797`
+- selected regression: `178 passed in 2.59s`
+- GitHub CI #2465 and #2467: SUCCESS
+
+Delivered:
+- provider-neutral source adapter contract;
+- deterministic/durable worker;
+- bounded batch observations and crash/replay handling;
+- GDELT public/free adapter with 429 fail-closed retry/cooldown;
+- durable source cooldown;
+- GDACS public/free adapter;
+- first real external typed E2E cycle with immutable COMPLETE artifact and restart reconciliation.
+
+Next technical milestone:
+`MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS`
+
+Scope remains owner-pilot only. No production/live activation, persistent scheduler, Sentinel/K-Trader integration, paid fallback, shared runtime, or Plugin publication is authorized by this checkpoint.
