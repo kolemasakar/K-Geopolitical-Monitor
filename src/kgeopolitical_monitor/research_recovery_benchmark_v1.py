@@ -13,7 +13,7 @@ from .research_durable_lifecycle_v1 import admit, recovery_snapshot
 
 def _request(i):
     consumer = f"benchmark-{i // 1000:02d}"
-    return {
+    return {\n        "schema_version": "kgm.research.request.v1",
         "request_id": f"bench-{i:06d}", "consumer_id": consumer,
         "requested_at_utc": "2026-10-07T00:00:00Z", "mode": "CURRENT",
         "symbols": ["BTCUSDT"], "period_start_utc": "2026-10-06T00:00:00Z",
