@@ -23,9 +23,7 @@ def validate_source_observation(request, observation):
             raise ValueError("invalid source identity")
     if observation["status"] not in SOURCE_STATUSES:
         raise ValueError("invalid source status")
-    observed = _utc(observation["observed_at_utc"])
-    if observed > _utc(request["requested_at_utc"]):
-        raise ValueError("observation after request boundary")
+    _utc(observation["observed_at_utc"])
     if observation["status"] in {"SUCCESS","PARTIAL"}:
         if not isinstance(observation["public_url"], str) or not observation["public_url"].startswith("https://"):
             raise ValueError("invalid source provenance")
