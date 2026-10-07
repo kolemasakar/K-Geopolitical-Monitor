@@ -4,9 +4,10 @@ Public/free/read-only HTTPS only. No credentials, paid fallback, daemon or
 automatic scheduling. Network transport is injected for deterministic tests.
 """
 from __future__ import annotations
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from urllib.parse import urlencode, urlparse
 from .research_request_v1 import validate_request, _utc
+from .research_source_cooldown_v1 import check_cooldown, record_cooldown
 
 BASE = "https://api.gdeltproject.org/api/v2/doc/doc"
 SOURCE_ID = "gdelt-doc-v2"
@@ -59,10 +60,21 @@ def normalize_article(request, article, *, observed_at_utc, ordinal):
         "available_at_utc":available_at,"public_url":url,"summary":title[:1000],
         "error_code":None}
 
-def fetch(request, *, query, observed_at_utc, http_get, sleep=lambda _: None, max_attempts=MAX_ATTEMPTS):
+def fetch(request, *, query, observed_at_utc, http_get, sleep=lambda _: None,
+          max_attempts=MAX_ATTEMPTS, cooldown_root=None, cooldown_seconds=300):
     url=build_query(request,query=query)
+    observed=_utc(observed_at_utc)
     if type(max_attempts) is not int or not 1 <= max_attempts <= MAX_ATTEMPTS:
         raise ValueError("invalid GDELT attempt bound")
+    if type(cooldown_seconds) is not int or not 1 <= cooldown_seconds <= 3600:
+        raise ValueError("invalid GDELT cooldown bound")
+    if cooldown_root is not None:
+        saved=check_cooldown(cooldown_root,SOURCE_ID,observed_at_utc=observed_at_utc)
+        if saved is not None:
+            return [{"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
+                "source_id":SOURCE_ID,"observation_id":"gdelt-cooldown","status":"UNAVAILABLE",
+                "observed_at_utc":observed_at_utc,"published_at_utc":None,"available_at_utc":None,
+                "public_url":None,"summary":None,"error_code":saved["reason"]}]
     payload=None; code=None
     for attempt in range(max_attempts):
         try:
@@ -72,6 +84,9 @@ def fetch(request, *, query, observed_at_utc, http_get, sleep=lambda _: None, ma
             if attempt + 1 < max_attempts:
                 sleep(2 ** attempt)
     if code is not None:
+        if cooldown_root is not None:
+            until=(observed+timedelta(seconds=cooldown_seconds)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            record_cooldown(cooldown_root,SOURCE_ID,until_utc=until,reason=code)
         return [{"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
             "source_id":SOURCE_ID,"observation_id":"gdelt-transport","status":"UNAVAILABLE",
             "observed_at_utc":observed_at_utc,"published_at_utc":None,"available_at_utc":None,
