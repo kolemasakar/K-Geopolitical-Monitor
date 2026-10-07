@@ -1106,13 +1106,13 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "EVENT_CLAIM_IDENTITY_OWNER_PILOT_PASS_WITH_ORIGIN_LIMITATION",
+    "state": "CORRELATED_EVENT_ORIGIN_ASSESSMENT_PASS_ZERO_INDEPENDENT_ORIGIN_CREDIT",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "NOT_DECLARED",
-    "exact_validated_code_sha": "fe836769bd2742fe91f0c00d8e0410805477608f",
+    "exact_validated_code_sha": "7d04b132ea16c90bd7d532fa9c1f09c0dc3b3bc1",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
-    "acceptance": "docs/integrations/KGM_EVENT_CLAIM_IDENTITY_OWNER_PILOT_ACCEPTANCE_2026-10-07.md",
+    "acceptance": "docs/integrations/KGM_CORRELATED_EVENT_ORIGIN_ASSESSMENT_2026-10-07.md",
     "ci": {
       "code_sha_run": 2465,
       "code_sha_conclusion": "SUCCESS",
@@ -1122,8 +1122,8 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "targeted": "31 passed",
-      "selected_regression": "189 passed in 2.81s",
+      "targeted": "34 passed",
+      "selected_regression": "192 passed in 2.88s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1150,7 +1150,7 @@
       "shared_runtime": false,
       "plugin_publication": false
     },
-    "next_track": "UNDERLYING_ORIGIN_ASSESSMENT_FOR_CORRELATED_EVENTS",
+    "next_track": "INDEPENDENT_ORIGIN_SOURCE_EXPANSION",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1201,6 +1201,23 @@
         "result_id": "result-861584d228496bf5478c3355",
         "recovery_pending": 0
       }
+    },
+    "origin_assessment_gate": "KGM_CORRELATED_EVENT_ORIGIN_ASSESSMENT_PASS_WITH_ZERO_INDEPENDENT_ORIGIN_CREDIT",
+    "origin_policy": {
+      "unknown_origin_credit": false,
+      "same_origin_credit": false,
+      "distinct_explicit_origin_credit": true,
+      "event_correlation_is_not_origin_independence": true,
+      "factual_verification_credit_from_origin_only": false
+    },
+    "live_origin_assessment": {
+      "window": "24H",
+      "correlated_events": 16,
+      "same_origin": 16,
+      "distinct_origin": 0,
+      "unknown_origin": 0,
+      "independent_origin_credit_events": 0,
+      "shared_origin_group": "usgs-neic"
     }
   }
 }
