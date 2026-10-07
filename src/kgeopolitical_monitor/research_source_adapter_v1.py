@@ -14,7 +14,7 @@ def validate_source_observation(request, observation):
     base_fields = {"schema_version","request_id","source_id","observation_id","status",
               "observed_at_utc","published_at_utc","available_at_utc","public_url",
               "summary","error_code"}
-    optional_fields={"event_identity","claim_signature"}
+    optional_fields={"event_identity","claim_signature","origin_group"}
     if not isinstance(observation, dict) or not base_fields <= set(observation) or set(observation)-base_fields-optional_fields:
         raise ValueError("unapproved source observation fields")
     identity=observation.get("event_identity")
@@ -25,6 +25,9 @@ def validate_source_observation(request, observation):
         raise ValueError("invalid claim signature")
     if signature is not None and identity is None:
         raise ValueError("claim signature requires event identity")
+    origin_group=observation.get("origin_group")
+    if origin_group is not None and (not isinstance(origin_group,str) or not _ID.fullmatch(origin_group)):
+        raise ValueError("invalid origin group")
     if observation["schema_version"] != OBSERVATION_VERSION or observation["request_id"] != request["request_id"]:
         raise ValueError("source observation correlation mismatch")
     for field in ("source_id","observation_id"):
