@@ -15,9 +15,10 @@ def test_restart_recovery_and_terminal(tmp_path):
                          allowed_consumers=POLICY, at_utc="2026-09-28T12:02:00Z")
     assert processing["attempts"] == 1
     assert recovery_snapshot(tmp_path, allowed_consumers=POLICY)[0]["status"] == "PROCESSING"
-    advance(tmp_path, "ktrader", "req-01", "PARTIAL", allowed_consumers=POLICY,
-            at_utc="2026-09-28T12:03:00Z")
-    assert recovery_snapshot(tmp_path, allowed_consumers=POLICY) == []
+    with pytest.raises(ValueError, match="typed terminal completion required"):
+        advance(tmp_path, "ktrader", "req-01", "PARTIAL", allowed_consumers=POLICY,
+                at_utc="2026-09-28T12:03:00Z")
+    assert recovery_snapshot(tmp_path, allowed_consumers=POLICY)[0]["status"] == "PROCESSING"
 
 
 def test_pending_quota_and_idempotent_retry(tmp_path):
