@@ -26,7 +26,8 @@ def observation(req,source,oid,summary,url,status="SUCCESS",event_identity=None,
       "published_at_utc":"2026-09-28T11:00:00Z" if ok else None,
       "available_at_utc":"2026-09-28T12:02:00Z" if ok else None,
       "public_url":url if ok else None,"summary":summary if ok else None,
-      "error_code":None if ok else "RATE_LIMITED","event_identity":event_identity if ok else None,\n      "claim_signature":claim_signature if ok else None}
+      "error_code":None if ok else "RATE_LIMITED","event_identity":event_identity if ok else None,
+      "claim_signature":claim_signature if ok else None}
 
 def test_cross_source_same_claim_deduplicates_and_merges_evidence(tmp_path):
     req=accepted(tmp_path)
