@@ -7,7 +7,13 @@ from urllib.parse import urlencode
 from .research_request_v1 import validate_request, _utc
 
 BASE="https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH"
-SOURCE_ID="gdacs-events"\n\ndef _gdacs_utc(value):\n    if not isinstance(value,str): raise ValueError("invalid GDACS timestamp")\n    candidate=value if value.endswith("Z") else value+"Z"\n    _utc(candidate)\n    return candidate
+SOURCE_ID="gdacs-events"
+
+def _gdacs_utc(value):
+    if not isinstance(value,str): raise ValueError("invalid GDACS timestamp")
+    candidate=value if value.endswith("Z") else value+"Z"
+    _utc(candidate)
+    return candidate
 
 def build_query(request, *, eventlist="EQ;TC;FL;VO;DR;WF"):
     validate_request(request)
