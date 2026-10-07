@@ -7,7 +7,7 @@ from urllib.parse import urlencode
 from .research_request_v1 import validate_request, _utc
 
 BASE="https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH"
-SOURCE_ID="gdacs-events"
+SOURCE_ID="gdacs-events"\n\ndef _gdacs_utc(value):\n    if not isinstance(value,str): raise ValueError("invalid GDACS timestamp")\n    candidate=value if value.endswith("Z") else value+"Z"\n    _utc(candidate)\n    return candidate
 
 def build_query(request, *, eventlist="EQ;TC;FL;VO;DR;WF"):
     validate_request(request)
@@ -32,8 +32,8 @@ def fetch(request, *, observed_at_utc, http_get, eventlist="EQ;TC;FL;VO;DR;WF"):
     for n,feature in enumerate(features[:request["max_results"]],1):
         p=feature.get("properties",{}) if isinstance(feature,dict) else {}
         title=p.get("name") or p.get("description") or p.get("eventname")
-        published=p.get("fromdate") or p.get("datemodified")
-        if not isinstance(title,str) or not isinstance(published,str):
+        published=_gdacs_utc(p.get("datemodified") or p.get("fromdate"))
+        if not isinstance(title,str) or not title.strip():
             raise ValueError("invalid GDACS event")
         # GDACS API date variants are normalized by the live transport wrapper;
         # canonical adapter receives UTC-Z timestamps only.
