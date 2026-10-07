@@ -1106,13 +1106,13 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "MULTI_SOURCE_OWNER_PILOT_PASS",
+    "state": "EVENT_CLAIM_IDENTITY_OWNER_PILOT_PASS_WITH_ORIGIN_LIMITATION",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "NOT_DECLARED",
-    "exact_validated_code_sha": "93701e9edc0dd5624ab7241e854908cb04700e61",
+    "exact_validated_code_sha": "fe836769bd2742fe91f0c00d8e0410805477608f",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
-    "acceptance": "docs/integrations/KGM_MULTI_SOURCE_OWNER_PILOT_ACCEPTANCE_2026-10-07.md",
+    "acceptance": "docs/integrations/KGM_EVENT_CLAIM_IDENTITY_OWNER_PILOT_ACCEPTANCE_2026-10-07.md",
     "ci": {
       "code_sha_run": 2465,
       "code_sha_conclusion": "SUCCESS",
@@ -1122,8 +1122,8 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "targeted": "35 passed",
-      "selected_regression": "184 passed in 2.77s",
+      "targeted": "31 passed",
+      "selected_regression": "189 passed in 2.81s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1150,7 +1150,7 @@
       "shared_runtime": false,
       "plugin_publication": false
     },
-    "next_track": "THIRD_SOURCE_BROADENING_AND_CORRELATION_IDENTITY",
+    "next_track": "UNDERLYING_ORIGIN_ASSESSMENT_FOR_CORRELATED_EVENTS",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1171,6 +1171,36 @@
         "usgs-earthquake"
       ],
       "recovery_pending": 0
+    },
+    "event_claim_identity_gate": "KGM_EVENT_CLAIM_IDENTITY_OWNER_PILOT_PASS_WITH_ORIGIN_LIMITATION",
+    "correlation_identity": {
+      "cross_source_native_ids_are_sufficient": false,
+      "event_identity": "EARTHQUAKE_ORIGIN_SECOND_PLUS_COORDINATES_0_01_DEG",
+      "claim_signature": "EARTHQUAKE_MAGNITUDE_0_1",
+      "same_event_same_claim": "MERGE_PROVENANCE_UNVERIFIED",
+      "same_event_different_claim": "DISPUTED",
+      "wording_difference_alone_is_disagreement": false,
+      "automatic_verification_credit": false,
+      "automatic_independent_origin_credit": false
+    },
+    "live_correlation_validation": {
+      "window": "24H",
+      "gdacs_eq": 32,
+      "usgs_magnitude_gte_4_5": 16,
+      "common_event_identity": 16,
+      "same_claim_signature": 16,
+      "different_claim_signature": 0,
+      "live_typed_result": {
+        "research_status": "PARTIAL",
+        "coverage": "PARTIAL",
+        "source_health": "DEGRADED",
+        "record_count": 20,
+        "correlated_multi_evidence_records": 16,
+        "disputed_records": 0,
+        "gdelt_network_calls": 0,
+        "result_id": "result-861584d228496bf5478c3355",
+        "recovery_pending": 0
+      }
     }
   }
 }
