@@ -36,13 +36,15 @@ def _balanced_usable(usable, budget):
     return selected
 
 def _build_records(usable, max_results):
-    """Conservative cross-source correlation by shared observation_id.
+    """Conservative correlation only through explicit structured event_identity.
 
-    Same observation_id + same summary => one deduplicated record with merged
-    provenance. Same observation_id + differing summary => separate DISPUTED
-    records linked as contradictions. Different observation_ids are never
-    heuristically merged.
+    Matching identities with matching summaries merge provenance. Matching
+    identities with differing summaries become DISPUTED. Native source IDs
+    alone never create cross-source correlation.
     """
+    native_counts=defaultdict(int)
+    for item in usable:
+        native_counts[item["observation_id"]]+=1
     groups=defaultdict(list)
     for item in usable:
         identity=item.get("event_identity")
@@ -63,8 +65,13 @@ def _build_records(usable, max_results):
                     seen.add(key); evidence.append(ev)
             record_id=observation_id
             if identity is None and len(group)==1:
-                # Preserve legacy record IDs for single-source uncorrelated observations.
-                record_id=group[0]["observation_id"]
+                native_id=group[0]["observation_id"]
+                if native_counts[native_id]==1:
+                    record_id=native_id
+                else:
+                    record_id="obs-"+hashlib.sha256(canonical_bytes({
+                        "source_id":group[0]["source_id"],"observation_id":native_id
+                    })).hexdigest()[:24]
             records.append({"record_id":record_id,"kind":"CLAIM_EVENT",
                 "summary":group[0]["summary"],"verification":"UNVERIFIED",
                 "evidence":evidence[:20],"contradictions":[],"revision_of":None,
