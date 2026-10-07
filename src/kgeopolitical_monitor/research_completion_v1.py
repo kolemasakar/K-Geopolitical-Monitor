@@ -8,7 +8,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-from .research_spool_v1 import initialize, _lock, _bytes, _atomic, _consumer
+from .research_storage_v1 import initialize, lock as _lock, canonical_bytes as _bytes, atomic_replace as _atomic, consumer_outbox as _consumer
 from .research_durable_lifecycle_v1 import _read, _path
 from .research_request_v1 import _ID
 from .research_typed_result_v1 import validate_typed_result
