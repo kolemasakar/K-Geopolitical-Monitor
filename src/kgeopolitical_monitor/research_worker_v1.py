@@ -96,7 +96,8 @@ def execute_deterministic(root, consumer, request_id, *, request, allowed_consum
     normalized=normalize_observations(request,observations)
     usable=[x for x in normalized if x["status"] in {"SUCCESS","PARTIAL"}]
     unhealthy=[x for x in normalized if x["status"] in {"PARTIAL","UNAVAILABLE","INVALID"}]
-    balanced=_balanced_usable(usable,request["max_results"])\n    records,disagreement=_build_records(balanced,request["max_results"])
+    balanced=_balanced_usable(usable,request["max_results"])
+    records,disagreement=_build_records(balanced,request["max_results"])
     complete=bool(records) and not unhealthy and not disagreement
     status="COMPLETE" if complete else "PARTIAL"
     result={"schema_version":"kgm.research.result.v1","request_id":request_id,
