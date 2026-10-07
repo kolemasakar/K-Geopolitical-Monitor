@@ -59,7 +59,14 @@ def normalize_article(request, article, *, observed_at_utc, ordinal):
 
 def fetch(request, *, query, observed_at_utc, http_get):
     url=build_query(request,query=query)
-    payload=http_get(url)
+    try:
+        payload=http_get(url)
+    except (TimeoutError, OSError) as exc:
+        code="RATE_LIMITED" if getattr(exc, "code", None)==429 else "TRANSPORT_UNAVAILABLE"
+        return [{"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
+            "source_id":SOURCE_ID,"observation_id":"gdelt-transport","status":"UNAVAILABLE",
+            "observed_at_utc":observed_at_utc,"published_at_utc":None,"available_at_utc":None,
+            "public_url":None,"summary":None,"error_code":code}]
     if not isinstance(payload,dict) or not isinstance(payload.get("articles"),list):
         raise ValueError("invalid GDELT response")
     return [normalize_article(request,a,observed_at_utc=observed_at_utc,ordinal=i+1)
