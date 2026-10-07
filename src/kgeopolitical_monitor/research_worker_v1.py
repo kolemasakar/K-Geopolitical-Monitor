@@ -45,10 +45,14 @@ def _build_records(usable, max_results):
     """
     groups=defaultdict(list)
     for item in usable:
-        groups[item["observation_id"]].append(item)
+        identity=item.get("event_identity")
+        key=("event",identity) if identity is not None else ("source",item["source_id"],item["observation_id"])
+        groups[key].append(item)
     records=[]; disagreement=False
-    for observation_id in sorted(groups):
-        group=groups[observation_id]
+    for key in sorted(groups):
+        group=groups[key]
+        identity=key[1] if key[0]=="event" else None
+        observation_id=identity or group[0]["observation_id"]
         summaries={item["summary"] for item in group}
         if len(summaries)==1:
             seen=set(); evidence=[]
@@ -57,7 +61,11 @@ def _build_records(usable, max_results):
                 key=tuple(ev[k] for k in _EVIDENCE_FIELDS)
                 if key not in seen:
                     seen.add(key); evidence.append(ev)
-            records.append({"record_id":observation_id,"kind":"CLAIM_EVENT",
+            record_id=observation_id
+            if identity is None and len(group)==1:
+                # Preserve legacy record IDs for single-source uncorrelated observations.
+                record_id=group[0]["observation_id"]
+            records.append({"record_id":record_id,"kind":"CLAIM_EVENT",
                 "summary":group[0]["summary"],"verification":"UNVERIFIED",
                 "evidence":evidence[:20],"contradictions":[],"revision_of":None,
                 "forecast":None})
@@ -66,8 +74,8 @@ def _build_records(usable, max_results):
             ids=[]
             for item in group:
                 rid="dispute-"+hashlib.sha256(canonical_bytes({
-                    "source_id":item["source_id"],"observation_id":observation_id,
-                    "summary":item["summary"]})).hexdigest()[:24]
+                    "source_id":item["source_id"],"observation_id":item["observation_id"],
+                    "event_identity":identity,"summary":item["summary"]})).hexdigest()[:24]
                 ids.append(rid)
             for item,rid in zip(group,ids):
                 records.append({"record_id":rid,"kind":"CLAIM_EVENT",
