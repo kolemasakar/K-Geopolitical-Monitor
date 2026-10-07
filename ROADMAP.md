@@ -1135,3 +1135,43 @@ Next technical track:
 `THIRD_SOURCE_BROADENING_AND_CORRELATION_IDENTITY`
 
 This milestone does not advance the canonical Phase 23 strategic gate and does not declare `KGM_INDEPENDENT_RESEARCH_READY`.
+
+
+### Event/claim identity milestone — 2026-10-07
+
+Gate:
+`KGM_EVENT_CLAIM_IDENTITY_OWNER_PILOT = PASS_WITH_ORIGIN_LIMITATION`
+
+Exact validated code SHA:
+`fe836769bd2742fe91f0c00d8e0410805477608f`
+
+Validated semantics:
+- cross-source correlation requires explicit structured `event_identity`;
+- native source IDs never create cross-source correlation by themselves;
+- earthquake event identity = origin UTC second + coordinates rounded to 0.01°;
+- magnitude is separated into a `claim_signature`;
+- same event + same claim signature merges provenance as UNVERIFIED;
+- same event + different claim signature becomes DISPUTED;
+- title/string wording differences alone are not disagreement;
+- event correlation grants no automatic factual-verification or independent-origin credit.
+
+Real 24h validation:
+- GDACS EQ observations: 32;
+- USGS M>=4.5 observations: 16;
+- common event identities: 16;
+- equal magnitude claim signatures: 16;
+- differing claim signatures: 0.
+
+Real typed owner-pilot cycle:
+`PARTIAL / PARTIAL / DEGRADED`, 20 records, 16 correlated multi-evidence records, 0 disputed records, 0 GDELT network calls under cooldown, recovery pending empty.
+
+Targeted: `31 passed`.
+Selected regression: `189 passed in 2.81s`.
+
+Acceptance:
+`docs/integrations/KGM_EVENT_CLAIM_IDENTITY_OWNER_PILOT_ACCEPTANCE_2026-10-07.md`
+
+Next technical track:
+`UNDERLYING_ORIGIN_ASSESSMENT_FOR_CORRELATED_EVENTS`
+
+This milestone does not advance the canonical Phase 23 strategic gate and does not declare `KGM_INDEPENDENT_RESEARCH_READY`.
