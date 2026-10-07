@@ -40,3 +40,19 @@ def test_malformed_response_fails_closed():
     with pytest.raises(ValueError,match="invalid GDELT response"):
         fetch(current(),query="Ukraine",observed_at_utc="2026-09-28T12:00:00Z",
               http_get=lambda _:{"wrong":[]})
+
+def test_rate_limit_maps_to_unavailable():
+    req=current()
+    class RateLimited(OSError):
+        code=429
+    items=fetch(req,query="Ukraine",observed_at_utc="2026-09-28T12:01:00Z",
+                http_get=lambda _: (_ for _ in ()).throw(RateLimited()))
+    assert items[0]["status"]=="UNAVAILABLE"
+    assert items[0]["error_code"]=="RATE_LIMITED"
+    assert normalize_observations(req,items)[0]["status"]=="UNAVAILABLE"
+
+def test_timeout_maps_to_unavailable():
+    req=current()
+    items=fetch(req,query="Ukraine",observed_at_utc="2026-09-28T12:01:00Z",
+                http_get=lambda _: (_ for _ in ()).throw(TimeoutError()))
+    assert items[0]["error_code"]=="TRANSPORT_UNAVAILABLE"
