@@ -6,7 +6,7 @@ existing offline spool's cooperative lock and immutable per-consumer result.
 from __future__ import annotations
 import hashlib
 import json
-from .research_spool_v1 import initialize, _lock, _consumer, _atomic, _bytes
+from .research_storage_v1 import initialize, lock as _lock, consumer_outbox as _consumer, atomic_replace as _atomic, canonical_bytes as _bytes
 from .research_request_v1 import validate_request, _ID
 from .research_typed_result_v1 import validate_typed_result
 import os
