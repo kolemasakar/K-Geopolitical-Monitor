@@ -8,7 +8,7 @@ from __future__ import annotations
 import fcntl
 import json
 import os
-from .research_spool_v1 import initialize, _atomic, _bytes
+from .research_storage_v1 import initialize, atomic_replace as _atomic, canonical_bytes as _bytes
 from .research_typed_workflow_v1 import recover_registered
 from .research_request_v1 import _ID
 
