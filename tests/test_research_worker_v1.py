@@ -11,8 +11,8 @@ def adapter(status="SUCCESS", oid="obs-01"):
         return {"schema_version":"kgm.source.observation.v1","request_id":req["request_id"],
             "source_id":"source-a","observation_id":oid,"status":status,
             "observed_at_utc":"2026-09-28T12:00:00Z",
-            "published_at_utc":"2026-09-28T11:00:00Z" if ok else None,
-            "available_at_utc":"2026-09-28T11:30:00Z" if ok else None,
+            "published_at_utc":"2026-09-02T11:00:00Z" if ok else None,
+            "available_at_utc":"2026-09-02T11:30:00Z" if ok else None,
             "public_url":"https://example.test/item" if ok else None,
             "summary":"deterministic evidence" if ok else None,
             "error_code":None if ok else "TIMEOUT"}
@@ -31,7 +31,7 @@ def test_worker_complete_end_to_end(tmp_path):
         processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
     assert artifact["result"]["research_status"]=="COMPLETE"
     assert recover_pending(tmp_path,allowed_consumers=POLICY,
-        observed_at_utc="2026-09-28T12:05:00Z")["items"]==[]
+        observed_at_utc="2026-09-28T12:05:00Z")["pending"]==[]
 
 def test_worker_unavailable_is_partial_not_false_complete(tmp_path):
     req=accepted(tmp_path)
@@ -50,7 +50,7 @@ def test_adapter_crash_leaves_processing_recoverable(tmp_path):
             processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
     report=recover_pending(tmp_path,allowed_consumers=POLICY,
         observed_at_utc="2026-09-28T12:05:00Z")
-    assert report["items"][0]["status"]=="PROCESSING"
+    assert report["pending"]==[("ktrader","req-01")]
 
 def test_invalid_observation_leaves_processing_recoverable(tmp_path):
     req=accepted(tmp_path)
@@ -62,4 +62,4 @@ def test_invalid_observation_leaves_processing_recoverable(tmp_path):
             allowed_consumers=POLICY,adapters=[corrupt],
             processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
     assert recover_pending(tmp_path,allowed_consumers=POLICY,
-        observed_at_utc="2026-09-28T12:05:00Z")["items"][0]["status"]=="PROCESSING"
+        observed_at_utc="2026-09-28T12:05:00Z")["pending"]==[("ktrader","req-01")]
