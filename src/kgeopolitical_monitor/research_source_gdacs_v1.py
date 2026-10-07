@@ -5,7 +5,7 @@ GDACS is UN/European Commission disaster-awareness data. Transport is injected.
 from __future__ import annotations
 from urllib.parse import urlencode
 from .research_request_v1 import validate_request, _utc
-from .research_event_identity_v1 import earthquake_identity
+from .research_event_identity_v1 import earthquake_identity, earthquake_claim_signature
 
 BASE="https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH"
 SOURCE_ID="gdacs-events"
@@ -32,7 +32,7 @@ def fetch(request, *, observed_at_utc, http_get, eventlist="EQ;TC;FL;VO;DR;WF"):
         return [{"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
           "source_id":SOURCE_ID,"observation_id":"gdacs-transport","status":"UNAVAILABLE",
           "observed_at_utc":observed_at_utc,"published_at_utc":None,"available_at_utc":None,
-          "public_url":None,"summary":None,"error_code":"TRANSPORT_UNAVAILABLE","event_identity":None}]
+          "public_url":None,"summary":None,"error_code":"TRANSPORT_UNAVAILABLE","event_identity":None,"claim_signature":None}]
     features=payload.get("features") if isinstance(payload,dict) else None
     if not isinstance(features,list): raise ValueError("invalid GDACS response")
     out=[]
@@ -48,6 +48,7 @@ def fetch(request, *, observed_at_utc, http_get, eventlist="EQ;TC;FL;VO;DR;WF"):
         eventid=str(p.get("eventid","unknown"))
         eventtype=str(p.get("eventtype","event"))
         event_identity=None
+        claim_signature=None
         if eventtype=="EQ":
             geometry=feature.get("geometry") if isinstance(feature,dict) else None
             severity=p.get("severitydata")
@@ -55,8 +56,8 @@ def fetch(request, *, observed_at_utc, http_get, eventlist="EQ;TC;FL;VO;DR;WF"):
             if isinstance(coordinates,list) and len(coordinates)>=2 and isinstance(severity,dict) and p.get("fromdate") is not None:
                 event_identity=earthquake_identity(origin_utc=_gdacs_utc(p.get("fromdate")),
                                                     latitude=coordinates[1],
-                                                    longitude=coordinates[0],
-                                                    magnitude=severity.get("severity"))
+                                                    longitude=coordinates[0])
+                claim_signature=earthquake_claim_signature(magnitude=severity.get("severity"))
         public=f"https://www.gdacs.org/resources.aspx?eventid={eventid}&eventtype={eventtype}"
         status="SUCCESS"
         if request["mode"]=="HISTORICAL_AS_OF" and _utc(observed_at_utc)>_utc(request["as_of_utc"]):
@@ -64,11 +65,11 @@ def fetch(request, *, observed_at_utc, http_get, eventlist="EQ;TC;FL;VO;DR;WF"):
             out.append({"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
               "source_id":SOURCE_ID,"observation_id":f"gdacs-{n:03d}","status":status,
               "observed_at_utc":observed_at_utc,"published_at_utc":None,"available_at_utc":None,
-              "public_url":None,"summary":None,"error_code":"HISTORICAL_AVAILABILITY_UNPROVEN","event_identity":None})
+              "public_url":None,"summary":None,"error_code":"HISTORICAL_AVAILABILITY_UNPROVEN","event_identity":None,"claim_signature":None})
         else:
             out.append({"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
               "source_id":SOURCE_ID,"observation_id":f"gdacs-{n:03d}","status":status,
               "observed_at_utc":observed_at_utc,"published_at_utc":published,
               "available_at_utc":observed_at_utc,"public_url":public,"summary":title[:1000],
-              "error_code":None,"event_identity":event_identity})
+              "error_code":None,"event_identity":event_identity,"claim_signature":claim_signature})
     return out
