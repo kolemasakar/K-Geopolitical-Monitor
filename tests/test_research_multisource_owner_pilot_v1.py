@@ -18,7 +18,7 @@ def accepted(root):
                    accepted_at_utc="2026-09-28T12:01:00Z")
     return req
 
-def observation(req,source,oid,summary,url,status="SUCCESS",event_identity=None):
+def observation(req,source,oid,summary,url,status="SUCCESS",event_identity=None,claim_signature=None):
     ok=status in {"SUCCESS","PARTIAL"}
     return {"schema_version":"kgm.source.observation.v1","request_id":req["request_id"],
       "source_id":source,"observation_id":oid,"status":status,
@@ -26,12 +26,12 @@ def observation(req,source,oid,summary,url,status="SUCCESS",event_identity=None)
       "published_at_utc":"2026-09-28T11:00:00Z" if ok else None,
       "available_at_utc":"2026-09-28T12:02:00Z" if ok else None,
       "public_url":url if ok else None,"summary":summary if ok else None,
-      "error_code":None if ok else "RATE_LIMITED","event_identity":event_identity if ok else None}
+      "error_code":None if ok else "RATE_LIMITED","event_identity":event_identity if ok else None,\n      "claim_signature":claim_signature if ok else None}
 
 def test_cross_source_same_claim_deduplicates_and_merges_evidence(tmp_path):
     req=accepted(tmp_path)
-    def a(r): return observation(r,"source-a","a-001","same claim","https://a.example/event",event_identity="eq-20260928T1100-n1000-e02000-m50")
-    def b(r): return observation(r,"source-b","b-991","same claim","https://b.example/event",event_identity="eq-20260928T1100-n1000-e02000-m50")
+    def a(r): return observation(r,"source-a","a-001","same claim","https://a.example/event",event_identity="eq-20260928T110000-n1000-e02000",claim_signature="mag-50")
+    def b(r): return observation(r,"source-b","b-991","same claim","https://b.example/event",event_identity="eq-20260928T110000-n1000-e02000",claim_signature="mag-50")
     artifact=execute_deterministic(tmp_path,"ktrader","req-01",request=req,
         allowed_consumers=POLICY,adapters=[a,b],
         processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
@@ -42,8 +42,8 @@ def test_cross_source_same_claim_deduplicates_and_merges_evidence(tmp_path):
 
 def test_same_claim_key_with_conflicting_summaries_is_disputed_partial(tmp_path):
     req=accepted(tmp_path)
-    def a(r): return observation(r,"source-a","a-001","magnitude 5.0","https://a.example/event",event_identity="eq-20260928T1100-n1000-e02000-m50")
-    def b(r): return observation(r,"source-b","b-991","magnitude 6.0","https://b.example/event",event_identity="eq-20260928T1100-n1000-e02000-m50")
+    def a(r): return observation(r,"source-a","a-001","magnitude 5.0","https://a.example/event",event_identity="eq-20260928T110000-n1000-e02000",claim_signature="mag-50")
+    def b(r): return observation(r,"source-b","b-991","magnitude 6.0","https://b.example/event",event_identity="eq-20260928T110000-n1000-e02000",claim_signature="mag-60")
     artifact=execute_deterministic(tmp_path,"ktrader","req-01",request=req,
         allowed_consumers=POLICY,adapters=[a,b],
         processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
@@ -115,3 +115,19 @@ def test_same_native_observation_id_without_structured_identity_does_not_cross_m
         allowed_consumers=POLICY,adapters=[a,b],
         processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
     assert len(artifact["result"]["records"])==2
+
+
+def test_same_event_same_claim_signature_merges_despite_different_wording(tmp_path):
+    req=accepted(tmp_path)
+    identity="eq-20260928T110000-n1000-e02000"
+    def a(r): return observation(r,"source-a","a-1","Earthquake in Testland","https://a.example/event",
+                                 event_identity=identity,claim_signature="mag-50")
+    def b(r): return observation(r,"source-b","b-9","M 5.0 - Test Region","https://b.example/event",
+                                 event_identity=identity,claim_signature="mag-50")
+    artifact=execute_deterministic(tmp_path,"ktrader","req-01",request=req,
+        allowed_consumers=POLICY,adapters=[a,b],
+        processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
+    record=artifact["result"]["records"][0]
+    assert artifact["result"]["research_status"]=="COMPLETE"
+    assert record["record_id"]==identity
+    assert len(record["evidence"])==2
