@@ -509,3 +509,44 @@ Acceptance:
 `docs/integrations/KGM_MULTI_SOURCE_OWNER_PILOT_ACCEPTANCE_2026-10-07.md`
 
 `KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 strategic position remains unchanged.
+
+
+## 2026-10-07 — Event/claim identity owner-pilot acceptance
+
+`KGM_EVENT_CLAIM_IDENTITY_OWNER_PILOT = PASS_WITH_ORIGIN_LIMITATION`
+
+Exact validated code SHA: `fe836769bd2742fe91f0c00d8e0410805477608f`.
+
+Validated model:
+- cross-source correlation requires explicit structured `event_identity`;
+- source-native observation IDs never cross-merge by themselves;
+- earthquake event identity uses origin UTC second + rounded coordinates;
+- magnitude is a separate `claim_signature`;
+- same event + same claim signature merges provenance;
+- same event + different claim signature becomes DISPUTED;
+- differing source wording alone is not disagreement;
+- correlation grants no factual-verification or independent-origin credit.
+
+Live 24h GDACS/USGS validation:
+- GDACS EQ: 32;
+- USGS M>=4.5: 16;
+- common event identities: 16;
+- equal claim signatures: 16;
+- differing claim signatures: 0.
+
+Live typed cycle with GDELT cooldown:
+- `PARTIAL / PARTIAL / DEGRADED`;
+- 20 result records;
+- 16 records merged GDACS + USGS provenance;
+- 0 DISPUTED;
+- 0 GDELT network calls;
+- result id `result-861584d228496bf5478c3355`;
+- recovery pending empty.
+
+Targeted: `31 passed`.
+Selected regression: `189 passed in 2.81s`.
+
+Acceptance:
+`docs/integrations/KGM_EVENT_CLAIM_IDENTITY_OWNER_PILOT_ACCEPTANCE_2026-10-07.md`
+
+`KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
