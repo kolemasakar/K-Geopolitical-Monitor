@@ -1175,3 +1175,37 @@ Next technical track:
 `UNDERLYING_ORIGIN_ASSESSMENT_FOR_CORRELATED_EVENTS`
 
 This milestone does not advance the canonical Phase 23 strategic gate and does not declare `KGM_INDEPENDENT_RESEARCH_READY`.
+
+
+### Correlated-event underlying-origin milestone — 2026-10-07
+
+Gate:
+`KGM_CORRELATED_EVENT_ORIGIN_ASSESSMENT = PASS_WITH_ZERO_INDEPENDENT_ORIGIN_CREDIT`
+
+Exact validated code SHA:
+`7d04b132ea16c90bd7d532fa9c1f09c0dc3b3bc1`
+
+Live 24h GDACS + USGS earthquake cohort:
+- correlated events: 16;
+- SAME_ORIGIN: 16;
+- DISTINCT_ORIGIN: 0;
+- UNKNOWN: 0;
+- independent-origin credit events: 0;
+- shared explicit origin group: `usgs-neic`.
+
+Interpretation:
+- distinct source paths do not imply distinct underlying origin;
+- GDACS earthquake records sourced from NEIC and USGS FDSN records resolve to the same underlying origin group;
+- event-correlation and merged provenance are retained;
+- automatic independent-origin corroboration and factual-verification credit remain denied.
+
+Targeted: `34 passed`.
+Selected regression: `192 passed in 2.88s`.
+
+Assessment:
+`docs/integrations/KGM_CORRELATED_EVENT_ORIGIN_ASSESSMENT_2026-10-07.md`
+
+Next technical track:
+`INDEPENDENT_ORIGIN_SOURCE_EXPANSION`
+
+This milestone does not advance the canonical Phase 23 strategic gate and does not declare `KGM_INDEPENDENT_RESEARCH_READY`.
