@@ -479,3 +479,33 @@ Acceptance:
 `docs/integrations/KGM_LIVE_GDACS_OWNER_PILOT_ACCEPTANCE_2026-10-07.md`
 
 This track does not replace or advance the canonical Phase 23 strategic gate. Phase 23 remains at the position stated above.
+
+
+## 2026-10-07 — Multi-source owner-pilot acceptance
+
+`MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS = PASS`
+
+Exact validated code SHA: `93701e9edc0dd5624ab7241e854908cb04700e61`.
+
+Validated source set:
+- GDACS live;
+- USGS Earthquake FDSN live;
+- GDELT DOC 2.0 under durable RATE_LIMITED cooldown.
+
+Real owner-pilot mixed-source result:
+- `PARTIAL / PARTIAL / DEGRADED`;
+- 10 typed records;
+- bounded result included GDACS and USGS evidence;
+- GDELT network calls during active cooldown: 0;
+- result id: `result-5187bb617f8d17ab15799608`;
+- recovery pending: empty.
+
+Policy now validated for conservative cross-source deduplication, explicit DISPUTED disagreement, mixed-source COMPLETE/PARTIAL semantics, and deterministic source-balanced result selection.
+
+Targeted validation: `35 passed`.
+Selected regression: `184 passed in 2.77s`.
+
+Acceptance:
+`docs/integrations/KGM_MULTI_SOURCE_OWNER_PILOT_ACCEPTANCE_2026-10-07.md`
+
+`KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 strategic position remains unchanged.
