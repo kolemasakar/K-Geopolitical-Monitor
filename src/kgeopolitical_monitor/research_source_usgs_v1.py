@@ -37,7 +37,7 @@ def fetch(request, *, observed_at_utc, http_get, min_magnitude=4.5):
         return [{"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
           "source_id":SOURCE_ID,"observation_id":"usgs-transport","status":"UNAVAILABLE",
           "observed_at_utc":observed_at_utc,"published_at_utc":None,"available_at_utc":None,
-          "public_url":None,"summary":None,"error_code":"TRANSPORT_UNAVAILABLE","event_identity":None,"claim_signature":None}]
+          "public_url":None,"summary":None,"error_code":"TRANSPORT_UNAVAILABLE","event_identity":None,"claim_signature":None,"origin_group":"usgs-neic"}]
     features=payload.get("features") if isinstance(payload,dict) else None
     if not isinstance(features,list):
         raise ValueError("invalid USGS response")
@@ -66,11 +66,11 @@ def fetch(request, *, observed_at_utc, http_get, min_magnitude=4.5):
             out.append({"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
               "source_id":SOURCE_ID,"observation_id":"usgs-"+fid,"status":"INVALID",
               "observed_at_utc":observed_at_utc,"published_at_utc":None,"available_at_utc":None,
-              "public_url":None,"summary":None,"error_code":"HISTORICAL_AVAILABILITY_UNPROVEN","event_identity":None,"claim_signature":None})
+              "public_url":None,"summary":None,"error_code":"HISTORICAL_AVAILABILITY_UNPROVEN","event_identity":None,"claim_signature":None,"origin_group":"usgs-neic"})
         else:
             out.append({"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
               "source_id":SOURCE_ID,"observation_id":"usgs-"+fid,"status":"SUCCESS",
               "observed_at_utc":observed_at_utc,"published_at_utc":published,
               "available_at_utc":observed_at_utc,"public_url":url,"summary":title[:1000],
-              "error_code":None,"event_identity":event_identity,"claim_signature":claim_signature})
+              "error_code":None,"event_identity":event_identity,"claim_signature":claim_signature,"origin_group":"usgs-neic"})
     return out
