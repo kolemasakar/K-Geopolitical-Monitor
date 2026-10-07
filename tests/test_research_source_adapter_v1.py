@@ -28,9 +28,10 @@ def test_failed_source_cannot_carry_evidence():
     req=sample(); item=obs("INVALID"); item["summary"]="bad"
     with pytest.raises(ValueError): validate_source_observation(req,item)
 
-def test_future_observation_fails_closed():
-    req=sample(); item=obs(); item["observed_at_utc"]="2026-09-28T12:01:00Z"
-    with pytest.raises(ValueError,match="after request"): validate_source_observation(req,item)
+def test_post_request_observation_is_valid_for_current_retrieval():
+    req=sample(); req["mode"]="CURRENT"; req.pop("as_of_utc")
+    item=obs(); item["observed_at_utc"]="2026-09-28T12:01:00Z"
+    assert validate_source_observation(req,item)["observed_at_utc"]=="2026-09-28T12:01:00Z"
 
 def test_historical_lookahead_fails_closed():
     req=sample(); req["mode"]="HISTORICAL_AS_OF"; req["as_of_utc"]="2026-09-28T11:45:00Z"
