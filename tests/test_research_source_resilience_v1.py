@@ -31,3 +31,10 @@ def test_gdacs_historical_availability_not_backdated():
 def test_gdacs_transport_failure_explicit():
  items=fetch(current(),observed_at_utc="2026-09-28T12:01:00Z",http_get=lambda _:(_ for _ in ()).throw(TimeoutError()))
  assert items[0]["status"]=="UNAVAILABLE"
+
+def test_gdacs_live_timestamp_shape_normalizes_to_z():
+ req=current()
+ payload={"features":[{"properties":{"eventid":1104199,"eventtype":"FL","name":"Flood in Spain",
+          "fromdate":"2026-09-28T01:00:00","datemodified":"2026-10-07T10:45:49"}}]}
+ items=fetch(req,observed_at_utc="2026-10-07T20:00:00Z",http_get=lambda _:payload)
+ assert items[0]["published_at_utc"]=="2026-10-07T10:45:49Z"
