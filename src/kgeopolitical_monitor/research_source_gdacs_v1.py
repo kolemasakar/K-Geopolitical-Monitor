@@ -51,14 +51,12 @@ def fetch(request, *, observed_at_utc, http_get, eventlist="EQ;TC;FL;VO;DR;WF"):
         if eventtype=="EQ":
             geometry=feature.get("geometry") if isinstance(feature,dict) else None
             severity=p.get("severitydata")
-            origin=_gdacs_utc(p.get("fromdate"))
-            if not isinstance(geometry,dict) or geometry.get("type")!="Point":
-                raise ValueError("invalid GDACS earthquake geometry")
-            coordinates=geometry.get("coordinates")
-            if not isinstance(coordinates,list) or len(coordinates)<2 or not isinstance(severity,dict):
-                raise ValueError("invalid GDACS earthquake identity data")
-            event_identity=earthquake_identity(origin_utc=origin,latitude=coordinates[1],
-                                                longitude=coordinates[0],magnitude=severity.get("severity"))
+            coordinates=geometry.get("coordinates") if isinstance(geometry,dict) and geometry.get("type")=="Point" else None
+            if isinstance(coordinates,list) and len(coordinates)>=2 and isinstance(severity,dict) and p.get("fromdate") is not None:
+                event_identity=earthquake_identity(origin_utc=_gdacs_utc(p.get("fromdate")),
+                                                    latitude=coordinates[1],
+                                                    longitude=coordinates[0],
+                                                    magnitude=severity.get("severity"))
         public=f"https://www.gdacs.org/resources.aspx?eventid={eventid}&eventtype={eventtype}"
         status="SUCCESS"
         if request["mode"]=="HISTORICAL_AS_OF" and _utc(observed_at_utc)>_utc(request["as_of_utc"]):
