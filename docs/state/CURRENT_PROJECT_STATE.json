@@ -1106,13 +1106,13 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "LIVE_GDACS_OWNER_PILOT_E2E_PASS",
+    "state": "MULTI_SOURCE_OWNER_PILOT_PASS",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "NOT_DECLARED",
-    "exact_validated_code_sha": "155c8f06c5457a0988ad91c80a7ebee6d541d797",
+    "exact_validated_code_sha": "93701e9edc0dd5624ab7241e854908cb04700e61",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
-    "acceptance": "docs/integrations/KGM_LIVE_GDACS_OWNER_PILOT_ACCEPTANCE_2026-10-07.md",
+    "acceptance": "docs/integrations/KGM_MULTI_SOURCE_OWNER_PILOT_ACCEPTANCE_2026-10-07.md",
     "ci": {
       "code_sha_run": 2465,
       "code_sha_conclusion": "SUCCESS",
@@ -1122,25 +1122,23 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "selected_regression": "178 passed in 2.59s",
+      "targeted": "35 passed",
+      "selected_regression": "184 passed in 2.77s",
       "hp_omen_used": false
     },
     "live_sources": {
-      "gdelt": {
-        "adapter": "PUBLIC_FREE_READ_ONLY",
-        "observed_state": "RATE_LIMITED_HTTP_429",
-        "retry_bound": 2,
-        "cooldown_supported": true,
-        "false_complete_prevented": true
-      },
       "gdacs": {
         "adapter": "PUBLIC_FREE_READ_ONLY",
-        "live_probe": "SUCCESS",
-        "typed_e2e": "COMPLETE",
-        "record_count": 5,
-        "result_id": "result-7f48780e2892c2926b35f0a2",
-        "restart_reconciled": true,
-        "recovery_pending": 0
+        "live": "SUCCESS"
+      },
+      "gdelt": {
+        "adapter": "PUBLIC_FREE_READ_ONLY",
+        "state": "RATE_LIMITED_COOLDOWN",
+        "network_calls_during_cooldown": 0
+      },
+      "usgs": {
+        "adapter": "PUBLIC_FREE_READ_ONLY_OFFICIAL",
+        "live": "SUCCESS"
       }
     },
     "boundaries": {
@@ -1152,6 +1150,27 @@
       "shared_runtime": false,
       "plugin_publication": false
     },
-    "next_track": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS"
+    "next_track": "THIRD_SOURCE_BROADENING_AND_CORRELATION_IDENTITY",
+    "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
+    "multi_source_policy": {
+      "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
+      "same_observation_conflicting_summary": "DISPUTED_AND_PARTIAL",
+      "any_unhealthy_source": "PARTIAL",
+      "complete_requires": "USABLE_RECORDS_AND_NO_UNHEALTHY_AND_NO_DISAGREEMENT",
+      "source_balanced_result_budget": true,
+      "heuristic_cross_id_merge": false
+    },
+    "live_multi_source_result": {
+      "research_status": "PARTIAL",
+      "coverage": "PARTIAL",
+      "source_health": "DEGRADED",
+      "record_count": 10,
+      "result_id": "result-5187bb617f8d17ab15799608",
+      "represented_sources": [
+        "gdacs-events",
+        "usgs-earthquake"
+      ],
+      "recovery_pending": 0
+    }
   }
 }
