@@ -550,3 +550,34 @@ Acceptance:
 `docs/integrations/KGM_EVENT_CLAIM_IDENTITY_OWNER_PILOT_ACCEPTANCE_2026-10-07.md`
 
 `KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
+
+
+## 2026-10-07 — Correlated-event underlying-origin assessment
+
+`KGM_CORRELATED_EVENT_ORIGIN_ASSESSMENT = PASS_WITH_ZERO_INDEPENDENT_ORIGIN_CREDIT`
+
+Exact validated code SHA: `7d04b132ea16c90bd7d532fa9c1f09c0dc3b3bc1`.
+
+Fail-closed origin rules:
+- missing origin group → UNKNOWN / no independence credit;
+- one shared explicit origin group → SAME_ORIGIN / no independence credit;
+- multiple distinct explicit origin groups → DISTINCT_ORIGIN / origin-level independence credit permitted.
+
+Earthquake mappings:
+- USGS FDSN → `usgs-neic`;
+- GDACS EQ with `source=NEIC` → `usgs-neic`.
+
+Live 24h correlated cohort:
+- correlated events: 16;
+- SAME_ORIGIN: 16;
+- DISTINCT_ORIGIN: 0;
+- UNKNOWN: 0;
+- independent-origin credit events: 0.
+
+Targeted: `34 passed`.
+Selected regression: `192 passed in 2.88s`.
+
+Assessment:
+`docs/integrations/KGM_CORRELATED_EVENT_ORIGIN_ASSESSMENT_2026-10-07.md`
+
+Conclusion: GDACS and USGS are distinct provenance paths for this cohort but not independent underlying origins. `KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED.
