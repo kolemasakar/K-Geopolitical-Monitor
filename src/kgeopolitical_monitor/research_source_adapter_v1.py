@@ -11,11 +11,16 @@ OBSERVATION_VERSION = "kgm.source.observation.v1"
 
 def validate_source_observation(request, observation):
     validate_request(request)
-    fields = {"schema_version","request_id","source_id","observation_id","status",
+    base_fields = {"schema_version","request_id","source_id","observation_id","status",
               "observed_at_utc","published_at_utc","available_at_utc","public_url",
               "summary","error_code"}
-    if not isinstance(observation, dict) or set(observation) != fields:
+    allowed_fields = (base_fields, base_fields | {"event_identity"})
+    if not isinstance(observation, dict) or set(observation) not in allowed_fields:
         raise ValueError("unapproved source observation fields")
+    if "event_identity" in observation:
+        identity=observation["event_identity"]
+        if identity is not None and (not isinstance(identity,str) or not _ID.fullmatch(identity)):
+            raise ValueError("invalid event identity")
     if observation["schema_version"] != OBSERVATION_VERSION or observation["request_id"] != request["request_id"]:
         raise ValueError("source observation correlation mismatch")
     for field in ("source_id","observation_id"):
