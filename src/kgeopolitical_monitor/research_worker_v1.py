@@ -14,6 +14,27 @@ _EVIDENCE_FIELDS=("source_id","public_url","published_at_utc","available_at_utc"
 def _evidence(item):
     return {k:item[k] for k in _EVIDENCE_FIELDS}
 
+def _balanced_usable(usable, budget):
+    """Deterministically prevent one healthy source from monopolizing results."""
+    by_source=defaultdict(list)
+    for item in usable:
+        by_source[item["source_id"]].append(item)
+    for items in by_source.values():
+        items.sort(key=lambda x:(x["observation_id"],x["summary"]))
+    sources=sorted(by_source)
+    selected=[]; index=0
+    while len(selected)<budget:
+        progressed=False
+        for source in sources:
+            if index<len(by_source[source]):
+                selected.append(by_source[source][index]); progressed=True
+                if len(selected)>=budget:
+                    break
+        if not progressed:
+            break
+        index+=1
+    return selected
+
 def _build_records(usable, max_results):
     """Conservative cross-source correlation by shared observation_id.
 
@@ -75,7 +96,7 @@ def execute_deterministic(root, consumer, request_id, *, request, allowed_consum
     normalized=normalize_observations(request,observations)
     usable=[x for x in normalized if x["status"] in {"SUCCESS","PARTIAL"}]
     unhealthy=[x for x in normalized if x["status"] in {"PARTIAL","UNAVAILABLE","INVALID"}]
-    records,disagreement=_build_records(usable,request["max_results"])
+    balanced=_balanced_usable(usable,request["max_results"])\n    records,disagreement=_build_records(balanced,request["max_results"])
     complete=bool(records) and not unhealthy and not disagreement
     status="COMPLETE" if complete else "PARTIAL"
     result={"schema_version":"kgm.research.result.v1","request_id":request_id,
