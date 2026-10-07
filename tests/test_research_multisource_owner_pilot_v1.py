@@ -87,3 +87,19 @@ def test_usgs_query_and_fixture_normalize():
     assert items[0]["source_id"]=="usgs-earthquake"
     assert items[0]["status"]=="SUCCESS"
     assert items[0]["published_at_utc"].endswith("Z")
+
+def test_result_budget_is_balanced_across_healthy_sources(tmp_path):
+    req=accepted(tmp_path); req["max_results"]=4
+    # Re-admit with the modified request under a fresh root.
+    fresh=tmp_path/"balanced"; fresh.mkdir()
+    accept_request(fresh,req,allowed_consumers=POLICY,
+                   accepted_at_utc="2026-09-28T12:01:00Z")
+    def source(name,prefix):
+        def run(r):
+            return [observation(r,name,f"{prefix}-{n}",f"{name} event {n}",f"https://{name}.example/{n}") for n in range(4)]
+        return run
+    artifact=execute_deterministic(fresh,"ktrader","req-01",request=req,
+        allowed_consumers=POLICY,adapters=[source("source-a","a"),source("source-b","b")],
+        processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
+    seen={e["source_id"] for rec in artifact["result"]["records"] for e in rec["evidence"]}
+    assert seen=={"source-a","source-b"}
