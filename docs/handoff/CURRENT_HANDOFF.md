@@ -456,3 +456,26 @@ Decision: `VALIDATED_WITH_NO_DOWNSTREAM_UPLIFT_OBSERVED`.
 Zero counts are measured absence only. They are not truth, consistency, or forecast-quality evidence.
 
 Next substantive action: `P22_7_OWNER_UTILITY_QUALITY_OBSERVATION_VALIDATED`.
+
+## 2026-10-07 — Independent research execution owner-pilot checkpoint
+
+Parallel technical track on draft PR #163:
+
+- `KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT = PASS_WITH_RESTRICTIONS`;
+- `LIVE_GDACS_OWNER_PILOT_E2E = PASS`;
+- `KGM_INDEPENDENT_RESEARCH_READY = NOT_DECLARED`;
+- exact validated code SHA: `155c8f06c5457a0988ad91c80a7ebee6d541d797`;
+- acceptance-doc SHA: `5ea4755a6cafd47895b878215126f847042aa27b`;
+- GitHub CI #2465 and #2467: SUCCESS;
+- selected regression: `178 passed in 2.59s`;
+- real GDACS owner-pilot cycle: CURRENT → ACCEPTED → PROCESSING → live source → normalized evidence → immutable typed COMPLETE → restart reconciliation;
+- GDELT is fail-closed under observed HTTP 429 with bounded retry/cooldown;
+- production, persistent scheduling, Sentinel, K-Trader, paid providers, shared runtime and Plugin publication remain inactive/unauthorized.
+
+Checkpoint:
+`docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md`
+
+Acceptance:
+`docs/integrations/KGM_LIVE_GDACS_OWNER_PILOT_ACCEPTANCE_2026-10-07.md`
+
+This track does not replace or advance the canonical Phase 23 strategic gate. Phase 23 remains at the position stated above.
