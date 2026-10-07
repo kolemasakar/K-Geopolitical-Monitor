@@ -18,7 +18,7 @@ def accepted(root):
                    accepted_at_utc="2026-09-28T12:01:00Z")
     return req
 
-def observation(req,source,oid,summary,url,status="SUCCESS"):
+def observation(req,source,oid,summary,url,status="SUCCESS",event_identity=None):
     ok=status in {"SUCCESS","PARTIAL"}
     return {"schema_version":"kgm.source.observation.v1","request_id":req["request_id"],
       "source_id":source,"observation_id":oid,"status":status,
@@ -26,12 +26,12 @@ def observation(req,source,oid,summary,url,status="SUCCESS"):
       "published_at_utc":"2026-09-28T11:00:00Z" if ok else None,
       "available_at_utc":"2026-09-28T12:02:00Z" if ok else None,
       "public_url":url if ok else None,"summary":summary if ok else None,
-      "error_code":None if ok else "RATE_LIMITED"}
+      "error_code":None if ok else "RATE_LIMITED","event_identity":event_identity if ok else None}
 
 def test_cross_source_same_claim_deduplicates_and_merges_evidence(tmp_path):
     req=accepted(tmp_path)
-    def a(r): return observation(r,"source-a","event-1","same claim","https://a.example/event")
-    def b(r): return observation(r,"source-b","event-1","same claim","https://b.example/event")
+    def a(r): return observation(r,"source-a","a-001","same claim","https://a.example/event",event_identity="eq-20260928T1100-n1000-e02000-m50")
+    def b(r): return observation(r,"source-b","b-991","same claim","https://b.example/event",event_identity="eq-20260928T1100-n1000-e02000-m50")
     artifact=execute_deterministic(tmp_path,"ktrader","req-01",request=req,
         allowed_consumers=POLICY,adapters=[a,b],
         processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
@@ -42,8 +42,8 @@ def test_cross_source_same_claim_deduplicates_and_merges_evidence(tmp_path):
 
 def test_same_claim_key_with_conflicting_summaries_is_disputed_partial(tmp_path):
     req=accepted(tmp_path)
-    def a(r): return observation(r,"source-a","event-1","magnitude 5.0","https://a.example/event")
-    def b(r): return observation(r,"source-b","event-1","magnitude 6.0","https://b.example/event")
+    def a(r): return observation(r,"source-a","a-001","magnitude 5.0","https://a.example/event",event_identity="eq-20260928T1100-n1000-e02000-m50")
+    def b(r): return observation(r,"source-b","b-991","magnitude 6.0","https://b.example/event",event_identity="eq-20260928T1100-n1000-e02000-m50")
     artifact=execute_deterministic(tmp_path,"ktrader","req-01",request=req,
         allowed_consumers=POLICY,adapters=[a,b],
         processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
@@ -79,14 +79,16 @@ def test_gdelt_active_cooldown_skips_transport(tmp_path):
 def test_usgs_query_and_fixture_normalize():
     req=current_request()
     url=usgs_query(req)
-    assert url.startswith("https://earthquake.usgs.gov/") and "format=geojson" in url
+    assert url.startswith("https://earthquake.usgs.gov/") and "format=geojson" in url and "minmagnitude=4.5" in url
     payload={"features":[{"id":"us123","properties":{
         "title":"M 5.1 - Test Region","url":"https://earthquake.usgs.gov/earthquakes/eventpage/us123",
-        "updated":1789992000000}}]}
+        "updated":1789992000000,"time":1789991400000,"mag":5.1},
+        "geometry":{"type":"Point","coordinates":[20.0,10.0,12.0]}}]}
     items=usgs_fetch(req,observed_at_utc="2026-09-28T12:02:00Z",http_get=lambda _:payload)
     assert items[0]["source_id"]=="usgs-earthquake"
     assert items[0]["status"]=="SUCCESS"
     assert items[0]["published_at_utc"].endswith("Z")
+    assert items[0]["event_identity"].startswith("eq-")
 
 def test_result_budget_is_balanced_across_healthy_sources(tmp_path):
     req=accepted(tmp_path); req["max_results"]=4
@@ -103,3 +105,13 @@ def test_result_budget_is_balanced_across_healthy_sources(tmp_path):
         processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
     seen={e["source_id"] for rec in artifact["result"]["records"] for e in rec["evidence"]}
     assert seen=={"source-a","source-b"}
+
+
+def test_same_native_observation_id_without_structured_identity_does_not_cross_merge(tmp_path):
+    req=accepted(tmp_path)
+    def a(r): return observation(r,"source-a","shared-native-id","claim A","https://a.example/event")
+    def b(r): return observation(r,"source-b","shared-native-id","claim A","https://b.example/event")
+    artifact=execute_deterministic(tmp_path,"ktrader","req-01",request=req,
+        allowed_consumers=POLICY,adapters=[a,b],
+        processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
+    assert len(artifact["result"]["records"])==2
