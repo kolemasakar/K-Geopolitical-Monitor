@@ -1,5 +1,7 @@
-import json\nimport pytest
-from kgeopolitical_monitor.research_typed_workflow_v1 import accept_request, recover_registered\nfrom kgeopolitical_monitor.research_durable_lifecycle_v1 import recovery_snapshot
+import json
+import pytest
+from kgeopolitical_monitor.research_typed_workflow_v1 import accept_request, recover_registered
+from kgeopolitical_monitor.research_durable_lifecycle_v1 import recovery_snapshot
 from kgeopolitical_monitor.research_deadline_registry_v1 import registered_deadlines
 from test_research_typed_result_v1 import typed
 from test_research_completion_v1 import POLICY
