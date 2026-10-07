@@ -9,7 +9,9 @@ from urllib.parse import urlencode, urlparse
 from .research_request_v1 import validate_request, _utc
 
 BASE = "https://api.gdeltproject.org/api/v2/doc/doc"
-SOURCE_ID = "gdelt-doc-v2"\nRETRYABLE = {"RATE_LIMITED", "TRANSPORT_UNAVAILABLE"}\nMAX_ATTEMPTS = 2
+SOURCE_ID = "gdelt-doc-v2"
+RETRYABLE = {"RATE_LIMITED", "TRANSPORT_UNAVAILABLE"}
+MAX_ATTEMPTS = 2
 
 def _stamp(value):
     return _utc(value).strftime("%Y%m%d%H%M%S")
