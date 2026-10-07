@@ -7,8 +7,8 @@ def obs(status="SUCCESS"):
     return {"schema_version":"kgm.source.observation.v1","request_id":"req-01",
             "source_id":"source-a","observation_id":"obs-01","status":status,
             "observed_at_utc":"2026-09-28T11:59:00Z",
-            "published_at_utc":"2026-09-28T11:00:00Z" if status in {"SUCCESS","PARTIAL"} else None,
-            "available_at_utc":"2026-09-28T11:30:00Z" if status in {"SUCCESS","PARTIAL"} else None,
+            "published_at_utc":"2026-09-02T11:00:00Z" if status in {"SUCCESS","PARTIAL"} else None,
+            "available_at_utc":"2026-09-02T11:30:00Z" if status in {"SUCCESS","PARTIAL"} else None,
             "public_url":"https://example.test/item" if status in {"SUCCESS","PARTIAL"} else None,
             "summary":"deterministic evidence" if status in {"SUCCESS","PARTIAL"} else None,
             "error_code":None if status in {"SUCCESS","PARTIAL"} else "TIMEOUT"}
