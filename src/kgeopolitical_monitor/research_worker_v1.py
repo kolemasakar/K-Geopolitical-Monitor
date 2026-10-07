@@ -15,7 +15,13 @@ def execute_deterministic(root, consumer, request_id, *, request, allowed_consum
                      at_utc=processing_at_utc)
     observations=[]
     for adapter in adapters:
-        observations.append(adapter(dict(request)))
+        produced=adapter(dict(request))
+        if isinstance(produced, list):
+            observations.extend(produced)
+        else:
+            observations.append(produced)
+        if len(observations) > 100:
+            raise ValueError("unbounded adapter observations")
     normalized=normalize_observations(request, observations)
     usable=[x for x in normalized if x["status"] in {"SUCCESS","PARTIAL"}]
     unhealthy=[x for x in normalized if x["status"] in {"PARTIAL","UNAVAILABLE","INVALID"}]
