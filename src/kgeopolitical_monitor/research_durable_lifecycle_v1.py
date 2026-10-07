@@ -93,6 +93,10 @@ def advance(root, consumer, request_id, next_status, *, allowed_consumers, at_ut
             raise PermissionError("consumer policy revoked or request mismatch")
         if next_status == saved["status"]:
             return saved
+        # Canonical terminal success must be coupled to a validated immutable
+        # typed artifact via research_completion_v1.complete_or_reconcile.
+        if next_status in {"COMPLETE", "PARTIAL"}:
+            raise ValueError("typed terminal completion required")
         if next_status not in TRANSITIONS[saved["status"]]:
             raise ValueError("illegal state transition")
         if _utc(at_utc) < _utc(saved["updated_at_utc"]):
