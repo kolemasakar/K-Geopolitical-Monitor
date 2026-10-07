@@ -12,8 +12,9 @@ from .research_durable_lifecycle_v1 import admit, recovery_snapshot
 
 
 def _request(i):
+    consumer = f"benchmark-{i // 1000:02d}"
     return {
-        "request_id": f"bench-{i:06d}", "consumer_id": "benchmark",
+        "request_id": f"bench-{i:06d}", "consumer_id": consumer,
         "requested_at_utc": "2026-10-07T00:00:00Z", "mode": "CURRENT",
         "symbols": ["BTCUSDT"], "period_start_utc": "2026-10-06T00:00:00Z",
         "period_end_utc": "2026-10-07T00:00:00Z", "max_results": 1,
@@ -22,11 +23,11 @@ def _request(i):
 
 
 def measure(count, runs=3):
-    policy = {"benchmark": "bench-v1"}
+    policy = {f"benchmark-{i:02d}": "bench-v1" for i in range((count + 999) // 1000)}
     with tempfile.TemporaryDirectory(prefix="kgm-recovery-benchmark-") as root:
         for i in range(count):
             admit(root, _request(i), allowed_consumers=policy,
-                  max_pending_per_consumer=max(1000, count))
+                  max_pending_per_consumer=1000)
         samples = []
         for _ in range(runs):
             started = time.perf_counter()
