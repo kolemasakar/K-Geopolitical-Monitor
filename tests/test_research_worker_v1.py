@@ -98,3 +98,28 @@ def test_worker_replay_after_terminal_does_not_rerun_adapter(tmp_path):
     assert calls["n"]==0
     assert complete_or_reconcile(tmp_path,"ktrader","req-01",
         allowed_consumers=POLICY)==first
+
+def test_worker_accepts_bounded_observation_batch(tmp_path):
+    req=accepted(tmp_path)
+    def batch(r):
+        a=adapter(oid="obs-01")(r); b=adapter(oid="obs-02")(r)
+        b["public_url"]="https://example.test/item-2"
+        return [a,b]
+    artifact=execute_deterministic(tmp_path,"ktrader","req-01",request=req,
+        allowed_consumers=POLICY,adapters=[batch],
+        processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
+    assert artifact["result"]["research_status"]=="COMPLETE"
+    assert len(artifact["result"]["records"])==2
+
+def test_worker_rejects_unbounded_observation_batch(tmp_path):
+    req=accepted(tmp_path)
+    def batch(r):
+        out=[]
+        for n in range(101):
+            item=adapter(oid=f"obs-{n:03d}")(r); item["public_url"]=f"https://example.test/{n}"
+            out.append(item)
+        return out
+    with pytest.raises(ValueError,match="unbounded adapter observations"):
+        execute_deterministic(tmp_path,"ktrader","req-01",request=req,
+            allowed_consumers=POLICY,adapters=[batch],
+            processing_at_utc="2026-09-28T12:02:00Z",completed_at_utc="2026-09-28T12:04:00Z")
