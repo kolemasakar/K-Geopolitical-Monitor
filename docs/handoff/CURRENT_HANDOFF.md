@@ -856,3 +856,37 @@ Next track:
 `INDEPENDENT_RESEARCH_READINESS_AUDIT_V2`
 
 `KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
+
+
+## 2026-10-08 — Independent research readiness audit v2
+
+Status: **NOT READY FOR GATE**
+
+Exact validated code SHA before audit: `2cdf937201990d32ca59efd83c145c39e1330e33`.
+Selected regression: `231 passed in 3.93s`.
+
+Previous audit blockers now resolved for owner-pilot:
+- synthetic/offline-only execution;
+- lack of real provider adapters;
+- legacy helper coupling;
+- lack of bounded one-shot canonical worker.
+
+Current P0 blockers:
+1. required source portfolio is not explicitly bound to execution;
+2. live normalized observations are not durably staged before terminal result construction;
+3. canonical geopolitical source breadth is too narrow / Consilium remains in older live-source stack;
+4. real `HISTORICAL_AS_OF` replay from first-seen durable evidence is not yet operational.
+
+Current P1 blockers:
+- non-earthquake generic event/claim identity;
+- adapter source-id policy binding;
+- richer PARTIAL source semantics;
+- evidence fingerprint duplicate detection.
+
+Decision: do not declare `KGM_INDEPENDENT_RESEARCH_READY`.
+
+Audit:
+`docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V2_2026-10-08.md`
+
+Next track:
+`SOURCE_PORTFOLIO_COMPLETENESS_AND_DURABLE_OBSERVATION_STAGING`
