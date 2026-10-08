@@ -621,3 +621,44 @@ Acceptance:
 `docs/integrations/KGM_INDEPENDENT_ORIGIN_SOURCE_EXPANSION_GFZ_2026-10-08.md`
 
 `KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 strategic position remains unchanged.
+
+
+## 2026-10-08 — Independent-origin corroboration integration
+
+`KGM_INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION = PASS_WITH_NO_AUTO_VERIFICATION`
+
+Latest validated head: `8fb9f6fa7197b59d01fb65a8a5f7b50a3c048804`.
+Live typed-v2 execution: behaviorally identical code at `29f47567338b04cb8bfebfb9aeb96131fabc3387`.
+
+Integrated:
+- `kgm.research.result.v2` corroboration metadata;
+- event-level rather than pair-level corroboration groups;
+- one independence credit per physical event;
+- duplicate SAME-origin publication paths do not double-count;
+- ambiguous association denies independence credit;
+- independent-origin credit never auto-promotes factual verification.
+
+Live v2 result:
+- `PARTIAL / PARTIAL / DEGRADED`;
+- 20 records;
+- 13 corroboration groups;
+- 10 DISTINCT_ORIGIN groups;
+- 10 event-level independent-origin credits;
+- 3 SAME_ORIGIN groups;
+- 0 ambiguous groups;
+- 9 structured claim-difference groups;
+- 0 automatic factual-verification credits;
+- 0 GDELT calls during cooldown;
+- result id `result-68f7dbfc09fa3f29f01a5970`;
+- recovery pending empty.
+
+Targeted latest head: `31 passed`.
+Selected regression: `200 passed in 2.91s`.
+
+Acceptance:
+`docs/integrations/KGM_INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION_2026-10-08.md`
+
+Next track:
+`CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY`
+
+`KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
