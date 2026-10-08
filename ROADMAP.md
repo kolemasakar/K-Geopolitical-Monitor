@@ -1362,3 +1362,35 @@ Next technical track:
 `VERIFICATION_REVISION_AND_REVOCATION_LINEAGE`
 
 This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Verification revision and revocation lineage — 2026-10-08
+
+Gate:
+`KGM_VERIFICATION_REVISION_AND_REVOCATION_LINEAGE = PASS_WITH_IMMUTABLE_HISTORY`
+
+Exact validated code SHA:
+`d428173e7ac947a627b950b89f9893de4a105faa`
+
+Implemented:
+- immutable verification revision artifacts;
+- strict supersedes linkage to one prior decision/revision;
+- exact prior-artifact and result-artifact hash binding;
+- VERIFY / REJECT / DEFER / REVOKE lineage actions;
+- fork protection;
+- monotonic revision timestamps;
+- prior history is never rewritten or deleted.
+
+Targeted:
+`29 passed`.
+
+Selected regression:
+`220 passed in 3.47s`.
+
+Acceptance:
+`docs/integrations/KGM_VERIFICATION_REVISION_AND_REVOCATION_LINEAGE_2026-10-08.md`
+
+Next technical track:
+`VERIFICATION_BASIS_EVIDENCE_LINKAGE`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
