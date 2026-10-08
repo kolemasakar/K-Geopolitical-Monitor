@@ -54,8 +54,7 @@ def test_missing_required_adapter_denied_before_processing(tmp_path):
     req=accepted(tmp_path); p=policy(req)
     with pytest.raises(ValueError,match="required source adapter missing"):
         execute(tmp_path,req,p,{"source-a":obs("source-a")})
-    pending=recover_pending(tmp_path,allowed_consumers=POLICY,
-        observed_at_utc="2026-09-28T12:05:00Z")["pending"]
+    pending=recovery_snapshot(tmp_path,allowed_consumers=POLICY)
     assert pending[0]["status"]=="ACCEPTED"
 
 def test_unapproved_adapter_denied(tmp_path):
