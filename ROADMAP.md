@@ -1327,3 +1327,38 @@ Next technical track:
 `EXPLICIT_VERIFICATION_DECISION_ARTIFACT`
 
 This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Explicit verification decision artifact — 2026-10-08
+
+Gate:
+`KGM_EXPLICIT_VERIFICATION_DECISION_ARTIFACT = PASS_WITH_IMMUTABLE_OVERLAY`
+
+Exact validated code SHA:
+`f2ce95efc39cc5f8f70efcf8836577d4ad1f8119`
+
+Implemented:
+- immutable `kgm.verification.decision.v1`;
+- exact binding to immutable result artifact and corroboration target;
+- explicit authorized actor, policy version, timestamp and rationale;
+- VERIFY accepted only for verification-eligible corroboration with no blockers;
+- exact replay idempotent; conflicting replay denied;
+- immutable base research result is not rewritten.
+
+Live owner-pilot decision:
+- decision id: `verify-chagos-001`;
+- action: `VERIFY`;
+- effective overlay: `VERIFIED`;
+- decision SHA-256: `7a88529f673d3907a1b45936a8e0f4a8b9b04681e19840313eb76e27b8a29c41`;
+- replay preserved identical SHA.
+
+Targeted: `32 passed`.
+Selected regression: `213 passed in 3.23s`.
+
+Acceptance:
+`docs/integrations/KGM_EXPLICIT_VERIFICATION_DECISION_ARTIFACT_2026-10-08.md`
+
+Next technical track:
+`VERIFICATION_REVISION_AND_REVOCATION_LINEAGE`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
