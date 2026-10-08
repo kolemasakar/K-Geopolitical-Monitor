@@ -9,6 +9,7 @@ from collections import defaultdict
 from .research_event_association_v1 import associate_earthquakes
 from .research_origin_assessment_v1 import assess_origin_groups
 from .research_storage_v1 import canonical_bytes
+from .research_verification_boundary_v1 import assess_verification_boundary
 
 def build_corroboration_report(observations, *, max_groups=100,
                                max_seconds=30, max_km=50):
@@ -76,12 +77,14 @@ def build_corroboration_report(observations, *, max_groups=100,
                       "claim_signature":x.get("claim_signature")} for x in members]
         seed={"members":[(x["source_id"],x["observation_id"]) for x in members]}
         cid="corr-"+hashlib.sha256(canonical_bytes(seed)).hexdigest()[:24]
-        report.append({"corroboration_id":cid,"members":member_refs,
+        item={"corroboration_id":cid,"members":member_refs,
             "source_ids":source_ids,"max_delta_seconds":round(max_dt,3),
             "max_distance_km":round(max_km_seen,3),"claim_relation":claim_relation,
             "origin_assessment":origin["assessment"],
             "origin_groups":origin["origin_groups"],
             "independent_origin_credit":bool(origin["independent_origin_credit"] and not ambiguous),
-            "ambiguous":ambiguous,"factual_verification_credit":False})
+            "ambiguous":ambiguous,"factual_verification_credit":False}
+        item.update(assess_verification_boundary(item))
+        report.append(item)
     report.sort(key=lambda x:x["corroboration_id"])
     return report
