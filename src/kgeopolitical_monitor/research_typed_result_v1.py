@@ -68,4 +68,40 @@ def validate_typed_result(request, result):
                 raise ValueError("untyped forecast")
         elif forecast is not None:
             raise ValueError("forecast attached to factual claim")
+    if version=="kgm.research.result.v2":
+        report=result["corroboration"]
+        if not isinstance(report,list) or len(report)>200:
+            raise ValueError("invalid corroboration report")
+        fields={"pair_id","left_source_id","left_observation_id",
+                "right_source_id","right_observation_id","delta_seconds",
+                "distance_km","claim_relation","origin_assessment",
+                "origin_groups","independent_origin_credit","ambiguous",
+                "factual_verification_credit"}
+        seen_pairs=set()
+        for item in report:
+            if not isinstance(item,dict) or set(item)!=fields:
+                raise ValueError("invalid corroboration item")
+            if not isinstance(item["pair_id"],str) or not item["pair_id"] or item["pair_id"] in seen_pairs:
+                raise ValueError("invalid/duplicate corroboration pair")
+            seen_pairs.add(item["pair_id"])
+            for field in ("left_source_id","left_observation_id","right_source_id","right_observation_id"):
+                if not isinstance(item[field],str) or not item[field]:
+                    raise ValueError("invalid corroboration identity")
+            if item["claim_relation"] not in {"AGREES","DIFFERS","UNKNOWN"}:
+                raise ValueError("invalid claim relation")
+            if item["origin_assessment"] not in {"UNKNOWN","SAME_ORIGIN","DISTINCT_ORIGIN"}:
+                raise ValueError("invalid origin assessment")
+            if not isinstance(item["origin_groups"],list) or any(not isinstance(x,str) or not x for x in item["origin_groups"]):
+                raise ValueError("invalid corroboration origin groups")
+            if type(item["independent_origin_credit"]) is not bool or type(item["ambiguous"]) is not bool:
+                raise ValueError("invalid corroboration flags")
+            if item["factual_verification_credit"] is not False:
+                raise ValueError("corroboration cannot auto-verify")
+            if item["ambiguous"] and item["independent_origin_credit"]:
+                raise ValueError("ambiguous corroboration credit denied")
+            if item["origin_assessment"]!="DISTINCT_ORIGIN" and item["independent_origin_credit"]:
+                raise ValueError("invalid independent-origin credit")
+            for field in ("delta_seconds","distance_km"):
+                if not isinstance(item[field],(int,float)) or isinstance(item[field],bool) or item[field]<0:
+                    raise ValueError("invalid corroboration metric")
     return result
