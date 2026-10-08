@@ -1287,3 +1287,43 @@ Next technical track:
 `CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY`
 
 This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Corroboration-to-verification policy boundary — 2026-10-08
+
+Gate:
+`KGM_CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY = PASS_WITH_EXPLICIT_VERIFICATION_REQUIRED`
+
+Exact validated code SHA:
+`8207ee2efeedc154286cb2a03256c94e7d8171a7`
+
+Policy:
+- independent-origin corroboration is necessary but not sufficient for factual verification;
+- ELIGIBLE_FOR_EXPLICIT_VERIFICATION requires non-ambiguous DISTINCT_ORIGIN corroboration, independent-origin credit, >=2 source paths, >=2 origin groups, and structured claim agreement;
+- EVENT_CORROBORATED_CLAIM_UNRESOLVED retains event corroboration while claim disagreement remains unresolved;
+- INELIGIBLE is fail-closed on ambiguity, insufficient origin/source diversity, or unknown claim agreement;
+- no state at this boundary performs automatic verification.
+
+Live validation:
+- corroboration groups: 12;
+- DISTINCT_ORIGIN: 9;
+- independent-origin credit events: 9;
+- SAME_ORIGIN: 3;
+- ambiguous: 0;
+- claim agreement: 4;
+- claim difference: 8;
+- verification eligible: 1;
+- event-corroborated / claim-unresolved: 8;
+- ineligible: 3;
+- auto-verified: 0.
+
+Targeted: `38 passed`.
+Selected regression: `207 passed in 3.03s`.
+
+Acceptance:
+`docs/integrations/KGM_CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY_2026-10-08.md`
+
+Next technical track:
+`EXPLICIT_VERIFICATION_DECISION_ARTIFACT`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
