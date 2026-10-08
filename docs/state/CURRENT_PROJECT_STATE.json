@@ -1106,13 +1106,13 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "EXPLICIT_VERIFICATION_DECISION_ARTIFACT_PASS",
+    "state": "VERIFICATION_REVISION_AND_REVOCATION_LINEAGE_PASS",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "NOT_DECLARED",
-    "exact_validated_code_sha": "f2ce95efc39cc5f8f70efcf8836577d4ad1f8119",
+    "exact_validated_code_sha": "d428173e7ac947a627b950b89f9893de4a105faa",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
-    "acceptance": "docs/integrations/KGM_EXPLICIT_VERIFICATION_DECISION_ARTIFACT_2026-10-08.md",
+    "acceptance": "docs/integrations/KGM_VERIFICATION_REVISION_AND_REVOCATION_LINEAGE_2026-10-08.md",
     "ci": {
       "code_sha_run": 2465,
       "code_sha_conclusion": "SUCCESS",
@@ -1122,8 +1122,8 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "targeted": "32 passed",
-      "selected_regression": "213 passed in 3.23s",
+      "targeted": "29 passed",
+      "selected_regression": "220 passed in 3.47s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1150,7 +1150,7 @@
       "shared_runtime": false,
       "plugin_publication": false
     },
-    "next_track": "VERIFICATION_REVISION_AND_REVOCATION_LINEAGE",
+    "next_track": "VERIFICATION_BASIS_EVIDENCE_LINKAGE",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1345,6 +1345,23 @@
       "effective_verification": "VERIFIED",
       "decision_sha256": "7a88529f673d3907a1b45936a8e0f4a8b9b04681e19840313eb76e27b8a29c41",
       "replay_idempotent": true
+    },
+    "verification_lineage_gate": "KGM_VERIFICATION_REVISION_AND_REVOCATION_LINEAGE_PASS_WITH_IMMUTABLE_HISTORY",
+    "verification_lineage_policy": {
+      "schema": "kgm.verification.revision.v1",
+      "actions": [
+        "VERIFY",
+        "REJECT",
+        "DEFER",
+        "REVOKE"
+      ],
+      "prior_artifact_hash_binding": true,
+      "result_artifact_hash_binding": true,
+      "immutable_history": true,
+      "fork_denied": true,
+      "self_reference_denied": true,
+      "non_monotonic_revision_denied": true,
+      "revoke_requires_effective_verified": true
     }
   }
 }
