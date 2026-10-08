@@ -32,7 +32,7 @@ def fetch(request, *, observed_at_utc, http_get, eventlist="EQ;TC;FL;VO;DR;WF"):
         return [{"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
           "source_id":SOURCE_ID,"observation_id":"gdacs-transport","status":"UNAVAILABLE",
           "observed_at_utc":observed_at_utc,"published_at_utc":None,"available_at_utc":None,
-          "public_url":None,"summary":None,"error_code":"TRANSPORT_UNAVAILABLE","event_identity":None,"claim_signature":None,"origin_group":None}]
+          "public_url":None,"summary":None,"error_code":"TRANSPORT_UNAVAILABLE","event_identity":None,"claim_signature":None,"origin_group":None,"event_parameters":None}]
     features=payload.get("features") if isinstance(payload,dict) else None
     if not isinstance(features,list): raise ValueError("invalid GDACS response")
     out=[]
@@ -50,15 +50,21 @@ def fetch(request, *, observed_at_utc, http_get, eventlist="EQ;TC;FL;VO;DR;WF"):
         event_identity=None
         claim_signature=None
         origin_group=None
+        event_parameters=None
         if eventtype=="EQ":
             geometry=feature.get("geometry") if isinstance(feature,dict) else None
             severity=p.get("severitydata")
             coordinates=geometry.get("coordinates") if isinstance(geometry,dict) and geometry.get("type")=="Point" else None
             if isinstance(coordinates,list) and len(coordinates)>=2 and isinstance(severity,dict) and p.get("fromdate") is not None:
-                event_identity=earthquake_identity(origin_utc=_gdacs_utc(p.get("fromdate")),
+                origin=_gdacs_utc(p.get("fromdate"))
+                magnitude=severity.get("severity")
+                event_identity=earthquake_identity(origin_utc=origin,
                                                     latitude=coordinates[1],
                                                     longitude=coordinates[0])
-                claim_signature=earthquake_claim_signature(magnitude=severity.get("severity"))
+                claim_signature=earthquake_claim_signature(magnitude=magnitude)
+                event_parameters={"kind":"EARTHQUAKE","origin_utc":origin,
+                                  "latitude":coordinates[1],"longitude":coordinates[0],
+                                  "magnitude":magnitude}
                 if str(p.get("source","")).upper()=="NEIC":
                     origin_group="usgs-neic"
         public=f"https://www.gdacs.org/resources.aspx?eventid={eventid}&eventtype={eventtype}"
@@ -68,11 +74,11 @@ def fetch(request, *, observed_at_utc, http_get, eventlist="EQ;TC;FL;VO;DR;WF"):
             out.append({"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
               "source_id":SOURCE_ID,"observation_id":f"gdacs-{n:03d}","status":status,
               "observed_at_utc":observed_at_utc,"published_at_utc":None,"available_at_utc":None,
-              "public_url":None,"summary":None,"error_code":"HISTORICAL_AVAILABILITY_UNPROVEN","event_identity":None,"claim_signature":None,"origin_group":None})
+              "public_url":None,"summary":None,"error_code":"HISTORICAL_AVAILABILITY_UNPROVEN","event_identity":None,"claim_signature":None,"origin_group":None,"event_parameters":None})
         else:
             out.append({"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
               "source_id":SOURCE_ID,"observation_id":f"gdacs-{n:03d}","status":status,
               "observed_at_utc":observed_at_utc,"published_at_utc":published,
               "available_at_utc":observed_at_utc,"public_url":public,"summary":title[:1000],
-              "error_code":None,"event_identity":event_identity,"claim_signature":claim_signature,"origin_group":origin_group})
+              "error_code":None,"event_identity":event_identity,"claim_signature":claim_signature,"origin_group":origin_group,"event_parameters":event_parameters})
     return out
