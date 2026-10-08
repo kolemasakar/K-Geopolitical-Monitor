@@ -1247,3 +1247,43 @@ Next technical track:
 `INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION`
 
 This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Independent-origin corroboration integration — 2026-10-08
+
+Gate:
+`KGM_INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION = PASS_WITH_NO_AUTO_VERIFICATION`
+
+Latest validated head:
+`8fb9f6fa7197b59d01fb65a8a5f7b50a3c048804`
+
+Integrated:
+- typed result `kgm.research.result.v2`;
+- bounded event-level corroboration groups;
+- SAME-origin publication paths do not double-count;
+- DISTINCT-origin credit is per physical event;
+- ambiguous association denies credit;
+- corroboration cannot set factual verification credit.
+
+Live result:
+- `PARTIAL / PARTIAL / DEGRADED`;
+- 20 records;
+- 13 corroboration groups;
+- 10 DISTINCT_ORIGIN groups;
+- 10 independent-origin credit events;
+- 3 SAME_ORIGIN groups;
+- 0 ambiguous groups;
+- 9 structured claim-difference groups;
+- 0 auto-verified events;
+- 0 GDELT network calls under cooldown.
+
+Selected regression:
+`200 passed in 2.91s`.
+
+Acceptance:
+`docs/integrations/KGM_INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION_2026-10-08.md`
+
+Next technical track:
+`CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
