@@ -77,7 +77,7 @@ def fetch(request, *, observed_at_utc, http_get, query=None):
             if published_dt<start or published_dt>end:
                 continue
         else:
-            match=re.search(r"/(20\\d{2})/(\\d{2})/(\\d{2})/",urlparse(link).path)
+            match=re.search(r"/(20\d{2})/(\d{2})/(\d{2})/",urlparse(link).path)
             if not match:
                 continue
             day=datetime(int(match.group(1)),int(match.group(2)),int(match.group(3)),tzinfo=timezone.utc)
