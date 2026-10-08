@@ -1106,13 +1106,13 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "CORRELATED_EVENT_ORIGIN_ASSESSMENT_PASS_ZERO_INDEPENDENT_ORIGIN_CREDIT",
+    "state": "GFZ_INDEPENDENT_ORIGIN_SOURCE_EXPANSION_PASS",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "NOT_DECLARED",
-    "exact_validated_code_sha": "7d04b132ea16c90bd7d532fa9c1f09c0dc3b3bc1",
+    "exact_validated_code_sha": "bd59dcf533788b6bcdde498ff112830137144d46",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
-    "acceptance": "docs/integrations/KGM_CORRELATED_EVENT_ORIGIN_ASSESSMENT_2026-10-07.md",
+    "acceptance": "docs/integrations/KGM_INDEPENDENT_ORIGIN_SOURCE_EXPANSION_GFZ_2026-10-08.md",
     "ci": {
       "code_sha_run": 2465,
       "code_sha_conclusion": "SUCCESS",
@@ -1122,8 +1122,8 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "targeted": "34 passed",
-      "selected_regression": "192 passed in 2.88s",
+      "targeted": "38 passed",
+      "selected_regression": "196 passed in 2.94s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1150,7 +1150,7 @@
       "shared_runtime": false,
       "plugin_publication": false
     },
-    "next_track": "INDEPENDENT_ORIGIN_SOURCE_EXPANSION",
+    "next_track": "INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1218,6 +1218,47 @@
       "unknown_origin": 0,
       "independent_origin_credit_events": 0,
       "shared_origin_group": "usgs-neic"
+    },
+    "independent_origin_source_gate": "KGM_INDEPENDENT_ORIGIN_SOURCE_EXPANSION_GFZ_PASS_WITH_BOUNDED_ASSOCIATION",
+    "gfz_source": {
+      "source_id": "gfz-geofon",
+      "origin_group": "gfz-geofon",
+      "public_free_read_only": true,
+      "credentials": false,
+      "paid_fallback": false,
+      "historical_backdating": false
+    },
+    "association_policy": {
+      "event_kind": "EARTHQUAKE",
+      "max_seconds": 30,
+      "max_km": 50,
+      "missing_parameters": "NO_MATCH",
+      "outside_tolerance": "NO_MATCH",
+      "factual_verification_credit": false
+    },
+    "live_independent_origin_validation": {
+      "window": "24H",
+      "usgs_count": 13,
+      "gfz_count": 11,
+      "unique_matches": 10,
+      "ambiguous_matches": 0,
+      "distinct_origin_matches": 10,
+      "independent_origin_credit_matches": 10,
+      "same_origin_matches": 0
+    },
+    "live_four_source_result": {
+      "research_status": "PARTIAL",
+      "coverage": "PARTIAL",
+      "source_health": "DEGRADED",
+      "record_count": 20,
+      "represented_sources": [
+        "gdacs-events",
+        "gfz-geofon",
+        "usgs-earthquake"
+      ],
+      "gdelt_network_calls": 0,
+      "result_id": "result-c281836a0265f545ab0be3b1",
+      "recovery_pending": 0
     }
   }
 }
