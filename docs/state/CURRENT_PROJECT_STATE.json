@@ -1106,13 +1106,13 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "GFZ_INDEPENDENT_ORIGIN_SOURCE_EXPANSION_PASS",
+    "state": "INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION_PASS_NO_AUTO_VERIFICATION",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "NOT_DECLARED",
     "exact_validated_code_sha": "bd59dcf533788b6bcdde498ff112830137144d46",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
-    "acceptance": "docs/integrations/KGM_INDEPENDENT_ORIGIN_SOURCE_EXPANSION_GFZ_2026-10-08.md",
+    "acceptance": "docs/integrations/KGM_INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION_2026-10-08.md",
     "ci": {
       "code_sha_run": 2465,
       "code_sha_conclusion": "SUCCESS",
@@ -1122,8 +1122,8 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "targeted": "38 passed",
-      "selected_regression": "196 passed in 2.94s",
+      "targeted": "31 passed",
+      "selected_regression": "200 passed in 2.91s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1150,7 +1150,7 @@
       "shared_runtime": false,
       "plugin_publication": false
     },
-    "next_track": "INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION",
+    "next_track": "CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1258,6 +1258,32 @@
       ],
       "gdelt_network_calls": 0,
       "result_id": "result-c281836a0265f545ab0be3b1",
+      "recovery_pending": 0
+    },
+    "corroboration_integration_gate": "KGM_INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION_PASS_WITH_NO_AUTO_VERIFICATION",
+    "latest_validated_head": "8fb9f6fa7197b59d01fb65a8a5f7b50a3c048804",
+    "live_v2_execution_sha": "29f47567338b04cb8bfebfb9aeb96131fabc3387",
+    "typed_result_v2": {
+      "schema": "kgm.research.result.v2",
+      "corroboration_level": "PHYSICAL_EVENT",
+      "double_count_same_origin_paths": false,
+      "ambiguous_origin_credit": false,
+      "automatic_factual_verification": false
+    },
+    "live_corroboration_result": {
+      "research_status": "PARTIAL",
+      "coverage": "PARTIAL",
+      "source_health": "DEGRADED",
+      "record_count": 20,
+      "corroboration_groups": 13,
+      "distinct_origin_groups": 10,
+      "independent_origin_credit_events": 10,
+      "same_origin_groups": 3,
+      "ambiguous_groups": 0,
+      "claim_difference_groups": 9,
+      "auto_verified_events": 0,
+      "gdelt_network_calls": 0,
+      "result_id": "result-68f7dbfc09fa3f29f01a5970",
       "recovery_pending": 0
     }
   }
