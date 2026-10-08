@@ -75,7 +75,8 @@ def validate_typed_result(request, result):
         fields={"corroboration_id","members","source_ids",
                 "max_delta_seconds","max_distance_km","claim_relation",
                 "origin_assessment","origin_groups","independent_origin_credit",
-                "ambiguous","factual_verification_credit"}
+                "ambiguous","factual_verification_credit",
+                "verification_eligibility","verification_blockers","automatic_verification"}
         member_fields={"source_id","observation_id","origin_group","claim_signature"}
         seen_ids=set()
         for item in report:
@@ -106,8 +107,14 @@ def validate_typed_result(request, result):
                 raise ValueError("invalid corroboration origin groups")
             if type(item["independent_origin_credit"]) is not bool or type(item["ambiguous"]) is not bool:
                 raise ValueError("invalid corroboration flags")
-            if item["factual_verification_credit"] is not False:
+            if item["factual_verification_credit"] is not False or item["automatic_verification"] is not False:
                 raise ValueError("corroboration cannot auto-verify")
+            if item["verification_eligibility"] not in {"ELIGIBLE_FOR_EXPLICIT_VERIFICATION","INELIGIBLE","EVENT_CORROBORATED_CLAIM_UNRESOLVED"}:
+                raise ValueError("invalid verification eligibility")
+            if not isinstance(item["verification_blockers"],list) or any(not isinstance(x,str) or not x for x in item["verification_blockers"]):
+                raise ValueError("invalid verification blockers")
+            if item["verification_eligibility"]=="ELIGIBLE_FOR_EXPLICIT_VERIFICATION" and item["verification_blockers"]:
+                raise ValueError("eligible corroboration has blockers")
             if item["ambiguous"] and item["independent_origin_credit"]:
                 raise ValueError("ambiguous corroboration credit denied")
             if item["origin_assessment"]!="DISTINCT_ORIGIN" and item["independent_origin_credit"]:
