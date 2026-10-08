@@ -747,3 +747,42 @@ Next track:
 `VERIFICATION_REVISION_AND_REVOCATION_LINEAGE`
 
 `KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
+
+
+## 2026-10-08 — Verification revision and revocation lineage
+
+`KGM_VERIFICATION_REVISION_AND_REVOCATION_LINEAGE = PASS_WITH_IMMUTABLE_HISTORY`
+
+Exact validated code SHA: `d428173e7ac947a627b950b89f9893de4a105faa`.
+
+Implemented:
+- immutable `kgm.verification.revision.v1`;
+- each revision supersedes exactly one prior decision/revision;
+- exact prior-artifact SHA binding;
+- exact result-artifact SHA binding;
+- explicit authorized actor, monotonic timestamp and rationale;
+- actions: VERIFY / REJECT / DEFER / REVOKE;
+- lineage fork denied;
+- self-reference denied;
+- conflicting replay denied;
+- earlier artifacts are never deleted or rewritten.
+
+Effective overlay:
+- VERIFY → VERIFIED;
+- REJECT → DISPUTED;
+- DEFER / REVOKE → UNVERIFIED.
+
+REVOKE is accepted only from an effective VERIFIED state.
+
+Targeted: `29 passed`.
+Selected regression: `220 passed in 3.47s`.
+
+The real owner-pilot decision `verify-chagos-001` was deliberately not revised/revoked because this checkpoint established no new contradictory evidence.
+
+Acceptance:
+`docs/integrations/KGM_VERIFICATION_REVISION_AND_REVOCATION_LINEAGE_2026-10-08.md`
+
+Next track:
+`VERIFICATION_BASIS_EVIDENCE_LINKAGE`
+
+`KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
