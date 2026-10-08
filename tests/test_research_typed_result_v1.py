@@ -90,7 +90,9 @@ def _v2():
         "max_delta_seconds":2.0,"max_distance_km":10.0,
         "claim_relation":"AGREES","origin_assessment":"DISTINCT_ORIGIN",
         "origin_groups":["origin-a","origin-b"],"independent_origin_credit":True,
-        "ambiguous":False,"factual_verification_credit":False}]
+        "ambiguous":False,"factual_verification_credit":False,
+        "verification_eligibility":"ELIGIBLE_FOR_EXPLICIT_VERIFICATION",
+        "verification_blockers":[],"automatic_verification":False}]
     return req,result
 
 def test_v2_corroboration_is_typed_and_does_not_auto_verify():
@@ -104,4 +106,17 @@ def test_v2_ambiguous_corroboration_cannot_keep_origin_credit():
     req,result=_v2()
     result["corroboration"][0]["ambiguous"]=True
     with pytest.raises(ValueError,match="ambiguous corroboration credit denied"):
+        validate_typed_result(req,result)
+
+
+def test_v2_eligible_still_cannot_be_automatically_verified():
+    req,result=_v2()
+    result["corroboration"][0]["automatic_verification"]=True
+    with pytest.raises(ValueError,match="cannot auto-verify"):
+        validate_typed_result(req,result)
+
+def test_v2_eligible_cannot_keep_blockers():
+    req,result=_v2()
+    result["corroboration"][0]["verification_blockers"]=["SOMETHING"]
+    with pytest.raises(ValueError,match="eligible corroboration has blockers"):
         validate_typed_result(req,result)
