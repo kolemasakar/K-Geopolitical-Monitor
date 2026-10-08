@@ -821,3 +821,38 @@ Next track:
 `VERIFICATION_EFFECTIVE_STATE_RESOLUTION`
 
 `KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
+
+
+## 2026-10-08 — Verification effective-state resolution
+
+`KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION = PASS_WITH_STALENESS_SIGNAL`
+
+Exact validated code SHA: `2cdf937201990d32ca59efd83c145c39e1330e33`.
+
+Resolver now:
+- requires exactly one root verification decision per corroboration target;
+- follows a single supersedes chain;
+- validates decision/revision integrity;
+- detects missing links, forks, cycles/disconnected artifacts and non-monotonic timestamps;
+- validates evidence-bound v2 revision basis hashes and targets;
+- reports effective VERIFIED / DISPUTED / UNVERIFIED;
+- reports unapplied evidence bases;
+- sets `effective_state_stale = true` when post-head evidence exists but has not been explicitly applied.
+
+Real owner-pilot target `corr-a7d18a9a3186cd5a9d1d99c4` resolves to:
+- root/head: `verify-chagos-001`;
+- effective verification: VERIFIED;
+- unapplied basis: none;
+- post-head basis: none;
+- stale: false.
+
+Targeted: `24 passed`.
+Selected regression: `231 passed in 3.93s`.
+
+Acceptance:
+`docs/integrations/KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_2026-10-08.md`
+
+Next track:
+`INDEPENDENT_RESEARCH_READINESS_AUDIT_V2`
+
+`KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
