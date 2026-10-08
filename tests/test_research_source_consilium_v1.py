@@ -8,14 +8,14 @@ XML="""<?xml version="1.0"?>
 <item>
 <title>EU statement on Ukraine</title>
 <description>European Council statement concerning Ukraine and security.</description>
-<link>https://www.consilium.europa.eu/en/press/press-releases/2026/09/02/ukraine/</link>
-<pubDate>Wed, 02 Sep 2026 11:00:00 +0000</pubDate>
+<link>https://www.consilium.europa.eu/en/press/press-releases/2026/09/01/ukraine/</link>
+<pubDate>Wed, 01 Sep 2026 11:00:00 +0000</pubDate>
 </item>
 <item>
 <title>Other topic</title>
 <description>Unrelated material.</description>
-<link>https://www.consilium.europa.eu/en/press/press-releases/2026/09/02/other/</link>
-<pubDate>Wed, 02 Sep 2026 10:00:00 +0000</pubDate>
+<link>https://www.consilium.europa.eu/en/press/press-releases/2026/09/01/other/</link>
+<pubDate>Wed, 01 Sep 2026 10:00:00 +0000</pubDate>
 </item>
 </channel></rss>"""
 
@@ -30,7 +30,7 @@ def test_consilium_fixture_normalizes_official_observation():
     item=items[0]
     assert item["source_id"]==SOURCE_ID
     assert item["origin_group"]=="consilium-eu-council"
-    assert item["published_at_utc"]=="2026-09-02T11:00:00Z"
+    assert item["published_at_utc"]=="2026-09-01T11:00:00Z"
     assert normalize_observations(req,items)[0]["status"]=="SUCCESS"
 
 def test_consilium_no_match_is_healthy_empty():
