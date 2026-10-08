@@ -786,3 +786,38 @@ Next track:
 `VERIFICATION_BASIS_EVIDENCE_LINKAGE`
 
 `KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
+
+
+## 2026-10-08 — Verification basis evidence linkage
+
+`KGM_VERIFICATION_BASIS_EVIDENCE_LINKAGE = PASS_WITH_EVIDENCE_BOUND_REVISIONS`
+
+Exact validated code SHA: `c87a48c9e489da200acbfc145065945f947c28ff`.
+
+Implemented:
+- immutable `kgm.verification.basis.v1`;
+- basis types: CONFIRMATION / CONTRADICTION / CORRECTION / SOURCE_REVISION;
+- 1..20 explicit evidence references with source id, HTTPS URL, observed UTC, content SHA-256 and bounded summary;
+- future evidence timestamps denied;
+- immutable/idempotent basis artifacts;
+- evidence-bound `kgm.verification.revision.v2`;
+- exact superseded-artifact SHA, result-artifact SHA and basis-artifact SHA binding;
+- VERIFY requires confirmation/source-revision basis;
+- REVOKE/REJECT require adverse basis;
+- prior lineage, actor, monotonic timestamp and fork protections remain active.
+
+Validated chain:
+`VERIFY → CONTRADICTION basis → REVOKE → CONFIRMATION basis → VERIFY`.
+
+The real owner-pilot decision `verify-chagos-001` was not revised because no new contradictory/corrective real evidence was established.
+
+Targeted: `24 passed`.
+Selected regression: `226 passed in 3.64s`.
+
+Acceptance:
+`docs/integrations/KGM_VERIFICATION_BASIS_EVIDENCE_LINKAGE_2026-10-08.md`
+
+Next track:
+`VERIFICATION_EFFECTIVE_STATE_RESOLUTION`
+
+`KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
