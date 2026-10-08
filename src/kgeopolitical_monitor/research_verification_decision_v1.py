@@ -48,7 +48,9 @@ def validate_decision(decision, *, request, result, result_artifact_sha256,
         request["request_id"],request["consumer_id"],result["result_id"],
         request["policy_version"]):
         raise ValueError("verification decision correlation mismatch")
-    _utc(decision["decided_at_utc"])
+    decided=_utc(decision["decided_at_utc"])
+    if decided < _utc(result["generated_at_utc"]):
+        raise ValueError("verification decision predates result")
     if decision["decision"] not in DECISIONS:
         raise ValueError("invalid verification decision")
     if not isinstance(decision["rationale"],str) or not 20<=len(decision["rationale"])<=2000:
