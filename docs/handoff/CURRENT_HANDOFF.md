@@ -705,3 +705,45 @@ Next track:
 `EXPLICIT_VERIFICATION_DECISION_ARTIFACT`
 
 `KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
+
+
+## 2026-10-08 — Explicit verification decision artifact
+
+`KGM_EXPLICIT_VERIFICATION_DECISION_ARTIFACT = PASS_WITH_IMMUTABLE_OVERLAY`
+
+Exact validated code SHA: `f2ce95efc39cc5f8f70efcf8836577d4ad1f8119`.
+
+Implemented:
+- separate immutable `kgm.verification.decision.v1` artifact;
+- exact binding to request, result id, result artifact SHA-256 and corroboration id;
+- explicit authorized actor + policy version;
+- explicit decision timestamp and bounded rationale;
+- VERIFY allowed only for `ELIGIBLE_FOR_EXPLICIT_VERIFICATION` with no blockers;
+- decision cannot predate result;
+- idempotent exact replay;
+- conflicting replay denied;
+- base immutable research result is never rewritten.
+
+Effective overlay:
+- VERIFY → VERIFIED;
+- REJECT → DISPUTED;
+- DEFER → UNVERIFIED.
+
+Real owner-pilot decision:
+- result: `result-f1d23762fe3c577e4e28aa29`;
+- corroboration: `corr-a7d18a9a3186cd5a9d1d99c4`;
+- decision id: `verify-chagos-001`;
+- effective verification: `VERIFIED`;
+- decision SHA-256: `7a88529f673d3907a1b45936a8e0f4a8b9b04681e19840313eb76e27b8a29c41`;
+- exact replay preserved the same SHA.
+
+Targeted: `32 passed`.
+Selected regression: `213 passed in 3.23s`.
+
+Acceptance:
+`docs/integrations/KGM_EXPLICIT_VERIFICATION_DECISION_ARTIFACT_2026-10-08.md`
+
+Next track:
+`VERIFICATION_REVISION_AND_REVOCATION_LINEAGE`
+
+`KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
