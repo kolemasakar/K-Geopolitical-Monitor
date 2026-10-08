@@ -37,7 +37,7 @@ def fetch(request, *, observed_at_utc, http_get, min_magnitude=4.5):
         return [{"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
           "source_id":SOURCE_ID,"observation_id":"usgs-transport","status":"UNAVAILABLE",
           "observed_at_utc":observed_at_utc,"published_at_utc":None,"available_at_utc":None,
-          "public_url":None,"summary":None,"error_code":"TRANSPORT_UNAVAILABLE","event_identity":None,"claim_signature":None,"origin_group":"usgs-neic"}]
+          "public_url":None,"summary":None,"error_code":"TRANSPORT_UNAVAILABLE","event_identity":None,"claim_signature":None,"origin_group":"usgs-neic","event_parameters":None}]
     features=payload.get("features") if isinstance(payload,dict) else None
     if not isinstance(features,list):
         raise ValueError("invalid USGS response")
@@ -59,18 +59,22 @@ def fetch(request, *, observed_at_utc, http_get, min_magnitude=4.5):
         coordinates=geometry.get("coordinates")
         if not isinstance(coordinates,list) or len(coordinates)<2:
             raise ValueError("invalid USGS coordinates")
+        magnitude=props.get("mag")
         event_identity=earthquake_identity(origin_utc=origin,latitude=coordinates[1],
                                             longitude=coordinates[0])
-        claim_signature=earthquake_claim_signature(magnitude=props.get("mag"))
+        claim_signature=earthquake_claim_signature(magnitude=magnitude)
+        event_parameters={"kind":"EARTHQUAKE","origin_utc":origin,
+                          "latitude":coordinates[1],"longitude":coordinates[0],
+                          "magnitude":magnitude}
         if request["mode"]=="HISTORICAL_AS_OF" and _utc(observed_at_utc)>_utc(request["as_of_utc"]):
             out.append({"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
               "source_id":SOURCE_ID,"observation_id":"usgs-"+fid,"status":"INVALID",
               "observed_at_utc":observed_at_utc,"published_at_utc":None,"available_at_utc":None,
-              "public_url":None,"summary":None,"error_code":"HISTORICAL_AVAILABILITY_UNPROVEN","event_identity":None,"claim_signature":None,"origin_group":"usgs-neic"})
+              "public_url":None,"summary":None,"error_code":"HISTORICAL_AVAILABILITY_UNPROVEN","event_identity":None,"claim_signature":None,"origin_group":"usgs-neic","event_parameters":None})
         else:
             out.append({"schema_version":"kgm.source.observation.v1","request_id":request["request_id"],
               "source_id":SOURCE_ID,"observation_id":"usgs-"+fid,"status":"SUCCESS",
               "observed_at_utc":observed_at_utc,"published_at_utc":published,
               "available_at_utc":observed_at_utc,"public_url":url,"summary":title[:1000],
-              "error_code":None,"event_identity":event_identity,"claim_signature":claim_signature,"origin_group":"usgs-neic"})
+              "error_code":None,"event_identity":event_identity,"claim_signature":claim_signature,"origin_group":"usgs-neic","event_parameters":event_parameters})
     return out
