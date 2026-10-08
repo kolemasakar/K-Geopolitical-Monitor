@@ -8,14 +8,17 @@ VERIFICATION = {"VERIFIED", "DISPUTED", "UNVERIFIED", "NOT_APPLICABLE"}
 
 def validate_typed_result(request, result):
     validate_request(request)
-    expected = {"schema_version", "request_id", "consumer_id", "result_id",
-                "generated_at_utc", "producer_snapshot_id", "policy_version",
-                "research_status", "coverage", "source_health", "records"}
-    if not isinstance(result, dict) or set(result) != expected:
+    base = {"schema_version", "request_id", "consumer_id", "result_id",
+            "generated_at_utc", "producer_snapshot_id", "policy_version",
+            "research_status", "coverage", "source_health", "records"}
+    if not isinstance(result, dict):
         raise ValueError("unapproved result fields")
-    if result["schema_version"] != "kgm.research.result.v1" or (
-        result["request_id"], result["consumer_id"], result["policy_version"]
-    ) != (request["request_id"], request["consumer_id"], request["policy_version"]):
+    version=result.get("schema_version")
+    expected=base if version=="kgm.research.result.v1" else (base | {"corroboration"} if version=="kgm.research.result.v2" else set())
+    if not expected or set(result) != expected:
+        raise ValueError("unapproved result fields")
+    if (result["request_id"], result["consumer_id"], result["policy_version"]) != (
+        request["request_id"], request["consumer_id"], request["policy_version"]):
         raise ValueError("result correlation mismatch")
     _utc(result["generated_at_utc"])
     if not isinstance(result["result_id"], str) or not result["result_id"] or not isinstance(result["producer_snapshot_id"], str) or not result["producer_snapshot_id"]:
