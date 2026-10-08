@@ -9,7 +9,7 @@ import html
 import re
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
-from urllib.parse import urlparse
+from urllib.parse import urlparse\nfrom datetime import datetime, timezone
 from .research_request_v1 import validate_request, _utc
 
 SOURCE_ID="consilium-press-releases"
