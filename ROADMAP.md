@@ -1463,3 +1463,32 @@ Next technical track:
 `INDEPENDENT_RESEARCH_READINESS_AUDIT_V2`
 
 This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Independent research readiness audit v2 — 2026-10-08
+
+Status:
+`NOT READY FOR GATE`
+
+Exact validated code SHA before audit:
+`2cdf937201990d32ca59efd83c145c39e1330e33`
+
+Owner-pilot blockers resolved since audit v1:
+- real source execution;
+- bounded canonical worker;
+- legacy helper decoupling;
+- multi-source/origin/corroboration/verification lineage.
+
+Blocking P0 gaps:
+1. required source portfolio not explicitly bound to execution;
+2. normalized live observations not durably staged before terminal result construction;
+3. canonical geopolitical source breadth remains too narrow;
+4. real HISTORICAL_AS_OF replay from first-seen evidence is not yet operational.
+
+Audit:
+`docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V2_2026-10-08.md`
+
+Next technical track:
+`SOURCE_PORTFOLIO_COMPLETENESS_AND_DURABLE_OBSERVATION_STAGING`
+
+Do not declare `KGM_INDEPENDENT_RESEARCH_READY`.
