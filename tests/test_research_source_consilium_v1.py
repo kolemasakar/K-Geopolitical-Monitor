@@ -54,3 +54,15 @@ def test_consilium_malformed_xml_fails_closed():
     with pytest.raises(ValueError,match="invalid Consilium XML"):
         fetch(current(),observed_at_utc="2026-09-28T12:00:00Z",
               http_get=lambda _:"<rss>",query="Ukraine")
+
+
+def test_consilium_missing_pubdate_uses_first_observed_boundary():
+    req=current()
+    xml="""<rss><channel><item>
+    <title>Official EU statement</title>
+    <description>Current official statement.</description>
+    <link>https://www.consilium.europa.eu/en/press/press-releases/2026/09/01/official-statement/</link>
+    </item></channel></rss>"""
+    items=fetch(req,observed_at_utc="2026-09-28T12:00:00Z",http_get=lambda _:xml)
+    assert items[0]["published_at_utc"]=="2026-09-28T12:00:00Z"
+    assert items[0]["available_at_utc"]=="2026-09-28T12:00:00Z"
