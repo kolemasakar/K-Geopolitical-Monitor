@@ -662,3 +662,46 @@ Next track:
 `CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY`
 
 `KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
+
+
+## 2026-10-08 — Corroboration-to-verification policy boundary
+
+`KGM_CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY = PASS_WITH_EXPLICIT_VERIFICATION_REQUIRED`
+
+Exact validated code SHA: `8207ee2efeedc154286cb2a03256c94e7d8171a7`.
+
+Policy states:
+- `ELIGIBLE_FOR_EXPLICIT_VERIFICATION`: non-ambiguous, DISTINCT_ORIGIN, independent-origin credit, >=2 source paths, >=2 origin groups, structured claim agreement;
+- `EVENT_CORROBORATED_CLAIM_UNRESOLVED`: event independently corroborated but structured claims differ;
+- `INELIGIBLE`: fail-closed on ambiguity, no independent origin, insufficient source/origin diversity, or unknown claim agreement.
+
+No state at this boundary auto-verifies a claim:
+- `automatic_verification = false`;
+- `factual_verification_credit = false`.
+
+Live boundary validation:
+- 12 corroboration groups;
+- 9 DISTINCT_ORIGIN;
+- 9 independent-origin credit events;
+- 3 SAME_ORIGIN;
+- 0 ambiguous;
+- 4 claim-agreement groups;
+- 8 claim-difference groups;
+- 1 explicit-verification eligible;
+- 8 event-corroborated / claim-unresolved;
+- 3 ineligible;
+- 0 automatic verification;
+- 0 factual verification credits;
+- result id `result-f1d23762fe3c577e4e28aa29`;
+- recovery pending empty.
+
+Targeted: `38 passed`.
+Selected regression: `207 passed in 3.03s`.
+
+Acceptance:
+`docs/integrations/KGM_CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY_2026-10-08.md`
+
+Next track:
+`EXPLICIT_VERIFICATION_DECISION_ARTIFACT`
+
+`KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 position remains unchanged.
