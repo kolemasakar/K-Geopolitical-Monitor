@@ -1209,3 +1209,41 @@ Next technical track:
 `INDEPENDENT_ORIGIN_SOURCE_EXPANSION`
 
 This milestone does not advance the canonical Phase 23 strategic gate and does not declare `KGM_INDEPENDENT_RESEARCH_READY`.
+
+
+### Independent-origin source expansion — GFZ GEOFON — 2026-10-08
+
+Gate:
+`KGM_INDEPENDENT_ORIGIN_SOURCE_EXPANSION_GFZ = PASS_WITH_BOUNDED_ASSOCIATION`
+
+Exact validated code SHA:
+`bd59dcf533788b6bcdde498ff112830137144d46`
+
+Added:
+- GFZ GEOFON FDSN public/free/read-only source;
+- explicit `gfz-geofon` underlying origin group;
+- structured event parameters;
+- conservative earthquake association using <=30 s and <=50 km;
+- historical no-backdating preserved.
+
+Live 24h USGS/NEIC vs GFZ:
+- USGS: 13;
+- GFZ: 11;
+- unique matches: 10;
+- ambiguous: 0;
+- DISTINCT_ORIGIN: 10;
+- origin-level independence credit: 10;
+- SAME_ORIGIN: 0.
+
+Live source-path cycle represented GDACS, GFZ and USGS simultaneously while GDELT remained under cooldown. Result stayed `PARTIAL / PARTIAL / DEGRADED`, as required.
+
+Targeted: `38 passed`.
+Selected regression: `196 passed in 2.94s`.
+
+Acceptance:
+`docs/integrations/KGM_INDEPENDENT_ORIGIN_SOURCE_EXPANSION_GFZ_2026-10-08.md`
+
+Next technical track:
+`INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
