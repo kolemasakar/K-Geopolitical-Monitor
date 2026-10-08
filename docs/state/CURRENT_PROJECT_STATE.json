@@ -1106,13 +1106,13 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "VERIFICATION_BASIS_EVIDENCE_LINKAGE_PASS",
+    "state": "VERIFICATION_EFFECTIVE_STATE_RESOLUTION_PASS",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "NOT_DECLARED",
-    "exact_validated_code_sha": "c87a48c9e489da200acbfc145065945f947c28ff",
+    "exact_validated_code_sha": "2cdf937201990d32ca59efd83c145c39e1330e33",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
-    "acceptance": "docs/integrations/KGM_VERIFICATION_BASIS_EVIDENCE_LINKAGE_2026-10-08.md",
+    "acceptance": "docs/integrations/KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_2026-10-08.md",
     "ci": {
       "code_sha_run": 2465,
       "code_sha_conclusion": "SUCCESS",
@@ -1123,7 +1123,7 @@
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
       "targeted": "24 passed",
-      "selected_regression": "226 passed in 3.64s",
+      "selected_regression": "231 passed in 3.93s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1150,7 +1150,7 @@
       "shared_runtime": false,
       "plugin_publication": false
     },
-    "next_track": "VERIFICATION_EFFECTIVE_STATE_RESOLUTION",
+    "next_track": "INDEPENDENT_RESEARCH_READINESS_AUDIT_V2",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1379,6 +1379,31 @@
       "revision_requires_basis_hash": true,
       "revoke_reject_require_adverse_basis": true,
       "verify_requires_confirmation_or_source_revision": true
+    },
+    "verification_state_resolution_gate": "KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_PASS_WITH_STALENESS_SIGNAL",
+    "verification_state_resolver": {
+      "exact_single_root": true,
+      "missing_link_detection": true,
+      "fork_detection": true,
+      "cycle_disconnected_detection": true,
+      "monotonic_timestamp_validation": true,
+      "basis_integrity_validation": true,
+      "effective_state_values": [
+        "VERIFIED",
+        "DISPUTED",
+        "UNVERIFIED"
+      ],
+      "unapplied_basis_reporting": true,
+      "post_head_evidence_staleness_signal": true
+    },
+    "live_effective_state": {
+      "corroboration_id": "corr-a7d18a9a3186cd5a9d1d99c4",
+      "root_decision_id": "verify-chagos-001",
+      "head_artifact_id": "verify-chagos-001",
+      "effective_verification": "VERIFIED",
+      "unapplied_basis": 0,
+      "post_head_basis": 0,
+      "effective_state_stale": false
     }
   }
 }
