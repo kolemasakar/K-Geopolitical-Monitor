@@ -14,7 +14,7 @@ def validate_source_observation(request, observation):
     base_fields = {"schema_version","request_id","source_id","observation_id","status",
               "observed_at_utc","published_at_utc","available_at_utc","public_url",
               "summary","error_code"}
-    optional_fields={"event_identity","claim_signature","origin_group"}
+    optional_fields={"event_identity","claim_signature","origin_group","event_parameters"}
     if not isinstance(observation, dict) or not base_fields <= set(observation) or set(observation)-base_fields-optional_fields:
         raise ValueError("unapproved source observation fields")
     identity=observation.get("event_identity")
@@ -28,6 +28,18 @@ def validate_source_observation(request, observation):
     origin_group=observation.get("origin_group")
     if origin_group is not None and (not isinstance(origin_group,str) or not _ID.fullmatch(origin_group)):
         raise ValueError("invalid origin group")
+    params=observation.get("event_parameters")
+    if params is not None:
+        if not isinstance(params,dict) or set(params)!={"kind","origin_utc","latitude","longitude","magnitude"}:
+            raise ValueError("invalid event parameters")
+        if params["kind"]!="EARTHQUAKE":
+            raise ValueError("unsupported event parameter kind")
+        _utc(params["origin_utc"])
+        for field in ("latitude","longitude","magnitude"):
+            if not isinstance(params[field],(int,float)) or isinstance(params[field],bool):
+                raise ValueError("invalid event parameter value")
+        if not -90 <= params["latitude"] <= 90 or not -180 <= params["longitude"] <= 180 or not 0 <= params["magnitude"] <= 10:
+            raise ValueError("event parameter out of range")
     if observation["schema_version"] != OBSERVATION_VERSION or observation["request_id"] != request["request_id"]:
         raise ValueError("source observation correlation mismatch")
     for field in ("source_id","observation_id"):
