@@ -70,23 +70,34 @@ def validate_typed_result(request, result):
             raise ValueError("forecast attached to factual claim")
     if version=="kgm.research.result.v2":
         report=result["corroboration"]
-        if not isinstance(report,list) or len(report)>200:
+        if not isinstance(report,list) or len(report)>100:
             raise ValueError("invalid corroboration report")
-        fields={"pair_id","left_source_id","left_observation_id",
-                "right_source_id","right_observation_id","delta_seconds",
-                "distance_km","claim_relation","origin_assessment",
-                "origin_groups","independent_origin_credit","ambiguous",
-                "factual_verification_credit"}
-        seen_pairs=set()
+        fields={"corroboration_id","members","source_ids",
+                "max_delta_seconds","max_distance_km","claim_relation",
+                "origin_assessment","origin_groups","independent_origin_credit",
+                "ambiguous","factual_verification_credit"}
+        member_fields={"source_id","observation_id","origin_group","claim_signature"}
+        seen_ids=set()
         for item in report:
             if not isinstance(item,dict) or set(item)!=fields:
                 raise ValueError("invalid corroboration item")
-            if not isinstance(item["pair_id"],str) or not item["pair_id"] or item["pair_id"] in seen_pairs:
-                raise ValueError("invalid/duplicate corroboration pair")
-            seen_pairs.add(item["pair_id"])
-            for field in ("left_source_id","left_observation_id","right_source_id","right_observation_id"):
-                if not isinstance(item[field],str) or not item[field]:
-                    raise ValueError("invalid corroboration identity")
+            cid=item["corroboration_id"]
+            if not isinstance(cid,str) or not cid or cid in seen_ids:
+                raise ValueError("invalid/duplicate corroboration group")
+            seen_ids.add(cid)
+            if not isinstance(item["members"],list) or len(item["members"])<2 or len(item["members"])>100:
+                raise ValueError("invalid corroboration members")
+            for member in item["members"]:
+                if not isinstance(member,dict) or set(member)!=member_fields:
+                    raise ValueError("invalid corroboration member")
+                for field in ("source_id","observation_id"):
+                    if not isinstance(member[field],str) or not member[field]:
+                        raise ValueError("invalid corroboration member identity")
+                for field in ("origin_group","claim_signature"):
+                    if member[field] is not None and (not isinstance(member[field],str) or not member[field]):
+                        raise ValueError("invalid corroboration member metadata")
+            if not isinstance(item["source_ids"],list) or len(item["source_ids"])<2 or any(not isinstance(x,str) or not x for x in item["source_ids"]):
+                raise ValueError("invalid corroboration source ids")
             if item["claim_relation"] not in {"AGREES","DIFFERS","UNKNOWN"}:
                 raise ValueError("invalid claim relation")
             if item["origin_assessment"] not in {"UNKNOWN","SAME_ORIGIN","DISTINCT_ORIGIN"}:
@@ -101,7 +112,7 @@ def validate_typed_result(request, result):
                 raise ValueError("ambiguous corroboration credit denied")
             if item["origin_assessment"]!="DISTINCT_ORIGIN" and item["independent_origin_credit"]:
                 raise ValueError("invalid independent-origin credit")
-            for field in ("delta_seconds","distance_km"):
+            for field in ("max_delta_seconds","max_distance_km"):
                 if not isinstance(item[field],(int,float)) or isinstance(item[field],bool) or item[field]<0:
                     raise ValueError("invalid corroboration metric")
     return result
