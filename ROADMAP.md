@@ -1429,3 +1429,37 @@ Next technical track:
 `VERIFICATION_EFFECTIVE_STATE_RESOLUTION`
 
 This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Verification effective-state resolution — 2026-10-08
+
+Gate:
+`KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION = PASS_WITH_STALENESS_SIGNAL`
+
+Exact validated code SHA:
+`2cdf937201990d32ca59efd83c145c39e1330e33`
+
+Implemented:
+- deterministic effective verification state resolver;
+- exactly one root decision per corroboration target;
+- missing-link, fork, cycle/disconnected and non-monotonic lineage detection;
+- evidence-bound basis integrity checks;
+- current VERIFIED / DISPUTED / UNVERIFIED state resolution;
+- unapplied-basis reporting;
+- post-head evidence staleness signal without automatic mutation.
+
+Real owner-pilot target `corr-a7d18a9a3186cd5a9d1d99c4` resolves VERIFIED with no unapplied/post-head basis and stale=false.
+
+Targeted:
+`24 passed`.
+
+Selected regression:
+`231 passed in 3.93s`.
+
+Acceptance:
+`docs/integrations/KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_2026-10-08.md`
+
+Next technical track:
+`INDEPENDENT_RESEARCH_READINESS_AUDIT_V2`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
