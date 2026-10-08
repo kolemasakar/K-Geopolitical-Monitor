@@ -64,17 +64,26 @@ def fetch(request, *, observed_at_utc, http_get, query=None):
         description=_clean(entry.findtext("description") or "")
         link=(entry.findtext("link") or "").strip()
         pub=(entry.findtext("pubDate") or "").strip()
-        if not title or not link or not pub:
+        if not title or not link:
             continue
         if urlparse(link).scheme!="https":
             raise ValueError("invalid Consilium provenance")
         searchable=(title+" "+description).lower()
         if terms and not all(term in searchable for term in terms):
             continue
-        published=_published(pub)
-        published_dt=_utc(published)
-        if published_dt<start or published_dt>end:
-            continue
+        if pub:
+            published=_published(pub)
+            published_dt=_utc(published)
+            if published_dt<start or published_dt>end:
+                continue
+        else:
+            match=re.search(r"/(20\\d{2})/(\\d{2})/(\\d{2})/",urlparse(link).path)
+            if not match:
+                continue
+            day=datetime(int(match.group(1)),int(match.group(2)),int(match.group(3)),tzinfo=timezone.utc)
+            if day.date()<start.date() or day.date()>end.date():
+                continue
+            published=observed_at_utc
         oid="consilium-"+hashlib.sha256(link.encode("utf-8")).hexdigest()[:24]
         if request["mode"]=="HISTORICAL_AS_OF" and observed>_utc(request["as_of_utc"]):
             out.append({"schema_version":"kgm.source.observation.v1",
