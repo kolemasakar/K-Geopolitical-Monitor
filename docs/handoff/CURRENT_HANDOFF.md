@@ -581,3 +581,43 @@ Assessment:
 `docs/integrations/KGM_CORRELATED_EVENT_ORIGIN_ASSESSMENT_2026-10-07.md`
 
 Conclusion: GDACS and USGS are distinct provenance paths for this cohort but not independent underlying origins. `KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED.
+
+
+## 2026-10-08 — GFZ independent-origin source expansion
+
+`KGM_INDEPENDENT_ORIGIN_SOURCE_EXPANSION_GFZ = PASS_WITH_BOUNDED_ASSOCIATION`
+
+Exact validated code SHA: `bd59dcf533788b6bcdde498ff112830137144d46`.
+
+Added:
+- public/free/read-only GFZ GEOFON FDSN adapter;
+- explicit `origin_group = gfz-geofon`;
+- structured earthquake event parameters;
+- conservative cross-origin association: <=30 s and <=50 km;
+- no historical backdating when publication-update time is unavailable.
+
+Live 24h USGS/NEIC vs GFZ GEOFON:
+- USGS observations: 13;
+- GFZ observations: 11;
+- unique conservative matches: 10;
+- ambiguous matches: 0;
+- DISTINCT_ORIGIN matches: 10;
+- origin-level independence credit matches: 10;
+- SAME_ORIGIN matches: 0.
+
+Live full source-path cycle:
+- GDACS + USGS + GFZ live;
+- GDELT cooldown;
+- `PARTIAL / PARTIAL / DEGRADED`;
+- 20 typed records;
+- all three healthy source paths represented;
+- 0 GDELT network calls;
+- recovery pending empty.
+
+Targeted: `38 passed`.
+Selected regression: `196 passed in 2.94s`.
+
+Acceptance:
+`docs/integrations/KGM_INDEPENDENT_ORIGIN_SOURCE_EXPANSION_GFZ_2026-10-08.md`
+
+`KGM_INDEPENDENT_RESEARCH_READY` remains NOT DECLARED. Canonical Phase 23 strategic position remains unchanged.
