@@ -76,3 +76,32 @@ def test_empty_unmeasured_partial():
     result["source_health"] = "UNMEASURED"
     result["research_status"] = "PARTIAL"
     assert validate_typed_result(req, result)
+
+
+def _v2():
+    req,result=typed()
+    result["schema_version"]="kgm.research.result.v2"
+    result["corroboration"]=[{
+        "corroboration_id":"corr-1",
+        "members":[
+            {"source_id":"source-a","observation_id":"a1","origin_group":"origin-a","claim_signature":"mag-50"},
+            {"source_id":"source-b","observation_id":"b1","origin_group":"origin-b","claim_signature":"mag-50"}],
+        "source_ids":["source-a","source-b"],
+        "max_delta_seconds":2.0,"max_distance_km":10.0,
+        "claim_relation":"AGREES","origin_assessment":"DISTINCT_ORIGIN",
+        "origin_groups":["origin-a","origin-b"],"independent_origin_credit":True,
+        "ambiguous":False,"factual_verification_credit":False}]
+    return req,result
+
+def test_v2_corroboration_is_typed_and_does_not_auto_verify():
+    req,result=_v2()
+    assert validate_typed_result(req,result) is result
+    result["corroboration"][0]["factual_verification_credit"]=True
+    with pytest.raises(ValueError,match="cannot auto-verify"):
+        validate_typed_result(req,result)
+
+def test_v2_ambiguous_corroboration_cannot_keep_origin_credit():
+    req,result=_v2()
+    result["corroboration"][0]["ambiguous"]=True
+    with pytest.raises(ValueError,match="ambiguous corroboration credit denied"):
+        validate_typed_result(req,result)
