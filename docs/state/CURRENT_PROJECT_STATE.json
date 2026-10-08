@@ -1106,13 +1106,13 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION_PASS_NO_AUTO_VERIFICATION",
+    "state": "CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY_PASS",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "NOT_DECLARED",
-    "exact_validated_code_sha": "bd59dcf533788b6bcdde498ff112830137144d46",
+    "exact_validated_code_sha": "8207ee2efeedc154286cb2a03256c94e7d8171a7",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
-    "acceptance": "docs/integrations/KGM_INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION_2026-10-08.md",
+    "acceptance": "docs/integrations/KGM_CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY_2026-10-08.md",
     "ci": {
       "code_sha_run": 2465,
       "code_sha_conclusion": "SUCCESS",
@@ -1122,8 +1122,8 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "targeted": "31 passed",
-      "selected_regression": "200 passed in 2.91s",
+      "targeted": "38 passed",
+      "selected_regression": "207 passed in 3.03s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1150,7 +1150,7 @@
       "shared_runtime": false,
       "plugin_publication": false
     },
-    "next_track": "CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY",
+    "next_track": "EXPLICIT_VERIFICATION_DECISION_ARTIFACT",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1284,6 +1284,40 @@
       "auto_verified_events": 0,
       "gdelt_network_calls": 0,
       "result_id": "result-68f7dbfc09fa3f29f01a5970",
+      "recovery_pending": 0
+    },
+    "verification_boundary_gate": "KGM_CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY_PASS_WITH_EXPLICIT_VERIFICATION_REQUIRED",
+    "verification_policy": {
+      "automatic_verification": false,
+      "factual_verification_credit_from_corroboration": false,
+      "eligible_requires": [
+        "NON_AMBIGUOUS",
+        "DISTINCT_ORIGIN",
+        "INDEPENDENT_ORIGIN_CREDIT",
+        "AT_LEAST_TWO_SOURCE_PATHS",
+        "AT_LEAST_TWO_ORIGIN_GROUPS",
+        "CLAIM_RELATION_AGREES"
+      ],
+      "states": [
+        "ELIGIBLE_FOR_EXPLICIT_VERIFICATION",
+        "EVENT_CORROBORATED_CLAIM_UNRESOLVED",
+        "INELIGIBLE"
+      ]
+    },
+    "live_verification_boundary": {
+      "corroboration_groups": 12,
+      "distinct_origin_groups": 9,
+      "independent_origin_credit_events": 9,
+      "same_origin_groups": 3,
+      "ambiguous_groups": 0,
+      "claim_agreement_groups": 4,
+      "claim_difference_groups": 8,
+      "verification_eligible_events": 1,
+      "event_only_unresolved_claims": 8,
+      "verification_ineligible_events": 3,
+      "automatic_verification_events": 0,
+      "auto_verified_events": 0,
+      "result_id": "result-f1d23762fe3c577e4e28aa29",
       "recovery_pending": 0
     }
   }
