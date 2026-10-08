@@ -1394,3 +1394,38 @@ Next technical track:
 `VERIFICATION_BASIS_EVIDENCE_LINKAGE`
 
 This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Verification basis evidence linkage — 2026-10-08
+
+Gate:
+`KGM_VERIFICATION_BASIS_EVIDENCE_LINKAGE = PASS_WITH_EVIDENCE_BOUND_REVISIONS`
+
+Exact validated code SHA:
+`c87a48c9e489da200acbfc145065945f947c28ff`
+
+Implemented:
+- immutable verification-basis artifacts;
+- explicit basis types;
+- evidence references with source provenance and content SHA-256;
+- evidence-bound verification revision v2;
+- VERIFY requires confirmation/source-revision basis;
+- REVOKE/REJECT require adverse evidence basis;
+- all prior lineage and integrity protections remain active.
+
+Validated chain:
+`VERIFY → CONTRADICTION basis → REVOKE → CONFIRMATION basis → VERIFY`.
+
+Targeted:
+`24 passed`.
+
+Selected regression:
+`226 passed in 3.64s`.
+
+Acceptance:
+`docs/integrations/KGM_VERIFICATION_BASIS_EVIDENCE_LINKAGE_2026-10-08.md`
+
+Next technical track:
+`VERIFICATION_EFFECTIVE_STATE_RESOLUTION`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
