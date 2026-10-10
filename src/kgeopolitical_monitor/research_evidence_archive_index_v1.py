@@ -177,3 +177,53 @@ def select_historical_snapshot_fast(root,consumer,*,request,source_policy,fallba
             root,consumer,request=request,source_policy=source_policy,
             max_scan=fallback_scan_limit)
         return snapshot,"AUTHORITATIVE_SCAN_FALLBACK"
+
+
+def _write_index_locked(root,consumer,index):
+    validate_archive_index(index,consumer)
+    payload={"index":index}
+    payload["sha256"]=hashlib.sha256(canonical_bytes(payload)).hexdigest()
+    atomic_replace(_index_path(root,consumer),canonical_bytes(payload))
+    return payload
+
+def maintain_archive_index(root,consumer,*,generated_at_utc,max_entries=100000):
+    """Keep index synchronized after CURRENT archive append.
+
+    Normal path is O(1) archive parsing plus canonical index rewrite. Unexpected
+    index loss/corruption/drift triggers a bounded authoritative rebuild.
+    """
+    root=initialize(root); _utc(generated_at_utc)
+    archive=Path(root)/"evidence_archive"/consumer
+    if archive.is_symlink():
+        raise ValueError("symlink evidence archive denied")
+    paths=sorted(archive.glob("*.json")) if archive.is_dir() else []
+    if len(paths)>max_entries:
+        raise ValueError("archive index maintenance bound exceeded")
+    actual={x.name for x in paths}
+    fd=_lock(root)
+    try:
+        try:
+            current=load_archive_index(root,consumer)
+        except (ValueError,OSError,json.JSONDecodeError):
+            current=None
+        if current is not None:
+            indexed={x["filename"] for x in current["index"]["entries"]}
+            missing=actual-indexed
+            extra=indexed-actual
+            if not missing and not extra:
+                return current,"CURRENT"
+            if len(missing)==1 and not extra:
+                name=next(iter(missing))
+                entry=_metadata(_load(archive/name),archive/name)
+                entries=list(current["index"]["entries"])+[entry]
+                entries.sort(key=lambda x:(x["staged_at_utc"],x["filename"]))
+                index={"schema_version":SCHEMA,"consumer_id":consumer,
+                       "generated_at_utc":generated_at_utc,"entries":entries}
+                return _write_index_locked(root,consumer,index),"APPEND"
+        entries=[_metadata(_load(path),path) for path in paths]
+        entries.sort(key=lambda x:(x["staged_at_utc"],x["filename"]))
+        index={"schema_version":SCHEMA,"consumer_id":consumer,
+               "generated_at_utc":generated_at_utc,"entries":entries}
+        return _write_index_locked(root,consumer,index),"REBUILD"
+    finally:
+        os.close(fd)
