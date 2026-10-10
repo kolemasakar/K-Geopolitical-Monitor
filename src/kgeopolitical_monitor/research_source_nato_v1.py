@@ -8,6 +8,7 @@ import hashlib
 from datetime import datetime, timezone
 from urllib.parse import urlencode, urljoin, urlsplit
 from .research_request_v1 import validate_request, _utc
+from .research_generic_mapping_profile_v1 import apply_mapping_profile
 
 SOURCE_ID="nato-news"
 ORIGIN_GROUP="nato"
@@ -21,17 +22,14 @@ ALLOWED_TAGS={
  "partnerships-and-cooperation":"nato:theme/partnerships-and-cooperation",
 }
 
-def build_query(request, *, theme="deterrence-and-defence", search_text=""):
-    validate_request(request)
-    if theme not in ALLOWED_TAGS:
-        raise ValueError("invalid NATO theme")
+def build_query(request, *, theme="deterrence-and-defence", search_text=""):\n    validate_request(request)\n    if theme is not None and theme not in ALLOWED_TAGS:\n        raise ValueError("invalid NATO theme")
     if not isinstance(search_text,str) or len(search_text)>256:
         raise ValueError("invalid NATO search text")
     start=_utc(request["period_start_utc"]).strftime("%Y-%m-%dT00:00:00.000Z")
     end=_utc(request.get("as_of_utc",request["period_end_utc"])).strftime("%Y-%m-%dT23:59:59.999Z")
     params={"searchText":search_text,"searchType":"wcm","sortBy":"dateDesc",
             "pageSize":min(request["max_results"],50),"page":1,"urlTags":"",
-            "selectedTagsFilter":ALLOWED_TAGS[theme],"languages":"en",
+            "selectedTagsFilter":"" if theme is None else ALLOWED_TAGS[theme],"languages":"en",
             "startDate":start,"endDate":end}
     return SEARCH_ENDPOINT+"?"+urlencode(params)
 
@@ -43,8 +41,7 @@ def _page_day(value):
     except ValueError as exc:
         raise ValueError("invalid NATO page date") from exc
 
-def fetch(request, *, observed_at_utc, http_get,
-          theme="deterrence-and-defence", search_text=""):
+def fetch(request, *, observed_at_utc, http_get,\n          theme="deterrence-and-defence", search_text="", mapping_profile=None):
     validate_request(request); observed=_utc(observed_at_utc)
     try:
         payload=http_get(build_query(request,theme=theme,search_text=search_text))
@@ -89,11 +86,14 @@ def fetch(request, *, observed_at_utc, http_get,
             # NATO listing exposes only the publication day, not a trustworthy
             # exact publication time. First KGM observation is the conservative
             # publication/availability boundary.
-            out.append({"schema_version":"kgm.source.observation.v1",
+            item={"schema_version":"kgm.source.observation.v1",
               "request_id":request["request_id"],"source_id":SOURCE_ID,
               "observation_id":oid,"status":"SUCCESS",
               "observed_at_utc":observed_at_utc,"published_at_utc":observed_at_utc,
               "available_at_utc":observed_at_utc,"public_url":public,
               "summary":summary[:1000],"error_code":None,
-              "origin_group":ORIGIN_GROUP})
+              "origin_group":ORIGIN_GROUP}
+            if mapping_profile is not None:
+                item,_=apply_mapping_profile(item,title+" "+(description or ""),mapping_profile)
+            out.append(item)
     return out
