@@ -11,6 +11,45 @@ from .research_origin_assessment_v1 import assess_origin_groups
 from .research_storage_v1 import canonical_bytes
 from .research_verification_boundary_v1 import assess_verification_boundary
 
+
+def _generic_corroboration_groups(observations,max_groups):
+    usable=[x for x in observations if isinstance(x,dict) and
+            x.get("status") in {"SUCCESS","PARTIAL"} and
+            isinstance(x.get("event_descriptor"),dict) and
+            isinstance(x.get("event_identity"),str)]
+    groups=defaultdict(list)
+    for item in usable:
+        groups[item["event_identity"]].append(item)
+    report=[]
+    for identity,members in sorted(groups.items()):
+        source_ids=sorted({x["source_id"] for x in members})
+        if len(source_ids)<2:
+            continue
+        if len(report)>=max_groups:
+            raise ValueError("corroboration group bound exceeded")
+        ordered=sorted(members,key=lambda x:(x["source_id"],x["observation_id"]))
+        duplicate_source=len(source_ids)!=len(ordered)
+        origin=assess_origin_groups(ordered)
+        signatures=[x.get("claim_signature") for x in ordered]
+        claim_relation=("UNKNOWN" if any(x is None for x in signatures)
+                        else ("AGREES" if len(set(signatures))==1 else "DIFFERS"))
+        member_refs=[{"source_id":x["source_id"],"observation_id":x["observation_id"],
+                      "origin_group":x.get("origin_group"),
+                      "claim_signature":x.get("claim_signature")} for x in ordered]
+        seed={"event_identity":identity,
+              "members":[(x["source_id"],x["observation_id"]) for x in ordered]}
+        cid="corr-"+hashlib.sha256(canonical_bytes(seed)).hexdigest()[:24]
+        item={"corroboration_id":cid,"members":member_refs,
+              "source_ids":source_ids,"max_delta_seconds":0.0,
+              "max_distance_km":0.0,"claim_relation":claim_relation,
+              "origin_assessment":origin["assessment"],
+              "origin_groups":origin["origin_groups"],
+              "independent_origin_credit":bool(origin["independent_origin_credit"] and not duplicate_source),
+              "ambiguous":duplicate_source,"factual_verification_credit":False}
+        item.update(assess_verification_boundary(item))
+        report.append(item)
+    return report
+
 def build_corroboration_report(observations, *, max_groups=100,
                                max_seconds=30, max_km=50):
     if not isinstance(observations,list):
@@ -86,5 +125,11 @@ def build_corroboration_report(observations, *, max_groups=100,
             "ambiguous":ambiguous,"factual_verification_credit":False}
         item.update(assess_verification_boundary(item))
         report.append(item)
+    remaining=max_groups-len(report)
+    if remaining<0:
+        raise ValueError("corroboration group bound exceeded")
+    report.extend(_generic_corroboration_groups(observations,remaining))
+    if len(report)>max_groups:
+        raise ValueError("corroboration group bound exceeded")
     report.sort(key=lambda x:x["corroboration_id"])
     return report
