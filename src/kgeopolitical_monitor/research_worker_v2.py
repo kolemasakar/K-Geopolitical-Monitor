@@ -6,7 +6,8 @@ from .research_typed_workflow_v1 import begin_processing, publish_and_complete
 from .research_source_adapter_v1 import normalize_observations
 from .research_source_policy_v1 import validate_adapter_mapping, validate_source_policy
 from .research_observation_stage_v1 import stage_observations, load_observation_stage
-from .research_evidence_archive_v1 import archive_observation_stage, select_historical_snapshot, rebind_historical_snapshot
+from .research_evidence_archive_v1 import archive_observation_stage, rebind_historical_snapshot
+from .research_evidence_archive_index_v1 import select_historical_snapshot_fast
 from .research_worker_v1 import _build_records, _select_records
 from .research_corroboration_v1 import build_corroboration_report
 from .research_storage_v1 import canonical_bytes
@@ -63,7 +64,7 @@ def execute_policy_bound(root, consumer, request_id, *, request, allowed_consume
                                       source_policy=source_policy,source_runs=source_runs,
                                       observations=observations,staged_at_utc=staged_at_utc)
         else:
-            snapshot=select_historical_snapshot(root,consumer,request=request,
+            snapshot,_selection_path=select_historical_snapshot_fast(root,consumer,request=request,
                                                 source_policy=source_policy)
             rebound=rebind_historical_snapshot(snapshot,request=request,
                                                source_policy=source_policy,
