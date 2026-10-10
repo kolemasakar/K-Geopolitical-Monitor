@@ -47,3 +47,29 @@ def test_nato_historical_live_retrieval_cannot_backdate():
     items=fetch(req,observed_at_utc="2026-09-03T00:00:00Z",http_get=lambda _:PAYLOAD)
     assert items[0]["status"]=="INVALID"
     assert items[0]["error_code"]=="HISTORICAL_AVAILABILITY_UNPROVEN"
+
+
+def test_nato_generic_mapping_profile_attaches_on_strict_match():
+    req=current()
+    req["period_start_utc"]="2026-10-08T00:00:00Z"
+    req["period_end_utc"]="2026-10-10T23:59:59Z"
+    payload={"pages":[{"title":"NATO’s Deputy Secretary General visits Moldova",
+        "description":"Radmila Shekerinska met Deputy Prime Minister and Minister of Foreign Affairs Mihai Popșoi in Chisinau.",
+        "pageDate":"09 October 2026",
+        "link":"/en/news-and-events/articles/news/2026/10/09/natos-deputy-secretary-general-visits-moldova"}]}
+    event={"family":"DIPLOMATIC","event_date_utc":"2026-10-08T00:00:00Z",
+           "action_key":"MEET","actor_keys":["moldova-dpm-mfa-mihai-popsoi","nato-dsg-radmila-shekerinska"],
+           "target_keys":[],"subject_key":"nato-moldova-bilateral-meeting","location_key":"chisinau-moldova"}
+    claim={"claim_type":"STATUS","value_keys":["meeting-held"],"unit_key":None}
+    profile={"source_id":"nato-news","required_phrases":["radmila shekerinska","mihai popșoi"],
+             "event_descriptor":event,"claim_descriptor":claim}
+    items=fetch(req,observed_at_utc="2026-10-09T12:00:00Z",
+                http_get=lambda _:payload,theme=None,search_text="Moldova",
+                mapping_profile=profile)
+    assert len(items)==1
+    assert items[0]["event_descriptor"]==event
+    assert items[0]["claim_descriptor"]==claim
+
+def test_nato_none_theme_means_no_tag_filter():
+    u=build_query(current(),theme=None,search_text="Moldova")
+    assert "selectedTagsFilter=" in u
