@@ -42,3 +42,7 @@ Move bounded independent owner-pilot research readiness toward a technically val
 - PR #163 merge/split/draft decision recorded without bypassing controls.
 - Research readiness unchanged unless new owner-approved acceptance justifies advancement.
 - P24.1 acceptance plan and measurable coverage targets proposed; no production claims.
+
+## P24.0 full-suite collection finding (2026-10-10)
+
+An additional `PYTHONPATH=src .../pytest -q` full-suite attempt at the same isolated HEAD did **not** pass: **12 collection errors in 5.45 s** (exit code 2). Diagnosed environment/collection factors include unavailable `psycopg`, Starlette's `httpx2` deprecation warning raised by the active warning policy, and tests importing `src.*` when `PYTHONPATH` exposes only `src`. This is **NOT** classified as 12 product-test assertion failures; full-suite acceptance is **BLOCKED until a compatible isolated test environment/command is validated**. Research-selected 260/260 PASS remains valid but is narrower. The production venv was not modified.
