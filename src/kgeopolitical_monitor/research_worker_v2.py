@@ -87,7 +87,7 @@ def execute_policy_bound(root, consumer, request_id, *, request, allowed_consume
     usable=[x for x in observations if x["status"] in {"SUCCESS","PARTIAL"}]
     unhealthy_obs=[x for x in observations
                    if x["status"] in {"PARTIAL","UNAVAILABLE","INVALID"}]
-    degraded_runs=[x for x in stage["source_runs"] if x["status"]=="DEGRADED"]
+    required_sources=set(source_policy["required_source_ids"])\n    degraded_runs=[x for x in stage["source_runs"]\n                   if x["status"]=="DEGRADED" or\n                   (x["status"]=="EMPTY" and x["source_id"] in required_sources)]
 
     all_records,disagreement=_build_records(usable)
     records=_select_records(all_records,request["max_results"])
