@@ -163,14 +163,12 @@ def plan_archive_retention(root,consumer,*,keep_latest=10000):
             "destructive_action_performed":False}
 
 
-def select_historical_snapshot_fast(root,consumer,*,request,source_policy):
-    """Use verified index when valid, otherwise authoritative archive scan."""
+def select_historical_snapshot_fast(root,consumer,*,request,source_policy,fallback_scan_limit=10000):\n    """Use verified index when valid; bounded authoritative scan otherwise."""\n    if type(fallback_scan_limit) is not int or not 1<=fallback_scan_limit<=100000:\n        raise ValueError("invalid fallback scan limit")
     from .research_evidence_archive_v1 import select_historical_snapshot
     try:
         snapshot=select_historical_snapshot_indexed(
             root,consumer,request=request,source_policy=source_policy)
         return snapshot,"INDEX"
     except (ValueError,OSError,json.JSONDecodeError):
-        snapshot=select_historical_snapshot(
-            root,consumer,request=request,source_policy=source_policy)
+        snapshot=select_historical_snapshot(\n            root,consumer,request=request,source_policy=source_policy,\n            max_scan=fallback_scan_limit)
         return snapshot,"AUTHORITATIVE_SCAN_FALLBACK"
