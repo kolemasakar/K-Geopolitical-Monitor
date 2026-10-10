@@ -1106,10 +1106,10 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1_PASS_WITH_KNOWN_LIMITATIONS",
+    "state": "GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2_PASS",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "PASS_WITH_P1_LIMITATIONS",
-    "exact_validated_code_sha": "91afabe40c8875e68d343cf0d4c599db2bafa4ce",
+    "exact_validated_code_sha": "b5f34a7ba8c9f30bfdd3e06eea1a5ad9c817a6b0",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
     "acceptance": "docs/integrations/KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_2026-10-08.md",
@@ -1122,8 +1122,8 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "quality_audit_targeted": "9 passed",
-      "selected_regression": "305 passed in 6.08s",
+      "targeted": "33 passed",
+      "selected_regression": "313 passed in 5.83s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1151,7 +1151,7 @@
       "plugin_publication": false,
       "hp_omen_used": false
     },
-    "next_track": "GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2",
+    "next_track": "POST_READINESS_CONSOLIDATION_AND_PHASE_DECISION",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1665,8 +1665,45 @@
       "automatic_verification_credits": 0
     },
     "known_limitations": [
-      "GENERIC_EVENT_MAPPINGS_NOT_YET_PROPAGATED_TO_CANONICAL_CORROBORATION_REPORT",
-      "COMPLETE_MEANS_REQUIRED_SOURCES_INVOKED_AND_HEALTHY_NOT_UNIVERSAL_SOURCE_CORROBORATION"
-    ]
+      "BROADER_MULTI_DOMAIN_MAPPING_PROFILE_COVERAGE_RECOMMENDED",
+      "RETENTION_EXECUTION_REMAINS_EXPLICIT_ONLY",
+      "PRODUCTION_AND_UNATTENDED_RUNTIME_NOT_AUTHORIZED"
+    ],
+    "generic_corroboration_v2_gate": "GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2_PASS",
+    "generic_corroboration_v2_doc": "docs/integrations/KGM_GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2_2026-10-10.md",
+    "typed_result_v3": {
+      "schema": "kgm.research.result.v3",
+      "generic_corroboration": true,
+      "source_contributions": true,
+      "completeness_semantics": "kgm.completeness.v2",
+      "legacy_v1_v2_validator_support": true
+    },
+    "live_generic_corroboration_v3": {
+      "source_ids": [
+        "moldova-mfa",
+        "nato-news"
+      ],
+      "origin_groups": [
+        "moldova-mfa",
+        "nato"
+      ],
+      "result_id": "result-7212e33b2de5f3bafb8936c3",
+      "stage_sha256": "d5ebca8de383d9b935b6f2622c6be9bac910c06e95377ee1130619ef66a86f48",
+      "corroboration_id": "corr-792c5926a4004f1dd1e7e65a",
+      "origin_assessment": "DISTINCT_ORIGIN",
+      "claim_relation": "AGREES",
+      "independent_origin_credit": true,
+      "verification_eligibility": "ELIGIBLE_FOR_EXPLICIT_VERIFICATION",
+      "automatic_verification": false,
+      "record_verification": "UNVERIFIED"
+    },
+    "completeness_semantics_v2": {
+      "portfolio_execution_complete": true,
+      "all_required_sources_invoked": true,
+      "all_required_sources_healthy": true,
+      "all_required_sources_contributed": true,
+      "required_source_empty_present": false,
+      "complete_does_not_imply_all_sources_contributed": true
+    }
   }
 }
