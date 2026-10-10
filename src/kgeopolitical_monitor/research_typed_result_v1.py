@@ -14,7 +14,10 @@ def validate_typed_result(request, result):
     if not isinstance(result, dict):
         raise ValueError("unapproved result fields")
     version=result.get("schema_version")
-    expected=(base if version=="kgm.research.result.v1" else\n              (base | {"corroboration"} if version=="kgm.research.result.v2" else\n               (base | {"corroboration","source_contributions","completeness_semantics"}\n                if version=="kgm.research.result.v3" else set())))
+    expected=(base if version=="kgm.research.result.v1" else
+              (base | {"corroboration"} if version=="kgm.research.result.v2" else
+               (base | {"corroboration","source_contributions","completeness_semantics"}
+                if version=="kgm.research.result.v3" else set())))
     if not expected or set(result) != expected:
         raise ValueError("unapproved result fields")
     if (result["request_id"], result["consumer_id"], result["policy_version"]) != (
