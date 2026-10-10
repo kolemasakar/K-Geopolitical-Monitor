@@ -1106,10 +1106,10 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "INDEPENDENT_RESEARCH_READY_PASS_WITH_P1_LIMITATIONS",
+    "state": "P1_RESEARCH_QUALITY_HARDENING_PASS_WITH_REMAINING_REAL_CROSS_SOURCE_IDENTITY_MAPPING",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "PASS_WITH_P1_LIMITATIONS",
-    "exact_validated_code_sha": "322c55f8f47f62aca19fd563b3d7eb73538b1b52",
+    "exact_validated_code_sha": "9309bb98f886b72b396b7c032caacb3c0dcc5c71",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
     "acceptance": "docs/integrations/KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_2026-10-08.md",
@@ -1122,7 +1122,7 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "selected_regression": "249 passed in 4.65s",
+      "selected_regression": "272 passed in 4.81s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1150,7 +1150,7 @@
       "plugin_publication": false,
       "hp_omen_used": false
     },
-    "next_track": "P1_RESEARCH_QUALITY_HARDENING",
+    "next_track": "REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1409,9 +1409,7 @@
     "readiness_audit_doc": "docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V2_2026-10-08.md",
     "p0_blockers": [],
     "p1_blockers": [
-      "GENERIC_NON_EARTHQUAKE_IDENTITY_MISSING",
-      "PARTIAL_SOURCE_SEMANTICS_COARSE",
-      "EVIDENCE_FINGERPRINT_DUP_DETECTION_MISSING"
+      "REAL_CROSS_SOURCE_GENERIC_IDENTITY_MAPPING_NOT_PROVEN"
     ],
     "readiness_audit_v3": "READY_FOR_OWNER_PILOT_INDEPENDENT_RESEARCH_WITH_P1_LIMITATIONS",
     "readiness_audit_v3_doc": "docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V3_2026-10-10.md",
@@ -1434,6 +1432,96 @@
       "max_available_at_utc": "2026-10-10T08:59:42Z",
       "as_of_utc": "2026-10-10T08:59:44Z",
       "recovery_pending": 0
+    },
+    "p1_quality_gate": "P1_RESEARCH_QUALITY_HARDENING_PASS_WITH_REMAINING_REAL_CROSS_SOURCE_IDENTITY_MAPPING",
+    "p1_quality_doc": "docs/integrations/KGM_P1_RESEARCH_QUALITY_HARDENING_2026-10-10.md",
+    "generic_identity": {
+      "families": [
+        "POLITICAL",
+        "DIPLOMATIC",
+        "MILITARY",
+        "ECONOMIC"
+      ],
+      "explicit_structured_descriptors": true,
+      "fuzzy_or_nlp_matching": false,
+      "descriptor_identity_binding": true,
+      "descriptor_claim_binding": true,
+      "synthetic_cross_source_e2e": true,
+      "real_cross_source_semantic_mapping": "NOT_YET_PROVEN"
+    },
+    "partial_semantics": {
+      "typed_reasons": [
+        "SOURCE_TRUNCATED",
+        "UPSTREAM_PARTIAL",
+        "RATE_LIMITED_PARTIAL",
+        "FILTER_LIMIT",
+        "PARSE_PARTIAL",
+        "COVERAGE_GAP",
+        "OTHER"
+      ],
+      "required_on_partial": true,
+      "forbidden_on_non_partial": true
+    },
+    "evidence_dedup": {
+      "canonical_https_publication_fingerprint": true,
+      "duplicate_publication_path_rejected": true,
+      "credentials_in_url_rejected": true,
+      "fragments_rejected": true
+    },
+    "official_source_breadth": {
+      "political_diplomatic": [
+        "consilium-press-releases"
+      ],
+      "economic": [
+        "ecb-press"
+      ],
+      "military_security": [
+        "nato-news"
+      ],
+      "disaster": [
+        "gdacs-events"
+      ],
+      "earthquake": [
+        "usgs-earthquake",
+        "gfz-geofon"
+      ],
+      "discovery": [
+        "gdelt-doc-v2"
+      ]
+    },
+    "live_p1_breadth": {
+      "observations": 56,
+      "source_runs": {
+        "consilium-press-releases": "10_OBSERVED",
+        "ecb-press": "10_OBSERVED",
+        "gdacs-events": "10_OBSERVED",
+        "gdelt-doc-v2": "1_DEGRADED_RATE_LIMITED",
+        "gfz-geofon": "10_OBSERVED",
+        "nato-news": "5_OBSERVED",
+        "usgs-earthquake": "10_OBSERVED"
+      },
+      "result_status": "PARTIAL",
+      "coverage": "PARTIAL",
+      "source_health": "DEGRADED",
+      "record_count": 10,
+      "corroboration_groups": 9,
+      "gdelt_network_calls": 0,
+      "recovery_pending": 0,
+      "stage_sha256": "72aede55bcc6222fa7b64417069070bb323f1cbec1b4b1c88020c12304b33791",
+      "result_id": "result-7ba83ab17e713911b73f117c"
+    },
+    "archive_index": {
+      "schema": "kgm.research.evidence-archive-index.v1",
+      "authoritative_archive_preserved": true,
+      "index_is_cache": true,
+      "stale_manifest_denied": true,
+      "corruption_denied": true,
+      "retention_planner_destructive": false,
+      "benchmark_metadata_validation_seconds": {
+        "1000": 0.0049,
+        "10000": 0.0523,
+        "100000": 0.5367
+      }
     }
   }
 }
