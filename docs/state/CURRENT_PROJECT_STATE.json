@@ -1106,10 +1106,10 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "INDEPENDENT_RESEARCH_READINESS_AUDIT_V2_NOT_READY",
+    "state": "INDEPENDENT_RESEARCH_READY_PASS_WITH_P1_LIMITATIONS",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
-    "independent_research_ready": "NOT_DECLARED",
-    "exact_validated_code_sha": "2cdf937201990d32ca59efd83c145c39e1330e33",
+    "independent_research_ready": "PASS_WITH_P1_LIMITATIONS",
+    "exact_validated_code_sha": "322c55f8f47f62aca19fd563b3d7eb73538b1b52",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
     "acceptance": "docs/integrations/KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_2026-10-08.md",
@@ -1122,8 +1122,7 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "targeted": "24 passed",
-      "selected_regression": "231 passed in 3.93s",
+      "selected_regression": "249 passed in 4.65s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1148,9 +1147,10 @@
       "ktrader_integration": false,
       "paid_providers": false,
       "shared_runtime": false,
-      "plugin_publication": false
+      "plugin_publication": false,
+      "hp_omen_used": false
     },
-    "next_track": "SOURCE_PORTFOLIO_COMPLETENESS_AND_DURABLE_OBSERVATION_STAGING",
+    "next_track": "P1_RESEARCH_QUALITY_HARDENING",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1407,17 +1407,33 @@
     },
     "readiness_audit_v2": "NOT_READY_FOR_GATE",
     "readiness_audit_doc": "docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V2_2026-10-08.md",
-    "p0_blockers": [
-      "EXPECTED_SOURCE_PORTFOLIO_NOT_BOUND",
-      "LIVE_OBSERVATIONS_NOT_DURABLY_STAGED",
-      "CANONICAL_GEOPOLITICAL_SOURCE_BREADTH_NARROW",
-      "REAL_HISTORICAL_AS_OF_REPLAY_NOT_OPERATIONAL"
-    ],
+    "p0_blockers": [],
     "p1_blockers": [
       "GENERIC_NON_EARTHQUAKE_IDENTITY_MISSING",
-      "ADAPTER_SOURCE_ID_POLICY_BINDING_MISSING",
       "PARTIAL_SOURCE_SEMANTICS_COARSE",
       "EVIDENCE_FINGERPRINT_DUP_DETECTION_MISSING"
-    ]
+    ],
+    "readiness_audit_v3": "READY_FOR_OWNER_PILOT_INDEPENDENT_RESEARCH_WITH_P1_LIMITATIONS",
+    "readiness_audit_v3_doc": "docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V3_2026-10-10.md",
+    "closed_p0": [
+      "EXPECTED_SOURCE_PORTFOLIO_BOUND",
+      "LIVE_OBSERVATIONS_DURABLY_STAGED",
+      "MINIMUM_CANONICAL_POLITICAL_SOURCE_BREADTH_PROVEN",
+      "REAL_HISTORICAL_AS_OF_ARCHIVE_REPLAY_OPERATIONAL"
+    ],
+    "historical_replay": {
+      "schema": "kgm.research.evidence-archive.v1",
+      "network_provider_calls_during_replay": 0,
+      "current_observations": 41,
+      "historical_observations": 41,
+      "same_source_snapshot": true,
+      "current_stage_sha256": "ec9c2c4a28df332b52e6d265b780e21a7474b1b778dee3c68aa36f6be2a62743",
+      "historical_stage_sha256": "377811baccb993660879d6f75ee6b282f1cb8916713556025454e2e9733d696f",
+      "current_result_id": "result-000fea30af7ec8d6b78f5cc3",
+      "historical_result_id": "result-7e93b41aa7c742826a5be357",
+      "max_available_at_utc": "2026-10-10T08:59:42Z",
+      "as_of_utc": "2026-10-10T08:59:44Z",
+      "recovery_pending": 0
+    }
   }
 }
