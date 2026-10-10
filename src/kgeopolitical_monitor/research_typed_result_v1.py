@@ -14,7 +14,7 @@ def validate_typed_result(request, result):
     if not isinstance(result, dict):
         raise ValueError("unapproved result fields")
     version=result.get("schema_version")
-    expected=base if version=="kgm.research.result.v1" else (base | {"corroboration"} if version=="kgm.research.result.v2" else set())
+    expected=(base if version=="kgm.research.result.v1" else\n              (base | {"corroboration"} if version=="kgm.research.result.v2" else\n               (base | {"corroboration","source_contributions","completeness_semantics"}\n                if version=="kgm.research.result.v3" else set())))
     if not expected or set(result) != expected:
         raise ValueError("unapproved result fields")
     if (result["request_id"], result["consumer_id"], result["policy_version"]) != (
@@ -68,7 +68,7 @@ def validate_typed_result(request, result):
                 raise ValueError("untyped forecast")
         elif forecast is not None:
             raise ValueError("forecast attached to factual claim")
-    if version=="kgm.research.result.v2":
+    if version in {"kgm.research.result.v2","kgm.research.result.v3"}:
         report=result["corroboration"]
         if not isinstance(report,list) or len(report)>100:
             raise ValueError("invalid corroboration report")
@@ -122,4 +122,64 @@ def validate_typed_result(request, result):
             for field in ("max_delta_seconds","max_distance_km"):
                 if not isinstance(item[field],(int,float)) or isinstance(item[field],bool) or item[field]<0:
                     raise ValueError("invalid corroboration metric")
+
+    if version=="kgm.research.result.v3":
+        contributions=result["source_contributions"]
+        if not isinstance(contributions,list) or not 1<=len(contributions)<=100:
+            raise ValueError("invalid source contributions")
+        fields={"source_id","required","run_status","observation_count",
+                "evidence_observation_count","corroboration_group_count",
+                "contribution_status"}
+        seen_sources=set()
+        for item in contributions:
+            if not isinstance(item,dict) or set(item)!=fields:
+                raise ValueError("invalid source contribution item")
+            sid=item["source_id"]
+            if not isinstance(sid,str) or not sid or sid in seen_sources:
+                raise ValueError("invalid/duplicate source contribution")
+            seen_sources.add(sid)
+            if type(item["required"]) is not bool:
+                raise ValueError("invalid source contribution requirement")
+            if item["run_status"] not in {"OBSERVED","EMPTY","DEGRADED"}:
+                raise ValueError("invalid source run contribution status")
+            if item["contribution_status"] not in {"CONTRIBUTED","EMPTY","DEGRADED"}:
+                raise ValueError("invalid contribution status")
+            for field in ("observation_count","evidence_observation_count","corroboration_group_count"):
+                if type(item[field]) is not int or item[field]<0:
+                    raise ValueError("invalid source contribution count")
+            if item["evidence_observation_count"]>item["observation_count"]:
+                raise ValueError("invalid source evidence count")
+            if item["run_status"]=="EMPTY" and item["contribution_status"]!="EMPTY":
+                raise ValueError("empty run contribution mismatch")
+            if item["run_status"]=="DEGRADED" and item["contribution_status"]!="DEGRADED":
+                raise ValueError("degraded run contribution mismatch")
+        semantics=result["completeness_semantics"]
+        sf={"semantics_version","portfolio_execution_complete",
+            "all_required_sources_invoked","all_required_sources_healthy",
+            "all_required_sources_contributed","required_source_empty_present",
+            "complete_does_not_imply_all_sources_contributed"}
+        if not isinstance(semantics,dict) or set(semantics)!=sf:
+            raise ValueError("invalid completeness semantics")
+        if semantics["semantics_version"]!="kgm.completeness.v2":
+            raise ValueError("invalid completeness semantics version")
+        for field in sf-{"semantics_version"}:
+            if type(semantics[field]) is not bool:
+                raise ValueError("invalid completeness semantics flag")
+        if semantics["portfolio_execution_complete"] != (result["research_status"]=="COMPLETE"):
+            raise ValueError("completeness semantics/status mismatch")
+        if semantics["complete_does_not_imply_all_sources_contributed"] is not True:
+            raise ValueError("completeness semantic guardrail missing")
+        required=[x for x in contributions if x["required"]]
+        expected_invoked=bool(required)
+        expected_healthy=all(x["run_status"] in {"OBSERVED","EMPTY"} for x in required)
+        expected_contributed=all(x["contribution_status"]=="CONTRIBUTED" for x in required)
+        expected_empty=any(x["contribution_status"]=="EMPTY" for x in required)
+        if semantics["all_required_sources_invoked"]!=expected_invoked:
+            raise ValueError("required source invocation semantics mismatch")
+        if semantics["all_required_sources_healthy"]!=expected_healthy:
+            raise ValueError("required source health semantics mismatch")
+        if semantics["all_required_sources_contributed"]!=expected_contributed:
+            raise ValueError("required source contribution semantics mismatch")
+        if semantics["required_source_empty_present"]!=expected_empty:
+            raise ValueError("required source empty semantics mismatch")
     return result
