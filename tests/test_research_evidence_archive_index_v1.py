@@ -2,7 +2,7 @@ import json
 import pytest
 from kgeopolitical_monitor.research_evidence_archive_index_v1 import (
     rebuild_archive_index, load_archive_index, select_historical_snapshot_indexed,
-    select_historical_snapshot_fast, plan_archive_retention)
+    select_historical_snapshot_fast, maintain_archive_index, plan_archive_retention)
 from kgeopolitical_monitor.research_evidence_archive_v1 import select_historical_snapshot
 from kgeopolitical_monitor.research_typed_workflow_v1 import accept_request
 from kgeopolitical_monitor.research_worker_v2 import execute_policy_bound
@@ -100,3 +100,35 @@ def test_fast_path_falls_back_when_index_missing(tmp_path):
         tmp_path,"ktrader",request=hist,source_policy=hp)
     assert path=="AUTHORITATIVE_SCAN_FALLBACK"
     assert snapshot["entry"]["archived_request"]["request_id"]=="req-01"
+
+
+def test_index_maintenance_rebuilds_then_appends(tmp_path):
+    seed(tmp_path,"req-01")
+    payload,mode=maintain_archive_index(tmp_path,"ktrader",
+        generated_at_utc="2026-09-28T12:05:00Z")
+    assert mode=="REBUILD"
+    assert len(payload["index"]["entries"])==1
+    seed(tmp_path,"req-02")
+    payload,mode=maintain_archive_index(tmp_path,"ktrader",
+        generated_at_utc="2026-09-28T12:06:00Z")
+    assert mode=="APPEND"
+    assert len(payload["index"]["entries"])==2
+
+def test_index_maintenance_repairs_corrupt_index(tmp_path):
+    seed(tmp_path,"req-01")
+    maintain_archive_index(tmp_path,"ktrader",
+        generated_at_utc="2026-09-28T12:05:00Z")
+    path=tmp_path/"evidence_archive_index"/"ktrader.json"
+    path.write_text('{"broken":true}')
+    payload,mode=maintain_archive_index(tmp_path,"ktrader",
+        generated_at_utc="2026-09-28T12:06:00Z")
+    assert mode=="REBUILD"
+    assert len(payload["index"]["entries"])==1
+
+def test_worker_current_execution_maintains_index(tmp_path):
+    req=accepted(tmp_path); p=policy(req)
+    execute(tmp_path,req,p,{"source-a":obs("source-a","a-1"),
+                            "source-b":obs("source-b","b-1")})
+    payload=load_archive_index(tmp_path,"ktrader")
+    assert payload is not None
+    assert len(payload["index"]["entries"])==1
