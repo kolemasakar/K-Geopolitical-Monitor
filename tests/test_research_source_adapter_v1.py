@@ -11,7 +11,7 @@ def obs(status="SUCCESS"):
             "available_at_utc":"2026-09-02T11:30:00Z" if status in {"SUCCESS","PARTIAL"} else None,
             "public_url":"https://example.test/item" if status in {"SUCCESS","PARTIAL"} else None,
             "summary":"deterministic evidence" if status in {"SUCCESS","PARTIAL"} else None,
-            "error_code":None if status in {"SUCCESS","PARTIAL"} else "TIMEOUT"}
+            "error_code":None if status in {"SUCCESS","PARTIAL"} else "TIMEOUT",\n            "partial_reason":"COVERAGE_GAP" if status=="PARTIAL" else None}
 
 def test_success_and_partial_validate():
     req=sample()
@@ -42,3 +42,27 @@ def test_historical_lookahead_fails_closed():
 def test_duplicate_observation_fails_closed():
     req=sample(); item=obs()
     with pytest.raises(ValueError,match="duplicate"): normalize_observations(req,[item,copy.deepcopy(item)])
+
+
+def test_partial_requires_typed_reason():
+    req=sample(); item=obs("PARTIAL"); item["partial_reason"]=None
+    with pytest.raises(ValueError,match="typed partial reason"):
+        validate_source_observation(req,item)
+
+def test_partial_reason_rejected_on_success():
+    req=sample(); item=obs(); item["partial_reason"]="COVERAGE_GAP"
+    with pytest.raises(ValueError,match="non-partial"):
+        validate_source_observation(req,item)
+
+def test_same_publication_under_different_native_ids_is_duplicate_evidence():
+    req=sample(); a=obs(); b=copy.deepcopy(a)
+    b["observation_id"]="obs-02"; b["source_id"]="source-b"
+    with pytest.raises(ValueError,match="duplicate evidence fingerprint"):
+        normalize_observations(req,[a,b])
+
+def test_https_provenance_rejects_credentials_and_fragments():
+    req=sample()
+    for url in ("https://user:pass@example.test/item","https://example.test/item#frag","https:///missing-host"):
+        item=obs(); item["public_url"]=url
+        with pytest.raises(ValueError,match="provenance"):
+            validate_source_observation(req,item)
