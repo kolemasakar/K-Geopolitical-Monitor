@@ -1106,10 +1106,10 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "P1_RESEARCH_QUALITY_HARDENING_PASS_WITH_REMAINING_REAL_CROSS_SOURCE_IDENTITY_MAPPING",
+    "state": "REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH_PASS_WITH_LIVE_ADAPTER_MAPPING_LIMITATION",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "PASS_WITH_P1_LIMITATIONS",
-    "exact_validated_code_sha": "9309bb98f886b72b396b7c032caacb3c0dcc5c71",
+    "exact_validated_code_sha": "8fef756bcaeff9514718e579f0dfa1fc23328f70",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
     "acceptance": "docs/integrations/KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_2026-10-08.md",
@@ -1122,7 +1122,8 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "selected_regression": "272 passed in 4.81s",
+      "targeted": "22 passed",
+      "selected_regression": "278 passed in 5.10s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1150,7 +1151,7 @@
       "plugin_publication": false,
       "hp_omen_used": false
     },
-    "next_track": "REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH",
+    "next_track": "LIVE_GENERIC_MAPPING_ADAPTERIZATION_AND_ARCHIVE_INDEX_MAINTENANCE",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1409,7 +1410,7 @@
     "readiness_audit_doc": "docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V2_2026-10-08.md",
     "p0_blockers": [],
     "p1_blockers": [
-      "REAL_CROSS_SOURCE_GENERIC_IDENTITY_MAPPING_NOT_PROVEN"
+      "LIVE_GENERIC_MAPPING_ADAPTERIZATION_NOT_YET_PROVEN_FOR_ADDITIONAL_INDEPENDENT_OFFICIAL_SOURCES"
     ],
     "readiness_audit_v3": "READY_FOR_OWNER_PILOT_INDEPENDENT_RESEARCH_WITH_P1_LIMITATIONS",
     "readiness_audit_v3_doc": "docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V3_2026-10-10.md",
@@ -1521,6 +1522,49 @@
         "1000": 0.0049,
         "10000": 0.0523,
         "100000": 0.5367
+      }
+    },
+    "real_generic_mapping_gate": "REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH_PASS_WITH_LIVE_ADAPTER_MAPPING_LIMITATION",
+    "real_generic_mapping": {
+      "schema": "kgm.research.generic-mapping.v1",
+      "event": "NATO Secretary General Mark Rutte / President of Ukraine Volodymyr Zelenskyy meeting, New York, 2026-09-24",
+      "source_ids": [
+        "nato-news",
+        "president-ua-official"
+      ],
+      "origin_groups": [
+        "nato",
+        "president-ukraine"
+      ],
+      "event_match": true,
+      "claim_match": true,
+      "independent_origin_candidate": true,
+      "event_identity": "geo-diplomatic-20260924-2afad3e80899d4325c7776b7c596737d",
+      "claim_signature": "claim-status-c25aaea1abcf75af8864c6bc15f5896a",
+      "automatic_verification": false,
+      "president_source_direct_owner_vm_http": "HTTP_403",
+      "president_source_public_web_retrieval": true,
+      "nato_source_direct_owner_vm_retrieval": true
+    },
+    "archive_index_fast_path": {
+      "index_is_cache": true,
+      "authoritative_archive_preserved": true,
+      "worker_uses_fast_selector": true,
+      "missing_stale_corrupt_index": "AUTHORITATIVE_SCAN_FALLBACK",
+      "fallback_scan_limit": 10000,
+      "fail_closed_above_fallback_limit": true,
+      "benchmark_on_disk": {
+        "1000": {
+          "rebuild_s": 1.9132,
+          "scan_s": 2.0836,
+          "indexed_s": 0.0211,
+          "speedup_x": 98.89
+        },
+        "10000": {
+          "scan_s": 21.331,
+          "indexed_s": 0.1952,
+          "speedup_x": 109.25
+        }
       }
     }
   }
