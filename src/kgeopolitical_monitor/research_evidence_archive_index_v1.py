@@ -161,3 +161,16 @@ def plan_archive_retention(root,consumer,*,keep_latest=10000):
     return {"keep":[x["filename"] for x in entries[split:]],
             "delete_candidates":[x["filename"] for x in entries[:split]],
             "destructive_action_performed":False}
+
+
+def select_historical_snapshot_fast(root,consumer,*,request,source_policy):
+    """Use verified index when valid, otherwise authoritative archive scan."""
+    from .research_evidence_archive_v1 import select_historical_snapshot
+    try:
+        snapshot=select_historical_snapshot_indexed(
+            root,consumer,request=request,source_policy=source_policy)
+        return snapshot,"INDEX"
+    except (ValueError,OSError,json.JSONDecodeError):
+        snapshot=select_historical_snapshot(
+            root,consumer,request=request,source_policy=source_policy)
+        return snapshot,"AUTHORITATIVE_SCAN_FALLBACK"
