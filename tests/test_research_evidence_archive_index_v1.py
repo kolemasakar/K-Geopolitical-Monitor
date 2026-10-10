@@ -2,7 +2,7 @@ import json
 import pytest
 from kgeopolitical_monitor.research_evidence_archive_index_v1 import (
     rebuild_archive_index, load_archive_index, select_historical_snapshot_indexed,
-    plan_archive_retention)
+    select_historical_snapshot_fast, plan_archive_retention)
 from kgeopolitical_monitor.research_evidence_archive_v1 import select_historical_snapshot
 from kgeopolitical_monitor.research_typed_workflow_v1 import accept_request
 from kgeopolitical_monitor.research_worker_v2 import execute_policy_bound
@@ -70,3 +70,33 @@ def test_retention_planner_is_non_destructive(tmp_path):
     assert len(plan["delete_candidates"])==1
     assert plan["destructive_action_performed"] is False
     assert [x.name for x in before]==[x.name for x in after]
+
+
+def test_fast_path_uses_verified_index(tmp_path):
+    current,_=seed(tmp_path)
+    rebuild_archive_index(tmp_path,"ktrader",
+        generated_at_utc="2026-09-28T12:05:00Z")
+    hist,hp=historical(current)
+    snapshot,path=select_historical_snapshot_fast(
+        tmp_path,"ktrader",request=hist,source_policy=hp)
+    assert path=="INDEX"
+    assert snapshot["entry"]["archived_request"]["request_id"]=="req-01"
+
+def test_fast_path_falls_back_when_index_stale(tmp_path):
+    current,_=seed(tmp_path,"req-01")
+    rebuild_archive_index(tmp_path,"ktrader",
+        generated_at_utc="2026-09-28T12:05:00Z")
+    seed(tmp_path,"req-02")
+    hist,hp=historical(current)
+    snapshot,path=select_historical_snapshot_fast(
+        tmp_path,"ktrader",request=hist,source_policy=hp)
+    assert path=="AUTHORITATIVE_SCAN_FALLBACK"
+    assert snapshot["entry"]["archived_request"]["request_id"] in {"req-01","req-02"}
+
+def test_fast_path_falls_back_when_index_missing(tmp_path):
+    current,_=seed(tmp_path)
+    hist,hp=historical(current)
+    snapshot,path=select_historical_snapshot_fast(
+        tmp_path,"ktrader",request=hist,source_policy=hp)
+    assert path=="AUTHORITATIVE_SCAN_FALLBACK"
+    assert snapshot["entry"]["archived_request"]["request_id"]=="req-01"
