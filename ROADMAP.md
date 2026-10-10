@@ -1606,3 +1606,42 @@ Next:
 
 Owner-pilot readiness remains:
 `KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
+
+
+### Live generic mapping adapterization + archive index maintenance — 2026-10-10
+
+Gate:
+`LIVE_GENERIC_MAPPING_ADAPTERIZATION_AND_ARCHIVE_INDEX_MAINTENANCE = PASS`
+
+Exact validated implementation SHA:
+`0974796303333efbbb91381470bf15321cdde519`
+
+Delivered:
+- strict source-text mapping profiles;
+- live Moldova MFA official adapter;
+- live NATO strict mapping-profile support;
+- first fully live two-adapter owner-VM generic diplomatic mapping;
+- automatic archive-index maintenance after CURRENT append;
+- bounded repair/rebuild behavior;
+- historical fast path remains index-preferred with authoritative fallback.
+
+Live generic mapping:
+- Moldova MFA + NATO;
+- 2 mapped observations;
+- one shared event identity;
+- one shared claim signature;
+- two distinct origin groups;
+- one merged two-source record;
+- record remains UNVERIFIED;
+- result `COMPLETE / COMPLETE / HEALTHY`.
+
+Selected regression:
+`289 passed in 5.21s`.
+
+No P1 blocker remains for bounded owner-pilot readiness.
+
+Next:
+`MULTI_DOMAIN_GENERIC_MAPPING_SCALE_AND_RETENTION_POLICY`
+
+Owner-pilot readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
