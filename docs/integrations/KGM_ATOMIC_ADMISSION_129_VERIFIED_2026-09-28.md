@@ -1,0 +1,7 @@
+# KGM atomic admission deadline — verified checkpoint
+
+Date: 2026-09-28. Exact tested code SHA `1e9e440b51c8fd81c02e68e7f08233200890ed30`. Authorized isolated KGM checkout on `kgm-e4-owner-pilot`. **129 passed in 1.68s** across 23 selected exchange/research pytest modules; two new atomic admission tests independently passed.
+
+Canonical `accept_request(..., deadline_utc=...)` now passes an optional immutable deadline into the **same atomic fsynced request record** during `admit`. `registered_deadlines` supports embedded canonical deadlines and older separate sidecars, rejects conflicting metadata, and `recover_registered` can expire embedded deadlines without a sidecar. This removes the old two-step crash window **for new canonical calls that supply the deadline at admission**. Old `accept_request` calls without deadline and legacy sidecar registration remain supported, so those older paths are not automatically upgraded.
+
+Scope: synthetic owner-only local fixtures. No scheduler, real corpus, live provider, cross-host transport, K-Trader changes, HP-OMEN, production activation or hostile local user testing. Existing recovery pass processes at most max_items but still scans the full inbox; it has no durable fairness cursor. Remaining: document/deprecate unsafe legacy APIs, verify partial crash recovery with explicit failure injection, improve bounded scanning/fairness, and validate real provenance separately when authorized.

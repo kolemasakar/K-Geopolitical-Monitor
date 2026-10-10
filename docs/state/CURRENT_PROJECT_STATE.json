@@ -1104,5 +1104,606 @@
     "current_position_preserved": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED",
     "next_gate": "P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED",
     "verification_authority": "P13.5/P13.6"
+  },
+  "independent_research_owner_pilot": {
+    "state": "GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2_PASS",
+    "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
+    "independent_research_ready": "PASS_WITH_P1_LIMITATIONS",
+    "exact_validated_code_sha": "b5f34a7ba8c9f30bfdd3e06eea1a5ad9c817a6b0",
+    "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
+    "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
+    "acceptance": "docs/integrations/KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_2026-10-08.md",
+    "ci": {
+      "code_sha_run": 2465,
+      "code_sha_conclusion": "SUCCESS",
+      "acceptance_doc_run": 2467,
+      "acceptance_doc_conclusion": "SUCCESS"
+    },
+    "validation": {
+      "host": "kgm-e4-owner-pilot",
+      "architecture": "aarch64",
+      "targeted": "33 passed",
+      "selected_regression": "313 passed in 5.83s",
+      "hp_omen_used": false
+    },
+    "live_sources": {
+      "gdacs": {
+        "adapter": "PUBLIC_FREE_READ_ONLY",
+        "live": "SUCCESS"
+      },
+      "gdelt": {
+        "adapter": "PUBLIC_FREE_READ_ONLY",
+        "state": "RATE_LIMITED_COOLDOWN",
+        "network_calls_during_cooldown": 0
+      },
+      "usgs": {
+        "adapter": "PUBLIC_FREE_READ_ONLY_OFFICIAL",
+        "live": "SUCCESS"
+      }
+    },
+    "boundaries": {
+      "production_live": false,
+      "persistent_scheduler": false,
+      "sentinel_integration": false,
+      "ktrader_integration": false,
+      "paid_providers": false,
+      "shared_runtime": false,
+      "plugin_publication": false,
+      "hp_omen_used": false
+    },
+    "next_track": "POST_READINESS_CONSOLIDATION_AND_PHASE_DECISION",
+    "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
+    "multi_source_policy": {
+      "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
+      "same_observation_conflicting_summary": "DISPUTED_AND_PARTIAL",
+      "any_unhealthy_source": "PARTIAL",
+      "complete_requires": "USABLE_RECORDS_AND_NO_UNHEALTHY_AND_NO_DISAGREEMENT",
+      "source_balanced_result_budget": true,
+      "heuristic_cross_id_merge": false
+    },
+    "live_multi_source_result": {
+      "research_status": "PARTIAL",
+      "coverage": "PARTIAL",
+      "source_health": "DEGRADED",
+      "record_count": 10,
+      "result_id": "result-5187bb617f8d17ab15799608",
+      "represented_sources": [
+        "gdacs-events",
+        "usgs-earthquake"
+      ],
+      "recovery_pending": 0
+    },
+    "event_claim_identity_gate": "KGM_EVENT_CLAIM_IDENTITY_OWNER_PILOT_PASS_WITH_ORIGIN_LIMITATION",
+    "correlation_identity": {
+      "cross_source_native_ids_are_sufficient": false,
+      "event_identity": "EARTHQUAKE_ORIGIN_SECOND_PLUS_COORDINATES_0_01_DEG",
+      "claim_signature": "EARTHQUAKE_MAGNITUDE_0_1",
+      "same_event_same_claim": "MERGE_PROVENANCE_UNVERIFIED",
+      "same_event_different_claim": "DISPUTED",
+      "wording_difference_alone_is_disagreement": false,
+      "automatic_verification_credit": false,
+      "automatic_independent_origin_credit": false
+    },
+    "live_correlation_validation": {
+      "window": "24H",
+      "gdacs_eq": 32,
+      "usgs_magnitude_gte_4_5": 16,
+      "common_event_identity": 16,
+      "same_claim_signature": 16,
+      "different_claim_signature": 0,
+      "live_typed_result": {
+        "research_status": "PARTIAL",
+        "coverage": "PARTIAL",
+        "source_health": "DEGRADED",
+        "record_count": 20,
+        "correlated_multi_evidence_records": 16,
+        "disputed_records": 0,
+        "gdelt_network_calls": 0,
+        "result_id": "result-861584d228496bf5478c3355",
+        "recovery_pending": 0
+      }
+    },
+    "origin_assessment_gate": "KGM_CORRELATED_EVENT_ORIGIN_ASSESSMENT_PASS_WITH_ZERO_INDEPENDENT_ORIGIN_CREDIT",
+    "origin_policy": {
+      "unknown_origin_credit": false,
+      "same_origin_credit": false,
+      "distinct_explicit_origin_credit": true,
+      "event_correlation_is_not_origin_independence": true,
+      "factual_verification_credit_from_origin_only": false
+    },
+    "live_origin_assessment": {
+      "window": "24H",
+      "correlated_events": 16,
+      "same_origin": 16,
+      "distinct_origin": 0,
+      "unknown_origin": 0,
+      "independent_origin_credit_events": 0,
+      "shared_origin_group": "usgs-neic"
+    },
+    "independent_origin_source_gate": "KGM_INDEPENDENT_ORIGIN_SOURCE_EXPANSION_GFZ_PASS_WITH_BOUNDED_ASSOCIATION",
+    "gfz_source": {
+      "source_id": "gfz-geofon",
+      "origin_group": "gfz-geofon",
+      "public_free_read_only": true,
+      "credentials": false,
+      "paid_fallback": false,
+      "historical_backdating": false
+    },
+    "association_policy": {
+      "event_kind": "EARTHQUAKE",
+      "max_seconds": 30,
+      "max_km": 50,
+      "missing_parameters": "NO_MATCH",
+      "outside_tolerance": "NO_MATCH",
+      "factual_verification_credit": false
+    },
+    "live_independent_origin_validation": {
+      "window": "24H",
+      "usgs_count": 13,
+      "gfz_count": 11,
+      "unique_matches": 10,
+      "ambiguous_matches": 0,
+      "distinct_origin_matches": 10,
+      "independent_origin_credit_matches": 10,
+      "same_origin_matches": 0
+    },
+    "live_four_source_result": {
+      "research_status": "PARTIAL",
+      "coverage": "PARTIAL",
+      "source_health": "DEGRADED",
+      "record_count": 20,
+      "represented_sources": [
+        "gdacs-events",
+        "gfz-geofon",
+        "usgs-earthquake"
+      ],
+      "gdelt_network_calls": 0,
+      "result_id": "result-c281836a0265f545ab0be3b1",
+      "recovery_pending": 0
+    },
+    "corroboration_integration_gate": "KGM_INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION_PASS_WITH_NO_AUTO_VERIFICATION",
+    "latest_validated_head": "8fb9f6fa7197b59d01fb65a8a5f7b50a3c048804",
+    "live_v2_execution_sha": "29f47567338b04cb8bfebfb9aeb96131fabc3387",
+    "typed_result_v2": {
+      "schema": "kgm.research.result.v2",
+      "corroboration_level": "PHYSICAL_EVENT",
+      "double_count_same_origin_paths": false,
+      "ambiguous_origin_credit": false,
+      "automatic_factual_verification": false
+    },
+    "live_corroboration_result": {
+      "research_status": "PARTIAL",
+      "coverage": "PARTIAL",
+      "source_health": "DEGRADED",
+      "record_count": 20,
+      "corroboration_groups": 13,
+      "distinct_origin_groups": 10,
+      "independent_origin_credit_events": 10,
+      "same_origin_groups": 3,
+      "ambiguous_groups": 0,
+      "claim_difference_groups": 9,
+      "auto_verified_events": 0,
+      "gdelt_network_calls": 0,
+      "result_id": "result-68f7dbfc09fa3f29f01a5970",
+      "recovery_pending": 0
+    },
+    "verification_boundary_gate": "KGM_CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY_PASS_WITH_EXPLICIT_VERIFICATION_REQUIRED",
+    "verification_policy": {
+      "automatic_verification": false,
+      "factual_verification_credit_from_corroboration": false,
+      "eligible_requires": [
+        "NON_AMBIGUOUS",
+        "DISTINCT_ORIGIN",
+        "INDEPENDENT_ORIGIN_CREDIT",
+        "AT_LEAST_TWO_SOURCE_PATHS",
+        "AT_LEAST_TWO_ORIGIN_GROUPS",
+        "CLAIM_RELATION_AGREES"
+      ],
+      "states": [
+        "ELIGIBLE_FOR_EXPLICIT_VERIFICATION",
+        "EVENT_CORROBORATED_CLAIM_UNRESOLVED",
+        "INELIGIBLE"
+      ]
+    },
+    "live_verification_boundary": {
+      "corroboration_groups": 12,
+      "distinct_origin_groups": 9,
+      "independent_origin_credit_events": 9,
+      "same_origin_groups": 3,
+      "ambiguous_groups": 0,
+      "claim_agreement_groups": 4,
+      "claim_difference_groups": 8,
+      "verification_eligible_events": 1,
+      "event_only_unresolved_claims": 8,
+      "verification_ineligible_events": 3,
+      "automatic_verification_events": 0,
+      "auto_verified_events": 0,
+      "result_id": "result-f1d23762fe3c577e4e28aa29",
+      "recovery_pending": 0
+    },
+    "explicit_verification_gate": "KGM_EXPLICIT_VERIFICATION_DECISION_ARTIFACT_PASS_WITH_IMMUTABLE_OVERLAY",
+    "explicit_verification_policy": {
+      "schema": "kgm.verification.decision.v1",
+      "actions": [
+        "VERIFY",
+        "REJECT",
+        "DEFER"
+      ],
+      "base_result_mutation": false,
+      "exact_result_artifact_binding": true,
+      "explicit_actor_authorization": true,
+      "explicit_rationale": true,
+      "decision_after_result_required": true,
+      "verify_requires_eligibility": true,
+      "idempotent_exact_replay": true,
+      "conflicting_replay_denied": true
+    },
+    "live_explicit_verification": {
+      "result_id": "result-f1d23762fe3c577e4e28aa29",
+      "corroboration_id": "corr-a7d18a9a3186cd5a9d1d99c4",
+      "decision_id": "verify-chagos-001",
+      "action": "VERIFY",
+      "effective_verification": "VERIFIED",
+      "decision_sha256": "7a88529f673d3907a1b45936a8e0f4a8b9b04681e19840313eb76e27b8a29c41",
+      "replay_idempotent": true
+    },
+    "verification_lineage_gate": "KGM_VERIFICATION_REVISION_AND_REVOCATION_LINEAGE_PASS_WITH_IMMUTABLE_HISTORY",
+    "verification_lineage_policy": {
+      "schema": "kgm.verification.revision.v1",
+      "actions": [
+        "VERIFY",
+        "REJECT",
+        "DEFER",
+        "REVOKE"
+      ],
+      "prior_artifact_hash_binding": true,
+      "result_artifact_hash_binding": true,
+      "immutable_history": true,
+      "fork_denied": true,
+      "self_reference_denied": true,
+      "non_monotonic_revision_denied": true,
+      "revoke_requires_effective_verified": true
+    },
+    "verification_basis_gate": "KGM_VERIFICATION_BASIS_EVIDENCE_LINKAGE_PASS_WITH_EVIDENCE_BOUND_REVISIONS",
+    "verification_basis_policy": {
+      "basis_schema": "kgm.verification.basis.v1",
+      "revision_schema": "kgm.verification.revision.v2",
+      "basis_types": [
+        "CONFIRMATION",
+        "CONTRADICTION",
+        "CORRECTION",
+        "SOURCE_REVISION"
+      ],
+      "evidence_reference_limit": 20,
+      "explicit_content_sha256": true,
+      "future_evidence_denied": true,
+      "revision_requires_basis_hash": true,
+      "revoke_reject_require_adverse_basis": true,
+      "verify_requires_confirmation_or_source_revision": true
+    },
+    "verification_state_resolution_gate": "KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_PASS_WITH_STALENESS_SIGNAL",
+    "verification_state_resolver": {
+      "exact_single_root": true,
+      "missing_link_detection": true,
+      "fork_detection": true,
+      "cycle_disconnected_detection": true,
+      "monotonic_timestamp_validation": true,
+      "basis_integrity_validation": true,
+      "effective_state_values": [
+        "VERIFIED",
+        "DISPUTED",
+        "UNVERIFIED"
+      ],
+      "unapplied_basis_reporting": true,
+      "post_head_evidence_staleness_signal": true
+    },
+    "live_effective_state": {
+      "corroboration_id": "corr-a7d18a9a3186cd5a9d1d99c4",
+      "root_decision_id": "verify-chagos-001",
+      "head_artifact_id": "verify-chagos-001",
+      "effective_verification": "VERIFIED",
+      "unapplied_basis": 0,
+      "post_head_basis": 0,
+      "effective_state_stale": false
+    },
+    "readiness_audit_v2": "NOT_READY_FOR_GATE",
+    "readiness_audit_doc": "docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V2_2026-10-08.md",
+    "p0_blockers": [],
+    "p1_blockers": [],
+    "readiness_audit_v3": "READY_FOR_OWNER_PILOT_INDEPENDENT_RESEARCH_WITH_P1_LIMITATIONS",
+    "readiness_audit_v3_doc": "docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V3_2026-10-10.md",
+    "closed_p0": [
+      "EXPECTED_SOURCE_PORTFOLIO_BOUND",
+      "LIVE_OBSERVATIONS_DURABLY_STAGED",
+      "MINIMUM_CANONICAL_POLITICAL_SOURCE_BREADTH_PROVEN",
+      "REAL_HISTORICAL_AS_OF_ARCHIVE_REPLAY_OPERATIONAL"
+    ],
+    "historical_replay": {
+      "schema": "kgm.research.evidence-archive.v1",
+      "network_provider_calls_during_replay": 0,
+      "current_observations": 41,
+      "historical_observations": 41,
+      "same_source_snapshot": true,
+      "current_stage_sha256": "ec9c2c4a28df332b52e6d265b780e21a7474b1b778dee3c68aa36f6be2a62743",
+      "historical_stage_sha256": "377811baccb993660879d6f75ee6b282f1cb8916713556025454e2e9733d696f",
+      "current_result_id": "result-000fea30af7ec8d6b78f5cc3",
+      "historical_result_id": "result-7e93b41aa7c742826a5be357",
+      "max_available_at_utc": "2026-10-10T08:59:42Z",
+      "as_of_utc": "2026-10-10T08:59:44Z",
+      "recovery_pending": 0
+    },
+    "p1_quality_gate": "P1_RESEARCH_QUALITY_HARDENING_PASS_WITH_REMAINING_REAL_CROSS_SOURCE_IDENTITY_MAPPING",
+    "p1_quality_doc": "docs/integrations/KGM_P1_RESEARCH_QUALITY_HARDENING_2026-10-10.md",
+    "generic_identity": {
+      "families": [
+        "POLITICAL",
+        "DIPLOMATIC",
+        "MILITARY",
+        "ECONOMIC"
+      ],
+      "explicit_structured_descriptors": true,
+      "fuzzy_or_nlp_matching": false,
+      "descriptor_identity_binding": true,
+      "descriptor_claim_binding": true,
+      "synthetic_cross_source_e2e": true,
+      "real_cross_source_semantic_mapping": "NOT_YET_PROVEN"
+    },
+    "partial_semantics": {
+      "typed_reasons": [
+        "SOURCE_TRUNCATED",
+        "UPSTREAM_PARTIAL",
+        "RATE_LIMITED_PARTIAL",
+        "FILTER_LIMIT",
+        "PARSE_PARTIAL",
+        "COVERAGE_GAP",
+        "OTHER"
+      ],
+      "required_on_partial": true,
+      "forbidden_on_non_partial": true
+    },
+    "evidence_dedup": {
+      "canonical_https_publication_fingerprint": true,
+      "duplicate_publication_path_rejected": true,
+      "credentials_in_url_rejected": true,
+      "fragments_rejected": true
+    },
+    "official_source_breadth": {
+      "political_diplomatic": [
+        "consilium-press-releases"
+      ],
+      "economic": [
+        "ecb-press"
+      ],
+      "military_security": [
+        "nato-news"
+      ],
+      "disaster": [
+        "gdacs-events"
+      ],
+      "earthquake": [
+        "usgs-earthquake",
+        "gfz-geofon"
+      ],
+      "discovery": [
+        "gdelt-doc-v2"
+      ]
+    },
+    "live_p1_breadth": {
+      "observations": 56,
+      "source_runs": {
+        "consilium-press-releases": "10_OBSERVED",
+        "ecb-press": "10_OBSERVED",
+        "gdacs-events": "10_OBSERVED",
+        "gdelt-doc-v2": "1_DEGRADED_RATE_LIMITED",
+        "gfz-geofon": "10_OBSERVED",
+        "nato-news": "5_OBSERVED",
+        "usgs-earthquake": "10_OBSERVED"
+      },
+      "result_status": "PARTIAL",
+      "coverage": "PARTIAL",
+      "source_health": "DEGRADED",
+      "record_count": 10,
+      "corroboration_groups": 9,
+      "gdelt_network_calls": 0,
+      "recovery_pending": 0,
+      "stage_sha256": "72aede55bcc6222fa7b64417069070bb323f1cbec1b4b1c88020c12304b33791",
+      "result_id": "result-7ba83ab17e713911b73f117c"
+    },
+    "archive_index": {
+      "schema": "kgm.research.evidence-archive-index.v1",
+      "authoritative_archive_preserved": true,
+      "index_is_cache": true,
+      "stale_manifest_denied": true,
+      "corruption_denied": true,
+      "retention_planner_destructive": false,
+      "benchmark_metadata_validation_seconds": {
+        "1000": 0.0049,
+        "10000": 0.0523,
+        "100000": 0.5367
+      }
+    },
+    "real_generic_mapping_gate": "REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH_PASS_WITH_LIVE_ADAPTER_MAPPING_LIMITATION",
+    "real_generic_mapping": {
+      "schema": "kgm.research.generic-mapping.v1",
+      "event": "NATO Secretary General Mark Rutte / President of Ukraine Volodymyr Zelenskyy meeting, New York, 2026-09-24",
+      "source_ids": [
+        "nato-news",
+        "president-ua-official"
+      ],
+      "origin_groups": [
+        "nato",
+        "president-ukraine"
+      ],
+      "event_match": true,
+      "claim_match": true,
+      "independent_origin_candidate": true,
+      "event_identity": "geo-diplomatic-20260924-2afad3e80899d4325c7776b7c596737d",
+      "claim_signature": "claim-status-c25aaea1abcf75af8864c6bc15f5896a",
+      "automatic_verification": false,
+      "president_source_direct_owner_vm_http": "HTTP_403",
+      "president_source_public_web_retrieval": true,
+      "nato_source_direct_owner_vm_retrieval": true
+    },
+    "archive_index_fast_path": {
+      "index_is_cache": true,
+      "authoritative_archive_preserved": true,
+      "worker_uses_fast_selector": true,
+      "missing_stale_corrupt_index": "AUTHORITATIVE_SCAN_FALLBACK",
+      "fallback_scan_limit": 10000,
+      "fail_closed_above_fallback_limit": true,
+      "benchmark_on_disk": {
+        "1000": {
+          "rebuild_s": 1.9132,
+          "scan_s": 2.0836,
+          "indexed_s": 0.0211,
+          "speedup_x": 98.89
+        },
+        "10000": {
+          "scan_s": 21.331,
+          "indexed_s": 0.1952,
+          "speedup_x": 109.25
+        }
+      }
+    },
+    "live_generic_mapping_gate": "LIVE_GENERIC_MAPPING_ADAPTERIZATION_AND_ARCHIVE_INDEX_MAINTENANCE_PASS",
+    "live_generic_mapping": {
+      "event": "NATO Deputy Secretary General Radmila Shekerinska / Moldova Deputy PM and FM Mihai Popsoi meeting, Chisinau, 2026-10-08",
+      "source_ids": [
+        "moldova-mfa",
+        "nato-news"
+      ],
+      "origin_groups": [
+        "moldova-mfa",
+        "nato"
+      ],
+      "both_direct_owner_vm_retrievable": true,
+      "mapped_observations": 2,
+      "shared_event_identity": "geo-diplomatic-20261008-ffea948e6757519f6b2f0ed34ebb62a4",
+      "shared_claim_signature": "claim-status-c25aaea1abcf75af8864c6bc15f5896a",
+      "merged_two_source_records": 1,
+      "record_verification": "UNVERIFIED",
+      "research_status": "COMPLETE",
+      "coverage": "COMPLETE",
+      "source_health": "HEALTHY",
+      "stage_sha256": "7ed9ebeab557f034500474edb56d51f3478de89f3d9ec5466bbeefe0bf7d8b38",
+      "result_id": "result-07af79e47ef1294b0912c225",
+      "recovery_pending": 0
+    },
+    "archive_index_maintenance": {
+      "automatic_after_current_archive": true,
+      "initial_or_missing": "REBUILD",
+      "single_append": "APPEND",
+      "synchronized": "CURRENT",
+      "corrupt_or_drift": "BOUNDED_REBUILD",
+      "authoritative_archive_preserved": true,
+      "live_index_entries": 1,
+      "live_historical_selection_path": "INDEX",
+      "live_historical_snapshot_sha256": "9638de249500d75bbbbc4358ff294835e0c0b25b420a5b57a9c359c42af0f1a6",
+      "retention_execution_enabled": false
+    },
+    "multi_domain_mapping_gate": "MULTI_DOMAIN_GENERIC_MAPPING_SCALE_AND_RETENTION_POLICY_PASS",
+    "multi_domain_live_mapping": {
+      "political": {
+        "event_identity": "geo-political-20261008-60e96363677f4e8432eb15b8545474cc",
+        "claim_signature": "claim-status-315209d4c271b5e0b21af1c92fb70cee",
+        "origins": [
+          "germany-federal-government",
+          "uk-government"
+        ],
+        "result_id": "result-f54e9fdd4f015e12430a499d",
+        "status": "COMPLETE"
+      },
+      "military": {
+        "event_identity": "geo-military-20261008-fa80e36beaf4e1a36c2cc6466e0fdc05",
+        "claim_signature": "claim-status-4a0122fabbad5f8e34cd1e57f38b08d0",
+        "origins": [
+          "germany-federal-government",
+          "uk-government"
+        ],
+        "result_id": "result-b37493ff43347c8780f68094",
+        "status": "COMPLETE"
+      },
+      "economic": {
+        "event_identity": "geo-economic-20261002-40c0e8fd72cc8afb60ad2803de8104a7",
+        "claim_signature": "claim-status-ecfc2dd373ce005955fc0ca9c00c0c90",
+        "origins": [
+          "france-presidency",
+          "uk-government"
+        ],
+        "result_id": "result-866eecec8d3658dc6151728d",
+        "status": "COMPLETE"
+      },
+      "automatic_verification": false
+    },
+    "retention_policy": {
+      "schema": "kgm.research.archive-retention-policy.v1",
+      "automatic_execution": false,
+      "explicit_allow_delete_required": true,
+      "max_delete_fraction_cap": 0.5,
+      "isolated_destructive_acceptance": true,
+      "production_data_touched": false,
+      "index_before": 3,
+      "deleted": 1,
+      "index_after": 2
+    },
+    "quality_audit_v1_gate": "INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1_PASS_WITH_KNOWN_LIMITATIONS",
+    "quality_audit_v1_doc": "docs/integrations/KGM_INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1_2026-10-10.md",
+    "quality_audit_v1": {
+      "false_merge_resistance": "PASS",
+      "false_split_resistance": "PASS",
+      "claim_disagreement": "PASS",
+      "same_origin_independence": "PASS",
+      "false_verified_resistance": "PASS",
+      "duplicate_evidence_resistance": "PASS",
+      "false_complete_resistance": "PASS_WITH_HEALTHY_EMPTY_SEMANTIC",
+      "historical_reproducibility": "PASS",
+      "live_artifacts_reviewed": 7,
+      "live_records_reviewed": 44,
+      "live_complete_artifacts": 4,
+      "live_partial_artifacts": 3,
+      "automatic_verified_records": 0,
+      "automatic_verification_credits": 0
+    },
+    "known_limitations": [
+      "BROADER_MULTI_DOMAIN_MAPPING_PROFILE_COVERAGE_RECOMMENDED",
+      "RETENTION_EXECUTION_REMAINS_EXPLICIT_ONLY",
+      "PRODUCTION_AND_UNATTENDED_RUNTIME_NOT_AUTHORIZED"
+    ],
+    "generic_corroboration_v2_gate": "GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2_PASS",
+    "generic_corroboration_v2_doc": "docs/integrations/KGM_GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2_2026-10-10.md",
+    "typed_result_v3": {
+      "schema": "kgm.research.result.v3",
+      "generic_corroboration": true,
+      "source_contributions": true,
+      "completeness_semantics": "kgm.completeness.v2",
+      "legacy_v1_v2_validator_support": true
+    },
+    "live_generic_corroboration_v3": {
+      "source_ids": [
+        "moldova-mfa",
+        "nato-news"
+      ],
+      "origin_groups": [
+        "moldova-mfa",
+        "nato"
+      ],
+      "result_id": "result-7212e33b2de5f3bafb8936c3",
+      "stage_sha256": "d5ebca8de383d9b935b6f2622c6be9bac910c06e95377ee1130619ef66a86f48",
+      "corroboration_id": "corr-792c5926a4004f1dd1e7e65a",
+      "origin_assessment": "DISTINCT_ORIGIN",
+      "claim_relation": "AGREES",
+      "independent_origin_credit": true,
+      "verification_eligibility": "ELIGIBLE_FOR_EXPLICIT_VERIFICATION",
+      "automatic_verification": false,
+      "record_verification": "UNVERIFIED"
+    },
+    "completeness_semantics_v2": {
+      "portfolio_execution_complete": true,
+      "all_required_sources_invoked": true,
+      "all_required_sources_healthy": true,
+      "all_required_sources_contributed": true,
+      "required_source_empty_present": false,
+      "complete_does_not_imply_all_sources_contributed": true
+    }
   }
 }

@@ -1071,3 +1071,690 @@ Authoritative transition handoff:
 `docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-09-20_P23_1.md`.
 
 No Phase 23 semantic, runtime, source-activation, production/live, paid/shared, migration-033, Plugin-publication or owner-operational boundary is changed by this documentation sync.
+
+
+## 2026-10-07 — Parallel owner-pilot research execution track
+
+This is a bounded technical execution track and does **not** advance the canonical Phase 23 strategic gate.
+
+Validated state:
+
+- `KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT = PASS_WITH_RESTRICTIONS`
+- `LIVE_GDACS_OWNER_PILOT_E2E = PASS`
+- `KGM_INDEPENDENT_RESEARCH_READY = NOT_DECLARED`
+- exact validated code SHA: `155c8f06c5457a0988ad91c80a7ebee6d541d797`
+- selected regression: `178 passed in 2.59s`
+- GitHub CI #2465 and #2467: SUCCESS
+
+Delivered:
+- provider-neutral source adapter contract;
+- deterministic/durable worker;
+- bounded batch observations and crash/replay handling;
+- GDELT public/free adapter with 429 fail-closed retry/cooldown;
+- durable source cooldown;
+- GDACS public/free adapter;
+- first real external typed E2E cycle with immutable COMPLETE artifact and restart reconciliation.
+
+Next technical milestone:
+`MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS`
+
+Scope remains owner-pilot only. No production/live activation, persistent scheduler, Sentinel/K-Trader integration, paid fallback, shared runtime, or Plugin publication is authorized by this checkpoint.
+
+
+### Multi-source owner-pilot milestone — 2026-10-07
+
+Gate:
+`MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS = PASS`
+
+Validated code SHA:
+`93701e9edc0dd5624ab7241e854908cb04700e61`
+
+Source set:
+- GDACS live;
+- USGS Earthquake FDSN live;
+- GDELT under durable RATE_LIMITED cooldown.
+
+Validated semantics:
+- cross-source same-observation deduplication with provenance merge;
+- conflicting summaries for the same observation → DISPUTED + PARTIAL;
+- any unhealthy source → PARTIAL;
+- COMPLETE requires usable evidence, no unhealthy source and no disagreement;
+- deterministic source-balanced selection prevents source starvation;
+- no heuristic merge across distinct observation IDs.
+
+Real mixed-source owner-pilot result:
+`PARTIAL / PARTIAL / DEGRADED`, 10 records, GDACS + USGS represented, 0 GDELT network calls during cooldown.
+
+Targeted: `35 passed`.
+Selected regression: `184 passed in 2.77s`.
+
+Acceptance:
+`docs/integrations/KGM_MULTI_SOURCE_OWNER_PILOT_ACCEPTANCE_2026-10-07.md`
+
+Next technical track:
+`THIRD_SOURCE_BROADENING_AND_CORRELATION_IDENTITY`
+
+This milestone does not advance the canonical Phase 23 strategic gate and does not declare `KGM_INDEPENDENT_RESEARCH_READY`.
+
+
+### Event/claim identity milestone — 2026-10-07
+
+Gate:
+`KGM_EVENT_CLAIM_IDENTITY_OWNER_PILOT = PASS_WITH_ORIGIN_LIMITATION`
+
+Exact validated code SHA:
+`fe836769bd2742fe91f0c00d8e0410805477608f`
+
+Validated semantics:
+- cross-source correlation requires explicit structured `event_identity`;
+- native source IDs never create cross-source correlation by themselves;
+- earthquake event identity = origin UTC second + coordinates rounded to 0.01°;
+- magnitude is separated into a `claim_signature`;
+- same event + same claim signature merges provenance as UNVERIFIED;
+- same event + different claim signature becomes DISPUTED;
+- title/string wording differences alone are not disagreement;
+- event correlation grants no automatic factual-verification or independent-origin credit.
+
+Real 24h validation:
+- GDACS EQ observations: 32;
+- USGS M>=4.5 observations: 16;
+- common event identities: 16;
+- equal magnitude claim signatures: 16;
+- differing claim signatures: 0.
+
+Real typed owner-pilot cycle:
+`PARTIAL / PARTIAL / DEGRADED`, 20 records, 16 correlated multi-evidence records, 0 disputed records, 0 GDELT network calls under cooldown, recovery pending empty.
+
+Targeted: `31 passed`.
+Selected regression: `189 passed in 2.81s`.
+
+Acceptance:
+`docs/integrations/KGM_EVENT_CLAIM_IDENTITY_OWNER_PILOT_ACCEPTANCE_2026-10-07.md`
+
+Next technical track:
+`UNDERLYING_ORIGIN_ASSESSMENT_FOR_CORRELATED_EVENTS`
+
+This milestone does not advance the canonical Phase 23 strategic gate and does not declare `KGM_INDEPENDENT_RESEARCH_READY`.
+
+
+### Correlated-event underlying-origin milestone — 2026-10-07
+
+Gate:
+`KGM_CORRELATED_EVENT_ORIGIN_ASSESSMENT = PASS_WITH_ZERO_INDEPENDENT_ORIGIN_CREDIT`
+
+Exact validated code SHA:
+`7d04b132ea16c90bd7d532fa9c1f09c0dc3b3bc1`
+
+Live 24h GDACS + USGS earthquake cohort:
+- correlated events: 16;
+- SAME_ORIGIN: 16;
+- DISTINCT_ORIGIN: 0;
+- UNKNOWN: 0;
+- independent-origin credit events: 0;
+- shared explicit origin group: `usgs-neic`.
+
+Interpretation:
+- distinct source paths do not imply distinct underlying origin;
+- GDACS earthquake records sourced from NEIC and USGS FDSN records resolve to the same underlying origin group;
+- event-correlation and merged provenance are retained;
+- automatic independent-origin corroboration and factual-verification credit remain denied.
+
+Targeted: `34 passed`.
+Selected regression: `192 passed in 2.88s`.
+
+Assessment:
+`docs/integrations/KGM_CORRELATED_EVENT_ORIGIN_ASSESSMENT_2026-10-07.md`
+
+Next technical track:
+`INDEPENDENT_ORIGIN_SOURCE_EXPANSION`
+
+This milestone does not advance the canonical Phase 23 strategic gate and does not declare `KGM_INDEPENDENT_RESEARCH_READY`.
+
+
+### Independent-origin source expansion — GFZ GEOFON — 2026-10-08
+
+Gate:
+`KGM_INDEPENDENT_ORIGIN_SOURCE_EXPANSION_GFZ = PASS_WITH_BOUNDED_ASSOCIATION`
+
+Exact validated code SHA:
+`bd59dcf533788b6bcdde498ff112830137144d46`
+
+Added:
+- GFZ GEOFON FDSN public/free/read-only source;
+- explicit `gfz-geofon` underlying origin group;
+- structured event parameters;
+- conservative earthquake association using <=30 s and <=50 km;
+- historical no-backdating preserved.
+
+Live 24h USGS/NEIC vs GFZ:
+- USGS: 13;
+- GFZ: 11;
+- unique matches: 10;
+- ambiguous: 0;
+- DISTINCT_ORIGIN: 10;
+- origin-level independence credit: 10;
+- SAME_ORIGIN: 0.
+
+Live source-path cycle represented GDACS, GFZ and USGS simultaneously while GDELT remained under cooldown. Result stayed `PARTIAL / PARTIAL / DEGRADED`, as required.
+
+Targeted: `38 passed`.
+Selected regression: `196 passed in 2.94s`.
+
+Acceptance:
+`docs/integrations/KGM_INDEPENDENT_ORIGIN_SOURCE_EXPANSION_GFZ_2026-10-08.md`
+
+Next technical track:
+`INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Independent-origin corroboration integration — 2026-10-08
+
+Gate:
+`KGM_INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION = PASS_WITH_NO_AUTO_VERIFICATION`
+
+Latest validated head:
+`8fb9f6fa7197b59d01fb65a8a5f7b50a3c048804`
+
+Integrated:
+- typed result `kgm.research.result.v2`;
+- bounded event-level corroboration groups;
+- SAME-origin publication paths do not double-count;
+- DISTINCT-origin credit is per physical event;
+- ambiguous association denies credit;
+- corroboration cannot set factual verification credit.
+
+Live result:
+- `PARTIAL / PARTIAL / DEGRADED`;
+- 20 records;
+- 13 corroboration groups;
+- 10 DISTINCT_ORIGIN groups;
+- 10 independent-origin credit events;
+- 3 SAME_ORIGIN groups;
+- 0 ambiguous groups;
+- 9 structured claim-difference groups;
+- 0 auto-verified events;
+- 0 GDELT network calls under cooldown.
+
+Selected regression:
+`200 passed in 2.91s`.
+
+Acceptance:
+`docs/integrations/KGM_INDEPENDENT_ORIGIN_CORROBORATION_INTEGRATION_2026-10-08.md`
+
+Next technical track:
+`CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Corroboration-to-verification policy boundary — 2026-10-08
+
+Gate:
+`KGM_CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY = PASS_WITH_EXPLICIT_VERIFICATION_REQUIRED`
+
+Exact validated code SHA:
+`8207ee2efeedc154286cb2a03256c94e7d8171a7`
+
+Policy:
+- independent-origin corroboration is necessary but not sufficient for factual verification;
+- ELIGIBLE_FOR_EXPLICIT_VERIFICATION requires non-ambiguous DISTINCT_ORIGIN corroboration, independent-origin credit, >=2 source paths, >=2 origin groups, and structured claim agreement;
+- EVENT_CORROBORATED_CLAIM_UNRESOLVED retains event corroboration while claim disagreement remains unresolved;
+- INELIGIBLE is fail-closed on ambiguity, insufficient origin/source diversity, or unknown claim agreement;
+- no state at this boundary performs automatic verification.
+
+Live validation:
+- corroboration groups: 12;
+- DISTINCT_ORIGIN: 9;
+- independent-origin credit events: 9;
+- SAME_ORIGIN: 3;
+- ambiguous: 0;
+- claim agreement: 4;
+- claim difference: 8;
+- verification eligible: 1;
+- event-corroborated / claim-unresolved: 8;
+- ineligible: 3;
+- auto-verified: 0.
+
+Targeted: `38 passed`.
+Selected regression: `207 passed in 3.03s`.
+
+Acceptance:
+`docs/integrations/KGM_CORROBORATION_TO_VERIFICATION_POLICY_BOUNDARY_2026-10-08.md`
+
+Next technical track:
+`EXPLICIT_VERIFICATION_DECISION_ARTIFACT`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Explicit verification decision artifact — 2026-10-08
+
+Gate:
+`KGM_EXPLICIT_VERIFICATION_DECISION_ARTIFACT = PASS_WITH_IMMUTABLE_OVERLAY`
+
+Exact validated code SHA:
+`f2ce95efc39cc5f8f70efcf8836577d4ad1f8119`
+
+Implemented:
+- immutable `kgm.verification.decision.v1`;
+- exact binding to immutable result artifact and corroboration target;
+- explicit authorized actor, policy version, timestamp and rationale;
+- VERIFY accepted only for verification-eligible corroboration with no blockers;
+- exact replay idempotent; conflicting replay denied;
+- immutable base research result is not rewritten.
+
+Live owner-pilot decision:
+- decision id: `verify-chagos-001`;
+- action: `VERIFY`;
+- effective overlay: `VERIFIED`;
+- decision SHA-256: `7a88529f673d3907a1b45936a8e0f4a8b9b04681e19840313eb76e27b8a29c41`;
+- replay preserved identical SHA.
+
+Targeted: `32 passed`.
+Selected regression: `213 passed in 3.23s`.
+
+Acceptance:
+`docs/integrations/KGM_EXPLICIT_VERIFICATION_DECISION_ARTIFACT_2026-10-08.md`
+
+Next technical track:
+`VERIFICATION_REVISION_AND_REVOCATION_LINEAGE`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Verification revision and revocation lineage — 2026-10-08
+
+Gate:
+`KGM_VERIFICATION_REVISION_AND_REVOCATION_LINEAGE = PASS_WITH_IMMUTABLE_HISTORY`
+
+Exact validated code SHA:
+`d428173e7ac947a627b950b89f9893de4a105faa`
+
+Implemented:
+- immutable verification revision artifacts;
+- strict supersedes linkage to one prior decision/revision;
+- exact prior-artifact and result-artifact hash binding;
+- VERIFY / REJECT / DEFER / REVOKE lineage actions;
+- fork protection;
+- monotonic revision timestamps;
+- prior history is never rewritten or deleted.
+
+Targeted:
+`29 passed`.
+
+Selected regression:
+`220 passed in 3.47s`.
+
+Acceptance:
+`docs/integrations/KGM_VERIFICATION_REVISION_AND_REVOCATION_LINEAGE_2026-10-08.md`
+
+Next technical track:
+`VERIFICATION_BASIS_EVIDENCE_LINKAGE`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Verification basis evidence linkage — 2026-10-08
+
+Gate:
+`KGM_VERIFICATION_BASIS_EVIDENCE_LINKAGE = PASS_WITH_EVIDENCE_BOUND_REVISIONS`
+
+Exact validated code SHA:
+`c87a48c9e489da200acbfc145065945f947c28ff`
+
+Implemented:
+- immutable verification-basis artifacts;
+- explicit basis types;
+- evidence references with source provenance and content SHA-256;
+- evidence-bound verification revision v2;
+- VERIFY requires confirmation/source-revision basis;
+- REVOKE/REJECT require adverse evidence basis;
+- all prior lineage and integrity protections remain active.
+
+Validated chain:
+`VERIFY → CONTRADICTION basis → REVOKE → CONFIRMATION basis → VERIFY`.
+
+Targeted:
+`24 passed`.
+
+Selected regression:
+`226 passed in 3.64s`.
+
+Acceptance:
+`docs/integrations/KGM_VERIFICATION_BASIS_EVIDENCE_LINKAGE_2026-10-08.md`
+
+Next technical track:
+`VERIFICATION_EFFECTIVE_STATE_RESOLUTION`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Verification effective-state resolution — 2026-10-08
+
+Gate:
+`KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION = PASS_WITH_STALENESS_SIGNAL`
+
+Exact validated code SHA:
+`2cdf937201990d32ca59efd83c145c39e1330e33`
+
+Implemented:
+- deterministic effective verification state resolver;
+- exactly one root decision per corroboration target;
+- missing-link, fork, cycle/disconnected and non-monotonic lineage detection;
+- evidence-bound basis integrity checks;
+- current VERIFIED / DISPUTED / UNVERIFIED state resolution;
+- unapplied-basis reporting;
+- post-head evidence staleness signal without automatic mutation.
+
+Real owner-pilot target `corr-a7d18a9a3186cd5a9d1d99c4` resolves VERIFIED with no unapplied/post-head basis and stale=false.
+
+Targeted:
+`24 passed`.
+
+Selected regression:
+`231 passed in 3.93s`.
+
+Acceptance:
+`docs/integrations/KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_2026-10-08.md`
+
+Next technical track:
+`INDEPENDENT_RESEARCH_READINESS_AUDIT_V2`
+
+This milestone does not declare `KGM_INDEPENDENT_RESEARCH_READY` and does not advance the canonical Phase 23 strategic gate.
+
+
+### Independent research readiness audit v2 — 2026-10-08
+
+Status:
+`NOT READY FOR GATE`
+
+Exact validated code SHA before audit:
+`2cdf937201990d32ca59efd83c145c39e1330e33`
+
+Owner-pilot blockers resolved since audit v1:
+- real source execution;
+- bounded canonical worker;
+- legacy helper decoupling;
+- multi-source/origin/corroboration/verification lineage.
+
+Blocking P0 gaps:
+1. required source portfolio not explicitly bound to execution;
+2. normalized live observations not durably staged before terminal result construction;
+3. canonical geopolitical source breadth remains too narrow;
+4. real HISTORICAL_AS_OF replay from first-seen evidence is not yet operational.
+
+Audit:
+`docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V2_2026-10-08.md`
+
+Next technical track:
+`SOURCE_PORTFOLIO_COMPLETENESS_AND_DURABLE_OBSERVATION_STAGING`
+
+Do not declare `KGM_INDEPENDENT_RESEARCH_READY`.
+
+
+### Independent research readiness v3 — 2026-10-10
+
+Gate:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`
+
+Exact validated implementation SHA:
+`322c55f8f47f62aca19fd563b3d7eb73538b1b52`
+
+P0 readiness blockers from audit v2 are closed:
+- source portfolio completeness is policy-bound;
+- normalized live observations are durably staged;
+- canonical Consilium official political/diplomatic source is proven;
+- archive-backed `HISTORICAL_AS_OF` replay is operational without live provider calls.
+
+Live historical proof:
+- 41 archived current observations;
+- 41 historical replay observations;
+- exact source snapshot preserved;
+- cutoff later than all archived evidence availability timestamps;
+- provider calls during historical replay: 0;
+- recovery pending: empty.
+
+Selected regression:
+`249 passed in 4.65s`.
+
+Remaining P1 quality-hardening:
+- generic non-earthquake identity families;
+- typed PARTIAL reason semantics;
+- canonical evidence fingerprint deduplication;
+- broaden official geopolitical source portfolio;
+- archive indexing/retention after correctness.
+
+Audit:
+`docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V3_2026-10-10.md`
+
+Next technical track:
+`P1_RESEARCH_QUALITY_HARDENING`
+
+This readiness gate is owner-pilot only and does not authorize production/live daemon operation, persistent unattended scheduling, Sentinel/K-Trader integration, paid fallback, shared runtime, Plugin publication or HP-OMEN.
+
+
+### P1 research quality hardening — 2026-10-10
+
+Gate:
+`P1_RESEARCH_QUALITY_HARDENING = PASS_WITH_REMAINING_REAL_CROSS_SOURCE_IDENTITY_MAPPING`
+
+Exact validated code SHA:
+`9309bb98f886b72b396b7c032caacb3c0dcc5c71`
+
+Closed P1 quality items:
+- generic typed identity primitives for political/diplomatic/military/economic events and claims;
+- typed PARTIAL reason semantics;
+- canonical publication-path fingerprint deduplication;
+- official ECB economic source;
+- official NATO military/security source;
+- broadened live seven-source mixed-domain execution;
+- rebuildable evidence archive index;
+- non-destructive retention planning.
+
+Live mixed-domain stage:
+56 observations across Consilium, ECB, NATO, GDACS, GFZ, USGS plus GDELT degraded under cooldown.
+Result remained correctly `PARTIAL / PARTIAL / DEGRADED`.
+
+Selected regression:
+`272 passed in 4.81s`.
+
+Remaining P1:
+- real-source semantic mapping into shared generic event/claim descriptors across independent political/diplomatic/military/economic sources;
+- optional canonical archive-index fast path after full on-disk benchmark.
+
+Checkpoint:
+`docs/integrations/KGM_P1_RESEARCH_QUALITY_HARDENING_2026-10-10.md`
+
+Next:
+`REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH`
+
+Owner-pilot readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
+
+
+### Real generic event mapping and archive index fast path — 2026-10-10
+
+Gate:
+`REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH = PASS_WITH_LIVE_ADAPTER_MAPPING_LIMITATION`
+
+Exact validated code SHA:
+`8fef756bcaeff9514718e579f0dfa1fc23328f70`
+
+Delivered:
+- auditable explicit real-source generic mapping layer;
+- real NATO + President of Ukraine diplomatic event mapping;
+- deterministic event/claim identity agreement across two distinct official origins;
+- no automatic verification;
+- archive index canonical fast selector;
+- bounded authoritative-scan fallback;
+- worker integration of the fast selector.
+
+On-disk archive selection benchmark:
+- 1k entries: scan 2.0836 s, indexed 0.0211 s, 98.89x;
+- 10k entries: scan 21.3310 s, indexed 0.1952 s, 109.25x.
+
+Selected regression:
+`278 passed in 5.10s`.
+
+Known limitation:
+the President of Ukraine official page is publicly retrievable through the external public-web research path but returned HTTP 403 from direct owner-VM HTTP retrieval. Therefore the cross-source semantic mapping acceptance is real-source/fact-level, while a fully live two-adapter owner-VM mapping cycle remains pending.
+
+Next:
+`LIVE_GENERIC_MAPPING_ADAPTERIZATION_AND_ARCHIVE_INDEX_MAINTENANCE`
+
+Owner-pilot readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
+
+
+### Live generic mapping adapterization + archive index maintenance — 2026-10-10
+
+Gate:
+`LIVE_GENERIC_MAPPING_ADAPTERIZATION_AND_ARCHIVE_INDEX_MAINTENANCE = PASS`
+
+Exact validated implementation SHA:
+`0974796303333efbbb91381470bf15321cdde519`
+
+Delivered:
+- strict source-text mapping profiles;
+- live Moldova MFA official adapter;
+- live NATO strict mapping-profile support;
+- first fully live two-adapter owner-VM generic diplomatic mapping;
+- automatic archive-index maintenance after CURRENT append;
+- bounded repair/rebuild behavior;
+- historical fast path remains index-preferred with authoritative fallback.
+
+Live generic mapping:
+- Moldova MFA + NATO;
+- 2 mapped observations;
+- one shared event identity;
+- one shared claim signature;
+- two distinct origin groups;
+- one merged two-source record;
+- record remains UNVERIFIED;
+- result `COMPLETE / COMPLETE / HEALTHY`.
+
+Selected regression:
+`289 passed in 5.21s`.
+
+No P1 blocker remains for bounded owner-pilot readiness.
+
+Next:
+`MULTI_DOMAIN_GENERIC_MAPPING_SCALE_AND_RETENTION_POLICY`
+
+Owner-pilot readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
+
+
+### Multi-domain generic mapping scale and retention policy — 2026-10-10
+
+Gate:
+`MULTI_DOMAIN_GENERIC_MAPPING_SCALE_AND_RETENTION_POLICY = PASS`
+
+Exact validated code SHA:
+`890ee4755d68c995e532b3518a43894d368455c0`
+
+Delivered:
+- live strict-profile generic mapping for POLITICAL / MILITARY / ECONOMIC families;
+- GOV.UK official adapter;
+- German Federal Government official adapter;
+- French Presidency / Elysee official adapter;
+- three real two-origin official-source mapping cycles;
+- guarded bounded archive retention policy;
+- controlled destructive retention acceptance in isolated temporary root only.
+
+All three live mapping cycles produced one merged two-source record and retained `UNVERIFIED` verification status.
+
+Retention remains non-automatic:
+- dry-run by default;
+- explicit delete permission required;
+- delete fraction <=50%;
+- bounded delete count;
+- index repair after execution.
+
+Selected regression:
+`296 passed in 5.51s`.
+
+Next:
+`INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1`
+
+Owner-pilot readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
+
+
+### Independent research quality audit v1 — 2026-10-10
+
+Gate:
+`INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1 = PASS_WITH_KNOWN_LIMITATIONS`
+
+Exact validated implementation/test SHA:
+`91afabe40c8875e68d343cf0d4c599db2bafa4ce`
+
+Audit coverage:
+- false merge / false split;
+- claim disagreement;
+- source-origin independence;
+- false COMPLETE;
+- false VERIFIED;
+- duplicate evidence inflation;
+- historical reproducibility;
+- accumulated live multi-domain corpus review.
+
+Results:
+- targeted quality audit: 9 passed;
+- selected regression: 305 passed in 6.08 s;
+- live artifacts reviewed: 7;
+- live records reviewed: 44;
+- automatic VERIFIED records: 0;
+- automatic factual-verification credits: 0.
+
+Known semantics:
+- healthy EMPTY required source runs remain allowed;
+- COMPLETE means the required source portfolio executed without failure/disagreement, not that each source contributed evidence.
+
+Material limitation:
+- generic non-earthquake event mappings are merged at record level but are not yet represented in the canonical corroboration / verification-eligibility report.
+
+Next:
+`GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2`
+
+Owner-pilot readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
+
+
+### Generic corroboration and completeness semantics v2 — 2026-10-10
+
+Gate:
+`GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2 = PASS`
+
+Exact validated implementation/test SHA:
+`b5f34a7ba8c9f30bfdd3e06eea1a5ad9c817a6b0`
+
+Delivered:
+- canonical exact-identity corroboration for generic geopolitical events;
+- generic origin-independence and claim-agreement semantics;
+- no automatic verification;
+- typed result `kgm.research.result.v3`;
+- explicit source contribution ledger;
+- `kgm.completeness.v2` with explicit distinction between healthy source execution and actual evidence contribution.
+
+Live NATO + Moldova MFA owner-VM acceptance:
+- COMPLETE / COMPLETE / HEALTHY;
+- two required sources contributed;
+- one generic corroboration group;
+- DISTINCT_ORIGIN;
+- claim AGREES;
+- explicit-verification eligible;
+- record remains UNVERIFIED.
+
+Selected regression:
+`313 passed in 5.83s`.
+
+Primary quality-audit limitation is closed.
+
+Next after chat transition:
+`POST_READINESS_CONSOLIDATION_AND_PHASE_DECISION`
+
+Owner-pilot readiness remains conservatively:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
