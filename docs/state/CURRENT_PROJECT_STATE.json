@@ -1125,12 +1125,17 @@
     "exact_head_ci_status": "SUCCESS",
     "isolated_arm64_research_regression": "260 passed in 5.46s",
     "isolated_arm64_targeted": "37 passed in 0.95s",
-    "full_suite": "NOT_RUN",
+    "full_suite": "BLOCKED_12_COLLECTION_ERRORS_ENVIRONMENT",
     "research_readiness": "PASS_WITH_P1_LIMITATIONS",
     "phase23_legacy_gate": "P23_4_NOT_CLOSED_BY_PHASE24_APPROVAL",
     "production_activation": false,
     "unattended_activation": false,
     "sentinel_integration": false,
-    "ktrader_integration": false
+    "ktrader_integration": false,
+    "full_suite_blockers": [
+      "MISSING_PSYCOPG",
+      "STARLETTE_HTTPX2_DEPRECATION_WARNING",
+      "PYTHONPATH_SRC_IMPORT_CONFIGURATION"
+    ]
   }
 }
