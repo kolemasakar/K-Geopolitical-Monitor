@@ -1198,3 +1198,52 @@ Readiness remains:
 
 Next:
 `GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2`
+
+
+## 2026-10-10 — Generic corroboration + completeness semantics v2
+
+`GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2 = PASS`
+
+Exact validated implementation/test SHA:
+`b5f34a7ba8c9f30bfdd3e06eea1a5ad9c817a6b0`
+
+Targeted suite:
+`33 passed`
+
+Selected research/exchange regression:
+`313 passed in 5.83s`.
+
+Delivered:
+- exact generic geopolitical event corroboration through explicit `event_identity`;
+- SAME_ORIGIN / DISTINCT_ORIGIN handling for generic events;
+- claim AGREES / DIFFERS / UNKNOWN handling;
+- generic explicit-verification eligibility without automatic verification;
+- typed result `kgm.research.result.v3`;
+- explicit per-source contribution ledger;
+- `kgm.completeness.v2` semantics;
+- validator guardrails against contradictory completeness claims.
+
+Live owner-VM NATO + Moldova MFA cycle:
+- schema `kgm.research.result.v3`;
+- COMPLETE / COMPLETE / HEALTHY;
+- two required sources both CONTRIBUTED;
+- canonical generic corroboration id `corr-792c5926a4004f1dd1e7e65a`;
+- DISTINCT_ORIGIN;
+- claim AGREES;
+- independent-origin credit true;
+- ELIGIBLE_FOR_EXPLICIT_VERIFICATION;
+- automatic verification false;
+- merged record remains UNVERIFIED;
+- result id `result-7212e33b2de5f3bafb8936c3`;
+- stage SHA `d5ebca8de383d9b935b6f2622c6be9bac910c06e95377ee1130619ef66a86f48`.
+
+Completeness semantics now explicitly expose whether all required sources actually contributed evidence. Healthy EMPTY remains allowed but cannot be mistaken for universal corroboration.
+
+Acceptance:
+`docs/integrations/KGM_GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2_2026-10-10.md`
+
+Readiness remains conservatively:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`
+
+Next after chat transition:
+`POST_READINESS_CONSOLIDATION_AND_PHASE_DECISION`
