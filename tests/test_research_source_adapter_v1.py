@@ -11,7 +11,8 @@ def obs(status="SUCCESS"):
             "available_at_utc":"2026-09-02T11:30:00Z" if status in {"SUCCESS","PARTIAL"} else None,
             "public_url":"https://example.test/item" if status in {"SUCCESS","PARTIAL"} else None,
             "summary":"deterministic evidence" if status in {"SUCCESS","PARTIAL"} else None,
-            "error_code":None if status in {"SUCCESS","PARTIAL"} else "TIMEOUT",\n            "partial_reason":"COVERAGE_GAP" if status=="PARTIAL" else None}
+            "error_code":None if status in {"SUCCESS","PARTIAL"} else "TIMEOUT",
+            "partial_reason":"COVERAGE_GAP" if status=="PARTIAL" else None}
 
 def test_success_and_partial_validate():
     req=sample()
