@@ -890,3 +890,44 @@ Audit:
 
 Next track:
 `SOURCE_PORTFOLIO_COMPLETENESS_AND_DURABLE_OBSERVATION_STAGING`
+
+
+## 2026-10-10 — Independent research readiness v3
+
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`
+
+Exact validated implementation SHA:
+`322c55f8f47f62aca19fd563b3d7eb73538b1b52`
+
+Selected exchange/research regression:
+`249 passed in 4.65s`.
+
+All audit-v2 P0 blockers are closed:
+- required source portfolio is policy-bound;
+- live observations are durably staged before result construction;
+- official political/diplomatic Consilium source is canonical and proven in mixed-domain execution;
+- real `HISTORICAL_AS_OF` replay is operational from immutable first-seen archived evidence with no provider calls.
+
+Live archive-backed historical acceptance:
+- current staged observations: 41;
+- historical replay observations: 41;
+- exact source snapshot preserved: yes;
+- current stage SHA: `ec9c2c4a28df332b52e6d265b780e21a7474b1b778dee3c68aa36f6be2a62743`;
+- historical stage SHA: `377811baccb993660879d6f75ee6b282f1cb8916713556025454e2e9733d696f`;
+- max evidence availability: `2026-10-10T08:59:42Z`;
+- replay cutoff: `2026-10-10T08:59:44Z`;
+- GDELT/network provider calls during historical replay: 0;
+- recovery pending: empty.
+
+Remaining P1 hardening:
+- generic non-earthquake event/claim identity;
+- typed PARTIAL reason semantics;
+- canonical evidence fingerprint deduplication.
+
+Readiness scope remains bounded owner-pilot only. Production, unattended scheduler, Sentinel, K-Trader, paid providers, shared runtime, public Plugin publication and HP-OMEN remain outside this gate.
+
+Audit:
+`docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V3_2026-10-10.md`
+
+Next track:
+`P1_RESEARCH_QUALITY_HARDENING`
