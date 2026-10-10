@@ -38,7 +38,10 @@ def test_moldova_mfa_page_normalizes_and_maps():
     assert x["event_identity"].startswith("geo-diplomatic-20261008-")
 
 def test_moldova_mfa_historical_live_backdating_denied():
-    r=current(); r["mode"]="HISTORICAL_AS_OF"; r["as_of_utc"]="2026-10-08T13:30:00Z"
+    r=current(); r["mode"]="HISTORICAL_AS_OF"
+    r["period_end_utc"]="2026-10-08T13:30:00Z"
+    r["as_of_utc"]="2026-10-08T13:30:00Z"
+    r["requested_at_utc"]="2026-10-08T14:00:00Z"
     items=fetch(r,observed_at_utc="2026-10-08T14:00:00Z",
                 http_get=lambda _:HTML,public_url=URL)
     assert items[0]["status"]=="INVALID"
