@@ -22,7 +22,10 @@ ALLOWED_TAGS={
  "partnerships-and-cooperation":"nato:theme/partnerships-and-cooperation",
 }
 
-def build_query(request, *, theme="deterrence-and-defence", search_text=""):\n    validate_request(request)\n    if theme is not None and theme not in ALLOWED_TAGS:\n        raise ValueError("invalid NATO theme")
+def build_query(request, *, theme="deterrence-and-defence", search_text=""):
+    validate_request(request)
+    if theme is not None and theme not in ALLOWED_TAGS:
+        raise ValueError("invalid NATO theme")
     if not isinstance(search_text,str) or len(search_text)>256:
         raise ValueError("invalid NATO search text")
     start=_utc(request["period_start_utc"]).strftime("%Y-%m-%dT00:00:00.000Z")
@@ -41,7 +44,8 @@ def _page_day(value):
     except ValueError as exc:
         raise ValueError("invalid NATO page date") from exc
 
-def fetch(request, *, observed_at_utc, http_get,\n          theme="deterrence-and-defence", search_text="", mapping_profile=None):
+def fetch(request, *, observed_at_utc, http_get,
+          theme="deterrence-and-defence", search_text="", mapping_profile=None):
     validate_request(request); observed=_utc(observed_at_utc)
     try:
         payload=http_get(build_query(request,theme=theme,search_text=search_text))
