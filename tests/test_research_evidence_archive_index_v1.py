@@ -39,9 +39,10 @@ def test_rebuilt_index_selects_same_snapshot_as_authoritative_scan(tmp_path):
 
 def test_stale_index_fails_closed_after_new_archive_entry(tmp_path):
     current,_=seed(tmp_path,"req-01")
-    rebuild_archive_index(tmp_path,"ktrader",
-        generated_at_utc="2026-09-28T12:05:00Z")
+    index_path=tmp_path/"evidence_archive_index"/"ktrader.json"
+    frozen=index_path.read_bytes()
     seed(tmp_path,"req-02")
+    index_path.write_bytes(frozen)
     hist,hp=historical(current)
     with pytest.raises(ValueError,match="stale"):
         select_historical_snapshot_indexed(tmp_path,"ktrader",
@@ -84,9 +85,10 @@ def test_fast_path_uses_verified_index(tmp_path):
 
 def test_fast_path_falls_back_when_index_stale(tmp_path):
     current,_=seed(tmp_path,"req-01")
-    rebuild_archive_index(tmp_path,"ktrader",
-        generated_at_utc="2026-09-28T12:05:00Z")
+    index_path=tmp_path/"evidence_archive_index"/"ktrader.json"
+    frozen=index_path.read_bytes()
     seed(tmp_path,"req-02")
+    index_path.write_bytes(frozen)
     hist,hp=historical(current)
     snapshot,path=select_historical_snapshot_fast(
         tmp_path,"ktrader",request=hist,source_policy=hp)
@@ -95,6 +97,7 @@ def test_fast_path_falls_back_when_index_stale(tmp_path):
 
 def test_fast_path_falls_back_when_index_missing(tmp_path):
     current,_=seed(tmp_path)
+    (tmp_path/"evidence_archive_index"/"ktrader.json").unlink()
     hist,hp=historical(current)
     snapshot,path=select_historical_snapshot_fast(
         tmp_path,"ktrader",request=hist,source_policy=hp)
@@ -104,11 +107,15 @@ def test_fast_path_falls_back_when_index_missing(tmp_path):
 
 def test_index_maintenance_rebuilds_then_appends(tmp_path):
     seed(tmp_path,"req-01")
+    index_path=tmp_path/"evidence_archive_index"/"ktrader.json"
+    index_path.unlink()
     payload,mode=maintain_archive_index(tmp_path,"ktrader",
         generated_at_utc="2026-09-28T12:05:00Z")
     assert mode=="REBUILD"
     assert len(payload["index"]["entries"])==1
+    frozen=index_path.read_bytes()
     seed(tmp_path,"req-02")
+    index_path.write_bytes(frozen)
     payload,mode=maintain_archive_index(tmp_path,"ktrader",
         generated_at_utc="2026-09-28T12:06:00Z")
     assert mode=="APPEND"
