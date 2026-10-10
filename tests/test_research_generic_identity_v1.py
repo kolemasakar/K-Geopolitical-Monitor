@@ -47,3 +47,36 @@ def test_generic_descriptor_binding_is_enforced_by_source_contract():
     item["event_identity"]="geo-diplomatic-bad"
     with pytest.raises(ValueError,match="identity mismatch"):
         validate_source_observation(req,item)
+
+
+def test_generic_identity_correlates_different_wording_across_sources(tmp_path):
+    from kgeopolitical_monitor.research_typed_workflow_v1 import accept_request
+    from kgeopolitical_monitor.research_worker_v1 import execute_deterministic
+    from test_research_typed_result_v1 import typed
+    from test_research_completion_v1 import POLICY
+    req,_=typed()
+    accept_request(tmp_path,req,allowed_consumers=POLICY,
+                   accepted_at_utc="2026-09-28T12:01:00Z")
+    ed=event_desc(); cd=claim_desc()
+    eid=generic_event_identity(ed); sig=generic_claim_signature(cd)
+    def adapter(source,oid,summary,url):
+        def run(r):
+            return {"schema_version":"kgm.source.observation.v1","request_id":r["request_id"],
+                "source_id":source,"observation_id":oid,"status":"SUCCESS",
+                "observed_at_utc":"2026-09-28T12:02:00Z",
+                "published_at_utc":"2026-09-02T11:00:00Z",
+                "available_at_utc":"2026-09-02T11:30:00Z",
+                "public_url":url,"summary":summary,"error_code":None,
+                "event_identity":eid,"claim_signature":sig,
+                "event_descriptor":ed,"claim_descriptor":cd}
+        return run
+    artifact=execute_deterministic(tmp_path,"ktrader","req-01",request=req,
+        allowed_consumers=POLICY,
+        adapters=[adapter("official-a","a1","Council adopted the measure","https://a.example/item"),
+                  adapter("official-b","b9","Measure receives final approval","https://b.example/item")],
+        processing_at_utc="2026-09-28T12:02:00Z",
+        completed_at_utc="2026-09-28T12:04:00Z")
+    record=artifact["result"]["records"][0]
+    assert record["record_id"]==eid
+    assert len(record["evidence"])==2
+    assert record["verification"]=="UNVERIFIED"
