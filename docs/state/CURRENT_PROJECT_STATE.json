@@ -1106,10 +1106,10 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH_PASS_WITH_LIVE_ADAPTER_MAPPING_LIMITATION",
+    "state": "LIVE_GENERIC_MAPPING_ADAPTERIZATION_AND_ARCHIVE_INDEX_MAINTENANCE_PASS",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "PASS_WITH_P1_LIMITATIONS",
-    "exact_validated_code_sha": "8fef756bcaeff9514718e579f0dfa1fc23328f70",
+    "exact_validated_code_sha": "0974796303333efbbb91381470bf15321cdde519",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
     "acceptance": "docs/integrations/KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_2026-10-08.md",
@@ -1122,8 +1122,8 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "targeted": "22 passed",
-      "selected_regression": "278 passed in 5.10s",
+      "targeted": "35 passed",
+      "selected_regression": "289 passed in 5.21s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1151,7 +1151,7 @@
       "plugin_publication": false,
       "hp_omen_used": false
     },
-    "next_track": "LIVE_GENERIC_MAPPING_ADAPTERIZATION_AND_ARCHIVE_INDEX_MAINTENANCE",
+    "next_track": "MULTI_DOMAIN_GENERIC_MAPPING_SCALE_AND_RETENTION_POLICY",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1409,9 +1409,7 @@
     "readiness_audit_v2": "NOT_READY_FOR_GATE",
     "readiness_audit_doc": "docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V2_2026-10-08.md",
     "p0_blockers": [],
-    "p1_blockers": [
-      "LIVE_GENERIC_MAPPING_ADAPTERIZATION_NOT_YET_PROVEN_FOR_ADDITIONAL_INDEPENDENT_OFFICIAL_SOURCES"
-    ],
+    "p1_blockers": [],
     "readiness_audit_v3": "READY_FOR_OWNER_PILOT_INDEPENDENT_RESEARCH_WITH_P1_LIMITATIONS",
     "readiness_audit_v3_doc": "docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V3_2026-10-10.md",
     "closed_p0": [
@@ -1566,6 +1564,42 @@
           "speedup_x": 109.25
         }
       }
+    },
+    "live_generic_mapping_gate": "LIVE_GENERIC_MAPPING_ADAPTERIZATION_AND_ARCHIVE_INDEX_MAINTENANCE_PASS",
+    "live_generic_mapping": {
+      "event": "NATO Deputy Secretary General Radmila Shekerinska / Moldova Deputy PM and FM Mihai Popsoi meeting, Chisinau, 2026-10-08",
+      "source_ids": [
+        "moldova-mfa",
+        "nato-news"
+      ],
+      "origin_groups": [
+        "moldova-mfa",
+        "nato"
+      ],
+      "both_direct_owner_vm_retrievable": true,
+      "mapped_observations": 2,
+      "shared_event_identity": "geo-diplomatic-20261008-ffea948e6757519f6b2f0ed34ebb62a4",
+      "shared_claim_signature": "claim-status-c25aaea1abcf75af8864c6bc15f5896a",
+      "merged_two_source_records": 1,
+      "record_verification": "UNVERIFIED",
+      "research_status": "COMPLETE",
+      "coverage": "COMPLETE",
+      "source_health": "HEALTHY",
+      "stage_sha256": "7ed9ebeab557f034500474edb56d51f3478de89f3d9ec5466bbeefe0bf7d8b38",
+      "result_id": "result-07af79e47ef1294b0912c225",
+      "recovery_pending": 0
+    },
+    "archive_index_maintenance": {
+      "automatic_after_current_archive": true,
+      "initial_or_missing": "REBUILD",
+      "single_append": "APPEND",
+      "synchronized": "CURRENT",
+      "corrupt_or_drift": "BOUNDED_REBUILD",
+      "authoritative_archive_preserved": true,
+      "live_index_entries": 1,
+      "live_historical_selection_path": "INDEX",
+      "live_historical_snapshot_sha256": "9638de249500d75bbbbc4358ff294835e0c0b25b420a5b57a9c359c42af0f1a6",
+      "retention_execution_enabled": false
     }
   }
 }
