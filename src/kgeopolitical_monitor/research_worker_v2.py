@@ -7,7 +7,7 @@ from .research_source_adapter_v1 import normalize_observations
 from .research_source_policy_v1 import validate_adapter_mapping, validate_source_policy
 from .research_observation_stage_v1 import stage_observations, load_observation_stage
 from .research_evidence_archive_v1 import archive_observation_stage, rebind_historical_snapshot
-from .research_evidence_archive_index_v1 import select_historical_snapshot_fast
+from .research_evidence_archive_index_v1 import select_historical_snapshot_fast, maintain_archive_index
 from .research_worker_v1 import _build_records, _select_records
 from .research_corroboration_v1 import build_corroboration_report
 from .research_storage_v1 import canonical_bytes
@@ -75,9 +75,7 @@ def execute_policy_bound(root, consumer, request_id, *, request, allowed_consume
                                       source_runs=rstage["source_runs"],
                                       observations=rstage["observations"],
                                       staged_at_utc=staged_at_utc)
-    if request["mode"]=="CURRENT":
-        archive_observation_stage(root,consumer,request_id,request=request,
-                                  source_policy=source_policy,stage_artifact=staged)
+    if request["mode"]=="CURRENT":\n        archive_observation_stage(root,consumer,request_id,request=request,\n                                  source_policy=source_policy,stage_artifact=staged)\n        maintain_archive_index(root,consumer,generated_at_utc=staged_at_utc)
     if after_stage is not None:
         after_stage(staged)
 
