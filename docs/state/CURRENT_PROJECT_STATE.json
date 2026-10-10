@@ -1106,10 +1106,10 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "LIVE_GENERIC_MAPPING_ADAPTERIZATION_AND_ARCHIVE_INDEX_MAINTENANCE_PASS",
+    "state": "MULTI_DOMAIN_GENERIC_MAPPING_SCALE_AND_RETENTION_POLICY_PASS",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "PASS_WITH_P1_LIMITATIONS",
-    "exact_validated_code_sha": "0974796303333efbbb91381470bf15321cdde519",
+    "exact_validated_code_sha": "890ee4755d68c995e532b3518a43894d368455c0",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
     "acceptance": "docs/integrations/KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_2026-10-08.md",
@@ -1122,8 +1122,8 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "targeted": "35 passed",
-      "selected_regression": "289 passed in 5.21s",
+      "targeted": "19 passed",
+      "selected_regression": "296 passed in 5.51s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1151,7 +1151,7 @@
       "plugin_publication": false,
       "hp_omen_used": false
     },
-    "next_track": "MULTI_DOMAIN_GENERIC_MAPPING_SCALE_AND_RETENTION_POLICY",
+    "next_track": "INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1600,6 +1600,51 @@
       "live_historical_selection_path": "INDEX",
       "live_historical_snapshot_sha256": "9638de249500d75bbbbc4358ff294835e0c0b25b420a5b57a9c359c42af0f1a6",
       "retention_execution_enabled": false
+    },
+    "multi_domain_mapping_gate": "MULTI_DOMAIN_GENERIC_MAPPING_SCALE_AND_RETENTION_POLICY_PASS",
+    "multi_domain_live_mapping": {
+      "political": {
+        "event_identity": "geo-political-20261008-60e96363677f4e8432eb15b8545474cc",
+        "claim_signature": "claim-status-315209d4c271b5e0b21af1c92fb70cee",
+        "origins": [
+          "germany-federal-government",
+          "uk-government"
+        ],
+        "result_id": "result-f54e9fdd4f015e12430a499d",
+        "status": "COMPLETE"
+      },
+      "military": {
+        "event_identity": "geo-military-20261008-fa80e36beaf4e1a36c2cc6466e0fdc05",
+        "claim_signature": "claim-status-4a0122fabbad5f8e34cd1e57f38b08d0",
+        "origins": [
+          "germany-federal-government",
+          "uk-government"
+        ],
+        "result_id": "result-b37493ff43347c8780f68094",
+        "status": "COMPLETE"
+      },
+      "economic": {
+        "event_identity": "geo-economic-20261002-40c0e8fd72cc8afb60ad2803de8104a7",
+        "claim_signature": "claim-status-ecfc2dd373ce005955fc0ca9c00c0c90",
+        "origins": [
+          "france-presidency",
+          "uk-government"
+        ],
+        "result_id": "result-866eecec8d3658dc6151728d",
+        "status": "COMPLETE"
+      },
+      "automatic_verification": false
+    },
+    "retention_policy": {
+      "schema": "kgm.research.archive-retention-policy.v1",
+      "automatic_execution": false,
+      "explicit_allow_delete_required": true,
+      "max_delete_fraction_cap": 0.5,
+      "isolated_destructive_acceptance": true,
+      "production_data_touched": false,
+      "index_before": 3,
+      "deleted": 1,
+      "index_after": 2
     }
   }
 }
