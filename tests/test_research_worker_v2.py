@@ -192,3 +192,15 @@ def test_historical_cutoff_before_first_seen_has_no_eligible_snapshot(tmp_path):
             processing_at_utc="2026-09-28T12:10:02Z",
             staged_at_utc="2026-09-28T12:10:03Z",
             completed_at_utc="2026-09-28T12:10:04Z")
+
+
+def test_empty_required_source_prevents_false_complete(tmp_path):
+    req=accepted(tmp_path); p=policy(req)
+    artifact=execute(tmp_path,req,p,{"source-a":obs("source-a","a-1"),
+                                     "source-b":lambda _req:[]})
+    assert artifact["result"]["research_status"]=="PARTIAL"
+    assert artifact["result"]["coverage"]=="PARTIAL"
+    assert artifact["result"]["source_health"]=="DEGRADED"
+    stage=load_observation_stage(tmp_path,"ktrader","req-01",request=req,source_policy=p)
+    statuses={x["source_id"]:x["status"] for x in stage["stage"]["source_runs"]}
+    assert statuses["source-b"]=="EMPTY"
