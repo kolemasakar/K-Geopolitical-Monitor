@@ -1721,3 +1721,40 @@ Next:
 
 Owner-pilot readiness remains:
 `KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
+
+
+### Generic corroboration and completeness semantics v2 — 2026-10-10
+
+Gate:
+`GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2 = PASS`
+
+Exact validated implementation/test SHA:
+`b5f34a7ba8c9f30bfdd3e06eea1a5ad9c817a6b0`
+
+Delivered:
+- canonical exact-identity corroboration for generic geopolitical events;
+- generic origin-independence and claim-agreement semantics;
+- no automatic verification;
+- typed result `kgm.research.result.v3`;
+- explicit source contribution ledger;
+- `kgm.completeness.v2` with explicit distinction between healthy source execution and actual evidence contribution.
+
+Live NATO + Moldova MFA owner-VM acceptance:
+- COMPLETE / COMPLETE / HEALTHY;
+- two required sources contributed;
+- one generic corroboration group;
+- DISTINCT_ORIGIN;
+- claim AGREES;
+- explicit-verification eligible;
+- record remains UNVERIFIED.
+
+Selected regression:
+`313 passed in 5.83s`.
+
+Primary quality-audit limitation is closed.
+
+Next after chat transition:
+`POST_READINESS_CONSOLIDATION_AND_PHASE_DECISION`
+
+Owner-pilot readiness remains conservatively:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
