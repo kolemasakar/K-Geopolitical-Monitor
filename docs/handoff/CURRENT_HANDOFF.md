@@ -1092,3 +1092,62 @@ No P1 blocker remains for bounded owner-pilot readiness. Remaining work is quali
 
 Next:
 `MULTI_DOMAIN_GENERIC_MAPPING_SCALE_AND_RETENTION_POLICY`
+
+
+## 2026-10-10 — Multi-domain generic mapping scale + retention policy
+
+`MULTI_DOMAIN_GENERIC_MAPPING_SCALE_AND_RETENTION_POLICY = PASS`
+
+Exact validated implementation SHA:
+`890ee4755d68c995e532b3518a43894d368455c0`
+
+Selected regression:
+`296 passed in 5.51s`.
+
+Live strict-profile mapping now covers three generic geopolitical families:
+
+- POLITICAL — UK/Germany Kensington Treaty ratification:
+  - 2 mapped official observations;
+  - origins `uk-government`, `germany-federal-government`;
+  - one merged record;
+  - `COMPLETE / COMPLETE / HEALTHY`;
+  - verification remains UNVERIFIED.
+
+- MILITARY — UK/Germany counter-hybrid-threat partnership:
+  - 2 mapped official observations;
+  - origins `uk-government`, `germany-federal-government`;
+  - one merged record;
+  - `COMPLETE / COMPLETE / HEALTHY`;
+  - verification remains UNVERIFIED.
+
+- ECONOMIC — G7 global energy security / market stability measures:
+  - 2 mapped official observations;
+  - origins `uk-government`, `france-presidency`;
+  - one merged record;
+  - `COMPLETE / COMPLETE / HEALTHY`;
+  - verification remains UNVERIFIED.
+
+Added official-page adapters for GOV.UK, German Federal Government and Elysee.
+
+Added guarded archive retention policy:
+- never automatic;
+- dry-run by default;
+- explicit `allow_delete=True` required;
+- delete fraction capped at 50%;
+- bounded delete count;
+- index repaired after execution.
+
+Controlled destructive acceptance was performed only under:
+`/tmp/kgm-multidomain-scale-owner-pilot`
+
+Production data was not touched.
+Archive index moved from 3 entries to 2 after one explicitly authorized temporary-test deletion.
+
+Acceptance:
+`docs/integrations/KGM_MULTI_DOMAIN_GENERIC_MAPPING_SCALE_AND_RETENTION_POLICY_2026-10-10.md`
+
+Readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`
+
+Next:
+`INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1`
