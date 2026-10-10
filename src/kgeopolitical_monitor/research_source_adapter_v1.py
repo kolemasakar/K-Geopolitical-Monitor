@@ -5,6 +5,8 @@ Pure validation/normalization only. No network or provider calls.
 from __future__ import annotations
 import hashlib
 from .research_request_v1 import validate_request, historically_available, _utc, _ID
+from .research_generic_identity_v1 import (validate_generic_event_descriptor, generic_event_identity,
+    validate_generic_claim_descriptor, generic_claim_signature)
 
 SOURCE_STATUSES = {"SUCCESS", "PARTIAL", "UNAVAILABLE", "INVALID"}
 OBSERVATION_VERSION = "kgm.source.observation.v1"
@@ -14,7 +16,7 @@ def validate_source_observation(request, observation):
     base_fields = {"schema_version","request_id","source_id","observation_id","status",
               "observed_at_utc","published_at_utc","available_at_utc","public_url",
               "summary","error_code"}
-    optional_fields={"event_identity","claim_signature","origin_group","event_parameters"}
+    optional_fields={"event_identity","claim_signature","origin_group","event_parameters","event_descriptor","claim_descriptor"}
     if not isinstance(observation, dict) or not base_fields <= set(observation) or set(observation)-base_fields-optional_fields:
         raise ValueError("unapproved source observation fields")
     identity=observation.get("event_identity")
@@ -25,6 +27,18 @@ def validate_source_observation(request, observation):
         raise ValueError("invalid claim signature")
     if signature is not None and identity is None:
         raise ValueError("claim signature requires event identity")
+    event_descriptor=observation.get("event_descriptor")
+    claim_descriptor=observation.get("claim_descriptor")
+    if event_descriptor is not None:
+        validate_generic_event_descriptor(event_descriptor)
+        if identity!=generic_event_identity(event_descriptor):
+            raise ValueError("generic event identity mismatch")
+    if claim_descriptor is not None:
+        validate_generic_claim_descriptor(claim_descriptor)
+        if signature!=generic_claim_signature(claim_descriptor):
+            raise ValueError("generic claim signature mismatch")
+    if claim_descriptor is not None and event_descriptor is None:
+        raise ValueError("generic claim descriptor requires event descriptor")
     origin_group=observation.get("origin_group")
     if origin_group is not None and (not isinstance(origin_group,str) or not _ID.fullmatch(origin_group)):
         raise ValueError("invalid origin group")
