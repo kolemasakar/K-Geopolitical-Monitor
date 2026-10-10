@@ -1645,3 +1645,39 @@ Next:
 
 Owner-pilot readiness remains:
 `KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
+
+
+### Multi-domain generic mapping scale and retention policy — 2026-10-10
+
+Gate:
+`MULTI_DOMAIN_GENERIC_MAPPING_SCALE_AND_RETENTION_POLICY = PASS`
+
+Exact validated code SHA:
+`890ee4755d68c995e532b3518a43894d368455c0`
+
+Delivered:
+- live strict-profile generic mapping for POLITICAL / MILITARY / ECONOMIC families;
+- GOV.UK official adapter;
+- German Federal Government official adapter;
+- French Presidency / Elysee official adapter;
+- three real two-origin official-source mapping cycles;
+- guarded bounded archive retention policy;
+- controlled destructive retention acceptance in isolated temporary root only.
+
+All three live mapping cycles produced one merged two-source record and retained `UNVERIFIED` verification status.
+
+Retention remains non-automatic:
+- dry-run by default;
+- explicit delete permission required;
+- delete fraction <=50%;
+- bounded delete count;
+- index repair after execution.
+
+Selected regression:
+`296 passed in 5.51s`.
+
+Next:
+`INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1`
+
+Owner-pilot readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
