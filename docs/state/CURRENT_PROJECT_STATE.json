@@ -1106,10 +1106,10 @@
     "verification_authority": "P13.5/P13.6"
   },
   "independent_research_owner_pilot": {
-    "state": "MULTI_DOMAIN_GENERIC_MAPPING_SCALE_AND_RETENTION_POLICY_PASS",
+    "state": "INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1_PASS_WITH_KNOWN_LIMITATIONS",
     "real_source_gate": "KGM_REAL_SOURCE_EXECUTION_READY_FOR_OWNER_PILOT_PASS_WITH_RESTRICTIONS",
     "independent_research_ready": "PASS_WITH_P1_LIMITATIONS",
-    "exact_validated_code_sha": "890ee4755d68c995e532b3518a43894d368455c0",
+    "exact_validated_code_sha": "91afabe40c8875e68d343cf0d4c599db2bafa4ce",
     "acceptance_doc_sha": "5ea4755a6cafd47895b878215126f847042aa27b",
     "checkpoint": "docs/checkpoints/PROJECT_CHECKPOINT_2026-10-07_LIVE_SOURCE_OWNER_PILOT_E2E.md",
     "acceptance": "docs/integrations/KGM_VERIFICATION_EFFECTIVE_STATE_RESOLUTION_2026-10-08.md",
@@ -1122,8 +1122,8 @@
     "validation": {
       "host": "kgm-e4-owner-pilot",
       "architecture": "aarch64",
-      "targeted": "19 passed",
-      "selected_regression": "296 passed in 5.51s",
+      "quality_audit_targeted": "9 passed",
+      "selected_regression": "305 passed in 6.08s",
       "hp_omen_used": false
     },
     "live_sources": {
@@ -1151,7 +1151,7 @@
       "plugin_publication": false,
       "hp_omen_used": false
     },
-    "next_track": "INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1",
+    "next_track": "GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2",
     "multi_source_gate": "MULTI_SOURCE_OWNER_PILOT_DEDUP_DISAGREEMENT_MIXED_STATUS_PASS",
     "multi_source_policy": {
       "same_observation_same_summary": "DEDUP_MERGE_PROVENANCE",
@@ -1645,6 +1645,28 @@
       "index_before": 3,
       "deleted": 1,
       "index_after": 2
-    }
+    },
+    "quality_audit_v1_gate": "INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1_PASS_WITH_KNOWN_LIMITATIONS",
+    "quality_audit_v1_doc": "docs/integrations/KGM_INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1_2026-10-10.md",
+    "quality_audit_v1": {
+      "false_merge_resistance": "PASS",
+      "false_split_resistance": "PASS",
+      "claim_disagreement": "PASS",
+      "same_origin_independence": "PASS",
+      "false_verified_resistance": "PASS",
+      "duplicate_evidence_resistance": "PASS",
+      "false_complete_resistance": "PASS_WITH_HEALTHY_EMPTY_SEMANTIC",
+      "historical_reproducibility": "PASS",
+      "live_artifacts_reviewed": 7,
+      "live_records_reviewed": 44,
+      "live_complete_artifacts": 4,
+      "live_partial_artifacts": 3,
+      "automatic_verified_records": 0,
+      "automatic_verification_credits": 0
+    },
+    "known_limitations": [
+      "GENERIC_EVENT_MAPPINGS_NOT_YET_PROPAGATED_TO_CANONICAL_CORROBORATION_REPORT",
+      "COMPLETE_MEANS_REQUIRED_SOURCES_INVOKED_AND_HEALTHY_NOT_UNIVERSAL_SOURCE_CORROBORATION"
+    ]
   }
 }
