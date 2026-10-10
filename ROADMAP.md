@@ -1681,3 +1681,43 @@ Next:
 
 Owner-pilot readiness remains:
 `KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
+
+
+### Independent research quality audit v1 — 2026-10-10
+
+Gate:
+`INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1 = PASS_WITH_KNOWN_LIMITATIONS`
+
+Exact validated implementation/test SHA:
+`91afabe40c8875e68d343cf0d4c599db2bafa4ce`
+
+Audit coverage:
+- false merge / false split;
+- claim disagreement;
+- source-origin independence;
+- false COMPLETE;
+- false VERIFIED;
+- duplicate evidence inflation;
+- historical reproducibility;
+- accumulated live multi-domain corpus review.
+
+Results:
+- targeted quality audit: 9 passed;
+- selected regression: 305 passed in 6.08 s;
+- live artifacts reviewed: 7;
+- live records reviewed: 44;
+- automatic VERIFIED records: 0;
+- automatic factual-verification credits: 0.
+
+Known semantics:
+- healthy EMPTY required source runs remain allowed;
+- COMPLETE means the required source portfolio executed without failure/disagreement, not that each source contributed evidence.
+
+Material limitation:
+- generic non-earthquake event mappings are merged at record level but are not yet represented in the canonical corroboration / verification-eligibility report.
+
+Next:
+`GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2`
+
+Owner-pilot readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
