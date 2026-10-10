@@ -6,8 +6,10 @@ from kgeopolitical_monitor.research_observation_stage_v1 import load_observation
 from test_research_typed_result_v1 import typed
 from test_research_completion_v1 import POLICY
 
-def accepted(root):
+def accepted(root, request_id="req-01"):
     req,_=typed()
+    req["mode"]="CURRENT"; req.pop("as_of_utc")
+    req["request_id"]=request_id
     accept_request(root,req,allowed_consumers=POLICY,
                    accepted_at_utc="2026-09-28T12:01:00Z")
     return req
@@ -118,3 +120,75 @@ def test_stage_policy_digest_prevents_reuse_under_changed_portfolio(tmp_path):
     changed=policy(req,required=("source-a",),optional=("source-b",))
     with pytest.raises(ValueError,match="source policy digest mismatch"):
         execute(tmp_path,req,changed,{"source-a":obs("source-a"),"source-b":obs("source-b")})
+
+
+def historical_from(current, request_id="hist-01", as_of="2026-09-28T12:03:00Z"):
+    req=dict(current)
+    req["request_id"]=request_id
+    req["mode"]="HISTORICAL_AS_OF"
+    req["as_of_utc"]=as_of
+    req["requested_at_utc"]="2026-09-28T12:10:00Z"
+    return req
+
+def test_current_stage_is_archived_for_historical_replay(tmp_path):
+    current=accepted(tmp_path); p=policy(current)
+    execute(tmp_path,current,p,{"source-a":obs("source-a","a-1"),
+                                "source-b":obs("source-b","b-1")})
+    archive=tmp_path/"evidence_archive"/"ktrader"
+    assert archive.is_dir()
+    assert len(list(archive.glob("*.json")))==1
+
+def test_historical_replay_uses_archive_and_forbids_live_adapters(tmp_path):
+    current=accepted(tmp_path); p=policy(current)
+    execute(tmp_path,current,p,{"source-a":obs("source-a","a-1"),
+                                "source-b":obs("source-b","b-1")})
+    hist=historical_from(current)
+    accept_request(tmp_path,hist,allowed_consumers=POLICY,
+                   accepted_at_utc="2026-09-28T12:10:01Z")
+    hp=policy(hist)
+    calls={"n":0}
+    def must_not_run(_):
+        calls["n"]+=1
+        raise AssertionError("historical replay invoked live adapter")
+    with pytest.raises(ValueError,match="forbids live adapters"):
+        execute_policy_bound(tmp_path,"ktrader","hist-01",request=hist,
+            allowed_consumers=POLICY,source_policy=hp,
+            adapters={"source-a":must_not_run,"source-b":must_not_run},
+            processing_at_utc="2026-09-28T12:10:02Z",
+            staged_at_utc="2026-09-28T12:10:03Z",
+            completed_at_utc="2026-09-28T12:10:04Z")
+    assert calls["n"]==0
+
+def test_historical_replay_from_first_seen_archive_no_provider_calls(tmp_path):
+    current=accepted(tmp_path); p=policy(current)
+    current_artifact=execute(tmp_path,current,p,{"source-a":obs("source-a","a-1"),
+                                                "source-b":obs("source-b","b-1")})
+    hist=historical_from(current)
+    accept_request(tmp_path,hist,allowed_consumers=POLICY,
+                   accepted_at_utc="2026-09-28T12:10:01Z")
+    hp=policy(hist)
+    artifact=execute_policy_bound(tmp_path,"ktrader","hist-01",request=hist,
+        allowed_consumers=POLICY,source_policy=hp,adapters={},
+        processing_at_utc="2026-09-28T12:10:02Z",
+        staged_at_utc="2026-09-28T12:10:03Z",
+        completed_at_utc="2026-09-28T12:10:04Z")
+    assert artifact["result"]["research_status"]=="COMPLETE"
+    stage=load_observation_stage(tmp_path,"ktrader","hist-01",request=hist,source_policy=hp)
+    assert {x["request_id"] for x in stage["stage"]["observations"]}=={"hist-01"}
+    assert {x["available_at_utc"] for x in stage["stage"]["observations"]}=={"2026-09-02T11:30:00Z"}
+    assert artifact["result"]["result_id"]!=current_artifact["result"]["result_id"]
+
+def test_historical_cutoff_before_first_seen_has_no_eligible_snapshot(tmp_path):
+    current=accepted(tmp_path); p=policy(current)
+    execute(tmp_path,current,p,{"source-a":obs("source-a","a-1"),
+                                "source-b":obs("source-b","b-1")})
+    hist=historical_from(current,as_of="2026-09-28T12:02:59Z")
+    accept_request(tmp_path,hist,allowed_consumers=POLICY,
+                   accepted_at_utc="2026-09-28T12:10:01Z")
+    hp=policy(hist)
+    with pytest.raises(ValueError,match="no eligible historical snapshot"):
+        execute_policy_bound(tmp_path,"ktrader","hist-01",request=hist,
+            allowed_consumers=POLICY,source_policy=hp,adapters={},
+            processing_at_utc="2026-09-28T12:10:02Z",
+            staged_at_utc="2026-09-28T12:10:03Z",
+            completed_at_utc="2026-09-28T12:10:04Z")
