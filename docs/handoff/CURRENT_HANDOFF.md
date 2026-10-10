@@ -1151,3 +1151,50 @@ Readiness remains:
 
 Next:
 `INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1`
+
+
+## 2026-10-10 — Independent research quality audit v1
+
+`INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1 = PASS_WITH_KNOWN_LIMITATIONS`
+
+Exact validated implementation/test SHA:
+`91afabe40c8875e68d343cf0d4c599db2bafa4ce`
+
+Quality-audit targeted suite:
+`9 passed`
+
+Selected research/exchange regression:
+`305 passed in 6.08s`.
+
+Audit PASS:
+- false-merge resistance;
+- false-split resistance;
+- claim-disagreement separation;
+- same-origin no-independence credit;
+- no automatic verification from distinct origins;
+- duplicate publication-path rejection;
+- missing/unavailable required-source fail-closed behavior;
+- archive-backed historical semantic reproducibility.
+
+Accumulated live artifacts reviewed:
+- 7 artifacts;
+- 44 typed records;
+- 4 COMPLETE;
+- 3 PARTIAL;
+- 0 automatically VERIFIED records;
+- 0 automatic factual-verification credits.
+
+Known completeness semantic:
+`COMPLETE` means all required source adapters were invoked and healthy, not that every required source produced matching evidence. A healthy EMPTY source remains allowed by the existing approved source contract.
+
+Primary material limitation discovered:
+generic political/diplomatic/military/economic mappings merge through explicit event identity at the record layer, but the canonical corroboration report is still earthquake/event-parameter based. Generic merged records therefore have no canonical corroboration/verification-eligibility entry and remain fail-closed UNVERIFIED.
+
+Audit:
+`docs/integrations/KGM_INDEPENDENT_RESEARCH_QUALITY_AUDIT_V1_2026-10-10.md`
+
+Readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`
+
+Next:
+`GENERIC_CORROBORATION_AND_COMPLETENESS_SEMANTICS_V2`
