@@ -931,3 +931,61 @@ Audit:
 
 Next track:
 `P1_RESEARCH_QUALITY_HARDENING`
+
+
+## 2026-10-10 — P1 research quality hardening checkpoint
+
+`P1_RESEARCH_QUALITY_HARDENING = PASS_WITH_REMAINING_REAL_CROSS_SOURCE_IDENTITY_MAPPING`
+
+Exact validated code SHA:
+`9309bb98f886b72b396b7c032caacb3c0dcc5c71`
+
+Selected research/exchange regression:
+`272 passed in 4.81s`.
+
+Delivered:
+- generic structured event/claim identity families for POLITICAL / DIPLOMATIC / MILITARY / ECONOMIC;
+- exact descriptor→identity and claim-descriptor→claim-signature binding;
+- cross-source correlation with different wording only through identical explicit structured descriptors;
+- typed PARTIAL reasons;
+- canonical HTTPS publication-path fingerprint deduplication;
+- stricter provenance URL validation;
+- official ECB economic source;
+- official NATO military/security source;
+- broadened live seven-source policy-bound owner-pilot cycle;
+- rebuildable evidence-archive index cache;
+- stale/corrupt index fail-closed checks;
+- non-destructive retention planner.
+
+Live broadened source portfolio:
+- Consilium 10 / OBSERVED;
+- ECB 10 / OBSERVED;
+- GDACS 10 / OBSERVED;
+- GDELT 1 / DEGRADED under cooldown;
+- GFZ 10 / OBSERVED;
+- NATO 5 / OBSERVED;
+- USGS 10 / OBSERVED;
+- total staged observations: 56;
+- result: `PARTIAL / PARTIAL / DEGRADED`;
+- represented healthy source paths: all six available official/public sources;
+- GDELT calls during cooldown: 0;
+- recovery pending: empty;
+- stage SHA: `72aede55bcc6222fa7b64417069070bb323f1cbec1b4b1c88020c12304b33791`;
+- result id: `result-7ba83ab17e713911b73f117c`.
+
+Archive-index metadata validation benchmark:
+- 1k: 0.0049 s;
+- 10k: 0.0523 s;
+- 100k: 0.5367 s.
+
+Remaining primary P1 limitation:
+- audited real-source semantic mapping of political/diplomatic/military/economic content into shared generic descriptors across independent sources.
+
+Readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
+
+Checkpoint:
+`docs/integrations/KGM_P1_RESEARCH_QUALITY_HARDENING_2026-10-10.md`
+
+Next track:
+`REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH`
