@@ -37,3 +37,53 @@ def test_ambiguous_same_source_candidates_deny_credit():
     assert len(report)==1
     assert report[0]["ambiguous"] is True
     assert report[0]["independent_origin_credit"] is False
+
+
+def generic(source,oid,origin,event_id,claim):
+    return {"schema_version":"kgm.source.observation.v1","request_id":"req-01",
+        "source_id":source,"observation_id":oid,"status":"SUCCESS",
+        "observed_at_utc":"2026-10-10T12:00:00Z",
+        "published_at_utc":"2026-10-10T10:00:00Z",
+        "available_at_utc":"2026-10-10T12:00:00Z",
+        "public_url":"https://"+source+".example/"+oid,"summary":oid,"error_code":None,
+        "origin_group":origin,"claim_signature":claim,"event_identity":event_id,
+        "event_descriptor":{"family":"DIPLOMATIC","event_date_utc":"2026-10-10T00:00:00Z",
+            "action_key":"MEET","actor_keys":["actor-a","actor-b"],"target_keys":[],
+            "subject_key":"subject-a","location_key":"city-a"}}
+
+def test_generic_exact_identity_creates_canonical_corroboration_group():
+    items=[generic("source-a","a1","origin-a","geo-diplomatic-event-1","claim-status-1"),
+           generic("source-b","b1","origin-b","geo-diplomatic-event-1","claim-status-1")]
+    report=build_corroboration_report(items)
+    assert len(report)==1
+    group=report[0]
+    assert group["origin_assessment"]=="DISTINCT_ORIGIN"
+    assert group["independent_origin_credit"] is True
+    assert group["claim_relation"]=="AGREES"
+    assert group["verification_eligibility"]=="ELIGIBLE_FOR_EXPLICIT_VERIFICATION"
+    assert group["automatic_verification"] is False
+    assert group["factual_verification_credit"] is False
+
+def test_generic_same_origin_does_not_gain_independent_credit():
+    items=[generic("source-a","a1","origin-a","geo-diplomatic-event-1","claim-status-1"),
+           generic("source-b","b1","origin-a","geo-diplomatic-event-1","claim-status-1")]
+    group=build_corroboration_report(items)[0]
+    assert group["origin_assessment"]=="SAME_ORIGIN"
+    assert group["independent_origin_credit"] is False
+    assert group["verification_eligibility"]=="INELIGIBLE"
+
+def test_generic_claim_difference_is_event_only_unresolved():
+    items=[generic("source-a","a1","origin-a","geo-diplomatic-event-1","claim-status-1"),
+           generic("source-b","b1","origin-b","geo-diplomatic-event-1","claim-status-2")]
+    group=build_corroboration_report(items)[0]
+    assert group["claim_relation"]=="DIFFERS"
+    assert group["verification_eligibility"]=="EVENT_CORROBORATED_CLAIM_UNRESOLVED"
+    assert group["automatic_verification"] is False
+
+def test_generic_duplicate_source_member_is_ambiguous_and_denies_credit():
+    items=[generic("source-a","a1","origin-a","geo-diplomatic-event-1","claim-status-1"),
+           generic("source-a","a2","origin-a","geo-diplomatic-event-1","claim-status-1"),
+           generic("source-b","b1","origin-b","geo-diplomatic-event-1","claim-status-1")]
+    group=build_corroboration_report(items)[0]
+    assert group["ambiguous"] is True
+    assert group["independent_origin_credit"] is False
