@@ -11,6 +11,7 @@ from .research_evidence_archive_index_v1 import select_historical_snapshot_fast,
 from .research_worker_v1 import _build_records, _select_records
 from .research_corroboration_v1 import build_corroboration_report
 from .research_storage_v1 import canonical_bytes
+from .research_completeness_semantics_v2 import build_source_contributions, summarize_completeness
 
 def _fetch_and_normalize(request, source_policy, adapters):
     all_observations=[]
@@ -99,10 +100,15 @@ def execute_policy_bound(root, consumer, request_id, *, request, allowed_consume
         source_health="HEALTHY"
     else:
         source_health="DEGRADED" if records else "UNAVAILABLE"
-    result={"schema_version":"kgm.research.result.v2","request_id":request_id,
+    source_contributions=build_source_contributions(
+        source_policy,stage["source_runs"],observations,corroboration)
+    completeness_semantics=summarize_completeness(status,source_contributions)
+    result={"schema_version":"kgm.research.result.v3","request_id":request_id,
         "consumer_id":consumer,
         "result_id":"result-"+hashlib.sha256(canonical_bytes({
-            "stage_sha256":staged["sha256"],"corroboration":corroboration
+            "stage_sha256":staged["sha256"],"corroboration":corroboration,
+            "source_contributions":source_contributions,
+            "completeness_semantics":completeness_semantics
         })).hexdigest()[:24],
         "generated_at_utc":completed_at_utc,
         "producer_snapshot_id":producer_snapshot_id,
@@ -111,7 +117,9 @@ def execute_policy_bound(root, consumer, request_id, *, request, allowed_consume
         "coverage":"COMPLETE" if complete else "PARTIAL",
         "source_health":source_health,
         "records":records,
-        "corroboration":corroboration}
+        "corroboration":corroboration,
+        "source_contributions":source_contributions,
+        "completeness_semantics":completeness_semantics}
     return publish_and_complete(root,consumer,request_id,result,
                                 allowed_consumers=allowed_consumers,
                                 at_utc=completed_at_utc)
