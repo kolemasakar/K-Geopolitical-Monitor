@@ -110,9 +110,10 @@ Consolidate the completed owner-pilot independent-research readiness, quality-ha
 - Policy-bound worker emits `kgm.research.result.v3` with canonical corroboration, per-source contribution ledger and `kgm.completeness.v2`.
 - Generic political/diplomatic/military/economic mappings now enter the same canonical corroboration → explicit-verification eligibility boundary as earthquake associations, using exact explicit event identity only.
 - Fresh live NATO + Moldova MFA owner-pilot acceptance reached `COMPLETE / COMPLETE / HEALTHY`, `DISTINCT_ORIGIN`, claim `AGREES`, and `ELIGIBLE_FOR_EXPLICIT_VERIFICATION`; the merged record remained `UNVERIFIED`.
-- Current synchronized transition head is `d6bd51fca88ea75cbe3209a73392256da760d8c0`.
-- PR #163 is `open`, `draft=true`, `merged=false`, base `main`.
-- GitHub Actions CI run #2896 for the current head is `completed / success`.
+- Last verified engineering/transition head before Bootstrap-package generation was `d6bd51fca88ea75cbe3209a73392256da760d8c0`.
+- Bootstrap-package generation itself creates administrative transition commit(s), so the exact PR head after package creation is intentionally not embedded as a self-referential value and MUST be revalidated in recovery.
+- PR #163 was `open`, `draft=true`, `merged=false`, base `main` immediately before Bootstrap generation.
+- GitHub Actions CI run #2896 for engineering/transition head `d6bd51fca88ea75cbe3209a73392256da760d8c0` was `completed / success`; revalidate CI for the exact post-Bootstrap PR head.
 - Exact current-head isolated regression last verified: `313 passed in 5.93s`.
 - Production daemon, unattended scheduling, Sentinel, K-Trader, paid providers, shared runtime, public Plugin publication and HP-OMEN use remain outside the authorized gate.
 
@@ -292,10 +293,11 @@ Do not modify:
 - **PR State:** `open`
 - **Draft:** `true`
 - **Base:** `main`
-- **Head:** `d6bd51fca88ea75cbe3209a73392256da760d8c0`
-- **Merged:** `false`
-- **Source Session CI:** run #2896, `completed / success`
-- **Recovery Rule:** Revalidate PR state, exact head and CI before any audit conclusion.
+- **Last Verified Engineering/Transition Head Before Bootstrap Generation:** `d6bd51fca88ea75cbe3209a73392256da760d8c0`
+- **Exact Post-Bootstrap Head:** deliberately not embedded; Bootstrap generation changes the branch head
+- **Merged:** `false` immediately before Bootstrap generation
+- **Source Session CI:** run #2896 for `d6bd51fca88ea75cbe3209a73392256da760d8c0`, `completed / success`
+- **Recovery Rule:** Revalidate PR state, exact current head and CI before any audit conclusion.
 
 ### Temporary Artifact Handling
 
