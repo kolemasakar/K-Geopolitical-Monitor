@@ -989,3 +989,53 @@ Checkpoint:
 
 Next track:
 `REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH`
+
+
+## 2026-10-10 — Real generic event mapping + archive index fast path
+
+`REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH = PASS_WITH_LIVE_ADAPTER_MAPPING_LIMITATION`
+
+Exact validated implementation SHA:
+`8fef756bcaeff9514718e579f0dfa1fc23328f70`
+
+Selected regression:
+`278 passed in 5.10s`.
+
+Real official-source diplomatic acceptance pair:
+- NATO official news;
+- official website of the President of Ukraine;
+- event date: 2026-09-24;
+- actors: Mark Rutte / Volodymyr Zelenskyy;
+- location: New York;
+- event match: true;
+- claim match: true;
+- distinct origin groups: `nato`, `president-ukraine`;
+- event identity: `geo-diplomatic-20260924-2afad3e80899d4325c7776b7c596737d`;
+- claim signature: `claim-status-c25aaea1abcf75af8864c6bc15f5896a`;
+- no automatic verification.
+
+Known retrieval boundary:
+- NATO is directly retrievable from owner VM;
+- President of Ukraine official page returned HTTP 403 to direct owner-VM retrieval but was publicly retrievable through the external public-web research path.
+Therefore real semantic mapping is proven at source-fact level, not yet as a fully live two-adapter owner-VM cycle.
+
+Archive historical selection:
+- verified index is now the preferred fast path;
+- immutable archive remains authoritative;
+- missing/stale/corrupt index falls back to bounded authoritative scan;
+- default fallback scan bound: 10,000 entries;
+- above bound: fail closed until index rebuild.
+
+On-disk benchmark:
+- 1k: scan 2.0836s, indexed 0.0211s, 98.89x;
+- 10k: scan 21.3310s, indexed 0.1952s, 109.25x;
+- selected archive SHA matched between scan and index.
+
+Acceptance:
+`docs/integrations/KGM_REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH_2026-10-10.md`
+
+Readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`
+
+Next:
+`LIVE_GENERIC_MAPPING_ADAPTERIZATION_AND_ARCHIVE_INDEX_MAINTENANCE`
