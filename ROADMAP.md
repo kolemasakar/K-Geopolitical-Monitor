@@ -1533,3 +1533,42 @@ Next technical track:
 `P1_RESEARCH_QUALITY_HARDENING`
 
 This readiness gate is owner-pilot only and does not authorize production/live daemon operation, persistent unattended scheduling, Sentinel/K-Trader integration, paid fallback, shared runtime, Plugin publication or HP-OMEN.
+
+
+### P1 research quality hardening — 2026-10-10
+
+Gate:
+`P1_RESEARCH_QUALITY_HARDENING = PASS_WITH_REMAINING_REAL_CROSS_SOURCE_IDENTITY_MAPPING`
+
+Exact validated code SHA:
+`9309bb98f886b72b396b7c032caacb3c0dcc5c71`
+
+Closed P1 quality items:
+- generic typed identity primitives for political/diplomatic/military/economic events and claims;
+- typed PARTIAL reason semantics;
+- canonical publication-path fingerprint deduplication;
+- official ECB economic source;
+- official NATO military/security source;
+- broadened live seven-source mixed-domain execution;
+- rebuildable evidence archive index;
+- non-destructive retention planning.
+
+Live mixed-domain stage:
+56 observations across Consilium, ECB, NATO, GDACS, GFZ, USGS plus GDELT degraded under cooldown.
+Result remained correctly `PARTIAL / PARTIAL / DEGRADED`.
+
+Selected regression:
+`272 passed in 4.81s`.
+
+Remaining P1:
+- real-source semantic mapping into shared generic event/claim descriptors across independent political/diplomatic/military/economic sources;
+- optional canonical archive-index fast path after full on-disk benchmark.
+
+Checkpoint:
+`docs/integrations/KGM_P1_RESEARCH_QUALITY_HARDENING_2026-10-10.md`
+
+Next:
+`REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH`
+
+Owner-pilot readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
