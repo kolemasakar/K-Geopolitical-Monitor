@@ -1572,3 +1572,37 @@ Next:
 
 Owner-pilot readiness remains:
 `KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
+
+
+### Real generic event mapping and archive index fast path — 2026-10-10
+
+Gate:
+`REAL_GENERIC_EVENT_MAPPING_AND_INDEX_FAST_PATH = PASS_WITH_LIVE_ADAPTER_MAPPING_LIMITATION`
+
+Exact validated code SHA:
+`8fef756bcaeff9514718e579f0dfa1fc23328f70`
+
+Delivered:
+- auditable explicit real-source generic mapping layer;
+- real NATO + President of Ukraine diplomatic event mapping;
+- deterministic event/claim identity agreement across two distinct official origins;
+- no automatic verification;
+- archive index canonical fast selector;
+- bounded authoritative-scan fallback;
+- worker integration of the fast selector.
+
+On-disk archive selection benchmark:
+- 1k entries: scan 2.0836 s, indexed 0.0211 s, 98.89x;
+- 10k entries: scan 21.3310 s, indexed 0.1952 s, 109.25x.
+
+Selected regression:
+`278 passed in 5.10s`.
+
+Known limitation:
+the President of Ukraine official page is publicly retrievable through the external public-web research path but returned HTTP 403 from direct owner-VM HTTP retrieval. Therefore the cross-source semantic mapping acceptance is real-source/fact-level, while a fully live two-adapter owner-VM mapping cycle remains pending.
+
+Next:
+`LIVE_GENERIC_MAPPING_ADAPTERIZATION_AND_ARCHIVE_INDEX_MAINTENANCE`
+
+Owner-pilot readiness remains:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`.
