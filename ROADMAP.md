@@ -1492,3 +1492,44 @@ Next technical track:
 `SOURCE_PORTFOLIO_COMPLETENESS_AND_DURABLE_OBSERVATION_STAGING`
 
 Do not declare `KGM_INDEPENDENT_RESEARCH_READY`.
+
+
+### Independent research readiness v3 — 2026-10-10
+
+Gate:
+`KGM_INDEPENDENT_RESEARCH_READY = PASS_WITH_P1_LIMITATIONS`
+
+Exact validated implementation SHA:
+`322c55f8f47f62aca19fd563b3d7eb73538b1b52`
+
+P0 readiness blockers from audit v2 are closed:
+- source portfolio completeness is policy-bound;
+- normalized live observations are durably staged;
+- canonical Consilium official political/diplomatic source is proven;
+- archive-backed `HISTORICAL_AS_OF` replay is operational without live provider calls.
+
+Live historical proof:
+- 41 archived current observations;
+- 41 historical replay observations;
+- exact source snapshot preserved;
+- cutoff later than all archived evidence availability timestamps;
+- provider calls during historical replay: 0;
+- recovery pending: empty.
+
+Selected regression:
+`249 passed in 4.65s`.
+
+Remaining P1 quality-hardening:
+- generic non-earthquake identity families;
+- typed PARTIAL reason semantics;
+- canonical evidence fingerprint deduplication;
+- broaden official geopolitical source portfolio;
+- archive indexing/retention after correctness.
+
+Audit:
+`docs/integrations/KGM_INDEPENDENT_RESEARCH_READINESS_AUDIT_V3_2026-10-10.md`
+
+Next technical track:
+`P1_RESEARCH_QUALITY_HARDENING`
+
+This readiness gate is owner-pilot only and does not authorize production/live daemon operation, persistent unattended scheduling, Sentinel/K-Trader integration, paid fallback, shared runtime, Plugin publication or HP-OMEN.
