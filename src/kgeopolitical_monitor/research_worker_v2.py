@@ -75,7 +75,10 @@ def execute_policy_bound(root, consumer, request_id, *, request, allowed_consume
                                       source_runs=rstage["source_runs"],
                                       observations=rstage["observations"],
                                       staged_at_utc=staged_at_utc)
-    if request["mode"]=="CURRENT":\n        archive_observation_stage(root,consumer,request_id,request=request,\n                                  source_policy=source_policy,stage_artifact=staged)\n        maintain_archive_index(root,consumer,generated_at_utc=staged_at_utc)
+    if request["mode"]=="CURRENT":
+        archive_observation_stage(root,consumer,request_id,request=request,
+                                  source_policy=source_policy,stage_artifact=staged)
+        maintain_archive_index(root,consumer,generated_at_utc=staged_at_utc)
     if after_stage is not None:
         after_stage(staged)
 
