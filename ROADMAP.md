@@ -1071,3 +1071,16 @@ Authoritative transition handoff:
 `docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-09-20_P23_1.md`.
 
 No Phase 23 semantic, runtime, source-activation, production/live, paid/shared, migration-033, Plugin-publication or owner-operational boundary is changed by this documentation sync.
+
+
+## Owner Decision — Phase 24 (2026-10-10)
+
+**APPROVED:** `Phase 24 — Independent Research Quality & Operational Readiness`.
+**Position:** `PHASE_24_P24_0_BASELINE_IN_PROGRESS` (planning and bounded validation, not production activation).
+**Decision:** `docs/decisions/PHASE_24_INDEPENDENT_RESEARCH_QUALITY_OPERATIONAL_READINESS_DECISION_2026-10-10.md`.
+
+Sequence: P24.0 exact-HEAD baseline/consolidation; P24.1 source/mapping/quality coverage; P24.2 unattended reliability and crash recovery engineering; P24.3 retention/resources/observability; P24.4 final audit and **separate owner production decision**.
+
+P24.0 research baseline: PR #163 `f135014e2962907c76ea14bf3b10ddc7c288046c`; CI #2900 SUCCESS; isolated ARM64 `260 passed` selected research tests, focused `37 passed`.
+
+**Scope:** Phase 24 approval does not close the legacy P23.4 gate, merge PR #163, promote `PASS_WITH_P1_LIMITATIONS`, or activate production/live, unattended scheduling, Sentinel/K-Trader, paid/shared resources, HP-OMEN or public publication. Research implementation remains in a separate unmerged draft branch until explicit disposition.
