@@ -1125,17 +1125,18 @@
     "exact_head_ci_status": "SUCCESS",
     "isolated_arm64_research_regression": "260 passed in 5.46s",
     "isolated_arm64_targeted": "37 passed in 0.95s",
-    "full_suite": "BLOCKED_12_COLLECTION_ERRORS_ENVIRONMENT",
+    "full_suite": "PR163_RESEARCH_HEAD_1722_PASS_444_89S",
     "research_readiness": "PASS_WITH_P1_LIMITATIONS",
     "phase23_legacy_gate": "P23_4_NOT_CLOSED_BY_PHASE24_APPROVAL",
     "production_activation": false,
     "unattended_activation": false,
     "sentinel_integration": false,
     "ktrader_integration": false,
-    "full_suite_blockers": [
-      "MISSING_PSYCOPG",
-      "STARLETTE_HTTPX2_DEPRECATION_WARNING",
-      "PYTHONPATH_SRC_IMPORT_CONFIGURATION"
-    ]
+    "full_suite_blockers": [],
+    "full_suite_environment": "ISOLATED_VENV_PSYCOpg_3_3_6_HTTPX2_2_13_1",
+    "planning_pr_164_ci": "CI_2911_FAILURE_ROOT_CAUSE_UNCONFIRMED",
+    "p24_0_status": "IN_PROGRESS_PENDING_PLANNING_CI",
+    "p24_1_inventory": "INITIAL_INVENTORY_STARTED_11_ADAPTERS_NO_LIVE_ACTIVATION",
+    "p24_1_inventory_doc": "docs/integrations/P24_1_SOURCE_COVERAGE_RESEARCH_QUALITY_INITIAL_INVENTORY_2026-10-11.md"
   }
 }
