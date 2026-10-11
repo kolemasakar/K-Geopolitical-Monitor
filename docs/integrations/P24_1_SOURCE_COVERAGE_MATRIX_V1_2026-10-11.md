@@ -39,3 +39,18 @@ Authority: research-source implementation on PR #163 head `f135014e2962907c76ea1
 ## Gate dependencies
 
 Phase 24 is owner-approved; P24.0 planning CI must be green before formal gate closure. PR #163 stays draft pending scoped split; this inventory is documentation-only in PR #164.
+
+## Bounded current transport probe — 2026-10-11 (owner-pilot VM)
+
+Read-only HTTPS GET, up to 10 seconds per URL, on `kgm-e4-owner-pilot`:
+
+| Public endpoint | HTTP | Duration (s) |
+|---|---:|---:|
+| Consilium press RSS | 200 | 0.110 |
+| ECB press RSS | 200 | 0.100 |
+| NATO home page | 200 | 0.172 |
+| GDACS events SEARCH API | 200 | 0.937 |
+| USGS earthquake FDSN version | 200 | 0.476 |
+| GFZ GEOFON FDSN version | 200 | 0.170 |
+
+These confirm basic HTTP reachability **only**, not parser readiness, API query coverage, mapped-event correctness, current contributor status, payload freshness or sustained reliability. NATO home and FDSN version routes are not full functional acceptance endpoints. The other five dedicated official adapters and GDELT are not part of this transport probe. No production/scheduler enabled.
