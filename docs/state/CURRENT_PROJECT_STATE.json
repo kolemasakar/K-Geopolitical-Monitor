@@ -5,7 +5,7 @@
     "strategic_version": "v4",
     "state_sync_version": "4.66",
     "status": "APPROVED",
-    "current_position": "PHASE_24_P24_0_BASELINE_IN_PROGRESS"
+    "current_position": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -1111,7 +1111,7 @@
     "owner_decision": "APPROVED",
     "title": "Independent Research Quality & Operational Readiness",
     "decision_doc": "docs/decisions/PHASE_24_INDEPENDENT_RESEARCH_QUALITY_OPERATIONAL_READINESS_DECISION_2026-10-10.md",
-    "status": "P24_0_BASELINE_IN_PROGRESS",
+    "status": "OWNER_APPROVED_PARALLEL_PLANNING_P24_0_IN_PROGRESS",
     "approved_sequence": [
       "P24_0_EXACT_HEAD_BASELINE",
       "P24_1_SOURCE_MAPPING_QUALITY_COVERAGE",
@@ -1134,9 +1134,10 @@
     "ktrader_integration": false,
     "full_suite_blockers": [],
     "full_suite_environment": "ISOLATED_VENV_PSYCOpg_3_3_6_HTTPX2_2_13_1",
-    "planning_pr_164_ci": "CI_2911_FAILURE_ROOT_CAUSE_UNCONFIRMED",
-    "p24_0_status": "IN_PROGRESS_PENDING_PLANNING_CI",
+    "planning_pr_164_ci": "CI_2917_FAILURE_DUE_PREMATURE_CANONICAL_PHASE24_POSITION",
+    "p24_0_status": "IN_PROGRESS_PHASE23_CANONICAL_PRESERVED",
     "p24_1_inventory": "INITIAL_INVENTORY_STARTED_11_ADAPTERS_NO_LIVE_ACTIVATION",
-    "p24_1_inventory_doc": "docs/integrations/P24_1_SOURCE_COVERAGE_RESEARCH_QUALITY_INITIAL_INVENTORY_2026-10-11.md"
+    "p24_1_inventory_doc": "docs/integrations/P24_1_SOURCE_COVERAGE_RESEARCH_QUALITY_INITIAL_INVENTORY_2026-10-11.md",
+    "canonical_position_policy": "P23_3_REMAINS_UNTIL_P23_4_EXPLICIT_CLOSURE"
   }
 }
