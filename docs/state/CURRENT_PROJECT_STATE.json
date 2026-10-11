@@ -1138,6 +1138,23 @@
     "p24_0_status": "IN_PROGRESS_PHASE23_CANONICAL_PRESERVED",
     "p24_1_inventory": "INITIAL_INVENTORY_STARTED_11_ADAPTERS_NO_LIVE_ACTIVATION",
     "p24_1_inventory_doc": "docs/integrations/P24_1_SOURCE_COVERAGE_RESEARCH_QUALITY_INITIAL_INVENTORY_2026-10-11.md",
-    "canonical_position_policy": "P23_3_REMAINS_UNTIL_P23_4_EXPLICIT_CLOSURE"
+    "canonical_position_policy": "P23_3_REMAINS_UNTIL_P23_4_EXPLICIT_CLOSURE",
+    "plugin_migration": {
+      "status": "PLANNED_NOT_ACTIVATED",
+      "decision_doc": "docs/decisions/KGM_PRIVATE_PLUGIN_MIGRATION_PLAN_2026-10-11.md",
+      "parallel_track": true,
+      "milestones": {
+        "M24_0": "2026-10-11/2026-10-20",
+        "M24_1": "2026-10-20/2026-10-31",
+        "M24_2": "2026-11-01/2026-11-15",
+        "M24_3": "2026-11-16/2026-11-30"
+      },
+      "target_retirement": "2026-12-11",
+      "account_migration_capability": "NOT_REVALIDATED",
+      "private_plugin_created": false,
+      "publication_activated": false,
+      "production_dependency": false,
+      "actions_migrate_automatically": false
+    }
   }
 }
