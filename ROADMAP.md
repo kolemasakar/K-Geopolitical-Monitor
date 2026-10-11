@@ -1076,7 +1076,7 @@ No Phase 23 semantic, runtime, source-activation, production/live, paid/shared, 
 ## Owner Decision — Phase 24 (2026-10-10)
 
 **APPROVED:** `Phase 24 — Independent Research Quality & Operational Readiness`.
-**Position:** `PHASE_24_P24_0_BASELINE_IN_PROGRESS` (planning and bounded validation, not production activation).
+**Parallel planning track:** `PHASE_24_P24_0_BASELINE_IN_PROGRESS`; canonical strategic position remains `PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED` until explicit Phase 23 gate closure.
 **Decision:** `docs/decisions/PHASE_24_INDEPENDENT_RESEARCH_QUALITY_OPERATIONAL_READINESS_DECISION_2026-10-10.md`.
 
 Sequence: P24.0 exact-HEAD baseline/consolidation; P24.1 source/mapping/quality coverage; P24.2 unattended reliability and crash recovery engineering; P24.3 retention/resources/observability; P24.4 final audit and **separate owner production decision**.
