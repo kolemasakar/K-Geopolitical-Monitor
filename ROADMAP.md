@@ -1088,6 +1088,6 @@ P24.0 research baseline: PR #163 `f135014e2962907c76ea14bf3b10ddc7c288046c`; CI 
 
 ### Phase 24 Parallel Workstream — M24 Private Plugin Transition (2026-10-11)
 
-**PLANNED, NOT ACTIVATED.** Owner-requested schedule: M24.0 inventory Oct 11–20; M24.1 private GPT-to-Plugin migration Oct 20–31 if available; M24.2 parallel functional validation Nov 1–15; M24.3 private cutover Nov 16–30. Standard GPT retirement target: Dec 11, 2026. Source: `docs/decisions/KGM_PRIVATE_PLUGIN_MIGRATION_PLAN_2026-10-11.md`.
+**PLANNED, NOT ACTIVATED.** Owner-revised execution: no calendar-dependent milestones. Execute M24.0 minimum preflight → M24.1 immediate private migration → M24.2 fast functional acceptance → M24.3 private cutover, without waiting for P24.4 production readiness. Source: `docs/decisions/KGM_PRIVATE_PLUGIN_MIGRATION_PLAN_2026-10-11.md`.
 
 This workstream starts during P24.0/P24.1 and does not wait for P24.4 production readiness. Canonical strategic Phase 23 position, owner-pilot bounded research gate, no production/unattended integration, no public publication and no paid/shared infrastructure remain unchanged.
