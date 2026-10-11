@@ -1,7 +1,7 @@
 # KGM — Private Plugin Migration Plan (Phase 24 parallel track)
 
 Date: 2026-10-11
-Status: PLANNED; NOT ACTIVATED
+Status: ACCELERATED_STAGE_GATED / MINIMAL_PREFLIGHT_NEXT; NOT ACTIVATED
 Owner request: Plan the optimal migration stage for the existing K-Geopolitical Monitor Custom GPT.
 
 ## Rationale and authority
@@ -14,17 +14,20 @@ Existing KGM authoritative decision: `docs/decisions/OPENAI_CUSTOM_GPT_TO_PLUGIN
 
 Introduce a **cross-cutting, parallel migration workstream M24**, starting during P24.0 closeout / early P24.1. It does not replace P24.0–P24.4, change the Phase 23 canonical strategic gate, require production readiness, or activate KGM runtime.
 
-### Proposed owner migration milestones
+### Accelerated stage-gated migration — owner revision
 
-| Window (2026) | Gate | Deliverable |
-|---|---|---|
-| Oct 11–20 | M24.0 PREPARE | Inventory current GPT latest published instructions, knowledge, reference files, starters, Actions and permissions; snapshot versioned resources outside GPT; baseline user prompt suite; confirm in-account migration option. |
-| Oct 20–31 | M24.1 PRIVATE MIGRATION | Use official `My GPTs → Migrate to plugin` flow when available; review skill/instructions and imported assets; keep private. If option unavailable, record a migration-capability blocker and use authorized Plugin Creator build path only after separate scope review. |
-| Nov 1–15 | M24.2 PARALLEL VALIDATION | Compare legacy GPT with private Plugin on geopolitics brief, source provenance, independence, disputed claims, local-language sourcing, three-scenario forecasting, uncertainty, and no false VERIFIED; record deviations. Backend integrations (Apps/MCP) remain optional and separately approved. |
-| Nov 16–30 | M24.3 PRIVATE CUTOVER | Owner signs off equivalent workflow quality; make private Plugin primary interface, preserve versioned fallback procedures and transition docs. No public publication required. |
-| By Dec 11 | DEADLINE SAFETY | Confirm private Plugin access and usability ahead of standard GPT retirement; do not rely on old GPT remaining accessible after retirement. |
+No calendar target dates or waiting periods are assigned to migration stages. Begin the next stage immediately when its acceptance criteria are satisfied.
 
-Windows are target planning dates (not guaranteed provider feature availability). Escalate blockers no later than early November to preserve a testing buffer.
+1. **M24.0 — MINIMAL PREFLIGHT (immediate):** confirm ownership, latest published GPT version, existing instructions/knowledge/assets and migration capability. Preserve a minimal recoverable snapshot. Do not delay migration for an exhaustive infrastructure audit.
+2. **M24.1 — PRIVATE PLUGIN MIGRATION (next):** transfer GPT to a private Plugin immediately after minimal preflight. Use the platform migration flow if available. If unavailable, record the specific blocker and evaluate the authorized private Plugin Creator path; do not invent a successful migration.
+3. **M24.2 — FAST FUNCTIONAL ACCEPTANCE:** run a compact critical test suite on the private Plugin: short world brief; fact vs inference; primary-source provenance; underlying-origin independence; conflicting evidence; localized-source search; three bounded forecast scenarios; no automatic VERIFIED. Fix only blocking deviations before cutover.
+4. **M24.3 — PRIVATE CUTOVER:** after owner acceptance, set Plugin as primary ChatGPT interface. Preserve legacy reference material and recovery instructions; do not wait for Phase 24 production readiness.
+
+**Critical path:** M24.0 → M24.1 → M24.2 → M24.3, uninterrupted when gates pass. P24.0–P24.4 research/operational engineering continues independently in parallel.
+
+**Not a blocker:** expanding the 11 source-adapter set, implementing unattended operation, production readiness, Sentinel/K-Trader integration, public release, or broad test-suite expansion. These do not delay an instructions-and-reference private Plugin.
+
+**Boundaries:** no production, persistent scheduler, paid/shared runtime or public Plugin activation. The target account must confirm the migration/build option before any successful transfer is claimed.
 
 ## Explicit acceptance
 
