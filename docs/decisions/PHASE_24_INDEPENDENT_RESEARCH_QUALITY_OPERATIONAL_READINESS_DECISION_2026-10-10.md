@@ -46,3 +46,7 @@ Move bounded independent owner-pilot research readiness toward a technically val
 ## P24.0 full-suite collection finding (2026-10-10)
 
 An additional `PYTHONPATH=src .../pytest -q` full-suite attempt at the same isolated HEAD did **not** pass: **12 collection errors in 5.45 s** (exit code 2). Diagnosed environment/collection factors include unavailable `psycopg`, Starlette's `httpx2` deprecation warning raised by the active warning policy, and tests importing `src.*` when `PYTHONPATH` exposes only `src`. This is **NOT** classified as 12 product-test assertion failures; full-suite acceptance is **BLOCKED until a compatible isolated test environment/command is validated**. Research-selected 260/260 PASS remains valid but is narrower. The production venv was not modified.
+
+## Canonical-state correction — 2026-10-11
+
+Phase 24 is **approved as a parallel planning/validation track**. Historical Phase 21–23 acceptance invariants retain authority: `roadmap.current_position` remains `PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED` until an explicit P23.4 closeout. Earlier temporary promotion to Phase 24 caused 20 CI historical-state assertion failures, so canonical position was restored; test assertions remain unchanged. Phase 24 approval continues to be represented in `phases["24"]` and `phase24` metadata.
