@@ -1084,3 +1084,10 @@ Sequence: P24.0 exact-HEAD baseline/consolidation; P24.1 source/mapping/quality 
 P24.0 research baseline: PR #163 `f135014e2962907c76ea14bf3b10ddc7c288046c`; CI #2900 SUCCESS; isolated ARM64 `260 passed` selected research tests, focused `37 passed`.
 
 **Scope:** Phase 24 approval does not close the legacy P23.4 gate, merge PR #163, promote `PASS_WITH_P1_LIMITATIONS`, or activate production/live, unattended scheduling, Sentinel/K-Trader, paid/shared resources, HP-OMEN or public publication. Research implementation remains in a separate unmerged draft branch until explicit disposition.
+
+
+### Phase 24 Parallel Workstream — M24 Private Plugin Transition (2026-10-11)
+
+**PLANNED, NOT ACTIVATED.** Owner-requested schedule: M24.0 inventory Oct 11–20; M24.1 private GPT-to-Plugin migration Oct 20–31 if available; M24.2 parallel functional validation Nov 1–15; M24.3 private cutover Nov 16–30. Standard GPT retirement target: Dec 11, 2026. Source: `docs/decisions/KGM_PRIVATE_PLUGIN_MIGRATION_PLAN_2026-10-11.md`.
+
+This workstream starts during P24.0/P24.1 and does not wait for P24.4 production readiness. Canonical strategic Phase 23 position, owner-pilot bounded research gate, no production/unattended integration, no public publication and no paid/shared infrastructure remain unchanged.
