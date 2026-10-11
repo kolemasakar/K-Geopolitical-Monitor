@@ -1140,21 +1140,27 @@
     "p24_1_inventory_doc": "docs/integrations/P24_1_SOURCE_COVERAGE_RESEARCH_QUALITY_INITIAL_INVENTORY_2026-10-11.md",
     "canonical_position_policy": "P23_3_REMAINS_UNTIL_P23_4_EXPLICIT_CLOSURE",
     "plugin_migration": {
-      "status": "PLANNED_NOT_ACTIVATED",
+      "status": "ACCELERATED_MINIMAL_PREFLIGHT_NEXT",
       "decision_doc": "docs/decisions/KGM_PRIVATE_PLUGIN_MIGRATION_PLAN_2026-10-11.md",
       "parallel_track": true,
-      "milestones": {
-        "M24_0": "2026-10-11/2026-10-20",
-        "M24_1": "2026-10-20/2026-10-31",
-        "M24_2": "2026-11-01/2026-11-15",
-        "M24_3": "2026-11-16/2026-11-30"
-      },
-      "target_retirement": "2026-12-11",
       "account_migration_capability": "NOT_REVALIDATED",
       "private_plugin_created": false,
       "publication_activated": false,
       "production_dependency": false,
-      "actions_migrate_automatically": false
+      "actions_migrate_automatically": false,
+      "execution_policy": "STAGE_GATED_NO_DATES_NO_WAITING_PERIODS",
+      "critical_path": [
+        "M24_0_MINIMAL_PREFLIGHT",
+        "M24_1_PRIVATE_MIGRATION",
+        "M24_2_FAST_FUNCTIONAL_ACCEPTANCE",
+        "M24_3_PRIVATE_CUTOVER"
+      ],
+      "not_blocked_by": [
+        "P24_1_SOURCE_EXPANSION",
+        "P24_2_UNATTENDED_RUNTIME",
+        "P24_4_PRODUCTION_READINESS",
+        "CROSS_PROJECT_INTEGRATION"
+      ]
     }
   }
 }
