@@ -25,3 +25,7 @@ These four sites do not count as active research sources, factual verification o
 2. Separately validate actual AU HTML response before any source activation. The synthetic fixture is not a representation of verified production markup.
 3. Expand candidate investigation and language/precision fixtures for other regions under separate scoped gates.
 4. Preserve canonical Phase 23 P23.4 gate and research PR #163 draft; no production, unattended execution, public Plugin or K-Trader/K-Sentinel integration.
+
+## Final tested code acceptance (research only)
+
+PR #173 MERGED into PR #171 branch; PR #171 MERGED into draft research PR #163 at SHA 88b3aab41982a94d1ab786c7dacc6b52be78bffa. CI #3071 and combined-head CI #3079 both 1783 PASS (116.49s and 113.72s). Isolated ARM64 full suite on exact source HEAD 26d43f27baa04337abe7d63f496d36114442b26c: 1783 passed in 461.71s. Combined research merge HEAD focused fixture suite 31 passed in 0.14s. Still NO live AU parser acceptance: HTTP403 remains; no production deployment or activation.
