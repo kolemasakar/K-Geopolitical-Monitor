@@ -49,3 +49,7 @@ A second, deliberately bounded USGS diagnostic found FDSN version HTTP200 and FD
 GDELT remained unavailable under a bounded 5-second check with TLS handshake timeout. GDELT is now the sole adapter without a confirmed successful live-response parse in this checkpoint. No blanket outage, firewall cause, or paid bypass is inferred.
 
 **CURRENT CHECKPOINT STATUS = TEN_OF_ELEVEN_REAL_PARSER_PASS_GDELT_TRANSPORT_DEGRADED.** The file name preserves original checkpoint identity; this addendum supersedes the initial 9/11 tally, not its first observation log.
+
+## GDELT transport-layer diagnostics
+
+Read-only DNS lookup resolved api.gdeltproject.org to 104.197.47.124 (observation, not a pinned/guaranteed address). curl with `--max-time 6` connected to destination TCP/443, transmitted TLSv1.3 ClientHello, then timed out without receiving a completed TLS handshake or HTTP status; curl error 28. Thus: DNS=OK, TCP_CONNECT=OK, TLS_HANDSHAKE=TIMEOUT, HTTP_STATUS=NOT_OBSERVED. Cannot classify the current failure as HTTP 429, nor prove server-side outage versus network-path filtering. No VPN/proxy bypass, excessive retries, paid fallback or production reconfiguration was attempted.
