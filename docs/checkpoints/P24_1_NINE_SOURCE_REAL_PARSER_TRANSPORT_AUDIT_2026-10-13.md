@@ -41,3 +41,11 @@ The 9/11 denominator is the adapter inventory, not geographic/global coverage. I
 2. Assess bounded USGS/GDELT transport recovery and error taxonomy (TLS/timeout vs 429) without bypassing cooldown, proxy or paying.
 3. Extend regional original-source adapters for Africa, Middle East, Asia and Americas only after representative fixture/source licensing and owner-pilot validation.
 4. Keep canonical P23.4 gate and draft PR #163 independent. Do not activate production/unattended/public Plugin/paid services/K-Trader/K-Sentinel.
+
+## Bounded retry correction — same day, after initial snapshot
+
+A second, deliberately bounded USGS diagnostic found FDSN version HTTP200 and FDSN GeoJSON query HTTP200. Repeating the **actual USGS adapter** with max_results=2 successfully normalized two public events, both status SUCCESS and origin `usgs-neic`; update timestamps were `2026-10-13T10:20:27Z` and `2026-10-13T10:57:06Z`. Therefore the UPDATED evidence total is **10/11 adapters with at least one successful real-response parse**. The earlier timed-out USGS query is retained as historical evidence of a transient transport failure, not overwritten.
+
+GDELT remained unavailable under a bounded 5-second check with TLS handshake timeout. GDELT is now the sole adapter without a confirmed successful live-response parse in this checkpoint. No blanket outage, firewall cause, or paid bypass is inferred.
+
+**CURRENT CHECKPOINT STATUS = TEN_OF_ELEVEN_REAL_PARSER_PASS_GDELT_TRANSPORT_DEGRADED.** The file name preserves original checkpoint identity; this addendum supersedes the initial 9/11 tally, not its first observation log.
