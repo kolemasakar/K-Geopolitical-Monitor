@@ -1204,7 +1204,7 @@
       "cutover_decision_doc": "docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md"
     },
     "p24_0_checkpoint": "docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md",
-    "p24_1_status": "CHECKPOINT_03_PASS_WITH_GDELT_LIMITATION_P24_1_IN_PROGRESS",
+    "p24_1_status": "IN_PROGRESS_REGIONAL_SOURCE_GATING_AU_LIVE_NOT_VERIFIED",
     "p24_1_transport_audit": "docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md",
     "p24_1_transport_results": {
       "dedicated_adapters": 11,
@@ -1247,6 +1247,9 @@
     ],
     "p24_1_transport_code_ci": "CI_3027_1752_PASS",
     "p24_1_transport_arm64_full": "1752_PASS_459_85S_AT_FE83FDF",
-    "p24_1_audit_pr169": "MERGED_MAIN_77632285d3a645e34c590b0973b1a22135ec04e8"
+    "p24_1_audit_pr169": "MERGED_MAIN_77632285d3a645e34c590b0973b1a22135ec04e8",
+    "p24_1_regional_candidate_gate": "PR171_CI_3058_PASS_1765_TESTS_PENDING_STACKED_AU",
+    "p24_1_african_union_parser_gate": "FIXTURE_31_PASS_LIVE_HTTP403_NOT_ACCEPTED",
+    "p24_1_regional_doc": "docs/checkpoints/P24_1_REGIONAL_CANDIDATES_AU_PREFLIGHT_2026-10-13.md"
   }
 }
