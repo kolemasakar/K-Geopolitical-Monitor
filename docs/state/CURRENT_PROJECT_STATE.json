@@ -1119,7 +1119,7 @@
       "P24_3_RETENTION_RESOURCE_OBSERVABILITY",
       "P24_4_READINESS_AUDIT_OWNER_PRODUCTION_DECISION"
     ],
-    "research_pr_163_head": "c596ef79ee7b7cbddfe5fecfa0429b3a40b1ef88",
+    "research_pr_163_head": "88b3aab41982a94d1ab786c7dacc6b52be78bffa",
     "research_pr_163_status": "DRAFT_UNMERGED",
     "exact_head_ci_run": 2900,
     "exact_head_ci_status": "SUCCESS",
@@ -1248,8 +1248,14 @@
     "p24_1_transport_code_ci": "CI_3027_1752_PASS",
     "p24_1_transport_arm64_full": "1752_PASS_459_85S_AT_FE83FDF",
     "p24_1_audit_pr169": "MERGED_MAIN_77632285d3a645e34c590b0973b1a22135ec04e8",
-    "p24_1_regional_candidate_gate": "PR171_CI_3058_PASS_1765_TESTS_PENDING_STACKED_AU",
-    "p24_1_african_union_parser_gate": "FIXTURE_31_PASS_LIVE_HTTP403_NOT_ACCEPTED",
-    "p24_1_regional_doc": "docs/checkpoints/P24_1_REGIONAL_CANDIDATES_AU_PREFLIGHT_2026-10-13.md"
+    "p24_1_regional_candidate_gate": "PR171_MERGED_INTO_RESEARCH_PR163_CI3079_1783_PASS",
+    "p24_1_african_union_parser_gate": "FIXTURE_PASS_31_ARM64_FULL_1783_PASS_461_71S_LIVE_HTTP403_BLOCKED",
+    "p24_1_regional_doc": "docs/checkpoints/P24_1_REGIONAL_CANDIDATES_AU_PREFLIGHT_2026-10-13.md",
+    "p24_1_regional_research_merge_sha": "88b3aab41982a94d1ab786c7dacc6b52be78bffa",
+    "p24_1_regional_ci": {
+      "pr171": "CI_3079_SUCCESS_1783_PASS_113_72S",
+      "pr173": "CI_3071_SUCCESS_1783_PASS_116_49S",
+      "arm64": "1783_PASS_461_71S_EXACT_SOURCE_SHA_26D43F27"
+    }
   }
 }
