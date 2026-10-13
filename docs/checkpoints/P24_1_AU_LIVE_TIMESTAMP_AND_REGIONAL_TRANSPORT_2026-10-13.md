@@ -1,6 +1,6 @@
 # P24.1 — African Union Live-Response Timestamp Repair and Regional Transport
 
-Date: 2026-10-13. Status: LIVE_AU_PARSER_FIX_TARGETED_PASS / FULL_CODE_REGRESSION_AND_CI_PENDING.
+Date: 2026-10-13. Status: AU_LIVE_TIMESTAMP_FIX_PASS / RESEARCH_ONLY / P24_1_CONTINUES.
 Research PR #177 based on independent draft research PR #163; current validated code HEAD ed4ce2a8c4f463a03c0b34f87c8a5293ccd9bd16.
 
 ## Verified primary African Union page
@@ -20,3 +20,7 @@ Important temporal distinction: release published October 12 describes programme
 
 ## Acceptance and restrictions
 Full exact-head isolated ARM64 research suite and GitHub CI of PR177 must pass before code merge. Documentation-only PR against main does not activate research code or close P24.1. No paid services, VPN/proxy bypass, continuous polling, production, public Plugin, K-Sentinel or K-Trader integration.
+
+## Final verified acceptance
+
+GitHub CI #3113: 1802 passed in 235.33s. Isolated exact-head ARM64: 1802 passed in 460.89s at source HEAD ed4ce2a8c4f463a03c0b34f87c8a5293ccd9bd16. Code PR #177 merged ONLY into separate draft research PR #163 at SHA 8e79191eba704927df0ff8b069c2d19095b8f378. Main does not contain research code. New source is not activated. Live AU release timestamp 2026-10-12T07:15:26Z is attributable to the actual article field, not a sidebar.
