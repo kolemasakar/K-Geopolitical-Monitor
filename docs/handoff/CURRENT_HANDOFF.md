@@ -512,3 +512,6 @@ PR #171 has source candidate catalog (Africa AU, Asia ASEAN, Middle East GCC, Am
 ## P24.1 GCC Source Parser Checkpoint — 2026-10-13
 
 Read-only owner-pilot live GCC Secretariat article returned parsable official `article-date`, `article-title`, `article-body`; research adapter yielded SUCCESS with origin `gcc-secretariat`, published day `2026-10-13` (00Z only a day anchor). PR #175 stacked on research PR #163; focused 17 ARM64 PASS, full CI/ARM64 pending. No source activation or production change. Evidence `docs/checkpoints/P24_1_GCC_LIVE_PARSER_2026-10-13.md`.
+
+
+**GCC finalized research evidence:** PR #175 merged into draft PR #163 branch (SHA `71fb1d6744199edd942346f7ca5e5124926529f3`); code CI #3093 1800 PASS, full exact-head ARM64 1800 PASS in 460.44s. Source live parser SUCCESS for one GCC Secretariat statement, with day-only published timestamp. No source activation or production; current canonical Phase 23 gate still preserved. PR #176 documentation closure awaits exact-head CI.
