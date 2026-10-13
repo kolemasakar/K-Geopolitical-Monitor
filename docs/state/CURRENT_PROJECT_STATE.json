@@ -1163,7 +1163,7 @@
       ],
       "native_migration": "SUCCESS_OWNER_UI",
       "preflight_doc": "docs/integrations/M24_0_CUSTOM_GPT_MIGRATION_PREFLIGHT_AND_ACCEPTANCE.md",
-      "acceptance_status": "RUNTIME_BEHAVIOR_TESTS_PENDING",
+      "acceptance_status": "M24_2_INITIAL_RUNTIME_BRIEF_PASS_WITH_LIMITATIONS",
       "plugin_name": "K-Geopolitical Monitor",
       "plugin_scope": "PRIVATE_OWNER_UI",
       "plugin_skill_count": 1,
@@ -1174,7 +1174,15 @@
       "plugin_files_count": 5,
       "skill_static_review": "PASS_WITH_NO_BACKEND_ACTION",
       "knowledge_files_in_migration_index": 0,
-      "acceptance_doc": "docs/integrations/M24_2_MIGRATED_PLUGIN_STATIC_ACCEPTANCE.md"
+      "acceptance_doc": "docs/integrations/M24_2_MIGRATED_PLUGIN_STATIC_ACCEPTANCE.md",
+      "runtime_brief_audit_doc": "docs/integrations/M24_2_RUNTIME_BRIEF_ACCEPTANCE_01.md",
+      "runtime_brief_critical_gaps": [
+        "DIRECT_CITATION_TRACEABILITY",
+        "SOURCE_ORIGIN_INDEPENDENCE_NOT_PROVEN",
+        "TIME_WINDOW_EVENT_VS_CONTEXT",
+        "TABLE_RENDERING"
+      ],
+      "private_cutover_approved": false
     }
   }
 }
