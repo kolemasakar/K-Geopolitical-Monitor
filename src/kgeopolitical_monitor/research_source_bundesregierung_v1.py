@@ -16,9 +16,24 @@ def _clean(raw):
     else: raise ValueError("invalid Bundesregierung response type")
     if len(text)>2_000_000: raise ValueError("Bundesregierung response exceeds bound")
     m=re.search(r'<time[^>]+datetime=["\']([^"\']+)["\']',text,re.I)
-    if not m: raise ValueError("Bundesregierung publication timestamp missing")
-    dt=datetime.fromisoformat(m.group(1).replace("Z","+00:00"))
-    if dt.tzinfo is None: raise ValueError("naive Bundesregierung publication timestamp")
+    if m:
+        dt=datetime.fromisoformat(m.group(1).replace("Z","+00:00"))
+        if dt.tzinfo is None: raise ValueError("naive Bundesregierung publication timestamp")
+    else:
+        # Date-only article-header metadata is a lower precision than datetime.
+        candidates=re.findall(
+            r'<li\b[^>]*class=["\x27]bpa-collection-item["\x27][^>]*>\s*([A-Za-z]+,\s*\d{1,2}\s+[A-Za-z]+\s+\d{4})\s*</li>',
+            text,re.I|re.S)
+        if len(candidates)!=1:
+            raise ValueError("Bundesregierung publication timestamp missing")
+        try:
+            day=datetime.strptime(" ".join(candidates[0].split()),"%A, %d %B %Y")
+        except ValueError as exc:
+            raise ValueError("invalid Bundesregierung publication date") from exc
+        if day.strftime("%A").casefold()!=candidates[0].split(",")[0].casefold():
+            raise ValueError("Bundesregierung publication weekday mismatch")
+        # Midnight UTC is a day anchor, NOT an asserted publication time.
+        dt=day.replace(tzinfo=timezone.utc)
     pub=dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     body=re.sub(r"<script\b.*?</script>|<style\b.*?</style>"," ",text,flags=re.I|re.S)
     body=re.sub(r"<[^>]+>"," ",body)
