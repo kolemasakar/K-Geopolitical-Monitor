@@ -1135,3 +1135,11 @@ An isolated GCC Secretariat news article parser on research PR #175 has processe
 
 
 **GCC checkpoint acceptance:** Research PR #175 merged into research PR #163 branch at `71fb1d6744199edd942346f7ca5e5124926529f3`. GitHub CI #3093 **1800 PASS**, isolated exact-head ARM64 **1800 PASS (460.44s)**; live official GCC source parser SUCCESS with date-only publication precision. GCC remains NOT ACTIVATED; P24.1 continues with ASEAN redirect, OAS HTTP403, AU HTTP403, GDELT TLS and global coverage.
+
+
+### P24.1 AU live timestamp correction and remaining regional gates — 2026-10-13
+
+Official AU page recovered HTTP200 on owner-pilot; previous parser used first unrelated carousel `<time>` (Oct 13) rather than article date (Oct 12). Scoped metadata fix on research PR #177 now returns exact publisher `2026-10-12T07:15:26Z`, live SUCCESS, 20 focused ARM64 PASS; full regression/CI still pending. ASEAN Sucuri HTTP307 without Location and OAS Cloudflare HTTP403 remain blocked for direct owner-pilot inspection; public indexing alone not live admission. GDELT remains TLS handshake timeout. See `docs/checkpoints/P24_1_AU_LIVE_TIMESTAMP_AND_REGIONAL_TRANSPORT_2026-10-13.md`. No production or source activation.
+
+
+**P24.1 AU timestamp correction final gate:** PR #177 merged into draft research PR #163 at `8e79191eba704927df0ff8b069c2d19095b8f378` after CI #3113 **1802 PASS** and exact-head isolated ARM64 **1802 PASS in 460.89s**. Corrected live AU article source publication is `2026-10-12T07:15:26Z`. Previous Oct 13 timestamp was unrelated sidebar content. ASEAN HTTP307, OAS HTTP403 and GDELT TLS failures remain unresolved. Research code not on main or production.

@@ -1119,7 +1119,7 @@
       "P24_3_RETENTION_RESOURCE_OBSERVABILITY",
       "P24_4_READINESS_AUDIT_OWNER_PRODUCTION_DECISION"
     ],
-    "research_pr_163_head": "71fb1d6744199edd942346f7ca5e5124926529f3",
+    "research_pr_163_head": "8e79191eba704927df0ff8b069c2d19095b8f378",
     "research_pr_163_status": "DRAFT_UNMERGED",
     "exact_head_ci_run": 2900,
     "exact_head_ci_status": "SUCCESS",
@@ -1204,7 +1204,7 @@
       "cutover_decision_doc": "docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md"
     },
     "p24_0_checkpoint": "docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md",
-    "p24_1_status": "IN_PROGRESS_GCC_LIVE_PARSER_CHECKPOINT_ACCEPTED_NO_SOURCE_ACTIVATION",
+    "p24_1_status": "AU_TIMESTAMP_CORRECTION_ACCEPTED_RESEARCH_ONLY_P24_1_IN_PROGRESS",
     "p24_1_transport_audit": "docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md",
     "p24_1_transport_results": {
       "dedicated_adapters": 11,
@@ -1267,6 +1267,23 @@
       "arm64": "1800_PASS_460_44S_EXACT_HEAD_0F4A506",
       "docs_ci_previous": "RUN_3099_1409_PASS",
       "date_precision": "DAY_ONLY_MIDNIGHT_ANCHOR_NOT_EXACT_CLOCK"
-    }
+    },
+    "p24_1_au_live_fix": {
+      "research_pr": 177,
+      "status": "MERGED_INTO_RESEARCH_PR163_ONLY",
+      "merge_sha": "8e79191eba704927df0ff8b069c2d19095b8f378",
+      "live_parser": "SUCCESS_2026-10-12T07:15:26Z",
+      "prior_false_timestamp": "2026-10-13T15:03:10Z_FROM_NEWS_CAROUSEL",
+      "ci": "3113_1802_PASS",
+      "arm64": "1802_PASS_460_89S_EXACT_HEAD_ED4CE2A",
+      "production_activated": false
+    },
+    "p24_1_regional_transport": {
+      "asean": "HTTP_307_SUCURI_NO_LOCATION",
+      "oas": "HTTP_403_CLOUDFLARE",
+      "african_union": "HTTP_200_ARTICLE_RECOVERED",
+      "gdelt": "TLS_HANDSHAKE_TIMEOUT_HTTP_UNKNOWN"
+    },
+    "p24_1_au_live_checkpoint": "docs/checkpoints/P24_1_AU_LIVE_TIMESTAMP_AND_REGIONAL_TRANSPORT_2026-10-13.md"
   }
 }
