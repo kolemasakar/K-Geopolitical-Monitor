@@ -1204,7 +1204,7 @@
       "cutover_decision_doc": "docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md"
     },
     "p24_0_checkpoint": "docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md",
-    "p24_1_status": "IN_PROGRESS_GCC_LIVE_PARSER_CHECKPOINT_ACCEPTED_NO_SOURCE_ACTIVATION",
+    "p24_1_status": "IN_PROGRESS_AU_REAL_TIMESTAMP_DEFECT_FIXED_CODE_GATE_PENDING",
     "p24_1_transport_audit": "docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md",
     "p24_1_transport_results": {
       "dedicated_adapters": 11,
@@ -1267,6 +1267,21 @@
       "arm64": "1800_PASS_460_44S_EXACT_HEAD_0F4A506",
       "docs_ci_previous": "RUN_3099_1409_PASS",
       "date_precision": "DAY_ONLY_MIDNIGHT_ANCHOR_NOT_EXACT_CLOCK"
-    }
+    },
+    "p24_1_au_live_fix": {
+      "research_pr": 177,
+      "head": "ed4ce2a8c4f463a03c0b34f87c8a5293ccd9bd16",
+      "live_parser": "PASS_ARTICLE_DATE_2026-10-12T07:15:26Z",
+      "previous_defect": "SIDEBAR_DATE_2026-10-13T15:03:10Z_FALSE_POSITIVE",
+      "targeted_arm64": "20_PASS",
+      "production_activated": false
+    },
+    "p24_1_regional_transport": {
+      "asean": "HTTP_307_SUCURI_NO_LOCATION",
+      "oas": "HTTP_403_CLOUDFLARE",
+      "african_union": "HTTP_200_ARTICLE_RECOVERED",
+      "gdelt": "TLS_HANDSHAKE_TIMEOUT_HTTP_UNKNOWN"
+    },
+    "p24_1_au_live_checkpoint": "docs/checkpoints/P24_1_AU_LIVE_TIMESTAMP_AND_REGIONAL_TRANSPORT_2026-10-13.md"
   }
 }
