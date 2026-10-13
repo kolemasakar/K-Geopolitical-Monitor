@@ -50,7 +50,7 @@ def request():
 def moldova_html(body, timestamp="2026-10-08T16:17:15+03:00"):
     return (f'<html><span property="dc:date dc:created" content="{timestamp}"></span>'
             f'<div class="field-name-body"><div class="field-item even">'
-            f'{body}</div></div></html>')
+            f'{body}</div></div></div></html>')
 
 
 def govuk_html(body, timestamp="2026-10-08T14:36:40+01:00"):
