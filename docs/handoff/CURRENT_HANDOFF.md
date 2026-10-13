@@ -520,3 +520,6 @@ Read-only owner-pilot live GCC Secretariat article returned parsable official `a
 ## P24.1 AU date-origin defect and live validation
 
 Owner-pilot real AU article HTTP200 at https://au.int/en/pressreleases/20261012/african-union-advances-implementation-africa-urban-resilience-programme. The old parser wrongly captured unrelated homepage carousel Oct 13 datetime; new research PR #177 scopes publication timestamp to article.node-pressrelease field--name-field-date, returning 2026-10-12T07:15:26Z, 20 focused ARM64 PASS, actual live parser SUCCESS. Still requires full CI/ARM64 acceptance before merging. ASEAN 307 Sucuri no redirect target, OAS 403 Cloudflare, GDELT TLS timeout remain separate. No source activation, production or cross-project integration. See `docs/checkpoints/P24_1_AU_LIVE_TIMESTAMP_AND_REGIONAL_TRANSPORT_2026-10-13.md`.
+
+
+**P24.1 AU live-source corrective acceptance:** research PR #177 merged into draft PR #163 at SHA `8e79191eba704927df0ff8b069c2d19095b8f378`. CI #3113 1802 PASS; exact-head ARM64 1802 PASS in 460.89s. Prior sitewide time selector incorrectly used newer news-carousel date Oct 13; scoped source article time yields Oct 12, 07:15:26Z, live source parser SUCCESS. Research code remains isolated from main/production. ASEAN 307 Sucuri, OAS 403 Cloudflare, GDELT TLS remain open.
