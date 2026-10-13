@@ -466,3 +466,8 @@ Authoritative decision: `docs/decisions/PHASE_24_INDEPENDENT_RESEARCH_QUALITY_OP
 PR #163 remains **draft/unmerged**, research exact HEAD `f135014e2962907c76ea14bf3b10ddc7c288046c`, CI #2900 SUCCESS, isolated ARM64 research suite **260 PASS**, focused suite **37 PASS**. Existing research-readiness gate remains `PASS_WITH_P1_LIMITATIONS`; Phase 23 P23.4 is **not** silently closed. Phase 24 decision is documented on a separate planning branch rooted at `main` and does not imply the PR #163 research implementation exists on main.
 
 No production/live, persistent unattended scheduler, Sentinel, K-Trader, paid/shared runtime, public Plugin or HP-OMEN activation is approved.
+
+
+## M24.3 Private Plugin Cutover — Owner-Approved
+
+Private Plugin designated primary KGM ChatGPT research interface: https://chatgpt.com/plugins/plugin_7e24753714a481918de11c917379875f. M24.2 four-case functional acceptance PASS_WITH_KNOWN_LIMITATIONS. Decision: `docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md`. No KGM backend Action connected; no live/production, public publication or cross-project integration activation. Canonical Phase 23 position and P24.0 gate preserved.
