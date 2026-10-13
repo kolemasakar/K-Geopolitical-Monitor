@@ -1140,11 +1140,11 @@
     "p24_1_inventory_doc": "docs/integrations/P24_1_SOURCE_COVERAGE_RESEARCH_QUALITY_INITIAL_INVENTORY_2026-10-11.md",
     "canonical_position_policy": "P23_3_REMAINS_UNTIL_P23_4_EXPLICIT_CLOSURE",
     "plugin_migration": {
-      "status": "M24_0_PASS_WITH_CREATOR_UI_HANDOFF",
+      "status": "M24_1_NATIVE_MIGRATION_CONFIRMED_BY_OWNER_UI_M24_2_IN_PROGRESS",
       "decision_doc": "docs/decisions/KGM_PRIVATE_PLUGIN_MIGRATION_PLAN_2026-10-11.md",
       "parallel_track": true,
-      "account_migration_capability": "CREATOR_UI_NOT_ACCESSIBLE_THROUGH_CONNECTED_TOOLS",
-      "private_plugin_created": false,
+      "account_migration_capability": "CONFIRMED_VIA_OWNER_UI",
+      "private_plugin_created": true,
       "publication_activated": false,
       "production_dependency": false,
       "actions_migrate_automatically": false,
@@ -1161,9 +1161,15 @@
         "P24_4_PRODUCTION_READINESS",
         "CROSS_PROJECT_INTEGRATION"
       ],
-      "native_migration": "WAITING_FOR_CREATOR_UI",
+      "native_migration": "SUCCESS_OWNER_UI",
       "preflight_doc": "docs/integrations/M24_0_CUSTOM_GPT_MIGRATION_PREFLIGHT_AND_ACCEPTANCE.md",
-      "acceptance_status": "NOT_STARTED"
+      "acceptance_status": "PENDING_SKILL_CONTENT_INSPECTION_AND_BEHAVIORAL_TESTS",
+      "plugin_name": "K-Geopolitical Monitor",
+      "plugin_scope": "PRIVATE_OWNER_UI",
+      "plugin_skill_count": 1,
+      "plugin_version_ui": "0.7.1+bundle.75a2d68a19a786f8b8db1b5dd4ec3538",
+      "plugin_backend_id": "NOT_RESOLVED_BY_CONNECTED_TOOLS",
+      "plugin_actions_ui": "NO_PROBLEMS_IN_MIGRATION_CHECK_NOT_A_RUNTIME_TEST"
     }
   }
 }
