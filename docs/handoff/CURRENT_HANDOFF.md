@@ -471,3 +471,8 @@ No production/live, persistent unattended scheduler, Sentinel, K-Trader, paid/sh
 ## M24.3 Private Plugin Cutover — Owner-Approved
 
 Private Plugin designated primary KGM ChatGPT research interface: https://chatgpt.com/plugins/plugin_7e24753714a481918de11c917379875f. M24.2 four-case functional acceptance PASS_WITH_KNOWN_LIMITATIONS. Decision: `docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md`. No KGM backend Action connected; no live/production, public publication or cross-project integration activation. Canonical Phase 23 position and P24.0 gate preserved.
+
+
+## P24.0 Baseline Accepted / P24.1 Started — 2026-10-13
+
+PR #164 CI #2980: 1409 passed, SUCCESS at `1296808742c058c239921b5f62a70b24c62871d9`; P24.0 baseline accepted with stated boundaries. Subsequent closure/docs commits require their own final CI before merging. P24.1 initial transport audit: eleven source adapters; ten HTTP200 observations from two bounded checks and one GDELT TLS timeout. Not a claim of parser/source functional readiness. See `docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md` and `docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md`. Owner-approved private Plugin cutover stays active. Canonical Phase 23 position preserved, PR #163 remains Draft/unmerged, production unmodified.
