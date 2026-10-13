@@ -1101,3 +1101,13 @@ This workstream starts during P24.0/P24.1 and does not wait for P24.4 production
 ### P24.0 Baseline Acceptance / P24.1 Entry — 2026-10-13
 
 P24.0 scoped baseline accepted with boundaries: PR #164 CI #2980 success **1409/1409**, PR #163 independent research ARM64 exact-head **1722/1722**, research code on PR #163 remains unmerged. Gate: `P24_0_BASELINE_ACCEPTED_WITH_BOUNDARIES`. P24.1 source coverage and provenance engineering is in progress, initially documenting 11 dedicated adapters, ten HTTP-200 bounded observations from different check times and one GDELT TLS timeout. These are transport observations, not functional/live evidence acceptance. Evidence: `docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md` and `docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md`. Canonical Phase 23 P23.4 gate preserved; production/paid/publication/cross-project boundaries unchanged.
+
+
+### P24.1 — Live Parser and Independent-Origin Evidence, Checkpoint 02
+
+Source-quality research PR #166 (stacked on unmerged research PR #163) adds source-bound opt-in GOV.UK/Bundesregierung mapping profiles, source parser live-shape date-only fallback, and negative independence/mapping contract tests. Direct HTTPS live checks of two official UK/German Kensington Treaty press statements returned parser SUCCESS with one event alignment and two distinct government origin candidates **without automatic factual VERIFIED**. GOV.UK exact timestamp `2026-10-08T13:36:40Z`; German source provides only publication day (stored midnight UTC day anchor, NOT exact clock time). GitHub CI #3009: **1745 PASS / SUCCESS**; exact-head ARM64 full suite pending. Research only; PR #166 and PR #163 do not exist on canonical main. P24.1 remains IN_PROGRESS; coverage expansion and GDELT TLS transport limitation unresolved. See `docs/checkpoints/P24_1_SOURCE_PARSER_MAPPING_ACCEPTANCE_CHECKPOINT_02.md`.
+
+
+#### P24.1 Checkpoint 02 — Final Regression and Staged Code Acceptance
+
+On exact research code HEAD `5c5dd2e34f1b898539530328ea9a310e1d9d8dcd`, independent owner-pilot ARM64 full suite **1745/1745 PASS (533.43s)**; GitHub CI #3009 **1745/1745 PASS (167.59s)**. PR #166 merged exclusively into research PR #163 branch at `2bfd2cc4b0c71072abff64d4be1231a11feb2cfc`. Docs checkpoint accepted with bounds; canonical `main` retains no code from PR #163, P23.4 is not closed, and P24.1 broader quality/coverage remains IN_PROGRESS.
