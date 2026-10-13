@@ -1119,3 +1119,11 @@ Nine of eleven dedicated research adapters have parsed at least one live public 
 
 
 **P24.1 bounded retry correction:** Earlier USGS query timeout was transient in this observation window: FDSN version/query HTTP200 and the real USGS adapter returned two normalized SUCCESS events (origin `usgs-neic`) on one bounded retry. Updated **10/11 live-response parsers PASS**; only GDELT remains TRANSPORT_UNAVAILABLE (5s TLS handshake timeout). Older 9/11 snapshot retained as historical observation. Neither parser success nor shared USGS/GDACS origin means factual corroboration. Updated evidence in `docs/checkpoints/P24_1_NINE_SOURCE_REAL_PARSER_TRANSPORT_AUDIT_2026-10-13.md`.
+
+
+### P24.1 Regional candidate preflight — Oct 13
+
+Four research-only official organization candidates: AU Africa (HTTP200 earlier, currently 403 direct), ASEAN Asia (307 redirect unresolved), GCC Middle East (HTTP200), OAS Americas (HTTP403). Source discovery never implies adapter parsing or independent factual verification. AU article fixture parser PR #173 stacked on source catalog PR #171: 31 focused ARM64 PASS, live owner-pilot AU HTTP403 means no actual source parser acceptance. Full regression/CI pending; no activation, production or cross-project permission. See `docs/checkpoints/P24_1_REGIONAL_CANDIDATES_AU_PREFLIGHT_2026-10-13.md`.
+
+
+**P24.1 regional fixture closure:** PR #173 merged into regional PR #171, then PR #171 merged into separate draft research PR #163 at `88b3aab41982a94d1ab786c7dacc6b52be78bffa`. Full ARM64 **1783 PASS (461.71s)**, research CI #3079 **1783 PASS**. AU remains **FIXTURE_ONLY / LIVE_BLOCKED_HTTP403**, source unactivated. P24.1 remains IN_PROGRESS.

@@ -499,3 +499,11 @@ As of Oct 13 owner-pilot read-only probes: Consilium 3 SUCCESS, ECB 3, GDACS 3, 
 ## P24.1 Checkpoint 03 — Merge Reconciliation
 
 PR #168 merged into research branch PR #163, research head `c596ef79ee7b7cbddfe5fecfa0429b3a40b1ef88`; isolated exact-head ARM64 full suite **1752 PASS in 459.85s** and GitHub CI #3027 **1752 PASS in 364.02s**. PR #169 merged into canonical `main` at `77632285d3a645e34c590b0973b1a22135ec04e8`, docs CI #3043 **1409 PASS in 93.67s**. Ten of eleven real-response adapter checks passed; GDELT TLS stalls after TCP connect; P24.1 broader source coverage remains IN_PROGRESS, PR #163 draft/unmerged into main.
+
+
+## P24.1 Regional candidates / AU fixture source gate
+
+PR #171 has source candidate catalog (Africa AU, Asia ASEAN, Middle East GCC, Americas OAS) and CI #3058 SUCCESS 1765 tests. AU fixture-only parser PR #173 passes 31 targeted isolated ARM64 tests; owner-pilot direct AU site now HTTP403 so empirical LIVE acceptance is BLOCKED. Next: full exact-head code regression/CI then controlled stacked merge; no source activation. Main documentation source: `docs/checkpoints/P24_1_REGIONAL_CANDIDATES_AU_PREFLIGHT_2026-10-13.md`. Canonical Phase 23 state preserved.
+
+
+**P24.1 Regional code integration:** PR #171 and PR #173 are merged into research PR #163 branch only (SHA `88b3aab41982a94d1ab786c7dacc6b52be78bffa`). Research CI #3079 1783 PASS and exact AU code ARM64 full suite 1783 PASS; AU site HTTP403 direct means live validation still not passed. Main documentation checkpoint PR #174 final reconciliation underway. No production change.
