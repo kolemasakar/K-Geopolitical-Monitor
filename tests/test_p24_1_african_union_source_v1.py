@@ -92,3 +92,35 @@ def test_non_html_and_oversize_rejected():
         parse_official_article("<p>fake</p>")
     with pytest.raises(ValueError):
         parse_official_article(BODY + ("x"*2_000_001))
+
+
+def test_article_scoped_date_outweighs_newer_sidebar_time():
+    page = (
+        '<html><body><aside class="news-carousel">'
+        '<time datetime="2026-10-13T15:03:10Z">2026-10-13</time></aside>'
+        '<h1>African Union advances community resilience programme</h1>'
+        '<article data-history-node-id="47081" class="node-pressrelease">'
+        '<div class="field field--name-field-date field--type-daterange">'
+        '<time datetime="2026-10-12T07:15:26Z">Oct 12, 2026</time></div>'
+        '<div>Official African Union Commission programme statement with '
+        'representatives of member states and regional bodies meeting on '
+        'September twenty-second through twenty-fourth.</div>'
+        '</article></body></html>'
+    )
+    published, title, content = parse_official_article(page)
+    assert published == "2026-10-12T07:15:26Z"
+    assert "resilience" in title
+    assert len(content) > 60
+
+
+def test_sidebar_only_time_cannot_establish_au_article_publication():
+    page = (
+        '<html><aside><time datetime="2026-10-13T15:03:10Z">'
+        '2026-10-13</time></aside><h1>Example official release</h1>'
+        '<article class="node-pressrelease">'
+        '<div>The African Union Commission published a public news statement '
+        'with detailed institutional text but no document publication date.'
+        '</div></article></html>'
+    )
+    with pytest.raises(ValueError, match="timestamp missing"):
+        parse_official_article(page)

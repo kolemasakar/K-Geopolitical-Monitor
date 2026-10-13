@@ -29,10 +29,17 @@ def parse_official_article(raw):
         raise ValueError("invalid African Union HTML")
     # Explicit publisher metadata only. Never infer the publication clock
     # from file names, image names, observation timestamp or article URL.
+    # The AU HTML includes a carousel of other articles before its own
+    # <article>. Never use the first unscoped <time> from that carousel.
+    article = re.search(r'<article\b[^>]*class=["\x27][^"\x27]*node-pressrelease[^"\x27]*["\x27][^>]*>(.*?)</article>', raw, re.I | re.S)
+    scoped = article.group(1) if article else ""
     match = (
-        re.search(r'property=["\']article:published_time["\'][^>]*content=["\']([^"\']+)["\']', raw, re.I)
+        re.search(
+            r'class=["\x27][^"\x27]*field--name-field-date[^"\x27]*["\x27][^>]*>[\s\S]{0,250}?'
+            r'<time\b[^>]*datetime=["\x27]([^"\x27]+)["\x27]',
+            scoped, re.I)
+        or re.search(r'property=["\x27]article:published_time["\x27][^>]*content=["\x27]([^"\x27]+)["\x27]', raw, re.I)
         or re.search(r'"datePublished"\s*:\s*"([^"]+)"', raw, re.I)
-        or re.search(r'<time\b[^>]*datetime=["\']([^"\']+)["\']', raw, re.I)
     )
     if not match:
         raise ValueError("African Union publication timestamp missing")
