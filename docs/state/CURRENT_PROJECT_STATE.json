@@ -1179,10 +1179,10 @@
       "runtime_brief_critical_gaps": [
         "DIRECT_CITATION_TRACEABILITY",
         "SOURCE_ORIGIN_INDEPENDENCE_NOT_PROVEN",
-        "TIME_WINDOW_EVENT_VS_CONTEXT",
-        "TABLE_RENDERING"
+        "TIME_WINDOW_EVENT_VS_CONTEXT"
       ],
-      "private_cutover_approved": false
+      "private_cutover_approved": false,
+      "runtime_brief_table_rendering": "PASS_CONFIRMED_BY_OWNER_SCREENSHOT"
     }
   }
 }
