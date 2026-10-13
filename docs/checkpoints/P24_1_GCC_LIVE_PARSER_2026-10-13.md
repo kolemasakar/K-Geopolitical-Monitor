@@ -1,7 +1,7 @@
 # P24.1 — GCC Official Article Live Parser Checkpoint
 
 Date: 2026-10-13
-Status: REAL_SOURCE_PARSER_PASS / CI_AND_ARM64_FULL_PENDING
+Status: LIVE_PARSER_AND_FULL_REGRESSION_PASS / RESEARCH_ONLY_NOT_ACTIVATED
 Owner-pilot: kgm-e4-owner-pilot isolated research checkout; no deployment or unattended source activation.
 
 ## Actual official page
@@ -19,7 +19,7 @@ Code PR #175 stacked on separate draft research PR #163. Exact initial source HE
 - Missing/invalid article date, missing headline or body, invalid provenance and oversized/invalid response reject.
 - Transport errors become explicit UNAVAILABLE, not no-news success; historical as-of observation after cutoff remains INVALID.
 - Focused isolated exact-HEAD ARM64 tests: 17 passed in 0.09 seconds.
-- Exact-head full ARM64 regression and GitHub CI still required before merging the research code.
+- Exact-head full isolated ARM64: 1800 passed in 460.44s; GitHub CI #3093: 1800 passed; PR #175 MERGED only into research PR #163 at SHA 71fb1d6744199edd942346f7ca5e5124926529f3. Documentation CI #3099: 1409 passed before final closure edits.
 
 ## Separation of gates
 Live publisher parser SUCCESS is distinct from source activation, event-level corroboration, geographic coverage or production readiness.
