@@ -1134,8 +1134,8 @@
     "ktrader_integration": false,
     "full_suite_blockers": [],
     "full_suite_environment": "ISOLATED_VENV_PSYCOpg_3_3_6_HTTPX2_2_13_1",
-    "planning_pr_164_ci": "CI_2917_FAILURE_DUE_PREMATURE_CANONICAL_PHASE24_POSITION",
-    "p24_0_status": "IN_PROGRESS_PHASE23_CANONICAL_PRESERVED",
+    "planning_pr_164_ci": "CI_2980_SUCCESS_1409_PASSED_121_07S_AT_1296808742c058c239921b5f62a70b24c62871d9",
+    "p24_0_status": "BASELINE_ACCEPTED_WITH_BOUNDARIES_PENDING_PR164_FINAL_MERGE",
     "p24_1_inventory": "INITIAL_INVENTORY_STARTED_11_ADAPTERS_NO_LIVE_ACTIVATION",
     "p24_1_inventory_doc": "docs/integrations/P24_1_SOURCE_COVERAGE_RESEARCH_QUALITY_INITIAL_INVENTORY_2026-10-11.md",
     "canonical_position_policy": "P23_3_REMAINS_UNTIL_P23_4_EXPLICIT_CLOSURE",
@@ -1202,6 +1202,15 @@
       "primary_chatgpt_interface": "PRIVATE_PLUGIN",
       "legacy_custom_gpt_surface": "TRANSITIONAL_READ_ONLY",
       "cutover_decision_doc": "docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md"
+    },
+    "p24_0_checkpoint": "docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md",
+    "p24_1_status": "IN_PROGRESS",
+    "p24_1_transport_audit": "docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md",
+    "p24_1_transport_results": {
+      "dedicated_adapters": 11,
+      "http200_observations": 10,
+      "gdelt_tls_timeout": 1,
+      "caveat": "Six observations from earlier bounded audit; four successful and one failed request from 2026-10-13; transport only, not current parser verification"
     }
   }
 }
