@@ -186,3 +186,30 @@ def test_duplicate_publisher_in_fact_batch_rejected():
             synthetic_fact("source-a", "origin-a"),
             synthetic_fact("source-a", "origin-b"),
         ])
+
+
+def test_bundesregierung_live_shape_date_only_article_header_is_parsed():
+    page = ('<html><ul class="bpa-collection-list">'
+            '<li class="bpa-collection-item">Transcript of press conference</li>'
+            '<li class="bpa-collection-item" >Thursday, 8 October 2026</li>'
+            '</ul><body>Federal Government confirms a public statement.</body></html>')
+    x = de_fetch(request(), observed_at_utc="2026-10-09T10:00:00Z",
+                 http_get=lambda _: page,
+                 public_url="https://www.bundesregierung.de/breg-en/news/fixture")[0]
+    assert x["status"] == "SUCCESS"
+    # Day-only precision uses 00Z as a day anchor, not a known article clock time.
+    assert x["published_at_utc"] == "2026-10-08T00:00:00Z"
+    assert x["origin_group"] == "germany-federal-government"
+
+
+@pytest.mark.parametrize("fragment", [
+    '<li class="bpa-collection-item">Monday, 8 October 2026</li>',
+    '<li class="bpa-collection-item">Thursday, 8 October 2026</li>'
+    '<li class="bpa-collection-item">Friday, 9 October 2026</li>',
+    '<p>Thursday, 8 October 2026</p>',
+])
+def test_bundesregierung_date_only_fallback_fails_closed_on_ambiguity_or_wrong_location(fragment):
+    with pytest.raises(ValueError, match="Bundesregierung publication"):
+        de_fetch(request(), observed_at_utc="2026-10-09T10:00:00Z",
+                 http_get=lambda _: "<html><body>" + fragment + "</body></html>",
+                 public_url="https://www.bundesregierung.de/breg-en/news/fixture")
