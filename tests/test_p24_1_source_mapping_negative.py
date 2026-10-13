@@ -213,3 +213,63 @@ def test_bundesregierung_date_only_fallback_fails_closed_on_ambiguity_or_wrong_l
         de_fetch(request(), observed_at_utc="2026-10-09T10:00:00Z",
                  http_get=lambda _: "<html><body>" + fragment + "</body></html>",
                  public_url="https://www.bundesregierung.de/breg-en/news/fixture")
+
+
+def test_explicit_uk_german_profiles_match_one_event_but_not_verified():
+    from kgeopolitical_monitor.research_mapping_profiles_p24_1_v1 import (
+        get_ratification_profile, SOURCE_URLS,
+    )
+    from kgeopolitical_monitor.research_generic_mapping_v1 import SCHEMA
+    uk=get_ratification_profile("govuk-official")
+    de=get_ratification_profile("germany-federal-government")
+    statement=("Federal Chancellor Friedrich Merz and Prime Minister Andy Burnham "
+               "finalised the ratification of the Kensington Treaty.")
+    uk_ob,matched_uk=apply_mapping_profile({"source_id":"govuk-official"},statement,uk)
+    de_ob,matched_de=apply_mapping_profile(
+        {"source_id":"germany-federal-government"},statement,de)
+    assert matched_uk and matched_de
+    assert uk_ob["event_identity"]==de_ob["event_identity"]
+    facts=[]
+    for mapped,source,origin in [
+        (uk_ob,"govuk-official","uk-government"),
+        (de_ob,"germany-federal-government","germany-federal-government"),
+    ]:
+        facts.append({
+            "schema_version":SCHEMA,
+            "source_id":source,"origin_group":origin,
+            "source_fact_id":source+"-fixture",
+            "public_url":SOURCE_URLS[source],
+            "event_descriptor":mapped["event_descriptor"],
+            "claim_descriptor":mapped["claim_descriptor"],
+        })
+    result=correlate_explicit_facts(facts)
+    assert result["event_match"] and result["claim_match"]
+    assert result["independent_origin_candidate"] is True
+    assert "verification" not in result
+    assert "factual_verification_credit" not in result
+
+
+def test_uk_german_profiles_source_gate_and_copy_isolation():
+    from kgeopolitical_monitor.research_mapping_profiles_p24_1_v1 import (
+        get_ratification_profile,
+    )
+    with pytest.raises(ValueError,match="unapproved"):
+        get_ratification_profile("a-reposter")
+    p=get_ratification_profile("govuk-official")
+    p["required_phrases"].append("synthetic unrelated marker")
+    q=get_ratification_profile("govuk-official")
+    assert "synthetic unrelated marker" not in q["required_phrases"]
+    with pytest.raises(ValueError,match="source mismatch"):
+        apply_mapping_profile({"source_id":"germany-federal-government"},
+                              "Friedrich Merz Kensington Treaty ratification",q)
+
+
+def test_uk_german_profiles_do_not_merge_same_actors_different_action():
+    from kgeopolitical_monitor.research_mapping_profiles_p24_1_v1 import (
+        get_ratification_profile,
+    )
+    profile=get_ratification_profile("govuk-official")
+    item,matched=apply_mapping_profile({"source_id":"govuk-official"},
+        "Friedrich Merz and PM met to discuss the Kensington Treaty.",profile)
+    assert matched is False
+    assert "event_identity" not in item
