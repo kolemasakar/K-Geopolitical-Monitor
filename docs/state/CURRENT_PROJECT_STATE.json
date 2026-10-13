@@ -1204,7 +1204,7 @@
       "cutover_decision_doc": "docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md"
     },
     "p24_0_checkpoint": "docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md",
-    "p24_1_status": "IN_PROGRESS_REGIONAL_SOURCE_GATING_AU_LIVE_NOT_VERIFIED",
+    "p24_1_status": "IN_PROGRESS_GCC_LIVE_PARSER_ACCEPTED_PENDING_FULL_REGRESSION",
     "p24_1_transport_audit": "docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md",
     "p24_1_transport_results": {
       "dedicated_adapters": 11,
@@ -1256,6 +1256,9 @@
       "pr171": "CI_3079_SUCCESS_1783_PASS_113_72S",
       "pr173": "CI_3071_SUCCESS_1783_PASS_116_49S",
       "arm64": "1783_PASS_461_71S_EXACT_SOURCE_SHA_26D43F27"
-    }
+    },
+    "p24_1_gcc_parser_gate": "LIVE_SOURCE_PARSER_PASS_TARGETED_17_FULL_CI_PENDING_NO_ACTIVATION",
+    "p24_1_gcc_checkpoint_doc": "docs/checkpoints/P24_1_GCC_LIVE_PARSER_2026-10-13.md",
+    "p24_1_gcc_code_pr": "175_DRAFT_STACKED_ON_PR163"
   }
 }
