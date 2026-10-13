@@ -1111,3 +1111,8 @@ Source-quality research PR #166 (stacked on unmerged research PR #163) adds sour
 #### P24.1 Checkpoint 02 — Final Regression and Staged Code Acceptance
 
 On exact research code HEAD `5c5dd2e34f1b898539530328ea9a310e1d9d8dcd`, independent owner-pilot ARM64 full suite **1745/1745 PASS (533.43s)**; GitHub CI #3009 **1745/1745 PASS (167.59s)**. PR #166 merged exclusively into research PR #163 branch at `2bfd2cc4b0c71072abff64d4be1231a11feb2cfc`. Docs checkpoint accepted with bounds; canonical `main` retains no code from PR #163, P23.4 is not closed, and P24.1 broader quality/coverage remains IN_PROGRESS.
+
+
+### P24.1 Nine Real-Response Source Parsers — Checkpoint 03
+
+Nine of eleven dedicated research adapters have parsed at least one live public response on the isolated owner-pilot across Oct 13 bounded probes. USGS (7s timeout) and GDELT (6s timeout; earlier TLS) remain explicitly UNAVAILABLE without implying upstream outage. This is parser evidence, NOT global coverage or corroboration. Research test PR #168 adds deterministic origin/transport negative cases (focused ARM64 51 PASS), stacked on unmerged PR #163. See `docs/checkpoints/P24_1_NINE_SOURCE_REAL_PARSER_TRANSPORT_AUDIT_2026-10-13.md`. No deployment/public/paid/unattended activation.
