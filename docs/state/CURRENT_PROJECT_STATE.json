@@ -1140,10 +1140,10 @@
     "p24_1_inventory_doc": "docs/integrations/P24_1_SOURCE_COVERAGE_RESEARCH_QUALITY_INITIAL_INVENTORY_2026-10-11.md",
     "canonical_position_policy": "P23_3_REMAINS_UNTIL_P23_4_EXPLICIT_CLOSURE",
     "plugin_migration": {
-      "status": "ACCELERATED_MINIMAL_PREFLIGHT_NEXT",
+      "status": "M24_0_PASS_WITH_CREATOR_UI_HANDOFF",
       "decision_doc": "docs/decisions/KGM_PRIVATE_PLUGIN_MIGRATION_PLAN_2026-10-11.md",
       "parallel_track": true,
-      "account_migration_capability": "NOT_REVALIDATED",
+      "account_migration_capability": "CREATOR_UI_NOT_ACCESSIBLE_THROUGH_CONNECTED_TOOLS",
       "private_plugin_created": false,
       "publication_activated": false,
       "production_dependency": false,
@@ -1160,7 +1160,10 @@
         "P24_2_UNATTENDED_RUNTIME",
         "P24_4_PRODUCTION_READINESS",
         "CROSS_PROJECT_INTEGRATION"
-      ]
+      ],
+      "native_migration": "WAITING_FOR_CREATOR_UI",
+      "preflight_doc": "docs/integrations/M24_0_CUSTOM_GPT_MIGRATION_PREFLIGHT_AND_ACCEPTANCE.md",
+      "acceptance_status": "NOT_STARTED"
     }
   }
 }
