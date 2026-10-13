@@ -46,5 +46,5 @@ def test_transport_status_cannot_be_equated_to_parsed_data():
 
 def test_redirect_and_unchecked_states_remain_explicit():
     assert validated_candidate("asean-news")["transport"]=="REDIRECT_307_NOT_RESOLVED"
-    for name in ("oas-press","gcc-secretariat-news"):
-        assert validated_candidate(name)["transport"]=="NOT_TESTED"
+    assert validated_candidate("oas-press")["transport"]=="HTTP_403_OBSERVED"
+    assert validated_candidate("gcc-secretariat-news")["transport"]=="HTTP_200_OBSERVED"
