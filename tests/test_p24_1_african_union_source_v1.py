@@ -76,6 +76,7 @@ def test_historical_no_lookahead():
     r=current()
     r["mode"]="HISTORICAL_AS_OF"
     r["as_of_utc"]="2026-10-12T12:00:00Z"
+    r["period_end_utc"]="2026-10-12T12:00:00Z"
     r["requested_at_utc"]="2026-10-13T12:00:00Z"
     x=fetch(r,observed_at_utc=OBS,http_get=lambda _:BODY,public_url=URL)[0]
     assert x["status"]=="INVALID"
