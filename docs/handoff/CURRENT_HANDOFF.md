@@ -494,3 +494,8 @@ As of Oct 13 owner-pilot read-only probes: Consilium 3 SUCCESS, ECB 3, GDACS 3, 
 
 
 **P24.1 bounded retry correction:** Earlier USGS query timeout was transient in this observation window: FDSN version/query HTTP200 and the real USGS adapter returned two normalized SUCCESS events (origin `usgs-neic`) on one bounded retry. Updated **10/11 live-response parsers PASS**; only GDELT remains TRANSPORT_UNAVAILABLE (5s TLS handshake timeout). Older 9/11 snapshot retained as historical observation. Neither parser success nor shared USGS/GDACS origin means factual corroboration. Updated evidence in `docs/checkpoints/P24_1_NINE_SOURCE_REAL_PARSER_TRANSPORT_AUDIT_2026-10-13.md`.
+
+
+## P24.1 Checkpoint 03 — Merge Reconciliation
+
+PR #168 merged into research branch PR #163, research head `c596ef79ee7b7cbddfe5fecfa0429b3a40b1ef88`; isolated exact-head ARM64 full suite **1752 PASS in 459.85s** and GitHub CI #3027 **1752 PASS in 364.02s**. PR #169 merged into canonical `main` at `77632285d3a645e34c590b0973b1a22135ec04e8`, docs CI #3043 **1409 PASS in 93.67s**. Ten of eleven real-response adapter checks passed; GDELT TLS stalls after TCP connect; P24.1 broader source coverage remains IN_PROGRESS, PR #163 draft/unmerged into main.
