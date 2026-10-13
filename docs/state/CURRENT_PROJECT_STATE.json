@@ -1140,7 +1140,7 @@
     "p24_1_inventory_doc": "docs/integrations/P24_1_SOURCE_COVERAGE_RESEARCH_QUALITY_INITIAL_INVENTORY_2026-10-11.md",
     "canonical_position_policy": "P23_3_REMAINS_UNTIL_P23_4_EXPLICIT_CLOSURE",
     "plugin_migration": {
-      "status": "M24_1_NATIVE_MIGRATION_CONFIRMED_BY_OWNER_UI_M24_2_IN_PROGRESS",
+      "status": "M24_2_STATIC_AUDIT_PASS_RUNTIME_ACCEPTANCE_PENDING",
       "decision_doc": "docs/decisions/KGM_PRIVATE_PLUGIN_MIGRATION_PLAN_2026-10-11.md",
       "parallel_track": true,
       "account_migration_capability": "CONFIRMED_VIA_OWNER_UI",
@@ -1163,13 +1163,18 @@
       ],
       "native_migration": "SUCCESS_OWNER_UI",
       "preflight_doc": "docs/integrations/M24_0_CUSTOM_GPT_MIGRATION_PREFLIGHT_AND_ACCEPTANCE.md",
-      "acceptance_status": "PENDING_SKILL_CONTENT_INSPECTION_AND_BEHAVIORAL_TESTS",
+      "acceptance_status": "RUNTIME_BEHAVIOR_TESTS_PENDING",
       "plugin_name": "K-Geopolitical Monitor",
       "plugin_scope": "PRIVATE_OWNER_UI",
       "plugin_skill_count": 1,
       "plugin_version_ui": "0.7.1+bundle.75a2d68a19a786f8b8db1b5dd4ec3538",
-      "plugin_backend_id": "NOT_RESOLVED_BY_CONNECTED_TOOLS",
-      "plugin_actions_ui": "NO_PROBLEMS_IN_MIGRATION_CHECK_NOT_A_RUNTIME_TEST"
+      "plugin_backend_id": "plugin_7e24753714a481918de11c917379875f",
+      "plugin_actions_ui": "NO_PROBLEMS_IN_MIGRATION_CHECK_NOT_A_RUNTIME_TEST",
+      "plugin_release_id": "pluginrel_97b3c74bc4a88191bafdae72b124bfc7",
+      "plugin_files_count": 5,
+      "skill_static_review": "PASS_WITH_NO_BACKEND_ACTION",
+      "knowledge_files_in_migration_index": 0,
+      "acceptance_doc": "docs/integrations/M24_2_MIGRATED_PLUGIN_STATIC_ACCEPTANCE.md"
     }
   }
 }
