@@ -1132,3 +1132,6 @@ Four research-only official organization candidates: AU Africa (HTTP200 earlier,
 ### P24.1 GCC Official Live Parser — Checkpoint 05
 
 An isolated GCC Secretariat news article parser on research PR #175 has processed an actual official 2026-10-13 release (53,023 bytes, `SUCCESS`, date-only UTC anchor, 1,311 extracted body characters), after 17 targeted ARM64 PASS. This does **not** authorize source activation, continuous monitoring, production or factual corroboration; official day lacks exact publication hour. Exact-head full regression/CI and stacked research PR review are required. Evidence: `docs/checkpoints/P24_1_GCC_LIVE_PARSER_2026-10-13.md`. AU HTTP403 and GDELT TLS remain open. P24.1 stays IN_PROGRESS.
+
+
+**GCC checkpoint acceptance:** Research PR #175 merged into research PR #163 branch at `71fb1d6744199edd942346f7ca5e5124926529f3`. GitHub CI #3093 **1800 PASS**, isolated exact-head ARM64 **1800 PASS (460.44s)**; live official GCC source parser SUCCESS with date-only publication precision. GCC remains NOT ACTIVATED; P24.1 continues with ASEAN redirect, OAS HTTP403, AU HTTP403, GDELT TLS and global coverage.
