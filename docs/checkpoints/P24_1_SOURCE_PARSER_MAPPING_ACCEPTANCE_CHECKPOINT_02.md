@@ -1,6 +1,6 @@
 # P24.1 — Source Parser and Mapping Acceptance Checkpoint 02
 
-Status: PARTIAL_PASS / FINAL_CODE_REGRESSION_AND_CI_PENDING
+Status: CHECKPOINT_02_PASS_WITH_KNOWN_BOUNDARIES / P24_1_CONTINUES
 Recorded: 2026-10-13
 Code PR: #166 stacked on independent research PR #163. Code HEAD 5c5dd2e34f1b898539530328ea9a310e1d9d8dcd.
 
@@ -21,8 +21,8 @@ Naive/missing/bad publication timestamps rejected; transport TLS timeout and OSE
 Initial venv editable import erroneously pointed to previous research checkout. Results from that environment were not accepted for PR166.
 Corrected by setting PYTHONPATH to the exact detached PR166 worktree src and tests.
 Focused exact-head tests: 32 PASS at 5c5dd2e34f1b898539530328ea9a310e1d9d8dcd.
-Full ARM64 suite and GitHub CI still required to close this code checkpoint.
+Final exact-head ARM64 full suite: 1745 passed in 533.43s; GitHub CI #3009: 1745 passed in 167.59s, SUCCESS. PR #166 MERGED into research PR #163 ONLY at merge SHA 2bfd2cc4b0c71072abff64d4be1231a11feb2cfc; canonical main not changed by this code merge.
 Of 11 dedicated adapters only UK and German official page parsers were directly validated against actual content here. HTTP200 alone is insufficient. GDELT TLS timeout remains separate transport degradation.
 
 ## Release boundary
-P24.1 remains IN PROGRESS. Code PR166 remains research-only, stacked on PR163 not canonical main. No production, public Plugin, paid resources, unattended scheduler or cross-project integration.
+P24.1 remains IN PROGRESS. Code PR #166 is merged into draft research PR #163 only; no research code merged to canonical main. No production, public Plugin, paid resources, unattended scheduler or cross-project integration.
