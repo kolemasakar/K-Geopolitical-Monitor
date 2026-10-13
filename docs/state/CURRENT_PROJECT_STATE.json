@@ -1119,7 +1119,7 @@
       "P24_3_RETENTION_RESOURCE_OBSERVABILITY",
       "P24_4_READINESS_AUDIT_OWNER_PRODUCTION_DECISION"
     ],
-    "research_pr_163_head": "88b3aab41982a94d1ab786c7dacc6b52be78bffa",
+    "research_pr_163_head": "71fb1d6744199edd942346f7ca5e5124926529f3",
     "research_pr_163_status": "DRAFT_UNMERGED",
     "exact_head_ci_run": 2900,
     "exact_head_ci_status": "SUCCESS",
@@ -1204,7 +1204,7 @@
       "cutover_decision_doc": "docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md"
     },
     "p24_0_checkpoint": "docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md",
-    "p24_1_status": "IN_PROGRESS_REGIONAL_SOURCE_GATING_AU_LIVE_NOT_VERIFIED",
+    "p24_1_status": "IN_PROGRESS_GCC_LIVE_PARSER_CHECKPOINT_ACCEPTED_NO_SOURCE_ACTIVATION",
     "p24_1_transport_audit": "docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md",
     "p24_1_transport_results": {
       "dedicated_adapters": 11,
@@ -1256,6 +1256,17 @@
       "pr171": "CI_3079_SUCCESS_1783_PASS_113_72S",
       "pr173": "CI_3071_SUCCESS_1783_PASS_116_49S",
       "arm64": "1783_PASS_461_71S_EXACT_SOURCE_SHA_26D43F27"
+    },
+    "p24_1_gcc_parser_gate": "LIVE_PARSER_PASS_CI_3093_1800_PASS_ARM64_1800_PASS_RESEARCH_ONLY",
+    "p24_1_gcc_checkpoint_doc": "docs/checkpoints/P24_1_GCC_LIVE_PARSER_2026-10-13.md",
+    "p24_1_gcc_code_pr": "175_MERGED_INTO_RESEARCH_PR163_ONLY",
+    "p24_1_gcc_research_merge_sha": "71fb1d6744199edd942346f7ca5e5124926529f3",
+    "p24_1_gcc_validation": {
+      "live_parser": "SUCCESS_OFFICIAL_GCC_NEWS_2026_10_13",
+      "ci": "RUN_3093_1800_PASS",
+      "arm64": "1800_PASS_460_44S_EXACT_HEAD_0F4A506",
+      "docs_ci_previous": "RUN_3099_1409_PASS",
+      "date_precision": "DAY_ONLY_MIDNIGHT_ANCHOR_NOT_EXACT_CLOCK"
     }
   }
 }
