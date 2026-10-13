@@ -1091,3 +1091,8 @@ P24.0 research baseline: PR #163 `f135014e2962907c76ea14bf3b10ddc7c288046c`; CI 
 **PLANNED, NOT ACTIVATED.** Owner-revised execution: no calendar-dependent milestones. Execute M24.0 minimum preflight → M24.1 immediate private migration → M24.2 fast functional acceptance → M24.3 private cutover, without waiting for P24.4 production readiness. Source: `docs/decisions/KGM_PRIVATE_PLUGIN_MIGRATION_PLAN_2026-10-11.md`.
 
 This workstream starts during P24.0/P24.1 and does not wait for P24.4 production readiness. Canonical strategic Phase 23 position, owner-pilot bounded research gate, no production/unattended integration, no public publication and no paid/shared infrastructure remain unchanged.
+
+
+#### M24.3 Owner Approval — Private Plugin Cutover
+
+**M24.3 = APPROVED / PRIVATE CUTOVER COMPLETE.** Primary KGM ChatGPT research interface is the [private K-Geopolitical Monitor Plugin](https://chatgpt.com/plugins/plugin_7e24753714a481918de11c917379875f). M24.2 four-case acceptance = `PASS_WITH_KNOWN_LIMITATIONS`. Decision: `docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md`. This does not close P24.0–P24.4, merge PR #163/#164, activate production, create a KGM backend connector, enable shared/paid infrastructure or authorize public publication. Canonical Phase 23 position preserved.
