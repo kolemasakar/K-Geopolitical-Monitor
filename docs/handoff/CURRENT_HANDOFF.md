@@ -476,3 +476,8 @@ Private Plugin designated primary KGM ChatGPT research interface: https://chatgp
 ## P24.0 Baseline Accepted / P24.1 Started — 2026-10-13
 
 PR #164 CI #2980: 1409 passed, SUCCESS at `1296808742c058c239921b5f62a70b24c62871d9`; P24.0 baseline accepted with stated boundaries. Subsequent closure/docs commits require their own final CI before merging. P24.1 initial transport audit: eleven source adapters; ten HTTP200 observations from two bounded checks and one GDELT TLS timeout. Not a claim of parser/source functional readiness. See `docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md` and `docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md`. Owner-approved private Plugin cutover stays active. Canonical Phase 23 position preserved, PR #163 remains Draft/unmerged, production unmodified.
+
+
+## P24.1 — Source Parser / Independent-Origin Checkpoint 02
+
+User authorized parser semantic validation, strict mapping profiles and negative tests, and ARM64/CI/handoff sync. Official GOV.UK and Bundesregierung live pages were retrieved from isolated owner-pilot and parsed SUCCESS after correcting the Bundes date-only article-header parser. Same UK–Germany ratification event mapped from two government origin groups with no factual verification promotion. Research code PR #166 stacked on draft PR #163: exact head `5c5dd2e34f1b898539530328ea9a310e1d9d8dcd`, CI #3009 **1745 passed in 167.59s**. Exact-head ARM64 full suite still pending. Date-only German publication anchor cannot support precise intra-day event timing. The production and canonical Phase 23/P24 gates remain unchanged. Details: `docs/checkpoints/P24_1_SOURCE_PARSER_MAPPING_ACCEPTANCE_CHECKPOINT_02.md`.
