@@ -1096,3 +1096,8 @@ This workstream starts during P24.0/P24.1 and does not wait for P24.4 production
 #### M24.3 Owner Approval — Private Plugin Cutover
 
 **M24.3 = APPROVED / PRIVATE CUTOVER COMPLETE.** Primary KGM ChatGPT research interface is the [private K-Geopolitical Monitor Plugin](https://chatgpt.com/plugins/plugin_7e24753714a481918de11c917379875f). M24.2 four-case acceptance = `PASS_WITH_KNOWN_LIMITATIONS`. Decision: `docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md`. This does not close P24.0–P24.4, merge PR #163/#164, activate production, create a KGM backend connector, enable shared/paid infrastructure or authorize public publication. Canonical Phase 23 position preserved.
+
+
+### P24.0 Baseline Acceptance / P24.1 Entry — 2026-10-13
+
+P24.0 scoped baseline accepted with boundaries: PR #164 CI #2980 success **1409/1409**, PR #163 independent research ARM64 exact-head **1722/1722**, research code on PR #163 remains unmerged. Gate: `P24_0_BASELINE_ACCEPTED_WITH_BOUNDARIES`. P24.1 source coverage and provenance engineering is in progress, initially documenting 11 dedicated adapters, ten HTTP-200 bounded observations from different check times and one GDELT TLS timeout. These are transport observations, not functional/live evidence acceptance. Evidence: `docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md` and `docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md`. Canonical Phase 23 P23.4 gate preserved; production/paid/publication/cross-project boundaries unchanged.
