@@ -1163,7 +1163,7 @@
       ],
       "native_migration": "SUCCESS_OWNER_UI",
       "preflight_doc": "docs/integrations/M24_0_CUSTOM_GPT_MIGRATION_PREFLIGHT_AND_ACCEPTANCE.md",
-      "acceptance_status": "M24_2_TWO_RUNTIME_TESTS_ACCEPTED_FINAL_PENDING",
+      "acceptance_status": "M24_2_THREE_RUNTIME_TESTS_COMPLETE_FORECAST_PENDING",
       "plugin_name": "K-Geopolitical Monitor",
       "plugin_scope": "PRIVATE_OWNER_UI",
       "plugin_skill_count": 1,
@@ -1186,9 +1186,10 @@
       "runtime_claim_verification_02": "PASS_WITH_MINOR_LIMITATIONS",
       "runtime_claim_verification_doc": "docs/integrations/M24_2_RUNTIME_CLAIM_VERIFICATION_02.md",
       "remaining_behavior_tests": [
-        "LOCAL_LANGUAGE_EVENT_RESEARCH",
         "BOUNDED_THREE_SCENARIO_FORECAST"
-      ]
+      ],
+      "runtime_local_language_03": "PASS_WITH_LIMITATIONS_AMHARIC_UNCONFIRMED",
+      "runtime_local_language_doc": "docs/integrations/M24_2_RUNTIME_LOCAL_LANGUAGE_03.md"
     }
   }
 }
