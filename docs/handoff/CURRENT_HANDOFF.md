@@ -481,3 +481,8 @@ PR #164 CI #2980: 1409 passed, SUCCESS at `1296808742c058c239921b5f62a70b24c6287
 ## P24.1 — Source Parser / Independent-Origin Checkpoint 02
 
 User authorized parser semantic validation, strict mapping profiles and negative tests, and ARM64/CI/handoff sync. Official GOV.UK and Bundesregierung live pages were retrieved from isolated owner-pilot and parsed SUCCESS after correcting the Bundes date-only article-header parser. Same UK–Germany ratification event mapped from two government origin groups with no factual verification promotion. Research code PR #166 stacked on draft PR #163: exact head `5c5dd2e34f1b898539530328ea9a310e1d9d8dcd`, CI #3009 **1745 passed in 167.59s**. Exact-head ARM64 full suite still pending. Date-only German publication anchor cannot support precise intra-day event timing. The production and canonical Phase 23/P24 gates remain unchanged. Details: `docs/checkpoints/P24_1_SOURCE_PARSER_MAPPING_ACCEPTANCE_CHECKPOINT_02.md`.
+
+
+## P24.1 Checkpoint 02 — Exact-HEAD Validation Completed
+
+Final full isolated ARM64 regression on PR #166 exact pre-merge HEAD: **1745 passed in 533.43s**, with explicit PYTHONPATH bound to new worktree. CI #3009: **1745 passed in 167.59s**. PR #166 merged into research PR #163 branch, new PR #163 HEAD `2bfd2cc4b0c71072abff64d4be1231a11feb2cfc`; draft PR #163 remains unmerged to canonical main. UK and German live-source parser/claim profile check complete; Germany has date-only publication precision. P24.1 source-quality expansion continues. No production/unattended/public/paid/cross-project approval.
