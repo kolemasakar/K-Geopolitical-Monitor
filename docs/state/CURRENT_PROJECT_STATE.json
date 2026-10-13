@@ -1204,7 +1204,7 @@
       "cutover_decision_doc": "docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md"
     },
     "p24_0_checkpoint": "docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md",
-    "p24_1_status": "IN_PROGRESS_NINE_REAL_PARSER_RESPONSES_ACCEPTED_TWO_TRANSPORT_UNAVAILABLE",
+    "p24_1_status": "IN_PROGRESS_TEN_REAL_PARSER_RESPONSES_GDELT_TRANSPORT_UNAVAILABLE",
     "p24_1_transport_audit": "docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md",
     "p24_1_transport_results": {
       "dedicated_adapters": 11,
@@ -1229,18 +1229,18 @@
     "p24_1_code_merge_sha": "2bfd2cc4b0c71072abff64d4be1231a11feb2cfc",
     "p24_1_source_parser_audit": "docs/checkpoints/P24_1_NINE_SOURCE_REAL_PARSER_TRANSPORT_AUDIT_2026-10-13.md",
     "p24_1_source_parser_results": {
-      "real_parser_success_adapters": 9,
+      "real_parser_success_adapters": 10,
       "total_dedicated_adapters": 11,
       "unavailable_adapters": [
-        "usgs-earthquake",
         "gdelt-doc-v2"
       ],
+      "prior_usgs_timeout": "RECOVERED_ON_BOUNDED_RETRY_USGS_TWO_SUCCESS",
       "status": "PARSER_PASS_NOT_FACT_VERIFICATION_OR_GLOBAL_COVERAGE",
       "isolated_arm64_targeted": "51_PASS_AT_PR168_FE83FDF",
       "research_test_pr": "168_DRAFT_STACKED_ON_PR163"
     },
     "p24_1_remaining": [
-      "USGS_GDELT_BOUNDED_TRANSPORT_DIAGNOSTICS",
+      "GDELT_BOUNDED_TRANSPORT_DIAGNOSTICS",
       "REGIONAL_OFFICIAL_SOURCE_COVERAGE",
       "RESEARCH_PR163_SPLIT_AND_CODE_REVIEW",
       "FULL_REGRESSION_FOR_PR168"
