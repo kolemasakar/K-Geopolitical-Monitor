@@ -30,7 +30,7 @@ _CANDIDATES = {
         "entry_url": "https://gcc-sg.org/en/MediaCenter/News/Pages/default.aspx",
         "publisher_type": "INTERGOVERNMENTAL",
         "languages_observed": ["en"],
-        "transport": "NOT_TESTED",
+        "transport": "HTTP_200_OBSERVED",
     },
     "oas-press": {
         "region": "AMERICAS",
@@ -38,7 +38,7 @@ _CANDIDATES = {
         "entry_url": "https://www.oas.org/en/media_center/press_releases.asp",
         "publisher_type": "INTERGOVERNMENTAL",
         "languages_observed": ["en"],
-        "transport": "NOT_TESTED",
+        "transport": "HTTP_403_OBSERVED",
     },
 }
 
