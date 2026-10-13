@@ -19,7 +19,8 @@
     "20": "PHASE_20_GLOBAL_SOURCE_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
     "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
     "22": "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
-    "23": "PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_VALIDATED_WITH_ZERO_UNDERLYING_ORIGIN_RESOLUTION / P23_3_VALIDATED_WITH_ZERO_CORROBORATION_POPULATION / P23_4_READY_TO_BEGIN"
+    "23": "PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_VALIDATED_WITH_ZERO_UNDERLYING_ORIGIN_RESOLUTION / P23_3_VALIDATED_WITH_ZERO_CORROBORATION_POPULATION / P23_4_READY_TO_BEGIN",
+    "24": "PHASE_24_INDEPENDENT_RESEARCH_QUALITY_OPERATIONAL_READINESS_APPROVED / P24_0_IN_PROGRESS / PRODUCTION_NOT_ACTIVATED"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -1104,5 +1105,112 @@
     "current_position_preserved": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED",
     "next_gate": "P23_4_EVIDENCE_YIELD_COVERAGE_EXPANSION_VALIDATED",
     "verification_authority": "P13.5/P13.6"
+  },
+  "phase24": {
+    "approval_date": "2026-10-10",
+    "owner_decision": "APPROVED",
+    "title": "Independent Research Quality & Operational Readiness",
+    "decision_doc": "docs/decisions/PHASE_24_INDEPENDENT_RESEARCH_QUALITY_OPERATIONAL_READINESS_DECISION_2026-10-10.md",
+    "status": "OWNER_APPROVED_PARALLEL_PLANNING_P24_0_IN_PROGRESS",
+    "approved_sequence": [
+      "P24_0_EXACT_HEAD_BASELINE",
+      "P24_1_SOURCE_MAPPING_QUALITY_COVERAGE",
+      "P24_2_UNATTENDED_RELIABILITY_RECOVERY_ENGINEERING",
+      "P24_3_RETENTION_RESOURCE_OBSERVABILITY",
+      "P24_4_READINESS_AUDIT_OWNER_PRODUCTION_DECISION"
+    ],
+    "research_pr_163_head": "f135014e2962907c76ea14bf3b10ddc7c288046c",
+    "research_pr_163_status": "DRAFT_UNMERGED",
+    "exact_head_ci_run": 2900,
+    "exact_head_ci_status": "SUCCESS",
+    "isolated_arm64_research_regression": "260 passed in 5.46s",
+    "isolated_arm64_targeted": "37 passed in 0.95s",
+    "full_suite": "PR163_RESEARCH_HEAD_1722_PASS_444_89S",
+    "research_readiness": "PASS_WITH_P1_LIMITATIONS",
+    "phase23_legacy_gate": "P23_4_NOT_CLOSED_BY_PHASE24_APPROVAL",
+    "production_activation": false,
+    "unattended_activation": false,
+    "sentinel_integration": false,
+    "ktrader_integration": false,
+    "full_suite_blockers": [],
+    "full_suite_environment": "ISOLATED_VENV_PSYCOpg_3_3_6_HTTPX2_2_13_1",
+    "planning_pr_164_ci": "CI_2980_SUCCESS_1409_PASSED_121_07S_AT_1296808742c058c239921b5f62a70b24c62871d9",
+    "p24_0_status": "BASELINE_ACCEPTED_WITH_BOUNDARIES_PENDING_PR164_FINAL_MERGE",
+    "p24_1_inventory": "INITIAL_INVENTORY_STARTED_11_ADAPTERS_NO_LIVE_ACTIVATION",
+    "p24_1_inventory_doc": "docs/integrations/P24_1_SOURCE_COVERAGE_RESEARCH_QUALITY_INITIAL_INVENTORY_2026-10-11.md",
+    "canonical_position_policy": "P23_3_REMAINS_UNTIL_P23_4_EXPLICIT_CLOSURE",
+    "plugin_migration": {
+      "status": "M24_3_PRIVATE_CUTOVER_OWNER_APPROVED",
+      "decision_doc": "docs/decisions/KGM_PRIVATE_PLUGIN_MIGRATION_PLAN_2026-10-11.md",
+      "parallel_track": true,
+      "account_migration_capability": "CONFIRMED_VIA_OWNER_UI",
+      "private_plugin_created": true,
+      "publication_activated": false,
+      "production_dependency": false,
+      "actions_migrate_automatically": false,
+      "execution_policy": "STAGE_GATED_NO_DATES_NO_WAITING_PERIODS",
+      "critical_path": [
+        "M24_0_MINIMAL_PREFLIGHT",
+        "M24_1_PRIVATE_MIGRATION",
+        "M24_2_FAST_FUNCTIONAL_ACCEPTANCE",
+        "M24_3_PRIVATE_CUTOVER"
+      ],
+      "not_blocked_by": [
+        "P24_1_SOURCE_EXPANSION",
+        "P24_2_UNATTENDED_RUNTIME",
+        "P24_4_PRODUCTION_READINESS",
+        "CROSS_PROJECT_INTEGRATION"
+      ],
+      "native_migration": "SUCCESS_OWNER_UI",
+      "preflight_doc": "docs/integrations/M24_0_CUSTOM_GPT_MIGRATION_PREFLIGHT_AND_ACCEPTANCE.md",
+      "acceptance_status": "M24_2_PASS_WITH_KNOWN_LIMITATIONS",
+      "plugin_name": "K-Geopolitical Monitor",
+      "plugin_scope": "PRIVATE_OWNER_UI",
+      "plugin_skill_count": 1,
+      "plugin_version_ui": "0.7.1+bundle.75a2d68a19a786f8b8db1b5dd4ec3538",
+      "plugin_backend_id": "plugin_7e24753714a481918de11c917379875f",
+      "plugin_actions_ui": "NO_PROBLEMS_IN_MIGRATION_CHECK_NOT_A_RUNTIME_TEST",
+      "plugin_release_id": "pluginrel_97b3c74bc4a88191bafdae72b124bfc7",
+      "plugin_files_count": 5,
+      "skill_static_review": "PASS_WITH_NO_BACKEND_ACTION",
+      "knowledge_files_in_migration_index": 0,
+      "acceptance_doc": "docs/integrations/M24_2_MIGRATED_PLUGIN_STATIC_ACCEPTANCE.md",
+      "runtime_brief_audit_doc": "docs/integrations/M24_2_RUNTIME_BRIEF_ACCEPTANCE_01.md",
+      "runtime_brief_critical_gaps": [
+        "DIRECT_CITATION_TRACEABILITY",
+        "SOURCE_ORIGIN_INDEPENDENCE_NOT_PROVEN",
+        "TIME_WINDOW_EVENT_VS_CONTEXT"
+      ],
+      "private_cutover_approved": true,
+      "runtime_brief_table_rendering": "PASS_CONFIRMED_BY_OWNER_SCREENSHOT",
+      "runtime_claim_verification_02": "PASS_WITH_MINOR_LIMITATIONS",
+      "runtime_claim_verification_doc": "docs/integrations/M24_2_RUNTIME_CLAIM_VERIFICATION_02.md",
+      "remaining_behavior_tests": [],
+      "runtime_local_language_03": "PASS_WITH_LIMITATIONS_AMHARIC_UNCONFIRMED",
+      "runtime_local_language_doc": "docs/integrations/M24_2_RUNTIME_LOCAL_LANGUAGE_03.md",
+      "runtime_scenario_forecast_04": "PASS_WITH_MINOR_LIMITATIONS",
+      "runtime_scenario_forecast_doc": "docs/integrations/M24_2_RUNTIME_SCENARIO_FORECAST_04_AND_CONSOLIDATED_ACCEPTANCE.md",
+      "private_cutover_ready": true,
+      "followup_quality_work": [
+        "CITATION_TRACEABILITY",
+        "UNDERLYING_ORIGIN_INDEPENDENCE_AND_TIMESTAMP_DETAIL",
+        "AMHARIC_COVERAGE",
+        "FORECAST_SCORING_REPRODUCIBILITY",
+        "SCENARIO_C_WINDOW_PRECISION"
+      ],
+      "private_cutover_complete": true,
+      "primary_chatgpt_interface": "PRIVATE_PLUGIN",
+      "legacy_custom_gpt_surface": "TRANSITIONAL_READ_ONLY",
+      "cutover_decision_doc": "docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md"
+    },
+    "p24_0_checkpoint": "docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md",
+    "p24_1_status": "IN_PROGRESS",
+    "p24_1_transport_audit": "docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md",
+    "p24_1_transport_results": {
+      "dedicated_adapters": 11,
+      "http200_observations": 10,
+      "gdelt_tls_timeout": 1,
+      "caveat": "Six observations from earlier bounded audit; four successful and one failed request from 2026-10-13; transport only, not current parser verification"
+    }
   }
 }

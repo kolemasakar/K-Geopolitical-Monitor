@@ -1071,3 +1071,33 @@ Authoritative transition handoff:
 `docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-09-20_P23_1.md`.
 
 No Phase 23 semantic, runtime, source-activation, production/live, paid/shared, migration-033, Plugin-publication or owner-operational boundary is changed by this documentation sync.
+
+
+## Owner Decision — Phase 24 (2026-10-10)
+
+**APPROVED:** `Phase 24 — Independent Research Quality & Operational Readiness`.
+**Parallel planning track:** `PHASE_24_P24_0_BASELINE_IN_PROGRESS`; canonical strategic position remains `PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED` until explicit Phase 23 gate closure.
+**Decision:** `docs/decisions/PHASE_24_INDEPENDENT_RESEARCH_QUALITY_OPERATIONAL_READINESS_DECISION_2026-10-10.md`.
+
+Sequence: P24.0 exact-HEAD baseline/consolidation; P24.1 source/mapping/quality coverage; P24.2 unattended reliability and crash recovery engineering; P24.3 retention/resources/observability; P24.4 final audit and **separate owner production decision**.
+
+P24.0 research baseline: PR #163 `f135014e2962907c76ea14bf3b10ddc7c288046c`; CI #2900 SUCCESS; isolated ARM64 `260 passed` selected research tests, focused `37 passed`.
+
+**Scope:** Phase 24 approval does not close the legacy P23.4 gate, merge PR #163, promote `PASS_WITH_P1_LIMITATIONS`, or activate production/live, unattended scheduling, Sentinel/K-Trader, paid/shared resources, HP-OMEN or public publication. Research implementation remains in a separate unmerged draft branch until explicit disposition.
+
+
+### Phase 24 Parallel Workstream — M24 Private Plugin Transition (2026-10-11)
+
+**PLANNED, NOT ACTIVATED.** Owner-revised execution: no calendar-dependent milestones. Execute M24.0 minimum preflight → M24.1 immediate private migration → M24.2 fast functional acceptance → M24.3 private cutover, without waiting for P24.4 production readiness. Source: `docs/decisions/KGM_PRIVATE_PLUGIN_MIGRATION_PLAN_2026-10-11.md`.
+
+This workstream starts during P24.0/P24.1 and does not wait for P24.4 production readiness. Canonical strategic Phase 23 position, owner-pilot bounded research gate, no production/unattended integration, no public publication and no paid/shared infrastructure remain unchanged.
+
+
+#### M24.3 Owner Approval — Private Plugin Cutover
+
+**M24.3 = APPROVED / PRIVATE CUTOVER COMPLETE.** Primary KGM ChatGPT research interface is the [private K-Geopolitical Monitor Plugin](https://chatgpt.com/plugins/plugin_7e24753714a481918de11c917379875f). M24.2 four-case acceptance = `PASS_WITH_KNOWN_LIMITATIONS`. Decision: `docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md`. This does not close P24.0–P24.4, merge PR #163/#164, activate production, create a KGM backend connector, enable shared/paid infrastructure or authorize public publication. Canonical Phase 23 position preserved.
+
+
+### P24.0 Baseline Acceptance / P24.1 Entry — 2026-10-13
+
+P24.0 scoped baseline accepted with boundaries: PR #164 CI #2980 success **1409/1409**, PR #163 independent research ARM64 exact-head **1722/1722**, research code on PR #163 remains unmerged. Gate: `P24_0_BASELINE_ACCEPTED_WITH_BOUNDARIES`. P24.1 source coverage and provenance engineering is in progress, initially documenting 11 dedicated adapters, ten HTTP-200 bounded observations from different check times and one GDELT TLS timeout. These are transport observations, not functional/live evidence acceptance. Evidence: `docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md` and `docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md`. Canonical Phase 23 P23.4 gate preserved; production/paid/publication/cross-project boundaries unchanged.
