@@ -1119,7 +1119,7 @@
       "P24_3_RETENTION_RESOURCE_OBSERVABILITY",
       "P24_4_READINESS_AUDIT_OWNER_PRODUCTION_DECISION"
     ],
-    "research_pr_163_head": "2bfd2cc4b0c71072abff64d4be1231a11feb2cfc",
+    "research_pr_163_head": "c596ef79ee7b7cbddfe5fecfa0429b3a40b1ef88",
     "research_pr_163_status": "DRAFT_UNMERGED",
     "exact_head_ci_run": 2900,
     "exact_head_ci_status": "SUCCESS",
@@ -1204,7 +1204,7 @@
       "cutover_decision_doc": "docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md"
     },
     "p24_0_checkpoint": "docs/checkpoints/P24_0_BASELINE_ACCEPTANCE_P24_1_ENTRY_2026-10-13.md",
-    "p24_1_status": "IN_PROGRESS_TEN_REAL_PARSER_RESPONSES_GDELT_TRANSPORT_UNAVAILABLE",
+    "p24_1_status": "CHECKPOINT_03_PASS_WITH_GDELT_LIMITATION_P24_1_IN_PROGRESS",
     "p24_1_transport_audit": "docs/integrations/P24_1_SOURCE_TRANSPORT_COVERAGE_AUDIT_2026-10-13.md",
     "p24_1_transport_results": {
       "dedicated_adapters": 11,
@@ -1237,13 +1237,16 @@
       "prior_usgs_timeout": "RECOVERED_ON_BOUNDED_RETRY_USGS_TWO_SUCCESS",
       "status": "PARSER_PASS_NOT_FACT_VERIFICATION_OR_GLOBAL_COVERAGE",
       "isolated_arm64_targeted": "51_PASS_AT_PR168_FE83FDF",
-      "research_test_pr": "168_DRAFT_STACKED_ON_PR163"
+      "research_test_pr": "168_MERGED_TO_RESEARCH_PR163_ONLY"
     },
     "p24_1_remaining": [
       "GDELT_BOUNDED_TRANSPORT_DIAGNOSTICS",
       "REGIONAL_OFFICIAL_SOURCE_COVERAGE",
       "RESEARCH_PR163_SPLIT_AND_CODE_REVIEW",
       "FULL_REGRESSION_FOR_PR168"
-    ]
+    ],
+    "p24_1_transport_code_ci": "CI_3027_1752_PASS",
+    "p24_1_transport_arm64_full": "1752_PASS_459_85S_AT_FE83FDF",
+    "p24_1_audit_pr169": "MERGED_MAIN_77632285d3a645e34c590b0973b1a22135ec04e8"
   }
 }
