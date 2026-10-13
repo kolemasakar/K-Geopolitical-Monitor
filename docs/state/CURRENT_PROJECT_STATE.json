@@ -1140,7 +1140,7 @@
     "p24_1_inventory_doc": "docs/integrations/P24_1_SOURCE_COVERAGE_RESEARCH_QUALITY_INITIAL_INVENTORY_2026-10-11.md",
     "canonical_position_policy": "P23_3_REMAINS_UNTIL_P23_4_EXPLICIT_CLOSURE",
     "plugin_migration": {
-      "status": "M24_2_PASS_WITH_KNOWN_LIMITATIONS_M24_3_OWNER_DECISION_READY",
+      "status": "M24_3_PRIVATE_CUTOVER_OWNER_APPROVED",
       "decision_doc": "docs/decisions/KGM_PRIVATE_PLUGIN_MIGRATION_PLAN_2026-10-11.md",
       "parallel_track": true,
       "account_migration_capability": "CONFIRMED_VIA_OWNER_UI",
@@ -1163,7 +1163,7 @@
       ],
       "native_migration": "SUCCESS_OWNER_UI",
       "preflight_doc": "docs/integrations/M24_0_CUSTOM_GPT_MIGRATION_PREFLIGHT_AND_ACCEPTANCE.md",
-      "acceptance_status": "PASS_WITH_KNOWN_LIMITATIONS_PRIVATE_RESEARCH_PLUGIN",
+      "acceptance_status": "M24_2_PASS_WITH_KNOWN_LIMITATIONS",
       "plugin_name": "K-Geopolitical Monitor",
       "plugin_scope": "PRIVATE_OWNER_UI",
       "plugin_skill_count": 1,
@@ -1181,7 +1181,7 @@
         "SOURCE_ORIGIN_INDEPENDENCE_NOT_PROVEN",
         "TIME_WINDOW_EVENT_VS_CONTEXT"
       ],
-      "private_cutover_approved": false,
+      "private_cutover_approved": true,
       "runtime_brief_table_rendering": "PASS_CONFIRMED_BY_OWNER_SCREENSHOT",
       "runtime_claim_verification_02": "PASS_WITH_MINOR_LIMITATIONS",
       "runtime_claim_verification_doc": "docs/integrations/M24_2_RUNTIME_CLAIM_VERIFICATION_02.md",
@@ -1197,7 +1197,11 @@
         "AMHARIC_COVERAGE",
         "FORECAST_SCORING_REPRODUCIBILITY",
         "SCENARIO_C_WINDOW_PRECISION"
-      ]
+      ],
+      "private_cutover_complete": true,
+      "primary_chatgpt_interface": "PRIVATE_PLUGIN",
+      "legacy_custom_gpt_surface": "TRANSITIONAL_READ_ONLY",
+      "cutover_decision_doc": "docs/decisions/M24_3_PRIVATE_PLUGIN_CUTOVER_OWNER_APPROVAL.md"
     }
   }
 }
