@@ -486,3 +486,8 @@ User authorized parser semantic validation, strict mapping profiles and negative
 ## P24.1 Checkpoint 02 — Exact-HEAD Validation Completed
 
 Final full isolated ARM64 regression on PR #166 exact pre-merge HEAD: **1745 passed in 533.43s**, with explicit PYTHONPATH bound to new worktree. CI #3009: **1745 passed in 167.59s**. PR #166 merged into research PR #163 branch, new PR #163 HEAD `2bfd2cc4b0c71072abff64d4be1231a11feb2cfc`; draft PR #163 remains unmerged to canonical main. UK and German live-source parser/claim profile check complete; Germany has date-only publication precision. P24.1 source-quality expansion continues. No production/unattended/public/paid/cross-project approval.
+
+
+## P24.1 Checkpoint 03 — Real Source Parser and Transport Evidence
+
+As of Oct 13 owner-pilot read-only probes: Consilium 3 SUCCESS, ECB 3, GDACS 3, GFZ 3, NATO 2, Moldova MFA 1 and Elysee 1. Together with earlier direct GOV.UK and Bundes parsers, **9/11 dedicated adapters** have parsed actual public responses. USGS query timed out; GDELT also timed out with one bounded attempt (previous TLS failure). Explicit UNAVAILABLE must not imply zero events or upstream outage. Origin collision: GDACS records tagged USGS-NEIC. PR #168 research-only negative transport/origin fixtures, exact-head focused ARM64 51 PASS. Source: `docs/checkpoints/P24_1_NINE_SOURCE_REAL_PARSER_TRANSPORT_AUDIT_2026-10-13.md`. P24.1 remains open and no production integration authorized.
