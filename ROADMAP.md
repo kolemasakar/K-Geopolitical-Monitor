@@ -1127,3 +1127,8 @@ Four research-only official organization candidates: AU Africa (HTTP200 earlier,
 
 
 **P24.1 regional fixture closure:** PR #173 merged into regional PR #171, then PR #171 merged into separate draft research PR #163 at `88b3aab41982a94d1ab786c7dacc6b52be78bffa`. Full ARM64 **1783 PASS (461.71s)**, research CI #3079 **1783 PASS**. AU remains **FIXTURE_ONLY / LIVE_BLOCKED_HTTP403**, source unactivated. P24.1 remains IN_PROGRESS.
+
+
+### P24.1 GCC Official Live Parser — Checkpoint 05
+
+An isolated GCC Secretariat news article parser on research PR #175 has processed an actual official 2026-10-13 release (53,023 bytes, `SUCCESS`, date-only UTC anchor, 1,311 extracted body characters), after 17 targeted ARM64 PASS. This does **not** authorize source activation, continuous monitoring, production or factual corroboration; official day lacks exact publication hour. Exact-head full regression/CI and stacked research PR review are required. Evidence: `docs/checkpoints/P24_1_GCC_LIVE_PARSER_2026-10-13.md`. AU HTTP403 and GDELT TLS remain open. P24.1 stays IN_PROGRESS.
