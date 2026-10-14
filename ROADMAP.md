@@ -1143,3 +1143,8 @@ Official AU page recovered HTTP200 on owner-pilot; previous parser used first un
 
 
 **P24.1 AU timestamp correction final gate:** PR #177 merged into draft research PR #163 at `8e79191eba704927df0ff8b069c2d19095b8f378` after CI #3113 **1802 PASS** and exact-head isolated ARM64 **1802 PASS in 460.89s**. Corrected live AU article source publication is `2026-10-12T07:15:26Z`. Previous Oct 13 timestamp was unrelated sidebar content. ASEAN HTTP307, OAS HTTP403 and GDELT TLS failures remain unresolved. Research code not on main or production.
+
+
+### P24.1 S3 offline gate accepted; S4 no-send entry — 2026-10-14
+
+S3 offline integration: **PASS_WITH_KNOWN_LIMITATIONS**, after PR #197 (1533 ARM64 PASS) and PR #198 (1547 ARM64 PASS, GitHub CI SUCCESS; merge main `4da33d8ffe2f8498df85d9519993181a3cc296a7`). Separate-process restart, child hard-exit before cursor commit, cursor continuity, deadline/typed-spool contract and denied cross-consumer recovery tested. **Production S3 remains OPEN**: no unattended restart, external exactly-once guarantee, source activation or downstream consumer authorization. S4 begins only as offline **NO_SEND** contract PR #199 and immutable synthetic artifact PR #201 (stacked); neither permits transmission or consumer activation. Evidence: `docs/audits/P24_1_S3_INTEGRATION_GATE_2026-10-14.md`.
