@@ -24,5 +24,5 @@ Offline local cursor and typed workflow tests do **not** establish production cr
 ## Next roadmap
 - S3j validated and merged; offline gate accepted with the evidence above.
 - **Offline** S3 gate closed with documented limitations; S3 production gate remains OPEN.
-- S4a contract validated and merged; S4b PR #201 immutable local artifact is DRAFT (5 focused native ARM64 PASS, GitHub CI SUCCESS, full native ARM64 pending). Ledger, replay and consumer security remain separate offline gates. No network or send.
+- S4a contract validated and merged; S4b PR #201 immutable local artifact was MERGED: 5 focused ARM64 PASS, exact-head native ARM64 1554/1554 PASS in 449.61s, GitHub CI SUCCESS, canonical main `5ea49fb2f3df7a85667884df50cad74d9a8700b2`. Ledger, replay and consumer security remain separate offline gates. No network or send.
 - S5 synchronize ROADMAP, handoff and state only after proven gates.
