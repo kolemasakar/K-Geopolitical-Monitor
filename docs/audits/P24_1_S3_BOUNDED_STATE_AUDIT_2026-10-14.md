@@ -1,6 +1,6 @@
 # P24.1 — S3 bounded research state audit (2026-10-14)
 
-Status: S3_PARTIAL_ACCEPTED; research-only; no production activation.
+Status: S3_CORE_ACCEPTED_WITH_OPEN_INTEGRATION_GATES; research-only; no production activation.
 
 ## Canonical baseline and validated slices
 
@@ -13,7 +13,7 @@ Status: S3_PARTIAL_ACCEPTED; research-only; no production activation.
 - S3g PR #194 deadline expiry — merged, full native ARM64 1525 pass.
 - Canonical main after #194: `88f804842d54fcf4693be194c5a7ccfa47584682`.
 
-S3h bounded offline recovery pass: PR #195 is DRAFT, pending exact-head full ARM64 and CI; not counted as accepted or merged.
+S3h PR #195 bounded offline recovery pass — merged, GitHub CI SUCCESS, exact-head full native ARM64 1530 passed. Canonical main after #195: `00cabbd911707369caa2d1ff92f92ad321f77676`.
 
 ## Validation and threat boundaries
 
@@ -30,7 +30,7 @@ Tests above ran in isolated native ARM64 worktrees, not on the live production s
 ### Open engineering and audit risks
 
 1. The callback-injected `research_cursor_core_v1` is **not** yet wired to production or to the historical `research_durable_cursor_v1` / `research_typed_workflow_v1` entry points.
-2. S3h recovery pass pending independent acceptance; real multi-process crash injection and restart durability have not been established by these synthetic unit tests alone.
+2. S3h recovery pass individually accepted; real multi-process crash injection and restart durability have not been established by these synthetic unit tests alone.
 3. `research_typed_spool_v1`, typed workflow, deadline registry, archival policy, observation stage, worker and benchmarking from PR #163 remain outside canonical adoption unless individually validated.
 4. No proof of exactly-once effect across crashes; idempotent completion and replay are limited to the tested local contracts.
 5. Complete and partial source-health handling, source origins, and external consumer trust boundaries need independent end-to-end validation.
@@ -38,9 +38,9 @@ Tests above ran in isolated native ARM64 worktrees, not on the live production s
 
 ## Gate and roadmap
 
-Current canonical gate before S3h merge: `P24_1_S3G_VALIDATED_S3H_IN_ACCEPTANCE`.
+Current canonical gate after S3h merge: `P24_1_S3H_VALIDATED_S3_INTEGRATION_REVIEW_OPEN`.
 S3 final gate remains **OPEN**, not `S3_VALIDATED`.
 
-Sequence: accept S3h after full exact-head CI + ARM64; audit restart/crash/replay and multi-consumer read isolation; separately qualify typed spool / workflow / durable cursor integration; then stage S4 downstream export without activating consumers. S5 documentation and policy synchronization only after actual gates are evidenced.
+Sequence: audit real-process restart/crash/replay and multi-consumer read isolation; separately qualify typed spool / workflow / durable cursor integration; then stage S4 downstream export without activating consumers. S5 documentation and policy synchronization only after actual gates are evidenced.
 
 Infrastructure: exclusively KGM owner-pilot and GitHub-hosted checks, FREE_ONLY; no HP-OMEN and no shared KRC/K-Trader systems.
