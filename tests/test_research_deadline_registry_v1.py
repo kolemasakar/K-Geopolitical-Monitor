@@ -6,7 +6,7 @@ from kgeopolitical_monitor.research_typed_spool_v1 import publish_typed_fixture
 from kgeopolitical_monitor.research_deadline_registry_v1 import registered_deadlines
 from kgeopolitical_monitor.research_durable_lifecycle_v1 import recovery_snapshot
 from test_research_typed_result_v1 import typed
-from test_research_completion_v1 import POLICY
+POLICY = {"ktrader": "review-v1"}
 
 A = "2026-09-28T12:01:00Z"
 B = "2026-09-28T12:02:00Z"
