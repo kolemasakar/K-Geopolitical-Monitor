@@ -4,7 +4,7 @@ from kgeopolitical_monitor.research_typed_workflow_v1 import (
     accept_request, begin_processing, publish_and_complete, recover_pending)
 from kgeopolitical_monitor.research_durable_lifecycle_v1 import recovery_snapshot
 from test_research_typed_result_v1 import typed
-from test_research_completion_v1 import POLICY
+POLICY = {"ktrader": "review-v1"}
 
 
 def test_complete_end_to_end(tmp_path):
