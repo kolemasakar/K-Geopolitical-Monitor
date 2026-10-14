@@ -9,7 +9,7 @@
 
 ## Accepted exact-head S3j gate
 - PR #198: durable cursor integration, deadline registry and typed spool; **14/14 targeted PASS**, exact-head native ARM64 **1547/1547 PASS in 674.45s**, GitHub CI SUCCESS; merged canonical main `4da33d8ffe2f8498df85d9519993181a3cc296a7`. Separate Python process restart, child hard-exit-before-commit and denied cross-consumer recovery checks PASS.
-- PR #199: S4 offline exchange contract preparatory slice; **no delivery or transport**. Independent S4 acceptance required.
+- PR #199: S4 offline exchange contract — merged canonical main `efca373abb82555c0a3b58cb806551b53d2d7a3b`, native ARM64 1549/1549 PASS in 776.06s, GitHub CI SUCCESS; **no delivery or transport**.
 
 ## S3 gate evidence and retained requirements
 1. Independently test registered deadlines, typed result publication, recovery cursor wrap, rejection of corrupted records and policy revocation.
@@ -24,5 +24,5 @@ Offline local cursor and typed workflow tests do **not** establish production cr
 ## Next roadmap
 - S3j validated and merged; offline gate accepted with the evidence above.
 - **Offline** S3 gate closed with documented limitations; S3 production gate remains OPEN.
-- S4a contract validation, then separate immutable artifact generation, ledger, replay and consumer security tests, all offline by default.
+- S4a contract validated and merged; S4b PR #201 immutable local artifact is DRAFT (5 focused native ARM64 PASS, GitHub CI SUCCESS, full native ARM64 pending). Ledger, replay and consumer security remain separate offline gates. No network or send.
 - S5 synchronize ROADMAP, handoff and state only after proven gates.
