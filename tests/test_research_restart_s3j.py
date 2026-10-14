@@ -35,3 +35,14 @@ def test_cursor_persists_across_independent_python_processes(tmp_path):
     assert second["pending"]==[["ktrader","req-01"]]
     assert third["pending"]==[["consumer-b","req-01"]]
     assert (tmp_path/".research-recovery-cursor.json").is_file()
+
+def test_recovery_cannot_cross_unapproved_consumer(tmp_path):
+    from kgeopolitical_monitor.research_durable_cursor_v1 import recover_durable
+    req,_=typed()
+    for consumer in ("ktrader","consumer-b"):
+        accept_request(tmp_path,dict(req,consumer_id=consumer,request_id="req-01"),
+                       allowed_consumers=POLICY,accepted_at_utc="2026-09-28T12:01:00Z")
+    restricted=recover_durable(tmp_path,allowed_consumers={"ktrader":"review-v1"},
+                               observed_at_utc=NOW,max_items=10)
+    assert restricted["pending"]==[("ktrader","req-01")]
+    assert restricted["reconciled"]==[] and restricted["expired"]==[]
