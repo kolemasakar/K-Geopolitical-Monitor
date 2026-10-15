@@ -1148,3 +1148,11 @@ Official AU page recovered HTTP200 on owner-pilot; previous parser used first un
 ### P24.1 S3 offline gate accepted; S4 no-send entry — 2026-10-14
 
 S3 offline integration: **PASS_WITH_KNOWN_LIMITATIONS**, after PR #197 (1533 ARM64 PASS) and PR #198 (1547 ARM64 PASS, GitHub CI SUCCESS; merge main `4da33d8ffe2f8498df85d9519993181a3cc296a7`). Separate-process restart, child hard-exit before cursor commit, cursor continuity, deadline/typed-spool contract and denied cross-consumer recovery tested. **Production S3 remains OPEN**: no unattended restart, external exactly-once guarantee, source activation or downstream consumer authorization. S4 **NO_SEND** contract PR #199 merged after GitHub CI SUCCESS and native ARM64 1549/1549 PASS (main `efca373abb82555c0a3b58cb806551b53d2d7a3b`); immutable synthetic artifact PR #201 is Draft (5 focused ARM64 PASS, CI SUCCESS, full ARM64 acceptance pending). Neither permits transmission or consumer activation. Evidence: `docs/audits/P24_1_S3_INTEGRATION_GATE_2026-10-14.md`.
+
+
+### P24.1 S4 offline artifact acceptance — 2026-10-15
+
+- S4a exchange contract PR #199 merged, exact-head GitHub CI SUCCESS and native ARM64 **1549/1549 PASS** (776.06s).
+- S4b immutable local synthetic artifact PR #201 merged, exact-head GitHub CI SUCCESS and native ARM64 **1554/1554 PASS** (449.61s); canonical main `5ea49fb2f3df7a85667884df50cad74d9a8700b2`.
+- S4c offline generation is isolated in draft PR #203; not accepted until exact-head CI and native ARM64 validation.
+- Scope remains **RESEARCH_ONLY / NO_SEND**. No network delivery, new source activation, production deployment, or authorization of K-Sentinel/K-Trader consumers. S3 offline remains PASS_WITH_KNOWN_LIMITATIONS and S3 production remains OPEN.
