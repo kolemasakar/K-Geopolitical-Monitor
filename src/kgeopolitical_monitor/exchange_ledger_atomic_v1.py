@@ -15,9 +15,19 @@ from .exchange_replay_v1 import select_replay
 
 
 def _read(path):
-    if not path.exists():
+    try:
+        fd = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+    except FileNotFoundError:
         return []
-    data = path.read_bytes()
+    try:
+        import stat
+        st = os.fstat(fd)
+        if not stat.S_ISREG(st.st_mode) or st.st_nlink != 1:
+            raise ValueError("linked or nonregular ledger")
+        with os.fdopen(fd, "rb", closefd=False) as handle:
+            data = handle.read()
+    finally:
+        os.close(fd)
     if data and not data.endswith(b"\n"):
         raise ValueError("torn ledger")
     rows = [json.loads(line) for line in data.splitlines()]
