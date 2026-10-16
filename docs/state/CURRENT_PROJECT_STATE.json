@@ -1401,6 +1401,45 @@
       "retention": "BOUNDED_DRY_RUN_ONLY",
       "production_modified": false,
       "no_send": true
+    },
+    "p24_3_qualification": {
+      "status": "P24_3_ISOLATED_QUALIFICATION_PASS_WITH_LIMITATIONS",
+      "tested_sha": "cf003749c74bb0f06ebd93cead19583695b733f5",
+      "arm64": {
+        "passed": 1681,
+        "seconds": 462.47,
+        "exit": 0
+      },
+      "targeted": {
+        "passed": 29,
+        "seconds": 1.3
+      },
+      "ci": {
+        "run": 38911601920,
+        "number": 3476,
+        "passed": 1681,
+        "seconds": 99.05,
+        "status": "SUCCESS"
+      },
+      "p24_2_a": "PARTIAL_ADMIN_PROBE_UNAVAILABLE",
+      "p24_4": "AUDIT_COMPLETE_PRODUCTION_NO_GO",
+      "production_resource_observation": {
+        "memory_max": "infinity",
+        "cpu_quota": "infinity",
+        "tasks_max": 6964,
+        "limit_nofile": 524288,
+        "memory_current_bytes": 14098432
+      },
+      "sentinel_access": "KGM_OFFLINE_FREE_SLOT_OCCUPIED_OTHER_PROJECT_UNCHANGED",
+      "production_retention": "NOT_IMPLEMENTED_OR_ACTIVATED",
+      "service_resource_enforcement": "NOT_ACTIVATED",
+      "production_modified": false,
+      "send": false
+    },
+    "p24_4_audit": {
+      "status": "AUDIT_COMPLETE_PRODUCTION_NO_GO",
+      "document": "docs/audits/P24_3_ISOLATED_AND_P24_4_READINESS_2026-10-16.md",
+      "owner_production_decision": "NOT_REQUESTED_PREREQUISITES_MISSING"
     }
   }
 }
