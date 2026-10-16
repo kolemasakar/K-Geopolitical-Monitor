@@ -1,0 +1,9 @@
+#!/bin/bash
+set -Eeuo pipefail
+rm -f /var/lib/kgm-p24-validation/restore-check/kgeopolitical_monitor.db
+rm -f /var/lib/kgm-p24-export/backup/runtime.db
+rm -f /var/lib/kgm-p24-export/backup/manifest.json
+rm -f /var/lib/kgm-p24-export/runtime-report.json
+rmdir /var/lib/kgm-p24-validation/restore-check 2>/dev/null || true
+rmdir /var/lib/kgm-p24-export/backup 2>/dev/null || true
+echo KGM_P24_CLEANUP=PASS
