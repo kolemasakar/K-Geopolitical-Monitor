@@ -1312,7 +1312,7 @@
       ]
     },
     "p24_1_s5": {
-      "status": "OWNER_APPROVED_RESEARCH_ONLY_IMPLEMENTATION_IN_PROGRESS",
+      "status": "S5_1_TO_3_MERGED_S5_4_RUNTIME_AUDITED_FINAL_ARM64_PENDING",
       "approved_on": "2026-10-16",
       "scope": [
         "S5.1_CRASH_FAILURE_HARDENING",
@@ -1323,7 +1323,23 @@
       "production_activated": false,
       "external_send_enabled": false,
       "owner_approval": "RESEARCH_ONLY_FREE_ONLY_NO_SEND",
-      "decision_doc": "docs/decisions/P24_1_S5_READINESS_HARDENING_ROADMAP_PROPOSAL_2026-10-16.md"
+      "decision_doc": "docs/decisions/P24_1_S5_READINESS_HARDENING_ROADMAP_PROPOSAL_2026-10-16.md",
+      "s5_1_pr217": "MERGED_CI_SUCCESS_ARM64_1597_PASS",
+      "s5_2_pr218": "MERGED_CI_SUCCESS_ARM64_1599_PASS",
+      "s5_3_pr219": "MERGED_CI_SUCCESS_CONSUMER_NO_SEND",
+      "s5_4_runtime_audit_pr220": "MERGED_RUNTIME_DRIFT_CONFIRMED",
+      "s5_1b_superseded_pr221": "CLOSED_WITHOUT_MERGE",
+      "s5_1b_replacement_pr223": "DRAFT_20_FOCUSED_ARM64_PASS_FULL_REGRESSION_PENDING",
+      "final_handoff_pr222": "DRAFT_PENDING",
+      "production_deployed_sha": "b31b2136b5fe982d0b63b0135479b1549041906c",
+      "canonical_baseline_at_sync": "024c4d2c5ef51819ca749965d5d1915cc98e2a6b",
+      "remaining_gates": [
+        "S5_1B_FULL_ARM64_AND_CI",
+        "S5_CANONICAL_FULL_REGRESSION",
+        "POWER_LOSS_AND_FSYNC_DURABILITY_UNPROVEN",
+        "EXTERNAL_CONSUMER_AUTHENTICATION_UNPROVEN",
+        "PRODUCTION_OWNER_ADMISSION"
+      ]
     }
   }
 }
