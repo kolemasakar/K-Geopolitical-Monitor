@@ -1,0 +1,15 @@
+[Unit]
+Description=KGM P24 consistent SQLite backup and isolated restore validation
+Requires=kgm-monitor.service
+After=kgm-monitor.service
+
+[Service]
+Type=oneshot
+User=root
+Group=kgmops
+ExecStart=/usr/local/libexec/kgm-p24-backup
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/kgm-p24-export /var/lib/kgm-p24-validation
