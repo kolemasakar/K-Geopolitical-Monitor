@@ -1,0 +1,12 @@
+polkit.addRule(function(action, subject) {
+    if (subject.user == "kgmops" &&
+        action.id == "org.freedesktop.systemd1.manage-units" &&
+        action.lookup("verb") == "start") {
+        var unit = action.lookup("unit");
+        if (unit == "kgm-p24-report.service" ||
+            unit == "kgm-p24-backup.service" ||
+            unit == "kgm-p24-cleanup.service") {
+            return polkit.Result.YES;
+        }
+    }
+});
