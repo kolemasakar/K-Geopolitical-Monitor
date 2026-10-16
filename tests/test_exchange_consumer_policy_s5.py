@@ -26,3 +26,9 @@ def test_disputed_can_only_pass_approved_explicit_scope():
     assert request(verification="DISPUTED")["sent"] is False
     with pytest.raises(PermissionError):
         request(verification="DISPUTED",scope="trading-signals")
+
+
+def test_disputed_rejected_even_if_nonresearch_grant_explicit():
+    extra=ConsumerGrant("k-sentinel","kgm-exchange-v1","trading-signals",enabled=True)
+    with pytest.raises(PermissionError):
+        request(verification="DISPUTED",scope="trading-signals",grants=[extra])
