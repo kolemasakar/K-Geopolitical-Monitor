@@ -1286,7 +1286,7 @@
     },
     "p24_1_au_live_checkpoint": "docs/checkpoints/P24_1_AU_LIVE_TIMESTAMP_AND_REGIONAL_TRANSPORT_2026-10-13.md",
     "p24_1_s4_offline": {
-      "status": "S4A_S4B_S4C_S4D_S4E_ACCEPTED_RESEARCH_ONLY_NO_SEND",
+      "status": "S4A_TO_S4G_OFFLINE_ACCEPTED_WITH_KNOWN_LIMITATIONS_NO_SEND",
       "main_merge_sha": "f6b6bbbdfb4e051f348d0efeb9f9f89dc7784c4f",
       "ci": "SUCCESS_FOR_203_205_208",
       "arm64_full_pass": {
@@ -1298,7 +1298,18 @@
       "ledger_pr_208": "MERGED",
       "production_activated": false,
       "downstream_send_enabled": false,
-      "s5_status": "PREPARATION_ONLY"
+      "s5_status": "HANDOFF_SYNC_ONLY",
+      "atomic_ledger_pr_210": "MERGED_CI_SUCCESS_ARM64_1591_PASS",
+      "adversarial_pr_212": "MERGED_CI_SUCCESS_ARM64_1595_PASS",
+      "security_audit_pr_211": "MERGED",
+      "roadmap_pr_213": "MERGED",
+      "latest_validated_merge_sha": "3f8735f58d0f504bf93ba284e3e2b14fe6e3af3c",
+      "remaining_gates": [
+        "LEDGER_V1_V2_MIGRATION_NOT_AUTHORIZED",
+        "REAL_MULTI_PROCESS_KILL_DURING_FSYNC",
+        "NETWORK_CONSUMER_AUTHORIZATION",
+        "PRODUCTION_OWNER_ADMISSION"
+      ]
     }
   }
 }
