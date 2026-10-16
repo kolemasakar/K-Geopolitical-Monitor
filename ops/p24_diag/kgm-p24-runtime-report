@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+import grp, hashlib, json, os, subprocess, tempfile
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path("/opt/k-geopolitical-monitor")
+OUT = Path("/var/lib/kgm-p24-export")
+REPORT = OUT / "runtime-report.json"
+KGMOPS_GID = grp.getgrnam("kgmops").gr_gid
+
+def run(args):
+    p = subprocess.run(args, capture_output=True, text=True, timeout=10)
+    return {"exit": p.returncode, "stdout": p.stdout.strip()}
+
+def sha256_file(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+def file_meta(path):
+    p = Path(path)
+    if not p.exists():
+        return {"path": str(p), "present": False}
+    return {"path": str(p), "present": True, "size": p.stat().st_size, "sha256": sha256_file(p)}
+
+OUT.mkdir(parents=True, exist_ok=True)
+os.chown(OUT, 0, KGMOPS_GID)
+os.chmod(OUT, 0o750)
+
+props = ["MainPID","ActiveState","SubState","User","Group","WorkingDirectory",
+         "ExecMainStartTimestamp","FragmentPath","DropInPaths","UnitFileState"]
+svc = run(["systemctl","show","kgm-monitor.service"] + sum([["-p", p] for p in props], []))
+pairs = {}
+for line in svc["stdout"].splitlines():
+    if "=" in line:
+        k,v = line.split("=",1)
+        pairs[k]=v
+
+pid = pairs.get("MainPID","")
+process = {"pid": int(pid) if pid.isdigit() else 0, "cwd":"UNAVAILABLE","exe":"UNAVAILABLE"}
+if pid.isdigit() and int(pid) > 0:
+    for name in ("cwd","exe"):
+        try:
+            process[name] = os.readlink(f"/proc/{pid}/{name}")
+        except OSError:
+            pass
+
+fragment = pairs.get("FragmentPath","")
+dropins = [x for x in pairs.get("DropInPaths","").split() if x]
+unit_files = []
+if fragment:
+    unit_files.append(file_meta(fragment))
+unit_files.extend(file_meta(x) for x in dropins)
+
+payload = {
+    "format":"KGM_P24_RUNTIME_REPORT_V1",
+    "observed_at":datetime.now(timezone.utc).isoformat(),
+    "service":pairs,
+    "process":process,
+    "unit_files":unit_files,
+    "checkout":{
+        "sha":run(["git","-c",f"safe.directory={ROOT}","-C",str(ROOT),"rev-parse","HEAD"])["stdout"],
+        "status_porcelain":run(["git","-c",f"safe.directory={ROOT}","-C",str(ROOT),"status","--porcelain"])["stdout"],
+    },
+    "loaded_python_release":"NOT_ATTESTABLE_RETROSPECTIVELY",
+    "checkout_note":"Checkout SHA is current disk state only and is not evidence of Python code already loaded by the running process.",
+    "sensitive_content":{"environment_values":False,"raw_logs":False,"process_memory":False},
+}
+fd,tmp = tempfile.mkstemp(prefix=".runtime-report.", dir=str(OUT))
+with os.fdopen(fd,"w",encoding="utf-8") as f:
+    json.dump(payload,f,indent=2,sort_keys=True)
+    f.write("\n")
+os.chown(tmp,0,KGMOPS_GID); os.chmod(tmp,0o640)
+os.replace(tmp,REPORT)
+print("KGM_P24_RUNTIME_REPORT=PASS")
