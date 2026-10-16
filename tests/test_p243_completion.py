@@ -55,3 +55,20 @@ def test_real_child_limits(kind):
     assert r["max_observed_file_bytes"]<=1024
 def test_child_timeout_reaped():
     assert probe("timeout")=={"kind":"timeout","status":"TIMEOUT","child_reaped":True}
+
+
+def test_bytes_subclass_cannot_bypass_limit():
+    class Misleading(bytes):
+        def __len__(self): return 0
+    data=[row("x","artifact",0)];data[0]["payload"]=Misleading(b"x"*100)
+    with pytest.raises(ValueError): rehearse(data,now=NOW,max_bytes=1)
+@pytest.mark.parametrize("cause",["ENOSPC","EACCES","UNKNOWN"])
+def test_unrelated_failure_not_accepted_as_limit(cause):
+    import json,subprocess
+    from kgeopolitical_monitor.resource_probe_p243 import _classify
+    result=subprocess.CompletedProcess([],42,json.dumps({"cause":cause}),"")
+    assert _classify("file",result)=="FAILED"
+def test_arbitrary_signal_not_accepted_as_cpu_limit():
+    import subprocess
+    from kgeopolitical_monitor.resource_probe_p243 import _classify
+    assert _classify("cpu",subprocess.CompletedProcess([],-9,"",""))=="FAILED"
