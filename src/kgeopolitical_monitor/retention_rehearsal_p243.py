@@ -31,7 +31,7 @@ def rehearse(records, *, now, protected_ids=(), max_bytes=1024*1024, max_records
             raise ValueError("unknown kind")
         if type(row["created"]) not in (int,float) or not math.isfinite(row["created"]) or row["created"]>now:
             raise ValueError("invalid creation time")
-        if not isinstance(row["payload"],bytes):
+        if type(row["payload"]) is not bytes:
             raise ValueError("bytes required")
         total+=len(row["payload"]);ids.add(key)
     if total>max_bytes:
