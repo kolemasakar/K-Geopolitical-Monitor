@@ -1,0 +1,13 @@
+[Unit]
+Description=KGM P24 fixed validation-artifact cleanup
+
+[Service]
+Type=oneshot
+User=root
+Group=kgmops
+ExecStart=/usr/local/libexec/kgm-p24-cleanup
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/kgm-p24-export /var/lib/kgm-p24-validation
