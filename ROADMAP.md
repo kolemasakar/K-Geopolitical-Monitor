@@ -1191,3 +1191,8 @@ Owner-authorized S5.1–S5.4 research-only implementation accepted with known li
 ## Post-S5 strategic audit / P24.2 plan — 2026-10-16
 
 Repository evidence audit complete; P24.2 isolated reliability/recovery plan prepared in `docs/audits/POST_S5_STRATEGIC_AUDIT_P24_2_PLAN_2026-10-16.md`. S5 offline PASS_WITH_KNOWN_LIMITATIONS retained. Next work: fresh read-only runtime/candidate manifest, isolated scheduler/recovery tests, disposable ledger migration/rollback rehearsal, storage-fault qualification and exact-head acceptance. This documentation change starts no runtime execution and closes neither P23.4 nor broader P24.1. Last runtime audit is historical; no fresh runtime check or new regression was performed. Production deployment, service restart, live migration, authenticated consumer enrollment and external delivery remain separate owner gates. FREE_ONLY / NO_SEND preserved.
+
+
+## P24.2 isolated implementation — 2026-10-16
+
+PR #229: explicitly invoked bounded recovery harness and disposable ledger conversion/rollback rehearsal; focused native ARM64 30 PASS (1.05s). Full native regression and exact-head CI pending. Fresh runtime metadata confirms checkout drift at b31b2136b5fe982d0b63b0135479b1549041906c; loaded process identity/source selection unverified, package metadata psycopg NOT_FOUND. P24.2-A PARTIAL; overall acceptance pending. See `docs/implementation/P24_2_RECOVERY_MIGRATION_RESULT_2026-10-16.md` and `docs/evidence/P24_2_A_RUNTIME_MANIFEST_2026-10-16.json`. No production/source/consumer activation, live migration, restart or send. P23.4/P24.1 gates preserved.
