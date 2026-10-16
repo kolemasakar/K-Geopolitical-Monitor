@@ -1356,6 +1356,19 @@
       "production_activated": false,
       "external_send_enabled": false,
       "phase23_and_p24_1_gates_preserved": true
+    },
+    "p24_2": {
+      "status": "ISOLATED_IMPLEMENTATION_ACCEPTANCE_PENDING",
+      "pull_request": 229,
+      "runtime_inventory": "PARTIAL_LOADED_PROCESS_AND_SOURCE_SELECTION_NOT_ATTESTED",
+      "runtime_deployed_sha": "b31b2136b5fe982d0b63b0135479b1549041906c",
+      "candidate_base_sha": "45e08fa150b48436c5c004d6a2ec37cf74ada02f",
+      "focused_arm64": "30_PASS_1_05S",
+      "full_arm64": "IN_PROGRESS",
+      "result_document": "docs/implementation/P24_2_RECOVERY_MIGRATION_RESULT_2026-10-16.md",
+      "runtime_manifest": "docs/evidence/P24_2_A_RUNTIME_MANIFEST_2026-10-16.json",
+      "production_activated": false,
+      "send_enabled": false
     }
   }
 }
