@@ -1,6 +1,6 @@
 # P24.2 isolated reliability/recovery implementation — 2026-10-16
 
-Status: IMPLEMENTED / ACCEPTANCE_PENDING. FREE_ONLY / NO_SEND.
+Status: OFFLINE_PASS_WITH_KNOWN_LIMITATIONS / RUNTIME_INVENTORY_PARTIAL / PRODUCTION_GATE_OPEN. FREE_ONLY / NO_SEND.
 Base: 45e08fa150b48436c5c004d6a2ec37cf74ada02f. Native ARM64 worktree: /tmp/kgm-p242-work.
 Authorization: owner requested P24.2-A through E; production activation remains excluded.
 
@@ -46,3 +46,12 @@ No deploy-ready command is asserted while actual source selection, dependencies 
 Focused and full-suite results, exact commit, environment and CI are to be recorded after completion. Code hashes in runtime manifest bind native validation to these files.
 Documentation-only follow-up does not alter tested code; any code edit requires fresh relevant validation.
 Phase 23/P24.1 acceptance remains unchanged. P24.3 resource/retention/observability and P24.4 owner production decision remain separate.
+
+
+## P24.2 final offline acceptance — 2026-10-16
+
+PR #229 corrected code `a674ffeebe5b4e46d5ffa5f1bec8b034b962a9c4`: full native ARM64 **1642 PASS / 453.17s / exit 0**, focused **31 PASS / 1.04s**, GitHub CI #3441 **1642 PASS / 117.49s / SUCCESS**. Status: `OFFLINE_PASS_WITH_KNOWN_LIMITATIONS_RUNTIME_INVENTORY_PARTIAL`. P24.2-A PARTIAL; B–D validated offline, E acceptance recorded in `docs/evidence/P24_2_OFFLINE_ACCEPTANCE_2026-10-16.json`. Earlier pending fields above are historical and superseded by this checkpoint.
+
+P1 review finding fixed: rollback restores canonical `ledger.jsonl`, removes v2 namespace and verifies through the v1 reader; new negative/state test PASS, review thread resolved. No new automated review of corrected HEAD asserted. Runtime manifest code hashes describe the initial candidate, not the subsequent rollback correction; exact corrected validation is bound to the SHA above.
+
+On-disk production source code selects Consilium/GDELT; effective process source selection and loaded code identity remain unverified. Dereferenced Python executable is 0755; symlink 0777 is not executable-permission evidence. Live migration, physical power-loss durability and owner production admission remain open. Deployment-specific rollback commands await runtime/backup prerequisites. FREE_ONLY / NO_SEND; no service restart or deployment. P23.4 and broader P24.1 unchanged.
