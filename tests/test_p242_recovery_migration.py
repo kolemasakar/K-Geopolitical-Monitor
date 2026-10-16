@@ -182,3 +182,17 @@ m.rehearse(sys.argv[1],sys.argv[2])
     fresh = tmp_path / "fresh"
     fresh.mkdir(mode=0o700)
     assert migration.rehearse(path, fresh)["rollback"] == "PASS"
+
+
+def test_rollback_uses_legacy_reader_and_canonical_namespace(tmp_path, monkeypatch):
+    path, work, raw = snapshot(tmp_path)
+    reader = migration.replay_published
+    checked = []
+    def inspect(root, cursor):
+        assert (root / "ledger.jsonl").read_bytes() == raw
+        assert not (root / "ledger-v2.jsonl").exists()
+        checked.append(True)
+        return reader(root, cursor)
+    monkeypatch.setattr(migration, "replay_published", inspect)
+    assert migration.rehearse(path, work)["rollback"] == "PASS"
+    assert checked == [True]
