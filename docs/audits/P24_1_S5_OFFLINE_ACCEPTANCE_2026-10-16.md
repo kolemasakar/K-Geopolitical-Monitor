@@ -1,6 +1,6 @@
 # P24.1 S5 final offline readiness evidence — 2026-10-16
 
-**Status: S5_OFFLINE_INTEGRATION_IN_ACCEPTANCE / PRODUCTION_GATE_OPEN.**
+**Status: S5_OFFLINE_IMPLEMENTATION_ACCEPTED_WITH_KNOWN_LIMITATIONS / PRODUCTION_GATE_OPEN.**
 
 ## Verified owner decision and foundations
 - S5 research-only decision PR #215 merged after CI PASS.
@@ -21,7 +21,7 @@
 
 ## Exit criteria before final owner production decision
 - Accept PR #223 only after exact-head GitHub CI and native ARM64 full suite PASS, then merge. Independent full regression evidence for S5.3 original head remains to be checked.
-- Repeat integration tests on canonical exact merged main after all PRs and synchronize ROADMAP/state/handoff with actual merge SHA.
+- Exact canonical merged-main ARM64 rerun PENDING; synchronize ROADMAP/state/handoff only with verified main and actual result.
 - Keep `FREE_ONLY / NO_SEND / PRODUCTION_NOT_APPROVED` until explicitly authorized after runtime/source/consumer security assessment.
 
 **Gate:** `P24_1_S5_OFFLINE_ONLY_FINAL_VALIDATION_PENDING`.
