@@ -20,8 +20,8 @@
 6. Deployment drift remains confirmed, and new research modules have not been deployed into the active unattended runtime.
 
 ## Exit criteria before final owner production decision
-- PR #223 is MERGED (GitHub CI SUCCESS); independently verify exact-head full ARM64 for #223 and merged-main native regression before declaring all S5 gates accepted. Independent full regression evidence for S5.3 original head remains to be checked.
-- Exact canonical merged-main ARM64 rerun PENDING; synchronize ROADMAP/state/handoff only with verified main and actual result.
+- PR #223 MERGED with exact-head CI SUCCESS and ARM64 full 1615/1615 PASS (591.47s). The subsequent integrated research-only S5 checkout containing all accepted code was independently rerun: **1615/1615 PASS** (466.86s, exit code 0), before documentation-only edits.
+- S5 offline integration gate **PASS_WITH_KNOWN_LIMITATIONS** based on independent full ARM64 regression after S5.1b merge. Final documentation CI and state/handoff synchronization must still verify the documentation HEAD; code was not deployed to the operational runtime.
 - Keep `FREE_ONLY / NO_SEND / PRODUCTION_NOT_APPROVED` until explicitly authorized after runtime/source/consumer security assessment.
 
-**Gate:** `P24_1_S5_FINAL_MAIN_REGRESSION_AND_EVIDENCE_SYNC_PENDING`.
+**Gate:** `P24_1_S5_OFFLINE_PASS_WITH_KNOWN_LIMITATIONS_PRODUCTION_OPEN`.
