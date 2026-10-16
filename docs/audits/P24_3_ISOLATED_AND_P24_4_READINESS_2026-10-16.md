@@ -1,6 +1,6 @@
 # P24.3 isolated acceptance and P24.4 readiness audit — 2026-10-16
 
-Status: IMPLEMENTATION_VALIDATION_PENDING / P24_4_PRODUCTION_NO_GO.
+Status: ISOLATED_OFFLINE_PASS_WITH_LIMITATIONS / P24_4_PRODUCTION_NO_GO.
 Owner request: execute steps 1–6, FREE_ONLY / NO_SEND; no production activation authorized.
 Base: a15fa89edfd851a42fe5289b9321770c5386b2d8.
 
@@ -57,3 +57,10 @@ Concrete controlled sequence before a deployment request:
 7. Roll back using the tested prior release/unit/environment and the rehearsed compatible data restore procedure. Verify integrity, replay continuity, source state and NO_SEND before resuming. A rollback that discards unbacked writes is prohibited.
 
 This is an executable-deployment preparation checklist, not a deploy-ready command package: actual privileged inspection, backup location and restore evidence are missing. No new production permission is inferred from the audit.
+
+
+## Final isolated qualification and readiness audit — 2026-10-16
+
+PR #231 corrected code `cf003749c74bb0f06ebd93cead19583695b733f5`: full native ARM64 **1681 PASS / 462.47s / exit 0**, focused **29 PASS / 1.30s**, GitHub CI #3476 **1681 PASS / 99.05s / SUCCESS**. Supersedes initial validation-pending text and focused 24-test snapshot. Two review findings fixed and resolved: exact bytes payload prevents length-override bypass; resource success requires expected EFBIG/EMFILE/MemoryError/SIGXCPU evidence (CPU soft 1s, hard 2s), never arbitrary OSError/signal. No new automated review of corrected HEAD asserted.
+
+Evidence: `docs/evidence/P24_3_QUALIFICATION_P24_4_AUDIT_2026-10-16.json`. P24.3 isolated mechanisms accepted with limitations; this does not close production retention adapters, reference discovery, active resource enforcement or independent live measurement. P24.4 audit COMPLETE / PRODUCTION NO-GO. P24.2-A PARTIAL: KGM SentinelX offline; free active slot occupied by another project, unchanged. Existing-rights probe cannot inspect process cwd/exe. Active service MemoryMax and CPUQuota are infinity; no new limits installed. No production deployment, restart, permissions, live cleanup, migration, source/consumer activation or send. FREE_ONLY / NO_SEND preserved. P23.4 and broad P24.1 unchanged.
