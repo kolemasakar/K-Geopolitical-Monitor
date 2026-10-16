@@ -558,3 +558,12 @@ Repository evidence audit complete; P24.2 isolated reliability/recovery plan pre
 ## P24.2 isolated implementation — 2026-10-16
 
 PR #229: explicitly invoked bounded recovery harness and disposable ledger conversion/rollback rehearsal; focused native ARM64 30 PASS (1.05s). Full native regression and exact-head CI pending. Fresh runtime metadata confirms checkout drift at b31b2136b5fe982d0b63b0135479b1549041906c; loaded process identity/source selection unverified, package metadata psycopg NOT_FOUND. P24.2-A PARTIAL; overall acceptance pending. See `docs/implementation/P24_2_RECOVERY_MIGRATION_RESULT_2026-10-16.md` and `docs/evidence/P24_2_A_RUNTIME_MANIFEST_2026-10-16.json`. No production/source/consumer activation, live migration, restart or send. P23.4/P24.1 gates preserved.
+
+
+## P24.2 final offline acceptance — 2026-10-16
+
+PR #229 corrected code `a674ffeebe5b4e46d5ffa5f1bec8b034b962a9c4`: full native ARM64 **1642 PASS / 453.17s / exit 0**, focused **31 PASS / 1.04s**, GitHub CI #3441 **1642 PASS / 117.49s / SUCCESS**. Status: `OFFLINE_PASS_WITH_KNOWN_LIMITATIONS_RUNTIME_INVENTORY_PARTIAL`. P24.2-A PARTIAL; B–D validated offline, E acceptance recorded in `docs/evidence/P24_2_OFFLINE_ACCEPTANCE_2026-10-16.json`. Earlier pending fields above are historical and superseded by this checkpoint.
+
+P1 review finding fixed: rollback restores canonical `ledger.jsonl`, removes v2 namespace and verifies through the v1 reader; new negative/state test PASS, review thread resolved. No new automated review of corrected HEAD asserted. Runtime manifest code hashes describe the initial candidate, not the subsequent rollback correction; exact corrected validation is bound to the SHA above.
+
+On-disk production source code selects Consilium/GDELT; effective process source selection and loaded code identity remain unverified. Dereferenced Python executable is 0755; symlink 0777 is not executable-permission evidence. Live migration, physical power-loss durability and owner production admission remain open. Deployment-specific rollback commands await runtime/backup prerequisites. FREE_ONLY / NO_SEND; no service restart or deployment. P23.4 and broader P24.1 unchanged.
