@@ -1,6 +1,6 @@
 # P24.1 S4 offline exchange security audit — 2026-10-16
 
-Status: **S4_PARTIAL_VALIDATED / S4F_ACCEPTANCE_PENDING / PRODUCTION_NO_SEND**.
+Status: **S4F_OFFLINE_ATOMIC_LEDGER_VALIDATED / S4_SECURITY_HARDENING_OPEN / PRODUCTION_NO_SEND**.
 
 ## Verified accepted modules
 - S4a exchange contract PR #199: GitHub CI SUCCESS, native ARM64 1549/1549 PASS.
@@ -9,7 +9,7 @@ Status: **S4_PARTIAL_VALIDATED / S4F_ACCEPTANCE_PENDING / PRODUCTION_NO_SEND**.
 - S4d replay selector PR #205: CI SUCCESS, ARM64 1577/1577 PASS.
 - S4e ledger PR #208: CI SUCCESS, ARM64 1586/1586 PASS; failed earlier PR #206 was closed without merge.
 - Canonical main at entry: `ce0067d42dbf2087701afd583c80d14ac70a5808` following handoff/state synchronization PR #209.
-- S4f atomic ledger PR #210: **DRAFT** and not accepted until exact-head CI and full ARM64 regression.
+- S4f atomic ledger PR #210: **MERGED**, exact-head CI SUCCESS, targeted 5/5 ARM64 PASS, full native ARM64 **1591/1591 PASS** (454.92s). Merge main `dc8476abcd1a2ed1d8ff7a35db491d0a0c3bf503`.
 
 ## Security and correctness boundaries
 
@@ -22,7 +22,7 @@ Status: **S4_PARTIAL_VALIDATED / S4F_ACCEPTANCE_PENDING / PRODUCTION_NO_SEND**.
 
 ## Follow-up sequence
 
-- Accept PR #210 only if exact-head CI plus independent ARM64 full regression PASS.
+- PR #210 accepted and merged after exact-head CI and independent ARM64 full regression PASS.
 - Add negative, multi-process and failpoint tests to the appropriate dedicated S4 module; assess need for a ledger-v1 to ledger-v2 migration contract without performing migration.
 - Reconcile ROADMAP and state after actual acceptance, then stage S5 completion. Production and export remain OFF.
 
