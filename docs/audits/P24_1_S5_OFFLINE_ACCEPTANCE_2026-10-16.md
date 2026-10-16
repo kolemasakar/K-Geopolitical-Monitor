@@ -1,6 +1,6 @@
 # P24.1 S5 final offline readiness evidence — 2026-10-16
 
-**Status: S5_IMPLEMENTED_WITH_PARTIAL_EVIDENCE / FINAL_MAIN_ARM64_ATTESTATION_OPEN / PRODUCTION_GATE_OPEN.**
+**Status: S5_OFFLINE_PASS_WITH_KNOWN_LIMITATIONS / PRODUCTION_GATE_OPEN.**
 
 ## Verified owner decision and foundations
 - S5 research-only decision PR #215 merged after CI PASS.
@@ -9,7 +9,7 @@
 - S5.1 process SIGKILL tests PR #217: CI PASS, 2 targeted tests PASS, independent native ARM64 **1597/1597 PASS** (970.86s). MERGED canonical SHA `9cd9a34e2e15da29c1398e567e80f7a93027035e`.
 - S5.2 read-only ledger compatibility PR #218: CI PASS, 4 targeted tests PASS, independent native ARM64 **1599/1599 PASS** (982.28s). MERGED canonical SHA `8603ce4e9a975800dcbdf7e87bacfb5cd124a052`.
 - S5.3 explicit deny-by-default no-send consumer contract PR #219: MERGED, GitHub CI SUCCESS, 12 targeted tests PASS. Independent original exact-head full-suite acceptance must be assessed separately; current S5 integration retested on PR #223 with 20/20 focused ARM64 PASS.
-- S5.1b old draft PR #221 CLOSED WITHOUT MERGE because its base predates S5.1–S5.3. Replacement PR #223 rebased on full accepted S5 main: 20/20 focused ARM64 PASS, exact-head GitHub CI SUCCESS and PR #223 MERGED into main `9c10d4d2dec331f82db3e4a346bcaef6372df3b3`. Exact-head full ARM64 result for #223 and merged-main regression remain to be independently attested.
+- S5.1b old draft PR #221 CLOSED WITHOUT MERGE because its base predates S5.1–S5.3. Replacement PR #223 rebased on full accepted S5 main: 20/20 focused ARM64 PASS, exact-head GitHub CI SUCCESS and PR #223 MERGED into main `9c10d4d2dec331f82db3e4a346bcaef6372df3b3`. Exact-head full ARM64 and subsequent integrated acceptance are recorded below; the earlier pending-attestation wording is superseded.
 
 ## Security boundaries and remaining proof
 1. SIGKILL around `os.replace` demonstrates local file consistency and replay under tested stop points, **not** power-loss durability or exactly-once remote side effects.
