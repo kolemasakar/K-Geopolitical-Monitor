@@ -19,6 +19,8 @@ def authorize_export(consumer, contract, scope, *, grants=(), source_state="UNKN
         raise PermissionError("network consumer delivery disabled")
     if source_state != "COMPLETE" or verification not in {"VERIFIED","DISPUTED"}:
         raise PermissionError("insufficient source or verification quality")
+    if scope != "news-research" and verification != "VERIFIED":
+        raise PermissionError("disputed evidence restricted to research scope")
     if not all(isinstance(x,str) and x and len(x)<=128 for x in (consumer,contract,scope)):
         raise ValueError("invalid identity")
     if not any(isinstance(g,ConsumerGrant) and g.enabled and
