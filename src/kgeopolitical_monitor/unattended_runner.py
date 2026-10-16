@@ -30,18 +30,17 @@ def build_unattended_service(
     *,
     poll_seconds: float = 60.0,
     transport: HttpTransport | None = None,
+    attestation_sink=None,
 ) -> UnattendedMonitoringService:
     """Build the validated live unattended stack without opening inbound services."""
 
     runtime = OperationalMonitoringRuntime(Path(project_root))
     http_transport = transport if transport is not None else UrllibHttpTransport()
-    base_collector = LiveSourceCollector(
-        runtime,
-        [
-            ConsiliumRssAdapter(http_transport),
-            GdeltDoc2Adapter(http_transport),
-        ],
-    )
+    adapters = [ConsiliumRssAdapter(http_transport), GdeltDoc2Adapter(http_transport)]
+    base_collector = LiveSourceCollector(runtime, adapters)
+    if attestation_sink is not None:
+        from .startup_attestation_p243 import startup_record
+        attestation_sink(startup_record(project_root, adapters))
     collector = ReproducibilityInstrumentedCollector(base_collector)
     processor = LiveEndToEndProcessor(runtime)
     cycle = LiveOperationalCycle(runtime, collector, processor)
@@ -93,6 +92,8 @@ def _parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Run one supervisor tick and exit; intended for validation/smoke checks.",
     )
+    parser.add_argument("--startup-attestation", action="store_true",
+                        help="Emit secret-free startup metadata; opt-in only.")
     return parser
 
 
@@ -104,6 +105,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         service = build_unattended_service(
             args.project_root,
             poll_seconds=args.poll_seconds,
+            **({"attestation_sink": lambda record: print(json.dumps({"startup_attestation": record}, sort_keys=True))}
+               if args.startup_attestation else {}),
         )
 
         if args.once:
