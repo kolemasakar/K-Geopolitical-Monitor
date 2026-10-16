@@ -1166,3 +1166,8 @@ S4c PR #203 offline generation merged: exact-head GitHub CI SUCCESS, native ARM6
 ### P24.1 S4f atomic ledger accepted, S4g hardening in progress — 2026-10-16
 
 PR #210 (atomic ledger v2) MERGED after exact-head GitHub CI SUCCESS, 5/5 focused native ARM64 PASS and full native ARM64 **1591/1591 PASS** (454.92s), merge `dc8476abcd1a2ed1d8ff7a35db491d0a0c3bf503`. S4 security audit PR #211 MERGED (`eea4baf9c9251d62abf8bce44376a28b27bf349f`). S4g PR #212 covers concurrent append, independent-process torn-file rejection, symlink ledger and symlink lock negative tests; 4/4 native ARM64 focused PASS; full suite and CI pending. **Offline only / NO_SEND.** Atomic ledger acceptance is not authorization for migration, unattended production recovery, network transport, external consumer privileges or exactly-once external side effects. Next S5 gate remains evidence and handoff reconciliation after accepted hardening.
+
+
+### P24.1 S4g adversarial ledger validation — 2026-10-16
+
+S4f atomic offline ledger PR #210 MERGED (1591/1591 full ARM64 PASS, CI SUCCESS). S4g adversarial offline tests PR #212 MERGED after 4/4 focused tests, CI SUCCESS and exact-head ARM64 **1595/1595 PASS** (456.74s), canonical merge SHA `3f8735f58d0f504bf93ba284e3e2b14fe6e3af3c`. Security audit PR #211 and prior roadmap sync PR #213 are merged. **S4 OFFLINE PASS_WITH_KNOWN_LIMITATIONS / NO_SEND.** Remaining independent gates: ledger v1→v2 compatibility/migration review, true multi-process kill during filesystem sync, network consumer authorization, unattended owner runtime acceptance. S5 handoff synchronization only; no source or production activation.

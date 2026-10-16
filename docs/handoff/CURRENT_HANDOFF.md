@@ -528,3 +528,8 @@ Owner-pilot real AU article HTTP200 at https://au.int/en/pressreleases/20261012/
 ## P24.1 owner-pilot offline research checkpoint — 2026-10-15
 
 The strategic/operational phase-23 pointer above remains authoritative for production. Separately, phase-24 research-only S4a–S4e has been incrementally validated and merged: PR #203 generation 1574/1574 ARM64 PASS, PR #205 replay 1577/1577 PASS, PR #208 ledger 1586/1586 PASS (all CI SUCCESS). Canonical code SHA after #208: `f6b6bbbdfb4e051f348d0efeb9f9f89dc7784c4f`. PR #206 was CLOSED, NOT merged, after an import dependency failure. S3 offline integration remains PASS_WITH_KNOWN_LIMITATIONS; production gate remains OPEN. No network send, sources activated, downstream consumer enablement, production deployment, or use of shared K-Trader/KRC resources. S5 handoff-preparation details: `docs/handoff/P24_1_S5_PREPARATION_2026-10-15.md`. ROADMAP and `docs/state/CURRENT_PROJECT_STATE.json` track separate research-only acceptance; do not substitute this for a runtime deployment attestation.
+
+
+### P24.1 S4g offline hardening checkpoint — 2026-10-16
+
+Research-only S4g PR #212 merged (exact-head CI SUCCESS; focused 4/4 and full native ARM64 1595/1595 PASS, 456.74s); canonical merge SHA `3f8735f58d0f504bf93ba284e3e2b14fe6e3af3c`. The Phase 23 operational pointer above remains authoritative for runtime. Research offline gate PASS_WITH_KNOWN_LIMITATIONS; live delivery, migration, source activation and production are NOT approved. See ROADMAP and `docs/state/CURRENT_PROJECT_STATE.json`.
