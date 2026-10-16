@@ -1,0 +1,82 @@
+name: KGM P24 Narrow Admin Install
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kgm-p24-narrow-admin-install
+  cancel-in-progress: false
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      E4_HOST: ${{ secrets.E4_HOST }}
+      E4_SSH_PRIVATE_KEY: ${{ secrets.E4_SSH_PRIVATE_KEY }}
+      E4_SSH_KNOWN_HOSTS: ${{ secrets.E4_SSH_KNOWN_HOSTS }}
+
+    steps:
+      - name: Validate required connection secrets
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$E4_HOST"
+          test -n "$E4_SSH_PRIVATE_KEY"
+          test -n "$E4_SSH_KNOWN_HOSTS"
+
+      - name: Configure pinned SSH connection
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$E4_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_e4"
+          chmod 0600 "$HOME/.ssh/id_e4"
+          printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 0600 "$HOME/.ssh/known_hosts"
+
+      - name: Install fixed P24 diagnostic access package
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh \
+            -i "$HOME/.ssh/id_e4" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            -o ConnectTimeout=10 \
+            "ubuntu@$E4_HOST" \
+            'set -Eeuo pipefail
+             test "$(id -un)" = ubuntu
+             test -f /tmp/install-kgm-p24-diag-access.sh
+             sudo -n bash /tmp/install-kgm-p24-diag-access.sh'
+
+      - name: Verify narrow helper installation
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh \
+            -i "$HOME/.ssh/id_e4" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            -o ConnectTimeout=10 \
+            "ubuntu@$E4_HOST" \
+            'set -Eeuo pipefail
+             sudo -n test -x /usr/local/libexec/kgm-p24-runtime-report
+             sudo -n test -f /etc/systemd/system/kgm-p24-report.service
+             sudo -n test -f /etc/systemd/system/kgm-p24-backup.service
+             sudo -n test -f /etc/systemd/system/kgm-p24-cleanup.service
+             sudo -n test -f /etc/polkit-1/rules.d/61-kgm-p24.rules
+             systemctl is-active kgm-monitor.service
+             echo KGM_P24_DIAG_INSTALL_VERIFY=PASS'
+
+      - name: Record completion
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          echo 'KGM_P24_NARROW_ADMIN_INSTALL=PASS'
+          echo 'KGMOPS_GENERAL_SUDO=UNCHANGED'
+          echo 'SENTINELX=UNCHANGED'
+          echo 'PRODUCTION_SERVICE_RESTARTED=NO'
