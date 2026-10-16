@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import tempfile
 from . import exchange_ledger_atomic_v1 as atomic
+from .exchange_ledger_v1 import replay_published
 
 LIMIT = 8 * 1024 * 1024
 
@@ -55,14 +56,12 @@ def rehearse(snapshot, workspace):
             if atomic._read(candidate) != rows:
                 raise ValueError("conversion mismatch")
             # Restore original format in the rehearsal directory only.
-            restored = root / "restored-v1.jsonl"
-            with restored.open("xb") as stream:
-                stream.write(raw)
-                stream.flush()
-                os.fsync(stream.fileno())
+            os.replace(candidate, stage)
             atomic._sync_directory(root)
-            if _snapshot(restored) != raw or atomic._read(restored) != rows:
-                raise ValueError("rollback mismatch")
+            if (candidate.exists() or _snapshot(stage) != raw
+                    or atomic._read(stage) != rows
+                    or replay_published(root, 0) != rows[:100]):
+                raise ValueError("rollback namespace or content mismatch")
         finally:
             os.close(fd)
     if _snapshot(snapshot) != raw:
