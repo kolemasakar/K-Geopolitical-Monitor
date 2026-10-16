@@ -20,6 +20,9 @@ jobs:
       E4_SSH_KNOWN_HOSTS: ${{ secrets.E4_SSH_KNOWN_HOSTS }}
 
     steps:
+      - name: Checkout exact workflow revision
+        uses: actions/checkout@v5
+
       - name: Validate required connection secrets
         shell: bash
         run: |
@@ -38,39 +41,53 @@ jobs:
           printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
           chmod 0600 "$HOME/.ssh/known_hosts"
 
+      - name: Validate fixed package before transfer
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -f ops/p24_diag/install-kgm-p24-diag-access.sh
+          python3 -m py_compile ops/p24_diag/kgm-p24-runtime-report ops/p24_diag/kgm-p24-backup
+          bash -n ops/p24_diag/kgm-p24-cleanup
+          bash -n ops/p24_diag/install-kgm-p24-diag-access.sh
+          (cd ops/p24_diag && sha256sum             kgm-p24-runtime-report             kgm-p24-backup             kgm-p24-cleanup             kgm-p24-report.service             kgm-p24-backup.service             kgm-p24-cleanup.service             61-kgm-p24.rules             install-kgm-p24-diag-access.sh > SHA256SUMS)
+
+      - name: Transfer fixed P24 package
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_e4"             -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10             "ubuntu@$E4_HOST"             'rm -rf /tmp/kgm-p24-package && install -d -m 0700 /tmp/kgm-p24-package'
+          scp -i "$HOME/.ssh/id_e4"             -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10             ops/p24_diag/kgm-p24-runtime-report             ops/p24_diag/kgm-p24-backup             ops/p24_diag/kgm-p24-cleanup             ops/p24_diag/kgm-p24-report.service             ops/p24_diag/kgm-p24-backup.service             ops/p24_diag/kgm-p24-cleanup.service             ops/p24_diag/61-kgm-p24.rules             ops/p24_diag/install-kgm-p24-diag-access.sh             ops/p24_diag/SHA256SUMS             "ubuntu@$E4_HOST:/tmp/kgm-p24-package/"
+
       - name: Install fixed P24 diagnostic access package
         shell: bash
         run: |
           set -Eeuo pipefail
-          ssh \
-            -i "$HOME/.ssh/id_e4" \
-            -o BatchMode=yes \
-            -o StrictHostKeyChecking=yes \
-            -o ConnectTimeout=10 \
-            "ubuntu@$E4_HOST" \
-            'set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_e4"             -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10             "ubuntu@$E4_HOST"             'set -Eeuo pipefail
              test "$(id -un)" = ubuntu
-             test -f /tmp/install-kgm-p24-diag-access.sh
-             sudo -n bash /tmp/install-kgm-p24-diag-access.sh'
+             cd /tmp/kgm-p24-package
+             sha256sum -c SHA256SUMS
+             sudo -n bash ./install-kgm-p24-diag-access.sh'
 
       - name: Verify narrow helper installation
         shell: bash
         run: |
           set -Eeuo pipefail
-          ssh \
-            -i "$HOME/.ssh/id_e4" \
-            -o BatchMode=yes \
-            -o StrictHostKeyChecking=yes \
-            -o ConnectTimeout=10 \
-            "ubuntu@$E4_HOST" \
-            'set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_e4"             -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10             "ubuntu@$E4_HOST"             'set -Eeuo pipefail
              sudo -n test -x /usr/local/libexec/kgm-p24-runtime-report
+             sudo -n test -x /usr/local/libexec/kgm-p24-backup
+             sudo -n test -x /usr/local/libexec/kgm-p24-cleanup
              sudo -n test -f /etc/systemd/system/kgm-p24-report.service
              sudo -n test -f /etc/systemd/system/kgm-p24-backup.service
              sudo -n test -f /etc/systemd/system/kgm-p24-cleanup.service
              sudo -n test -f /etc/polkit-1/rules.d/61-kgm-p24.rules
              systemctl is-active kgm-monitor.service
              echo KGM_P24_DIAG_INSTALL_VERIFY=PASS'
+
+      - name: Remove transferred staging package
+        if: always()
+        shell: bash
+        run: |
+          ssh -i "$HOME/.ssh/id_e4"             -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10             "ubuntu@$E4_HOST"             'rm -rf /tmp/kgm-p24-package' || true
 
       - name: Record completion
         shell: bash
