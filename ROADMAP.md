@@ -1176,3 +1176,8 @@ S4f atomic offline ledger PR #210 MERGED (1591/1591 full ARM64 PASS, CI SUCCESS)
 ### P24.1 S5 owner approval — 2026-10-16
 
 Owner authorized full research-only S5.1–S5.4 implementation, FREE_ONLY / NO_SEND. Strategic decision PR #215 MERGED SHA `8870bcb4855e4c1493c27e6d4241ecce247e9950`. S5 readiness hardening includes crash/failpoint qualification, ledger v1/v2 compatibility study, deny-by-default consumer authorization contract and final exact-head CI/native ARM64 audit. This is **not** consent for production deployment, external export/send, source activation, live migration, K-Sentinel/K-Trader enrollment, paid services or shared infrastructure. Production and Phase 23 operational status pointers are unchanged. S5 gates remain OPEN pending actual evidence.
+
+
+### P24.1 S5 integrated research-only checkpoint — 2026-10-16
+
+Owner-authorized FREE_ONLY / NO_SEND S5.1–S5.4 work has progressed: PR #217 SIGKILL offline failpoints MERGED (ARM64 1597 PASS); #218 read-only ledger v1/v2 compatibility MERGED (ARM64 1599 PASS); #219 deny-by-default dry-run consumer policy MERGED (CI SUCCESS, no delivery); #220 read-only runtime audit MERGED (service active, deployed SHA `b31b2136b5fe982d0b63b0135479b1549041906c`, material drift from research main). Old S5.1b #221 CLOSED without merge because stale base; replacement #223 is Draft, 20 integrated ARM64 focused tests PASS, full regression and exact-head CI pending. Final S5.4 report #222 also Draft; do not mark final S5 fully validated yet. The operational Phase 23 pointer remains in force; no live ledger migration, unattended deployment, network export, downstream consumer authorization, or production activation. Status: `S5_IMPLEMENTED_PARTIALLY_ACCEPTED_FINAL_GATE_OPEN`.
