@@ -1205,3 +1205,10 @@ PR #229 corrected code `a674ffeebe5b4e46d5ffa5f1bec8b034b962a9c4`: full native A
 P1 review finding fixed: rollback restores canonical `ledger.jsonl`, removes v2 namespace and verifies through the v1 reader; new negative/state test PASS, review thread resolved. No new automated review of corrected HEAD asserted. Runtime manifest code hashes describe the initial candidate, not the subsequent rollback correction; exact corrected validation is bound to the SHA above.
 
 On-disk production source code selects Consilium/GDELT; effective process source selection and loaded code identity remain unverified. Dereferenced Python executable is 0755; symlink 0777 is not executable-permission evidence. Live migration, physical power-loss durability and owner production admission remain open. Deployment-specific rollback commands await runtime/backup prerequisites. FREE_ONLY / NO_SEND; no service restart or deployment. P23.4 and broader P24.1 unchanged.
+
+
+## P24.3 entry acceptance — 2026-10-16
+
+PR #230 code `64293ae420b34329c4d8b8531874a036f5922ea7`: native ARM64 **1652 PASS / 457.95s / exit 0**, focused **14 PASS / 3.18s**. GitHub CI #3457 **1652 PASS / 98.32s** and Backup Restore Rollback #34 SUCCESS. Supersedes earlier pending entry wording. Evidence: `docs/evidence/P24_3_ENTRY_ACCEPTANCE_2026-10-16.json`.
+
+P24.2-A remains PARTIAL: fixed probe executed under kgmops, no elevated/admin execution; historical loaded release cannot be retrospectively established. Prepared --startup-attestation is off by default and has not been activated on the service. Loaded-code marshal fingerprints depend on Python version and compile filename/path, and are observations, not reproducible whole-release identity. No full P24.3 closure: live retention/DB cleanup, OS-level resource enforcement and comprehensive production observability remain future work. No deployed code change, restart, deletion, source activation, consumer enrollment or send. FREE_ONLY / NO_SEND preserved.
