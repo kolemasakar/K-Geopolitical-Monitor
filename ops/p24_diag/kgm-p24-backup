@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+import grp, hashlib, json, os, shutil, sqlite3, subprocess, tempfile
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT=Path("/opt/k-geopolitical-monitor")
+SRC=ROOT/"data"/"kgeopolitical_monitor.db"
+BASE=Path("/var/lib/kgm-p24-export")
+BUNDLE=BASE/"backup"
+DB=BUNDLE/"runtime.db"
+MAN=BUNDLE/"manifest.json"
+VAL=Path("/var/lib/kgm-p24-validation")
+RESTORE=VAL/"restore-check"/"kgeopolitical_monitor.db"
+GID=grp.getgrnam("kgmops").gr_gid
+
+def sha(path):
+    h=hashlib.sha256()
+    with open(path,"rb") as f:
+        for c in iter(lambda:f.read(1024*1024),b""): h.update(c)
+    return h.hexdigest()
+
+def integrity(path):
+    c=sqlite3.connect(f"file:{path}?mode=ro",uri=True)
+    try: return c.execute("PRAGMA integrity_check").fetchone()[0]
+    finally: c.close()
+
+def migrations(path):
+    c=sqlite3.connect(f"file:{path}?mode=ro",uri=True)
+    try:
+        rows=c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='schema_migrations'").fetchall()
+        if not rows: return {"present":False,"rows":[]}
+        vals=c.execute("SELECT * FROM schema_migrations").fetchall()
+        return {"present":True,"rows":[list(x) for x in vals]}
+    finally: c.close()
+
+def git_sha():
+    p=subprocess.run(["git","-c",f"safe.directory={ROOT}","-C",str(ROOT),"rev-parse","HEAD"],capture_output=True,text=True,timeout=10)
+    return p.stdout.strip() if p.returncode==0 else "UNAVAILABLE"
+
+if not SRC.is_file():
+    raise SystemExit("canonical sqlite database not found")
+
+BASE.mkdir(parents=True,exist_ok=True); os.chown(BASE,0,GID); os.chmod(BASE,0o750)
+if BUNDLE.exists():
+    raise SystemExit("backup bundle already exists; refusing to overwrite")
+BUNDLE.mkdir(mode=0o750); os.chown(BUNDLE,0,GID)
+VAL.mkdir(parents=True,exist_ok=True); os.chown(VAL,0,0); os.chmod(VAL,0o700)
+RESTORE.parent.mkdir(parents=True,exist_ok=True); os.chown(RESTORE.parent,0,0); os.chmod(RESTORE.parent,0o700)
+
+src=sqlite3.connect(f"file:{SRC}?mode=ro",uri=True)
+dst=sqlite3.connect(DB)
+try: src.backup(dst)
+finally: dst.close(); src.close()
+os.chown(DB,0,GID); os.chmod(DB,0o640)
+
+if integrity(DB)!="ok":
+    raise SystemExit("backup integrity check failed")
+
+src2=sqlite3.connect(f"file:{DB}?mode=ro",uri=True)
+dst2=sqlite3.connect(RESTORE)
+try: src2.backup(dst2)
+finally: dst2.close(); src2.close()
+os.chown(RESTORE,0,0); os.chmod(RESTORE,0o600)
+
+manifest={
+  "format":"KGM_P24_BACKUP_V1",
+  "captured_at":datetime.now(timezone.utc).isoformat(),
+  "source_database":str(SRC),
+  "backup_file":str(DB),
+  "backup_size_bytes":DB.stat().st_size,
+  "backup_sha256":sha(DB),
+  "backup_integrity_check":integrity(DB),
+  "schema_migrations":migrations(DB),
+  "restore_check":{
+      "path":str(RESTORE),
+      "integrity_check":integrity(RESTORE),
+      "size_bytes":RESTORE.stat().st_size,
+      "sha256":sha(RESTORE),
+      "schema_migrations":migrations(RESTORE),
+      "production_target_touched":False,
+  },
+  "consistency_method":"Python sqlite3 online backup API from read-only source connection",
+  "ordinary_cp_used":False,
+  "disk_checkout_sha":git_sha(),
+  "loaded_python_release":"NOT_ATTESTABLE_RETROSPECTIVELY",
+  "source_commit_status":"DISK_CHECKOUT_ONLY_NOT_RUNTIME_ATTESTATION",
+  "deletion_order":[
+      str(RESTORE),
+      str(DB),
+      str(MAN),
+      "/var/lib/kgm-p24-export/runtime-report.json",
+      str(RESTORE.parent),
+      str(BUNDLE)
+  ],
+  "github_upload_allowed":False,
+}
+fd,tmp=tempfile.mkstemp(prefix=".manifest.",dir=str(BUNDLE))
+with os.fdopen(fd,"w",encoding="utf-8") as f:
+    json.dump(manifest,f,indent=2,sort_keys=True); f.write("\n")
+os.chown(tmp,0,GID); os.chmod(tmp,0o640); os.replace(tmp,MAN)
+print("KGM_P24_BACKUP=PASS")
