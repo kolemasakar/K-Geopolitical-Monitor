@@ -1,0 +1,29 @@
+{
+  "status": "P24_3_ENTRY_OFFLINE_PASS_WITH_LIMITATIONS",
+  "code_sha": "64293ae420b34329c4d8b8531874a036f5922ea7",
+  "native_arm64": {
+    "passed": 1652,
+    "seconds": 457.95,
+    "exit": 0
+  },
+  "focused": {
+    "passed": 14,
+    "seconds": 3.18
+  },
+  "ci": {
+    "run": 38908706817,
+    "number": 3457,
+    "passed": 1652,
+    "seconds": 98.32,
+    "status": "SUCCESS"
+  },
+  "backup_restore_ci": {
+    "run": 38908706951,
+    "status": "SUCCESS"
+  },
+  "p24_2_a": "PARTIAL_ADMINISTRATIVE_PROBE_NOT_EXECUTED",
+  "startup_hook": "PREPARED_OPT_IN_NOT_ACTIVATED",
+  "retention": "BOUNDED_DRY_RUN_ONLY",
+  "production_modified": false,
+  "no_send": true
+}
