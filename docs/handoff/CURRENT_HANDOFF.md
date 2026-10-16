@@ -533,3 +533,8 @@ The strategic/operational phase-23 pointer above remains authoritative for produ
 ### P24.1 S4g offline hardening checkpoint — 2026-10-16
 
 Research-only S4g PR #212 merged (exact-head CI SUCCESS; focused 4/4 and full native ARM64 1595/1595 PASS, 456.74s); canonical merge SHA `3f8735f58d0f504bf93ba284e3e2b14fe6e3af3c`. The Phase 23 operational pointer above remains authoritative for runtime. Research offline gate PASS_WITH_KNOWN_LIMITATIONS; live delivery, migration, source activation and production are NOT approved. See ROADMAP and `docs/state/CURRENT_PROJECT_STATE.json`.
+
+
+### P24.1 S5 owner approval — 2026-10-16
+
+Owner authorized full research-only S5.1–S5.4 implementation, FREE_ONLY / NO_SEND. Strategic decision PR #215 MERGED SHA `8870bcb4855e4c1493c27e6d4241ecce247e9950`. S5 readiness hardening includes crash/failpoint qualification, ledger v1/v2 compatibility study, deny-by-default consumer authorization contract and final exact-head CI/native ARM64 audit. This is **not** consent for production deployment, external export/send, source activation, live migration, K-Sentinel/K-Trader enrollment, paid services or shared infrastructure. Production and Phase 23 operational status pointers are unchanged. S5 gates remain OPEN pending actual evidence.
