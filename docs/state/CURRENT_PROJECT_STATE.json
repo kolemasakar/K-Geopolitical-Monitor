@@ -1330,7 +1330,7 @@
       "s5_4_runtime_audit_pr220": "MERGED_RUNTIME_DRIFT_CONFIRMED",
       "s5_1b_superseded_pr221": "CLOSED_WITHOUT_MERGE",
       "s5_1b_replacement_pr223": "MERGED_CI_SUCCESS_ARM64_1615_PASS",
-      "final_handoff_pr222": "DRAFT_PENDING",
+      "final_handoff_pr222": "SUPERSEDED_CLOSED_WITHOUT_MERGE",
       "production_deployed_sha": "b31b2136b5fe982d0b63b0135479b1549041906c",
       "canonical_baseline_at_sync": "024c4d2c5ef51819ca749965d5d1915cc98e2a6b",
       "remaining_gates": [
@@ -1342,7 +1342,9 @@
       ],
       "s5_integrated_arm64": "1615_PASS_466_86S_EXIT_0",
       "research_accepted_main_sha": "9c10d4d2dec331f82db3e4a346bcaef6372df3b3",
-      "s5_4_final_evidence_pr225": "CI_VALIDATION_PENDING"
+      "s5_4_final_evidence_pr225": "MERGED_CI_SUCCESS",
+      "final_canonical_docs_pr226": "MERGED_CI_SUCCESS",
+      "final_documents_main_sha": "4632eb2d4ec97ad75770c821f482ac124c5a4357"
     }
   }
 }
