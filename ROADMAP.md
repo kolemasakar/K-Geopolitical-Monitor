@@ -1156,3 +1156,8 @@ S3 offline integration: **PASS_WITH_KNOWN_LIMITATIONS**, after PR #197 (1533 ARM
 - S4b immutable local synthetic artifact PR #201 merged, exact-head GitHub CI SUCCESS and native ARM64 **1554/1554 PASS** (449.61s); canonical main `5ea49fb2f3df7a85667884df50cad74d9a8700b2`.
 - S4c offline generation is isolated in draft PR #203; not accepted until exact-head CI and native ARM64 validation.
 - Scope remains **RESEARCH_ONLY / NO_SEND**. No network delivery, new source activation, production deployment, or authorization of K-Sentinel/K-Trader consumers. S3 offline remains PASS_WITH_KNOWN_LIMITATIONS and S3 production remains OPEN.
+
+
+### P24.1 S4 offline generation, replay and ledger accepted — 2026-10-15
+
+S4c PR #203 offline generation merged: exact-head GitHub CI SUCCESS, native ARM64 **1574/1574 PASS** (711.82s). S4d PR #205 replay selector merged: exact-head GitHub CI SUCCESS, ARM64 **1577/1577 PASS** (714.42s). S4e ledger first draft #206 failed due missing replay dependency and was CLOSED without merge; replacement PR #208 based on dependency-complete main MERGED after GitHub CI SUCCESS, targeted 3/3 PASS and full native ARM64 **1586/1586 PASS** (459.80s), canonical SHA `f6b6bbbdfb4e051f348d0efeb9f9f89dc7784c4f`. S5 handoff preparation doc in `docs/handoff/P24_1_S5_PREPARATION_2026-10-15.md`. **NO_SEND / RESEARCH_ONLY:** no production deployment, new source activation, external consumers, K-Sentinel/K-Trader delivery, or global exactly-once guarantee. S4 remaining gates: atomic ledger/replay security, negative consumer authorization and final audit; S5 state/handoff sync requires verified acceptance before closure.

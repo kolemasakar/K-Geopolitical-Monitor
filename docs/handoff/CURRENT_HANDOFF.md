@@ -523,3 +523,8 @@ Owner-pilot real AU article HTTP200 at https://au.int/en/pressreleases/20261012/
 
 
 **P24.1 AU live-source corrective acceptance:** research PR #177 merged into draft PR #163 at SHA `8e79191eba704927df0ff8b069c2d19095b8f378`. CI #3113 1802 PASS; exact-head ARM64 1802 PASS in 460.89s. Prior sitewide time selector incorrectly used newer news-carousel date Oct 13; scoped source article time yields Oct 12, 07:15:26Z, live source parser SUCCESS. Research code remains isolated from main/production. ASEAN 307 Sucuri, OAS 403 Cloudflare, GDELT TLS remain open.
+
+
+## P24.1 owner-pilot offline research checkpoint — 2026-10-15
+
+The strategic/operational phase-23 pointer above remains authoritative for production. Separately, phase-24 research-only S4a–S4e has been incrementally validated and merged: PR #203 generation 1574/1574 ARM64 PASS, PR #205 replay 1577/1577 PASS, PR #208 ledger 1586/1586 PASS (all CI SUCCESS). Canonical code SHA after #208: `f6b6bbbdfb4e051f348d0efeb9f9f89dc7784c4f`. PR #206 was CLOSED, NOT merged, after an import dependency failure. S3 offline integration remains PASS_WITH_KNOWN_LIMITATIONS; production gate remains OPEN. No network send, sources activated, downstream consumer enablement, production deployment, or use of shared K-Trader/KRC resources. S5 handoff-preparation details: `docs/handoff/P24_1_S5_PREPARATION_2026-10-15.md`. ROADMAP and `docs/state/CURRENT_PROJECT_STATE.json` track separate research-only acceptance; do not substitute this for a runtime deployment attestation.
