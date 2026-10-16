@@ -1,0 +1,54 @@
+{
+  "observed_at": "2026-10-16T10:48:02.193837+00:00",
+  "host": "kgm-e4-owner-pilot",
+  "scope": "READ_ONLY_METADATA_NO_ENV_VALUES",
+  "service": {
+    "exit": 0,
+    "stdout": "Restart=on-failure\nRestartUSec=10s\nMainPID=208487\nExecMainStartTimestamp=Thu 2026-10-01 06:47:38 UTC\nWorkingDirectory=/opt/k-geopolitical-monitor\nUser=kgm\nActiveState=active\nSubState=running\nFragmentPath=/etc/systemd/system/kgm-monitor.service",
+    "stderr": ""
+  },
+  "deployed_sha": {
+    "exit": 0,
+    "stdout": "b31b2136b5fe982d0b63b0135479b1549041906c",
+    "stderr": ""
+  },
+  "deployed_status": {
+    "exit": 0,
+    "stdout": "?? src/k_geopolitical_monitor.egg-info/",
+    "stderr": ""
+  },
+  "candidate_base": {
+    "exit": 0,
+    "stdout": "45e08fa150b48436c5c004d6a2ec37cf74ada02f",
+    "stderr": ""
+  },
+  "architecture": {
+    "exit": 0,
+    "stdout": "aarch64",
+    "stderr": ""
+  },
+  "process_cwd": {
+    "exit": 1,
+    "stdout": "",
+    "stderr": ""
+  },
+  "process_exe": {
+    "exit": 1,
+    "stdout": "",
+    "stderr": ""
+  },
+  "source_selection": "NOT_ATTESTED_NO_CONFIG_VALUES_READ",
+  "loaded_code_identity": "NOT_ATTESTED_PROC_ACCESS_UNAVAILABLE",
+  "production_modified": false,
+  "send_enabled": false,
+  "packages": {
+    "exit": 0,
+    "stdout": "{'k-geopolitical-monitor': '0.1.0', 'fastapi': '0.141.1', 'psycopg': 'NOT_FOUND'}",
+    "stderr": ""
+  },
+  "candidate_code_sha256": {
+    "src/kgeopolitical_monitor/bounded_recovery_p242.py": "2b81f44684b28aa28e2f0390f3215ed378a667c08f9e625649d51fe20c2a9c66",
+    "src/kgeopolitical_monitor/ledger_migration_rehearsal_p242.py": "12544d3615d22d545fd19ba4eb15cf2f7a3a4281865cd9e461cc0371f69a2c98",
+    "tests/test_p242_recovery_migration.py": "17f4613bd571d70d6cf8c831c48c1a7f7be255bbe640b9487c39ce10f572933b"
+  }
+}

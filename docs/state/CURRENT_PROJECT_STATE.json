@@ -1356,6 +1356,22 @@
       "production_activated": false,
       "external_send_enabled": false,
       "phase23_and_p24_1_gates_preserved": true
+    },
+    "p24_2": {
+      "status": "OFFLINE_PASS_WITH_KNOWN_LIMITATIONS_RUNTIME_INVENTORY_PARTIAL",
+      "pull_request": 229,
+      "runtime_inventory": "PARTIAL_LOADED_PROCESS_AND_SOURCE_SELECTION_NOT_ATTESTED",
+      "runtime_deployed_sha": "b31b2136b5fe982d0b63b0135479b1549041906c",
+      "candidate_base_sha": "45e08fa150b48436c5c004d6a2ec37cf74ada02f",
+      "focused_arm64": "31_PASS_1_04S",
+      "full_arm64": "1642_PASS_453_17S_EXIT_0",
+      "result_document": "docs/implementation/P24_2_RECOVERY_MIGRATION_RESULT_2026-10-16.md",
+      "runtime_manifest": "docs/evidence/P24_2_A_RUNTIME_MANIFEST_2026-10-16.json",
+      "production_activated": false,
+      "send_enabled": false,
+      "tested_commit": "a674ffeebe5b4e46d5ffa5f1bec8b034b962a9c4",
+      "code_ci": "3441_SUCCESS_1642_PASS_117_49S",
+      "acceptance_evidence": "docs/evidence/P24_2_OFFLINE_ACCEPTANCE_2026-10-16.json"
     }
   }
 }

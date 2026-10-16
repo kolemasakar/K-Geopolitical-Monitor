@@ -1,0 +1,30 @@
+{
+  "scope": "ISOLATED_OFFLINE_ONLY_NO_SEND",
+  "tested_commit": "a674ffeebe5b4e46d5ffa5f1bec8b034b962a9c4",
+  "focused_arm64": {
+    "passed": 31,
+    "seconds": 1.04
+  },
+  "ci": {
+    "number": 3441,
+    "run": 38890198244,
+    "passed": 1642,
+    "seconds": 117.49,
+    "status": "SUCCESS"
+  },
+  "native_full": {
+    "passed": 1642,
+    "seconds": 453.17,
+    "exit_code": 0,
+    "log": "/tmp/kgm-p242-corrected-full.log"
+  },
+  "environment": {
+    "host": "kgm-e4-owner-pilot",
+    "architecture": "aarch64",
+    "python": "3.12.3",
+    "pip_check": "PASS"
+  },
+  "runtime_inventory": "PARTIAL_PROCESS_IDENTITY_AND_EFFECTIVE_SOURCE_SELECTION_UNVERIFIED",
+  "production_activated": false,
+  "send_enabled": false
+}
