@@ -1310,6 +1310,20 @@
         "NETWORK_CONSUMER_AUTHORIZATION",
         "PRODUCTION_OWNER_ADMISSION"
       ]
+    },
+    "p24_1_s5": {
+      "status": "OWNER_APPROVED_RESEARCH_ONLY_IMPLEMENTATION_IN_PROGRESS",
+      "approved_on": "2026-10-16",
+      "scope": [
+        "S5.1_CRASH_FAILURE_HARDENING",
+        "S5.2_LEDGER_COMPATIBILITY",
+        "S5.3_CONSUMER_AUTHORIZATION_DESIGN",
+        "S5.4_AUDIT_AND_HANDOFF"
+      ],
+      "production_activated": false,
+      "external_send_enabled": false,
+      "owner_approval": "RESEARCH_ONLY_FREE_ONLY_NO_SEND",
+      "decision_doc": "docs/decisions/P24_1_S5_READINESS_HARDENING_ROADMAP_PROPOSAL_2026-10-16.md"
     }
   }
 }
