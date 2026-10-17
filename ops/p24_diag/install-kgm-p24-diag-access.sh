@@ -8,6 +8,8 @@ bash -n "$SRC_DIR/kgm-p24-cleanup"
 grep -q 'kgm-p24-report.service' "$SRC_DIR/61-kgm-p24.rules"
 grep -q 'kgm-p24-backup.service' "$SRC_DIR/61-kgm-p24.rules"
 grep -q 'kgm-p24-cleanup.service' "$SRC_DIR/61-kgm-p24.rules"
+install -d -o root -g root -m 0755 /usr/local/libexec
+install -d -o root -g root -m 0755 /etc/polkit-1/rules.d
 install -o root -g root -m 0755 "$SRC_DIR/kgm-p24-runtime-report" /usr/local/libexec/kgm-p24-runtime-report
 install -o root -g root -m 0755 "$SRC_DIR/kgm-p24-backup" /usr/local/libexec/kgm-p24-backup
 install -o root -g root -m 0755 "$SRC_DIR/kgm-p24-cleanup" /usr/local/libexec/kgm-p24-cleanup
