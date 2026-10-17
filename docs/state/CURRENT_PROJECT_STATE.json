@@ -5,7 +5,7 @@
     "strategic_version": "v4",
     "state_sync_version": "4.67",
     "status": "APPROVED",
-    "current_position": "PHASE_24_P24_2_A_SENTINEL_VALIDATION_COMPLETE_PENDING_KGM_ACCEPTANCE"
+    "current_position": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
