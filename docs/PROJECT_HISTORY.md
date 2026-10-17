@@ -98,3 +98,18 @@ This file records implementation-specific milestones and must not override the c
 - Current engineering activity: D0 documentation convergence + E8 read-only preflight/delta audit
 - Next numbered ROADMAP phase: NONE_APPROVED
 - Production/live operational status: NOT_OPERATIONAL
+
+
+## 2026-10-17 — P24.2-A bounded runtime backup/restore validation
+
+- Restored and confirmed the existing owner/admin path through GitHub Actions repository secrets `E4_HOST`, `E4_SSH_PRIVATE_KEY`, and `E4_SSH_KNOWN_HOSTS`.
+- Added the fixed, self-staging workflow `.github/workflows/p24-narrow-admin-install.yml` and the bounded helper package under `ops/p24_diag/`.
+- Installed fixed root-owned helpers for runtime reporting, consistent SQLite backup, isolated restore validation, and fixed cleanup without broadening `kgmops` sudo privileges.
+- Confirmed `kgm-monitor.service` remained active after the work.
+- Runtime disk checkout observed as `b31b2136b5fe982d0b63b0135479b1549041906c`; this is disk state only and is not runtime loaded-code attestation.
+- Created a consistent backup of `/opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db` through `sqlite3.backup()`; SHA256 `4c5c27a1716c706753b8ccda2abeae59982b3e6d5cad8b1eddce154c1bffa8f7`, integrity `ok`.
+- Isolated restore validation passed with identical size/SHA256 and `production_target_touched=false`.
+- Export artifacts are read-only to `kgmops`; the restore-validation area remains root-only.
+- No deployment, production restore, live migration, consumer connection, SentinelX slot switch, or GitHub upload of production data occurred.
+- Cleanup is deferred pending KGM acceptance.
+- Canonical checkpoint: `docs/checkpoints/P24_2_A_RUNTIME_BACKUP_RESTORE_SENTINEL_ACCEPTANCE_2026-10-17.md`.
