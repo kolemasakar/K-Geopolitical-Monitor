@@ -5,7 +5,7 @@
     "strategic_version": "v4",
     "state_sync_version": "4.67",
     "status": "APPROVED",
-    "current_position": "PHASE_24_P24_2_A_SENTINEL_VALIDATION_COMPLETE_PENDING_KGM_ACCEPTANCE"
+    "current_position": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -1359,9 +1359,9 @@
       "phase23_and_p24_1_gates_preserved": true
     },
     "p24_2": {
-      "status": "OFFLINE_PASS_WITH_KNOWN_LIMITATIONS_RUNTIME_INVENTORY_PARTIAL",
+      "status": "OFFLINE_PASS_WITH_KNOWN_LIMITATIONS_DIAGNOSTIC_BACKUP_ACCEPTED",
       "pull_request": 229,
-      "runtime_inventory": "PARTIAL_LOADED_PROCESS_AND_SOURCE_SELECTION_NOT_ATTESTED",
+      "runtime_inventory": "DIAGNOSTIC_REPORT_ACCEPTED_LOADED_CODE_AND_EFFECTIVE_SOURCES_NOT_ATTESTED",
       "runtime_deployed_sha": "b31b2136b5fe982d0b63b0135479b1549041906c",
       "candidate_base_sha": "45e08fa150b48436c5c004d6a2ec37cf74ada02f",
       "focused_arm64": "31_PASS_1_04S",
@@ -1372,7 +1372,8 @@
       "send_enabled": false,
       "tested_commit": "a674ffeebe5b4e46d5ffa5f1bec8b034b962a9c4",
       "code_ci": "3441_SUCCESS_1642_PASS_117_49S",
-      "acceptance_evidence": "docs/evidence/P24_2_OFFLINE_ACCEPTANCE_2026-10-16.json"
+      "acceptance_evidence": "docs/evidence/P24_2_OFFLINE_ACCEPTANCE_2026-10-16.json",
+      "owner_acceptance_doc": "docs/audits/P24_2_A_OWNER_ACCEPTANCE_2026-10-17.md"
     },
     "p24_3_entry": {
       "status": "P24_3_ENTRY_OFFLINE_PASS_WITH_LIMITATIONS",
@@ -1440,11 +1441,40 @@
     "p24_4_audit": {
       "status": "AUDIT_COMPLETE_PRODUCTION_NO_GO",
       "document": "docs/audits/P24_3_ISOLATED_AND_P24_4_READINESS_2026-10-16.md",
-      "owner_production_decision": "NOT_REQUESTED_PREREQUISITES_MISSING"
+      "owner_production_decision": "NOT_REQUESTED_PREREQUISITES_MISSING",
+      "verified_backup_scope": "2026_10_17_CAPTURED_SNAPSHOT_RESTORE_ACCEPTED_NOT_CUTOVER_BACKUP"
+    },
+    "p24_2_a_owner_acceptance": {
+      "format": "KGM_P24_2_A_OWNER_ACCEPTANCE_V1",
+      "observed_at": "2026-10-17T03:19:39.948271+00:00",
+      "status": "PASS_WITH_LOADED_CODE_LIMITATION",
+      "report_sha256": "7d906d7677a11385c687e827ff4abe569d34ef0dfb0de7c32c84ddd11c43f557",
+      "manifest_sha256": "a3d4a3a79d7717f8ef6c965a7976027f5241a600ccd6e82738352087acde5bcd",
+      "backup_size": 704512,
+      "backup_sha256": "4c5c27a1716c706753b8ccda2abeae59982b3e6d5cad8b1eddce154c1bffa8f7",
+      "integrity": "ok",
+      "table_count": 51,
+      "migration_count": 21,
+      "migration_records_match_manifest": true,
+      "foreign_key_violations": 0,
+      "independent_restore_metadata_and_counts_match": true,
+      "independent_restore_sha256": "4c5c27a1716c706753b8ccda2abeae59982b3e6d5cad8b1eddce154c1bffa8f7",
+      "independent_restore_temp_removed": true,
+      "admin_restore": "MANIFEST_ATTESTED_NOT_DIRECTLY_READ",
+      "admin_restore_readable": false,
+      "permissions": "THREE_EXPORTS_READABLE_NOT_WRITABLE",
+      "loaded_python_release": "NOT_ATTESTABLE_RETROSPECTIVELY",
+      "process_pid_at_report": 906,
+      "report_observed_at": "2026-10-17T00:55:41.800371+00:00",
+      "backup_captured_at": "2026-10-17T00:55:49.749478+00:00",
+      "production_modified_by_owner_acceptance": false,
+      "original_artifacts_removed": false,
+      "cleanup": "HOLD_PENDING_FAIL_CLOSED_PREFLIGHT_AND_POSTSTATE_PROOF",
+      "production_data_uploaded": false
     }
   },
   "phase24_p24_2_a": {
-    "state": "SENTINEL_VALIDATION_PASS_PENDING_KGM_ACCEPTANCE",
+    "state": "KGM_ACCEPTED_PASS_WITH_LOADED_CODE_LIMITATION",
     "gate": "P24_2_A_RUNTIME_METADATA_CONSISTENT_BACKUP_ISOLATED_RESTORE",
     "checkpoint": "docs/checkpoints/P24_2_A_RUNTIME_BACKUP_RESTORE_SENTINEL_ACCEPTANCE_2026-10-17.md",
     "observed_runtime": {
@@ -1504,10 +1534,13 @@
       "no_send_preserved": true
     },
     "cleanup": {
-      "state": "DEFERRED_PENDING_KGM_ACCEPTANCE",
+      "state": "HOLD_PENDING_FAIL_CLOSED_PREFLIGHT_AND_POSTSTATE_PROOF",
       "service": "kgm-p24-cleanup.service",
-      "execute_only_after_kgm_acceptance": true
+      "execute_only_after_kgm_acceptance": true,
+      "acceptance_is_not_cleanup_authorization": true
     },
-    "next_gate": "KGM_ACCEPT_P24_2_A_AND_CONTINUE_P24_2"
+    "next_gate": "P24_2_CANDIDATE_REAL_SNAPSHOT_COMPATIBILITY_AND_CLEANUP_HARDENING",
+    "owner_acceptance_doc": "docs/audits/P24_2_A_OWNER_ACCEPTANCE_2026-10-17.md",
+    "owner_acceptance_evidence": "docs/evidence/P24_2_A_OWNER_ACCEPTANCE_2026-10-17.json"
   }
 }
