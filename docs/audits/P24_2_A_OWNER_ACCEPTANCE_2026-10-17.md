@@ -36,3 +36,7 @@ A new consistent backup and isolated restore proof must be captured before any l
 P24.2-A accepted in the bounded diagnostic/backup scope; P24.2 overall retains known limitations.
 P24.4 production NO-GO preserved: deployed/candidate drift, startup provenance, candidate-vs-real-data compatibility and rollback, production retention/resource/observability integration, live ledger migration and external consumer authorization remain separate gates.
 FREE_ONLY / NO_SEND. No owner-acceptance service restart, production restore, deployment, source activation, consumer connection or rights expansion.
+
+
+## Canonical convergence correction
+CI exposed an inherited state mismatch: the Sentinel checkpoint had replaced roadmap.current_position with a Phase-24 diagnostic pointer while ROADMAP header stayed 4.66 and state declared 4.67. Restore the owner-approved Phase-23 strategic position; retain state-sync 4.67 and align ROADMAP. P24.2-A stays accepted in its dedicated metadata. Existing historical acceptance tests remain unchanged; no Phase 23 gate is implicitly closed.
