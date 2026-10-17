@@ -55,7 +55,7 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          ssh -i "$HOME/.ssh/id_e4"             -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10             "ubuntu@$E4_HOST"             'rm -rf /tmp/kgm-p24-package && install -d -m 0700 /tmp/kgm-p24-package'
+          ssh -i "$HOME/.ssh/id_e4"             -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10             "ubuntu@$E4_HOST"             'sudo -n rm -rf /tmp/kgm-p24-package && install -d -m 0700 /tmp/kgm-p24-package'
           scp -i "$HOME/.ssh/id_e4"             -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10             ops/p24_diag/kgm-p24-runtime-report             ops/p24_diag/kgm-p24-backup             ops/p24_diag/kgm-p24-cleanup             ops/p24_diag/kgm-p24-report.service             ops/p24_diag/kgm-p24-backup.service             ops/p24_diag/kgm-p24-cleanup.service             ops/p24_diag/61-kgm-p24.rules             ops/p24_diag/install-kgm-p24-diag-access.sh             ops/p24_diag/SHA256SUMS             "ubuntu@$E4_HOST:/tmp/kgm-p24-package/"
 
       - name: Install fixed P24 diagnostic access package
@@ -87,7 +87,7 @@ jobs:
         if: always()
         shell: bash
         run: |
-          ssh -i "$HOME/.ssh/id_e4"             -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10             "ubuntu@$E4_HOST"             'rm -rf /tmp/kgm-p24-package' || true
+          ssh -i "$HOME/.ssh/id_e4"             -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10             "ubuntu@$E4_HOST"             'sudo -n rm -rf /tmp/kgm-p24-package' || true
 
       - name: Record completion
         shell: bash
