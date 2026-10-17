@@ -1469,12 +1469,12 @@
       "backup_captured_at": "2026-10-17T00:55:49.749478+00:00",
       "production_modified_by_owner_acceptance": false,
       "original_artifacts_removed": false,
-      "cleanup": "READY_FOR_FIXED_CLEANUP_AFTER_ACCEPTANCE_EVIDENCE_COMMITTED",
+      "cleanup": "HOLD_PENDING_FAIL_CLOSED_PREFLIGHT_AND_POSTSTATE_PROOF",
       "production_data_uploaded": false
     }
   },
   "phase24_p24_2_a": {
-    "state": "SENTINEL_VALIDATION_PASS_PENDING_KGM_ACCEPTANCE",
+    "state": "KGM_ACCEPTED_PASS_WITH_LOADED_CODE_LIMITATION",
     "gate": "P24_2_A_RUNTIME_METADATA_CONSISTENT_BACKUP_ISOLATED_RESTORE",
     "checkpoint": "docs/checkpoints/P24_2_A_RUNTIME_BACKUP_RESTORE_SENTINEL_ACCEPTANCE_2026-10-17.md",
     "observed_runtime": {
@@ -1534,10 +1534,13 @@
       "no_send_preserved": true
     },
     "cleanup": {
-      "state": "DEFERRED_PENDING_KGM_ACCEPTANCE",
+      "state": "HOLD_PENDING_FAIL_CLOSED_PREFLIGHT_AND_POSTSTATE_PROOF",
       "service": "kgm-p24-cleanup.service",
-      "execute_only_after_kgm_acceptance": true
+      "execute_only_after_kgm_acceptance": true,
+      "acceptance_is_not_cleanup_authorization": true
     },
-    "next_gate": "KGM_ACCEPT_P24_2_A_AND_CONTINUE_P24_2"
+    "next_gate": "P24_2_CANDIDATE_REAL_SNAPSHOT_COMPATIBILITY_AND_CLEANUP_HARDENING",
+    "owner_acceptance_doc": "docs/audits/P24_2_A_OWNER_ACCEPTANCE_2026-10-17.md",
+    "owner_acceptance_evidence": "docs/evidence/P24_2_A_OWNER_ACCEPTANCE_2026-10-17.json"
   }
 }
