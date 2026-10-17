@@ -3,9 +3,9 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.66",
+    "state_sync_version": "4.67",
     "status": "APPROVED",
-    "current_position": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED"
+    "current_position": "PHASE_24_P24_2_A_SENTINEL_VALIDATION_COMPLETE_PENDING_KGM_ACCEPTANCE"
   },
   "phases": {
     "12": "PHASE_12_INTELLIGENCE_SOURCE_NETWORK_FOUNDATION_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
@@ -20,7 +20,7 @@
     "21": "PHASE_21_SOURCE_NETWORK_OPERATIONAL_ADEQUACY_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
     "22": "PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS",
     "23": "PHASE_23_EVIDENCE_DEPTH_CORROBORATION_OPERATIONAL_YIELD_APPROVED / P23_0_VALIDATED / P23_1_VALIDATED_WITH_PARTIAL_REMEDIATION / P23_2_VALIDATED_WITH_ZERO_UNDERLYING_ORIGIN_RESOLUTION / P23_3_VALIDATED_WITH_ZERO_CORROBORATION_POPULATION / P23_4_READY_TO_BEGIN",
-    "24": "PHASE_24_INDEPENDENT_RESEARCH_QUALITY_OPERATIONAL_READINESS_APPROVED / P24_0_IN_PROGRESS / PRODUCTION_NOT_ACTIVATED"
+    "24": "PHASE_24_INDEPENDENT_RESEARCH_QUALITY_OPERATIONAL_READINESS_APPROVED / P24_0_VALIDATED / P24_1_VALIDATED / P24_2_A_SENTINEL_VALIDATION_PASS / KGM_ACCEPTANCE_PENDING / PRODUCTION_NOT_ACTIVATED"
   },
   "activation_gates": {
     "phase14_owner_operation": "OWNER_ONLY_OPERATIONAL_ACTIVATION = OWNER_DECISION_REQUIRED",
@@ -42,7 +42,8 @@
     "phase23_source_activation": "BLOCKED_OR_NEW_SOURCE_ACTIVATION = OWNER_DECISION_REQUIRED",
     "phase23_acquisition_limits": "ACQUISITION_RESOURCE_LIMIT_RELAXATION = OWNER_DECISION_REQUIRED",
     "phase23_owner_delivery": "P23_6_BOUNDED_OWNER_FACING_DELIVERY_SAMPLE = OWNER_DECISION_REQUIRED",
-    "phase23_persistent_owner_operation": "PERSISTENT_OWNER_OPERATION = NOT_ACTIVATED"
+    "phase23_persistent_owner_operation": "PERSISTENT_OWNER_OPERATION = NOT_ACTIVATED",
+    "phase24_p24_2_a": "P24_2_A_SENTINEL_VALIDATION_PASS / KGM_ACCEPTANCE_PENDING / CLEANUP_DEFERRED"
   },
   "runtime": {
     "storage": "PROJECT_LOCAL_ONLY",
@@ -1441,5 +1442,72 @@
       "document": "docs/audits/P24_3_ISOLATED_AND_P24_4_READINESS_2026-10-16.md",
       "owner_production_decision": "NOT_REQUESTED_PREREQUISITES_MISSING"
     }
+  },
+  "phase24_p24_2_a": {
+    "state": "SENTINEL_VALIDATION_PASS_PENDING_KGM_ACCEPTANCE",
+    "gate": "P24_2_A_RUNTIME_METADATA_CONSISTENT_BACKUP_ISOLATED_RESTORE",
+    "checkpoint": "docs/checkpoints/P24_2_A_RUNTIME_BACKUP_RESTORE_SENTINEL_ACCEPTANCE_2026-10-17.md",
+    "observed_runtime": {
+      "host": "kgm-e4-owner-pilot",
+      "service": "kgm-monitor.service",
+      "service_state": "active/running",
+      "pid": 906,
+      "user": "kgm",
+      "group": "kgm",
+      "working_directory": "/opt/k-geopolitical-monitor",
+      "process_executable": "/usr/bin/python3.12",
+      "disk_checkout_sha": "b31b2136b5fe982d0b63b0135479b1549041906c",
+      "worktree": "?? src/k_geopolitical_monitor.egg-info/",
+      "loaded_python_release": "NOT_ATTESTABLE_RETROSPECTIVELY"
+    },
+    "evidence_paths": {
+      "runtime_report": "/var/lib/kgm-p24-export/runtime-report.json",
+      "backup": "/var/lib/kgm-p24-export/backup/runtime.db",
+      "manifest": "/var/lib/kgm-p24-export/backup/manifest.json",
+      "isolated_restore": "/var/lib/kgm-p24-validation/restore-check/kgeopolitical_monitor.db"
+    },
+    "backup_validation": {
+      "source_database": "/opt/k-geopolitical-monitor/data/kgeopolitical_monitor.db",
+      "method": "Python sqlite3 online backup API from read-only source connection",
+      "ordinary_cp_used": false,
+      "size_bytes": 704512,
+      "sha256": "4c5c27a1716c706753b8ccda2abeae59982b3e6d5cad8b1eddce154c1bffa8f7",
+      "integrity_check": "ok",
+      "restore_integrity_check": "ok",
+      "restore_sha256": "4c5c27a1716c706753b8ccda2abeae59982b3e6d5cad8b1eddce154c1bffa8f7",
+      "production_target_touched": false,
+      "migrations_observed": "001-021"
+    },
+    "access_model": {
+      "kgmops_general_sudo": "UNCHANGED",
+      "kgmops_group_kgm": false,
+      "export_access": "READ_ONLY",
+      "validation_area": "ROOT_ONLY",
+      "owner_admin_path": "GitHub Actions -> ubuntu@kgm-e4-owner-pilot -> sudo -n",
+      "required_repository_secrets": [
+        "E4_HOST",
+        "E4_SSH_PRIVATE_KEY",
+        "E4_SSH_KNOWN_HOSTS"
+      ],
+      "installer_workflow": ".github/workflows/p24-narrow-admin-install.yml",
+      "successful_workflow_commit": "b1aeb2e404184a35398f212f7659d6e1e5d4f0af"
+    },
+    "safety": {
+      "production_service_after_validation": "active",
+      "deployment": false,
+      "production_db_restore": false,
+      "live_migration": false,
+      "consumer_connection": false,
+      "github_upload_of_production_data": false,
+      "sentinelx_slot_changed": false,
+      "free_only_preserved": true,
+      "no_send_preserved": true
+    },
+    "cleanup": {
+      "state": "DEFERRED_PENDING_KGM_ACCEPTANCE",
+      "service": "kgm-p24-cleanup.service",
+      "execute_only_after_kgm_acceptance": true
+    },
+    "next_gate": "KGM_ACCEPT_P24_2_A_AND_CONTINUE_P24_2"
   }
 }
