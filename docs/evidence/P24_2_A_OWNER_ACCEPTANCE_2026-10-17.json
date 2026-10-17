@@ -23,6 +23,6 @@
   "backup_captured_at": "2026-10-17T00:55:49.749478+00:00",
   "production_modified_by_owner_acceptance": false,
   "original_artifacts_removed": false,
-  "cleanup": "READY_FOR_FIXED_CLEANUP_AFTER_ACCEPTANCE_EVIDENCE_COMMITTED",
+  "cleanup": "HOLD_PENDING_FAIL_CLOSED_PREFLIGHT_AND_POSTSTATE_PROOF",
   "production_data_uploaded": false
 }
