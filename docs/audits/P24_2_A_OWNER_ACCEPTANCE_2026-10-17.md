@@ -21,7 +21,7 @@ Loaded Python release remains NOT_ATTESTABLE_RETROSPECTIVELY. Effective live sou
 The snapshot captured at 2026-10-17T00:55:49.749478+00:00 is verified historical evidence, NOT a fresh pre-cutover backup or evidence of candidate schema/migration compatibility.
 
 ## Cleanup disposition
-KGM acceptance permits the existing fixed cleanup after this acceptance evidence is committed and reviewed. No cleanup was run during acceptance. Remove only the six exact paths in the reviewed manifest, in order:
+Cleanup HOLD. Acceptance of this snapshot does NOT authorize the existing ops/p24_diag/kgm-p24-cleanup helper. Reviewed baseline helper uses unchecked rm -f and ignores rmdir errors, so it can report PASS without the promised preflight/post-state guarantees. No cleanup was run. After a hardened helper or separately approved verified administrative procedure is reviewed, the only permitted deletion targets/order are:
 1. /var/lib/kgm-p24-validation/restore-check/kgeopolitical_monitor.db
 2. /var/lib/kgm-p24-export/backup/runtime.db
 3. /var/lib/kgm-p24-export/backup/manifest.json
@@ -29,7 +29,7 @@ KGM acceptance permits the existing fixed cleanup after this acceptance evidence
 5. /var/lib/kgm-p24-validation/restore-check
 6. /var/lib/kgm-p24-export/backup
 
-Abort on unexpected path/type/content or nonempty directories; no recursive wildcard deletion and no production target. After cleanup, record the fixed-cleanup outcome separately; current evidence does not claim deletion.
+Abort on unexpected path/type/content or nonempty directories; no recursive wildcard deletion and no production target. Before any deletion, an authorized administrator must validate ALL targets: exact fixed paths, root-owned nonsymlink regular files with single links, root-owned nonsymlink parent directories, exact directory contents with no extras, report and manifest hashes pinned to the owner evidence and both DB hashes/sizes matching the accepted snapshot. Complete every preflight check before mutation; abort unchanged on any mismatch. Cleanup must propagate unlink/rmdir errors, verify all six targets absent, confirm production service remains active, and emit PASS only after post-state proof. No ignored rmdir errors or recursive wildcard deletion. The existing helper must not be executed for this disposition. Preserve acceptance evidence independently before cleanup; report actual execution separately. Current evidence does not claim deletion.
 A new consistent backup and isolated restore proof must be captured before any later authorized cutover.
 
 ## Remaining gates
