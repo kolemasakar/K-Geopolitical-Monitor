@@ -1,8 +1,8 @@
 # ROADMAP
 
-Version: 4.71
+Version: 4.72
 Status: APPROVED
-Canonical state synchronization: `v4.71`
+Canonical state synchronization: `v4.72`
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
@@ -1265,3 +1265,9 @@ Owner-authorized steps 1+2: 25 wheel versions/hashes pinned for ARM64 CPython 3.
 
 
 Final acceptance on code/test SHA `b693416128a983fdc10ee825b44f0345460a1fa7`: rebuilt hash-locked ARM64 venv full regression **1708 PASS / 462.09s / exit 0**; GitHub CI #3626 **1708 PASS / 119.73s / SUCCESS**. New final overlap/contention/lock tests: **4 PASS / 7.57s**; supporting focused group before final assertions: 21 PASS / 17.89s; state/roadmap invariants 10 PASS. Direct fastapi/uvicorn/psycopg imports and bundled libpq load PASS. Real-snapshot overlap raw count 5→5 and all committed forward rows retained under the controlled policy; canonical cross-release lease and SQLite contention PASS. Source snapshot and actual service-venv metadata hashes unchanged, service active. No new automated review asserted. Isolated environment acceptance does not install dependencies into production or authorize restart, migration, restore, cleanup, concurrent supervisors or writer resumption.
+
+## Current freeze / transition pointer — 2026-10-19
+
+Project documentation synchronized at v4.72. Accepted baseline before this docs-only freeze: d0261a0ca4569522c63f834b2cf82484d280ce9f (PR #239 MERGED). Latest code/test qualification SHA: b693416128a983fdc10ee825b44f0345460a1fa7; rebuilt ARM64 1708 PASS / 462.09s / exit 0; final PR CI #3630 SUCCESS. Detailed handoff: `docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-10-19_P24_4_OFFLINE.md`; freeze checkpoint: `docs/checkpoints/KGM_PROJECT_FREEZE_2026-10-19_P24_4_OFFLINE.md`.
+
+State: WAITING_FOR_OWNER_TRANSITION_GENERATOR. Do not start new implementation or create the generator-specific bootstrap package until the owner provides the generator. Planned next technical block is immutable release/environment/config-reference packaging and reviewed switch/rollback preparation, with no production execution authorized. FREE_ONLY / NO_SEND / CLEANUP HOLD / Production NO-GO. Phase 23 strategic pointer unchanged. No fresh runtime inspection or new native regression is claimed by this documentation freeze.
