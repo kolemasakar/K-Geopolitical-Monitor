@@ -5,7 +5,7 @@ Owner authorized steps 1+2: isolated reproducible candidate environment and over
 
 ## Complete isolated environment
 
-Created a private ARM64 qualification bundle at `/home/kgmops/kgm-qualification-bundles/p244-20261019-arm64`. It retains 25 downloaded trusted-index wheels (14507627 bytes), a generated manifest and requirements.lock. Repository lock: `constraints/candidate-linux-aarch64-py312.lock`. Every package is pinned to an exact version and wheel SHA256, including all transitive runtime/test dependencies and pip. `psycopg` and `psycopg-binary` are included at 3.3.6. The helper `wheel_lock_p244` reads a bounded wheelhouse, validates identities and rejects duplicate distribution versions, aliases/non-wheels and excessive files/bytes; it performs no download or installation.
+Created a private ARM64 qualification bundle at `/home/kgmops/kgm-qualification-bundles/p244-20261019-arm64`. It retains 25 downloaded wheels (14507627 bytes), a generated manifest and requirements.lock. Repository lock: `constraints/candidate-linux-aarch64-py312.lock`. Every package is pinned to an exact version and wheel SHA256, including all transitive runtime/test dependencies and pip. `psycopg` and `psycopg-binary` are included at 3.3.6. The helper `wheel_lock_p244` reads a bounded wheelhouse, validates identities and rejects duplicate distribution versions, aliases/non-wheels and excessive files/bytes; it performs no download or installation.
 
 A new venv was created from Python 3.12.3 on Linux aarch64. Installation used only this wheelhouse, `--no-index --require-hashes --force-reinstall`; installed distribution/version mapping exactly equals the manifest; pip check PASS. In a disposable wheelhouse copy a wheel was deliberately altered: pip failed specifically with its hash-mismatch diagnostic. That negative result is not inferred merely from a nonzero exit.
 
@@ -33,7 +33,7 @@ This validates single-supervisor exclusion plus a narrowly controlled SQLite con
 
 ## Reproduction
 
-With the exact source checkout, CPython 3.12.3/compatible ARM64 ABI and the retained trusted wheelhouse:
+With the exact source checkout, CPython 3.12.3/compatible ARM64 ABI and the retained wheelhouse:
 
 ```bash
 python3 -m venv /tmp/kgm-qualification-rebuild
