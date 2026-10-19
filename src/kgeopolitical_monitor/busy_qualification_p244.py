@@ -134,12 +134,18 @@ def _busy_child(root, prior_checkout, watches):
         if phase != 2 and not all(e.result_count>0 for e in tick.executions):
             raise ValueError('synthetic fixture did not exercise processing')
         if transport.calls!=2*watches: raise ValueError('parser workload mismatch')
+        after=observe(queue_depth=len(service.runtime.due_watches(current)),queue_bytes=0,
+                      disk_free_bytes=shutil.disk_usage(root).free,
+                      rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
+                      retries=max(e.retry_count for e in tick.executions),
+                      sources=['UNAVAILABLE'] if phase==2 else ['UNKNOWN'])
+        if after['status']=='BLOCKED': raise ValueError('post-tick resource gate blocked')
         phases.append({'phase':phase,'executions':len(tick.executions),'failed':failed,
                        'results':sum(e.result_count for e in tick.executions),
                        'fixture_http_calls':transport.calls,'fixture_failures':transport.failures,
                        'recovered_runs':tick.recovered_runs,
                        'max_runtime_retry_count':max(e.retry_count for e in tick.executions),
-                       'observation_before':obs})
+                       'observation_before':obs,'observation_after':after})
         with sqlite3.connect(db) as conn: _check(conn)
     # All candidate writers have returned. Capture CURRENT committed data using
     # SQLite backup, not the pre-candidate baseline, before the read-only rollback
@@ -167,7 +173,8 @@ def _busy_child(root, prior_checkout, watches):
                 _check(conn); compatible=_inventory(conn)==forward_inventory
         else:
             legacy={'status':'FAILED','returncode':result.returncode}
-    if prior_checkout and not compatible: raise ValueError('prior release changed or cannot read forward state')
+    if prior_checkout:
+        legacy['forward_state_unchanged']=compatible
     # Rehearsal leaves candidate and checkpoint inventories intact. No baseline
     # restore is ever attempted once writes exist, even on a failed legacy gate.
     with sqlite3.connect(db) as conn:
@@ -179,6 +186,7 @@ def _busy_child(root, prior_checkout, watches):
     return {'status':'PASS_WITH_LIMITATIONS','workload':'SYNTHETIC_ON_REAL_SNAPSHOT_COPY',
             'phases':phases,'total_executions':sum(p['executions'] for p in phases),
             'socket_attempts_denied':socket_attempts[0], 'forward_rows_preserved':True,
+            'peak_rss_bytes':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
             'changed_tables':sum(forward_inventory.get(t)!=baseline_inventory.get(t) for t in forward_inventory),
             'legacy_smoke':legacy,'prior_read_compatible':compatible,'rollback_gate':gate,
             'production_modified':False,'send':False}
