@@ -1,8 +1,8 @@
 # ROADMAP
 
-Version: 4.70
+Version: 4.71
 Status: APPROVED
-Canonical state synchronization: `v4.70`
+Canonical state synchronization: `v4.71`
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
@@ -1257,3 +1257,11 @@ Owner-authorized continuation: pinned b31b213 prior writer executed 80 synthetic
 
 
 Final validation: code/test SHA `c06d0cb95651394b650203731faae81ee8433c40`; native ARM64 **1704 PASS / 462.06s / exit 0**; GitHub CI #3609 **1704 PASS / 131.72s / SUCCESS**; focused writer/preservation tests **17 PASS / 7.31s**, state/roadmap invariants **10 PASS**. Actual pinned prior writer runs 80 synthetic disjoint-item cycles using the service venv; committed forward rows retained with the documented controlled exceptions. Unit, drop-in and installed-package metadata hashes unchanged after checks; original snapshot unchanged; service active. No new automated review asserted. Candidate psycopg dependency, overlap/concurrency and actual production writer resumption remain open. FREE_ONLY / NO_SEND / CLEANUP HOLD / Production NO-GO.
+
+
+## Reproducible isolated environment, overlap and contention — 2026-10-19
+
+Owner-authorized steps 1+2: 25 wheel versions/hashes pinned for ARM64 CPython 3.12, complete offline rebuild exact-match and pip check PASS; tampered wheel rejected by hash. Candidate psycopg requirement satisfied in the new isolated venv, service venv unchanged. Repeated candidate/prior fixture items preserve forward rows with raw count 5→5; actual cross-release canonical lease denies the second writer before DB mutation, releases after owned-holder kill, and controlled SQLite BUSY rollback/retry retains all 3 expected commits. Exact validation/limitations: `docs/evidence/P24_4_REPRO_ENV_OVERLAP_CONTENTION_2026-10-19.json`; audit/reproduction: `docs/audits/P24_4_REPRO_ENV_OVERLAP_CONTENTION_2026-10-19.md`. Pinned source tree/migrations and Python/OS ABI remain separate rebuild inputs; this is not a production release switch, general multi-supervisor or changed-content acceptance. FREE_ONLY / NO_SEND / CLEANUP HOLD / Production NO-GO; strategic Phase 23 pointer preserved. State synchronization v4.71.
+
+
+Final acceptance on code/test SHA `b693416128a983fdc10ee825b44f0345460a1fa7`: rebuilt hash-locked ARM64 venv full regression **1708 PASS / 462.09s / exit 0**; GitHub CI #3626 **1708 PASS / 119.73s / SUCCESS**. New final overlap/contention/lock tests: **4 PASS / 7.57s**; supporting focused group before final assertions: 21 PASS / 17.89s; state/roadmap invariants 10 PASS. Direct fastapi/uvicorn/psycopg imports and bundled libpq load PASS. Real-snapshot overlap raw count 5→5 and all committed forward rows retained under the controlled policy; canonical cross-release lease and SQLite contention PASS. Source snapshot and actual service-venv metadata hashes unchanged, service active. No new automated review asserted. Isolated environment acceptance does not install dependencies into production or authorize restart, migration, restore, cleanup, concurrent supervisors or writer resumption.

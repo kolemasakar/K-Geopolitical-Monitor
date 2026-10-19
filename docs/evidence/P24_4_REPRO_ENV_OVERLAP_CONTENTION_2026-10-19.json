@@ -1,0 +1,552 @@
+{
+  "format": "KGM_P24_4_REPRO_ENV_OVERLAP_CONTENTION_V1",
+  "date": "2026-10-19",
+  "baseline_main": "10e80c373519cd83681db25aec40fcf663e6b2cd",
+  "tested_code_sha": "b693416128a983fdc10ee825b44f0345460a1fa7",
+  "pull_request": 239,
+  "environment": {
+    "scope": "LINUX_AARCH64_CPYTHON_3_12_3_QUALIFICATION_SOURCE_CHECKOUT",
+    "bundle_root": "/home/kgmops/kgm-qualification-bundles/p244-20261019-arm64",
+    "lock_path": "constraints/candidate-linux-aarch64-py312.lock",
+    "lock_sha256": "9e58c0a81205bdc3b8630e4920884c386906995c1d77bfbe239707692e5e8617",
+    "wheelhouse_manifest": {
+      "format": "KGM_WHEELHOUSE_V1",
+      "python": "3.12.3",
+      "platform": "linux-aarch64",
+      "total_bytes": 14507627,
+      "wheels": [
+        {
+          "name": "annotated-doc",
+          "version": "0.0.5",
+          "filename": "annotated_doc-0.0.5-py3-none-any.whl",
+          "bytes": 5302,
+          "sha256": "117bac03a25ede5df5440e855b32d556049ca169ead221505badf432fed4b101"
+        },
+        {
+          "name": "annotated-types",
+          "version": "0.8.0",
+          "filename": "annotated_types-0.8.0-py3-none-any.whl",
+          "bytes": 13427,
+          "sha256": "f072f4d804ea359e4eaf198b1af7a8b0943881a87f31bb764f8bf219bb9419e0"
+        },
+        {
+          "name": "anyio",
+          "version": "4.14.2",
+          "filename": "anyio-4.14.2-py3-none-any.whl",
+          "bytes": 125813,
+          "sha256": "9f505dda5ac9f0c8309b5e8bd445a8c2bf7246f3ce950121e45ea15bc41d1494"
+        },
+        {
+          "name": "click",
+          "version": "8.5.0",
+          "filename": "click-8.5.0-py3-none-any.whl",
+          "bytes": 125251,
+          "sha256": "255bc9599cf7748b4b1a446ccc735421bd08a2ae529a8b88597d3de5664ee360"
+        },
+        {
+          "name": "fastapi",
+          "version": "0.147.0",
+          "filename": "fastapi-0.147.0-py3-none-any.whl",
+          "bytes": 145077,
+          "sha256": "d92fc67613e67c3c63c8d3e9bb8c9b237fda94acd9e9a9acb9daa1ec578e8dcf"
+        },
+        {
+          "name": "h11",
+          "version": "0.16.0",
+          "filename": "h11-0.16.0-py3-none-any.whl",
+          "bytes": 37515,
+          "sha256": "63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86"
+        },
+        {
+          "name": "httpcore2",
+          "version": "2.14.0",
+          "filename": "httpcore2-2.14.0-py3-none-any.whl",
+          "bytes": 84291,
+          "sha256": "4c4f64f4b544afeb778c42c0ffb5941b29e671157e90ed3f6dc787c4bca90cd1"
+        },
+        {
+          "name": "httpx2",
+          "version": "2.14.0",
+          "filename": "httpx2-2.14.0-py3-none-any.whl",
+          "bytes": 96901,
+          "sha256": "9d20c13a10bae1773a0be3b0f1e5beeb4bdd549bc3a2ba18efa32897c65403e4"
+        },
+        {
+          "name": "idna",
+          "version": "3.20",
+          "filename": "idna-3.20-py3-none-any.whl",
+          "bytes": 69583,
+          "sha256": "ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c"
+        },
+        {
+          "name": "iniconfig",
+          "version": "2.3.1",
+          "filename": "iniconfig-2.3.1-py3-none-any.whl",
+          "bytes": 7552,
+          "sha256": "9121e2c1fdb355232495be3194c8dfe87ccc2d5dee45947b78e68f499790d7a7"
+        },
+        {
+          "name": "opentelemetry-api",
+          "version": "1.45.1",
+          "filename": "opentelemetry_api-1.45.1-py3-none-any.whl",
+          "bytes": 60256,
+          "sha256": "b31553efa588ae44bc306f863c785c5333a9ecc091248c6ee68b4b6c87fdedfb"
+        },
+        {
+          "name": "packaging",
+          "version": "26.3",
+          "filename": "packaging-26.3-py3-none-any.whl",
+          "bytes": 129956,
+          "sha256": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c"
+        },
+        {
+          "name": "pip",
+          "version": "24.0",
+          "filename": "pip-24.0-py3-none-any.whl",
+          "bytes": 2110226,
+          "sha256": "ba0d021a166865d2265246961bec0152ff124de910c5cc39f1156ce3fa7c69dc"
+        },
+        {
+          "name": "pluggy",
+          "version": "1.7.0",
+          "filename": "pluggy-1.7.0-py3-none-any.whl",
+          "bytes": 27082,
+          "sha256": "7dd7b0d8832ba3cb632c306926ded123429211b83641b35dc5c41ad2d34f9bec"
+        },
+        {
+          "name": "psycopg",
+          "version": "3.3.6",
+          "filename": "psycopg-3.3.6-py3-none-any.whl",
+          "bytes": 215490,
+          "sha256": "a1db9f7148b06a28606767efaca51fa6f9398c5c0a3810519be69d7000bdb631"
+        },
+        {
+          "name": "psycopg-binary",
+          "version": "3.3.6",
+          "filename": "psycopg_binary-3.3.6-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl",
+          "bytes": 6833587,
+          "sha256": "37d40450659401600e6d043ff586c89a71a69f33cbb8bcdba6cdb2569beecdbe"
+        },
+        {
+          "name": "pydantic",
+          "version": "2.14.1",
+          "filename": "pydantic-2.14.1-py3-none-any.whl",
+          "bytes": 488106,
+          "sha256": "9195d967ec791692a04438115466764fb8b9a27b31f14a760437694f40d6b454"
+        },
+        {
+          "name": "pydantic-core",
+          "version": "2.50.1",
+          "filename": "pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "bytes": 2048429,
+          "sha256": "c18db21573bd2c6489f9a544b7499f0df2853958c568e5e783536ee1f690af41"
+        },
+        {
+          "name": "pygments",
+          "version": "2.21.0",
+          "filename": "pygments-2.21.0-py3-none-any.whl",
+          "bytes": 1250147,
+          "sha256": "2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9"
+        },
+        {
+          "name": "pytest",
+          "version": "9.1.1",
+          "filename": "pytest-9.1.1-py3-none-any.whl",
+          "bytes": 386536,
+          "sha256": "37a86b45efb9a47a61a36449063e8e18d0cab3161329fc099eb21783169c4f0c"
+        },
+        {
+          "name": "starlette",
+          "version": "1.9.0",
+          "filename": "starlette-1.9.0-py3-none-any.whl",
+          "bytes": 80335,
+          "sha256": "fd3f159936e882d06c1108f84688f7cda2cf85fc6a592a50edbd175e882c2ddc"
+        },
+        {
+          "name": "truststore",
+          "version": "0.10.5",
+          "filename": "truststore-0.10.5-py3-none-any.whl",
+          "bytes": 19017,
+          "sha256": "9aaaedaefaf06d8b206278cf8b5012bc897f485a874503501e12d776df78951c"
+        },
+        {
+          "name": "typing-extensions",
+          "version": "4.16.0",
+          "filename": "typing_extensions-4.16.0-py3-none-any.whl",
+          "bytes": 45571,
+          "sha256": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+        },
+        {
+          "name": "typing-inspection",
+          "version": "0.4.4",
+          "filename": "typing_inspection-0.4.4-py3-none-any.whl",
+          "bytes": 14750,
+          "sha256": "65b8397ba37ccbce054456aaccddfc91e6e3083c92824df348d96ca832f3f147"
+        },
+        {
+          "name": "uvicorn",
+          "version": "0.54.0",
+          "filename": "uvicorn-0.54.0-py3-none-any.whl",
+          "bytes": 87427,
+          "sha256": "505bdb0f318731d45f1f712071fc781a8981f6847a31c902c9f5e652d4f67faf"
+        }
+      ]
+    },
+    "offline_install_flags": [
+      "--no-index",
+      "--require-hashes",
+      "--force-reinstall"
+    ],
+    "offline_installed_versions_exact_match": true,
+    "pip_check": "PASS",
+    "tampered_wheel_rejected_by_hash": true,
+    "candidate_runtime_and_test_dependencies_satisfied": true,
+    "project_delivery": "PINNED_SOURCE_TREE_PLUS_MIGRATIONS_NOT_PROJECT_WHEEL",
+    "service_venv_modified": false,
+    "runtime_imports": {
+      "status": "PASS",
+      "fastapi": "0.147.0",
+      "uvicorn": "0.54.0",
+      "psycopg": "3.3.6",
+      "libpq_version": 180006
+    }
+  },
+  "qualification": {
+    "changed_tables": 40,
+    "contention": {
+      "committed_probe_rows": 3,
+      "integrity": "PASS",
+      "lease_after_holder_kill": "RESUMED_COMMIT",
+      "lease_second_writer": "DENIED_BEFORE_DB_WRITE",
+      "production_modified": false,
+      "send": false,
+      "sqlite_overlap": "SQLITE_BUSY_ROLLED_BACK_THEN_RETRY_COMMITTED"
+    },
+    "forward_rows_preserved": true,
+    "legacy_smoke": {
+      "forward_rows_retained": true,
+      "installed_distribution_count": 24,
+      "installed_metadata_sha256": "edae2af66cb87c827574de9878045ece19703d62dcd3cd393723f1d53d10de48",
+      "overlap_raw_item_count_after": 5,
+      "overlap_raw_item_count_before": 5,
+      "phases": [
+        {
+          "executions": 20,
+          "failed": 0,
+          "max_retry_count": 0,
+          "phase": 0,
+          "recovered_runs": 1,
+          "results": 20
+        },
+        {
+          "executions": 20,
+          "failed": 0,
+          "max_retry_count": 0,
+          "phase": 1,
+          "recovered_runs": 0,
+          "results": 20
+        },
+        {
+          "executions": 20,
+          "failed": 20,
+          "max_retry_count": 0,
+          "phase": 2,
+          "recovered_runs": 0,
+          "results": 0
+        },
+        {
+          "executions": 20,
+          "failed": 0,
+          "max_retry_count": 1,
+          "phase": 3,
+          "recovered_runs": 0,
+          "results": 20
+        }
+      ],
+      "python_executable": "/opt/k-geopolitical-monitor/.venv/bin/python",
+      "python_version": "3.12.3",
+      "status": "PRIOR_WRITER_FIXTURE_PASS",
+      "total_executions": 80
+    },
+    "overlap_raw_item_count_preserved": true,
+    "overlapping_items": true,
+    "peak_rss_bytes": 66211840,
+    "phases": [
+      {
+        "executions": 20,
+        "failed": 0,
+        "fixture_failures": 0,
+        "fixture_http_calls": 40,
+        "max_runtime_retry_count": 0,
+        "observation_after": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36262096896,
+            "queue_bytes": 0,
+            "queue_depth": 0,
+            "retries": 0,
+            "rss_bytes": 43606016
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "observation_before": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36262187008,
+            "queue_bytes": 3610,
+            "queue_depth": 20,
+            "retries": 0,
+            "rss_bytes": 27213824
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "phase": 0,
+        "recovered_runs": 1,
+        "results": 20
+      },
+      {
+        "executions": 20,
+        "failed": 0,
+        "fixture_failures": 20,
+        "fixture_http_calls": 40,
+        "max_runtime_retry_count": 0,
+        "observation_after": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36261945344,
+            "queue_bytes": 0,
+            "queue_depth": 0,
+            "retries": 0,
+            "rss_bytes": 48320512
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "observation_before": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36262096896,
+            "queue_bytes": 3610,
+            "queue_depth": 20,
+            "retries": 0,
+            "rss_bytes": 43606016
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "phase": 1,
+        "recovered_runs": 0,
+        "results": 20
+      },
+      {
+        "executions": 20,
+        "failed": 20,
+        "fixture_failures": 40,
+        "fixture_http_calls": 40,
+        "max_runtime_retry_count": 0,
+        "observation_after": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36261900288,
+            "queue_bytes": 0,
+            "queue_depth": 0,
+            "retries": 0,
+            "rss_bytes": 51343360
+          },
+          "reasons": [
+            "SOURCE_DEGRADED"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 1,
+            "UNKNOWN": 0
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "observation_before": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36261945344,
+            "queue_bytes": 3610,
+            "queue_depth": 20,
+            "retries": 0,
+            "rss_bytes": 48320512
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "phase": 2,
+        "recovered_runs": 0,
+        "results": 0
+      },
+      {
+        "executions": 20,
+        "failed": 0,
+        "fixture_failures": 0,
+        "fixture_http_calls": 40,
+        "max_runtime_retry_count": 1,
+        "observation_after": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36261789696,
+            "queue_bytes": 0,
+            "queue_depth": 0,
+            "retries": 1,
+            "rss_bytes": 51625984
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "observation_before": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36261900288,
+            "queue_bytes": 3610,
+            "queue_depth": 20,
+            "retries": 0,
+            "rss_bytes": 51343360
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "phase": 3,
+        "recovered_runs": 0,
+        "results": 20
+      }
+    ],
+    "prior_read_compatible": true,
+    "prior_release_sha": "b31b2136b5fe982d0b63b0135479b1549041906c",
+    "prior_writer_fixture_compatible": true,
+    "production_modified": false,
+    "rollback_gate": {
+      "baseline_restore_allowed": false,
+      "decision": "CODE_ONLY_KEEP_FORWARD_DB",
+      "post_baseline_changes": true,
+      "production_execution_authorized": false,
+      "writer_resumption_validated": false
+    },
+    "send": false,
+    "snapshot_sha256": "4c5c27a1716c706753b8ccda2abeae59982b3e6d5cad8b1eddce154c1bffa8f7",
+    "socket_attempts_denied": 0,
+    "status": "PASS_WITH_LIMITATIONS",
+    "temporary_workspace_removed": true,
+    "total_executions": 80,
+    "workload": "SYNTHETIC_ON_REAL_SNAPSHOT_COPY",
+    "writer_preservation_policy": "ALL_ROWS_EXCEPT_FIXTURE_ENABLE_FLAGS_AND_MONOTONIC_HEALTH_TIMESTAMPS"
+  },
+  "validation": {
+    "focused": "21_PASS_17_89S_BEFORE_FINAL_DEDUP_CANONICAL_PATH_ASSERTIONS",
+    "final_new_tests": "4_PASS_7_57S",
+    "full_arm64": {
+      "status": "PASS",
+      "passed": 1708,
+      "seconds": 462.09,
+      "exit_code": 0,
+      "architecture": "aarch64",
+      "environment": "OFFLINE_REBUILT_HASH_LOCKED_VENV",
+      "tested_code_sha": "b693416128a983fdc10ee825b44f0345460a1fa7"
+    },
+    "code_ci": {
+      "run": 3626,
+      "id": 39261442209,
+      "status": "SUCCESS",
+      "passed": 1708,
+      "seconds": 119.73
+    }
+  },
+  "limitations": [
+    "BOUNDED_SYNTHETIC_REPEATED_IDENTICAL_ITEMS_NOT_CHANGED_CONTENT_UNDER_SAME_ID_OR_ALL_FUTURE_SCHEMAS",
+    "SINGLE_SUPERVISOR_LEASE_ADMISSION_NOT_MULTI_SUPERVISOR_AUTHORIZATION",
+    "SQLITE_BUSY_100MS_TEST_SETTING_ONLY_NO_SERVICE_TIMEOUT_CHANGE",
+    "LOCK_SCOPED_TO_ARM64_CPYTHON312_NOT_X64_CI_LOCK",
+    "SOURCE_TREE_AND_PYTHON_OS_ABI_ARE_SEPARATE_REBUILD_INPUTS",
+    "NO_PRODUCTION_RESTART_OR_WRITER_RESUMPTION_AUTHORIZED"
+  ],
+  "safety": {
+    "production_modified": false,
+    "production_dependencies_installed": false,
+    "source_snapshot_expected_sha256": "4c5c27a1716c706753b8ccda2abeae59982b3e6d5cad8b1eddce154c1bffa8f7",
+    "free_only": true,
+    "send": false,
+    "cleanup": "HOLD",
+    "production": "NO_GO",
+    "source_snapshot_hash_size_unchanged_after": true,
+    "service_venv_metadata_sha256_unchanged_after": "edae2af66cb87c827574de9878045ece19703d62dcd3cd393723f1d53d10de48",
+    "service_active_after": true
+  }
+}

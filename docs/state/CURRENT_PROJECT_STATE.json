@@ -3,7 +3,7 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.70",
+    "state_sync_version": "4.71",
     "status": "APPROVED",
     "current_position": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED"
   },
@@ -1548,6 +1548,28 @@
       "tested_code_sha": "c06d0cb95651394b650203731faae81ee8433c40",
       "full_arm64": "1704_PASS_462_06S_EXIT_0",
       "code_ci": "3609_SUCCESS_1704_PASS_131_72S"
+    },
+    "p24_4_repro_env_overlap_contention": {
+      "status": "BOUNDED_OFFLINE_PASS_WITH_LIMITATIONS",
+      "document": "docs/audits/P24_4_REPRO_ENV_OVERLAP_CONTENTION_2026-10-19.md",
+      "evidence": "docs/evidence/P24_4_REPRO_ENV_OVERLAP_CONTENTION_2026-10-19.json",
+      "lock": "constraints/candidate-linux-aarch64-py312.lock",
+      "isolated_candidate_dependency_manifest_satisfied": true,
+      "service_environment_unchanged": true,
+      "wheel_count": 25,
+      "offline_rebuild": "PASS",
+      "tampered_wheel_rejected": true,
+      "overlap_raw_items_before": 5,
+      "overlap_raw_items_after": 5,
+      "second_supervisor": "DENIED_BEFORE_DB_WRITE",
+      "sqlite_contention": "BUSY_ROLLBACK_RETRY_COMMIT_PASS",
+      "production_writer_resumption_authorized": false,
+      "production": "NO_GO",
+      "cleanup": "HOLD",
+      "send": false,
+      "tested_code_sha": "b693416128a983fdc10ee825b44f0345460a1fa7",
+      "full_arm64": "1708_PASS_462_09S_EXIT_0_OFFLINE_REBUILT_ENV",
+      "code_ci": "3626_SUCCESS_1708_PASS_119_73S"
     }
   },
   "phase24_p24_2_a": {
