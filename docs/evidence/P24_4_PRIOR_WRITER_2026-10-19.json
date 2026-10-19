@@ -1,0 +1,387 @@
+{
+  "format": "KGM_P24_4_PRIOR_WRITER_V1",
+  "date": "2026-10-19",
+  "baseline_main": "e587a201344e2281e7c83a100961e8cca4cab6b9",
+  "tested_code_sha": "c06d0cb95651394b650203731faae81ee8433c40",
+  "pull_request": 238,
+  "qualification": {
+    "changed_tables": 40,
+    "forward_rows_preserved": true,
+    "legacy_smoke": {
+      "forward_rows_retained": true,
+      "installed_distribution_count": 24,
+      "installed_metadata_sha256": "edae2af66cb87c827574de9878045ece19703d62dcd3cd393723f1d53d10de48",
+      "phases": [
+        {
+          "executions": 20,
+          "failed": 0,
+          "max_retry_count": 0,
+          "phase": 0,
+          "recovered_runs": 1,
+          "results": 20
+        },
+        {
+          "executions": 20,
+          "failed": 0,
+          "max_retry_count": 0,
+          "phase": 1,
+          "recovered_runs": 0,
+          "results": 20
+        },
+        {
+          "executions": 20,
+          "failed": 20,
+          "max_retry_count": 0,
+          "phase": 2,
+          "recovered_runs": 0,
+          "results": 0
+        },
+        {
+          "executions": 20,
+          "failed": 0,
+          "max_retry_count": 1,
+          "phase": 3,
+          "recovered_runs": 0,
+          "results": 20
+        }
+      ],
+      "python_executable": "/opt/k-geopolitical-monitor/.venv/bin/python",
+      "python_version": "3.12.3",
+      "status": "PRIOR_WRITER_FIXTURE_PASS",
+      "total_executions": 80
+    },
+    "peak_rss_bytes": 60526592,
+    "phases": [
+      {
+        "executions": 20,
+        "failed": 0,
+        "fixture_failures": 0,
+        "fixture_http_calls": 40,
+        "max_runtime_retry_count": 0,
+        "observation_after": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36926025728,
+            "queue_bytes": 0,
+            "queue_depth": 0,
+            "retries": 0,
+            "rss_bytes": 43589632
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "observation_before": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36926115840,
+            "queue_bytes": 3610,
+            "queue_depth": 20,
+            "retries": 0,
+            "rss_bytes": 27148288
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "phase": 0,
+        "recovered_runs": 1,
+        "results": 20
+      },
+      {
+        "executions": 20,
+        "failed": 0,
+        "fixture_failures": 20,
+        "fixture_http_calls": 40,
+        "max_runtime_retry_count": 0,
+        "observation_after": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36925874176,
+            "queue_bytes": 0,
+            "queue_depth": 0,
+            "retries": 0,
+            "rss_bytes": 48308224
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "observation_before": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36926025728,
+            "queue_bytes": 3610,
+            "queue_depth": 20,
+            "retries": 0,
+            "rss_bytes": 43589632
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "phase": 1,
+        "recovered_runs": 0,
+        "results": 20
+      },
+      {
+        "executions": 20,
+        "failed": 20,
+        "fixture_failures": 40,
+        "fixture_http_calls": 40,
+        "max_runtime_retry_count": 0,
+        "observation_after": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36925829120,
+            "queue_bytes": 0,
+            "queue_depth": 0,
+            "retries": 0,
+            "rss_bytes": 51326976
+          },
+          "reasons": [
+            "SOURCE_DEGRADED"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 1,
+            "UNKNOWN": 0
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "observation_before": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36925874176,
+            "queue_bytes": 3610,
+            "queue_depth": 20,
+            "retries": 0,
+            "rss_bytes": 48308224
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "phase": 2,
+        "recovered_runs": 0,
+        "results": 0
+      },
+      {
+        "executions": 20,
+        "failed": 0,
+        "fixture_failures": 0,
+        "fixture_http_calls": 40,
+        "max_runtime_retry_count": 1,
+        "observation_after": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36925718528,
+            "queue_bytes": 0,
+            "queue_depth": 0,
+            "retries": 1,
+            "rss_bytes": 51609600
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "observation_before": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 36925829120,
+            "queue_bytes": 3610,
+            "queue_depth": 20,
+            "retries": 0,
+            "rss_bytes": 51326976
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "phase": 3,
+        "recovered_runs": 0,
+        "results": 20
+      }
+    ],
+    "prior_read_compatible": true,
+    "prior_release_sha": "b31b2136b5fe982d0b63b0135479b1549041906c",
+    "prior_writer_fixture_compatible": true,
+    "production_modified": false,
+    "rollback_gate": {
+      "baseline_restore_allowed": false,
+      "decision": "CODE_ONLY_KEEP_FORWARD_DB",
+      "post_baseline_changes": true,
+      "production_execution_authorized": false,
+      "writer_resumption_validated": false
+    },
+    "send": false,
+    "snapshot_sha256": "4c5c27a1716c706753b8ccda2abeae59982b3e6d5cad8b1eddce154c1bffa8f7",
+    "socket_attempts_denied": 0,
+    "status": "PASS_WITH_LIMITATIONS",
+    "temporary_workspace_removed": true,
+    "total_executions": 80,
+    "workload": "SYNTHETIC_ON_REAL_SNAPSHOT_COPY",
+    "writer_preservation_policy": "ALL_ROWS_EXCEPT_FIXTURE_ENABLE_FLAGS_AND_MONOTONIC_HEALTH_TIMESTAMPS"
+  },
+  "runtime_inventory": {
+    "pid": 906,
+    "restarts": 0,
+    "service": "active/running",
+    "working_directory": "/opt/k-geopolitical-monitor",
+    "user": "kgm",
+    "group": "kgm",
+    "unit_path": "/etc/systemd/system/kgm-monitor.service",
+    "unit_sha256": "c732db214ecebf7cdf4e2d11596e114f3875e11fe96bba47229fba4cc897d5df",
+    "unit_bytes": 1059,
+    "dropin_path": "/etc/systemd/system/kgm-monitor.service.d/90-p24-resource-limits.conf",
+    "dropin_sha256": "7cc7ed65a4b90002cd9db4667f4f8ba94915c729807ee9007a7b4257d672b4a2",
+    "dropin_bytes": 66,
+    "execstart_property_sha256": "257b3ee5c7f0f692ed1a6e49308997fd75a5872e7db93c66a9aee783633859c9",
+    "configured_python": "/opt/k-geopolitical-monitor/.venv/bin/python",
+    "configured_module": "kgeopolitical_monitor.unattended_runner",
+    "flag_names": [
+      "--poll-seconds",
+      "--project-root"
+    ],
+    "environment_file_references": [],
+    "memory_high": 536870912,
+    "memory_max": 1073741824,
+    "cpu_quota": "1s",
+    "tasks_max": 128,
+    "loaded_release_attested": false
+  },
+  "dependency_inventory": {
+    "python": "3.12.3",
+    "service_venv_pip_check": "PASS",
+    "installed_distribution_count": 24,
+    "installed_metadata_sha256": "edae2af66cb87c827574de9878045ece19703d62dcd3cd393723f1d53d10de48",
+    "duplicate_project_distribution_metadata": true,
+    "candidate_requires_python_satisfied": true,
+    "candidate_dependencies": [
+      {
+        "name": "fastapi",
+        "requires": ">=0.116,<1",
+        "installed": "0.141.1",
+        "satisfied": true
+      },
+      {
+        "name": "uvicorn",
+        "requires": ">=0.35,<1",
+        "installed": "0.52.4",
+        "satisfied": true
+      },
+      {
+        "name": "psycopg",
+        "requires": ">=3.3,<4",
+        "installed": null,
+        "satisfied": false
+      }
+    ],
+    "candidate_dependency_manifest_satisfied": false,
+    "environment_modified": false
+  },
+  "validation": {
+    "focused": "17_PASS_7_31S",
+    "full_arm64": {
+      "status": "PASS",
+      "passed": 1704,
+      "seconds": 462.06,
+      "exit_code": 0,
+      "architecture": "aarch64",
+      "tested_code_sha": "c06d0cb95651394b650203731faae81ee8433c40"
+    },
+    "code_ci": {
+      "run": 3609,
+      "id": 39258371443,
+      "status": "SUCCESS",
+      "passed": 1704,
+      "seconds": 131.72
+    }
+  },
+  "limitations": [
+    "DISJOINT_SYNTHETIC_NEW_ITEMS_NOT_FULL_OVERLAP_OR_CONCURRENT_WRITER_QUALIFICATION",
+    "THREE_CURRENT_HEALTH_TIMESTAMPS_MAY_ADVANCE_MONOTONICALLY",
+    "METADATA_SNAPSHOT_NOT_REBUILDABLE_HASH_LOCK_OR_LOADED_RELEASE_ATTESTATION",
+    "CANDIDATE_PSYCOPG_REQUIREMENT_NOT_SATISFIED_IN_SERVICE_VENV",
+    "NO_PRODUCTION_WRITER_RESUMPTION_AUTHORIZATION"
+  ],
+  "safety": {
+    "production_modified": false,
+    "service_restart": false,
+    "dependency_installation": false,
+    "raw_report_or_sqlite_uploaded": false,
+    "free_only": true,
+    "send": false,
+    "cleanup": "HOLD",
+    "production": "NO_GO",
+    "snapshot_hash_size_unchanged_after": true,
+    "service_active_after": true,
+    "unit_dropin_and_service_venv_metadata_hashes_unchanged_after": true
+  }
+}
