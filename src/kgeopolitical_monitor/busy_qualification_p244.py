@@ -226,6 +226,7 @@ def _busy_child(root, prior_checkout, watches, prior_writer=False, prior_python=
     shutil.copyfile(checkpoint,legacy_db)
     legacy={'status':'NOT_RUN_NO_PINNED_PRIOR_CHECKOUT'}
     compatible=False
+    overlap_raw_count_stable=None
     if prior_checkout:
         env={'PATH':os.defpath,'PYTHONPATH':str(Path(prior_checkout)/'src'),
              'PYTHONDONTWRITEBYTECODE':'1'}
@@ -240,7 +241,16 @@ def _busy_child(root, prior_checkout, watches, prior_writer=False, prior_python=
             legacy=json.loads(result.stdout)
             with sqlite3.connect(legacy_db) as conn:
                 _check(conn); compatible=_inventory(conn)==forward_inventory if not prior_writer else False
-            if prior_writer: compatible=_forward_rows_retained(checkpoint,legacy_db)
+            if prior_writer:
+                compatible=_forward_rows_retained(checkpoint,legacy_db)
+                if overlap:
+                    with sqlite3.connect(checkpoint) as before_db, sqlite3.connect(legacy_db) as after_db:
+                        old_count=before_db.execute('SELECT count(*) FROM raw_items').fetchone()[0]
+                        new_count=after_db.execute('SELECT count(*) FROM raw_items').fetchone()[0]
+                    overlap_raw_count_stable=old_count==new_count
+                    compatible=compatible and overlap_raw_count_stable
+                    legacy['overlap_raw_item_count_before']=old_count
+                    legacy['overlap_raw_item_count_after']=new_count
         else:
             legacy={'status':'FAILED','returncode':result.returncode}
     if prior_checkout:
@@ -264,7 +274,8 @@ def _busy_child(root, prior_checkout, watches, prior_writer=False, prior_python=
             'changed_tables':sum(forward_inventory.get(t)!=baseline_inventory.get(t) for t in forward_inventory),
             'legacy_smoke':legacy,'prior_read_compatible':compatible,
             'prior_writer_fixture_compatible':compatible if prior_writer else None,
-            'overlapping_items':overlap,'contention':concurrent_result,
+            'overlapping_items':overlap,'overlap_raw_item_count_preserved':overlap_raw_count_stable,
+            'contention':concurrent_result,
             'writer_preservation_policy':'ALL_ROWS_EXCEPT_FIXTURE_ENABLE_FLAGS_AND_MONOTONIC_HEALTH_TIMESTAMPS' if prior_writer else None,
             'rollback_gate':gate,
             'production_modified':False,'send':False}
