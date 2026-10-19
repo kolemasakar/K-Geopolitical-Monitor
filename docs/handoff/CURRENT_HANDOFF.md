@@ -589,3 +589,12 @@ Diagnostic/report/consistent-backup/restore snapshot accepted: `PASS_WITH_LOADED
 
 
 State synchronization: `v4.67`. Canonical strategic position remains `PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED`; P24.2-A is a separately accepted diagnostic/backup gate, not Phase 23 closure. The inherited Phase-24 strategic pointer was a state-convergence error and is corrected without altering acceptance evidence.
+
+
+## Owner scope confirmation and work hold — 2026-10-19
+
+P24.2-A acceptance remains PASS_WITH_LOADED_CODE_LIMITATION for narrow diagnostics, the captured consistent backup and independent isolated restore. The owner's K_Sentinel handoff agrees with the recorded acceptance evidence (704512 bytes, SHA256 4c5c27a1716c706753b8ccda2abeae59982b3e6d5cad8b1eddce154c1bffa8f7, integrity ok, zero FK violations, 51 tables, 21 migrations). This checkpoint reconciles documentation only; it is not a new live runtime inspection or helper installation attestation. Disk checkout SHA does not attest loaded Python code.
+
+Owner instruction supersedes earlier next-step proposals: WAITING_FOR_EXPLICIT_OWNER_INSTRUCTION. Do not resume P24.2-B–E, P24.3, P24.4 or new integrations. Prior offline acceptance remains historical evidence; no new implementation or validation is authorized by this handoff. Cleanup remains HOLD, including the old kgm-p24-cleanup helper. No cleanup authorization follows from acceptance or helper preparation.
+
+FREE_ONLY / NO_SEND / CLEANUP HOLD / Production NO-GO. No production access expansion, deployment, service restart, live migration, production restore, consumer connection or production-data upload. Original artifacts remain retained according to the handoff; no fresh filesystem check is asserted. KGM acknowledges acceptance and waits for a separate owner instruction.
