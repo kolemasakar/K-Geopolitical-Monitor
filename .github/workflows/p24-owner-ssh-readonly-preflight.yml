@@ -1,0 +1,77 @@
+name: P24 Owner SSH and Read-only Preflight
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/p24-owner-ssh-readonly-preflight.yml"
+permissions:
+  contents: read
+concurrency:
+  group: p24-owner-ssh-readonly-preflight
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      E4_HOST: ${{ secrets.E4_HOST }}
+      E4_SSH_PRIVATE_KEY: ${{ secrets.E4_SSH_PRIVATE_KEY }}
+      E4_SSH_KNOWN_HOSTS: ${{ secrets.E4_SSH_KNOWN_HOSTS }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Validate pinned evidence and script
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$E4_HOST"
+          test -n "$E4_SSH_PRIVATE_KEY"
+          test -n "$E4_SSH_KNOWN_HOSTS"
+          test "$(sha256sum ops/p24_diag/kgm-p24-cleanup-preflight.py | cut -d' ' -f1)" = "5ac4e4f89e834073b68e0ad879b99c491533579ca0c2420569ffd090baa2252a"
+          python3 -m unittest discover -s tests -p test_p24_cleanup_preflight.py -q
+      - name: Set up pinned owner SSH
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$E4_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_e4"
+          printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 0600 "$HOME/.ssh/id_e4" "$HOME/.ssh/known_hosts"
+      - name: Owner SSH identity and read-only privileges
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_e4" -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 "ubuntu@$E4_HOST" '
+            set -Eeuo pipefail
+            test "$(id -un)" = ubuntu
+            sudo -n id -u | grep -qx 0
+            test "$(systemctl is-active kgm-monitor.service)" = active
+            echo KGM_OWNER_SSH=PASS
+            echo KGM_SERVICE_ACTIVE=PASS
+          '
+      - name: Read-only P24 preflight on real artifacts
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ev="$(mktemp)"
+          trap 'rm -f "$ev"' EXIT
+          cp docs/evidence/P24_2_A_OWNER_ACCEPTANCE_2026-10-17.json "$ev"
+          # Never execute files from a remotely writable temporary path.
+          # The Python program is streamed directly via SSH stdin.
+          # The accepted evidence is transferred through a private temporary file
+          # for a single invocation; no production artifacts are modified.
+          ssh -i "$HOME/.ssh/id_e4" -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 "ubuntu@$E4_HOST" '
+            set -Eeuo pipefail
+            d="$(mktemp -d /tmp/kgm-p24-preflight.XXXXXXXX)"
+            chmod 0700 "$d"
+            printf "%s\n" "$d"
+          ' > "$RUNNER_TEMP/remote_preflight_dir"
+          d="$(cat "$RUNNER_TEMP/remote_preflight_dir")"
+          case "$d" in /tmp/kgm-p24-preflight.[A-Za-z0-9]* ) ;; *) exit 1 ;; esac
+          cleanup() {
+            ssh -i "$HOME/.ssh/id_e4" -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 "ubuntu@$E4_HOST" "rm -f '$d/acceptance.json' && rmdir '$d'" >/dev/null 2>&1 || true
+          }
+          trap 'cleanup; rm -f "$ev"' EXIT
+          scp -i "$HOME/.ssh/id_e4" -o BatchMode=yes -o StrictHostKeyChecking=yes "$ev" "ubuntu@$E4_HOST:$d/acceptance.json"
+          ssh -i "$HOME/.ssh/id_e4" -o BatchMode=yes -o StrictHostKeyChecking=yes "ubuntu@$E4_HOST" "sudo -n python3 - --evidence '$d/acceptance.json'" < ops/p24_diag/kgm-p24-cleanup-preflight.py
+          echo KGM_PRODUCTION_PREFLIGHT=PASS
+          echo KGM_CLEANUP=HOLD
