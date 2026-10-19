@@ -21,6 +21,8 @@ def test_busy_pipeline_persists_success_failure_restart_and_cadence(tmp_path):
     assert [p['failed'] for p in r['phases']]==[0,0,3,0]
     assert sum(p['recovered_runs'] for p in r['phases'])==1
     assert r['phases'][3]['max_runtime_retry_count']>0
+    assert r['phases'][3]['observation_after']['counters']['retries']==1
+    assert all(p['observation_after']['counters']['queue_depth']==0 for p in r['phases'])
     assert r['socket_attempts_denied']==0
     assert r['changed_tables']>0 and r['forward_rows_preserved']
     assert r['rollback_gate']['decision']=='STOP_KEEP_FORWARD_DB'
