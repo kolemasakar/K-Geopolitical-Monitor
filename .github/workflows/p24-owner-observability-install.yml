@@ -1,0 +1,90 @@
+name: P24 Owner Install Observability and Doubled Limits
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/p24-owner-observability-install.yml"
+permissions:
+  contents: read
+concurrency:
+  group: p24-owner-observability-install
+  cancel-in-progress: false
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      E4_HOST: ${{ secrets.E4_HOST }}
+      E4_SSH_PRIVATE_KEY: ${{ secrets.E4_SSH_PRIVATE_KEY }}
+      E4_SSH_KNOWN_HOSTS: ${{ secrets.E4_SSH_KNOWN_HOSTS }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Validate declared unit and code
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$E4_HOST" && test -n "$E4_SSH_PRIVATE_KEY" && test -n "$E4_SSH_KNOWN_HOSTS"
+          python3 -m py_compile ops/p24_observability/kgm_readonly_metrics.py
+          grep -qx 'MemoryHigh=512M' ops/p24_observability/limits.conf
+          grep -qx 'MemoryMax=1G' ops/p24_observability/limits.conf
+          grep -qx 'CPUQuota=100%' ops/p24_observability/limits.conf
+          grep -qx 'TasksMax=128' ops/p24_observability/limits.conf
+      - name: Configure verified SSH
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$E4_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_e4"
+          printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 0600 "$HOME/.ssh/id_e4" "$HOME/.ssh/known_hosts"
+      - name: Upload staged package to private directory
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_e4" -o BatchMode=yes -o StrictHostKeyChecking=yes "ubuntu@$E4_HOST" '
+            set -Eeuo pipefail
+            test "$(id -un)" = ubuntu
+            sudo -n id -u | grep -qx 0
+            test "$(systemctl is-active kgm-monitor.service)" = active
+            test ! -e /tmp/kgm-p24-observability-owner-20261019
+            install -d -m 0700 /tmp/kgm-p24-observability-owner-20261019
+          '
+          scp -i "$HOME/.ssh/id_e4" -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            ops/p24_observability/kgm_readonly_metrics.py \
+            ops/p24_observability/kgm-observability.service \
+            ops/p24_observability/kgm-observability.timer \
+            ops/p24_observability/limits.conf \
+            "ubuntu@$E4_HOST:/tmp/kgm-p24-observability-owner-20261019/"
+      - name: Install systemd units and doubled resource limits, no service restart
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_e4" -o BatchMode=yes -o StrictHostKeyChecking=yes "ubuntu@$E4_HOST" '
+            set -Eeuo pipefail
+            src=/tmp/kgm-p24-observability-owner-20261019
+            sudo -n test -f /etc/systemd/system/kgm-monitor.service
+            sudo -n install -o root -g root -m 0755 "$src/kgm_readonly_metrics.py" /usr/local/libexec/kgm-readonly-metrics.py
+            sudo -n install -o root -g root -m 0644 "$src/kgm-observability.service" /etc/systemd/system/kgm-observability.service
+            sudo -n install -o root -g root -m 0644 "$src/kgm-observability.timer" /etc/systemd/system/kgm-observability.timer
+            sudo -n install -d -o root -g root -m 0755 /etc/systemd/system/kgm-monitor.service.d
+            sudo -n install -o root -g root -m 0644 "$src/limits.conf" /etc/systemd/system/kgm-monitor.service.d/90-p24-resource-limits.conf
+            sudo -n systemctl daemon-reload
+            sudo -n systemctl enable --now kgm-observability.timer
+            sudo -n systemctl start kgm-observability.service
+            test "$(systemctl is-active kgm-monitor.service)" = active
+            test "$(systemctl is-active kgm-observability.timer)" = active
+            echo KGM_OBSERVABILITY_TIMER_ACTIVE=PASS
+            echo KGM_SERVICE_RESTARTED_BY_WORKFLOW=NO
+            systemctl show kgm-monitor.service -p MemoryHigh -p MemoryMax -p CPUQuotaPerSecUSec -p TasksMax -p NRestarts
+            systemctl list-timers kgm-observability.timer --no-pager
+          '
+      - name: Remove staging without touching KGM data
+        if: always()
+        shell: bash
+        run: |
+          ssh -i "$HOME/.ssh/id_e4" -o BatchMode=yes -o StrictHostKeyChecking=yes "ubuntu@$E4_HOST" '
+            d=/tmp/kgm-p24-observability-owner-20261019
+            if test -d "$d"; then
+              rm -f "$d/kgm_readonly_metrics.py" "$d/kgm-observability.service" "$d/kgm-observability.timer" "$d/limits.conf"
+              rmdir "$d"
+            fi
+          ' || true
