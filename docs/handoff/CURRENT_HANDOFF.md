@@ -1,12 +1,19 @@
 # Current K-Geopolitical Monitor Handoff
 
+## Current freeze / transition pointer — 2026-10-19
+
+Project documentation synchronized at v4.72. Accepted baseline before this docs-only freeze: d0261a0ca4569522c63f834b2cf82484d280ce9f (PR #239 MERGED). Latest code/test qualification SHA: b693416128a983fdc10ee825b44f0345460a1fa7; rebuilt ARM64 1708 PASS / 462.09s / exit 0; final PR CI #3630 SUCCESS. Detailed handoff: `docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-10-19_P24_4_OFFLINE.md`; freeze checkpoint: `docs/checkpoints/KGM_PROJECT_FREEZE_2026-10-19_P24_4_OFFLINE.md`.
+
+State: WAITING_FOR_OWNER_TRANSITION_GENERATOR. Do not start new implementation or create the generator-specific bootstrap package until the owner provides the generator. Planned next technical block is immutable release/environment/config-reference packaging and reviewed switch/rollback preparation, with no production execution authorized. FREE_ONLY / NO_SEND / CLEANUP HOLD / Production NO-GO. Phase 23 strategic pointer unchanged. No fresh runtime inspection or new native regression is claimed by this documentation freeze.
+
+
 Status: `AUTHORITATIVE_POINTER / PHASE_23_APPROVED / P23_3_VALIDATED_WITH_ZERO_CORROBORATION_POPULATION / P23_4_PRESELECTION_COMPLETE_OWNER_DECISION_REQUIRED / UKSL_CONTROLLED_PILOT_PASS_WITH_MATERIAL_LIMITATIONS`
 
 Latest project-sync handoff:
-`docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-09-20_P23_1.md`
+`docs/handoff/KGM_NEW_CHAT_HANDOFF_2026-10-19_P24_4_OFFLINE.md`
 
 Latest project-sync checkpoint:
-`docs/checkpoints/PROJECT_CHECKPOINT_2026-09-20_PHASE23_PROJECT_SYNC_P23_1_READY.md`
+`docs/checkpoints/KGM_PROJECT_FREEZE_2026-10-19_P24_4_OFFLINE.md`
 
 Canonical prior validated strategic baseline:
 `PHASE_22_OPERATIONAL_EVIDENCE_HIGH_PRIORITY_COVERAGE_VALIDATED / PASS_WITH_KNOWN_LIMITATIONS`
