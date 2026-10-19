@@ -1,0 +1,286 @@
+{
+  "format": "KGM_P24_4_BUSY_FORWARD_ROLLBACK_V1",
+  "date": "2026-10-19",
+  "baseline_main": "9c97b22f1397d3f0c6039b406d909f2759bba2c1",
+  "tested_code_sha": "d43af16b82f6749f7f20405fc8e72070ea9016a3",
+  "pull_request": 237,
+  "qualification": {
+    "changed_tables": 40,
+    "forward_rows_preserved": true,
+    "legacy_smoke": {
+      "forward_state_unchanged": true,
+      "status": "INITIALIZE_AND_READ_PASS",
+      "watch_count": 23
+    },
+    "peak_rss_bytes": 56254464,
+    "phases": [
+      {
+        "executions": 20,
+        "failed": 0,
+        "fixture_failures": 0,
+        "fixture_http_calls": 40,
+        "max_runtime_retry_count": 0,
+        "observation_after": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 37488119808,
+            "queue_bytes": 0,
+            "queue_depth": 0,
+            "retries": 0,
+            "rss_bytes": 43606016
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "observation_before": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 37488209920,
+            "queue_bytes": 3610,
+            "queue_depth": 20,
+            "retries": 0,
+            "rss_bytes": 27205632
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "phase": 0,
+        "recovered_runs": 1,
+        "results": 20
+      },
+      {
+        "executions": 20,
+        "failed": 0,
+        "fixture_failures": 20,
+        "fixture_http_calls": 40,
+        "max_runtime_retry_count": 0,
+        "observation_after": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 37487968256,
+            "queue_bytes": 0,
+            "queue_depth": 0,
+            "retries": 0,
+            "rss_bytes": 48320512
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "observation_before": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 37488119808,
+            "queue_bytes": 3610,
+            "queue_depth": 20,
+            "retries": 0,
+            "rss_bytes": 43606016
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "phase": 1,
+        "recovered_runs": 0,
+        "results": 20
+      },
+      {
+        "executions": 20,
+        "failed": 20,
+        "fixture_failures": 40,
+        "fixture_http_calls": 40,
+        "max_runtime_retry_count": 0,
+        "observation_after": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 37487923200,
+            "queue_bytes": 0,
+            "queue_depth": 0,
+            "retries": 0,
+            "rss_bytes": 51339264
+          },
+          "reasons": [
+            "SOURCE_DEGRADED"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 1,
+            "UNKNOWN": 0
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "observation_before": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 37487968256,
+            "queue_bytes": 3610,
+            "queue_depth": 20,
+            "retries": 0,
+            "rss_bytes": 48320512
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "phase": 2,
+        "recovered_runs": 0,
+        "results": 0
+      },
+      {
+        "executions": 20,
+        "failed": 0,
+        "fixture_failures": 0,
+        "fixture_http_calls": 40,
+        "max_runtime_retry_count": 1,
+        "observation_after": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 37487808512,
+            "queue_bytes": 0,
+            "queue_depth": 0,
+            "retries": 1,
+            "rss_bytes": 51662848
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "observation_before": {
+          "admit_work": false,
+          "counters": {
+            "disk_free_bytes": 37487923200,
+            "queue_bytes": 3610,
+            "queue_depth": 20,
+            "retries": 0,
+            "rss_bytes": 51339264
+          },
+          "reasons": [
+            "SOURCE_UNKNOWN"
+          ],
+          "send": false,
+          "source_counts": {
+            "DEGRADED": 0,
+            "SUCCESS": 0,
+            "UNAVAILABLE": 0,
+            "UNKNOWN": 1
+          },
+          "status": "DEGRADED",
+          "version": 1
+        },
+        "phase": 3,
+        "recovered_runs": 0,
+        "results": 20
+      }
+    ],
+    "prior_read_compatible": true,
+    "prior_release_sha": "b31b2136b5fe982d0b63b0135479b1549041906c",
+    "production_modified": false,
+    "rollback_gate": {
+      "baseline_restore_allowed": false,
+      "decision": "CODE_ONLY_KEEP_FORWARD_DB",
+      "post_baseline_changes": true,
+      "production_execution_authorized": false,
+      "writer_resumption_validated": false
+    },
+    "send": false,
+    "snapshot_sha256": "4c5c27a1716c706753b8ccda2abeae59982b3e6d5cad8b1eddce154c1bffa8f7",
+    "socket_attempts_denied": 0,
+    "status": "PASS_WITH_LIMITATIONS",
+    "temporary_workspace_removed": true,
+    "total_executions": 80,
+    "workload": "SYNTHETIC_ON_REAL_SNAPSHOT_COPY"
+  },
+  "validation": {
+    "focused": "6_PASS_4_02S",
+    "full_arm64": {
+      "status": "PASS",
+      "passed": 1693,
+      "seconds": 453.86,
+      "exit_code": 0,
+      "architecture": "aarch64",
+      "tested_code_sha": "d43af16b82f6749f7f20405fc8e72070ea9016a3"
+    },
+    "code_ci": {
+      "run": 3602,
+      "id": 39254939758,
+      "status": "SUCCESS",
+      "passed": 1693,
+      "seconds": 121.61
+    }
+  },
+  "limitations": [
+    "SYNTHETIC_BOUNDED_WORKLOAD_NOT_LIVE_SOURCE_OR_SOAK_EVIDENCE",
+    "SUPERVISOR_RECONSTRUCTION_NOT_PROCESS_KILL",
+    "PRIOR_INITIALIZE_READ_ONLY_NOT_WRITER_RESUMPTION",
+    "NO_PRODUCTION_CHECKPOINT_CREATED",
+    "NO_COMPLETE_INSERT_UPDATE_DELETE_CHANGE_JOURNAL"
+  ],
+  "safety": {
+    "free_only": true,
+    "send": false,
+    "cleanup": "HOLD",
+    "production": "NO_GO",
+    "production_modified_by_this_work": false,
+    "source_snapshot_hash_size_unchanged_after": true,
+    "service_active_after": true
+  }
+}
