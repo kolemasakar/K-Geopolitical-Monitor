@@ -67,3 +67,24 @@ def test_timeout_reaps_child_and_preserves_snapshot(tmp_path):
     report = qualify(db, expected_sha256=digest, timeout_seconds=0.001)
     assert report == {'status':'FAIL','cause':'TIMEOUT','child_reaped':True,'send':False}
     assert hashlib.sha256(db.read_bytes()).hexdigest() == digest
+
+
+def test_due_queue_limit_blocks_tick_before_network(tmp_path):
+    db, _ = snapshot(tmp_path)
+    with sqlite3.connect(db) as conn:
+        for i in range(100):
+            conn.execute("INSERT INTO monitoring_watches (watch_id,name,query,cadence_minutes,enabled,created_at) VALUES (?,?,?,1,1,'2026-01-01T00:00:00+00:00')", (f'watch-{i}', 'Bounded fixture', 'test'))
+    data = db.read_bytes()
+    report = qualify(db, expected_sha256=hashlib.sha256(data).hexdigest())
+    assert report['status'] == 'FAIL'
+    assert db.read_bytes() == data
+
+
+def test_corrupt_and_oversized_snapshot_fail_closed(tmp_path):
+    db = tmp_path/'bad.db'
+    db.write_bytes(b'not sqlite')
+    report = qualify(db, expected_sha256=hashlib.sha256(db.read_bytes()).hexdigest())
+    assert report['status'] == 'FAIL'
+    db.write_bytes(b'x'*(8*1024*1024+1))
+    with pytest.raises(ValueError, match='bounded'):
+        qualify(db, expected_sha256=hashlib.sha256(db.read_bytes()).hexdigest())
