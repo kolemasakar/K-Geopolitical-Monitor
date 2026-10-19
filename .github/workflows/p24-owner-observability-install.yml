@@ -1,8 +1,6 @@
 name: P24 Owner Install Observability and Doubled Limits
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/p24-owner-observability-install.yml"
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
