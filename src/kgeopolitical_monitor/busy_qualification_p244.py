@@ -144,7 +144,7 @@ dists=sorted((d.metadata['Name'],d.version) for d in importlib.metadata.distribu
 print(json.dumps({'status':'PRIOR_WRITER_FIXTURE_PASS','phases':phases,'total_executions':sum(p['executions'] for p in phases),'python_executable':sys.executable,'python_version':sys.version.split()[0],'installed_distribution_count':len(dists),'installed_metadata_sha256':hashlib.sha256(json.dumps(dists).encode()).hexdigest()}))
 """
 
-def _busy_child(root, prior_checkout, watches, prior_writer=False, prior_python=""):
+def _busy_child(root, prior_checkout, watches, prior_writer=False, prior_python="", overlap=False, concurrent=False):
     # Limits are child-only; the old-release read child inherits these limits.
     for key, value in [(resource.RLIMIT_AS, 256*1024*1024),
                        (resource.RLIMIT_FSIZE,16*1024*1024),
@@ -226,12 +226,14 @@ def _busy_child(root, prior_checkout, watches, prior_writer=False, prior_python=
     shutil.copyfile(checkpoint,legacy_db)
     legacy={'status':'NOT_RUN_NO_PINNED_PRIOR_CHECKOUT'}
     compatible=False
+    overlap_raw_count_stable=None
     if prior_checkout:
         env={'PATH':os.defpath,'PYTHONPATH':str(Path(prior_checkout)/'src'),
              'PYTHONDONTWRITEBYTECODE':'1'}
         script=LEGACY_SCRIPT
         if prior_writer:
-            fixture=inspect.getsource(FixtureTransport).replace('from .live_sources','from kgeopolitical_monitor.live_sources').replace('offline-fixture-', 'prior-writer-fixture-').replace('synthetic event','synthetic prior event')
+            fixture=inspect.getsource(FixtureTransport).replace('from .live_sources','from kgeopolitical_monitor.live_sources')
+            if not overlap: fixture=fixture.replace('offline-fixture-', 'prior-writer-fixture-').replace('synthetic event','synthetic prior event')
             script=WRITER_SCRIPT.replace('__FIXTURE_CLASS__',fixture)
         result=subprocess.run([str(prior_python or sys.executable),'-c',script,str(legacy_root),str(watches)],
                               cwd=legacy_root,env=env,capture_output=True,text=True,timeout=30 if prior_writer else 10)
@@ -239,7 +241,16 @@ def _busy_child(root, prior_checkout, watches, prior_writer=False, prior_python=
             legacy=json.loads(result.stdout)
             with sqlite3.connect(legacy_db) as conn:
                 _check(conn); compatible=_inventory(conn)==forward_inventory if not prior_writer else False
-            if prior_writer: compatible=_forward_rows_retained(checkpoint,legacy_db)
+            if prior_writer:
+                compatible=_forward_rows_retained(checkpoint,legacy_db)
+                if overlap:
+                    with sqlite3.connect(checkpoint) as before_db, sqlite3.connect(legacy_db) as after_db:
+                        old_count=before_db.execute('SELECT count(*) FROM raw_items').fetchone()[0]
+                        new_count=after_db.execute('SELECT count(*) FROM raw_items').fetchone()[0]
+                    overlap_raw_count_stable=old_count==new_count
+                    compatible=compatible and overlap_raw_count_stable
+                    legacy['overlap_raw_item_count_before']=old_count
+                    legacy['overlap_raw_item_count_after']=new_count
         else:
             legacy={'status':'FAILED','returncode':result.returncode}
     if prior_checkout:
@@ -248,6 +259,10 @@ def _busy_child(root, prior_checkout, watches, prior_writer=False, prior_python=
     # restore is ever attempted once writes exist, even on a failed legacy gate.
     with sqlite3.connect(db) as conn:
         if _inventory(conn)!=forward_inventory: raise ValueError('candidate changed during rollback preparation')
+    concurrent_result=None
+    if concurrent:
+        from .contention_qualification_p244 import contention
+        concurrent_result=contention(root,checkpoint,prior_checkout,prior_python)
     current_hash=hashlib.sha256(checkpoint.read_bytes()).hexdigest()
     gate=rollback_gate(baseline_hash=hashlib.sha256((root/'baseline.db').read_bytes()).hexdigest(),
                        current_hash=current_hash,writers_quiesced=True,
@@ -259,12 +274,16 @@ def _busy_child(root, prior_checkout, watches, prior_writer=False, prior_python=
             'changed_tables':sum(forward_inventory.get(t)!=baseline_inventory.get(t) for t in forward_inventory),
             'legacy_smoke':legacy,'prior_read_compatible':compatible,
             'prior_writer_fixture_compatible':compatible if prior_writer else None,
+            'overlapping_items':overlap,'overlap_raw_item_count_preserved':overlap_raw_count_stable,
+            'contention':concurrent_result,
             'writer_preservation_policy':'ALL_ROWS_EXCEPT_FIXTURE_ENABLE_FLAGS_AND_MONOTONIC_HEALTH_TIMESTAMPS' if prior_writer else None,
             'rollback_gate':gate,
             'production_modified':False,'send':False}
 
 
-def qualify_busy(snapshot,*,expected_sha256,prior_checkout=None,watches=10,prior_writer=False,prior_python=None):
+def qualify_busy(snapshot,*,expected_sha256,prior_checkout=None,watches=10,prior_writer=False,prior_python=None,overlap=False,concurrent=False):
+    if any(type(v) is not bool for v in (overlap,concurrent)) or ((overlap or concurrent) and not prior_writer):
+        raise ValueError('overlap/contention require explicit prior writer mode')
     if type(prior_writer) is not bool: raise ValueError('explicit writer mode required')
     if (prior_writer or prior_python) and not prior_checkout: raise ValueError('pinned prior checkout required')
     if prior_python and not (Path(prior_python).is_absolute() and os.access(prior_python,os.X_OK)):
@@ -288,10 +307,10 @@ def qualify_busy(snapshot,*,expected_sha256,prior_checkout=None,watches=10,prior
         raise ValueError('snapshot hash or size mismatch')
     with tempfile.TemporaryDirectory(prefix='kgm-busy-qualification-') as temp:
         (Path(temp)/'baseline.db').write_bytes(data)
-        script='import json,sys; from kgeopolitical_monitor.busy_qualification_p244 import _busy_child; print(json.dumps(_busy_child(sys.argv[1],sys.argv[2],int(sys.argv[3]),sys.argv[4]=="writer",sys.argv[5]),sort_keys=True))'
+        script='import json,sys; from kgeopolitical_monitor.busy_qualification_p244 import _busy_child; print(json.dumps(_busy_child(sys.argv[1],sys.argv[2],int(sys.argv[3]),sys.argv[4]=="writer",sys.argv[5],sys.argv[6]=="overlap",sys.argv[7]=="concurrent"),sort_keys=True))'
         env={'PATH':os.defpath,'PYTHONPATH':str(Path(__file__).resolve().parents[1]),'PYTHONDONTWRITEBYTECODE':'1'}
         try:
-            r=subprocess.run([sys.executable,'-c',script,temp,str(prior_checkout or ''),str(watches),'writer' if prior_writer else 'read',str(prior_python or '')],
+            r=subprocess.run([sys.executable,'-c',script,temp,str(prior_checkout or ''),str(watches),'writer' if prior_writer else 'read',str(prior_python or ''),'overlap' if overlap else 'disjoint','concurrent' if concurrent else 'single'],
                              cwd=temp,env=env,capture_output=True,text=True,timeout=90)
         except subprocess.TimeoutExpired:
             return {'status':'FAIL','cause':'TIMEOUT','child_reaped':True,'send':False}
@@ -306,9 +325,9 @@ def main(argv=None):
     import argparse
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('snapshot',type=Path);p.add_argument('--expected-sha256',required=True)
-    p.add_argument('--prior-checkout',type=Path);p.add_argument('--prior-writer',action='store_true');p.add_argument('--prior-python',type=Path);p.add_argument('--watches',type=int,default=10)
+    p.add_argument('--prior-checkout',type=Path);p.add_argument('--prior-writer',action='store_true');p.add_argument('--prior-python',type=Path);p.add_argument('--overlap',action='store_true');p.add_argument('--concurrent',action='store_true');p.add_argument('--watches',type=int,default=10)
     a=p.parse_args(argv)
-    r=qualify_busy(a.snapshot,expected_sha256=a.expected_sha256,prior_checkout=a.prior_checkout,watches=a.watches,prior_writer=a.prior_writer,prior_python=a.prior_python)
+    r=qualify_busy(a.snapshot,expected_sha256=a.expected_sha256,prior_checkout=a.prior_checkout,watches=a.watches,prior_writer=a.prior_writer,prior_python=a.prior_python,overlap=a.overlap,concurrent=a.concurrent)
     print(json.dumps(r,sort_keys=True));return 0 if r['status']=='PASS_WITH_LIMITATIONS' else 1
 
 
