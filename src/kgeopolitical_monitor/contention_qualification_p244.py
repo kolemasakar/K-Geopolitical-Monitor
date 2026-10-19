@@ -13,16 +13,18 @@ from .candidate_qualification_p244 import _check
 
 HOLDER='''
 import sys
+from pathlib import Path
 from kgeopolitical_monitor.runtime_lease import RuntimeInstanceLease
-with RuntimeInstanceLease(sys.argv[1]):
+with RuntimeInstanceLease(Path(sys.argv[1])):
  print('HELD',flush=True)
  sys.stdin.readline()
 '''
 CONTENDER='''
 import sys,json
+from pathlib import Path
 from kgeopolitical_monitor.runtime_lease import RuntimeInstanceLease,RuntimeLeaseError
 try:
- with RuntimeInstanceLease(sys.argv[1]):
+ with RuntimeInstanceLease(Path(sys.argv[1])):
   if sys.argv[3]=='deny': raise RuntimeError('second writer admitted')
   import sqlite3
   with sqlite3.connect(sys.argv[2]) as c: c.execute("INSERT INTO qualification_writer_probe VALUES('resumed','committed')")
