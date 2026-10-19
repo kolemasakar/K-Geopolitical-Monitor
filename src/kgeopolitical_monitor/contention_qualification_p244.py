@@ -14,17 +14,17 @@ from .candidate_qualification_p244 import _check
 HOLDER='''
 import sys
 from pathlib import Path
-from kgeopolitical_monitor.runtime_lease import RuntimeInstanceLease
-with RuntimeInstanceLease(Path(sys.argv[1])):
+from kgeopolitical_monitor.runtime_lease import RuntimeInstanceLease,default_runtime_lease_path
+with RuntimeInstanceLease(default_runtime_lease_path(Path(sys.argv[1]))):
  print('HELD',flush=True)
  sys.stdin.readline()
 '''
 CONTENDER='''
 import sys,json
 from pathlib import Path
-from kgeopolitical_monitor.runtime_lease import RuntimeInstanceLease,RuntimeLeaseError
+from kgeopolitical_monitor.runtime_lease import RuntimeInstanceLease,RuntimeLeaseError,default_runtime_lease_path
 try:
- with RuntimeInstanceLease(Path(sys.argv[1])):
+ with RuntimeInstanceLease(default_runtime_lease_path(Path(sys.argv[1]))):
   if sys.argv[3]=='deny': raise RuntimeError('second writer admitted')
   import sqlite3
   with sqlite3.connect(sys.argv[2]) as c: c.execute("INSERT INTO qualification_writer_probe VALUES('resumed','committed')")
@@ -65,10 +65,11 @@ def _finish(process):
 def contention(root, source_db, prior_checkout, prior_python=''):
     """Caller supplies only its internally owned workspace and checkpoint."""
     root=Path(root)/'contention';root.mkdir()
-    db=root/'runtime.db';shutil.copyfile(source_db,db)
+    (root/'data').mkdir()
+    db=root/'data'/'kgeopolitical_monitor.db';shutil.copyfile(source_db,db)
     with sqlite3.connect(db) as c:
         c.execute('CREATE TABLE qualification_writer_probe(id TEXT PRIMARY KEY,value TEXT)')
-    lease=root/'runtime.lock'
+    lease=root  # both releases resolve their canonical project-local lease path
     candidate_env={'PATH':os.defpath,'PYTHONPATH':str(Path(__file__).resolve().parents[1]),'PYTHONDONTWRITEBYTECODE':'1'}
     prior_env={**candidate_env,'PYTHONPATH':str(Path(prior_checkout)/'src')}
     prior_python=str(prior_python or sys.executable)
