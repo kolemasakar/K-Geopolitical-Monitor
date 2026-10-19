@@ -1471,6 +1471,22 @@
       "original_artifacts_removed": false,
       "cleanup": "HOLD_PENDING_FAIL_CLOSED_PREFLIGHT_AND_POSTSTATE_PROOF",
       "production_data_uploaded": false
+    },
+    "owner_work_hold": {
+      "date": "2026-10-19",
+      "status": "WAITING_FOR_EXPLICIT_OWNER_INSTRUCTION",
+      "accepted_scope": "P24_2_A_DIAGNOSTICS_CONSISTENT_BACKUP_INDEPENDENT_RESTORE_WITH_LOADED_CODE_LIMITATION",
+      "deferred_work": [
+        "P24.2-B–E",
+        "P24.3",
+        "P24.4",
+        "NEW_INTEGRATIONS"
+      ],
+      "cleanup": "HOLD",
+      "production": "NO_GO",
+      "free_only": true,
+      "no_send": true,
+      "fresh_runtime_inspection": false
     }
   },
   "phase24_p24_2_a": {
@@ -1539,8 +1555,9 @@
       "execute_only_after_kgm_acceptance": true,
       "acceptance_is_not_cleanup_authorization": true
     },
-    "next_gate": "P24_2_CANDIDATE_REAL_SNAPSHOT_COMPATIBILITY_AND_CLEANUP_HARDENING",
+    "next_gate": "WAITING_FOR_EXPLICIT_OWNER_INSTRUCTION",
     "owner_acceptance_doc": "docs/audits/P24_2_A_OWNER_ACCEPTANCE_2026-10-17.md",
-    "owner_acceptance_evidence": "docs/evidence/P24_2_A_OWNER_ACCEPTANCE_2026-10-17.json"
+    "owner_acceptance_evidence": "docs/evidence/P24_2_A_OWNER_ACCEPTANCE_2026-10-17.json",
+    "owner_work_hold": "2026-10-19"
   }
 }

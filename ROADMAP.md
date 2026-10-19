@@ -1224,3 +1224,12 @@ Evidence: `docs/evidence/P24_3_QUALIFICATION_P24_4_AUDIT_2026-10-16.json`. P24.3
 ## P24.2-A independent owner acceptance — 2026-10-17
 
 Diagnostic/report/consistent-backup/restore snapshot accepted: `PASS_WITH_LOADED_CODE_LIMITATION`. Direct owner check: 704512 bytes, matching SHA256, integrity ok, zero FK violations; independent temporary restore matches all table counts and 21 migration records (51 tables). Exports READ_OK / not writable; administrator restore remains manifest-attested. Evidence: `docs/evidence/P24_2_A_OWNER_ACCEPTANCE_2026-10-17.json`; audit/cleanup disposition: `docs/audits/P24_2_A_OWNER_ACCEPTANCE_2026-10-17.md`. Earlier P24.2-A unavailable/partial entries are historical for this bounded diagnostic/backup scope. Loaded release and effective source selection remain unattested; old disk SHA is not loaded-code proof. Cleanup is HOLD pending fail-closed preflight and post-state proof: current helper lacks target/hash validation and ignores rmdir errors. Snapshot acceptance is not cleanup authorization; no deletion executed by KGM. Snapshot is not a future pre-cutover backup. P24.4 production NO-GO and FREE_ONLY / NO_SEND preserved.
+
+
+## Owner scope confirmation and work hold — 2026-10-19
+
+P24.2-A acceptance remains PASS_WITH_LOADED_CODE_LIMITATION for narrow diagnostics, the captured consistent backup and independent isolated restore. The owner's K_Sentinel handoff agrees with the recorded acceptance evidence (704512 bytes, SHA256 4c5c27a1716c706753b8ccda2abeae59982b3e6d5cad8b1eddce154c1bffa8f7, integrity ok, zero FK violations, 51 tables, 21 migrations). This checkpoint reconciles documentation only; it is not a new live runtime inspection or helper installation attestation. Disk checkout SHA does not attest loaded Python code.
+
+Owner instruction supersedes earlier next-step proposals: WAITING_FOR_EXPLICIT_OWNER_INSTRUCTION. Do not resume P24.2-B–E, P24.3, P24.4 or new integrations. Prior offline acceptance remains historical evidence; no new implementation or validation is authorized by this handoff. Cleanup remains HOLD, including the old kgm-p24-cleanup helper. No cleanup authorization follows from acceptance or helper preparation.
+
+FREE_ONLY / NO_SEND / CLEANUP HOLD / Production NO-GO. No production access expansion, deployment, service restart, live migration, production restore, consumer connection or production-data upload. Original artifacts remain retained according to the handoff; no fresh filesystem check is asserted. KGM acknowledges acceptance and waits for a separate owner instruction.
