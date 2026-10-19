@@ -58,5 +58,6 @@ def test_overlapping_items_and_old_writer_branch_on_owned_fixture(tmp_path):
     assert r.returncode==0,r.stderr
     report=json.loads(r.stdout)
     assert report['overlapping_items'] and report['prior_writer_fixture_compatible']
+    assert report['overlap_raw_item_count_preserved']
     assert report['contention']['committed_probe_rows']==3
     assert not report['rollback_gate']['production_execution_authorized']
