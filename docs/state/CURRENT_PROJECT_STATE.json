@@ -3,7 +3,7 @@
   "project": "K-Geopolitical Monitor",
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.67",
+    "state_sync_version": "4.68",
     "status": "APPROVED",
     "current_position": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED"
   },
@@ -1474,19 +1474,45 @@
     },
     "owner_work_hold": {
       "date": "2026-10-19",
-      "status": "WAITING_FOR_EXPLICIT_OWNER_INSTRUCTION",
+      "status": "RESUMED_ONLY_FOR_OWNER_APPROVED_ISOLATED_QUALIFICATION",
       "accepted_scope": "P24_2_A_DIAGNOSTICS_CONSISTENT_BACKUP_INDEPENDENT_RESTORE_WITH_LOADED_CODE_LIMITATION",
       "deferred_work": [
-        "P24.2-B–E",
-        "P24.3",
-        "P24.4",
-        "NEW_INTEGRATIONS"
+        "PRODUCTION_OPERATIONS",
+        "CLEANUP",
+        "SOURCE_AND_CONSUMER_ACTIVATION",
+        "UNSCOPED_NEW_INTEGRATIONS"
       ],
       "cleanup": "HOLD",
       "production": "NO_GO",
       "free_only": true,
       "no_send": true,
-      "fresh_runtime_inspection": false
+      "fresh_runtime_inspection": false,
+      "superseded_for_scope": "Owner authorized steps 1–4 on 2026-10-19: repository/access, isolated snapshot compatibility, isolated operational integration, refreshed readiness audit",
+      "previous_deferred_work": [
+        "P24.2-B–E",
+        "P24.3",
+        "P24.4",
+        "NEW_INTEGRATIONS"
+      ]
+    },
+    "p24_4_candidate_qualification": {
+      "status": "ISOLATED_SNAPSHOT_AND_FLOW_PASS_WITH_LIMITATIONS",
+      "document": "docs/audits/P24_4_CANDIDATE_SNAPSHOT_READINESS_2026-10-19.md",
+      "evidence": "docs/evidence/P24_4_CANDIDATE_QUALIFICATION_2026-10-19.json",
+      "snapshot_migrations_before": 21,
+      "candidate_migrations_after": 32,
+      "snapshot_tables_before": 51,
+      "candidate_tables_after": 75,
+      "real_snapshot_tick_executions": 0,
+      "busy_snapshot_runtime_proven": false,
+      "production": "NO_GO",
+      "cleanup": "HOLD",
+      "send": false,
+      "tested_code_sha": "eb144822f4452851b6c6162e48c32746b5f226b6",
+      "full_arm64": "1687_PASS_458_22S_EXIT_0",
+      "code_ci": "3592_SUCCESS_1687_PASS_171_26S",
+      "current_runtime_cgroup_caps": "READ_ONLY_CONFIRMED_512M_HIGH_1G_MAX_ONE_CPU_TASKS128",
+      "production_load_qualification": "OPEN"
     }
   },
   "phase24_p24_2_a": {
@@ -1555,9 +1581,10 @@
       "execute_only_after_kgm_acceptance": true,
       "acceptance_is_not_cleanup_authorization": true
     },
-    "next_gate": "WAITING_FOR_EXPLICIT_OWNER_INSTRUCTION",
+    "next_gate": "PRODUCTION_NO_GO_REMAINING_READINESS_GATES_REQUIRE_SCOPED_PLAN",
     "owner_acceptance_doc": "docs/audits/P24_2_A_OWNER_ACCEPTANCE_2026-10-17.md",
     "owner_acceptance_evidence": "docs/evidence/P24_2_A_OWNER_ACCEPTANCE_2026-10-17.json",
-    "owner_work_hold": "2026-10-19"
+    "owner_work_hold": "2026-10-19",
+    "owner_work_hold_superseded_for_scope": "Owner-approved isolated qualification steps 1–4 on 2026-10-19"
   }
 }

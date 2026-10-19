@@ -1,0 +1,104 @@
+{
+  "format": "KGM_P24_4_CANDIDATE_QUALIFICATION_V1",
+  "date": "2026-10-19",
+  "baseline_main": "056913b0b1656f2c579910321f8611874585cb8a",
+  "tested_code_sha": "eb144822f4452851b6c6162e48c32746b5f226b6",
+  "pull_request": 236,
+  "scope": "OWNER_AUTHORIZED_ISOLATED_STEPS_1_TO_4",
+  "snapshot": {
+    "captured_date": "2026-10-17",
+    "bytes": 704512,
+    "sha256": "4c5c27a1716c706753b8ccda2abeae59982b3e6d5cad8b1eddce154c1bffa8f7",
+    "exports_readable": true,
+    "exports_writable": false,
+    "report_sha256": "7d906d7677a11385c687e827ff4abe569d34ef0dfb0de7c32c84ddd11c43f557",
+    "manifest_sha256": "a3d4a3a79d7717f8ef6c965a7976027f5241a600ccd6e82738352087acde5bcd",
+    "post_qualification_sha256_matches": true,
+    "post_qualification_size_matches": true
+  },
+  "qualification": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "migrations_before": 21,
+    "migrations_after": 32,
+    "tables_before": 51,
+    "tables_after": 75,
+    "existing_rows_preserved": true,
+    "migration_idempotent": true,
+    "integrity_checks": "PASS",
+    "foreign_key_checks": "PASS",
+    "offline_tick_executions": 0,
+    "transport_attempts_denied": 0,
+    "socket_attempts_denied": 0,
+    "source_health": "DEGRADED_SOURCE_UNKNOWN",
+    "live_admission": false,
+    "peak_rss_bytes": 30674944,
+    "retention_planned_expired_artifacts": 1,
+    "retention_rehearsal_deleted_disposable_artifacts": 1,
+    "retention_restore": "PASS",
+    "rollback": "BYTE_EXACT_BASELINE_RESTORE",
+    "temporary_workspace_removed": true,
+    "child_limits": {
+      "address_space_bytes": 268435456,
+      "per_file_bytes": 16777216,
+      "descriptors": 64,
+      "cpu_seconds": 30,
+      "wall_timeout_seconds": 60
+    }
+  },
+  "independent_runtime_observation": {
+    "observed_at": "2026-10-19T12:26:08.772438+00:00",
+    "service": "active/running",
+    "pid": 906,
+    "restarts": 0,
+    "memory_current_bytes": 16867328,
+    "memory_peak_bytes": 17129472,
+    "memory_high_bytes": 536870912,
+    "memory_max_bytes": 1073741824,
+    "cpu_max": "100000 100000",
+    "tasks_max": 128,
+    "cpu_nr_throttled": 0,
+    "cpu_throttled_usec": 0,
+    "memory_events_all_zero": true,
+    "observability_result": "success",
+    "observability_exit_status": 0,
+    "timer_active": true,
+    "last_timer_trigger_utc": "2026-10-19T12:20:01Z",
+    "repeated_timer_cadence_independently_validated": false
+  },
+  "validation": {
+    "focused_local": "6_PASS_5_33S",
+    "full_arm64": {
+      "status": "PASS",
+      "passed": 1687,
+      "seconds": 458.22,
+      "exit_code": 0,
+      "architecture": "aarch64",
+      "tested_code_sha": "eb144822f4452851b6c6162e48c32746b5f226b6"
+    },
+    "code_ci": {
+      "run": 3592,
+      "id": 39251572514,
+      "status": "SUCCESS",
+      "passed": 1687,
+      "seconds": 171.26
+    }
+  },
+  "limitations": [
+    "EMPTY_REAL_SNAPSHOT_TICK_NOT_BUSY_RUNTIME_PROOF",
+    "SYNTHETIC_WATCH_EXERCISES_DENIED_HTTP_SEPARATELY",
+    "OUTPUT_ARTIFACT_RETENTION_ONLY_NOT_RAW_DB_REFERENCE_DISCOVERY",
+    "LOW_LOAD_CGROUP_SAMPLE_NOT_SATURATION_TEST",
+    "TRUSTED_CODE_HARNESS_NOT_HOSTILE_CODE_OS_SANDBOX",
+    "LOADED_PYTHON_RELEASE_NOT_ATTESTABLE_RETROSPECTIVELY",
+    "ROLLBACK_ONLY_DISPOSABLE_BASELINE_NOT_PRODUCTION_NEW_WRITES"
+  ],
+  "safety": {
+    "production_modified_by_this_work": false,
+    "production_restart_by_this_work": false,
+    "production_data_uploaded": false,
+    "cleanup": "HOLD",
+    "production": "NO_GO",
+    "free_only": true,
+    "send": false
+  }
+}
