@@ -5,6 +5,7 @@ or switches a production release. Legacy smoke is initialization/read only.
 """
 from datetime import datetime, timedelta, timezone
 import hashlib
+import inspect
 import json
 import os
 from pathlib import Path
@@ -80,7 +81,70 @@ print(json.dumps({'status':'INITIALIZE_AND_READ_PASS','watch_count':len(watches)
 '''
 
 
-def _busy_child(root, prior_checkout, watches):
+
+def _forward_rows_retained(before, after):
+    """Preserve rows; allow fixture enable flags and monotonic health timestamps."""
+    from collections import Counter
+    with sqlite3.connect(before) as original, sqlite3.connect(after) as current:
+        _check(current)
+        for (table,) in original.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall():
+            quote=lambda x: '"'+x.replace('"','""')+'"'
+            columns=[r[1] for r in original.execute('PRAGMA table_info('+quote(table)+')')]
+            if table=='monitoring_watches': columns.remove('enabled')
+            if table=='owner_runtime_health':
+                times=['last_supervisor_tick_at','last_completed_tick_at','last_successful_execution_at']
+                sql='SELECT singleton_id,'+','.join(times)+' FROM owner_runtime_health'
+                old_times=original.execute(sql).fetchall();new_times=current.execute(sql).fetchall()
+                if len(old_times)!=1 or len(new_times)!=1 or old_times[0][0]!=new_times[0][0]: return False
+                for old_value,new_value in zip(old_times[0][1:],new_times[0][1:]):
+                    if old_value is not None and new_value is None: return False
+                    if new_value is not None:
+                        new_time=datetime.fromisoformat(new_value)
+                        if new_time.tzinfo is None: return False
+                        if old_value is not None and new_time<datetime.fromisoformat(old_value): return False
+                columns=[c for c in columns if c not in times]
+            sql='SELECT '+','.join(map(quote,columns))+' FROM '+quote(table)
+            old=Counter(map(repr,original.execute(sql).fetchall()))
+            new=Counter(map(repr,current.execute(sql).fetchall()))
+            if old-new: return False
+    return True
+
+
+WRITER_SCRIPT = r"""
+import json,sys,sqlite3,importlib.metadata,hashlib
+from datetime import datetime,timedelta,timezone
+from pathlib import Path
+from urllib.parse import urlsplit
+def deny(event,args):
+ if event.startswith('socket.'): raise RuntimeError('OFFLINE_SOCKET_DENIED')
+sys.addaudithook(deny)
+from kgeopolitical_monitor.unattended_runner import build_unattended_service
+__FIXTURE_CLASS__
+root=Path(sys.argv[1]);count=int(sys.argv[2]);db=root/'data'/'kgeopolitical_monitor.db'
+service=build_unattended_service(root,transport=FixtureTransport(0))
+with sqlite3.connect(db) as conn: conn.execute('UPDATE monitoring_watches SET enabled=0')
+now=datetime(2026,10,19,14,tzinfo=timezone.utc)
+for i in range(count):
+ service.runtime.create_watch('Prior writer synthetic','Offline qualification',1,watch_id=f'prior-writer-{i}',created_at=now)
+service.runtime.create_watch('Prior interrupted synthetic','Offline qualification',1,watch_id='prior-writer-recovery',created_at=now)
+service.runtime.start_run('prior-writer-recovery',started_at=now-timedelta(minutes=2))
+with sqlite3.connect(db) as conn: conn.execute("UPDATE monitoring_watches SET enabled=0 WHERE watch_id='prior-writer-recovery'")
+phases=[]
+for phase in range(4):
+ transport=FixtureTransport(phase);service=build_unattended_service(root,transport=transport)
+ current=now+timedelta(minutes=phase);tick=service.run_once(current)
+ failed=sum(e.status=='FAILED' for e in tick.executions)
+ if len(tick.executions)!=count or failed!=(count if phase==2 else 0): raise RuntimeError('prior writer outcomes mismatch')
+ if phase!=2 and not all(e.result_count>0 for e in tick.executions): raise RuntimeError('prior processing not exercised')
+ if service.run_once(current).executions: raise RuntimeError('prior cadence mismatch')
+ if tick.recovered_runs!=(1 if phase==0 else 0): raise RuntimeError('prior recovery mismatch')
+ phases.append({'phase':phase,'executions':len(tick.executions),'failed':failed,'results':sum(e.result_count for e in tick.executions),'recovered_runs':tick.recovered_runs,'max_retry_count':max(e.retry_count for e in tick.executions)})
+if phases[3]['max_retry_count']!=1: raise RuntimeError('prior retry mismatch')
+dists=sorted((d.metadata['Name'],d.version) for d in importlib.metadata.distributions())
+print(json.dumps({'status':'PRIOR_WRITER_FIXTURE_PASS','phases':phases,'total_executions':sum(p['executions'] for p in phases),'python_executable':sys.executable,'python_version':sys.version.split()[0],'installed_distribution_count':len(dists),'installed_metadata_sha256':hashlib.sha256(json.dumps(dists).encode()).hexdigest()}))
+"""
+
+def _busy_child(root, prior_checkout, watches, prior_writer=False, prior_python=""):
     # Limits are child-only; the old-release read child inherits these limits.
     for key, value in [(resource.RLIMIT_AS, 256*1024*1024),
                        (resource.RLIMIT_FSIZE,16*1024*1024),
@@ -165,16 +229,21 @@ def _busy_child(root, prior_checkout, watches):
     if prior_checkout:
         env={'PATH':os.defpath,'PYTHONPATH':str(Path(prior_checkout)/'src'),
              'PYTHONDONTWRITEBYTECODE':'1'}
-        result=subprocess.run([sys.executable,'-c',LEGACY_SCRIPT,str(legacy_root)],
-                              cwd=legacy_root,env=env,capture_output=True,text=True,timeout=10)
+        script=LEGACY_SCRIPT
+        if prior_writer:
+            fixture=inspect.getsource(FixtureTransport).replace('from .live_sources','from kgeopolitical_monitor.live_sources').replace('offline-fixture-', 'prior-writer-fixture-').replace('synthetic event','synthetic prior event')
+            script=WRITER_SCRIPT.replace('__FIXTURE_CLASS__',fixture)
+        result=subprocess.run([str(prior_python or sys.executable),'-c',script,str(legacy_root),str(watches)],
+                              cwd=legacy_root,env=env,capture_output=True,text=True,timeout=30 if prior_writer else 10)
         if result.returncode==0:
             legacy=json.loads(result.stdout)
             with sqlite3.connect(legacy_db) as conn:
-                _check(conn); compatible=_inventory(conn)==forward_inventory
+                _check(conn); compatible=_inventory(conn)==forward_inventory if not prior_writer else False
+            if prior_writer: compatible=_forward_rows_retained(checkpoint,legacy_db)
         else:
             legacy={'status':'FAILED','returncode':result.returncode}
     if prior_checkout:
-        legacy['forward_state_unchanged']=compatible
+        legacy['forward_rows_retained' if prior_writer else 'forward_state_unchanged']=compatible
     # Rehearsal leaves candidate and checkpoint inventories intact. No baseline
     # restore is ever attempted once writes exist, even on a failed legacy gate.
     with sqlite3.connect(db) as conn:
@@ -188,11 +257,18 @@ def _busy_child(root, prior_checkout, watches):
             'socket_attempts_denied':socket_attempts[0], 'forward_rows_preserved':True,
             'peak_rss_bytes':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
             'changed_tables':sum(forward_inventory.get(t)!=baseline_inventory.get(t) for t in forward_inventory),
-            'legacy_smoke':legacy,'prior_read_compatible':compatible,'rollback_gate':gate,
+            'legacy_smoke':legacy,'prior_read_compatible':compatible,
+            'prior_writer_fixture_compatible':compatible if prior_writer else None,
+            'writer_preservation_policy':'ALL_ROWS_EXCEPT_FIXTURE_ENABLE_FLAGS_AND_MONOTONIC_HEALTH_TIMESTAMPS' if prior_writer else None,
+            'rollback_gate':gate,
             'production_modified':False,'send':False}
 
 
-def qualify_busy(snapshot,*,expected_sha256,prior_checkout=None,watches=10):
+def qualify_busy(snapshot,*,expected_sha256,prior_checkout=None,watches=10,prior_writer=False,prior_python=None):
+    if type(prior_writer) is not bool: raise ValueError('explicit writer mode required')
+    if (prior_writer or prior_python) and not prior_checkout: raise ValueError('pinned prior checkout required')
+    if prior_python and not (Path(prior_python).is_absolute() and os.access(prior_python,os.X_OK)):
+        raise ValueError('absolute executable prior Python required')
     if type(watches) is not int or not 1<=watches<=20: raise ValueError('workload bounded to 1..20 watches')
     if not isinstance(expected_sha256,str) or len(expected_sha256)!=64 or any(c not in '0123456789abcdef' for c in expected_sha256):
         raise ValueError('SHA256 required')
@@ -212,10 +288,10 @@ def qualify_busy(snapshot,*,expected_sha256,prior_checkout=None,watches=10):
         raise ValueError('snapshot hash or size mismatch')
     with tempfile.TemporaryDirectory(prefix='kgm-busy-qualification-') as temp:
         (Path(temp)/'baseline.db').write_bytes(data)
-        script='import json,sys; from kgeopolitical_monitor.busy_qualification_p244 import _busy_child; print(json.dumps(_busy_child(sys.argv[1],sys.argv[2],int(sys.argv[3])),sort_keys=True))'
+        script='import json,sys; from kgeopolitical_monitor.busy_qualification_p244 import _busy_child; print(json.dumps(_busy_child(sys.argv[1],sys.argv[2],int(sys.argv[3]),sys.argv[4]=="writer",sys.argv[5]),sort_keys=True))'
         env={'PATH':os.defpath,'PYTHONPATH':str(Path(__file__).resolve().parents[1]),'PYTHONDONTWRITEBYTECODE':'1'}
         try:
-            r=subprocess.run([sys.executable,'-c',script,temp,str(prior_checkout or ''),str(watches)],
+            r=subprocess.run([sys.executable,'-c',script,temp,str(prior_checkout or ''),str(watches),'writer' if prior_writer else 'read',str(prior_python or '')],
                              cwd=temp,env=env,capture_output=True,text=True,timeout=90)
         except subprocess.TimeoutExpired:
             return {'status':'FAIL','cause':'TIMEOUT','child_reaped':True,'send':False}
@@ -230,9 +306,9 @@ def main(argv=None):
     import argparse
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('snapshot',type=Path);p.add_argument('--expected-sha256',required=True)
-    p.add_argument('--prior-checkout',type=Path);p.add_argument('--watches',type=int,default=10)
+    p.add_argument('--prior-checkout',type=Path);p.add_argument('--prior-writer',action='store_true');p.add_argument('--prior-python',type=Path);p.add_argument('--watches',type=int,default=10)
     a=p.parse_args(argv)
-    r=qualify_busy(a.snapshot,expected_sha256=a.expected_sha256,prior_checkout=a.prior_checkout,watches=a.watches)
+    r=qualify_busy(a.snapshot,expected_sha256=a.expected_sha256,prior_checkout=a.prior_checkout,watches=a.watches,prior_writer=a.prior_writer,prior_python=a.prior_python)
     print(json.dumps(r,sort_keys=True));return 0 if r['status']=='PASS_WITH_LIMITATIONS' else 1
 
 
