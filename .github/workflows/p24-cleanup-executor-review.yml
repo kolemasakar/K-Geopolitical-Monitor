@@ -1,0 +1,19 @@
+name: P24 cleanup executor review-only tests
+on:
+  pull_request:
+    paths:
+      - "ops/p24_diag/kgm-p24-cleanup-executor-review.py"
+      - "tests/test_p24_cleanup_executor_review.py"
+      - ".github/workflows/p24-cleanup-executor-review.yml"
+permissions:
+  contents: read
+jobs:
+  review-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python3 -m unittest discover -s tests -p test_p24_cleanup_executor_review.py -v

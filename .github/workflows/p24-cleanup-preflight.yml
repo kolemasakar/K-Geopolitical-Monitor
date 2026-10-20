@@ -1,0 +1,21 @@
+name: P24 cleanup preflight isolated tests
+on:
+  pull_request:
+    paths:
+      - "ops/p24_diag/kgm-p24-cleanup-preflight.py"
+      - "tests/test_p24_cleanup_preflight.py"
+      - ".github/workflows/p24-cleanup-preflight.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Run isolated cleanup preflight tests
+        run: python -m unittest -v tests/test_p24_cleanup_preflight.py
