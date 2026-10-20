@@ -1,0 +1,54 @@
+name: P24 Reliability Baseline (read-only)
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/p24-reliability-readonly-baseline.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: p24-reliability-readonly-baseline
+  cancel-in-progress: false
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      E4_HOST: ${{ secrets.E4_HOST }}
+      E4_SSH_PRIVATE_KEY: ${{ secrets.E4_SSH_PRIVATE_KEY }}
+      E4_SSH_KNOWN_HOSTS: ${{ secrets.E4_SSH_KNOWN_HOSTS }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Prepare pinned SSH
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$E4_HOST" && test -n "$E4_SSH_PRIVATE_KEY" && test -n "$E4_SSH_KNOWN_HOSTS"
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$E4_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_e4"
+          printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 0600 "$HOME/.ssh/id_e4" "$HOME/.ssh/known_hosts"
+      - name: Read-only systemd health, runtime metadata, resource constraints
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_e4" -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 "ubuntu@$E4_HOST" 'python3 -' <<'REMOTE'
+          import json, subprocess, os, datetime
+          def run(*argv):
+              p=subprocess.run(argv,encoding="utf-8",capture_output=True,timeout=8)
+              return {"rc":p.returncode, "out":p.stdout.strip()[:450]}
+          fields=["ActiveState","SubState","User","Group","MainPID","NRestarts",
+                  "MemoryMax","CPUQuotaPerSecUSec","TasksMax","ExecMainStartTimestamp"]
+          raw=run("systemctl","show","kgm-monitor.service",*[v for f in fields for v in ("-p",f)])
+          info=dict(x.split("=",1) for x in raw["out"].splitlines() if "=" in x)
+          safe={k:info.get(k,"UNKNOWN") for k in fields}
+          print(json.dumps({"observed_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              "unit":safe,
+              "is_enabled":run("systemctl","is-enabled","kgm-monitor.service")["out"],
+              "disk":run("df","-P","/opt/k-geopolitical-monitor")["out"],
+              "mount":run("findmnt","-n","-o","FSTYPE","/")["out"],
+              "journal_error_count":"NOT_ATTESTED_WITHOUT_ADMIN",
+              "loaded_code":"NOT_ATTESTED",
+              "production_changes":False},indent=2))
+          if safe["ActiveState"]!="active": raise SystemExit("service not active")
+          REMOTE

@@ -1,0 +1,16 @@
+[Unit]
+Description=KGM bounded read-only resource snapshot
+ConditionPathExists=/usr/local/libexec/kgm-readonly-metrics.py
+
+[Service]
+Type=oneshot
+User=kgmops
+Group=kgmops
+ExecStart=/usr/bin/python3 /usr/local/libexec/kgm-readonly-metrics.py
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+UMask=0077
+CapabilityBoundingSet=
