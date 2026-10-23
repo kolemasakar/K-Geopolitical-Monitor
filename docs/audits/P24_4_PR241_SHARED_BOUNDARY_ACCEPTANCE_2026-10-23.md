@@ -37,3 +37,14 @@ Date: 2026-10-23. Decision: **BOUNDED_OFFLINE_PASS_WITH_LIMITATIONS / PRODUCTION
 - **PR #241 remains Draft and unmerged** pending further full-scope old-writer compatibility, deployable artifact qualification, owner code-merge decision and any later separate production gate.
 - Owner baseline strategic state remains `PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED`; this qualification does not advance broad P24.1, or admit P23.4.
 - Safety invariant `FREE_ONLY / NO_SEND / CLEANUP HOLD / Production NO-GO` remains binding.
+
+
+## R2–R5 addendum: final code review (2026-10-23)
+
+The following new direct observations supersede only prior pending R2–R4 **bounded scope**: offline old-writer active-watch failure path retained pre-existing completed records; isolated ARM64 source/environment bundle built with 25 hash-pinned wheels and `pip check PASS`; isolated candidate→prior→candidate using shared DB/root completed without lost fixture or migration; observed import and migration paths were release-specific. Exact hashes, 32 migrations, smoke test steps and limits: `docs/evidence/P24_4_R2_R4_ISOLATED_RELEASE_QUALIFICATION_2026-10-23.md`.
+
+**Static PR code review:** new integration tests copy the same current code into two directories, and thus validate shared storage/lease path reuse, **not distinct-release behavior**. This is explicitly mitigated by a separate manual pinned-prior check, but full differential regression is still absent. The release manifest is generated in a disposable `/tmp` directory; a path name and checksum do not ensure immutability across service restarts or certify systemd's configured environment. Future release packaging must pin, verify and protect every byte (source, migrations, interpreter, installed packages, config references) and add a full old-writer resumed-write suite. Record this as a release-blocking review finding rather than silently closing it.
+
+**Merge disposition:** PR #241 is **KEEP_DRAFT / UNMERGED** while the full forward compatibility and production-like systemd tests remain OPEN. A bounded acceptance of this test+docs PR is not a merge of a production-ready release. The owner approval to work on tasks 1–5 authorizes the offline work only; no production switch is authorized. Original `main` strategic pointer and broad P24 gates unchanged.
+
+**CI scope:** 1710 ARM64 tests were observed at code SHA `39251230eab8bd838ff08bc342b4e8c5f48a31fe`. Later changes are documentation-only. Latest branch CI must be checked independently before any merge decision. `FREE_ONLY / NO_SEND / CLEANUP HOLD / Production NO-GO`.
