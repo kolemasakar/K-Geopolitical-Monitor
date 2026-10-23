@@ -1,3 +1,7 @@
+## P24.4 PR #241 update — 2026-10-23 (branch evidence only)
+
+On branch `phase24/p244-shared-runtime-boundary-isolated`, bounded R2–R4 offline qualification recorded in `docs/evidence/P24_4_R2_R4_ISOLATED_RELEASE_QUALIFICATION_2026-10-23.md`. Exact tested code SHA `39251230eab8bd838ff08bc342b4e8c5f48a31fe`, native ARM64 1710 PASS. Historical prior-writer active-watch offline failure smoke and isolated release switch/reverse-switch passed with preserved forward DB; full writer admission and real systemd cutover remain untested. Temporary application release assembled in /tmp, not production-immutable. PR remains draft, main unchanged; NO-GO. This branch note does not supersede canonical handoff until owner-authorized merge.
+
 # Current K-Geopolitical Monitor Handoff
 
 ## Current freeze / transition pointer — 2026-10-19
