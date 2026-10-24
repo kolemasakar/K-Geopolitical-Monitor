@@ -637,3 +637,8 @@ Owner-authorized steps 1+2: 25 wheel versions/hashes pinned for ARM64 CPython 3.
 
 
 Final acceptance on code/test SHA `b693416128a983fdc10ee825b44f0345460a1fa7`: rebuilt hash-locked ARM64 venv full regression **1708 PASS / 462.09s / exit 0**; GitHub CI #3626 **1708 PASS / 119.73s / SUCCESS**. New final overlap/contention/lock tests: **4 PASS / 7.57s**; supporting focused group before final assertions: 21 PASS / 17.89s; state/roadmap invariants 10 PASS. Direct fastapi/uvicorn/psycopg imports and bundled libpq load PASS. Real-snapshot overlap raw count 5→5 and all committed forward rows retained under the controlled policy; canonical cross-release lease and SQLite contention PASS. Source snapshot and actual service-venv metadata hashes unchanged, service active. No new automated review asserted. Isolated environment acceptance does not install dependencies into production or authorize restart, migration, restore, cleanup, concurrent supervisors or writer resumption.
+
+
+### S5 scope and read-only current runtime — 2026-10-24
+
+The prior Phase 23 production/operational pointer remains intact. Owner authorized S5.0–S5.4 offline qualification on the **latest P24.4** accepted research-only main (`413bb7e415202a5764d28057c754b8ef2a2539d4` at scope start). New read-only observation: `kgm-monitor.service` active PID125277 started 2026-10-24 06:39:45 UTC, checkout SHA `b31b2136b5fe982d0b63b0135479b1549041906c`; **loaded-code SHA UNKNOWN**. S5 implementation baseline `docs/implementation/P24_S5_FULL_READINESS_EXECUTION_2026-10-24.md`. PR #241 remains draft; S5 qualification NOT yet accepted. FREE_ONLY, NO_SEND, CLEANUP HOLD, Production NO-GO.
