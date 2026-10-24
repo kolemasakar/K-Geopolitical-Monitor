@@ -35,7 +35,7 @@ def preview_ledger_migration(root):
         raise ValueError("legacy ledger missing or linked")
     legacy = _read_legacy(legacy_path)
     newer = v2_replay(root, after_sequence=0, max_records=100)
-    if len(legacy) > 100 or len(newer) > 100:
+    if len(legacy) >= 100 or len(newer) >= 100:
         raise ValueError("review bounded population only")
     seen = set()
     v2 = {}
@@ -63,5 +63,5 @@ def preview_ledger_migration(root):
         else:
             missing.append(bid)
     return {"legacy_count":len(legacy),"v2_count":len(newer),
-            "missing_in_v2":tuple(missing),"migration_applied":False,
+            "missing_in_v2":tuple(missing),"v2_only":tuple(sorted(set(v2) - seen)), "migration_applied":False,
             "production_authorized":False}
