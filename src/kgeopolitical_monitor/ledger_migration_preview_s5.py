@@ -20,7 +20,7 @@ def _read_legacy(path: Path):
             raw = source.read()
     finally:
         os.close(fd)
-    if raw and not raw.endswith(b"\\n"):
+    if raw and not raw.endswith(b"\n"):
         raise ValueError("torn legacy ledger")
     return [json.loads(row) for row in raw.splitlines()]
 
