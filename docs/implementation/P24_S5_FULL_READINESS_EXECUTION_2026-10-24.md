@@ -47,3 +47,11 @@ Canonical main on entry: `413bb7e415202a5764d28057c754b8ef2a2539d4`. This supers
 | S5.4 final comprehensive acceptance | OPEN | cannot claim closed |
 
 This checkpoint is not a deployment plan, approval to execute production commands, or proof of power-loss-safe exactly-once delivery.
+
+## Fresh bounded runtime read-only observation — 2026-10-24
+- kgm-e4-owner-pilot architecture: `aarch64`.
+- `systemctl is-active kgm-monitor.service`: `active`.
+- `systemctl show`: `MainPID=125277`, `ExecMainStartTimestamp=Sat 2026-10-24 06:39:45 UTC`, `ActiveState=active`.
+- Checkout via per-command git safe.directory override (no persistent configuration change): `b31b2136b5fe982d0b63b0135479b1549041906c`.
+- First unprivileged `git rev-parse` attempt was denied by dubious ownership check; only the individual read-only command used `-c safe.directory=...`, no global trust override.
+- **Runtime loaded-code provenance UNKNOWN**; checkout version alone is not loaded-code attestation. No restart or service mutation performed.
