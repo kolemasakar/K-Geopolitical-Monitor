@@ -1,0 +1,47 @@
+name: KGM O1 Live Readonly Attestation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kgm-o1-readonly-attestation
+  cancel-in-progress: false
+
+jobs:
+  attest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      E4_HOST: ${{ secrets.E4_HOST }}
+      E4_SSH_PRIVATE_KEY: ${{ secrets.E4_SSH_PRIVATE_KEY }}
+      E4_SSH_KNOWN_HOSTS: ${{ secrets.E4_SSH_KNOWN_HOSTS }}
+    steps:
+      - name: Checkout fixed audit source
+        uses: actions/checkout@v5
+
+      - name: Validate exact source and SSH prerequisites
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$E4_HOST"
+          test -n "$E4_SSH_PRIVATE_KEY"
+          test -n "$E4_SSH_KNOWN_HOSTS"
+          test -f ops/o1_diag/kgm-o1-live-readonly.py
+          python3 -m py_compile ops/o1_diag/kgm-o1-live-readonly.py
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$E4_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_e4"
+          printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 0600 "$HOME/.ssh/id_e4" "$HOME/.ssh/known_hosts"
+
+      - name: Run fixed read-only aggregate probe as authorized admin
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          timeout 90s ssh -i "$HOME/.ssh/id_e4" \
+            -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 \
+            "ubuntu@$E4_HOST" \
+            'sudo -n /usr/bin/python3 -' \
+            < ops/o1_diag/kgm-o1-live-readonly.py
