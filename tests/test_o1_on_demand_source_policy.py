@@ -38,7 +38,7 @@ def test_exact_allowlist():
     "https://127.0.0.1/api/v2/doc/doc",
     "file:///etc/passwd",
     "https://www.consilium.europa.eu/en/rss/pressreleases.ashx#frag",
-]):
+ ])
 def test_unapproved_hosts_paths_schemes_rejected(url):
     with pytest.raises(ValueError):
         validate_source_url(url)
