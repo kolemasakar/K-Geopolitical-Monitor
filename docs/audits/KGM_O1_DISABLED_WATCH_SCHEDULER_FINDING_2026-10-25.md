@@ -1,6 +1,6 @@
 # KGM O1 owner-run watch scheduling evidence — 2026-10-25
 
-**Gate: SUPERVISOR_TICK_CURRENT / ALL_WATCHES_DISABLED / O1_OPERATIONAL_SHORTFALL / PRODUCTION_NO_GO**
+**Gate: ON_DEMAND_MODE_CONFIRMED_BY_OWNER / ALL_WATCHES_DISABLED_EXPECTED / ON_DEMAND_EXECUTION_UNVERIFIED / PRODUCTION_NO_GO**
 
 ## Observed live read-only aggregates
 
@@ -16,15 +16,15 @@ These are aggregate facts, not disclosure of watch names, queries, identifiers o
 
 ## Explanation / limits
 
-In source at deployed disk SHA `b31b2136b5fe982d0b63b0135479b1549041906c`, `OperationalMonitoringRuntime.due_watches()` only examines enabled watches. With no enabled watches, zero due executions and IDLE tick are expected. The observed owner_runtime_health heartbeat was current (2026-10-25T20:18:01Z), and its latest successful execution is historic (2026-09-01T08:32:14Z). Current data therefore provides a concrete configuration explanation for no new watch executions, without demonstrating a broken worker.
+In source at deployed disk SHA `b31b2136b5fe982d0b63b0135479b1549041906c`, `OperationalMonitoringRuntime.due_watches()` only examines enabled watches. With no enabled watches, zero due executions and IDLE tick are expected. The observed owner_runtime_health heartbeat was current (2026-10-25T20:18:01Z), and its latest successful execution is historic (2026-09-01T08:32:14Z). The owner explicitly confirmed on 2026-10-25 that this project performs research/collection on user request only and does **not** operate continuous scheduled monitoring. Therefore the disabled watches and zero due executions are intended configuration, not a scheduler incident. The September historical success timestamp is not a freshness SLA for an idle on-demand system.
 
-This does **not** attest loaded Python code, live external collection, actual source configuration or multi-source success. `O1_OPERATIONAL_PASS` remains unearned.
+This does **not** attest loaded Python code, any actual new user-requested execution, source selection, live collection or multi-source success. An on-demand request/response acceptance test remains open; a scheduled-watch acceptance test is explicitly not required for this deployment mode.
 
-## Next gate before any activation
+## Next gate for the approved request-driven mode
 
-1. Inventory the two disabled watch specifications in a privacy-preserving owner-only channel, and verify intended source mapping, cadence and query scope (no raw secrets in CI).
-2. Inspect whether the original P24 pilot deliberately disabled both watches, and reconcile with ROADMAP owner gate.
-3. Propose a separately reviewed, explicit owner-authorized, reversible one-watch read-only collection pilot with NO_SEND and bounded traffic, only after a safety and provenance audit. Do not enable, restart, migrate, clean up, or switch sources by default.
-4. Capture independent scheduled execution evidence and fresh source provenance before revisiting O1 acceptance.
+1. Inventory the two disabled watches' metadata without exposing queries, and confirm they are dormant legacy scheduling configuration, not the invocation route for user requests.
+2. Reconcile this owner decision in the ROADMAP/hand-off: ON_DEMAND_ONLY, no continuous polling or scheduled source collection authorized. A still-running 60-second supervisor heartbeat is not evidence that network collection occurs, but its resource cost may merit later review.
+3. Audit and test the **user-invoked, one-shot** collection-and-analysis route in an isolated disposable environment: explicit request input, bounded outbound collection, NO_SEND of generated reports, fail-closed source errors, no retained scheduler change, deterministic cleanup of test-owned temporary files only. Do not use live production DB, activate a watch, restart the service, or claim a live pilot from an offline fixture.
+4. After independent test evidence and a separate owner acceptance decision, run a real one-time user-requested multi-source query through an already approved execution channel if one exists; otherwise retain SHORTFALL and document the required integration. No scheduled-execution evidence is required.
 
 **FREE_ONLY / NO_SEND / CLEANUP_HOLD / PRODUCTION_NO_GO remain.** No live state changed in this audit.
