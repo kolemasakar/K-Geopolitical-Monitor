@@ -1607,7 +1607,36 @@
       "production": "NO_GO",
       "cleanup": "HOLD",
       "send": false,
-      "free_only": true
+      "free_only": true,
+      "historical_snapshot": true
+    },
+    "s5_offline_20261025": {
+      "status": "PASS_WITH_KNOWN_LIMITATIONS",
+      "production": "NO_GO",
+      "send": false,
+      "cleanup": "HOLD",
+      "free_only": true,
+      "scope": "S5.0_TO_S5.4_OFFLINE_ACCEPTED",
+      "accepted_prs": [
+        243,
+        244,
+        245,
+        247,
+        248,
+        249
+      ],
+      "audit": "docs/audits/P24_S5_OFFLINE_ACCEPTANCE_ADDENDUM_2026-10-25.md",
+      "evidence_main_sha": "d492501c08d4d21d9894da9e1eed686d916cc22f",
+      "production_checkout_sha": "b31b2136b5fe982d0b63b0135479b1549041906c",
+      "loaded_code_parity": "UNVERIFIED",
+      "release_pr_241": "DRAFT_NOT_MERGED",
+      "remaining_gates": [
+        "PRODUCTION_LOADED_CODE_PARITY",
+        "POWER_LOSS_DURABILITY",
+        "LIVE_LEDGER_MIGRATION",
+        "EXTERNAL_CONSUMER_AUTHORIZATION",
+        "EXPLICIT_OWNER_PRODUCTION_APPROVAL"
+      ]
     }
   },
   "phase24_p24_2_a": {
