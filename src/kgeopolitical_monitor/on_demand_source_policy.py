@@ -1,0 +1,85 @@
+"""Explicitly bounded owner-only source transport for proposed on-demand P4 pilot.
+
+In-process limits are defense in depth, not network namespace enforcement.
+No network request is made by constructing this class.
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlsplit
+from urllib.request import HTTPRedirectHandler, HTTPSHandler, ProxyHandler, Request, build_opener
+
+from .live_sources import HttpResponse
+
+APPROVED_ENDPOINTS = frozenset({
+    ("api.gdeltproject.org", "/api/v2/doc/doc"),
+    ("www.consilium.europa.eu", "/en/rss/pressreleases.ashx"),
+    ("www.gdacs.org", "/xml/rss.xml"),
+})
+
+
+class _NoRedirect(HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        raise RuntimeError("source redirect refused")
+
+
+@dataclass(frozen=True)
+class RestrictedSourcePolicy:
+    max_requests: int = 2
+    timeout_seconds: float = 7.0
+    max_bytes_per_response: int = 512_000
+
+    def __post_init__(self):
+        if not 1 <= self.max_requests <= 5:
+            raise ValueError("request cap out of bounds")
+        if not 0 < self.timeout_seconds <= 15:
+            raise ValueError("timeout out of bounds")
+        if not 1 <= self.max_bytes_per_response <= 2_000_000:
+            raise ValueError("response cap out of bounds")
+
+
+def validate_source_url(url: str) -> None:
+    try:
+        p = urlsplit(url)
+        port = p.port
+    except (ValueError, TypeError) as exc:
+        raise ValueError("invalid source URL") from exc
+    if (p.scheme != "https" or p.username is not None or p.password is not None
+            or port not in (None, 443)
+            or (p.hostname, p.path) not in APPROVED_ENDPOINTS
+            or p.fragment):
+        raise ValueError("source endpoint not allowlisted")
+
+
+class RestrictedSourceTransport:
+    """One-request-budget transport; no following HTTP redirects or env proxies.
+
+    Requires a separate isolated execution container and explicit owner consent
+    before live external use. DNS/rebinding and network policy remain out of scope.
+    """
+    def __init__(self, policy: RestrictedSourcePolicy):
+        self.policy = policy
+        self.calls = 0
+        # Explicitly disable proxies, including ambient HTTPS_PROXY.
+        self._opener = build_opener(ProxyHandler({}), HTTPSHandler(), _NoRedirect())
+
+    def get(self, url: str, *, headers: dict[str, str] | None = None) -> HttpResponse:
+        validate_source_url(url)
+        if self.calls >= self.policy.max_requests:
+            raise RuntimeError("one-shot request budget exhausted")
+        if headers and any(k.casefold() in ("authorization", "cookie", "proxy-authorization")
+                           for k in headers):
+            raise ValueError("credential headers forbidden in public source retrieval")
+        self.calls += 1
+        request = Request(url, headers=headers or {}, method="GET")
+        try:
+            with self._opener.open(request, timeout=self.policy.timeout_seconds) as response:
+                body = response.read(self.policy.max_bytes_per_response + 1)
+                if len(body) > self.policy.max_bytes_per_response:
+                    raise RuntimeError("source response exceeds configured bound")
+                return HttpResponse(body=body, content_type=response.headers.get("Content-Type", ""))
+        except HTTPError as exc:
+            raise RuntimeError("source HTTP failure") from exc
+        except URLError as exc:
+            raise RuntimeError("source network failure") from exc
