@@ -53,7 +53,7 @@ class OnDemandResult:
     source_success_count: int
     source_failure_count: int
     finding_count: int
-    independent_origin_count: int
+    distinct_source_id_count: int
     evidence_count: int
     ephemeral_workspace_removed: bool
 
@@ -113,7 +113,7 @@ def dispatch_offline_once(
             source_success_count=int(row[1]),
             source_failure_count=int(row[2]),
             finding_count=int(execution.result_count),
-            independent_origin_count=int(origins),
+            distinct_source_id_count=int(origins),
             evidence_count=int(row[3]),
             ephemeral_workspace_removed=True,
         )
