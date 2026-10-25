@@ -7,8 +7,9 @@ cycle, and removes the entire temporary project before returning aggregates.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime
 import re
+import sqlite3
 from tempfile import TemporaryDirectory
 from typing import Protocol, Sequence
 
@@ -91,10 +92,8 @@ def dispatch_offline_once(
         if len(executions) != 1:
             raise RuntimeError("one-shot request did not yield exactly one execution")
         execution = executions[0]
-        with runtime.database_path.open("rb") as _:
-            pass
         # One collection per explicit one-shot invocation, never a permanent watch.
-        with __import__("sqlite3").connect(runtime.database_path) as conn:
+        with sqlite3.connect(runtime.database_path) as conn:
             row = conn.execute(
                 "SELECT status,source_success_count,source_failure_count,item_count "
                 "FROM source_collection_runs WHERE watch_id=?", (watch.watch_id,)
@@ -102,9 +101,9 @@ def dispatch_offline_once(
             if row is None:
                 raise RuntimeError("collection audit missing")
             origins = conn.execute(
-                "SELECT COUNT(DISTINCT original_url) FROM live_source_provenance "
+                "SELECT COUNT(DISTINCT source_id) FROM raw_items WHERE id IN (SELECT raw_item_id FROM live_source_provenance "
                 "WHERE collection_id IN (SELECT collection_id FROM source_collection_runs "
-                "WHERE watch_id=?)", (watch.watch_id,)
+                "WHERE watch_id=?))", (watch.watch_id,)
             ).fetchone()[0]
         result = OnDemandResult(
             request_id=request.request_id,
