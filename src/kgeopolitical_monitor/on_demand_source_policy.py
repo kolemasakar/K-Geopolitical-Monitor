@@ -15,6 +15,7 @@ from .live_sources import HttpResponse
 APPROVED_ENDPOINTS = frozenset({
     ("api.gdeltproject.org", "/api/v2/doc/doc"),
     ("www.consilium.europa.eu", "/en/rss/pressreleases.ashx"),
+    ("www.gdacs.org", "/xml/rss.xml"),
 })
 
 
