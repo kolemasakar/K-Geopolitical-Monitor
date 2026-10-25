@@ -1276,3 +1276,8 @@ State: WAITING_FOR_OWNER_TRANSITION_GENERATOR. Do not start new implementation o
 ### S5 owner-authorized offline readiness — 2026-10-24
 
 The current canonical baseline at S5 entry is `413bb7e415202a5764d28057c754b8ef2a2539d4` (P24.4 accepted offline freeze); do not regress to the October 16 S4-only snapshot. S5.0–S5.4 owner-authorized **research-only** execution scope is described in `docs/implementation/P24_S5_FULL_READINESS_EXECUTION_2026-10-24.md`. Fresh owner-pilot read-only observation: ARM64 service active, PID 125277, start 2026-10-24 06:39:45 UTC, disk SHA `b31b2136b5fe982d0b63b0135479b1549041906c`; actual loaded Python SHA NOT ATTESTED. PR #241 release qualification remains an unmerged CI-success draft; no automatic merge. S5 real critical-point crash, v1/v2 migration, consumer authorization and final gates remain OPEN. FREE_ONLY / NO_SEND / CLEANUP HOLD / Production NO-GO.
+
+
+### S5 offline qualification — 2026-10-25
+
+S5.1 #247 separate-process hard exit after atomic replacement MERGED (ARM64 1711 PASS, CI SUCCESS); S5.2 #248 read-only migration preview MERGED (1712 PASS); S5.3 #245 offline deny-by-default consumer scope MERGED (1715 PASS). Canonical SHA `17f5f299cc454d11b8e4e194ef3c5f11bf6e1b7c`. S5 offline qualification PASS_WITH_KNOWN_LIMITATIONS; **PRODUCTION NO_GO, NO_SEND, CLEANUP HOLD**. S5.4 evidence `docs/audits/P24_S5_OFFLINE_ACCEPTANCE_ADDENDUM_2026-10-25.md`. Live migration, external consumer authorization, power-loss proof, deployed loaded-code parity and P24.4 release authorization remain separate OPEN gates.

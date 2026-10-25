@@ -642,3 +642,8 @@ Final acceptance on code/test SHA `b693416128a983fdc10ee825b44f0345460a1fa7`: re
 ### S5 scope and read-only current runtime — 2026-10-24
 
 The prior Phase 23 production/operational pointer remains intact. Owner authorized S5.0–S5.4 offline qualification on the **latest P24.4** accepted research-only main (`413bb7e415202a5764d28057c754b8ef2a2539d4` at scope start). New read-only observation: `kgm-monitor.service` active PID125277 started 2026-10-24 06:39:45 UTC, checkout SHA `b31b2136b5fe982d0b63b0135479b1549041906c`; **loaded-code SHA UNKNOWN**. S5 implementation baseline `docs/implementation/P24_S5_FULL_READINESS_EXECUTION_2026-10-24.md`. PR #241 remains draft; S5 qualification NOT yet accepted. FREE_ONLY, NO_SEND, CLEANUP HOLD, Production NO-GO.
+
+
+### S5 research qualification checkpoint — 2026-10-25
+
+Current research-only main `17f5f299cc454d11b8e4e194ef3c5f11bf6e1b7c`: PR #245 consumer policy, #247 hard-exit test, #248 migration inventory merged after exact-head CI and native ARM64 full regression (1715, 1711, 1712 PASS respectively). S5 **OFFLINE PASS_WITH_KNOWN_LIMITATIONS**. Retain existing authoritative operational pointer, no production release, NO_SEND and CLEANUP_HOLD. See S5 acceptance addendum; no loaded-code parity attested.

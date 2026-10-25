@@ -1695,5 +1695,31 @@
       "github_actions_hosted_used": false,
       "hp_omen_used": false
     }
-  ]
+  ],
+  "phase24_s5_offline": {
+    "status": "PASS_WITH_KNOWN_LIMITATIONS",
+    "accepted_main_sha": "17f5f299cc454d11b8e4e194ef3c5f11bf6e1b7c",
+    "accepted_prs": [
+      245,
+      247,
+      248
+    ],
+    "arm64_regression": {
+      "consumer_scope": 1715,
+      "hard_exit_after_replace": 1711,
+      "migration_preview": 1712
+    },
+    "exact_head_ci": "SUCCESS",
+    "production": "NO_GO",
+    "network_export": "NO_SEND",
+    "cleanup": "HOLD",
+    "loaded_code_sha": "UNKNOWN",
+    "remaining": [
+      "POWER_LOSS_FSYNC_DURABILITY",
+      "LIVE_LEDGER_MIGRATION_APPROVAL",
+      "REMOTE_CONSUMER_AUTHORIZATION",
+      "P24_4_RELEASE_ACCEPTANCE",
+      "PRODUCTION_CODE_PARITY"
+    ]
+  }
 }
