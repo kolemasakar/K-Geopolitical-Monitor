@@ -5,7 +5,7 @@ Status: **S5_OFFLINE_PASS_WITH_KNOWN_LIMITATIONS / PRODUCTION_NO_GO / NO_SEND / 
 Canonical main after accepted S5 workstreams: `17f5f299cc454d11b8e4e194ef3c5f11bf6e1b7c`.
 
 ## Verified accepted PRs
-- #242 full-scope charter accepted earlier; #243 OS-lease crash qualification and #244 ledger inventory tests merged earlier.
+- #242 full-scope charter accepted earlier. #243 OS lease crash qualification: exact-head native ARM64 **1709 PASS** (459.74s), CI SUCCESS, merged. #244 initial ledger migration inventory: exact-head native ARM64 **1710 PASS** (453.90s), CI SUCCESS, merged.
 - S5.3 #245: scoped synthetic consumer checks; exact-head GitHub CI SUCCESS; native ARM64 **1715 PASS**; merged `652d5f6f387379e2da992e94ee9b80a79f4c4ed6`.
 - S5.1 #247: child process hard-exit after atomic replacement; exact-head GitHub CI SUCCESS; native ARM64 **1711 PASS**; merged `1be86fe9d5c63cfdcc34fe511339d69de1e5d964`.
 - S5.2 #248: read-only fail-closed migration preview; exact-head GitHub CI SUCCESS; native ARM64 **1712 PASS**; merged `17f5f299cc454d11b8e4e194ef3c5f11bf6e1b7c`.
