@@ -16,3 +16,11 @@ These are standalone offline research acceptances; test totals overlap. No proof
 S5 offline gate is complete only for the synthetic contracts above. **Production remains NO_GO.** Next require separate owner operational acceptance and evidence of loaded-code parity, writer quiescence, preservation of forward state and consumer/source authorization.
 
 Constraints: FREE_ONLY, NO_SEND, CLEANUP_HOLD.
+
+## Read-only operational observation (2026-10-25)
+
+On `kgm-e4-owner-pilot` (aarch64), `kgm-monitor.service` remained `active`; `MainPID=125277`; service start `2026-10-24 06:39:45 UTC`. Disk checkout verified with per-command `git -c safe.directory=... rev-parse HEAD`: `b31b2136b5fe982d0b63b0135479b1549041906c`. Loaded-code SHA remains **UNKNOWN** (no memory-level attestation), and differences from canonical S5 research main are intentional unresolved drift, not evidence of deploy readiness. No service restart or persisted change occurred.
+
+## S5.4 audit disposition
+
+Historical PR #246 records earlier pending S5 technical acceptance; its pending labels are superseded by this addendum and the exact-head merged checks listed above. Keep operational Phase 23 pointer in existing handoff and preserve P24.4 independent release gate. Do not label this as production deployment acceptance.
