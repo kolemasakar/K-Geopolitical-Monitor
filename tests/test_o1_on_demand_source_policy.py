@@ -62,7 +62,7 @@ def test_fail_closed_oversize_and_no_auth(monkeypatch):
     transport = RestrictedSourceTransport(RestrictedSourcePolicy(max_requests=2, max_bytes_per_response=4))
     monkeypatch.setattr(transport._opener, "open", lambda req,timeout: SyntheticResponse(b"123456"))
     url = "https://www.consilium.europa.eu/en/rss/pressreleases.ashx"
-    with pytest.raises(ValueError, match="Credential"):
+    with pytest.raises(ValueError, match="credential"):
         transport.get(url,headers={"Cookie":"sensitive"})
     assert transport.calls == 0
     with pytest.raises(RuntimeError, match="exceeds"):
