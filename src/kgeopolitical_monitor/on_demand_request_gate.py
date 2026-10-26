@@ -40,3 +40,27 @@ def authorize_manual_request(
         topic_sha256=sha256(req.topic.encode("utf-8")).hexdigest(),
         request_id=req.request_id,
     )
+
+
+def authorize_public_probe(
+    *, repository: str, actor: str, ref: str, event_name: str,
+    mode: str, topic: str, request_id: str,
+) -> AuthorizedRequest:
+    """Separate owner-only authorization for bounded external public GETs.
+
+    This never relaxes authorize_manual_request(), which remains OFFLINE-only.
+    The live source executor has no external sends, credentials or prod storage.
+    """
+    if (repository != AUTHORIZED_REPOSITORY or actor != AUTHORIZED_OWNER
+            or ref != "refs/heads/main" or event_name != "workflow_dispatch"):
+        raise PermissionError("owner public probe context not authorized")
+    if mode != "PUBLIC_SOURCE_READONLY":
+        raise PermissionError("unsupported public-source probe mode")
+    req = OnDemandRequest(
+        topic=topic, requested_at=datetime.now(timezone.utc), request_id=request_id
+    )
+    return AuthorizedRequest(
+        mode=mode,
+        topic_sha256=sha256(req.topic.encode("utf-8")).hexdigest(),
+        request_id=req.request_id,
+    )
