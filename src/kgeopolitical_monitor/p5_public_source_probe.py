@@ -57,7 +57,8 @@ class _ConsiliumMetadataTransport:
                                for entry in entries]
                     self.gdacs_admission_reasons = {
                         reason: reasons.count(reason) for reason in (
-                            "ADMITTED", "MISSING_TITLE", "MISSING_LINK",
+                            "ADMITTED", "TRUSTED_GDACS_HTTP_NORMALIZED",
+                            "MISSING_TITLE", "MISSING_LINK",
                             "UNSAFE_OR_NON_HTTPS_LINK", "TOPIC_NO_MATCH"
                         )
                     }
