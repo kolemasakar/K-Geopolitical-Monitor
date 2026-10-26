@@ -23,7 +23,7 @@ def test_gdacs_reason_predicate_distinguishes_drops():
     assert gdacs_admission_reason(item("Mexico quake", "https://gdacs.org/report"), "Ukraine")=="TOPIC_NO_MATCH"
     assert gdacs_admission_reason(item(None, "https://gdacs.org/report", "Ukraine alert"), "Ukraine")=="MISSING_TITLE"
     assert gdacs_admission_reason(item("Ukraine quake", None), "Ukraine")=="MISSING_LINK"
-    assert gdacs_admission_reason(item("Ukraine quake", "http://www.gdacs.org/report"), "Ukraine")=="UNSAFE_OR_NON_HTTPS_LINK"
+    assert gdacs_admission_reason(item("Ukraine quake", "http://www.gdacs.org/report"), "Ukraine")=="TRUSTED_GDACS_HTTP_NORMALIZED"
     assert gdacs_admission_reason(item("Ukraine quake", "https://user@www.gdacs.org/report"), "Ukraine")=="UNSAFE_OR_NON_HTTPS_LINK"
     assert gdacs_admission_reason(item("Ukraine quake", "https://www.gdacs.org/report#x"), "Ukraine")=="UNSAFE_OR_NON_HTTPS_LINK"
     assert gdacs_admission_reason(item("Ukraine quake", "https://www.gdacs.org/report"), "Ukraine")=="ADMITTED"
@@ -57,16 +57,20 @@ def test_counter_and_adapter_use_same_admission_logic():
     assert proxy.gdacs_matching_entries == 4
     assert proxy.gdacs_admission_reasons == {
         "ADMITTED": 1,
+        "TRUSTED_GDACS_HTTP_NORMALIZED": 1,
         "MISSING_TITLE": 1,
         "MISSING_LINK": 1,
-        "UNSAFE_OR_NON_HTTPS_LINK": 1,
+        "UNSAFE_OR_NON_HTTPS_LINK": 0,
         "TOPIC_NO_MATCH": 1,
     }
     adapter=GdacsRssAdapter(Fake(payload),max_records=10)
     watch=SimpleNamespace(query="Ukraine")
     records=adapter.fetch(watch,datetime(2026,10,26,tzinfo=timezone.utc))
-    assert len(records)==proxy.gdacs_admission_reasons["ADMITTED"]
-    assert records[0].original_url=="https://www.gdacs.org/good"
+    assert len(records)==(proxy.gdacs_admission_reasons["ADMITTED"]+
+                          proxy.gdacs_admission_reasons["TRUSTED_GDACS_HTTP_NORMALIZED"])
+    assert {r.original_url for r in records}=={"https://www.gdacs.org/good",
+                                                "https://www.gdacs.org/old"}
+    assert all(r.original_url.startswith("https://") for r in records)
 
 
 def test_malformed_gdacs_xml_does_not_claim_admission():
