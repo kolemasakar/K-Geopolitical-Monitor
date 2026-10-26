@@ -8,11 +8,38 @@ from __future__ import annotations
 from datetime import datetime
 from email.utils import parsedate_to_datetime
 from hashlib import sha256
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, urlunsplit
 import xml.etree.ElementTree as ET
 
 from .live_sources import HttpTransport, LiveSourceItem, _clean_text, _matches_query
 from .operational_monitoring import MonitoringWatch, _normalize_time
+
+
+def gdacs_safe_article_url(value: str) -> tuple[str | None, str]:
+    """Normalize only exact GDACS-owned legacy HTTP links, without fetching them.
+
+    No userinfo, fragments, custom ports, control chars, encoded authority, or
+    unrelated domains. A normalized URL is NOT dereferenced by this adapter.
+    """
+    url = (value or "").strip()
+    if not url or len(url) > 2048 or any(ord(c) < 32 or ord(c) == 127 for c in url):
+        return None, "UNSAFE_OR_NON_HTTPS_LINK"
+    if "\\\\" in url or "\\" in url:
+        return None, "UNSAFE_OR_NON_HTTPS_LINK"
+    try:
+        parts = urlsplit(url)
+        if (parts.username is not None or parts.password is not None or parts.fragment
+                or parts.hostname not in {"www.gdacs.org", "gdacs.org"}
+                or parts.scheme not in {"http", "https"}
+                or parts.port is not None
+                or not parts.path.startswith("/") or parts.path.startswith("//")):
+            return None, "UNSAFE_OR_NON_HTTPS_LINK"
+    except (TypeError, ValueError):
+        return None, "UNSAFE_OR_NON_HTTPS_LINK"
+    host = "www.gdacs.org"
+    safe_url = urlunsplit(("https", host, parts.path, parts.query, ""))
+    return safe_url, ("GDACS_OWNED_LEGACY_HTTP" if parts.scheme == "http"
+                      else "GDACS_OWNED_HTTPS")
 
 
 def gdacs_admission_reason(entry: ET.Element, query: str) -> str:
@@ -30,14 +57,11 @@ def gdacs_admission_reason(entry: ET.Element, query: str) -> str:
     url = (entry.findtext("link") or "").strip()
     if not url:
         return "MISSING_LINK"
-    try:
-        parsed = urlsplit(url)
-        if (parsed.scheme != "https" or not parsed.hostname or parsed.username
-                or parsed.password or parsed.fragment or parsed.port not in (None, 443)):
-            return "UNSAFE_OR_NON_HTTPS_LINK"
-    except ValueError:
+    safe_url, category = gdacs_safe_article_url(url)
+    if safe_url is None:
         return "UNSAFE_OR_NON_HTTPS_LINK"
-    return "ADMITTED"
+    return ("TRUSTED_GDACS_HTTP_NORMALIZED"
+            if category == "GDACS_OWNED_LEGACY_HTTP" else "ADMITTED")
 
 
 class GdacsRssAdapter:
@@ -70,9 +94,14 @@ class GdacsRssAdapter:
             title = _clean_text(entry.findtext("title") or "")
             summary = _clean_text(entry.findtext("description") or "")
             url = (entry.findtext("link") or "").strip()
-            if gdacs_admission_reason(entry, watch.query) != "ADMITTED":
+            decision = gdacs_admission_reason(entry, watch.query)
+            if decision not in {"ADMITTED", "TRUSTED_GDACS_HTTP_NORMALIZED"}:
                 continue
-            metadata = {"feed": "GDACS RSS", "publisher": "GDACS"}
+            safe_url, _ = gdacs_safe_article_url(url)
+            if safe_url is None:
+                continue
+            metadata = {"feed": "GDACS RSS", "publisher": "GDACS",
+                        "article_link_normalization": decision}
             pub = (entry.findtext("pubDate") or "").strip()
             if pub:
                 try:
@@ -80,7 +109,7 @@ class GdacsRssAdapter:
                     metadata["published_at"] = _normalize_time(when).isoformat()
                 except (ValueError, TypeError, OverflowError):
                     metadata["publication_date_status"] = "UNVERIFIED"
-            key = entry.findtext("guid") or url
+            key = entry.findtext("guid") or safe_url
             item_id = "gdacs-" + sha256(key.encode("utf-8")).hexdigest()[:24]
             items.append(LiveSourceItem(
                 item_id=item_id,
@@ -89,7 +118,7 @@ class GdacsRssAdapter:
                 source_class=self.source_class,
                 title=title,
                 summary=summary or title,
-                original_url=url,
+                original_url=safe_url,
                 collected_at=timestamp,
                 metadata=metadata,
                 reliability="official",
