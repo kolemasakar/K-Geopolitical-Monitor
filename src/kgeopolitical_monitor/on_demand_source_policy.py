@@ -80,6 +80,6 @@ class RestrictedSourceTransport:
                     raise RuntimeError("source response exceeds configured bound")
                 return HttpResponse(body=body, content_type=response.headers.get("Content-Type", ""))
         except HTTPError as exc:
-            raise RuntimeError("source HTTP failure") from exc
+            raise RuntimeError(f"source_http_status_{exc.code}") from exc
         except URLError as exc:
             raise RuntimeError("source network failure") from exc
