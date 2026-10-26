@@ -17,6 +17,7 @@ from .on_demand_gdacs import GdacsRssAdapter
 from .on_demand_request_gate import authorize_public_probe
 from .on_demand_source_policy import RestrictedSourcePolicy, RestrictedSourceTransport
 from .operational_monitoring import OperationalMonitoringRuntime
+from .p5_probe_diagnostics import classify_attempt
 
 
 def probe_public_once(*, topic: str, transport=None) -> dict[str, object]:
@@ -41,7 +42,7 @@ def probe_public_once(*, topic: str, transport=None) -> dict[str, object]:
         # Collection, not claim verification. A PARTIAL outcome must remain PARTIAL.
         with sqlite3.connect(runtime.database_path) as db:
             rows = db.execute(
-                "SELECT source_id, status, item_count FROM source_collection_attempts "
+                "SELECT source_id, status, item_count, error FROM source_collection_attempts "
                 "WHERE collection_id=? ORDER BY source_id",
                 (report.collection_id,),
             ).fetchall()
@@ -56,8 +57,9 @@ def probe_public_once(*, topic: str, transport=None) -> dict[str, object]:
             "item_count": report.item_count,
             "source_success_count": report.source_success_count,
             "source_failure_count": report.source_failure_count,
-            "sources": [{"source_id": sid, "status": status, "item_count": count}
-                        for sid, status, count in rows],
+            "sources": [dict({"source_id": sid, "status": status, "item_count": count},
+                             **classify_attempt(status=status, item_count=count, error=error))
+                        for sid, status, count, error in rows],
             "analysis": "NOT_EXECUTED",
             "independent_claim_verification": "NOT_ATTESTED",
         }
