@@ -1,0 +1,73 @@
+name: KGM P5.4 Owner Public Source Probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      term:
+        description: "Non-sensitive 1-80-character public query for fixed GDELT endpoint"
+        required: true
+        default: earthquake
+        type: string
+      authorize_public_fetch:
+        description: "Confirm three bounded public HTTPS requests; no production access"
+        required: true
+        type: choice
+        options:
+          - "NO"
+          - "YES"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kgm-p5-4-owner-source-probe
+  cancel-in-progress: false
+
+jobs:
+  owner-public-source-probe:
+    if: github.repository == 'kolemasakar/K-Geopolitical-Monitor' && github.actor == 'kolemasakar' && github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && inputs.authorize_public_fetch == 'YES'
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    env:
+      KGM_PROBE_TERM: ${{ inputs.term }}
+    steps:
+      - name: Checkout public code without persistent credentials
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Validate explicitly authorized bounded source fetch
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          PYTHONPATH=src python3 - <<'PY'
+          import os
+          from kgeopolitical_monitor.p5_owner_source_probe import probe_sources
+          term=os.environ["KGM_PROBE_TERM"]
+          assert isinstance(term,str) and 1<=len(term)<=80
+          assert not any(ord(c)<32 for c in term)
+          print("P5_4_OWNER_REQUEST_VALIDATED: three public endpoints, no raw topic logged")
+          PY
+      - name: Fetch from three allowlisted public sources only
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          timeout 35s env PYTHONPATH=src python3 -m kgeopolitical_monitor.p5_owner_source_probe \
+            | tee /tmp/kgm-p5-4-source-summary.json
+      - name: Check aggregate-only response structure
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("/tmp/kgm-p5-4-source-summary.json").read_text())
+          assert d["format"]=="KGM_P5_4_OWNER_PUBLIC_SOURCE_PROBE_V1"
+          assert d["mode"]=="ON_DEMAND_ONLY"
+          assert len(d["source_results"])==3
+          assert {x["source"] for x in d["source_results"]}=={"gdacs-rss","consilium-rss","gdelt-doc2"}
+          assert all(x["result"] in ("PARSE_OK","FAILED") for x in d["source_results"])
+          assert d["provenance_validated"] is False
+          assert d["raw_data_persisted"] is False
+          assert d["report_sent"] is False
+          print("P5_4_PROBE_FINISHED: reachability and parse outcomes only; not full E2E acceptance")
+          PY
