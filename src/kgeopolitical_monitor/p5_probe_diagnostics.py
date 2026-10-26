@@ -21,6 +21,16 @@ def classify_attempt(*, status: str, item_count: int, error: str | None) -> dict
         retry = "MANUAL_BACKOFF_ONLY" if code in (408, 429, 500, 502, 503, 504) else "REVIEW_ENDPOINT"
         return {"diagnostic": "HTTP_RESPONSE_FAILURE", "http_status": code,
                 "retry_guidance": retry}
+    network_kinds = {
+        "source_network_timeout": "NETWORK_TIMEOUT",
+        "source_network_dns_failure": "NETWORK_DNS_FAILURE",
+        "source_network_tls_failure": "NETWORK_TLS_FAILURE",
+        "source_network_connect_failure": "NETWORK_CONNECT_FAILURE",
+    }
+    if raw in network_kinds:
+        return {"diagnostic": network_kinds[raw], "http_status": None,
+                "retry_guidance": "MANUAL_BACKOFF_ONLY" if raw.endswith("timeout")
+                else "MANUAL_INVESTIGATION"}
     if "source network failure" in raw or "source_network_failure" in raw:
         return {"diagnostic": "NETWORK_FAILURE", "http_status": None,
                 "retry_guidance": "MANUAL_BACKOFF_ONLY"}
