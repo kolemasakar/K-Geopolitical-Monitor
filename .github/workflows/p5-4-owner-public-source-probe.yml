@@ -1,0 +1,73 @@
+name: KGM P5.4 Owner Public Source Probe
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: "Public keyword only; never private content"
+        required: true
+        default: Ukraine
+        type: string
+      request_id:
+        required: true
+        default: p54-public-01
+        type: string
+      mode:
+        required: true
+        type: choice
+        default: PUBLIC_SOURCE_READONLY
+        options:
+          - PUBLIC_SOURCE_READONLY
+permissions:
+  contents: read
+concurrency:
+  group: kgm-p54-owner-public-probe
+  cancel-in-progress: false
+jobs:
+  one-shot-probe:
+    if: github.event_name == 'workflow_dispatch' && github.repository == 'kolemasakar/K-Geopolitical-Monitor' && github.actor == 'kolemasakar' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      KGM_TOPIC: ${{ inputs.topic }}
+      KGM_REQUEST_ID: ${{ inputs.request_id }}
+      KGM_PROBE_MODE: ${{ inputs.mode }}
+      KGM_ACTOR: ${{ github.actor }}
+      KGM_REPOSITORY: ${{ github.repository }}
+      KGM_REF: ${{ github.ref }}
+      KGM_EVENT: ${{ github.event_name }}
+    steps:
+      - name: Checkout without stored credentials
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Install Python dependencies
+        run: |
+          set -Eeuo pipefail
+          python -m pip install -c constraints/ci.txt -e .
+      - name: Owner-authorized bounded three-source GET probe
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          # No secrets or prod DB; aggregate only. No OS-level egress firewall.
+          timeout 75s python -m kgeopolitical_monitor.p5_public_source_probe | tee "$RUNNER_TEMP/kgm-p54-result.json"
+      - name: Validate aggregate, never imply verification
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          from hashlib import sha256
+          r=json.loads((Path(os.environ["RUNNER_TEMP"])/"kgm-p54-result.json").read_text())
+          assert r["format"] == "KGM_P5_4_PUBLIC_SOURCE_PROBE_V1"
+          assert r["topic_sha256"] == sha256(os.environ["KGM_TOPIC"].encode()).hexdigest()
+          assert r["watch_persistence"] == "EPHEMERAL_ONLY"
+          assert r["send"] == "NONE"
+          assert r["network_policy"] == "IN_PROCESS_ALLOWLIST_ONLY_NOT_OS_EGRESS_ATTESTATION"
+          assert r["analysis"] == "NOT_EXECUTED"
+          assert r["independent_claim_verification"] == "NOT_ATTESTED"
+          assert len(r["sources"]) == 3
+          assert sum(a["status"]=="SUCCESS" for a in r["sources"]) == r["source_success_count"]
+          assert sum(a["status"]=="FAILED" for a in r["sources"]) == r["source_failure_count"]
+          print("P54_READONLY_SOURCE_PROBE_RECORDED",r["collection_status"])
+          PY
