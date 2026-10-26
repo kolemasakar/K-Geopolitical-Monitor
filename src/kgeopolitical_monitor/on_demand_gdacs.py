@@ -15,6 +15,31 @@ from .live_sources import HttpTransport, LiveSourceItem, _clean_text, _matches_q
 from .operational_monitoring import MonitoringWatch, _normalize_time
 
 
+def gdacs_admission_reason(entry: ET.Element, query: str) -> str:
+    """Classify an RSS entry without exposing content or weakening HTTPS-only admission.
+
+    The same decision function is shared by admission and the P5 probe counters,
+    avoiding a mismatch between independently coded query predicates.
+    """
+    title = _clean_text(entry.findtext("title") or "")
+    summary = _clean_text(entry.findtext("description") or "")
+    if not _matches_query(title, summary, query):
+        return "TOPIC_NO_MATCH"
+    if not title:
+        return "MISSING_TITLE"
+    url = (entry.findtext("link") or "").strip()
+    if not url:
+        return "MISSING_LINK"
+    try:
+        parsed = urlsplit(url)
+        if (parsed.scheme != "https" or not parsed.hostname or parsed.username
+                or parsed.password or parsed.fragment or parsed.port not in (None, 443)):
+            return "UNSAFE_OR_NON_HTTPS_LINK"
+    except ValueError:
+        return "UNSAFE_OR_NON_HTTPS_LINK"
+    return "ADMITTED"
+
+
 class GdacsRssAdapter:
     source_id = "gdacs-rss"
     source_name = "GDACS / Global Disaster Alert and Coordination System"
@@ -45,10 +70,7 @@ class GdacsRssAdapter:
             title = _clean_text(entry.findtext("title") or "")
             summary = _clean_text(entry.findtext("description") or "")
             url = (entry.findtext("link") or "").strip()
-            if not title or not url or not _matches_query(title, summary, watch.query):
-                continue
-            parsed = urlsplit(url)
-            if parsed.scheme != "https" or not parsed.hostname:
+            if gdacs_admission_reason(entry, watch.query) != "ADMITTED":
                 continue
             metadata = {"feed": "GDACS RSS", "publisher": "GDACS"}
             pub = (entry.findtext("pubDate") or "").strip()
