@@ -1326,3 +1326,8 @@ Following owner run 40265906728 (GDACS >512KB, GDELT NETWORK_FAILURE, Consilium 
 ### P5.4 owner diagnostics v2 actual manual run — 2026-10-26
 
 Owner workflow_dispatch run [40267647566](https://github.com/kolemasakar/K-Geopolitical-Monitor/actions/runs/40267647566) on main SHA `d5246f137f0ec4a6e4aabf2d4433859e95b04ecb`: GitHub job SUCCESS, actual source collection **PARTIAL**, evidence count **0**. GDACS SUCCESS with dedicated 1.5MB cap, 0 matching items; Consilium SUCCESS, 20 RSS feed items and 0 text-topic matches; GDELT FAILED `NETWORK_TIMEOUT`. Analysis NOT_EXECUTED, independent claims NOT_ATTESTED, send NONE, watch persistence EPHEMERAL_ONLY. Keep P5.5 blocked. Audit `docs/audits/KGM_P5_4_OWNER_RECHECK_V2_ACTUAL_2026-10-26.md`. Next qualify a bounded manual GDELT timeout and topic matching offline before separately authorized live rerun. FREE_ONLY / ON_DEMAND_ONLY / NO_SEND / CLEANUP_HOLD / PRODUCTION_NO_GO.
+
+
+### P5.4 bounded GDELT timeout and GDACS filter counts — offline CI PASS, 2026-10-26
+
+PR #280 MERGED to canonical main `b05bc5996d31f34cfb89c0c206fd8073c65f4802`, full CI **1812 passed**. GDELT fixed API may use separately bounded 12s timeout (hard cap 15s); GDACS and Consilium remain at 7s, no auto retries. The isolated one-shot owner probe now records GDACS feed-entry and text-topic match counts alongside Consilium; no raw content sent to users or retained in permanent state. Offline code/test gate **PASS**, live rerun **NOT_EXECUTED**. Do not claim P5.4 real-source full success or P5.5 report readiness. Source audit `docs/audits/KGM_P5_4_GDELT_TIMEOUT_GDACS_COUNTS_2026-10-26.md`. Continue FREE_ONLY / ON_DEMAND_ONLY / NO_SEND / CLEANUP_HOLD / PRODUCTION_NO_GO.
