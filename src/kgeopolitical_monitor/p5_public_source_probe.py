@@ -14,7 +14,7 @@ from tempfile import TemporaryDirectory
 
 from .live_sources import GdeltDoc2Adapter, ConsiliumRssAdapter, LiveSourceCollector
 from .on_demand_gdacs import GdacsRssAdapter
-from .on_demand_request_gate import authorize_manual_request
+from .on_demand_request_gate import authorize_public_probe
 from .on_demand_source_policy import RestrictedSourcePolicy, RestrictedSourceTransport
 from .operational_monitoring import OperationalMonitoringRuntime
 
@@ -41,7 +41,7 @@ def probe_public_once(*, topic: str, transport=None) -> dict[str, object]:
         # Collection, not claim verification. A PARTIAL outcome must remain PARTIAL.
         with sqlite3.connect(runtime.database_path) as db:
             rows = db.execute(
-                "SELECT source_id, status, item_count FROM live_source_collection_attempts "
+                "SELECT source_id, status, item_count FROM source_collection_attempts "
                 "WHERE collection_id=? ORDER BY source_id",
                 (report.collection_id,),
             ).fetchall()
@@ -65,12 +65,12 @@ def probe_public_once(*, topic: str, transport=None) -> dict[str, object]:
 
 
 def main() -> None:
-    gate = authorize_manual_request(
+    gate = authorize_public_probe(
         repository=os.environ["KGM_REPOSITORY"],
         actor=os.environ["KGM_ACTOR"],
         ref=os.environ["KGM_REF"],
         event_name=os.environ["KGM_EVENT"],
-        mode="OFFLINE_SYNTHETIC",  # gate context only; LIVE independently checked below
+        mode=os.environ["KGM_PROBE_MODE"],
         topic=os.environ["KGM_TOPIC"],
         request_id=os.environ["KGM_REQUEST_ID"],
     )
