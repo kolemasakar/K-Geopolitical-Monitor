@@ -1,0 +1,68 @@
+name: KGM O1 P5 Offline Container Isolation Attestation
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/o1-p5-offline-container-attestation.yml'
+      - 'ops/o1_diag/Dockerfile.p5-offline-isolation'
+      - 'src/kgeopolitical_monitor/offline_isolation_child.py'
+      - 'tests/test_o1_p5_container_isolation.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  isolated-offline-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v5
+      - name: Build fixed offline fixture image
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          docker build --pull --tag kgm-p5-isolated-fixture:ci \
+            -f ops/o1_diag/Dockerfile.p5-offline-isolation .
+      - name: Execute isolated synthetic request with zero network
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          timeout --signal=TERM --kill-after=3s 60s docker run --rm \
+            --network none \
+            --read-only \
+            --cap-drop ALL \
+            --security-opt no-new-privileges \
+            --pids-limit 64 \
+            --memory 512m --memory-swap 512m \
+            --cpus 1 \
+            --ulimit nofile=64:64 \
+            --tmpfs /tmp:rw,nosuid,nodev,size=64m,mode=1777 \
+            --user 65534:65534 \
+            kgm-p5-isolated-fixture:ci > "$RUNNER_TEMP/kgm-o1-p5-fixture.json"
+      - name: Verify synthetic-only outcome and network proof
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python - "$RUNNER_TEMP/kgm-o1-p5-fixture.json" <<'PY'
+          import json
+          import pathlib
+          import sys
+          path = pathlib.Path(sys.argv[1])
+          if path.stat().st_size > 4096:
+              raise SystemExit("FAIL_CLOSED: oversized attestation")
+          r = json.loads(path.read_text())
+          assert r["format"] == "KGM_O1_NETNS_SYNTHETIC_V1"
+          assert r["only_synthetic_data"] is True
+          assert r["network_interfaces"] == ["lo"]
+          assert r["network_route_check"] == "NO_EXTERNAL_INTERFACE_OR_DEFAULT_IPV4_ROUTE"
+          assert r["status"] == "COMPLETED"
+          assert r["collection_status"] == "COMPLETED"
+          assert r["source_count"] == 2
+          assert r["evidence_count"] == 2
+          print(json.dumps({"gate":"O1_P5_DOCKER_NO_NETWORK_SYNTHETIC_PASS",
+                            "network_interfaces":r["network_interfaces"],
+                            "collection_status":r["collection_status"],
+                            "synthetic":True}, sort_keys=True))
+          PY
