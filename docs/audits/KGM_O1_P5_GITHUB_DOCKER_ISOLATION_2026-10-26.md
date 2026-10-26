@@ -10,7 +10,7 @@ On KGM production host, `unshare --user --map-root-user --net` was denied with `
 
 Workflow: `.github/workflows/o1-p5-offline-container-attestation.yml`.
 
-Build phase may retrieve a public Python base image and Python dependencies. This is **not** source collection and build-time network access must not be confused with runtime isolation. Docker image is based on `python:3.11-slim-bookworm` (digest not pinned; image/release reproducibility remains open).
+Build phase may retrieve a public Python base image and Python dependencies. This is **not** source collection and build-time network access must not be confused with runtime isolation. Docker image is based on `python:3.11-slim-bookworm@sha256:f06d01d4ba3f8ad5af45a3ec87df19c1d317d8e8961edc0fabda61811af6f7cf` (digest observed in runner build logs); project install uses `constraints/ci.txt` for focused dependency constraints. Full transitive wheel-hash lock remains open.
 
 Execution phase uses `docker run --network none --read-only --cap-drop ALL --security-opt no-new-privileges --pids-limit 64 --memory 512m --memory-swap 512m --cpus 1 --ulimit nofile=64:64 --tmpfs /tmp:... --user 65534:65534`. The host runs only a preselected Python entrypoint, not arbitrary user input. A 60s wall deadline and 4KiB output schema check are enforced externally by GitHub workflow.
 
@@ -41,4 +41,4 @@ FREE_ONLY / ON_DEMAND_ONLY / NO_SEND / CLEANUP_HOLD / PRODUCTION_NO_GO.
 - Build `Dockerfile.p5-offline-isolation` succeeded. An initial prior build (run #40256582963) correctly failed when migrations were omitted from a non-editable package; amended image copies the canonical `migrations/` directory and installs the code editable so `database.py` finds them. No production database was involved.
 - The Docker execution step succeeded with `--network none`, read-only root, non-root UID/GID 65534, cap-drop ALL, no-new-privileges, memory/CPU/PID/FD limits and tmpfs.
 - Report validation succeeded: `O1_P5_DOCKER_NO_NETWORK_SYNTHETIC_PASS`, `network_interfaces=["lo"]`, `collection_status="COMPLETED"`, `synthetic=true`, two sources and two evidence records. This is a real ephemeral container test, **not** a live source retrieval.
-- The ordinary full project regression check runs separately; its result must be verified before merging this PR. Container image provenance digest still not pinned and production/live identity remains a separate gate.
+- The ordinary full project regression check runs separately; its result must be verified before merging this PR. The subsequent candidate pins the previously observed container base digest and focused CI dependency versions; this candidate requires its **own** passing run. A complete transitive hash lock and production/live identity remain separate gates.
