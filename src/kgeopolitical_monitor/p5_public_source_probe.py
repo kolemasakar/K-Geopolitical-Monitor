@@ -14,7 +14,7 @@ from tempfile import TemporaryDirectory
 import xml.etree.ElementTree as ET
 
 from .live_sources import GdeltDoc2Adapter, ConsiliumRssAdapter, LiveSourceCollector, _clean_text, _matches_query
-from .on_demand_gdacs import GdacsRssAdapter
+from .on_demand_gdacs import GdacsRssAdapter, gdacs_admission_reason
 from .on_demand_request_gate import authorize_public_probe
 from .on_demand_source_policy import RestrictedSourcePolicy, RestrictedSourceTransport
 from .operational_monitoring import OperationalMonitoringRuntime
@@ -30,6 +30,7 @@ class _ConsiliumMetadataTransport:
         self.matching_entries = None
         self.gdacs_total_entries = None
         self.gdacs_matching_entries = None
+        self.gdacs_admission_reasons = None
 
     def get(self, url, *, headers=None):
         response = self.delegate.get(url, headers=headers)
@@ -52,11 +53,16 @@ class _ConsiliumMetadataTransport:
                 if root.tag == "rss":
                     entries = root.findall("./channel/item")
                     self.gdacs_total_entries = len(entries)
-                    self.gdacs_matching_entries = sum(
-                        _matches_query(_clean_text(entry.findtext("title") or ""),
-                                       _clean_text(entry.findtext("description") or ""),
-                                       self.topic)
-                        for entry in entries
+                    reasons = [gdacs_admission_reason(entry, self.topic)
+                               for entry in entries]
+                    self.gdacs_admission_reasons = {
+                        reason: reasons.count(reason) for reason in (
+                            "ADMITTED", "MISSING_TITLE", "MISSING_LINK",
+                            "UNSAFE_OR_NON_HTTPS_LINK", "TOPIC_NO_MATCH"
+                        )
+                    }
+                    self.gdacs_matching_entries = (
+                        len(entries) - self.gdacs_admission_reasons["TOPIC_NO_MATCH"]
                     )
             except ET.ParseError:
                 pass
@@ -105,6 +111,7 @@ def probe_public_once(*, topic: str, transport=None) -> dict[str, object]:
             "consilium_topic_match_count": observed_transport.matching_entries,
             "gdacs_feed_entry_count": observed_transport.gdacs_total_entries,
             "gdacs_topic_match_count": observed_transport.gdacs_matching_entries,
+            "gdacs_admission_reason_counts": observed_transport.gdacs_admission_reasons,
             "gdelt_timeout_budget_seconds": getattr(getattr(transport, "policy", None), "gdelt_timeout_seconds", None),
             "gdacs_dedicated_size_cap_bytes": 1_500_000 if getattr(getattr(transport, "policy", None), "gdacs_max_bytes_per_response", None) == 1_500_000 else None,
 
