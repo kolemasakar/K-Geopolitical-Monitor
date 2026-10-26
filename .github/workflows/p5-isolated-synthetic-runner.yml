@@ -1,0 +1,68 @@
+name: KGM P5 Isolated Synthetic Runner
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/p5-isolated-synthetic-runner.yml"
+      - "src/kgeopolitical_monitor/offline_isolation_child.py"
+      - "src/kgeopolitical_monitor/on_demand_dispatcher.py"
+      - "docs/audits/KGM_P5_ISOLATED_RUNNER_2026-10-26.md"
+
+permissions:
+  contents: read
+
+jobs:
+  isolated-synthetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout source (no credentials retained)
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Prepare public Python runtime
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          docker pull python:3.12-slim
+      - name: Execute synthetic request without external networking
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          docker info >/dev/null
+          # No repository token, production secrets, or mutable production data mounts.
+          timeout 120s docker run --rm \
+            --network none \
+            --read-only \
+            --cap-drop ALL \
+            --security-opt no-new-privileges \
+            --pids-limit 64 \
+            --memory 512m \
+            --cpus 1 \
+            --user 65534:65534 \
+            --tmpfs /tmp:rw,nosuid,nodev,size=64m,mode=1777 \
+            -v "$PWD:/repo:ro" \
+            -w /repo \
+            -e PYTHONPATH=/repo/src \
+            python:3.12-slim \
+            python -m kgeopolitical_monitor.offline_isolation_child \
+            | tee /tmp/kgm-p5-synthetic-summary.json
+      - name: Fail closed unless true isolation and one-shot evidence reported
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("/tmp/kgm-p5-synthetic-summary.json").read_text())
+          assert d.get("format") == "KGM_O1_NETNS_SYNTHETIC_V1", d
+          assert d.get("only_synthetic_data") is True
+          assert d.get("network_interfaces") == ["lo"], d
+          assert d.get("network_route_check") == "NO_EXTERNAL_INTERFACE_OR_DEFAULT_IPV4_ROUTE", d
+          assert d.get("status") == "COMPLETED", d
+          assert d.get("collection_status") == "COMPLETED", d
+          assert d.get("source_count") == 2, d
+          assert d.get("finding_count",0) >= 1, d
+          print("P5_ISOLATED_SYNTHETIC_PASS: no network, two synthetic sources, one-shot analysis")
+          PY
