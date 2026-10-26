@@ -28,6 +28,8 @@ class _ConsiliumMetadataTransport:
         self.topic = topic
         self.total_entries = None
         self.matching_entries = None
+        self.gdacs_total_entries = None
+        self.gdacs_matching_entries = None
 
     def get(self, url, *, headers=None):
         response = self.delegate.get(url, headers=headers)
@@ -44,6 +46,20 @@ class _ConsiliumMetadataTransport:
                 )
             except ET.ParseError:
                 pass  # The adapter will classify bad XML; do not create false counts.
+        elif url == GdacsRssAdapter.feed_url:
+            try:
+                root = ET.fromstring(response.body)
+                if root.tag == "rss":
+                    entries = root.findall("./channel/item")
+                    self.gdacs_total_entries = len(entries)
+                    self.gdacs_matching_entries = sum(
+                        _matches_query(_clean_text(entry.findtext("title") or ""),
+                                       _clean_text(entry.findtext("description") or ""),
+                                       self.topic)
+                        for entry in entries
+                    )
+            except ET.ParseError:
+                pass
         return response
 
 
@@ -52,7 +68,8 @@ def probe_public_once(*, topic: str, transport=None) -> dict[str, object]:
     if transport is None:
         transport = RestrictedSourceTransport(RestrictedSourcePolicy(
             max_requests=3, timeout_seconds=7, max_bytes_per_response=512_000,
-            gdacs_max_bytes_per_response=1_500_000
+            gdacs_max_bytes_per_response=1_500_000,
+            gdelt_timeout_seconds=12
         ))
     now = datetime.now(timezone.utc)
     with TemporaryDirectory(prefix="kgm-p5-live-probe-") as temp_root:
@@ -86,6 +103,9 @@ def probe_public_once(*, topic: str, transport=None) -> dict[str, object]:
             "item_count": report.item_count,
             "consilium_feed_entry_count": observed_transport.total_entries,
             "consilium_topic_match_count": observed_transport.matching_entries,
+            "gdacs_feed_entry_count": observed_transport.gdacs_total_entries,
+            "gdacs_topic_match_count": observed_transport.gdacs_matching_entries,
+            "gdelt_timeout_budget_seconds": getattr(getattr(transport, "policy", None), "gdelt_timeout_seconds", None),
             "gdacs_dedicated_size_cap_bytes": 1_500_000 if getattr(getattr(transport, "policy", None), "gdacs_max_bytes_per_response", None) == 1_500_000 else None,
 
             "source_success_count": report.source_success_count,
