@@ -32,6 +32,7 @@ class RestrictedSourcePolicy:
     timeout_seconds: float = 7.0
     max_bytes_per_response: int = 512_000
     gdacs_max_bytes_per_response: int | None = None
+    gdelt_timeout_seconds: float | None = None
 
     def __post_init__(self):
         if not 1 <= self.max_requests <= 5:
@@ -44,6 +45,10 @@ class RestrictedSourcePolicy:
             self.max_bytes_per_response <= self.gdacs_max_bytes_per_response <= 2_000_000
         ):
             raise ValueError("GDACS dedicated cap out of bounds")
+        if self.gdelt_timeout_seconds is not None and not (
+            self.timeout_seconds <= self.gdelt_timeout_seconds <= 15
+        ):
+            raise ValueError("GDELT timeout out of bounds")
 
 
 def validate_source_url(url: str) -> None:
@@ -81,7 +86,11 @@ class RestrictedSourceTransport:
         self.calls += 1
         request = Request(url, headers=headers or {}, method="GET")
         try:
-            with self._opener.open(request, timeout=self.policy.timeout_seconds) as response:
+            timeout = (self.policy.gdelt_timeout_seconds
+                   if urlsplit(url).hostname == "api.gdeltproject.org"
+                   and self.policy.gdelt_timeout_seconds is not None
+                   else self.policy.timeout_seconds)
+            with self._opener.open(request, timeout=timeout) as response:
                 cap = (self.policy.gdacs_max_bytes_per_response
                        if urlsplit(url).hostname == "www.gdacs.org"
                        and self.policy.gdacs_max_bytes_per_response is not None
