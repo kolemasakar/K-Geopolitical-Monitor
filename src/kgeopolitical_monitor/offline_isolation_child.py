@@ -2,6 +2,8 @@
 from datetime import datetime, timezone
 from pathlib import Path
 import json
+import os
+from hashlib import sha256
 
 from .live_sources import LiveSourceItem
 from .on_demand_dispatcher import OnDemandRequest, dispatch_offline_once
@@ -38,10 +40,12 @@ def verify_no_external_network_route():
 
 def main():
     interfaces = verify_no_external_network_route()
+    topic = os.environ.get('KGM_TOPIC', 'synthetic')
+    request_id = os.environ.get('KGM_REQUEST_ID', 'network-isolated-fixture')
     result = dispatch_offline_once(
         OnDemandRequest(
-            topic="synthetic", requested_at=datetime(2026, 10, 25, tzinfo=timezone.utc),
-            request_id="network-isolated-fixture",
+            topic=topic, requested_at=datetime.now(timezone.utc),
+            request_id=request_id,
         ),
         adapters=[SyntheticAdapter("agency-a"), SyntheticAdapter("agency-b")],
     )
@@ -53,6 +57,8 @@ def main():
         "evidence_count": result.evidence_count,
         "finding_count": result.finding_count,
         "only_synthetic_data": True,
+        "topic_sha256": sha256(topic.encode("utf-8")).hexdigest(),
+        "request_id": request_id,
         "network_interfaces": interfaces,
         "network_route_check": "NO_EXTERNAL_INTERFACE_OR_DEFAULT_IPV4_ROUTE",
     }, sort_keys=True))
