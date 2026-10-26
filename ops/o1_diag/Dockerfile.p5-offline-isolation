@@ -5,7 +5,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /build
 COPY pyproject.toml README.md ./
 COPY src ./src
-RUN python -m pip install --no-cache-dir . && \
+COPY migrations ./migrations
+RUN python -m pip install --no-cache-dir -e . && \
     python -m pip check
 WORKDIR /tmp
 USER 65534:65534
