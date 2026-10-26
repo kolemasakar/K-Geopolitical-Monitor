@@ -20,7 +20,6 @@ Repository: `kolemasakar/K-Geopolitical-Monitor`
 | Historical Phase 23 pointer | Preserved; no retrospective revalidation claimed |
 | Phase 24/P24.4/S5 | Historical acceptance preserved; no new production release or loaded-code parity |
 | P5.3 manual isolated offline | PASS |
-| P5.4 GDPR? | Not a project gate; do not conflate with actual GDACS result |
 | P5.4 GDACS RSS/admission | LIVE_PASS_WITH_LIMITATIONS, one actual ingested item |
 | P5.4 three-source collection | PARTIAL: Consilium/ GDACS succeeded, GDELT HTTP429 |
 | P5.5 offline candidate ledger / Critic | CI PASS, 1842 tests |
