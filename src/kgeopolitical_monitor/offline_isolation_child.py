@@ -1,5 +1,6 @@
 """Fixed synthetic offline research probe used only inside a network namespace."""
 from datetime import datetime, timezone
+from pathlib import Path
 import json
 
 from .live_sources import LiveSourceItem
@@ -25,7 +26,18 @@ class SyntheticAdapter:
         )]
 
 
+def verify_no_external_network_route():
+    interfaces = sorted(p.name for p in Path('/sys/class/net').iterdir())
+    if interfaces != ['lo']:
+        raise RuntimeError('isolated process has a non-loopback network interface')
+    routing = Path('/proc/net/route').read_text(encoding='utf-8').splitlines()[1:]
+    if any(line.split()[1] == '00000000' for line in routing if len(line.split()) >= 2):
+        raise RuntimeError('isolated process has a default IPv4 route')
+    return interfaces
+
+
 def main():
+    interfaces = verify_no_external_network_route()
     result = dispatch_offline_once(
         OnDemandRequest(
             topic="synthetic", requested_at=datetime(2026, 10, 25, tzinfo=timezone.utc),
@@ -41,6 +53,8 @@ def main():
         "evidence_count": result.evidence_count,
         "finding_count": result.finding_count,
         "only_synthetic_data": True,
+        "network_interfaces": interfaces,
+        "network_route_check": "NO_EXTERNAL_INTERFACE_OR_DEFAULT_IPV4_ROUTE",
     }, sort_keys=True))
 
 
