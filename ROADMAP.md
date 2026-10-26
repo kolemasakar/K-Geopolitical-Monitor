@@ -1321,3 +1321,8 @@ GitHub owner workflow_dispatch run [40265906728](https://github.com/kolemasakar/
 ### P5.4 source diagnostics v2 — pending CI, 2026-10-26
 
 Following owner run 40265906728 (GDACS >512KB, GDELT NETWORK_FAILURE, Consilium 0 matches), proposed P5.4 code uses GDACS-only bounded 1.5MB cap (other sources remain 512KB), fixed safe DNS/TLS/timeout/connection taxonomies and Consilium feed-entry / filtered-match aggregate counters. No automatic retry, new endpoints, source delivery or production changes. No claim of actual repaired live collection until a separately authorized owner one-shot run. Detailed Critic and tests: `docs/audits/KGM_P5_4_DIAGNOSTICS_V2_2026-10-26.md`. P5.5 live report remains NO_GO. FREE_ONLY / ON_DEMAND_ONLY / NO_SEND / CLEANUP_HOLD.
+
+
+### P5.4 owner diagnostics v2 actual manual run — 2026-10-26
+
+Owner workflow_dispatch run [40267647566](https://github.com/kolemasakar/K-Geopolitical-Monitor/actions/runs/40267647566) on main SHA `d5246f137f0ec4a6e4aabf2d4433859e95b04ecb`: GitHub job SUCCESS, actual source collection **PARTIAL**, evidence count **0**. GDACS SUCCESS with dedicated 1.5MB cap, 0 matching items; Consilium SUCCESS, 20 RSS feed items and 0 text-topic matches; GDELT FAILED `NETWORK_TIMEOUT`. Analysis NOT_EXECUTED, independent claims NOT_ATTESTED, send NONE, watch persistence EPHEMERAL_ONLY. Keep P5.5 blocked. Audit `docs/audits/KGM_P5_4_OWNER_RECHECK_V2_ACTUAL_2026-10-26.md`. Next qualify a bounded manual GDELT timeout and topic matching offline before separately authorized live rerun. FREE_ONLY / ON_DEMAND_ONLY / NO_SEND / CLEANUP_HOLD / PRODUCTION_NO_GO.
