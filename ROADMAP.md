@@ -1331,3 +1331,8 @@ Owner workflow_dispatch run [40267647566](https://github.com/kolemasakar/K-Geopo
 ### P5.4 bounded GDELT timeout and GDACS filter counts — offline CI PASS, 2026-10-26
 
 PR #280 MERGED to canonical main `b05bc5996d31f34cfb89c0c206fd8073c65f4802`, full CI **1812 passed**. GDELT fixed API may use separately bounded 12s timeout (hard cap 15s); GDACS and Consilium remain at 7s, no auto retries. The isolated one-shot owner probe now records GDACS feed-entry and text-topic match counts alongside Consilium; no raw content sent to users or retained in permanent state. Offline code/test gate **PASS**, live rerun **NOT_EXECUTED**. Do not claim P5.4 real-source full success or P5.5 report readiness. Source audit `docs/audits/KGM_P5_4_GDELT_TIMEOUT_GDACS_COUNTS_2026-10-26.md`. Continue FREE_ONLY / ON_DEMAND_ONLY / NO_SEND / CLEANUP_HOLD / PRODUCTION_NO_GO.
+
+
+### P5.4 GDACS admission gap — predicate parity offline acceptance pending (2026-10-26)
+
+Manual owner run 40269356087 saw 319 GDACS RSS items, 1 topic match, 0 accepted; Consilium 20/0; GDELT 12s NETWORK_TIMEOUT, zero evidence total. The GDACS raw match counter and adapter previously used different admission conditions. A shared fail-closed predicate now reports aggregate counts for ADMITTED, TOPIC_NO_MATCH, MISSING_TITLE, MISSING_LINK, UNSAFE_OR_NON_HTTPS_LINK; fixture tests explicitly exercise each reason. Do not assert which category the live one-match record belonged to without a new owner-approved manual probe. HTTPS-only restrictions unchanged, no live rerun, no auto retries or production changes. P5.5 BLOCKED. Audit `docs/audits/KGM_P5_4_GDACS_ADMISSION_GAP_2026-10-26.md`.
