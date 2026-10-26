@@ -1,9 +1,37 @@
 {
   "schema_version": 1,
   "project": "K-Geopolitical Monitor",
+  "p5_interim_2026_10_26": {
+    "status": "DEVELOPMENT_SNAPSHOT_DOCUMENTATION_ONLY",
+    "canonical_main_before_checkpoint": "33ad23f4220313c0a1468ec2a918671b7d0611e5",
+    "checkpoint": "docs/checkpoints/KGM_INTERIM_CHECKPOINT_2026-10-26_P5_5_OFFLINE_GATE.md",
+    "owner_offline_run": 40262556479,
+    "owner_live_run": 40272331792,
+    "p5_3": "OFFLINE_SYNTHETIC_OWNER_PASS",
+    "p5_4_gdacs": "LIVE_ADMISSION_PASS_WITH_LIMITATIONS_1_ITEM",
+    "p5_4_collection": "PARTIAL_GDACS_1_CONSILIUM_0_GDELT_HTTP429",
+    "p5_5_offline": {
+      "status": "CI_PASS",
+      "merged_pr": 287,
+      "test_count": 1842,
+      "candidate_evidence_gate": "FAIL_CLOSED",
+      "factuality": "NOT_ATTESTED",
+      "report_publication": "BLOCKED"
+    },
+    "p5_5_real_evidence": "NOT_EXECUTED",
+    "next_gate": "P5_5_REAL_EVIDENCE_PROVENANCE_VALIDATION_DESIGN_REVIEW",
+    "production": "NO_GO",
+    "persistent_watches_enabled_by_p5": false,
+    "live_repeat_scheduled": false,
+    "no_send": true,
+    "cleanup": "HOLD",
+    "free_only": true,
+    "strategic_phase23_authoritative_pointer_unchanged": true,
+    "phase24_release_approval_unchanged": true
+  },
   "roadmap": {
     "strategic_version": "v4",
-    "state_sync_version": "4.72",
+    "state_sync_version": "4.73",
     "status": "APPROVED",
     "current_position": "PHASE_23_P23_3_CORROBORATION_EVIDENCE_RELATION_POPULATION_VALIDATED"
   },
