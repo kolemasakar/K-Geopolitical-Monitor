@@ -1,8 +1,8 @@
 # ROADMAP
 
-Version: 4.72
+Version: 4.73
 Status: APPROVED
-Canonical state synchronization: `v4.72`
+Canonical state synchronization: `v4.73`
 Project: K-Geopolitical Monitor
 Strategic roadmap: v4
 Decision: `docs/decisions/POST_E9A_ROADMAP_V4_DECISION_2026-09-01.md`
@@ -1356,3 +1356,8 @@ Owner workflow_dispatch [run 40272331792](https://github.com/kolemasakar/K-Geopo
 ### P5.5 offline Evidence Candidate Register + Critic — CI PASS (2026-10-26)
 
 PR #287 MERGED to canonical `main` `de453d11badc69330516543b1f7567d13ed4e8cc`; **1842 tests PASS**. New pure offline `p55_offline_evidence_gate.py` and fixture tests require HTTPS candidate URLs, timestamp-aware recent publication, declared FULL_TEXT and document SHA256, source page/text/claim/independence manual review flags, and distinct publisher IDs + digests to produce only `READY_FOR_CLAIM_ADJUDICATION`. Always `claim_factuality=NOT_ATTESTED`, `report_publication=BLOCKED`, `network=NO_NETWORK`, `send=NONE`. Pilot freshness threshold seven days is provisional. This does NOT validate the single real GDACS article admitted during P5.4 or establish primary claim provenance. Docs `docs/audits/KGM_P5_5_OFFLINE_EVIDENCE_CRITIC_DESIGN_2026-10-26.md`. Actual source evidence retrievability, independent verification, Critic adjudication and real P5.5 report still **BLOCKED** pending separately authorized bounded evidence-review protocol; GDELT HTTP429 remains manual-backoff only. `FREE_ONLY / ON_DEMAND_ONLY / NO_SEND / CLEANUP_HOLD / PRODUCTION_NO_GO`.
+
+
+### Interim project checkpoint / P5.5 handoff — 2026-10-26 (v4.73)
+
+Docs-only checkpoint: `docs/checkpoints/KGM_INTERIM_CHECKPOINT_2026-10-26_P5_5_OFFLINE_GATE.md`; source canonical main `33ad23f4220313c0a1468ec2a918671b7d0611e5` before docs sync. P5.3 owner offline synthetic PASS. P5.4 real owner [run 40272331792](https://github.com/kolemasakar/K-Geopolitical-Monitor/actions/runs/40272331792) GDACS **one actual ingested item**, Consilium zero topical matches, GDELT HTTP429, aggregate **PARTIAL**. P5.5 candidate provenance/critic module merged by PR #287 (1842 tests PASS); real publisher review NOT_EXECUTED, independence NOT_ATTESTED, factuality NOT_ATTESTED, reporting BLOCKED. This snapshot does not change historical Phase23 strategic pointer or Phase24 release/runtime acceptance. Next `P5_5_REAL_EVIDENCE_PROVENANCE_VALIDATION_DESIGN_REVIEW`, offline first with separate owner authorization needed for external page retrieval. Policy `FREE_ONLY / ON_DEMAND_ONLY / NO_SEND / CLEANUP_HOLD / PRODUCTION_NO_GO`. See current handoff and state file; this is not production release approval.
