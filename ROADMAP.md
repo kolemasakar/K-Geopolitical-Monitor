@@ -1316,3 +1316,8 @@ Owner workflow_dispatch run [40265116609](https://github.com/kolemasakar/K-Geopo
 ### P5.4 repeat actual owner probe — classified failures, 2026-10-26
 
 GitHub owner workflow_dispatch run [40265906728](https://github.com/kolemasakar/K-Geopolitical-Monitor/actions/runs/40265906728), main SHA `ba5cd2c0fd0aad416e97aaf2b08a7fa42382e036`, job SUCCESS but source collection **PARTIAL**: Consilium SUCCESS/0 (`ZERO_MATCHES_OR_EMPTY_FEED`), GDACS FAILED (`SIZE_LIMIT_EXCEEDED` under 512KB cap), GDELT FAILED (`NETWORK_FAILURE`, subcause not proven). Total 0 items, no analysis, independent verification NOT_ATTESTED, no sending, temporary watch only. Next engineering plan: bounded GDACS size/feed variant, GDELT safe network subcause taxonomy, Consilium pre/post-filter item counts; offline tests before any manual recheck. Audit `docs/audits/KGM_P5_4_REPEAT_OWNER_DIAGNOSTICS_2026-10-26.md`. Gate `P5_4_REPEAT_DIAGNOSTICS_PARTIAL_ZERO_EVIDENCE / P5_5_REPORT_BLOCKED / PRODUCTION_NO_GO`.
+
+
+### P5.4 source diagnostics v2 — pending CI, 2026-10-26
+
+Following owner run 40265906728 (GDACS >512KB, GDELT NETWORK_FAILURE, Consilium 0 matches), proposed P5.4 code uses GDACS-only bounded 1.5MB cap (other sources remain 512KB), fixed safe DNS/TLS/timeout/connection taxonomies and Consilium feed-entry / filtered-match aggregate counters. No automatic retry, new endpoints, source delivery or production changes. No claim of actual repaired live collection until a separately authorized owner one-shot run. Detailed Critic and tests: `docs/audits/KGM_P5_4_DIAGNOSTICS_V2_2026-10-26.md`. P5.5 live report remains NO_GO. FREE_ONLY / ON_DEMAND_ONLY / NO_SEND / CLEANUP_HOLD.
