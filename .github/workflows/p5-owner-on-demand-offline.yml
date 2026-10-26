@@ -1,0 +1,108 @@
+name: KGM P5 Owner On-Demand Offline Request
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: "Synthetic/offline test topic (1-256 chars); NOT a live source query"
+        required: true
+        type: string
+      request_id:
+        description: "Safe audit ID (letters/digits/_/-; up to 64)"
+        required: true
+        default: owner-test
+        type: string
+      mode:
+        description: "Only an offline synthetic execution is authorized"
+        required: true
+        default: OFFLINE_SYNTHETIC
+        type: choice
+        options:
+          - OFFLINE_SYNTHETIC
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kgm-p5-owner-offline-one-shot
+  cancel-in-progress: false
+
+jobs:
+  owner-offline-request:
+    # No production environments, no secrets and no live source egress.
+    if: github.repository == 'kolemasakar/K-Geopolitical-Monitor' && github.actor == 'kolemasakar' && github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      KGM_TOPIC: ${{ inputs.topic }}
+      KGM_REQUEST_ID: ${{ inputs.request_id }}
+      KGM_MODE: ${{ inputs.mode }}
+      KGM_ACTOR: ${{ github.actor }}
+      KGM_REPOSITORY: ${{ github.repository }}
+      KGM_REF: ${{ github.ref }}
+      KGM_EVENT: ${{ github.event_name }}
+    steps:
+      - name: Checkout repository source without retaining credentials
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Validate owner context and request before any execution
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          PYTHONPATH=src python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          from kgeopolitical_monitor.on_demand_request_gate import authorize_manual_request
+          result = authorize_manual_request(
+              repository=os.environ["KGM_REPOSITORY"],
+              actor=os.environ["KGM_ACTOR"],
+              ref=os.environ["KGM_REF"],
+              event_name=os.environ["KGM_EVENT"],
+              mode=os.environ["KGM_MODE"],
+              topic=os.environ["KGM_TOPIC"],
+              request_id=os.environ["KGM_REQUEST_ID"],
+          )
+          Path("/tmp/kgm-p5-request-check.json").write_text(json.dumps(result.__dict__))
+          print("P5_OWNER_OFFLINE_AUTHORIZED: request digest validated; no raw topic printed")
+          PY
+      - name: Pull public image
+        run: docker pull python:3.12-slim
+      - name: Run one synthetic request in no-network container
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          timeout 120s docker run --rm \
+            --network none --read-only --cap-drop ALL \
+            --security-opt no-new-privileges \
+            --pids-limit 64 --memory 512m --cpus 1 \
+            --user 65534:65534 \
+            --tmpfs /tmp:rw,nosuid,nodev,size=64m,mode=1777 \
+            -v "$PWD:/repo:ro" -w /repo \
+            -e PYTHONPATH=/repo/src \
+            -e KGM_TOPIC -e KGM_REQUEST_ID \
+            python:3.12-slim \
+            python -m kgeopolitical_monitor.offline_isolation_child \
+            | tee /tmp/kgm-p5-owner-output.json
+      - name: Accept only one bounded synthetic result with matching request
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          expected=json.loads(Path("/tmp/kgm-p5-request-check.json").read_text())
+          report=json.loads(Path("/tmp/kgm-p5-owner-output.json").read_text())
+          assert report.get("format") == "KGM_O1_NETNS_SYNTHETIC_V1"
+          assert report.get("only_synthetic_data") is True
+          assert report.get("topic_sha256") == expected["topic_sha256"]
+          assert report.get("request_id") == expected["request_id"]
+          assert report.get("network_interfaces") == ["lo"]
+          assert report.get("network_route_check") == "NO_EXTERNAL_INTERFACE_OR_DEFAULT_IPV4_ROUTE"
+          assert report.get("status") == "COMPLETED"
+          assert report.get("collection_status") == "COMPLETED"
+          assert report.get("source_count") == 2
+          assert report.get("evidence_count") == 2
+          assert report.get("finding_count") >= 1
+          print("P5_OWNER_OFFLINE_REQUEST_PASS: authorized owner, isolated, synthetic, one-shot")
+          PY
