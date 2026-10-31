@@ -1,0 +1,37 @@
+name: P24 Live Metrics One-shot (read-only)
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/p24-live-metrics-readonly.yml"
+      - "ops/p24_observability/kgm_readonly_metrics.py"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: p24-live-metrics-readonly
+  cancel-in-progress: false
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      E4_HOST: ${{ secrets.E4_HOST }}
+      E4_SSH_PRIVATE_KEY: ${{ secrets.E4_SSH_PRIVATE_KEY }}
+      E4_SSH_KNOWN_HOSTS: ${{ secrets.E4_SSH_KNOWN_HOSTS }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Pinned SSH
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test -n "$E4_HOST" && test -n "$E4_SSH_PRIVATE_KEY" && test -n "$E4_SSH_KNOWN_HOSTS"
+          install -d -m 0700 "$HOME/.ssh"
+          printf '%s\n' "$E4_SSH_PRIVATE_KEY" > "$HOME/.ssh/id_e4"
+          printf '%s\n' "$E4_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 0600 "$HOME/.ssh/id_e4" "$HOME/.ssh/known_hosts"
+      - name: Stream audited collector to VM without installation
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh -i "$HOME/.ssh/id_e4" -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 "ubuntu@$E4_HOST" 'python3 -' < ops/p24_observability/kgm_readonly_metrics.py
+          echo KGM_OBSERVABILITY_READONLY=PASS
